@@ -1,0 +1,304 @@
+<?php 
+foreach ($this->objEntrada as $listent);
+?>
+
+<style>
+a.dcontexto:hover span{ 
+  display:block;
+  position:absolute;
+  top:-4em;
+  text-align:justify;
+  left:30px;
+  font: 12px arial, verdana, helvetica, sans-serif; 
+  padding:5px 10px;
+  border:1px solid #999;
+  background:#e0ffff; 
+  z-index:1000;
+}
+</style>
+
+<div class="content">   
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoqueresumo">Estoque</a></li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/entradaest">Entrada de produtos</a></li>
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/compras/entradaprod/entrada/<?=md5($listent->id)?>">E<?=substr("000000".$listent->id, -6,6);?></a></li>
+                	<li class="lastB">CMV</li>          
+                </ul>
+            </div>            
+        </div>       
+        
+        <div class="title"><h5>CMV E<?=substr("000000".$listent->id, -6,6);?></h5></div>
+
+        <form action="" method="post" class="mainForm">
+        
+        <div class="widget">
+ 			<?php
+ 			
+ 			$totalii = $totalpis = $totalcofins = $totalipi = $total_pedido= $total2 = 0;
+ 			
+			if(count($this->objProdutos)>0):			
+			?>       
+        	<div class="head" style="border-bottom: 0px"><h5 class="iFrames">Produtos</h5></div>
+        	<table class="tableStatic" style="width: 100%">
+            	<thead>
+                	<tr>
+                        <td width="40%">Código</td>
+                        <td width="">Qt</td>
+                        <td width="">Custos</td>
+                        <td width="">CMV</td>
+                    </tr>
+                </thead>
+                <tbody>
+        	
+	       		<?php 
+	       		$class="";
+	        	$ver  = 0;
+	        	$vera = 0;
+	        	$verfec = 0;
+	        	foreach ($this->objProdutos as $lista):
+	        		if(empty($lista->data)):
+	        			$verfec = 1;
+	        		endif;
+	        	endforeach;
+		        ?>
+		          
+		        <?php
+		         
+		        //-- percentual frete ------------------
+		        foreach ($this->objProdutosgroup as $listaprod):
+		        	$qtentreg = $qtpedid = 0;
+			        foreach ($this->objProddet as $list):
+				        if(($list->ID_PRODUTO == $listaprod->ID_PRODUTO) and (!empty($list->qt))):
+					        $qtpedid  += $list->QUANTIDADE;
+					        $qtentreg += $list->qt;
+				        endif;
+				    endforeach;
+				    $total_pedido += $listaprod->precoimp*$qtentreg;
+		        endforeach;
+		         
+		        $aduaneiro = $total_pedido+$listent->frete+$listent->capatazia;
+		         
+		        $qtentreg = $qtpedid = $total_pedido = $totalcofins = $totalpis = $totalii = 0;
+		        foreach ($this->objProdutosgroup as $listaprod):
+			        $qtentreg = $qtpedid = 0;
+			        foreach ($this->objProddet as $list):
+				        if(($list->ID_PRODUTO == $listaprod->ID_PRODUTO) and (!empty($list->qt))):
+					        $qtpedid  += $list->QUANTIDADE;
+					        $qtentreg += $list->qt;
+				        endif;
+			        endforeach;
+		        
+			        $totalncm = 0;
+			        foreach ($this->objProdutosgroup as $pncm):
+				        if(($pncm->id_ncm == $listaprod->id_ncm)):
+				        	$totalncm += $pncm->qta*$pncm->precoimp;
+				        endif;
+			        endforeach;
+			         
+		        	//$coeficiente = ($listaprod->aduaneiro/(round($totalncm,2)*$listaprod->txcambio));
+		        	$coeficiente = ($listaprod->aduaneiro/($totalncm*$listaprod->txcambio));
+		        
+			        //-- Valores unitarios -------------------------------------------------------------------------
+			        $unitario = $listaprod->precoimp*$coeficiente*$listaprod->txcambio;
+			        //$unitario = round($unitario,4);
+		        
+			        $iiunitatio = ($listaprod->pii*$unitario)/100;
+			        
+			        $unitarioii = ($listaprod->precoimp*$coeficiente*$listaprod->txcambio)+$iiunitatio;
+			        //$unitarioii = round($unitarioii,4);
+			        //($totalunitario+$ii)/$qtentreg;
+		        
+			        //-- Total unitario --------------------------------------------------------------------
+			        $totalunitario = $qtentreg*$unitario;
+			        //$totalunitario = round($totalunitario,4);
+			         
+			        $ii = ($listaprod->pii*$totalunitario)/100;
+			         
+			        $ipi = (((($listaprod->pii*$totalunitario)/100)+$totalunitario)*$listaprod->pipi)/100;
+			        
+			        $aicms 		= $listaprod->icms/100;
+			        $aii 		= $listaprod->pii/100;
+			        $aipi 		= $listaprod->pipi/100;
+			        $apis 		= $listaprod->ppis/100;
+			        $acofins 	= $listaprod->pcofins/100;
+		         
+			        
+			        $pis = $apis*($totalunitario*(1+$aicms*($aii+$aipi*(1+$aii))))/((1-$apis-$acofins)*(1-$aicms));
+			        $cofins = $acofins*($totalunitario*(1+$aicms*($aii+$aipi*(1+$aii))))/((1-$apis-$acofins)*(1-$aicms));
+			         
+			        $totalii 		+= $ii;
+			        $totalpis 		+= $pis;
+			        $totalcofins 	+= $cofins;
+			        $totalipi       += $ipi;
+			        $total_pedido 	+= $unitarioii*$qtentreg;
+			        $total2			+= $totalunitario+$ii;
+		        
+		        endforeach;
+		         
+		        $coedicms = ($totalpis+$totalcofins+$listent->siscomex+$listent->outros)/($total_pedido+$totalipi);
+
+		        foreach ($this->objProdutos as $lista):
+	        		
+		            //--- Geracao do custo dos impostos + despesas aduaneiras ------------------------------------------------------------------------
+		            $custoicms = $custoii = $custoipi = $custopis = $custocofins = $custooutros = $custototal = 0;
+		            		            
+		            $qtprod = 0;
+		            $idprod = -1;
+		            $auxqt=0;
+		            $icms = 0;
+		           
+		            $qtentreg = $qtpedid = $total_pedido = $totalicms = 0;
+		            $idprodutos = "";
+		            foreach ($this->objProdutosgroup as $listaprod):
+		            	if($lista->idprod == $listaprod->ID_PRODUTO):	
+			            
+				            $idprodutos .= $listaprod->ID_PRODUTO.";";
+				            
+				            //--- somar produtos iguais de pedidos diferentes ---------------------------
+				            $pedidos = "";
+				            $qtentreg = $qtpedid = 0;
+				            foreach ($this->objProddet as $list):
+					            if(($list->ID_PRODUTO == $listaprod->ID_PRODUTO) and (!empty($list->qt))):
+					                $qtpedid  += $list->QUANTIDADE;
+						            $qtentreg += $list->qt;
+					            endif;
+				            endforeach;
+				            
+				            //--- Calculo dos impostos que sao exibidos ----------------------------------------------
+				            $totalncm = 0;
+				            foreach ($this->objProdutosgroup as $pncm):
+					            if(($pncm->id_ncm == $listaprod->id_ncm)):
+					            	$totalncm += $pncm->qta*$pncm->precoimp;
+					            endif;
+				            endforeach;
+				            
+				            //$coeficiente = ($listaprod->aduaneiro/(round($totalncm,2)*$listaprod->txcambio));
+				            $coeficiente = ($listaprod->aduaneiro/($totalncm*$listaprod->txcambio));
+				            				            
+				            //-- Valores unitarios -------------------------------------------------------------------------
+				            $unitario = $listaprod->precoimp*$coeficiente*$listaprod->txcambio;
+				            //$unitario = round($unitario,4);
+				            $vlunit = 0 ;
+				            $vlunit = $unitario;
+				            
+				            $iiunitatio = ($listaprod->pii*$unitario)/100;
+				            
+				            $unitarioii = ($listaprod->precoimp*$coeficiente*$listaprod->txcambio)+$iiunitatio;
+				            //$unitarioii = round($unitarioii,4);
+				            //($totalunitario+$ii)/$qtentreg;
+				            
+				            //-- Total unitario --------------------------------------------------------------------
+				            $totalunitario = $qtentreg*$unitario;
+				            //$totalunitario = round($totalunitario,4);
+				             
+				            $ii = ($listaprod->pii*$totalunitario)/100;
+				            
+				            
+				            $ipi = (((($listaprod->pii*$totalunitario)/100)+$totalunitario)*$listaprod->pipi)/100;
+				            
+				            $aicms 		= $listaprod->icms/100;
+				            $aii 		= $listaprod->pii/100;
+				            $aipi 		= $listaprod->pipi/100;
+				            $apis 		= $listaprod->ppis/100;
+				            $acofins 	= $listaprod->cofins/100;
+				            
+				            $pis = $apis*($totalunitario*(1+$aicms*($aii+$aipi*(1+$aii))))/((1-$apis-$acofins)*(1-$aicms));
+				            $cofins = $acofins*($totalunitario*(1+$aicms*($aii+$aipi*(1+$aii))))/((1-$apis-$acofins)*(1-$aicms));
+				             				            	
+				            $baseicms = 0;
+				            $baseicms = (($totalunitario+$ii)+$ipi+(($totalunitario+$ii)+$ipi) * $coedicms) / (1-$aicms);
+				            
+				            $icms = ($aicms*$baseicms)/$qtentreg;
+				            					            
+				            $unitario 		= $unitario - ($listaprod->precoimp*$listaprod->txcambio);
+				            
+				            $custoicms 		= $icms * 0.384;
+				            $custoii 		= $ii/$qtentreg;
+				            $custoipi 		= $ipi/$qtentreg;
+				            $custopis 		= $pis/$qtentreg;
+				            $custocofins 	= $cofins/$qtentreg;
+				            $custooutros 	= $unitario;
+				            
+				            $custototal 	= $custoicms+$custoii+$custoipi+$custopis+$custocofins+$custooutros;
+			            endif;
+		            endforeach;
+			            
+			            
+			            
+			            ?>          
+						<tr >
+							<td  style="text-align: center;"  >
+								<a href="<?=$this->baseUrl();?>/admin/cadastro/produtosvis/produto/<?=md5($lista->idprod)?>" target="_blank">
+								<?=$lista->CODIGO?>
+								</a>                  
+			                </td>
+			                <td  style="text-align: center;" style="font-weight: bold;">
+			                   <?=$lista->qta?>	                   
+			                </td>	  
+			                
+			                <td style="text-align: center;" style="font-weight: bold;">
+			                <a href="javascript:void(0)"  class="dcontexto" >
+		                	    <?=number_format($custototal,2,',','.')?>
+		                	    <span style="width: 150px">
+				                    <table style="width: 100%">
+				                    	<tr>
+				                    		<td width="40%">
+				                    		II<br />
+				                    		ICMS<br />
+						                    IPI<br />
+						                    PIS<br />
+						                    COFINS<br />
+						                    OUTROS
+				                    		</td>
+				                    		<td width="20%" style="text-align: right;">
+				                    		<?=number_format($custoii,2,',','.')?><br />
+						                    <?=number_format($custoicms,2,',','.')?><br />
+						                    <?=number_format($custoipi,2,',','.')?><br />
+						                    <?=number_format($custopis,2,',','.')?><br />
+						                    <?=number_format($custocofins,2,',','.')?><br />
+						                    <?=number_format($custooutros,2,',','.')?>
+				                    		</td>
+				                    	</tr>
+				                    </table>
+			                    </span>		                    
+		                	</a>
+			                </td>
+			                <td  style="text-align: center;" >
+			                	<?php 
+			                	if(empty($lista->valor)):
+			                		$ver = 1;
+				                	?>
+				                 	<input type="text" size="8" name="cmv_<?=$lista->idprod?>" size="12" class="moeda" style="width: 70px">
+				                 	<?php 
+				                 elseif(empty($lista->data)):
+			                		$vera = 1;
+				                	?>
+				                 	<input type="text" size="8" value="<?=number_format($lista->valor,"2",",",".")?>" name="cmv_<?=$lista->idprod?>" size="12"  class="moeda" style="width: 70px">
+				                 	<?php 
+				                 else: 
+		                 			echo number_format($lista->valor,"2",",","."); 
+		                 		 endif;
+			                     ?>            
+			                </td>			                    
+			            </tr>
+			        	<?php	        	
+			    	endforeach;		       
+		       		?>
+		       		</tbody>
+		       </table>
+		       <?php  endif; ?>
+       		</div>
+       		       		
+	       	<?php if($verfec==1): ?>
+	       	<div style="margin-top: 10px">
+		       <input type="submit" value="Aplicar CMV" class="greenBtn" name="aplicarcmv">
+		   	</div>
+			<?php endif; ?>
+	    </form>
+	</div>    
+        
+        

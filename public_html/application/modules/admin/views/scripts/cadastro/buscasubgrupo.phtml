@@ -1,0 +1,29 @@
+<?php if($this->objTipo == 2): ?>
+Subgrupo: 
+<div class="styled-select" style="width: 220px">
+<select name="buscagruposub" id="buscagruposub" style="width: 242px">
+	<?php foreach ($this->objGrupsub as $list): ?>
+		<option value="<?php echo $list->id?>"><?php echo $list->descricao?></option>
+	<?php endforeach; ?>
+</select>
+</div>
+<?php elseif($this->objTipo == 3): ?>
+Subgrupo: <br>
+<div class="styled-select" style="width: 220px">
+<select name="buscagruposub" id="buscagruposub" style="width: 242px">
+	<option value="0">SELECIONE</option>
+	<?php foreach ($this->objGrupsub as $list): ?>
+		<option value="<?php echo $list->id?>"><?php echo $list->descricao?></option>
+	<?php endforeach; ?>
+</select>
+</div>
+<?php else: ?>
+<div class="styled-select" style="width: 220px">
+<select name="buscagruposub" id="buscagruposub" style="width: 242px">
+	<option value="0">Selecione</option>
+	<?php foreach ($this->objGrupsub as $list): ?>
+		<option value="<?php echo $list->id?>"><?php echo $list->descricao?></option>
+	<?php endforeach; ?>
+</select>
+</div>
+<?php endif;?>

@@ -1,0 +1,94 @@
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/javascript/financeiro.js"></script>
+
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li class="lastB">Extrato financeiro</li>           
+                </ul>
+            </div>
+        </div>       
+
+		<div class="title"><h5>Extrato financeiro</h5></div>
+		
+		<div class="widgets" >        	
+			<?php
+			if(count($this->objContaspagar)>0):
+			?>       
+	        <div class="widget">
+	 			<table style="width: 100%" class="tableStatic">
+	            	<thead>
+	                	<tr>
+	                        <td >Id</td>
+	                        <td >Fatura</td>
+	                        <td >Emissão</td>
+	                        <td >Prox Vencimento</td>
+	                        <td >Valor</td>
+	                        <td >Valor parc</td>
+	                        <td >Situação</td>
+	                        
+	                    </tr>
+	                </thead>
+	                <tbody>
+					<?php							
+					foreach ($this->objContaspagar as $listpagar):
+					?>
+					<tr  >
+						<td style="text-align: center;" >
+							P<?=substr("000000".$listpagar->idfin,-6)?>
+						</td>
+						<td style="text-align: center;">
+							<?=$listpagar->n_documento?>
+						</td>
+						<td style="text-align: center;">
+							<?=$listpagar->dtcad?>
+						</td>
+						<td style="text-align: center;">
+							<?=$listpagar->dtvencimento?>
+						</td>
+						<td style="text-align: right;">
+							<?=number_format($listpagar->valor,2,",",".")?>
+						</td>
+						<td style="text-align: right;">
+							<?=number_format($listpagar->valor_apagar,2,",",".")?>
+						</td>
+						<td style="text-align: center;">
+							<?php 						
+	
+							if($listpagar->conciliado == 1): 
+								echo '<font color="#2a9cec">Finalizado</font>';
+			                elseif($listpagar->contaquitada == 1): 
+			                	echo '<font color="#009900">Pago</font>';
+			                elseif(($listpagar->quitado == 0) and (strtotime($listpagar->vencimento) < strtotime(date("Y-m-d"))) and (!empty($listpagar->dtvencimento))):
+			                	echo '<font color="#F00">Em atraso</font>';
+			                else: echo 'Em Aberto'; endif;
+			                
+							?>
+						</td>						  
+					</tr>
+					<?php  endforeach; ?>
+                </tbody>
+            </table>            
+        </div>
+       <div style="margin-top: 20px">
+			<?php 
+			if ( count($this->objContaspagar) > 0) :
+				echo $this->objContaspagar;
+			endif;
+		    ?>
+		</div>
+		<?php 
+		else :
+		?>
+		<div class="widget first" style="border-top: 1px solid #d5d5d5; padding: 10px">
+ 			Nenhuma conta encontrada!
+		</div>	
+		<?php 
+		endif;
+		?>
+	</div>
+</div>

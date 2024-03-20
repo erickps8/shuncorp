@@ -1,0 +1,51 @@
+<table class="tableStatic" style="width: 100%">
+	<thead>
+    	<tr>
+        	<td width="65%">Linha</td>
+            <td width="">Quantidade</td>
+        </tr>
+ 	</thead>
+    <tbody>
+                			
+		<?php 
+		$color = "";
+		foreach ($this->objGrupos as $listgrupos):
+			$qtt=0;
+			$codigos = "";
+			foreach ($this->objProd as $listProdc):		
+				if($listgrupos->idsub == $listProdc->id_gruposprodsub):
+					$qtt++;
+					$codigos .= '<tr><td style="text-align: left" width="160px">'.$listProdc->CODIGO.'</td><td style="text-align: center; width: 30%">'.$listProdc->quant.'</td></tr>';
+				endif;
+			endforeach;
+			
+			if($qtt!=0):
+				?>
+					<tr >
+                        <td onclick="mostarPainelpr('pa_<?=$listgrupos->idsub?>');" align="left" style="cursor:pointer; cursor:hand; ">
+                        <?=$listgrupos->grupo?> / <?=$listgrupos->subgrupo?>  
+	                        <table id="pa_<?=$listgrupos->idsub?>" style="border: 1px solid #ccc; display: none; width: 50%" >
+	                        	<?php echo $codigos?>
+	                        </table>  
+                        </td>
+                        <td valign="top" style="text-align: center;" >
+                        	<?php echo $qtt?>   
+                        </td>                                                       
+                    </tr>
+                <?php 									
+			endif;
+			$total += $qtt;
+		endforeach;?>
+		<tr>
+			<td align="left" style="background-color: #dcdada;">
+				TOTAL &nbsp; 
+			</td>
+			<td style="background-color: #dcdada; text-align: center;">
+				<?php echo $total?>
+			</td>
+		</tr>
+								
+	</table>
+
+					
+		

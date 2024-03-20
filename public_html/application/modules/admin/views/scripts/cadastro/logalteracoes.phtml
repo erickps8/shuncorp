@@ -1,0 +1,89 @@
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl(); ?>/admin/cadastro/produtos/fil/comp"><?=$this->translate->_("PRODUTOS")?></a>&nbsp;
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<b><a href="<?=$this->baseUrl(); ?>/admin/cadastro/logalteracoes"><?=$this->translate->_("REGISTRO DE ALTERAÇÕES")?></a></b>
+	</div>
+	<div id="sistitulo">REGISTRO DE ALTERAÇÕES DOS PRODUTOS</div>
+    <div id="sisconteudo">  
+		<?php 
+		if (count($this->objList) > 0) :
+		?>
+		<table class="mytable"  style="padding: 0px">
+	         <tr>
+	         	<th  class="th_canto_orc" align="center" width="10%">
+	                <?=$this->translate->_("ID")?>
+	            </th>
+	            <th  class="th_canto_orc" align="center" width="20%">
+	                <?=$this->translate->_("CÓDIGO")?>
+	            </th>
+	            <th  class="th_orc" align="center" width="15%">
+	                <?=$this->translate->_("DATA")?>
+	            </th>
+	            <th  class="th_orc" align="center" width="15%">
+	                <?=$this->translate->_("SITUAÇÃO")?>
+	            </th>
+	            <th  class="th_orc" align="center" width="30%">
+	                <?=$this->translate->_("USUÁRIO")?>
+	            </th>
+	            <th  class="th_orc" align="center" width="10%">
+	                <?=$this->translate->_("OPÇÕES")?>
+	            </th>
+	        </tr>		       
+			<?php 
+			$cor=0;
+	    	foreach($this->objList as $lista):
+	    	$cor++;
+            if(($cor%2)==0) $class = 'td_orc_par';
+            else $class = 'td_orc';
+			?>			
+			<tr >
+				<td  class="<?=$class?>" style="text-align: center;" >
+                   <?=$lista->idalt?>
+                </td>
+                <td  class="<?=$class?>" style="text-align: left;" >
+                   <a href="<?=$this->baseUrl()?>/admin/cadastro/produtosvis/produto/<?=md5($lista->identificador)?>" target="_blank">
+				   <?=$lista->CODIGO?></a>
+                </td>
+                <td  class="<?=$class?>" style="text-align: center;" >
+                   <?=$lista->datacad?>
+                </td>
+                <td  class="<?=$class?>" style="text-align: center;">
+                   <?php if($lista->sit==1): ?>NÃO VERIFICADO<? else: ?>VERIFICADO<?php endif;?>
+                </td>
+                <td  class="<?=$class?>" style="text-align: center;" >
+                   <?=$lista->EMPRESA?>
+                </td>
+                <td  class="<?=$class?>" style="text-align: center;" >  
+                	<?php if($lista->sit == 1): ?>
+                	<a href="<?=$this->baseUrl()?>/admin/cadastro/verificalogalteracoes/altera/<?=md5($lista->idalt)?>"><img src="<?=$this->baseUrl()?>/images/checado.jpg"></a>
+                	<?php endif; ?>              	
+                	<a href="<?=$this->baseUrl()?>/admin/cadastro/logalteracoesver/altera/<?=md5($lista->idalt)?>"><img src="<?=$this->baseUrl(); ?>/images/visualizar_orc.gif" width="15" border="0" title="Visualizar"></a>
+                </td>
+                
+            </tr>
+            
+			<?php  endforeach;
+			?>        
+			</table>
+			<div>&nbsp;<br /><br />
+				<?php 
+		            if ( count($this->objList) > 0) :
+		            	echo $this->objList;
+		            endif;
+	            ?>
+	        </div>
+	        <?php 
+			else :
+			?>
+			<div style="margin-top: 20px; width: 100%; text-align: center;">
+				<?=$this->translate->_("Nenhum Log cadastrado")?>
+			</div>
+			
+			<?php 
+			endif;
+			?>
+	</div>
+</div>

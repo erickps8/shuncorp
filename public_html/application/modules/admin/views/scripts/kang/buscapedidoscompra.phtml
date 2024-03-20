@@ -1,0 +1,158 @@
+<?php 
+	if($this->objTp == 1){
+		if ( count($this->objList) > 0) :	
+		?>
+		<div class="widget">
+ 			<table style="width: 100%" class="tableStatic">
+        	<thead>
+            	<tr>
+                	<td ><?php echo $this->translate->_("Id")?></td>
+                	<td ><?php echo $this->translate->_("Venda")?></td>
+                    <td ><?php echo $this->translate->_("Data")?></td>
+                    <td ><?php echo $this->translate->_("Fornecedor")?></td>
+                    <td ><?php echo $this->translate->_("Situação")?></td>
+                    <td width="10%"><?php echo $this->translate->_("Opções")?></td>
+                </tr>
+          	</thead>
+      		<tbody>
+      		<?php 
+			foreach($this->objList as $lista):
+	    	?>
+	    	<tr >
+                <td style="text-align: center;" >
+                   <?php echo "PK".substr("000000".$lista->id_kang_compra,-6,6)?>
+                </td>
+                <td style="text-align: center;" >
+                   <a href="<?=$this->baseUrl()?>/admin/kang/gerarpedidocompra/ped/<?=md5($lista->id_ped)?>" target="_blank" >
+                   <?php echo "OR".substr("000000".$lista->id_ped,-6,6)?></a>
+                </td>
+                <td style="text-align: center;" >
+                	<?=$lista->dtcompra?>
+                </td>
+                <td align="left" >
+                	<?php echo $lista->EMPRESA?>
+                </td>
+                <td style="text-align: center;" > 
+                <?php 
+                	if($lista->sitped==1):
+                		echo $this->translate->_("Pedido");
+                	elseif($lista->sitped==0):
+                		echo $this->translate->_("Cancelado");
+                	elseif($lista->sitped==2):
+                		echo $this->translate->_("Cadastrado");
+                	elseif($lista->sitped==3):
+                		echo $this->translate->_("Finalizado");
+                	endif;
+                ?>                  
+                </td>
+                <td style="text-align: center;" >
+                    <a href="<?php echo $this->baseUrl()?>/admin/kang/pedidoscompraped/ped/<?=md5($lista->id_kang_compra)?>" ><img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" border="0" title="Visualizar"></a>&nbsp;&nbsp;
+                	<?php 
+                	if($this->objEdi==true):
+                		
+                		if(($lista->sitped!=0) and ($lista->fin==false)):
+                			?><a href="javascript:void(0);" class="finalizaFinanceiro" rel="<?php echo md5($lista->id_kang_compra)?>"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/money.png" width="16" border="0" title="Financial close"></a><?php 
+                		endif;
+                	endif;
+                	?>
+                </td>		                
+            </tr>	
+			<?php  endforeach; ?>
+            	</tbody>        
+			</table>
+			
+		</div>
+		<div style="margin-top: 20px">
+			<?php 
+			if ( count($this->objList) > 0) {
+				echo $this->objList;
+			}
+		    ?>
+		</div>
+		<?php 
+		else:
+		?>
+		<div class="widget" style="border-top: 1px solid #d5d5d5; padding: 10px; text-align: center">
+ 			<?php echo $this->translate->_("Nenhum pedido encontrado!");?>
+		</div>	
+		<?php 
+		endif;
+	}else{
+		if ( count($this->objList) > 0) :
+		?>
+		<div class="widget">
+ 			<table style="width: 100%" class="tableStatic">
+        	<thead>
+            	<tr>
+                	<td ><?php echo $this->translate->_("Pedido")?></td>
+                	<td ><?php echo $this->translate->_("Venda")?></td>
+                	<td ><?php echo $this->translate->_("Fornecedor")?></td>
+                	<td ><?php echo $this->translate->_("Código")?></td>
+                    <td ><?php echo $this->translate->_("QT")?></td>
+                    <td ><?php echo $this->translate->_("Preço")?></td>
+                    <td ><?php echo $this->translate->_("Data")?></td>    
+                    <td ><?php echo $this->translate->_("Situação")?></td>                
+                </tr>
+          	</thead>
+      		<tbody>
+      		<?php
+      		foreach($this->objList as $lista):
+			?>
+			<tr >
+				<td  style="text-align: center;" >
+				    <a target="_blank" href="<?php echo $this->baseUrl()?>/admin/kang/pedidoscompraped/ped/<?=md5($lista->id_kang_compra)?>" ><?php echo "PK".substr("000000".$lista->id_kang_compra,-6,6)?></a>                   
+                </td>
+                <td  align="center" >
+                	<a target="_blank" href="<?=$this->baseUrl()?>/admin/kang/gerarpedidocompra/ped/<?=md5($lista->id_ped)?>" target="_blank" ><?php echo "OR".substr("000000".$lista->id_ped,-6,6)?></a>
+                </td>
+                <td  align="left" >
+                	<?php echo ($lista->EMPRESA)?>
+                </td>
+                <td  align="left" >
+                	<?php echo ($lista->CODIGO)?>
+                </td>
+                <td  align="center" >
+                	<?php echo ($lista->qt)?>
+                </td>
+                <td  align="right" >
+                	<?php echo number_format($lista->preco,2,',','.')?>
+                </td>
+                <td  style="text-align: center;" >
+                	<?php echo $lista->dtcompra?>
+                </td>      
+                <td  style="text-align: center;" > 
+                   <?php 
+                   	if($lista->sitped==1):
+                		echo $this->translate->_("Pedido");
+                	elseif($lista->sitped==0):
+                		echo $this->translate->_("Cancelado");
+                	elseif($lista->sitped==2):
+                		echo $this->translate->_("Cadastrado");
+                	elseif($lista->sitped==3):
+                		echo $this->translate->_("Finalizado");
+                	endif;
+                   	?>                  
+                </td>                                          
+            </tr>		            
+			<?php  endforeach; ?>
+       	</tbody>        
+		</table>
+		</div>
+		<div style="margin-top: 20px">
+			<?php 
+			if ( count($this->objList) > 0) {
+				echo $this->objList;
+			}
+		    ?>
+		</div>
+		<?php 
+		else:
+		?>
+		<div class="widget" style="border-top: 1px solid #d5d5d5; padding: 10px; text-align: center">
+ 			<?php echo $this->translate->_("Nenhum produto encontrado!");?>
+		</div>	
+		<?php 
+		endif;
+
+	}
+	?>

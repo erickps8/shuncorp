@@ -1,0 +1,219 @@
+<div id="siscorpo">
+	<?php foreach ($this->objList as $listProd); ?>
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl()?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/shuntaicompras/preordem/fil/comp"><?=$this->translate->_("PRÉ ORDEM")?></a>&nbsp;
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<b><a href="<?=$this->baseUrl()?>/admin/shuntaicompras/preordemprod/pordem/<?=MD5($listProd->id_preordem)?>"><?=$this->translate->_("PO").substr("000000".$listProd->id_preordem,-6,6)?></a></b>
+	</div>
+	<div id="sistitulo">
+	PRÉ ORDEM N&ordm; PO<?=substr("000000".$listProd->id_preordem,-6,6)?></div>
+    <div id="sisconteudo">
+    	<?php     	
+    	foreach ($this->objList as $listProd): 
+    	?>
+    	
+    	<table width="100%"  align="left" class="mytable" id="myTable" style="margin-top: 10px">
+    		<tr bgcolor="">		             	
+                <td class="th_canto_orc" align="center" colspan="5">
+	        		<a href="<?=$this->baseUrl();?>/admin/cadastro/produtoschinacad/produto/<?=md5($listProd->id_produtos)?>" target="_blank">
+					<?=$listProd->CODIGO?></a>           
+    			</td>
+                <td class="th_orc" align='center' colspan="2"><?=$listProd->qt?></td>		               
+            </tr>
+            <tr bgcolor="">		             	
+                <td class="th_canto_orc" width="15%" align="center">CÓDIGO</td>
+                <td class="th_orc" width="10%" align='center'>QT</td>
+                <td class="th_orc" width="10%"" align='center'>MOEDA</td>
+                <td class="th_orc" width="10%" align='center'>PREÇO</td>
+                <td class="th_orc" width="10%" align='center'>QT TOTAL</td>
+                <td class="th_orc" width="10%" align='center'>PREÇO TOTAL</td>	
+                <td class="th_orc" width="35%" align='center'>FORNECEDOR</td>	               
+            </tr>
+	        <?php 
+		        $class = 'td';
+		        
+		        foreach ($this->objListkit as $listProdkit):
+		        	
+		        	if($listProdkit->id_prod==$listProd->id_produtos):	        			
+		        		if($listProdkit->moedashu==""):
+		        			$moeda = $listProdkit->moeda_shuntai;
+		        			$valor = $listProdkit->custo_shuntai;
+		        			$emp   = $listProdkit->EMPRESA;
+		        		else:
+							$moeda = $listProdkit->moedashu;
+		        			$valor = $listProdkit->valor_unit;
+		        			$emp   = $listProdkit->fornecedorcl;
+		        		endif;
+		        	
+	        			?>
+	        			<tr >
+			                <td class="<?=$class?>" align="left">
+			            		<a href="<?=$this->baseUrl();?>/admin/cadastro/produtoschinacad/produto/<?=md5($listProdkit->id_produtos)?>" target="_blank">
+								<?=$listProdkit->CODIGO?></a>   
+			        		</td>    
+	        			    <td class="<?=$class?>" align="center"><?=$listProdkit->qt?></td>
+	        			    <td class="<?=$class?>" align="center"><?=$moeda?></td>
+	        			    <td class="<?=$class?>" align="right"><?=number_format($valor,2,",",".")?></td>
+	        			    <td class="<?=$class?>" align="center"><?=$listProdkit->qt_pedido*$listProdkit->qt?></td>	
+	        			    <td class="<?=$class?>" align="right"><?=number_format($listProdkit->qt_pedido*$listProdkit->qt*$valor,2,",",".")?></td>	
+	        			    <td class="<?=$class?>" align="left"><? if($emp=="") echo "N/A"; else echo $emp?></td>				                
+			            </tr>
+	        			<?php
+        			endif;
+	        	endforeach;
+	        ?>		        	
+		</table>
+		<?php 
+		endforeach;
+		
+		if($listProd->sit==1):
+		
+		?>
+		<div>&nbsp;</div>
+		<div>&nbsp;</div>
+		<div style="border-bottom: 1px solid; font-size: 13px; font-weight: bold;">Por Fornecedor</div>
+		<?php     	
+		
+    	foreach ($this->objListfor as $listFor): 
+    	?>
+    	<table width="100%"  align="left" class="mytable" id="myTable" style="margin-top: 10px">
+    		<tr bgcolor="">		             	
+                <td class="th_canto_orc" align="left" colspan="4">
+	                <? if($listFor->EMPRESA=="") echo "N/A"; 
+	                else echo $listFor->EMPRESA;
+	                ?>
+                </td>
+                <td class="th_orc" align='center' >
+                	<? if($listFor->EMPRESA!=""): ?>
+                	<img style="cursor: pointer; cursor: hand" onclick="if(confirm('Gerar Compra Shuntai?')){window.location='<?=$this->baseUrl();?>/admin/shuntaicompras/gravacomprapreordem/pordem/<?=md5($listProd->id_preordem)?>/fornecedor/<?=$listFor->id_cliente_shuntai?>';}" src="<?=$this->baseUrl()?>/images/edit_orc.gif" width="15" border="0" title="Gerar compra">
+                	<?php endif; ?>
+                </td>		               
+            </tr>
+            <tr bgcolor="">		             	
+                <td class="th_canto_orc" width="15%" align="center">CÓDIGO</td>
+                <td class="th_orc" width="10%" align='center'>QT</td>
+                <td class="th_orc" width="10%"" align='center'>MOEDA</td>
+                <td class="th_orc" width="10%" align='center'>PREÇO</td>
+                <td class="th_orc" width="10%" align='center'>PREÇO TOTAL</td>                	               
+            </tr>
+	        <?php 
+		        $class = 'td';
+		        foreach ($this->objListkitsum as $listProdkit):
+		        			        	
+		        	if(($listFor->id_cliente_shuntai==0) || ($listFor->id_cliente_shuntai==NULL)):
+		        		$for1 = "NULL";
+		        		$for2 = 0;
+		        	else:
+		        		$for1 = $listFor->id_cliente_shuntai;
+		        		$for2 = $listFor->id_cliente_shuntai;
+		        	endif;
+		        
+		        	if(($listProdkit->id_cliente_shuntai==$for1)||($listProdkit->id_cliente_shuntai==$for2)):
+	        			$moeda = $listProdkit->moeda_shuntai;
+		        		$valor = $listProdkit->custo_shuntai;
+		        		
+	        			?>
+	        			<tr >
+			                <td class="<?=$class?>" align="left">
+			            		<a href="<?=$this->baseUrl();?>/admin/cadastro/produtoschinacad/produto/<?=md5($listProdkit->id_produtos)?>" target="_blank">
+								<?=$listProdkit->CODIGO?></a> 
+			        		</td>    
+	        			    <td class="<?=$class?>" align="center"><?=$listProdkit->qttotal?></td>	
+	        			    <td class="<?=$class?>" align="center"><?=$moeda?></td>
+	        			    <td class="<?=$class?>" align="right"><?=number_format($valor,2,",",".")?></td>	        			    
+	        			    <td class="<?=$class?>" align="right"><?=number_format($listProdkit->qttotal*$valor,2,",",".")?></td>
+	        			    	                
+			            </tr>
+	        			<?php
+        			endif;
+	        	endforeach;
+	        ?>		        	
+		</table>
+		<?php 
+		endforeach;
+		?>
+		<?php     	
+		$listFor = "";
+    	foreach ($this->objListforf as $listFor): 
+    	?>
+    	<table width="100%"  align="left" class="mytable" id="myTable" style="margin-top: 10px">
+    		<tr bgcolor="">		             	
+                <td class="th_canto_orc" align="left" colspan="4">
+	                <?=$listFor->fornecedorcl?>
+                </td>
+                <td class="th_orc" align='center' >
+                	<a href="<?=$this->baseUrl();?>/admin/shuntaicompras/gerarpedido/ped/<?=md5($listFor->id_tai_compra)?>" target="_blank" ><?="PT".substr("000000".$listFor->id_tai_compra, -6);?></a>                	
+                </td>		               
+            </tr>
+            <tr bgcolor="">		             	
+                <td class="th_canto_orc" width="15%" align="center">CÓDIGO</td>
+                <td class="th_orc" width="10%" align='center'>QT</td>
+                <td class="th_orc" width="10%"" align='center'>MOEDA</td>
+                <td class="th_orc" width="10%" align='center'>PREÇO</td>
+                <td class="th_orc" width="10%" align='center'>PREÇO TOTAL</td>                	               
+            </tr>
+	        <?php 
+		        $class = 'td';
+		        foreach ($this->objListkitsumf as $listProdkit):
+		        	
+		        	if(($listProdkit->id_cliente_shuntai==$listFor->id_cliente_shuntai) and ($listFor->id_tai_compra == $listProdkit->id_tai_compra)):
+	        			$moeda = $listProdkit->moedashu;
+		        		$valor = $listProdkit->valor_unit;
+	        			?>
+	        			<tr >
+			                <td class="<?=$class?>" align="left">
+			            		<a href="<?=$this->baseUrl();?>/admin/cadastro/produtoschinacad/produto/<?=md5($listProdkit->id_produtos)?>" target="_blank">
+								<?=$listProdkit->CODIGO?></a>   
+			        		</td>    
+	        			    <td class="<?=$class?>" align="center"><?=$listProdkit->qttotal?></td>	
+	        			    <td class="<?=$class?>" align="center"><?=$moeda?></td>
+	        			    <td class="<?=$class?>" align="right"><?=number_format($valor,2,",",".")?></td>	        			    
+	        			    <td class="<?=$class?>" align="right"><?=number_format($listProdkit->qttotal*$valor,2,",",".")?></td>	        			    	                
+			            </tr>
+	        			<?php
+        			endif;
+	        	endforeach;
+	        ?>		        	
+		</table>
+		<?php 
+		endforeach;
+		
+			if(!empty($this->objListmoudes)):
+			?>
+			<div>&nbsp;</div>
+			<div>&nbsp;</div>
+			<div style="border-bottom: 1px solid; font-size: 13px; font-weight: bold;">Moudes</div>
+			
+			<table width="100%"  align="left" class="mytable" id="myTable" style="margin-top: 10px">
+	    		<tr bgcolor="">		             	
+	                <td class="th_canto_orc" width="15%" align="center">CÓDIGO</td>
+	                <td class="th_orc" align='center'>DESCRIÇÃO</td>
+	                <td class="th_orc" align='center'>FORNECEDOR</td>
+	                <td class="th_orc" align='center'>SIT</td>                	               
+	            </tr>
+		        <?php 
+			        $class = 'td';
+			        foreach ($this->objListmoudes as $listmoudes): 
+		        		?>
+	        			<tr >
+			                <td class="<?=$class?>" align="left">
+			            		<a href="<?=$this->baseUrl();?>/admin/cadastro/produtoschinacad/produto/<?=md5($listmoudes->id_produtos)?>" target="_blank">
+								<?=$listmoudes->CODIGO?></a>   
+			        		</td>    
+	        			    <td class="<?=$class?>" align="left"><?=$listmoudes->DESCRICAO?></td>	
+	        			    <td class="<?=$class?>" align="center"><?=$listmoudes->EMPRESA?></td>
+	        			    <td class="<?=$class?>" align="center"><? if($listmoudes->situacao==0) echo "Pronto"; elseif($listmoudes->situacao==1) echo "Em Des"; elseif($listmoudes->situacao==2) echo "Inativo";?></td>	           			    	                
+			            </tr>
+	        			<?php
+		        	endforeach;
+		        ?>		        	
+			</table>
+			<?php 			
+			endif;
+		endif;
+		
+		?>
+	</div>
+</div>

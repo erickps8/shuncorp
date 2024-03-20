@@ -1,0 +1,18 @@
+<?php 
+if(count($this->objProd)>0):
+	foreach ($this->objProd as $list);
+	if($list->situacao!=0):
+		echo "erro4";
+	else:
+		echo $list->ID;
+		echo "|";
+		echo $list->CODIGO;
+		echo "|";
+		echo $list->valor_promo;
+		echo "|";
+		echo $listQte->qt_atual;
+	endif;
+else:
+	echo "erro1";
+endif;
+?>

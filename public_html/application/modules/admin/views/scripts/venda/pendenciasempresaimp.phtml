@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>ZTL Brasil - www.ztlbrasil.com.br </title>
+	<link href="<?=$this->baseUrl()?>/public/sistema/imagens/ztl.ico" rel="shortcut icon" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="description" content="<?=$this->translate->_("ZTL do Brasil importação, exportação e comercio")?>" />
+	<meta name="keywords" content="rolamentos, cubo de roda, rolamento, embreagem, embreagens, ponta de eixo, pontas de eixo, bomba dagua, bombas dagua, roda, scania, homocinetica, homocineticas, transmissoes" />
+	
+	<link href="<?=$this->baseUrl()?>/public/css/estiloimpressao.css" rel="stylesheet" type="text/css" />
+</head>
+<body onload="window.print()">
+<div style="width: 800px; margin: 0 auto;">
+	<div id="sistitulo" style="padding-bottom: 10px">
+	PENDÊNCIAS POR EMPRESAS 
+	<?php 
+	foreach ($this->objRegioes as $listR): 
+		 if($this->objReg == $listR->idreg) echo " - ".($listR->NOME." ".$listR->EMPRESA);
+	endforeach; 
+	?>
+	<div style="float: right;"><?=date("d/m/Y")?></div>
+	</div>
+    <div id="sisconteudo">
+    	<div>
+           <?php
+			if ( count($this->objList) > 0) :			
+				 
+				$cor=0;
+		    	foreach($this->objList as $lista):
+			    	$cor++;
+		            $class = 'td_orc';
+					?>
+					<div style="border: 1px dashed #a2a2a2; padding: 5px; margin-bottom: 5px">
+					<table class="mytable" style="width: 100%;">
+					<tr >
+		                <td width="25%" style="background-color: #ccc; border: 1px solid #a2a2a2;"> 
+		                   	<?=$lista->EMPRESA?>  
+		                </td>
+		                <td class="td_orc_par" width="50%" style="background-color: #ccc; border: 1px solid #a2a2a2;">
+		                	<?=$lista->RAZAO_SOCIAL?>
+		                </td>
+		                <td class="td_orc_par" style="text-align: center; background-color: #ccc; border: 1px solid #a2a2a2;" >
+		                	<?=$lista->CPF_CNPJ?>
+		                </td>                
+		            </tr>  
+		            </table>
+		            <?php 
+	            	if ( count($this->objProd) > 0): 
+	            	?>
+					<table class="mytable" style="margin-top: 5px; width: 100%">
+				    	<tr>
+				            <th  class="td_orc" align="center" width="20%"  style="background-color: #ccc; border: 1px solid #a2a2a2;">
+				                CÓDIGO
+				            </th>
+				            <th  class="td_orc" align="center" width="40%"  style="background-color: #ccc; border: 1px solid #a2a2a2;">
+				                DESCRIÇÃO
+				            </th>
+				            <th  class="td_orc" align="center" width="13%"  style="background-color: #ccc; border: 1px solid #a2a2a2;">
+				            	PEDIDO
+				            </th>
+				            <th  class="td_orc" align="center" width="13%"  style="background-color: #ccc; border: 1px solid #a2a2a2;">
+				            	DT PEND
+				            </th>
+				            <th  class="td_orc" align="center" width="7%"  style="background-color: #ccc; border: 1px solid #a2a2a2;">
+				            	QT
+				            </th>				            
+				      	</tr>	
+					
+						<?php 
+						foreach($this->objProd as $prod): 
+							if($prod->id_cliente == $lista->ID):	
+							?>					
+							<tr >
+				                <td class="<?=$class?>" style="text-align: center;">
+				                   	<?=$prod->CODIGO?>  
+				                </td>
+				                <td class="<?=$class?>" >
+				                	<?=$prod->DESCRICAO?>
+				                </td>
+				                <td class="<?=$class?>" style="text-align: center;">
+				                	<?=$prod->id_ped?>
+				                </td>
+				                <td class="<?=$class?>" style="text-align: center;">
+				                	<?=$prod->dtpend?>
+				                </td>                
+				                <td class="<?=$class?>" style="text-align: center;">
+				                	<?=$prod->qt?>
+				                	<?php 
+				                	if($prod->qt_atual >= $prod->qt):
+				                		echo "*";
+				                	endif;
+				                	?>               	
+				                </td>                
+			            	</tr>            
+							<?php  
+							endif;
+						endforeach; ?>
+					</table>
+					<?php 
+					endif;
+					?></div><?php 
+				endforeach; 
+				//9bwaa05w8dp056740 305488 58607838172 
+				?>				
+			<?php 
+			else :
+			?>
+			<div style="text-align: center; margin-top: 20px">Nenhuma Empresa com pendência</div>					
+			<?php 
+			endif;
+			?>
+			
+		</div>
+	</div>
+</div>
+	  
+</body>
+</html>

@@ -1,0 +1,24 @@
+<?php 
+
+foreach ($this->objProd as $list);
+
+if(!empty($list)):
+	echo $list->ID;
+	echo "|";
+	echo $list->CODIGO;
+	echo "|";
+	echo str_replace(",",".",$this->vl);
+	echo "|";
+	echo $list->DESCRICAO;
+	echo "|";
+	if($this->vl>0): echo  number_format(str_replace(",",".",$this->vl),3,',','.'); endif;
+	echo "|";
+	if($this->vl>0): echo number_format(str_replace(",",".",$this->vl)*$this->qt,3,',','.'); endif;
+	echo "|";
+	if($this->ipi>0): echo number_format(str_replace(",",".",$this->ipi),1,',','.'); endif;
+	echo "|";
+	if($this->icms>0): echo number_format(str_replace(",",".",$this->icms),1,',','.'); endif;
+else:
+	echo "erro1";
+endif;
+?>

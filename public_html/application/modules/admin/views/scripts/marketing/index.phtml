@@ -1,0 +1,124 @@
+	<!-- Content -->
+    <div class="content">   
+    	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="#">Home</a> </li>
+                	<li class="lastB">Marketing</li>         
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5>Marketing</h5></div>
+        
+         <div class="widgets" >
+        	<!-- Busca -->
+        	<div class="left" style="margin-top: 5px; margin-bottom: 5px" >            
+                <input type="button" value="Novo Mailing" class="basicBtn" style="width: 110px" onclick="window.location='<?php echo $this->baseUrl(); ?>/admin/administracao/mailingnovo'" >                
+            </div>
+            <div class="right" style="font-weight: bold; text-align: right; padding-top: 7px; width: 40%">
+	        	<a href="<?php echo $this->baseUrl(); ?>/admin/marketing/mailingdescadastrados">EMAIL DESCADASTRADOS</a> | 
+	        	<a href="<?php echo $this->baseUrl(); ?>/admin/marketing/mailcorrige">CORRIGIR EMAILS</a>
+	        </div>
+        </div>
+        
+        <!-- Static table -->
+        <div class="widgets" >        
+            <div class="widget first" >
+	        	<?php
+	        	if (count($this->objEmails) > 0):			
+				?>		
+					
+	        	<table  class="tableStatic" style="margin-top: -10px; width: 100%">
+	            	<thead>
+	                	<tr>
+	                    	<td width="">Data</td>
+	                        <td width="">Assunto</td>
+	                        <td width="15%">Enviado para</td>
+	                        <td width="15%">ENVIADO/LIDO</td>
+	                        <td width="5%">+</td>                       
+	                    </tr>
+	                </thead>
+	                <tbody>
+	                <?php 
+	                
+	                $cor=$this->objCont - ($this->page*10) + 11;
+			    	foreach($this->objEmails as $lista):
+			    			
+				    	?>
+						
+						<tr >
+			                <td style="text-align: center;">
+			                   <?php echo substr($lista->data_envio,8,2).'/'.substr($lista->data_envio,5,2).'/'.substr($lista->data_envio,0,4); ?>
+			                </td>
+			                <td >
+			                	<?php echo ($lista->assunto)?>
+			                </td>
+			                <td >
+			                <?php 
+			                   if($lista->clientes!=0) echo "Clientes<br>";
+			                   if($lista->alvos!=0) echo "Contatos<br>";
+			                   if($lista->newsletter!=0) echo "Newsletter<br>";
+			                   if($lista->funcionarios!=0) echo "Funcionários<br>";
+			                   if($lista->forcavenda!=0) echo "Força de vendas<br>";
+			                ?>
+			                </td>
+			                <td style="text-align: center;">
+			                	<?
+			                   if(empty($lista->qt_envio)): 
+			                   		echo 0; 
+			                   else:
+			                   		echo $lista->qt_envio;
+			                   endif;
+			                   
+			                   echo " / ";
+			                   
+			                   if(empty($lista->leitura)): 
+			                   		echo 0; 
+			                   else:
+			                   		echo $lista->leitura;
+			                   endif;
+			                   ?>
+			                </td>
+			                <td style="text-align: center;">
+			                   <a target="_blanck" href="<?=$this->baseUrl()?>/admin/mailing/promocoes/id/<?=$lista->id?>"><img src="<?=$this->baseUrl()?>/images/visualizar_orc.gif" width="17"  border="0" title="Visualizar"></a> 
+			                </td>		                                
+			            </tr>            
+						<?php  endforeach; ?>
+	                </tbody>
+	            </table>
+	            
+	    	<?php 
+			endif;
+			?>	
+		    
+	    </div>	    
+    </div>
+    
+    <div class="fix"></div>
+    
+    <div style="margin-top: 20px">
+	<?php 
+    	if ( count($this->objEmails) > 0) :
+        	echo $this->objEmails;
+        endif;
+    ?>
+    </div>    
+    
+    <div class="fix"></div>
+    
+    </div>
+    
+    <script>
+    function alertaExlui(idmail){
+		jConfirm('Tem certeza?', 'Confirme', function(r) {
+			if(r==true){
+				window.location='<?php echo $this->baseUrl()?>/admin/correio/removeemail/tp/1/email/'+idmail;
+			}
+		});
+    }
+    
+    
+    </script>

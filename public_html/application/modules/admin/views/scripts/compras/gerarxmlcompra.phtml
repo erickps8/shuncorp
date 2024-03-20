@@ -1,0 +1,11 @@
+<?php 
+
+	#cabeçalho da página
+	header("Content-Type: text/xml");
+	header("Content-Disposition: attachment; filename=pedidocompra.xml");
+	# imprime o xml na tela
+	print $this->objDom->saveXML();
+	
+	//$this->objDom->save("pedidocompra.xml");
+
+?>

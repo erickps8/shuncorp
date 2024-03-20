@@ -1,0 +1,37 @@
+Estado:<br />
+<form action="" method="">
+	<select name="uf" onchange="submit();">
+		<option value='0'>Selecione</option>
+		<?php 
+		foreach ($this->objUf as $listuf):
+			?><option value='<?=$listuf->id?>' ><?php echo ($listuf->nome)?></option><?php	
+		endforeach;
+		?>
+	</select>
+</form>
+
+<br />
+<br /><br />
+<form action="" method="post">
+	Cidade antiga:<br />
+	<select name="cidant">
+		<?php 
+		foreach ($this->objCidant as $list):
+			?><option value='<?=$list->idcidade?>' ><?php echo ($list->nome)?></option><?php	
+		endforeach;
+		?>
+	</select>
+	<br />
+	<br />
+	Cidade nova:<br />
+	<select name="cidade">
+		<?php 
+		foreach ($this->objCid as $list):
+			?><option value='<?=$list->id?>' ><?php echo ($list->nome)?></option><?php	
+		endforeach;
+		?>
+	</select>
+	<br /><br />
+	<input type="submit" value="Enviar">
+</form>
+

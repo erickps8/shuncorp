@@ -1,0 +1,45 @@
+		<!-- Static table -->
+        <?php
+		if (count($this->objList) > 0):			
+		?>       
+		<div class="widget">
+        	<div class="head"><h5 class="iFrames">Vendas</h5></div>
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="">Codigo</td>
+                        <td width="">Descrição</td>
+                        <td width="">Qt total</td>
+                    </tr>
+                </thead>
+                <tbody>
+                
+                <?php 
+				$cor=0;
+		    	foreach($this->objList as $lista):			    				    	
+			    	?>					
+					<tr >
+		                <td  style="text-align: left;" >
+		                   <?php echo $lista->CODIGO?>
+		                </td>
+		                <td  style="text-align: left;" >
+		                   <?php echo $lista->DESCRICAO?>
+		                </td>
+		                <td style="text-align: center;" >
+		                	<?php echo $lista->qtt?>
+		                </td>                 
+		            	</tr>            
+					<?php  endforeach; ?>
+                </tbody>
+            </table>            
+        </div>
+        
+		<?php 
+		else :
+		?>
+		<div class="widget first" style="padding: 20px; border-top: 1px solid #d5d5d5;">
+ 			Nenhum produto comprado
+		</div>	
+		<?php 
+		endif;
+		?>

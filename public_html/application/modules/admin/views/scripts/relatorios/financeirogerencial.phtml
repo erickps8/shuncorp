@@ -1,0 +1,101 @@
+<?php 
+if(empty($this->objPlano)) $plano = 0;
+else $plano = $this->objPlano;
+?>
+
+<script src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/relatoriosDre.js"></script>
+<script src="<?=$this->baseUrl()?>/public/sistema/js/printElement/jquery.printElement.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+    	$("#simplePrint").click(function(){
+			$('#toPrint').printElement();
+		});
+	});
+</script>
+
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl()?>/admin/administracao/financeiroztl">Financeiro</a></li>         
+                	<li class="lastB">Relatório gerencial</li>
+                </ul>
+            </div>
+        </div>       
+
+        <div class="title"><h5>Financeiro</h5>
+	        <div style="float: right; padding: 10px">
+				<a href="#" id="simplePrint"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/printerwhite.png" title="Imprimir" border="0" width="18"></a>
+			</div>
+        </div>
+        
+        <div class="widgets" >
+			<div class="first" style="margin-top: 0px; margin-bottom: 5px; " >
+			<form action="<?=$this->baseUrl()?>/admin/relatorios/financeirogerencial" method="post" name="busca" id="busca" class="mainForm">
+			<table style="border: 1px solid #d5d5d5; width: 100%" >
+			    <tr>
+			    	<td align="left" width="100px" style="padding: 10px; vertical-align: top;">
+				    	<?=$this->translate->_("Plano de conta")?>:<br>
+				    	<div class="styled-select" style="width: 170px">
+						<select name="buscaplano" id="buscaplano" style="width: 192px">
+							<option value="0">Selecione</option>
+							<?php foreach ($this->objPlanocontas as $listp): ?>
+								<option value="<?=$listp->id?>"><?php echo (substr($listp->cod." - ".$listp->nome,0,30))?></option>
+							<?php endforeach; ?>
+						</select>
+						</div>
+			    	</td>	
+			    	<td style="width: 150px">
+			    		<table><tr><td><input type="radio" name="datapesq" value="0" checked="checked"><label>Por competência</label></td></tr>
+	    				<tr><td><input type="radio" name="datapesq" value="1"><label>Por regime de caixa</label></td></tr></table>
+					</td>	    	
+			    	<td align="left" width="10%" style="padding: 10px; vertical-align: top;">
+				    	Dt ini:<br>
+				    	<input type="text" size="8" name="dataini" id="dataini" class="data datepicker">
+					</td>
+					<td align="left" style="padding: 10px; vertical-align: top;">
+						Dt fim:<br>
+						<input type="text" size="8" name="datafim" id="datafim" class="data datepicker">
+						<input type="submit" value="Gerar" class="blueBtn">
+					</td>    	
+			    </tr>			    
+			</table> 
+			</form>
+			</div>
+		</div>
+		
+		<div id="toPrint">
+			<div style="margin: 10px 0px 10px 0px; font-weight: bold; font-size: 14px">
+			<?=$this->objPeriodo?>
+			</div>
+			<div style="margin: 10px 0px 10px 0px; font-weight: bold; font-size: 14px" id="0">
+				<img alt="Carregando ..." src="<?=$this->baseUrl()?>/public/images/loading.gif">
+			</div>
+		</div>
+	</div>
+	
+<script type="text/javascript">
+	
+	function mostrarDiv(idlinha){
+		var linha = document.getElementById(idlinha);
+		if(linha.style.display == "block"){
+			linha.style.display = "none";
+		}else{
+			linha.style.display = "block";	
+		}
+	}
+
+	$(window).load(function() {
+		<?php if($plano == 0): ?>
+		buscaDre('0','1');
+		<?php else: ?>
+		buscaDretotal('<?=$plano?>','1');
+		<?php endif; ?>
+	});
+		
+</script>

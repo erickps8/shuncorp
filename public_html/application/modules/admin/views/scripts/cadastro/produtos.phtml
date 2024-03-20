@@ -1,0 +1,173 @@
+	<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/cadastroSubgrupo.js"></script>
+	<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/cadastroProdutos.js"></script>
+
+	<!-- Content -->
+	<div class="content">   
+
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li class="lastB"><a href="<?=$this->baseUrl(); ?>/admin/cadastro/produtos/fil/comp">Produtos</a></li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Produtos</h5>
+        	<div style="float: right; padding: 10px">
+				<a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/produtosexp" ><img title="Exportar para MS Excel" src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/excelDocwhite.png" border="0" width="18" /> </a>
+			</div>
+        </div>
+
+        <div class="widgets" >
+		<!-- Busca -->
+        	
+            <div class="right" style="text-align: right; padding-top: 7px; width: 40%">
+                <a href="<?=$this->baseUrl(); ?>/admin/cadastro/produtoshscode">Hs code</a> | 
+				<a href="<?=$this->baseUrl(); ?>/admin/cadastro/produtosmaterial">Material</a> | 
+	        	<a href="<?=$this->baseUrl(); ?>/admin/cadastro/produtosatualiza">Atualizar</a>
+	        </div>	        
+        </div>
+        
+        <div class="widgets" >
+        	<!-- Busca -->
+        	<div class="first" style="margin-top: 5px; margin-bottom: 5px; border: 1px solid #d5d5d5; padding: 10px" >            
+                <form method="post" name="busca" id="busca" class="mainForm" >
+                	<div class="tdbusca" >
+                		<input type="text" style="width: 250px" placeholder="Código ou descrição" id="codigo" name="codigo">
+                		<input type="button" value="<?=$this->translate->_("Pesquisar")?>" class="blueBtn" id="btnPesq1">
+                		<br /><a href="javascript:void(0)" id="bntMaisfiltros">+ filtros</a>
+                	</div>
+                	<div id="avancado" style="display: none">
+	                	<div class="tdbusca" style="border-top: 0px">
+	                		<div style="float: left; width: 30%">
+		                		<div class="styled-select" style="width: 220px">
+								<select name="buscagrupo" id="buscagrupo" onchange="Mostrasubgrupos(this.value);" style="width: 242px">
+									<option value="0">Grupos</option>
+									<?php foreach ($this->objGrupo as $list): ?>
+										<option value="<?=$list->id?>"><?php echo substr($list->descricao,0,20)?></option>
+									<?php endforeach; ?>
+								</select>
+								</div>
+							</div>
+							<div style="float: left; "> 
+								<div id="subgrupo">&nbsp;</div>
+							</div>
+							
+							<div class="clear"></div>							
+	                	</div>
+	                	
+	                	<div class="tdbusca" style="border-top: 0px">
+	                		<div style="float: left; width: 25%">
+		                		<div class="styled-select" style="width: 180px">
+									<select style="width: 202px" id="pesqmedida" name="pesqmedida">
+										<option value="0">Medidas</option>
+										<option value="1">Rolamentos</option>
+										<option value="2">Homocinéticas</option>
+										<option value="3">Juntas deslizantes</option>
+										<option value="4">Cruzetas</option>
+									</select>
+								</div>
+							</div>
+							<div style="float: left; width: 50%">
+								<table style="display: none;" id="buscrol" class="bmed">
+						    		<tr>
+							    		<td align="left" >
+							    			Interno:<br>
+											<input type="text" name="internorol" id="internorol" class="moedatres" style="width: 60px"> &nbsp; 
+										</td>
+										<td align="left">
+											Externo:<br>
+											<input type="text" name="externorol" id="externorol" class="moedatres" style="width: 60px"> &nbsp; 
+										</td>
+										<td align="left" >
+											Altura:<br>
+											<input type="text" name="alturarol" id="alturarol"  class="moedatres" style="width: 60px"> &nbsp; &nbsp;  
+										</td>
+									</tr>
+								</table>
+								
+								<table style="display: none;" id="buschom" class="bmed">
+						    		<tr>
+							    		<td align="left" >
+							    			Estriado macho:<br>
+											<input type="text" name="estm1" class="moeda" style="width: 40px"> D 
+											<input type="text" name="estm2" class="moeda" style="width: 40px"> 
+										</td>
+										<td align="left" >
+											Estriado femêa:<br>
+											<input type="text" name="estf1" class="moeda" style="width: 40px"> D
+											<input type="text" name="estf2" class="moeda" style="width: 40px">  
+										</td>
+									</tr>
+								</table>
+								<table style="display: none;" id="buscsli" class="bmed">
+									<tr>
+							    		<td align="left">
+							    			Interno:<br>
+											<input type="text" size="7" name="internoslin" class="moeda" style="width: 40px"> 
+										</td>
+										<td align="left">
+											Externo:<br>
+											<input type="text" size="7" name="externoslin" class="moeda" style="width: 40px"> 
+										</td>
+										<td align="left" >
+											Altura:<br>
+											<input type="text" size="7" name="alturaslin"  class="moeda" style="width: 40px"> 
+										</td>
+										<td align="left" >
+											Dentes:<br>
+											<input type="text" size="7" name="dentesslin"  class="moeda" style="width: 40px">  
+										</td>
+									</tr>
+								</table>
+								<table style="display: none;" id="busccru" class="bmed">
+									<tr>
+							    		<td align="left">
+							    			Interno:<br>
+											<input type="text" name="internocrus" class="moeda" style="width: 40px"> 
+										</td>
+										<td align="left">
+											Altura:<br>
+											<input type="text" name="externocrus" class="moeda" style="width: 40px"> 
+										</td>
+										<td align="left" colspan="2" >
+											Dentes:<br>
+											<input type="text" name="alturacrus" class="moeda" style="width: 40px">  
+										</td> 
+									</tr>
+								</table>
+							</div>	
+							
+							<div style="width: 100px; float: right;">
+								<input type="button" value="<?=$this->translate->_("Pesquisar")?>" class="blueBtn" id="bntPesq2">
+							</div>
+							
+							<div class="clear"></div>						
+	                	</div>	                	
+	                </div>
+                		 
+				</form>
+			</div>
+		</div>  
+		
+		
+		<div class="clear"></div>
+		
+		<div style="display: none; " id="resultado">
+			<div style="padding: 10px; border: 1px solid #d5d5d5;">
+				<img src="<?php echo $this->baseUrl?>/public/sistema/imagens/loaders/loader6.gif"> <i>Aguarde...</i>
+			</div>
+		</div>
+		
+		
+		<script>
+		<?php if(empty($this->objCod)): ?>
+		$(document).ready(function() {
+			$("#buscacod").focus();
+		});
+		<?php endif; ?>
+		</script>
+		
+	</div>

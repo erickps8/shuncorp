@@ -1,0 +1,69 @@
+<?php 
+
+if($this->objTipoe==1):
+	header("Content-type: application/vnd.oasis.opendocument.spreadsheet");
+	header("Content-Disposition: attachment; filename=Pagamentos.ods");
+else:
+	header("Content-type: application/msexcel");
+	header("Content-Disposition: attachment; filename=Pagamentos.xls");
+endif;
+?>
+<table class="mytable" width="100%" cellspacing="0" cellpadding="0">	
+	<tr>
+		<th class="th_canto_min"><?=$this->translate->_("ID")?></th>
+		<th class="th_orc_min"><?=$this->translate->_("FORNECEDOR")?></th>
+		<th class="th_orc_min"><?=$this->translate->_("PLANO CONTA")?></th>
+		<th class="th_orc_min"><?=$this->translate->_("EMISSÃO")?></th>
+		<th class="th_orc_min"><?=$this->translate->_("VENCIMENTO")?></th>
+		<th class="th_orc_min"><?=$this->translate->_("MOEDA")?></th>
+		<th class="th_orc_min"><?=$this->translate->_("VALOR")?></th>
+		<th class="th_orc_min"><?=$this->translate->_("SIT")?></th>
+		
+	</tr>
+
+	<?php 
+		
+	if(!empty($this->objContaspagar)):
+	foreach ($this->objContaspagar as $listpagar):
+		?>
+		<tr>
+			<td class="td_orc_min" align="center">
+				<?php if($this->objAba==1): ?>
+				R<?=substr("000000".$listpagar->idfin,-6)?>
+				<?php else: ?>
+				P<?=substr("000000".$listpagar->idfin,-6)?>
+				<?php endif;?>
+			</td>
+			<td class="td_orc_min" align="left">
+				<? if($listpagar->id_fornecedor!=0) echo $listpagar->EMPRESA; else echo $listpagar->out_fornecedor?>
+			</td>
+			<td class="td_orc_min" align="center">
+				<?=$listpagar->nome?>
+			</td>
+			<td class="td_orc_min" align="center">
+				<?=$listpagar->dtcad?>
+			</td>
+			<td class="td_orc_min" align="center">
+				<?=$listpagar->dtvenc?>
+			</td>
+			<td class="td_orc_min" align="right">
+				<?=$listpagar->moedacont?>
+			</td>			
+			<td class="td_orc_min" align="right">
+				<?=number_format(($listpagar->valor_apagar),3,",",".")?></td>
+			<td class="td_orc_min" align="center">
+				<?php 
+				if($listpagar->bloq == 1) echo '<font color="#2a9cec">Block</font>';
+                elseif($listpagar->baixa == 1) echo '<font color="#FF0000">Close</font>';
+                elseif($listpagar->baixa == 2) echo '<font color="#009900">Open</font>';
+                else echo '<font color="#ff8600">Review</font>';
+				?>
+			</td>
+			
+		</tr>
+		<?php								
+	endforeach;
+endif;
+?>
+</table>
+					

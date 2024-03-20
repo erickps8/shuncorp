@@ -1,0 +1,149 @@
+<!-- Calendarios -->
+<link type="text/css" rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.css?random=20051112" media="screen"></LINK>
+<SCRIPT type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.js?random=20060118"></script>
+
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?php echo $this->baseUrl(); ?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<b><a href="<?php echo $this->baseUrl(); ?>/admin/shuntaicompras/preordem/fil/comp"><?=$this->translate->_("PRÉ ORDEM")?></a></b>
+	</div>
+	<div id="sistitulo"><?=$this->translate->_("PRÉ ORDEM")?></div>
+	<div style="margin: 5px 0px 5px 0px;">
+		<input type="button" class="button" value="<?=$this->translate->_("Busca")?>" onclick='javascript:mostrarPesquisa();'></input>
+    	<?php if($this->objIns==true):?>
+    	<input type="button" class="button" onclick="window.location='<?=$this->baseUrl()?>/admin/shuntaicompras/preordemnovo'" value="<?=$this->translate->_("Nova Pré Ordem")?>" />
+    	<?php endif;?>
+	</div>
+	<div >
+		<script>
+		function mostrarPesquisa(){
+		    nTr = document.getElementById("tabela");
+		    if(nTr.style.display == "none"){
+		        nTr.style.display = "block"
+		    }else{
+		        nTr.style.display = "none";
+		    }
+		}
+		
+		function tipoPesquisa(valor){
+		
+			if(valor==1){
+				document.getElementById("buscid").style.display = "block";
+				document.getElementById("data").style.display = "none";
+				document.getElementById("dataini").value = "";
+				document.getElementById("datafin").value = "";
+			}else{
+				document.getElementById("data").style.display = "block";
+				document.getElementById("buscid").style.display = "none";
+				document.getElementById("baucaid").value = "";
+			}
+		    
+		}
+		</script>
+		<form action="<?=$this->baseUrl()?>/admin/shuntaicompras/preordem" method="post" name="busca" id="busca">
+		<table width="70%" style="margin: 0px 0px 5px; display: none; border: 1px solid #000; padding: 6px; " id="tabela" cellspacing="0" cellpadding="0">
+		    <tr>
+		    	<td align="left" width="30%">
+			    	<select name="tipo" onchange="tipoPesquisa(this.value);" style="border: 1px solid #999">
+					<option value="2"><?=$this->translate->_("Por período")?></option>
+					<option value="1"><?=$this->translate->_("Por ID")?></option>
+					</select>
+					 &nbsp;  &nbsp;    
+		    	</td>
+		    	
+		    	<td align="left">
+			    	
+					<div style="display: none;" id="buscid">
+						<input type="text" size="10" name="buscaid" id="buscaid">
+						<input type="submit" value="<?=$this->translate->_("Pesquisar")?>">
+					</div>
+					<div style="display: block" id="data">
+						<input type="text" size="10" name="dataini" id="dataini" onclick="displayCalendar(document.busca.dataini,'dd/mm/yyyy',this)">
+						&agrave; <input type="text" size="10" name="datafin" id="datafin" onclick="displayCalendar(document.busca.datafin,'dd/mm/yyyy',this)">
+						<input type="submit" value="<?=$this->translate->_("Pesquisar")?>">
+					</div>
+					
+		    	</td>
+			</tr>
+		</table>  
+		</form>
+	</div>
+    <div id="sisconteudo">
+        <?php         	        
+        if ( count($this->objList) > 0) :
+		?>
+		<div >
+			<table class="mytable" width="100%" cellspacing="0">
+		        <tr>
+		            <th  class="th_canto_orc" align="center" width="18%">
+		                <?=$this->translate->_("ID")?>
+		            </th>
+		            <th  class="th_orc" align="center" width="17%" >
+		                <?=$this->translate->_("DATA")?>
+		            </th>
+		            <th  class="th_orc" align="center" width="30%">
+		            	<?=$this->translate->_("USUÁRIO")?>
+		            </th>
+		            <th  class="th_orc" align="center" width="">
+		            	<?=$this->translate->_("SITUAÇÃO")?>
+		            </th>
+		            <th  class="th_orc" align="center" width="15%">
+		                <?=$this->translate->_("OPÇÕES")?>
+		            </th>
+		       </tr>	
+				
+				<?php 
+				$class = 'td_orc';
+		    	foreach($this->objList as $lista):
+		    	
+		            if($class == 'td_orc') $class = 'td_orc_par';
+		            else $class = 'td_orc';
+					?>			
+					<tr >
+		                <td  class="<?=$class?>" align="center" >
+		                   <?php echo "PO".substr("000000".$lista->idpre,-6,6);?>
+		                </td>
+		                <td  class="<?=$class?>" align="center" >
+		                   <?php echo $lista->data;?>                  
+		                </td>
+		                <td  class="<?=$class?>" align="left" >
+		                   <?=$lista->EMPRESA?>
+		                </td>
+		                <td  class="<?=$class?>" align="center" >
+		                   <? if($lista->sit==0):?><span style="color: #F00">CANCELADO</span>
+		                   <?php else: ?>CADASTRADO
+		                   <?php endif; ?>
+		                </td>	                
+		                <td  class="<?=$class?>" align="center" >
+		                	<a href="<?php echo $this->baseUrl(); ?>/admin/shuntaicompras/preordemprod/pordem/<?=md5($lista->idpre)?>" ><img src="<?=$this->baseUrl()?>/images/visualizar_orc.gif" width="16" border="0" title="<?=$this->translate->_("Visualizar")?>"></a> &nbsp; 
+		                	<?php if(($lista->id_for=="") and ($lista->sit==1)): ?> 
+		                	<a href="javascript:void(0);" onclick="if(confirm('Remover pré-ordem?')){window.location='<?=$this->baseUrl()?>/admin/shuntaicompras/removepreordem/pordem/<?=md5($lista->idpre)?>';}" ><img src="<?=$this->baseUrl()?>/images/window-close.png" width="16" border="0" title="<?=$this->translate->_("Remover")?>"></a>
+		                	<?php endif; ?>
+		                </td>
+		                
+		            </tr>		            
+				<?php  
+				endforeach;
+				?>			
+			</table>
+		</div>
+		<div style="margin-top: 15px; ">
+			<?php 
+			if ( count($this->objList) > 0) :
+	        	echo $this->objList;
+			endif;
+            ?>
+        </div>
+		<?php 
+		else :
+		?>
+		<br>
+		<center><?=$this->translate->_("Nenhuma pré-ordem encontrado")?></center>
+		
+		<?php 
+		endif;
+		?>
+	</div>
+</div>
+	

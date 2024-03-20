@@ -1,0 +1,73 @@
+<?php 
+foreach ($this->objEntrada as $listent);
+?>
+
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl(); ?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoquegrupo"><?=$this->translate->_("ESTOQUE")?></a>&nbsp;
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp; 
+		<a href="<?=$this->baseUrl(); ?>/admin/compras/entradaest"><?=$this->translate->_("ENTRADA DE PRODUTOS")?></a>&nbsp;
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp; 
+		<b><a href="<?=$this->baseUrl(); ?>/admin/compras/entradaprod/entrada/<?=md5($listent->id)?>">E<?=substr("000000".$listent->id, -6,6);?></a></b>		
+	</div>
+	<div id="sistitulo">ORDENAR PRODUTOS E<?=substr("000000".$listent->id, -6,6);?></div>
+	<div id="sisconteudo">
+	
+		<div>
+		<table class="mytable" id="txtHint" style="margin-top: 6px">
+	        <tr>
+	            <th  class="th_canto" style="text-align: center;" width="10%" >
+	                ADIÇÃO
+	            </th>
+	            <th  class="th_orc" style="text-align: center;" width="60%">
+	                NCM
+	            </th>
+	            <th  class="th_orc" style="text-align: center;" width="20%">
+	                SITUAÇÃO
+	            </th>
+	            <th  class="th_orc" style="text-align: center;" width="10%">
+	                OPÇÕES
+	            </th>
+	        </tr>  
+	        <?php 
+	        
+	        if(!empty($this->objProdncm)):
+	        	
+	        	$cor = 0;
+	        	foreach ($this->objProdncm as $listancm):
+	        		$cor++;
+		            if(($cor%2)==0) $class = 'td_orc_par';
+		            else $class = 'td_orc';
+		            		        
+		            ?>         		            
+					<tr >
+						<td  class="<?=$class?>" style="text-align: center;"  >
+							<?=$listancm->numadicao?>
+		                </td>
+		                <td  class="<?=$class?>" style="text-align: center;" style="font-weight: bold;">
+		                    <?=$listancm->ncm." ".$listancm->ncmex?>
+		                </td>	   
+		                <td  class="<?=$class?>" style="text-align: center;" style="font-weight: bold;">
+		                    &nbsp;
+		                </td>
+		                <td  class="<?=$class?>" style="text-align: center;" >
+		                	<a href="<?=$this->baseUrl()?>/admin/compras/entradaprodordem/entrada/<?=md5($listent->id)?>/adicao/<?=$listancm->numadicao?>" ><img src="<?=$this->baseUrl()?>/images/visualizar_orc.gif" width="15" border="0" title="Visualize"></a>
+		                </td>	                              
+		            </tr>
+		        	<?php	        	
+		        	
+					
+	        	endforeach;
+	        endif;
+	     ?>     
+	     </table>
+	     </div>
+    	 <?php if($this->objEdi==true):?>
+		    <div style="margin-top: 10px; ">
+		    	<input value="Salvar" type="button" onclick="window.location='<?=$this->baseUrl()?>/admin/compras/entradaestoqueprodint/entrada/<?=md5($listent->id)?>'">
+		    </div>
+	    <?php endif; ?>
+	</div>
+</div>    

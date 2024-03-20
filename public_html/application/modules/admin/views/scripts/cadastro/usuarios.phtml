@@ -1,0 +1,127 @@
+	<div class="content">
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="#">Home</a> </li>
+                	<li class="lastB"><a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/usuarios/fil/todos">Usuários</a></li>
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5>Usuários</h5></div>
+            
+        <div class="widgets" >
+        	<div class="left" style="margin-top: 5px; margin-bottom: 5px" >
+        		<?php if($this->objNivel == 2): ?>   
+	        	<input type="button" class="basicBtn" value="Busca" id="btnBusca"/>
+	        	<?php endif; ?>
+		    	<?php if($this->objIns==true): ?>
+		    	<input type="button" class="basicBtn" onclick="window.location='<?php echo $this->baseUrl(); ?>/admin/cadastro/usuarioscad'" value="Novo usuário"></input>
+		    	<?php endif;?>
+		    </div>   
+        </div>
+			    	 
+		<div class="widget" style="border: 0px; display: none; padding: 10px; border: 1px solid #d5d5d5; width: 55%" id="busca">
+ 			<form name="pesquisa" action="<?php echo $this->baseUrl(); ?>/admin/cadastro/usuarios" method="post" class="mainForm" >
+			<table  >
+			    <tr>
+			    	<td colspan="2">
+			    		Nome/Email/ID<br />
+				    	<input type="text" name="buscageral" size="30" style="margin-bottom: 4px; width: 320px" >
+			    	</td>
+			    </tr>
+			    <tr >
+			    	<td >
+					    Empresa:<br>
+					    <div class="styled-select" style="width: 260px">
+						<select name="empresa" style="width: 282px">
+							<option value="0">SELECIONE</option>
+							<?php 
+							foreach ($this->objCliente as $listcliente):
+								?>
+								<option value="<?=$listcliente->ID?>"><?=$listcliente->EMPRESA?></option>
+								<?php 
+							endforeach;
+							?>
+						</select>
+						</div>
+					</td>
+					<td style="text-align: right; vertical-align: bottom;" >
+			    		<input type="submit" value="Buscar" class="blueBtn"/>
+			    	</td>
+				</tr>
+			</table>  
+			</form>
+		</div>	
+		
+	   	<?php
+        if(count($this->objList) > 0) :			
+			?>			
+			<div class="widget first">
+	 			<table style="width: 100%" class="tableStatic">
+	            	<thead>
+	                	<tr>
+	                        <td width="10%">Id</td>
+	                        <td width="">Nome</td>
+	                        <td width="20%">Perfil</td>
+	                        <?php if($this->objNivel == 2): ?>
+	                        <td width="20%">Empresa</td>
+	                        <?php endif; ?>
+	                        <td width="8%">Situação</td>
+	                        <td width="7%">Opções</td>
+	                    </tr>
+	                </thead>
+	                <tbody>
+	               
+					<?php 
+					$cor=0;
+					foreach($this->objList as $lista):
+						$cor++;
+				    	?>
+						<tr >
+			                <td   style="text-align: center;" >U<?php echo $lista->iduser?></td>
+			                <td   align="left" ><?php echo $lista->nomeusuario?></td>
+			                <td   style="text-align: center;" ><?php echo $lista->perfil?></td>
+			                <?php if($this->objNivel == 2): ?>
+			                <td   style="text-align: left;" ><?php echo $lista->EMPRESA?></td>
+			                <?php endif; ?>
+			                <td   style="text-align: center;" ><?php echo ($lista->situsuario == 1) ? "Ativo" : "Inativo";?></td>
+			                <td   style="text-align: center;" >
+			                	<a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/usuarioscad/usermd/<?=md5($lista->iduser)?>">
+			                		<img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" title="Editar">
+			                	</a>
+			                </td>
+			            </tr>  
+			         <?php 
+			         endforeach;
+			         ?>
+			      	</tbody>       
+				</table>
+			</div>
+			
+			<div style="margin-top: 20px">
+				<?php 
+				if ( count($this->objList) > 0) :
+	            	echo $this->objList;
+	            endif;
+			    ?>
+			</div>
+			
+	        <?php 
+			else :
+				?>
+				<div class="fix"></div>
+				<div style="text-align: center; margin-top: 30px">Nenhum usuário encontrado</div>
+				<?php 
+			endif;
+		?>		
+	</div>
+<script>
+
+	$("#btnBusca").click(function(){	
+		$("#busca").toggle('slow');
+	});
+		
+</script>

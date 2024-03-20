@@ -1,0 +1,80 @@
+<?php 
+
+if($this->objTipo==1):
+	header("Content-type: application/vnd.oasis.opendocument.spreadsheet");
+	header("Content-Disposition: attachment; filename=Parceiros.ods");
+else:
+	header("Content-type: application/msexcel");
+	header("Content-Disposition: attachment; filename=Parceiros.xls");
+endif;
+?>
+
+<table width="100%" class="borda_titulo">
+	<tr>
+		<td width="left">PARCEIROS</td>
+	</tr>
+	<tr>
+		<td>        
+           <?php 		
+        	
+			if ( count($this->objList) > 0) :			
+			?>
+			<table align="left" class="mytable"  width="554" cellspacing="0">
+		         <tr>
+		            <th  class="th_canto_orc" align="center" width="7%">
+		                ID
+		            </th>
+		            <th  class="th_orc" align="center" width="27%">
+		                Nome
+		            </th>
+		            <th  class="th_orc" align="center" width="">
+		                Raz&atilde;o Social
+		            </th>
+		            <th  class="th_orc" align="center" width="18%">
+		                CNPJ/CPF
+		            </th>
+		            <th  class="th_orc" align="center" width="8%">
+		                Situa&ccedil;&atilde;o
+		            </th>
+		            <th  class="th_orc" align="center" width="8%">
+		                E-mail
+		            </th>
+		            <th  class="th_orc" align="center" width="8%">
+		                Comprador
+		            </th>
+		        </tr>		       
+			<?php 
+			
+			foreach($this->objList as $lista):	    	
+			?>
+			
+			<tr >
+                <td align="center" >
+                   <?php echo $lista->ID?>
+                </td>
+                <td align="left" style="text-transform: uppercase;">
+                   <?php echo utf8_decode(($lista->EMPRESA))?>
+                  
+                </td>
+                <td align="left" >
+                   <?php echo utf8_decode($lista->RAZAO_SOCIAL)?>
+                </td>
+                <td align="center" >
+                   <?php echo $lista->CPF_CNPJ?>
+                </td>
+                <td align="center" >
+                   <?php if(stripos($lista->TIPO,"inativo")!==false):?>
+                   		INATIVO
+                   <?php else: ?>
+                   		ATIVO
+                   <?php endif;?>                   	
+                </td>
+            </tr>
+            
+			<?php  endforeach;
+			?>        
+		</table>
+		<?php endif; ?>
+		</td>
+	</tr>
+</table>

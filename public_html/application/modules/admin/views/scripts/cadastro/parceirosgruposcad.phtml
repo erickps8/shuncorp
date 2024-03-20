@@ -1,0 +1,120 @@
+<div class="content">   
+	<!-- Navegacao --> 
+    <div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+    	<div class="breadCrumb module">
+        	<ul>
+	            <li class="firstB"><a href="#">Home</a> </li>
+	            <li><a href="<?=$this->baseUrl()?>/admin/cadastro/parceiroslista/filt/all">Parceiros</a></li>
+	            <li><a href="<?=$this->baseUrl()?>/admin/cadastro/parceirosgrupos">Grupos</a></li>         
+	            <li class="lastB">Cadastro de grupos</li>
+            </ul>
+        </div>
+	</div>       
+        
+    <div class="title"><h5>Cadastro de grupos</h5></div>
+
+    <?php 
+    if(count($this->objList)>0):
+    	foreach ($this->objList as $listGrupo);
+    endif;
+    ?>
+    
+    <div class="widget" style="border-top: 1px solid #d5d5d5; ">
+    	<form class="mainForm" method="post" action="" name="form" onsubmit="return validaForm();">
+    		<input type="hidden" name="idgrupo" value="<?php echo $listGrupo->id?>">
+    	
+    		<div class="rowElem" style="padding: 10px">
+    		Nome:<br />
+    		<input type="text" name="nome" style="width: 200px" value="<?php echo $listGrupo->nome?>">
+    		</div>
+    		
+    		<div class="rowElem dualBoxes">
+				Linha de Produtos: <br>
+                <div class="floatleft w40">
+                	Filtro: <input type="text" id="box1Filter" class="boxFilter" /><button type="button" id="box1Clear" class="dualBtn">x</button><br />
+                    <select id="box1View" multiple="multiple" class="multiple" style="height:200px;" name="listLeft">
+                    <?php 
+                    if(!empty($this->objGrupos)):
+	                    foreach ($this->objGrupos as $listG):
+		                    $gpres = 0; 
+		                    if(!empty($this->objGcli)):
+			                	foreach ($this->objGcli as $listgcli):
+		                        	if($listgcli->idsub == $listG->idsub):
+		                            	$gpres = 1;
+		                            endif;
+		                       	endforeach;
+		                  	endif;
+	                        
+	                        if($gpres==0):
+	                        	?>
+								<option value='<?php echo $listG->idsub?>'><?=$listG->grupo." > ".$listG->subgrupo?></option>
+								<?php
+							endif; 
+	                  	endforeach;
+	               	endif;
+                    ?>                                
+                    </select>
+                    <br/>
+			     	<span id="box1Counter" class="countLabel"></span>
+                    <select id="box1Storage"></select>
+            	</div>
+                                
+                <div class="dualControl">
+                	<button id="to2" type="button" class="dualBtn mr5 mb15">&nbsp;&gt;&nbsp;</button>
+                    <button id="allTo2" type="button" class="dualBtn">&nbsp;&gt;&gt;&nbsp;</button><br />
+                    <button id="to1" type="button" class="dualBtn mr5">&nbsp;&lt;&nbsp;</button>
+                    <button id="allTo1" type="button" class="dualBtn">&nbsp;&lt;&lt;&nbsp;</button>
+               	</div>
+                                
+                <div class="floatright w40">
+                  	Filtro: <input type="text" id="box2Filter" class="boxFilter" /><button type="button" id="box2Clear" class="dualBtn">x</button><br />
+                    <select name="grupoParceiro[]" id="box2View" multiple="multiple" class="multiple" style="height:200px;">
+                    <?
+					if(!empty($this->objGcli)):
+						foreach ($this->objGcli as $listgcli):
+							echo "<option value=".$listgcli->idsub.">".$listgcli->grupo." > ".$listgcli->subgrupo."</option>";
+						endforeach;
+					endif;		
+					?>
+                    </select><br/>
+                    <span id="box2Counter" class="countLabel"></span>
+                    <select id="box2Storage" ></select>
+                </div>
+                <div class="fix"></div>
+        	</div>
+        	
+        	<div class="rowElem" style="padding: 10px">
+    			<input type="submit" value="Salvar" class="greenBtn" >
+        	</div>
+    	</form>
+    </div>    			
+</div>
+	
+<script>
+
+function validaForm(){
+	if(document.form.nome.value==''){
+		jAlert("O nome não pode ficar em branco!","Erro");
+		return false;
+	}else{
+		return true;
+	}
+
+	return false;
+}
+
+<?php
+if($this->gravaSucesso > 0): 
+	if($this->gravaSucesso == 1):
+	?>
+	jAlert("Grupo gravado com sucesso!","Sucesso");
+	<?php 
+	else: 
+	?>
+	jAlert("Erro ao gravar o grupo. Tente novamente!","Erro");
+	<?php
+	endif;
+endif;
+?>
+
+</script>

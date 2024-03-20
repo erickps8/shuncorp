@@ -1,0 +1,32 @@
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/fileManager/elfinder.min.js"></script>
+
+<script>
+$(function() {
+	$('#fileManager').elfinder({
+		url : '<?php echo $this->baseUrl()?>/public/sistema/navegadordearquivos/connector.php',
+	})
+});
+</script>
+
+<!-- Content -->
+    <div class="content">   
+    	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li><a href="<?php echo $this->baseUrl()?>/admin/correio/mailing">Boletim eletrônico</a></li>
+                	<li class="lastB">Navegador de arquivos</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Navegador de arquivos</h5></div>
+        
+        <!-- File manager -->        
+        <div class="widget first">
+            
+            <div id="fileManager" style="border-top: 1px solid #d5d5d5;"></div>
+        </div>
+        
+   </div>

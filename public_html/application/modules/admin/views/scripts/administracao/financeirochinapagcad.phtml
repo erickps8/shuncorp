@@ -1,0 +1,461 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/financeirochina.js" type="text/javascript"></script>
+<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/administracaoFincontaschina.js" type="text/javascript" ></script>
+
+<!-- Content -->
+	<div class="content">   
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li><a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeirochina">Financeiro Shunkang</a> </li>
+                	<li><a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeirochinapag">Contas a pagar</a> </li>
+                	<li class="lastB"><?php 
+					if(is_object($this->objPag)):
+						foreach ($this->objPag as $lispagamento);
+						echo "P".substr("000".$lispagamento->id,-6,6);
+					else: 
+						echo $this->translate->_("Novo Pagamento");
+					endif;						
+					?></li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>
+        	<?php 
+			if(is_object($this->objPag)):
+				foreach ($this->objPag as $lispagamento);	
+				echo "P".substr("000".$lispagamento->id,-6,6);
+			else: 
+				echo $this->translate->_("Novo Pagamento"); 
+			endif;						
+			?>
+		</h5></div>
+        
+         <form action="<?=$this->baseUrl()?>/admin/administracao/gravafinanceiropag" method="post" name="formpagamento" id="formpagamento"  enctype="multipart/form-data" class="mainForm">
+			<input type="hidden" name="idcontapag" value="<?=$lispagamento->id?>">
+		
+			<div class="widget first" >
+				<div class="body" style="border-top: 1px solid #d5d5d5;">	
+				<table style="width: 100%">
+					<tr>
+						<td width="15%" align="left">
+						<?=$this->translate->_("Emissão")?>:<br>
+						<input type="text" maxlength="10" name="emissaopag" style="width: 70px" value="<?php if(!empty($lispagamento->emissao)) echo substr($lispagamento->emissao,8,2)."/".substr($lispagamento->emissao,5,2)."/".substr($lispagamento->emissao,0,4)?>" class="data datepicker">
+						</td>
+						<td width="15%" align="left">
+						<?=$this->translate->_("Vencimento")?>:<br>
+						<input type="text" size="8" maxlength="10" name="vencimentopag" style="width: 70px"  value="<?php if(!empty($lispagamento->vencimento)) echo substr($lispagamento->vencimento,8,2)."/".substr($lispagamento->vencimento,5,2)."/".substr($lispagamento->vencimento,0,4)?>" class="data datepicker">
+						</td>
+						<td align="left">
+						<?=$this->translate->_("Plano de conta")?>:<br>
+						<div class="styled-select" style="width: 235px">
+							<select name="planocontapag" style="width: 257px">
+								<option value="0">Selecione</option>
+								<?php foreach ($this->objPlanocontas as $listaplano):?>
+								<option <?php if($lispagamento->id_planoconta==$listaplano->id_conta_plano) echo 'selected="selected"'?> value="<?=$listaplano->id_conta_plano?>"><?=$listaplano->no_conta_plano?></option>
+								<?php endforeach;?>
+							</select>
+						</div>
+						</td>
+						<td style="text-align: right;">
+							<?php 
+							if(empty($lispagamento->st_conc) and $lispagamento->baixa == 1): 
+								?>
+								<a href="javascript:void(0);" onclick="confirmLibera();"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/locked2.png" border="0" alt="Liberar conta para edição"> </a>
+								<?php
+							endif;
+							?>
+						</td>	
+					</tr>
+					<tr>
+						<td colspan="2" align="left">
+						<?=$this->translate->_("Fornecedor")?>:<br>
+						
+			    		<div class="styled-select" style="width: 220px">
+				    	<select name="fornpag" id="fornpag" onchange='exibeOutfornpag(this.value);' style="width: 242px">
+							<option value="0">Todos</option>
+							
+							<optgroup label="Funcionários">
+								<?php foreach ($this->objUsuarios as $list): ?>
+									<option <?php if($lispagamento->id_usuarios==$list->iduser) echo 'selected="selected"'?> value="<?=$list->iduser?>|1">&nbsp;<?php echo substr($list->nomeusuario,0,50)?></option>
+								<?php endforeach; ?>
+							</optgroup>
+							
+							<optgroup label="Fornecedores">
+								<?php foreach ($this->objFornec as $list): ?>
+									<option <?php if($lispagamento->id_fornecedor==$list->ID) echo 'selected="selected"'?> value="<?=$list->ID?>|0"><?php echo substr($list->EMPRESA,0,20)?></option>
+								<?php endforeach; ?>
+							</optgroup>
+							
+							<option <?php if(($lispagamento->out_fornecedor != "") and ($lispagamento->id_fornecedor==0)) echo 'selected="selected"'?> value="out">Outros</option>
+						</select>
+						</div>
+						</td>
+						<td align="left">
+							<div id="divoutfornpag" <?php if(is_object($this->objPag) and ($lispagamento->out_fornecedor != "") and ($lispagamento->id_fornecedor==0)){?>style="display: block"<?php }else{ ?>style="display: none"<?php }; ?>>
+							<?=$this->translate->_("Outro Fornecedor")?>:<br>
+							<input type="text" name="outfornpag" style="width: 220px"  value="<?=$lispagamento->out_fornecedor?>">
+							</div>
+							<script type="text/javascript">
+								function exibeOutfornpag(valor){
+									if(valor=="out"){
+										document.getElementById("divoutfornpag").style.display = "block";
+									}else{
+										document.getElementById("divoutfornpag").style.display = "none";
+									}												
+								}
+							</script>
+						</td>
+						<td>
+						&nbsp;
+						</td>
+					</tr>
+					<tr> <!--  onchange="selecionaMoeda(this.value);" --> 
+						<td align="left">
+						<?=$this->translate->_("Moeda")?>:<br>
+						<div class="styled-select" style="width: 80px">
+						<select name="moedapag" id="moedapag" style="width: 102px">
+							<option <?php if($lispagamento->moeda=="RMB") echo 'selected="selected"'?> value="RMB">RMB</option>
+							<option <?php if($lispagamento->moeda=="USD") echo 'selected="selected"'?> value="USD">USD</option>
+							<option <?php if($lispagamento->moeda=="BRL") echo 'selected="selected"'?> value="BRL">BRL</option>
+							<option <?php if($lispagamento->moeda=="EUR") echo 'selected="selected"'?> value="EUR">EUR</option>
+						</select>
+						</div>
+						</td>
+						<td align="left" colspan="3">
+						<?=$this->translate->_("Valor")?>:<br>
+						<input type="text" style="width: 70px"  name="valorpag" value="<?=number_format($lispagamento->valor_apagar,2,",",".")?>"  class="moeda" >
+						</td>						
+					</tr>
+					
+					<tr>
+						<td colspan="4" align="left">
+							<table style="border: 1px solid #d5d5d5; margin-top: 3px; ">
+								<tr>
+									<td align="left" width="15%" style="padding: 10px">
+									<?=$this->translate->_("Fatura")?>:<br>
+									<input type="text" size="12" name="faturapag" style="width: 100px"   value="<?=$lispagamento->n_documento?>">
+									</td>
+									<td align="left">
+									<?=$this->translate->_("Parc")?>:<br>
+									<input type="text" size="5" maxlength="3" name="parcpag" style="width: 50px"   value="<?=$lispagamento->fatura?>" class="parcela">
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					
+					<tr>
+						<td colspan="4" align="left">
+							<table <?php if(($lispagamento->baixa==0) and ($this->objIns==1)): ?> style="display: none" <?php endif;?> >											
+								<tr>
+									<td width="80px" align="left">
+										<?=$this->translate->_("Dt pagamento")?>:<br>
+										<input type="text" maxlength="10" name="datapagamentopag" style="width: 70px" value="<?php if(!empty($lispagamento->dt_pagamento)) echo substr($lispagamento->dt_pagamento,8,2)."/".substr($lispagamento->dt_pagamento,5,2)."/".substr($lispagamento->dt_pagamento,0,4)?>"  class="data datepicker">
+									</td>
+									<td width="90px" align="left">
+										<?=$this->translate->_("Valor pago")?>:<br>
+										<input type="text" name="valorpagamentopag"  style="width: 70px" value="<?php if(!empty($lispagamento->valor_pago)) echo number_format($lispagamento->valor_pago,2,",",".")?>" class="moeda" >
+									</td>												
+									<td align="left"  >
+									<?=$this->translate->_("Conta origem")?>:<br>
+									
+									<div class="styled-select" style="width: 150px">
+									<select name="bancopagamentopag" style="width: 172px">
+										<?php 
+										foreach ($this->objContasbanc as $listconta):											
+											?>
+											<option <?php if(($lispagamento->moeda!=$listconta->moeda)){ echo 'disabled="disabled"'; }?> class="<?php echo $listconta->moeda?>" value="<?=$listconta->id?>" <?php if($lispagamento->id_mod_pagamento==$listconta->id) echo 'selected="selected"';?>  ><?=$listconta->nome?></option>
+											<?php
+										endforeach;?>
+									</select>
+									</div>
+																		
+									</td>											
+								</tr>
+							</table>
+						</td>
+					<tr>
+						<td colspan="4" align="left">
+							<?=$this->translate->_("Observação")?>:<br>
+							<textarea rows="3" cols="50" name="obspag" style="width: 50%"><?=$lispagamento->obs?></textarea>
+						</td>
+					</tr>
+					
+				</table>
+			<?php 
+			if(($lispagamento->baixa==1) || ($lispagamento->exclusao == 1)):			
+			?>
+			<script type="text/javascript">
+			desabilitaConta();
+			desabilitaContabaixa();
+			</script>							
+			<?php
+			elseif($this->objIns==0):
+			?>
+			<script type="text/javascript">
+			desabilitaConta();
+			</script>							
+			<?php
+			endif;
+			?>
+		</div>
+		</div>
+		 		
+		<div class="widget" >
+            <div class="head" style="margin-top: -10px"><h5 class="iFiles">Anexos</h5></div>
+            <div class="body">	
+            
+            <table id="archive" style="width: 100%; " >
+            	<?php 
+				$idan=0;
+				if(!empty($this->objAnepag)):
+					foreach ($this->objAnepag as $listanexo): 
+					$idan++;
+					?>
+					<tr>
+						<td style="padding-left: 7px">						
+							<a href="<?=$this->baseUrl()?>/public/sistema/upload/financeirochina/pagar/<?=$listanexo->nome?>" target="_blank"><b>Anexo <?=$idan?></b></a> &nbsp;
+							<?php if(($lispagamento->baixa!=1) and ($lispagamento->exclusao == 0) and ($this->objIns==1)): ?> 
+							<a href="javascript:void(0);" onclick="confirmRemoveanexo('<?php echo $listanexo->id?>');" > <img id="anp<?=$idan?>" src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" width="13"> </a>
+							<?php endif; ?>
+						</td>
+					</tr>
+				<?php 
+				endforeach; 
+				endif;	
+				?>
+				<tr>
+					<td>
+					<?php if(($lispagamento->baixa!=1) and ($lispagamento->exclusao == 0) and ($this->objIns==1)): ?>
+						<div class="rowElem"><label style="width: 45px">Anexo:</label> 
+	                        <div class="formRight" ><input type="file" class="fileInput" id="fileInput" name="arquivo1" onchange="addArchive(this)"/></div>
+	                        <div class="fix"></div>
+	                    </div>	                   
+	                <?php endif; ?>
+					</td>
+				</tr>
+			</table>
+			<input type="hidden" name="intarchive" id="intarchive" >
+			<script type="text/javascript">
+	        		var intarc = 1;
+		        	function addArchive(anexo) {
+		        		document.getElementById(anexo.name).value = $(anexo).val();
+			        	
+			        	intarc = intarc + 1;
+		        		var tbCod = document.getElementById("archive").insertRow(-1);
+		        		var y = tbCod.insertCell(0);
+
+		        		y.innerHTML='<div class="rowElem"><label style="width: 45px;">Anexo:</label><div class="formRight">'+
+                            '<input id="arquivo'+intarc+'" style="display: inline; width: 300px;" class="file fileInput"><div style="display: inline; position: absolute; overflow: hidden;" class="feat"><input style="position: relative; height: 26px; width: 300px; display: inline; cursor: pointer; opacity: 0; margin-left: -168px;" class="fileInput" id="fileInput" name="arquivo'+intarc+'" onchange="addArchive(this)" type="file"></div>'+
+                        	'</div><div class="fix"></div></div>';
+		        		
+		        		document.getElementById("intarchive").value = intarc;
+
+		        		
+		        		
+		        	}
+	        	</script> 
+			    <div class="fix"></div>
+            </div>
+		</div>
+		
+		<div class="widget" >
+            <div class="head" style="margin-top: -10px"><h5 class="iFrames">Pedidos</h5></div>
+            <div class="body">
+            	<?php if(($lispagamento->baixa!=1) and ($lispagamento->exclusao==0)): ?>	
+            	<a href="javascript:void(0)" class="btnIconLeft" onclick="buscaPedidoscompra('<?=$lispagamento->id?>',1,document.formpagamento.fornpag.value, '<?=$lispagamento->npurchase?>');"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/dark/add.png" alt="" class="icon" /><span>Adcionar pedido</span></a>
+            	<?php endif; ?>
+            	
+            	<div>
+            		<table id="tpurch" style="padding: 4px; border: 1px solid #d5d5d5; font-weight: bold; width: 30%; margin-top: 10px">
+						<?php 
+						if(count($this->objPurc)>0):
+							foreach ($this->objPurc as $listapur):
+								if($lispagamento->npurchase==1):
+									$idpurchase .= $listapur->id_kang_compra.",";
+									?>
+									<tr>
+										<td align="left">
+											<a href="<?=$this->baseUrl()?>/admin/kang/pedidoscompraped/ped/<?=md5($listapur->id_kang_compra)?>" target="_blank" >
+											<?="PK".substr("000000".$listapur->id_kang_compra,-6,6)?></a>
+										</td>
+										<td >
+											<input type="text" name="vlcompra_<?=$listapur->id_kang_compra?>" value="<?=number_format($listapur->valor,2,",",".")?>" style="width: 70px" class="moeda" <?php if($lispagamento->baixa==1) echo 'disabled="disabled"';?> >
+										</td>
+										<?php if(($lispagamento->baixa!=1) and ($lispagamento->exclusao==0)): ?>
+										<td align="right" width="10px">
+											<a href="#" onclick="deleteRow(this.parentNode.parentNode.rowIndex,<?=$listapur->id_kang_compra?>)"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" width="12" border="0"></a>
+										</td>
+										<?php endif;?>
+									</tr>
+									<?php
+								elseif($lispagamento->npurchase==2):
+									$idpurchase .= $listapur->id_tai_compra.",";
+								?>
+								<tr>
+									<td align="left">
+										<a href="<?=$this->baseUrl()?>/admin/shuntaicompras/gerarpedido/ped/<?=md5($listapur->id_tai_compra)?>" target="_blank" >
+										<?="PT".substr("000000".$listapur->id_tai_compra,-6,6)?></a>
+									</td>
+									<td >
+										<input type="text" name="vlcompra_<?=$listapur->id_tai_compra?>" value="<?=number_format($listapur->valor,2,",",".")?>" <?php if($lispagamento->baixa==1) echo 'disabled="disabled"';?> style="width: 70px" class="moeda">
+									</td>
+									<?php if(($lispagamento->baixa!=1) and ($lispagamento->exclusao==0)): ?>
+									<td align="right" width="10px">
+										<a href="#" onclick="deleteRow(this.parentNode.parentNode.rowIndex,<?=$listapur->id_tai_compra?>)"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" width="12" border="0"></a>
+									</td>
+									<?php endif;?>
+								</tr>
+								<?php
+								endif;
+							endforeach;
+						 						
+						endif;
+						?>
+					</table>
+					<input type="hidden" name="idpurch" id="idpurch" value="<?=$idpurchase?>">
+					<input type="hidden" name="tipopurch" id="tipopurch" value="<?=$lispagamento->npurchase?>">
+            	
+            	</div>
+            	
+            </div>
+        </div>
+
+        <div class="widget" >
+            <div class="head" style="margin-top: -10px"><h5 class="iFrames">Retorno de impostos</h5></div>
+            <div class="body">
+            	<?php if(($lispagamento->baixa!=1) and ($lispagamento->exclusao==0)){ ?>	
+            	<a href="javascript:void(0)" id="btnAddvenda" class="btnIconLeft" data-rel="<?php echo $lispagamento->id?>" data-tp="1">
+            	   <img src="/public/sistema/imagens/icons/dark/add.png" alt="" class="icon" /><span>Adcionar invoice</span>
+            	</a>
+            	<?php } ?>
+            	
+            	<div>
+            		<table id="tableRetorno" style="padding: 4px; border: 1px solid #d5d5d5; font-weight: bold; width: 150px; margin-top: 10px">
+						<?php 
+						if(count($this->objInvoice)>0){
+							foreach ($this->objInvoice as $listainvoice){
+								?>
+								<tr>
+									<td align="left" style="padding: 5px">
+										<a href="/admin/kang/vendasdet/ped/<?php echo md5($listainvoice->id)?>" target="_blank" ><?php echo "S".substr("000000".$listainvoice->id,-6,6)?></a>
+										<input type="hidden" name="retornoimposto[]" value="<?php echo $listainvoice->id?>">
+									</td>	
+									<?php if(($lispagamento->baixa!=1) and ($lispagamento->exclusao==0)){ ?>
+									<td align="right" style="padding: 5px;">
+										<a href="javascript:" onclick="$(this).closest('tr').remove()"><img src="/public/sistema/imagens/icons/middlenav/close.png" width="12" border="0"></a>
+									</td>						
+									<?php } ?>
+								</tr>
+								<?php
+							}				 						
+						}
+						?>
+					</table>					
+            	</div>            	
+            </div>
+        </div>
+
+         <div class="widget" >
+             <div class="head" style="margin-top: -10px"><h5 class="iFrames">Frete</h5></div>
+             <div class="body">
+                 <?php if(($lispagamento->baixa!=1) and ($lispagamento->exclusao==0)){ ?>
+                     <a href="javascript:void(0)" id="btnAddFrete" class="btnIconLeft" data-rel="<?php echo $lispagamento->id?>" data-tp="1">
+                         <img src="/public/sistema/imagens/icons/dark/add.png" alt="" class="icon" /><span>Adcionar invoice</span>
+                     </a>
+                 <?php } ?>
+
+                 <div>
+                     <table id="tableFrete" style="padding: 4px; border: 1px solid #d5d5d5; font-weight: bold; width: 250px; margin-top: 10px">
+                         <?php
+                         if(count($this->objInvFrete)>0){
+                             foreach ($this->objInvFrete as $listainvoice){
+                                 $strFob = ($listainvoice->st_fob != 1) ? '': ' (FOB FREIGHT)';
+                                 ?>
+                                 <tr>
+                                     <td align="left" style="padding: 5px">
+                                         <a href="/admin/kang/vendasdet/ped/<?php echo md5($listainvoice->id)?>" target="_blank" ><?php echo "S".substr("000000".$listainvoice->id,-6,6)?></a> <?php echo $strFob?>
+                                         <input type="hidden" name="frete[]" value="<?php echo $listainvoice->id?>">
+                                         <input type="hidden" name="stFob" value="<?php echo $listainvoice->st_fob?>">
+                                     </td>
+                                     <?php if(($lispagamento->baixa!=1) and ($lispagamento->exclusao==0)){ ?>
+                                         <td align="right" style="padding: 5px;">
+                                             <a href="javascript:" onclick="$(this).closest('tr').remove()"><img src="/public/sistema/imagens/icons/middlenav/close.png" width="12" border="0"></a>
+                                         </td>
+                                     <?php } ?>
+                                 </tr>
+                                 <?php
+                             }
+                         }
+                         ?>
+                     </table>
+                 </div>
+             </div>
+         </div>
+		
+		<div class="widgets" style="margin-top: 10px">
+		<?php if($lispagamento->exclusao==0): ?>
+			<div class="left">
+				<?php if(($lispagamento->baixa==0) and ($this->objIns==1)):?>
+				<input type="button" value="Salvar" onclick="validaformpag();" class="greenBtn"/>
+				<?php elseif(($lispagamento->baixa==2) and ($this->objIns==1)):?>
+				<input type="hidden" name="baixarpag" >
+				<input type="button" value="Baixar" onclick="baixapag();" class="basicBtn">		
+				<input type="button" value="Salvar" onclick="validaformpag();"  class="greenBtn"/>								
+				<?php endif;?>
+			</div>
+			<div class="right" style="text-align: right;">
+				<?php if(!empty($lispagamento->id) and ($lispagamento->baixa==0) and ($this->objLib==1)): ?>
+				<input type="hidden" name="liberarpag" >
+				<input type="button" value="Liberar" onclick="validaliberacaopag();"  class="basicBtn"/>
+				<?php endif;?>
+				<?php if(!empty($lispagamento->id) and ($lispagamento->baixa!=1)): ?>
+				<input type="button" value="Excluir"  class="redBtn" onclick="confirmRemove()">
+				<?php endif; ?>
+			</div>
+			<?php endif; ?>
+		</div>
+		</form>
+	</div>
+	
+	<script>
+	function confirmRemoveanexo(idanexo){
+		jConfirm('Você deseja remover este anexo?', 'Confirme', function(r) {
+			if(r==true){
+				window.location='<?=$this->baseUrl()?>/admin/administracao/remanexofinchina/idanex/'+idanexo+'/pay/<?=md5($lispagamento->id)?>'
+			}
+		});
+	}
+
+	function confirmRemove(){
+		jConfirm('Você deseja remover esta conta?', 'Confirme', function(r) {
+			if(r==true){
+				window.location='<?=$this->baseUrl()?>/admin/administracao/excluirchinapag/conta/<?=md5($lispagamento->id)?>'
+			}
+		});
+	}
+
+	
+
+	function confirmLibera(){
+		jConfirm('Você deseja liberar esta conta para edição?', 'Confirme', function(r) {
+			if(r==true){
+				window.location='<?=$this->baseUrl()?>/admin/administracao/liberachinapag/pag/<?=md5($lispagamento->id)?>';
+				
+			}
+		});
+	}
+
+	<?php 
+	if((isset($this->objRes)) and ($this->objRes['erro'] == 0)){
+	?>
+		jAlert('<?=$this->objRes['texto']?>','Sucesso!');
+	<?php }elseif((isset($this->objRes)) and ($this->objRes['erro'] == 1)){
+	?>
+		jAlert('<?=$this->objRes['texto']?>','Erro!');
+	<?php } ?>
+	
+	</script>

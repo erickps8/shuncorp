@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>ZTL Rolamentos - www.ztlbrasil.com.br </title>
+<link href="<?=$this->baseUrl()?>/public/sistema/imagens/ztl.ico" rel="shortcut icon" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+         
+    	<style>
+			body {
+				margin-left: 0px;
+				margin-top: 0px;
+				margin-right: 0px;
+				margin-bottom: 0px;
+				color: #666666;
+				font: 13px Arial, Helvetica, sans-serif;
+				background:url(../images/bg_principal.jpg)
+			}
+			.borda_titulo{                
+				background-color:#e5e5e5;
+				border-bottom:1px solid #999;
+				border-top:1px solid #999;
+				font: bold 13px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+				margin-top: 15px
+			}
+
+         </style>
+	 </head>
+	 
+         <table width="800px" align="center" class="borda_titulo">
+            <tr>
+                <td align="center">DIAGNÓSTICOS DE ANÁLISE</td>
+            </tr>
+        </table>
+		<br>
+		<?php
+
+		if(!empty($this->objAnalises)):
+			foreach ($this->objAnalises as $lista);
+		endif;
+		
+		?>
+           <table  width="800px"  align="center" style="border: 1px solid #000; margin-bottom: 10px; padding: 5px" cellspacing="5" cellpadding="10">
+				<tr>
+					<td width="10%" align="left" >
+						Situação:<br>
+						<b><?php if ($lista->tipo==1) echo "Procede"; else echo "Não Procede"?></b>
+						
+					</td>
+					<td  align="left" width="40%">
+					Diagnóstico:<br>
+					<b><?php echo $lista->descricao?></b>
+					</td>
+				</tr>
+				<tr>
+					<td  align="left" colspan="2">
+					Descrição do Diagnóstico:<br>
+					<b><?php echo $lista->detalhadesc?></b>
+					</td>
+				</tr>
+				<tr>
+					<td  align="left" colspan="2">
+					Informações técnicas:<br>
+					<?php echo urldecode($lista->infotecnica);
+					?>
+					</td>
+				</tr>
+				
+        	</table>
+        	
+        
+		<script>
+			function editaAnalise(id,desc,tipo){
+				document.cad.diag.value=desc;
+				document.cad.tipo.value=tipo;
+				document.cad.id_analise.value=id;
+
+			}
+					
+			function validaCampos(){
+				if(document.cad.diag.value==""){
+					alertaPadrao('Erro!', 'O campo DIAGNÓSTICO não pode ficar em branco!', 'erro', 110, 300);
+					return false;
+				}
+			}
+
+			var alertaPadrao = function(titulo, msg, tipo, altura, largura) {
+					$('body').append('<a href="#" id="alerta-padrao"></a>');
+					$('#alerta-padrao').m2brDialog({
+							draggable: true,
+							texto: msg,
+							tipo: tipo,
+							titulo: titulo,
+							altura: altura,
+							largura: largura,
+							botoes: {
+								1: {
+									label: 'Fechar',
+									tipo: 'fechar'
+								}
+							}									   
+					});
+					$('#alerta-padrao')
+						.click()
+						.remove();
+			}; // fim alertaPadrao
+		</script>
+	</html>

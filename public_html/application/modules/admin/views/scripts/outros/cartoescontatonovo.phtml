@@ -1,0 +1,268 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxuf.js"></script>
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?php echo $this->baseUrl(); ?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/outros/cartoescontato">
+		<?=$this->translate->_("CONTATOS")?>&nbsp;</a>
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?php echo $this->baseUrl(); ?>/admin/outros/cartoescontatonovo">
+		<b><?=$this->translate->_("CADASTRO CONTATO")?>&nbsp;</b></a>
+	</div>
+	<div id="sistitulo"><?=$this->translate->_("CADASTRO CONTATO")?></div>
+    <div id="sisconteudo"> 
+		<div>
+			<?php 
+			foreach ($this->objContato as $listacont);
+			?>
+			<form action="<?=$this->baseUrl()?>/admin/outros/cadcartoescontato" method="post" name="cadcont" id="cadcont" enctype="multipart/form-data" onsubmit="return validaform();"  >
+				<input type="hidden" name="idcontato" value="<?=$listacont->id?>">
+				<table border="0" width="100%" cellpadding="0" cellspacing="4">
+				<tr>
+              		<td colspan="4" class="borda_tcadastro" align="left">
+					<br />
+					<b><?=$this->translate->_("CONTATO")." ".$this->translate->_("ID")." ".substr("000".$listacont->id,-3,3)?>  </b>
+              		</td>
+              	</tr>
+              	<tr>
+              		<td align="left" width="45%" colspan="2">
+						<?=$this->translate->_("Empresa")?>:<br />
+						<input type="text" size="30" name="empresa" value="<?=$listacont->empresa?>">
+					</td>
+					<td   align="left" colspan="2">
+						<?=$this->translate->_("Nome Contato")?>:<br />
+						<input type="text" size="30" name="contato" value="<?=$listacont->contato?>">
+					</td>
+					
+              	</tr>
+              	<tr>
+              		<td align="left" >
+						<?=$this->translate->_("Pais")?>:<br />
+						<select style="width: 95%" name="pais" onchange="Mostramontauf(this.value,'1');">
+						<?php 
+						foreach ($this->objPaises as $listpaises):
+							?>
+							<option <?php if($listacont->id_paises==$listpaises->id) echo 'selected=selected'; ?> 
+							value="<?=$listpaises->id?>"><?=$listpaises->nome?></option>
+							<?php 
+						endforeach;
+						?>
+						</select>  
+					</td>
+              		<td align="left">
+						<div id="divuf">
+							Estado:<br>
+							<select id="uf" name="uf" style="width: 120px; font-size: 10px">
+							<option value='0'>Selecione</option>
+							<?php 
+							foreach ($this->objUf as $listuf):
+								?><option value='<?=$listuf->id?>' <?php if($listacont->id_estado==$listuf->id) echo 'selected=selected'; ?> ><?php echo ($listuf->nome)?></option><?php 
+							endforeach;
+							?>
+							</select>
+						</div>
+					</td>
+					<td align="left" colspan="2">
+						<?=$this->translate->_("Cidade")?>:<br />
+						<input type="text" size="15" name="cidade" value="<?=$listacont->cidade?>">
+					</td>
+					
+              	</tr>
+              	<tr>
+              		<td align="left" colspan="4">
+						<?=$this->translate->_("Grupo")?>:<br />
+						<select name="grupo">
+							<?php 
+							foreach ($this->objGrupos as $grupos):
+							?>
+							<option <?php if($listacont->id_cartoesgrupos == $grupos->id) echo 'selected="selected"'?> value="<?=$grupos->id?>"><?=$grupos->nome?></option>
+							<?php 
+							endforeach;
+							?>
+						</select>
+					</td>
+              	</tr>
+              	<tr>
+              		<td colspan="2"  align="left">
+						<?=$this->translate->_("E-mail")?>:<br />
+						<input type="text" size="23" name="email" value="<?=$listacont->email?>">
+					</td>
+					<td colspan="2"  align="left">
+						<?=$this->translate->_("Sítio")?>:<br />
+						<input type="text" size="30" name="site" value="<?=$listacont->site?>" onKeyDown="Mascara(this,Site);" onKeyPress="Mascara(this,Site);" onKeyUp="Mascara(this,Site);">
+					</td>
+              	</tr>
+              	<tr>
+              		<td colspan="4"  align="left">
+						<?=$this->translate->_("Observação")?>:<br />
+						<textarea rows="3" cols="50" name="obs"><?=$listacont->obs?></textarea>
+					</td>
+              	</tr>
+              	<tr>
+              		<td colspan="4" class="borda_tcadastro" align="left">
+					<br />
+					<b><?=$this->translate->_("TELEFONES")?></b>
+              		</td>
+              	</tr>
+              	<tr>
+              		<td align="left"  colspan="4">
+              		
+              			<table width="25%" cellpadding="0" cellspacing="0" onclick="addArchive();" style="cursor: hand; cursor: pointer;">
+              				<tr>
+              					<td align="left" valign="middle">
+              						<img alt="Add telefones" src="<?=$this->baseUrl()?>/images/Add-32.png" width="17px">
+								</td>
+			              		<td align="left" valign="middle">
+								<?=$this->translate->_("Adcionar telefones")?>
+								</td>
+							</tr>
+							
+						</table>						
+					</td>					
+              	</tr>
+              	<tr>
+              		<td align="left" colspan="4">
+              			<table width="50%" cellpadding="0" cellspacing="0" id="archive">
+              				<tr>
+              					<td align="left" width="">
+								</td>
+			              		<td align="left">
+								</td>
+								<td align="left">
+								</td>
+							</tr>
+							<?php 
+							$conttel=0;
+							foreach ($this->objFones as $listafones):
+							$conttel++;
+							?>
+							<tr>
+              					<td align="left" valign="middle">
+              						<?=$this->translate->_("Tipo")?>:<br />
+              						<select name="tipotel_<?=$conttel?>">
+              							<option <?php if($listafones->tipo=="Comercial") echo 'selected="selected"'?>><?=$this->translate->_("Comercial")?></option>
+              							<option <?php if($listafones->tipo=="Pessoal") echo 'selected="selected"'?>><?=$this->translate->_("Pessoal")?></option>
+              							<option <?php if($listafones->tipo=="Celular") echo 'selected="selected"'?>><?=$this->translate->_("Celular")?></option>
+              							<option <?php if($listafones->tipo=="Fax") echo 'selected="selected"'?>><?=$this->translate->_("Fax")?></option>
+              						</select>
+								</td>
+			              		<td align="left" valign="middle" >
+								<?=$this->translate->_("Número")?>:<br />
+								<input type="text" size="3" name="ddi_<?=$conttel?>" value="<?=$listafones->ddi?>"> 
+								<input type="text" size="3" name="ddd_<?=$conttel?>" value="<?=$listafones->ddd?>"> 
+								<input type="text" size="10" name="numero_<?=$conttel?>" value="<?=$listafones->telefone?>">
+								</td>
+								<td align="left"><br />
+								<a href="#" onclick="deleteRow(this.parentNode.parentNode.rowIndex)"><img title="Remover" src="<?=$this->baseUrl()?>/images/window-close.png" width="12" border="0"></a>
+								</td>
+							</tr>
+							<?php endforeach;?>
+						</table>
+						<input type="hidden" name="intarchive" id="intarchive" value="<?=$conttel?>" >
+						
+			        	<script type="text/javascript">
+			        		
+				        	function addArchive() {
+					        	var pais = "";
+				        		if(document.cadcont.pais.value==1){
+					        		pais = "+55";
+				        		}else if(document.cadcont.pais.value==2){
+					        		pais = "+86";
+				        		}
+
+				        		var intarc = parseInt(document.getElementById("intarchive").value)+1;
+				        		var tbCod = document.getElementById("archive").insertRow(-1);
+				        		var y = tbCod.insertCell(0);
+				        		var x = tbCod.insertCell(1);
+				        		var z = tbCod.insertCell(2);
+
+				        		y.align = "left";
+				        		y.innerHTML='<?=$this->translate->_("Tipo")?>:<br /><select name="tipotel_'+intarc+'"><option><?=$this->translate->_("Comercial")?></option><option><?=$this->translate->_("Pessoal")?></option><option><?=$this->translate->_("Celular")?></option><option><?=$this->translate->_("Fax")?></option></select>';
+				        		x.align = "left";
+				        		x.innerHTML='<?=$this->translate->_("Número")?>:<br /><input type="text" size="3" name="ddi_'+intarc+'" value="'+pais+'"> <input type="text" size="3" name="ddd_'+intarc+'" onKeyDown="Mascara(this,Integer);" onKeyPress="Mascara(this,Integer);" onKeyUp="Mascara(this,Integer);"> <input type="text" size="10" name="numero_'+intarc+'" onKeyDown="Mascara(this,Integer);" onKeyPress="Mascara(this,Integer);" onKeyUp="Mascara(this,Integer);">';
+				        		z.innerHTML='<br /><a href="#" onclick="deleteRow(this.parentNode.parentNode.rowIndex)"><img title="Remover" src="<?=$this->baseUrl()?>/images/window-close.png" width="12" border="0"></a>';
+				        		document.getElementById("intarchive").value = parseInt(document.getElementById("intarchive").value)+1;				        		
+				        	}
+
+				        	function deleteRow(i){
+				        	    document.getElementById('archive').deleteRow(i);
+				        	    document.getElementById("intarchive").value = parseInt(document.getElementById("intarchive").value)-1;		
+				        	}
+				        	
+			        	</script> 						
+					</td>
+              	</tr>
+              	<tr>
+              		<td colspan="4" class="borda_tcadastro" align="left">
+					<br />
+					<b><?=$this->translate->_("ARQUIVOS")?></b>
+              		</td>
+              	</tr>
+              	<tr>
+					<td colspan="4" align="left" valign="middle" >
+						<a id="aanex" href="javascript:void(0);" onclick="addArchive2();"><b>
+						<img style="margin-top: 4px; " alt="anexar arquivo" src="<?=$this->baseUrl()?>/images/anexo.png" width="15"><?=$this->translate->_("Anexar arquivos")?>
+						</b></a>
+						<table id="archive2">
+							<tr>
+								<td>
+								</td>
+							</tr>
+							<?php 
+							$contan = 0;
+							foreach ($this->objAnexos as $listaanexos):
+							$contan ++;
+							?>
+							<tr>
+              					<td align="left" valign="middle">
+              						<a target="_blank" href="<?=$this->baseUrl()?>/contatoscartoes/<?=$listaanexos->nome?>" >Anexo <?=$contan?></a>
+              						<a href="javascript:void(0);" 
+									onclick="if(confirm('Remover anexo <?=$contan?>?')){window.location='<?=$this->baseUrl()?>/admin/outros/remanexocartoes/anexo/<?=$listaanexos->id?>/contato/<?=md5($listacont->id)?>'};" >
+									<img src="<?=$this->baseUrl()?>/images/window-close.png" width="12"></a>
+								</td>			              		
+							</tr>
+							<?php endforeach;?>
+						</table>
+						<input type="hidden" name="intarchive2" id="intarchive2" >
+						<script type="text/javascript">
+			        		var intarc = 0;
+				        	function addArchive2() {
+					        	intarc = intarc + 1;
+				        		var tbCod = document.getElementById("archive2").insertRow(-1);
+				        		var y = tbCod.insertCell(0);
+
+				        		y.align = "left";
+				        		y.innerHTML="<input type='file' name='arquivo"+intarc+"' style='border: 1px solid #000;'/>";
+
+				        		document.getElementById("intarchive2").value = intarc;				        		
+				        	}
+			        	</script> 
+					</td>
+				</tr>
+              	<tr>
+              		<td colspan="4"  align="left">
+					<br />
+              		</td>
+              	</tr>
+              	<tr>
+              		<td align="left"  colspan="4" style="border-top: 1px solid #999;">
+              		<br />
+              		<input type="submit" value="<?=$this->translate->_("Salvar")?>" >
+              		</td>
+              	</tr>
+              	</table>
+			</form>		
+			<script type="text/javascript">
+        		var intarc = 0;
+	        	function validaform() {
+					if((document.cadcont.empresa.value!="")||(document.cadcont.contato.value!="")){
+						return true;
+					}else{
+						alert("<?=$this->translate->_("Informe a Empresa ou o Contato!")?>");
+						return false;
+					}				        		
+	        	}
+        	</script> 
+		</div>
+	</div>
+</div>

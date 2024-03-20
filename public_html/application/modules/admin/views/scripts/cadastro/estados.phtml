@@ -1,0 +1,120 @@
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<? foreach ($this->objPais as $pais);?>		
+		<a href="<?php echo $this->baseUrl(); ?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/parceiroslista"><?=$this->translate->_("PARCEIROS")?></a>&nbsp;  
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/paises"><?=$this->translate->_("PAÍSES")?></a>&nbsp;			
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/estados/idpais/<?=md5($pais->id)?>"><b><?=$this->translate->_("ESTADOS")?></b></a>&nbsp;
+	</div>
+	<div id="sistitulo">ESTADOS</div>
+    <div id="sisconteudo">  
+    	<div>
+			<form action="<?=$this->baseUrl()?>/admin/cadastro/cadastraestado" name="cadastra" method="post">
+			<table cellpadding="3" cellspacing="0" width="55%" style="margin: 5px 0px">
+				<tr>
+					<td align="left"  >		
+						<input type="hidden" name="idpais" value="<?=$pais->id?>">
+						<input type="hidden" name="idestado">
+						<?=$this->translate->_("Estado")?>:<br />
+						<input type="text" name="estado" size="30px" >
+					</td>
+					<td align="left" >
+						<?=$this->translate->_("UF")?>:<br />
+						<input type="text" name="uf" size="10px" style="text-transform: uppercase;">
+					</td>
+					<td align="left" >
+						<?=$this->translate->_("Código")?>:<br />
+						<input type="text" name="codigo" size="5px" >
+					</td>
+					<td align="left" >
+						<br /><input type="submit" value="Salvar">
+						<script type="text/javascript">
+						function editarPais(id, nome, uf, codigo){
+							document.cadastra.estado.value = nome;
+							document.cadastra.uf.value = uf;
+							document.cadastra.idestado.value = id;
+							document.cadastra.codigo.value = codigo;
+						}
+						</script>					
+					</td>
+				</tr>
+			</table>
+			</form>  
+		</div>
+		<div>
+			<table cellpadding="0" cellspacing="0" width="100%" style="margin: 5px 0px">	
+			<tr>
+				<td>        
+			           <?php 			
+			        	if(count($this->objList) > 0) :			
+						?>
+						<table align="left" class="mytable"  width="554" cellspacing="0" cellpadding="0">
+					         <tr>
+					            <th  class="th_canto_orc" style="text-align: center;" width="15%">
+					                <?=$this->translate->_("ID")?>
+					            </th>
+					            <th  class="th_orc" style="text-align: center;" width="45%">
+					                <?=$this->translate->_("ESTADO")?>
+					            </th>
+					            <th  class="th_orc" style="text-align: center;" >
+					                <?=$this->translate->_("UF")?>
+					            </th>
+					            <th  class="th_orc" style="text-align: center;" >
+					                <?=$this->translate->_("CÓDIGO")?>
+					            </th>
+					            <th  class="th_orc" style="text-align: center;" width="15%">
+					                <?=$this->translate->_("OPÇÕES")?>
+					            </th>
+					        </tr>		       
+						<?php 
+						$cor=0;
+				    	foreach($this->objList as $lista):
+				    	$cor++;
+			            if(($cor%2)==0) $class = 'td_orc_par';
+			            else $class = 'td_orc';
+						?>
+						
+						<tr >
+			                <td  class="<?=$class?>" style="text-align: center;" >
+			                   <?php echo substr("000".$cor,-3,3)?>
+			                </td>
+			                <td  class="<?=$class?>" align="left" >
+			                   <?=$lista->nome?>
+			                </td>
+			                <td  class="<?=$class?>" style="text-align: center;">
+			                   <?=$lista->uf?>
+			                </td>
+			                <td  class="<?=$class?>" style="text-align: center;" >
+			                   <?=$lista->codigo?>
+			                </td>
+			                <td  class="<?=$class?>" style="text-align: center;" >
+			                	<a href="#" onclick="editarPais('<?=$lista->id?>','<?=$lista->nome?>','<?=$lista->uf?>','<?=$lista->codigo?>');" >
+			                	<img src="<?php echo $this->baseUrl(); ?>/images/edit_orc.gif" width="15" height="15" border="0" title="Editar" ></a> &nbsp;
+			                	<a href="<?=$this->baseUrl()?>/admin/cadastro/cidades/uf/<?=$lista->uf?>" >
+			                	<img src="<?php echo $this->baseUrl(); ?>/images/visualizar_orc.gif" width="15" height="15" border="0" title="Visualizar cidades" ></a>
+			                </td>                
+			            </tr>
+			            
+						<?php  endforeach;
+						?>        </table>
+						<table width="100%">			
+			         </table>
+			         	 <?php 
+						else :
+						?>
+						<br>
+						<center><?=$this->translate->_("Nenhum ESTADO Cadastrado")?></center>			
+						<?php 
+						endif;
+					?>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+		
+	

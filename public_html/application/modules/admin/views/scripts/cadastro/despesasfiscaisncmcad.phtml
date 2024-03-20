@@ -1,0 +1,119 @@
+<?php 
+foreach ($this->objList as $list); 
+foreach ($this->objUf as $uf);
+foreach ($this->objDesp as $despesas);
+
+?>
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl(); ?>/admin/cadastro/despesasfiscais">TRIBUTOS</a>&nbsp;
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp; 
+		<a href="<?=$this->baseUrl()?>/admin/cadastro/despesasfiscaisuf/iduf/<?=md5($uf->id)?>"><?=strtoupper($uf->nome)?></a>&nbsp;
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp; 
+		<a href="<?=$this->baseUrl()?>/admin/cadastro/despesasfiscaiscad/desp/<?=md5($despesas->id)?>"><?=strtoupper($despesas->descricao)?></a>&nbsp;		
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp; 
+		<a href="<?=$this->baseUrl()?>/admin/cadastro/despesasfiscaisncm/desp/<?=md5($despesas->id)?>">NCM</a>&nbsp;
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp; 
+		<b>CADASTRO NCM</b>		
+	</div>
+	<div id="sistitulo">CADASTRO NCM</div>
+	<div id="sisconteudo">		
+		<form action="<?=$this->baseUrl(); ?>/admin/cadastro/gravadespesasfiscaisncm" method="post" name="grava" id="grava">		
+		<table style="margin-top: 5px; width: 100%">
+		    <tr>
+		    	<td align="left" colspan="3">
+		    		NCM<br />
+		    		<select style="width: 130px" name="produtosncm">
+		    			<?php 
+		    			foreach ($this->objNcm as $ncm):
+		    				if(($ncm->idncm == $list->id_produtosncm)||(empty($ncm->id_tributosncm))):	
+				    			?>
+				    			<option value="<?=$ncm->idncm?>" <?php if($ncm->idncm == $list->id_produtosncm) echo 'selected="selected"';?> ><?=strtoupper($ncm->ncm." ".$ncm->ncmex)?></option>
+				    			<?php
+				    		endif; 
+		    			endforeach;
+		    			?>
+		    		</select>
+		    		<input value="<?=$despesas->id?>" type="hidden" name="tributofiscal" id="tributofiscal" >
+		    		<input value="<?=$list->id?>" type="hidden" name="tributoncm" id="tributoncm" >
+		    	</td>
+			</tr>
+			 <tr>
+			 	<td align="left">
+		    		II(%): <br>
+		    		<input value="<?=number_format($list->ii,3,",",".")?>" type="text" size="9" maxlength="9" name="ii" onKeyDown="Mascara(this,Valor);" onKeyPress="Mascara(this,Valor);" onKeyUp="Mascara(this,Valor);">
+		    	</td>
+		    	<td align="left">
+		    		IPI(%): <br>
+		    		<input value="<?=number_format($list->ipi,3,",",".")?>" type="text" size="9" maxlength="9" name="ipi" onKeyDown="Mascara(this,Valor);" onKeyPress="Mascara(this,Valor);" onKeyUp="Mascara(this,Valor);">
+		    	</td>
+		    	<td align="left">
+		    		PIS(%): <br>
+		    		<input value="<?=number_format($list->pis,3,",",".")?>" type="text" size="9" maxlength="9" name="pis" onKeyDown="Mascara(this,Valor);" onKeyPress="Mascara(this,Valor);" onKeyUp="Mascara(this,Valor);">
+		    	</td>
+		    	<td align="left" width="70%">
+		    		COFINS(%): <br>
+		    		<input value="<?=number_format($list->cofins,3,",",".")?>" type="text" size="9" maxlength="9" name="cofins" onKeyDown="Mascara(this,Valor);" onKeyPress="Mascara(this,Valor);" onKeyUp="Mascara(this,Valor);">
+		    	</td>
+			</tr>
+			<tr>
+		    	<td align="left" colspan="4">
+		    		<table style="border-spacing: 0px; width: 100%;">
+		    			<tr>
+		    				<td style="width: 25%">
+		    					CST ICMS<br />
+		    					<select style="width: 170px" name="csticms">
+		    						<?php foreach ($this->objCsticms as $csticms): ?>
+		    						<option value="<?=$csticms->id?>" <?php if($csticms->id == $list->id_tributocsticms) echo 'selected="selected"';?> ><?=substr("00".$csticms->csticms,-2,2)." - ".$csticms->descicms?></option>
+		    						<?php endforeach;?>
+		    					</select>
+		    				</td>
+		    				<td style="width: 25%">
+		    					CST IPI<br />
+		    					<select style="width: 170px" name="cstipi">
+		    						<?php foreach ($this->objCstipi as $cstipi): ?>
+		    						<option value="<?=$cstipi->id?>" <?php if($cstipi->id == $list->id_tributocstipi) echo 'selected="selected"';?> ><?=substr("00".$cstipi->cstipi,-2,2)." - ".$cstipi->descipi?></option>
+		    						<?php endforeach;?>
+		    					</select>
+		    				</td>
+		    				<td style="width: 25%">
+		    					CST PIS/PASEP<br />
+		    					<select style="width: 170px" name="cstpis">
+		    						<?php foreach ($this->objCstpis as $cstpis): ?>
+		    						<option value="<?=$cstpis->id?>" <?php if($cstpis->id == $list->id_tributocstpis) echo 'selected="selected"';?> ><?=substr("00".$cstpis->cstpis,-2,2)." - ".$cstpis->descpis?></option>
+		    						<?php endforeach;?>
+		    					</select>
+		    				</td>
+		    				<td >
+		    					CST COFINS<br />
+		    					<select style="width: 170px" name="cstcofins">
+		    						<?php foreach ($this->objCstcofins as $cstcofins): ?>
+		    						<option value="<?=$cstcofins->id?>" <?php if($cstcofins->id == $list->id_tributocstcofins) echo 'selected="selected"';?> ><?=substr("00".$cstcofins->cstcofins,-2,2)." - ".$cstcofins->desccofins?></option>
+		    						<?php endforeach;?>
+		    					</select>
+		    				</td>
+		    			</tr>
+		    		</table>
+		    	</td>
+			</tr>
+			<tr>
+		    	<td align="left" colspan="3">
+		    		<br />
+		    		<input type="checkbox" name="todosaliquota" > Aplicar Alíquotas a todos os NCM <br />
+		    		<input type="checkbox" name="todoscst" > Aplicar CST a todos os NCM  
+		    	</td>
+			</tr>
+			<tr>
+		    	<td align="left" colspan="3">
+		    		<br />
+		    		<input type="submit" value="Salvar">
+		    	</td>
+			</tr>
+		</table>
+		</form>
+	</div>
+</div>
+		
+	

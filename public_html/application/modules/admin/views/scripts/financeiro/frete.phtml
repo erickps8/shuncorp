@@ -1,0 +1,57 @@
+        <div class="widget">
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td colspan="4" style="font-size: 15px; vertical-align: middle"><?php echo $this->translate->_("INVOICE")?></td>
+                        <td colspan="3" style="font-size: 15px;"><?php echo $this->translate->_("RECEIVE")?></td>
+                        <td colspan="3" style="font-size: 15px; "><?php echo $this->translate->_("PAY")?></td>
+                    </tr>
+                    <tr>
+                        <td ><?php echo $this->translate->_("ID")?></td>
+                        <td ><?php echo $this->translate->_("DATE")?></td>
+                        <td ><?php echo $this->translate->_("SHIP DATE")?></td>
+                        <td ><?php echo $this->translate->_("CLIENT")?></td>
+                        <td ><?php echo $this->translate->_("ID")?></td>
+                        <td ><?php echo $this->translate->_("VALUE")?></td>
+                        <td ><?php echo $this->translate->_("DATE")?></td>
+                        <td ><?php echo $this->translate->_("ID")?></td>
+                        <td ><?php echo $this->translate->_("VALUE")?></td>
+                        <td ><?php echo $this->translate->_("DATE")?></td>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                    foreach($this->objRetono as $lista){
+                        ?>
+                        <tr>
+                            <td style="text-align: center"><a target="_blank" href="/admin/kang/vendasdet/ped/<?php echo md5($lista->idCominvoice)?>">S<?php echo str_pad($lista->idCominvoice, 6, '0', STR_PAD_LEFT)?></a> </td>
+                            <?php
+                            if($lista->sitInvoice != 0) {
+                            ?>
+                            <td style="text-align: center"><?php echo $lista->dtInvoice?> </td>
+                            <td style="text-align: center"><?php echo $lista->dtEmbarque?> </td>
+                            <td style="text-align: left"><?php echo $lista->EMPRESA?> </td>
+                            <?php if($lista->st_fob == true) { ?>
+                            <td style="text-align: center" colspan="3"> FOB FREIGHT </td>
+                            <?php } else { ?>
+                            <td style="text-align: center"><?php if($lista->idRec) { ?><a target="_blank" href="/admin/administracao/financeirochinareccad/rec/<?php echo md5($lista->idRec)?>">R<?php echo str_pad($lista->idRec, 6, '0', STR_PAD_LEFT)?></a><?php } ?> </td>
+                            <td style="text-align: right"><?php if($lista->idRec) echo number_format($lista->receitas, 2,",",".")?> </td>
+                            <td style="text-align: center"><?php echo $lista->dtRec?> </td>
+                            <?php } ?>
+                            <td style="text-align: center"><?php if($lista->idPag) { ?><a target="_blank" href="/admin/administracao/financeirochinapagcad/pay/<?php echo md5($lista->idPag)?>">P<?php echo str_pad($lista->idPag, 6, '0', STR_PAD_LEFT)?></a><?php } ?> </td>
+                            <td style="text-align: right"><?php if($lista->idPag) echo number_format($lista->despesas, 2,",",".")?> </td>
+                            <td style="text-align: center"><?php echo $lista->dtPag?> </td>
+                            <?php
+                            } else {
+                            ?>
+                            <td style="text-align: center" colspan="9">CANCELLED</td>
+                            <?php
+                            }
+                            ?>
+                        </tr>
+                        <?php
+                    }
+                ?>
+                </tbody>
+			</table>
+		</div>

@@ -1,0 +1,516 @@
+<?php 
+ini_set( 'display_errors', 0 );
+$usuario = Zend_Auth::getInstance()->getIdentity();
+?>
+
+<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/cadastroBuscauf.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/cadastroContatosemp.js"></script>
+
+<?php 
+if($this->flashMessages()){ 
+	$mes = explode("|", $this->flashMessages());
+	?><script>jAlert("<?php echo $mes[1]?>","<?php echo $mes[0]?>")</script><?php
+}?>
+
+<?php 
+if(!empty($this->objEmpresa)):
+	foreach ($this->objEmpresa as $empresa);
+endif;
+?>	
+	<div class="content">
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="#">Home</a> </li>
+                	<li><a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/contatos">Contatos</a></li>
+                	<li><a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/contatosemp/fil/todos">Empresas</a></li>
+                	<?php 
+                	if($this->tp == 3):
+                	?>
+                	<li><a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/contatosquaremp">Quarentena</a></li>
+                	<?php endif; ?>
+                	<li class="lastB">Cadastro de empresas</li>
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title" ><h5>
+        <?php 
+    	if(!empty($empresa->empresa)):
+    		if($empresa->id_matriz) echo "F";
+    		else echo "M";
+			echo $empresa->idempresa." - ".$empresa->empresa;
+		else:
+	    	?>
+	    	Cadastro de empresas
+	    	<?php 
+    	endif;
+    	?> </h5>
+    	</div>
+			
+		<div class="fix"></div>
+		
+		<div class="widget">      
+            <ul class="tabs">
+                <li><a href="#tab1">Empresa</a></li>
+                <li><a href="#tab2" id="interacao">Interação</a></li>
+                <?php 
+                if(isset($empresa) and $empresa->id_clientes != ""):
+                ?>
+                <li><a href="#tab6" id="compras">Vendas</a></li>
+                <li><a href="#tab8" id="pendencias">Pendências</a></li>
+                <li><a href="#tab7" id="garantias">Garantias</a></li>
+                <li><a href="#tab3" id="linhaprodutos">Linha de produtos</a></li>
+                <li><a href="#tab4" id="movimentacao">Movimentação</a></li>
+                <li><a href="#tab5" id="financeiro">Financeiro</a></li>
+                <?php endif; ?>
+            </ul>
+            
+            <div class="tab_container">
+                <div id="tab1" class="tab_content">
+                	<div class="rowElem" >
+					<form name="gravaempresa" id="gravaempresa" method="post" action="<?=$this->baseUrl()?>/admin/cadastro/gravaempresa" class="mainForm">
+						<input type="hidden" value="<?=$empresa->idempresa?>" name="idempresa">
+						<input type="hidden" value="<?php echo $this->idMatriz?>" name="idmatriz">
+						<input type="hidden" value="<?php echo $this->nivel?>" name="nivel">
+												
+						<table style="width: 100%">
+						<tr>
+							<td colspan="2">
+								Empresa<br/>
+								<input type="text" size="30" name="empresa" value="<?php if(isset($empresa)) echo $empresa->empresa?>" style="width: 350px">
+							</td>
+							<td colspan="1">
+		                    	Trabalha com:<br />
+		                    	<div class="styled-select" style="width: 270px">						
+								  	<select name="ginteresse" style="width: 292px" >
+								  	<option value='0'>Selecione</option>
+								  	<?php foreach ($this->objGinteresse as $listInterrse){ ?>
+										<option value='<?php echo $listInterrse->id?>' <?php if($empresa->id_clientesgrupos==$listInterrse->id){ echo 'selected=selected'; }?>  ><?php echo ($listInterrse->nome)?></option>
+									<?php } ?>
+									</select>
+								</div>
+                    		</td>		
+                    		<td>
+                    			<?php 
+                    			if(!$empresa->id_clientes){
+									if($empresa->verificado == 0){ 
+		                    			if($usuario->id == 1564 || $usuario->id == 5 || $usuario->id == 613){ ?>
+					    				<a href="javascript:void(0)" id="btnValida" rel="<?php echo $empresa->idempresa?>|2"><img alt="Verificar" src="/public/sistema/imagens/icons/middlenav/check.png" ></a>
+					    				<?php
+					    				}
+					    			}else echo "Validado"; 
+								} 
+			    				?>
+                    		</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								Região:<br>
+								<div class="styled-select" style="width: 320px">
+								<select id="regiao" name="regiao" style="width: 342px">
+								<option value='0'>Selecione</option>
+								<?php 
+								foreach ($this->objRegioes as $listreg):
+									?><option value='<?=$listreg->idreg?>' <?php if($empresa->regiao == $listreg->idreg) echo 'selected="selected"'; ?> ><?=$listreg->NOME." ".$listreg->EMPRESA?></option><?php 
+								endforeach;
+								?>
+								</select>
+								</div>
+							</td>
+							<td colspan="2">
+								Vendedor:	<br >	
+								<div class="styled-select" style="width: 320px">						
+								  	<select name="regioestelevendas" style="width: 342px">
+								  	<option value='0'>Selecione</option>
+								  	<?php foreach ($this->objRegtelvend as $listT){ ?>
+										<option value='<?php echo $listT->idreg?>' <?php if($empresa->id_regioestelevendas==$listT->idreg){ echo 'selected=selected'; }?>  ><?php echo ($listT->regiao." - ".$listT->usuario)?></option>
+									<?php } ?>
+									</select>
+								</div>
+							</td>
+						</tr>	
+						<tr>
+							<td width="13%">
+							 	CEP:<br>
+								<input style="width: 80px" value="<?=$empresa->cep?>" type="text" id="cep" name="cep" class="cep">								
+							</td>
+							<td  align="left">
+							Logradouro:<br>
+							<input value="<?=$empresa->endereco?>" type="text" id="rua" name="rua" style="width: 95%"> 
+							</td>
+							<td colspan="2">
+							Bairro:<br>
+							<input value="<?=$empresa->bairro?>" style="width: 170px" type="text" id="bairro" name="bairro" size="20">
+							</td>  
+							
+						</tr>
+						<tr>
+							<td align="left" colspan="4">
+							<table style="widows: 100%">
+							<tr>
+								<td  align="left">										
+									Pais:<br>
+					     			<div class="styled-select" style="width: 160px">
+										<select style="width: 182px" name="pais" onchange="buscaEstados(this.value,'1','estado');">
+											<option value='0'>Selecione</option>
+											<?php 
+											foreach ($this->objPaises as $listpaises):
+												?>
+												<option <?php if($empresa->id_paises == $listpaises->id) echo 'selected="selected"'; ?> value="<?=$listpaises->id?>"><?=$listpaises->nome?></option>
+												<?php 
+											endforeach;
+											?>
+										</select>  		    
+									</div>																		
+								</td>										
+								<td  align="left">
+									Estado:<br>
+					     			 <div id="estado">
+					     			 	<div class="styled-select" style="width: 180px">
+										<select id="uf" name="uf" onchange="buscaEstados(this.value,'2','cidade');" style="width: 202px">
+											<option value="0">Selecione</option>
+											<?php 
+											if(count($this->objUf)>0):
+											foreach ($this->objUf as $list):		
+												?>
+												<option value='<?php echo $list->id?>' <?php if($empresa->id_estados == $list->id): ?> selected="selected" <?php endif; ?>><?=$list->nome?></option>
+												<?php 
+											endforeach;
+											endif;
+											?>
+										</select>
+									</div>
+									</div>	
+								</td>									 
+								<td  align="left"> 
+									Cidade:<br>
+					     			 <div id="cidade">
+					     			 	<div class="styled-select" style="width: 260px">
+											<select id="cidade" name="cidade" style="width: 282px">
+												<option value="0">Selecione</option>
+												<?php 
+												if(count($this->objCidades)>0):
+												foreach ($this->objCidades as $list):		
+													?>
+													<option value='<?php echo $list->id?>' <?php if($empresa->cidade == $list->id): ?> selected="selected" <?php endif; ?>><?=$list->nome?></option>
+													<?php 
+												endforeach;
+												endif;
+												?>
+											</select>
+										</div>
+									</div>
+								</td>
+								</tr>
+							</table>
+							</td>
+						</tr>
+						<tr >
+							<td >
+							Data da fundação:<br>
+							<input style="width: 70px" value="<? if(!empty($empresa->data_abertura)) echo substr($empresa->data_abertura,8,2)."/".substr($empresa->data_abertura,5,2)."/".substr($empresa->data_abertura,0,4)?>" type="text" id="dtabertura" name="dtabertura" class="data datepicker">
+							</td>
+							<td colspan="3">
+							<?php
+							if($empresa->id_clientes){ 
+								?>Tipo:<br><b>Parceiro</b><?php 
+							}else{
+								if($empresa->tipo_par == "Alvo") $alvo = 'checked="checked"';
+								else $mercado = 'checked="checked"';
+								?>
+								Tipo:<br>
+								<input type="radio" id="mercado" name="tipo" value="Mercado" <?=$mercado?> ><label>Mercado</label>
+								<input type="radio" id="alvo" name="tipo" value="Alvo" <?=$alvo?>><label>Alvo</label>
+								<?php 
+							}
+							?> 
+							</td>
+						</tr>
+						<?php if(isset($empresa) and $empresa->id_clientes){ ?>
+						<tr >
+							<td colspan="2">
+								Observação de meta:<br>
+								<textarea name="obsmeta" style="width: 90%"><?php echo $empresa->obsmeta?></textarea>
+							</td>
+							<td colspan="2">
+								Meta:<br />
+								<input type="text" name="meta" class="moeda" style="width: 70px" value="<?php echo number_format($empresa->meta,2,",",".")?>">
+							</td>
+						</tr>
+						<?php } ?>
+						<?php if($this->objEdi == true){ ?>
+						<tr >
+							<td colspan="2" style="padding: 10px 0px 0px 0px">
+								<input type="button" value="Salvar" class="greenBtn" id="btnSalvar">
+								
+								<input type="hidden" id="editar" value="1">
+								
+								<?php if($empresa->id_clientes){ ?>
+								<input type="hidden" id="editparc" name="editparc" value="1">
+								<?php } ?>
+							</td>
+							<td style="padding: 10px 0px 0px 0px; text-align: right;" colspan="2">
+									
+								<?php if($empresa->id_clientes){ /* ?>
+									<input type="button" value="Desagregar" class="basicBtn" id="btnDesgregar" title="Desagregar do parceiro">
+								<?php */ }else{ ?>
+									<input type="button" value="Agregar parceiro" class="basicBtn" id="btnAgregar" title="Agregar à um parceiro">
+								<?php } ?>
+								
+								<?php 
+								if(isset($empresa)){
+									if($empresa->id_matriz){ 
+										?><input type="button" value="Definir como matriz" class="basicBtn" id="btnDesfiliar"><?php 
+									} else{ 
+										if(count($this->qtFiliais)==0){
+									    	?><input type="button" value="Definir como filial" class="basicBtn" id="btnFiliar"><?php 
+										}
+									} 
+								}?>							
+							</td>
+						</tr>	
+						<?php } ?>
+										
+					</table>
+					
+					<div style="display: none;" id="buscaEmpresa">
+						<div style="text-align: left;">
+						Selecione o parceiro:<br/>
+						<div class="styled-select" style="width: 250px">
+							<select id="clientes" name="clientes" style="width: 272px">
+							<option value='0'>Selecione</option>
+							<?php 
+							foreach ($this->objClientes as $listcli):
+								?><option value="<?=$listcli->ID?>" ><?=$listcli->EMPRESA?></option><?php 
+							endforeach;
+							?>
+							</select>							
+						</div>
+						
+						<input type="button" value="Agregar ao parceiro" class="greenBtn" id="btnSagregar" style="margin-top: 10px">
+						</div>
+					</div>
+					
+					</form>
+					
+					</div>
+                </div>
+                
+                <!-- Aba interacao ------------------------------------------------------------------------------------------------ -->
+                <div id="tab2" class="tab_content">
+                	<div class="widgets" >
+            			<div class="left"  id="novainteracao" >
+							<form class="mainForm"> 
+								<input type="hidden" name="idcliente" value="<?php echo $empresa->id_clientes?>">
+								<div >
+									Texto:<br />
+									<textarea style="width: 500px; margin-bottom: 10px" name="textonovainteracao" id="textonovainteracao"></textarea>
+								</div>
+								<div style="margin-bottom: 10px" >
+									Lembrar em: <input type="text" name="dataalarme" class="data datepicker">
+								</div>
+								
+								<div class="fix"></div>								
+								
+								<div style="border-bottom: 1px solid #d5d5d5; margin-top: 5px" >
+									<input style="margin-bottom: 10px; " type="button" value="Enviar" class="greenBtn" id="btnInteracao">
+								</div>	
+							</form>
+						</div>
+                		<div class="right" style="width: 100px; display: none">
+                			<input type="button" value="Enviar email" class="basicBtn" onclick="window.open('<?=$this->baseUrl()?>/admin/correio/novocorreio/emp/<?php echo $empresa->idempresa?>','_blank');" >
+                		</div>
+                		
+                		<div class="fix"></div>			 		
+                		
+                		<div id="divinteracao">
+                			<img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/loaders/loader6.gif" alt="Carregando"> <i>Buscando interações...</i>
+                		</div> 
+                	</div>	                            	             	                
+                </div>
+                
+                <!-- Aba linha de produtos ------------------------------------------------------------------------------------------------ -->
+                <div id="tab3" class="tab_content">
+                	<div class="widget" id="divreccomp" style="margin-top: 0px">
+        	 			<img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/loaders/loader6.gif" alt="Carregando"> <i>Buscando linha de produtos...</i>			            	
+		            </div>
+		            <div class="fix"></div>			 		
+                </div>
+                <!-- Aba movimetacao ------------------------------------------------------------------------------------------------ -->
+                <div id="tab4" class="tab_content">
+                	<div class="widget" style="margin-top: 0px" id="divmoviment">
+        	 			<img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/loaders/loader6.gif" alt="Carregando"> <i>Buscando movimentações...</i>			            	
+		            </div>	
+                </div>
+                <div id="tab5" class="tab_content">
+                	<div class="widget" id="divfinanceiro" style="margin-top: 0px">
+        	 			<img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/loaders/loader6.gif" alt="Carregando"> <i>Buscando linha de produtos...</i>			            	
+		            </div>
+		            <div class="fix"></div>
+                </div>
+                
+                <!-- Aba Compras ------------------------------------------------------------------------------------------------ -->
+                <div id="tab6" class="tab_content">
+                
+                <script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/flot/jquery.flot.js"></script>
+                
+                	<div class="widgets" >
+                		<form class="mainForm">
+                			<div style="border: 1px solid #d5d5d5; padding: 10px">
+                			<div style="float: left; width: 85px"> 
+								<input placeholder="Data inicio" type="text" style="margin-right: 3px; width: 80px" name="dataini" id="dataini" class="data datepicker">
+							</div>
+							<div style="float: left; width:  85px">
+								<input placeholder="Data fim" type="text" style="margin-right: 3px; width: 80px"  name="datafim" id="datafim" class="data datepicker">
+							</div>
+							<input type="button" class="blueBtn" value="Buscar" id="btnCompras">
+							
+							<?php if(!$empresa->id_matriz){ ?>
+							<input type="checkbox" name="vendasfiliais"> <label>Incluir vendas das filiais</label>
+							<?php } ?>
+							</div>
+						</form>
+                	
+                		<!-- Grafico vendas -------------------------------------------------- -->
+                		<div class="widget">
+	 						<div class="head"><h5 class="iFrames">Vendas</h5></div>
+	            			<div class="body">
+								<div id="placeholder" style="width: 100%; height: 200px"></div>
+							</div>
+						</div>
+            		
+	            		<div id="divprodutos" style="display: none;" class="left"></div>
+	                	
+	                	<div id="divrentabilidade" style="display: none;" class="right"></div>
+	                	
+	                </div>             	             	                
+                </div>
+                
+                <!-- Aba Pendencias ------------------------------------------------------------------------------------------------ -->
+                <div id="tab8" class="tab_content">
+                
+                	<div class="widgets" >
+                		<form class="mainForm">
+                			<div style="border: 1px solid #d5d5d5; padding: 10px">
+	                			<input type="button" class="blueBtn" value="Buscar" id="btnPendencias">
+								<?php if(!$empresa->id_matriz){ ?>
+								<input type="checkbox" name="pendenciasfiliais"> <label>Incluir filiais</label>
+								<?php } ?>
+							</div>
+						</form>
+                		
+                		<div id="resultadopend">
+	 						
+						</div>
+            			
+	                </div>             	             	                
+                </div>
+                
+                
+                <!-- Aba Garantias ------------------------------------------------------------------------------------------------ -->
+                <div id="tab7" class="tab_content">
+                	<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/vendaGarantiasrel.js"></script>
+					<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/flot/jquery.flot.js"></script>
+					<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/flot/jquery.flot.pie.js"></script>
+					<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/flot/jquery.flot.resize.js"></script>
+					<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/flot/excanvas.min.js"></script>
+					
+                	<div class="widgets" >
+                		<div class="widget" style="border: 1px solid #ccc; padding: 10px" >  
+			        		<form name="relatorios" action="" method="post" class="mainForm">
+						        <div class="tdbusca" style="float: left; width: 20%; margin-right: 10px">
+							    	<div class="styled-select" style="width: 130px">
+										<select name="periodo"  style="width: 152px">
+											<option value="12">Período</option>
+											<option value="1">1 mes</option>
+											<option value="3">3 meses</option>
+											<option value="6">6 meses</option>
+											<option value="12">1 ano</option>
+											<option value="24">2 anos</option>
+										</select>
+									</div>
+								</div>									
+								<div class="tdbusca" style="float: left; width: 27%; margin-right: 10px">
+									<div class="styled-select" style="width: 220px">
+										<select name="buscagrupo" id="buscagrupo" style="width: 242px">
+											<option value="0">Grupo de venda</option>
+											<?php foreach ($this->objGrupo as $list): ?>
+												<option value="<?=$list->id?>"><?php echo substr($list->descricao,0,20)?></option>
+											<?php endforeach; ?>
+										</select>	
+									</div>		
+								</div>	
+								<?php if(!$empresa->id_matriz){ ?>
+								<div class="tdbusca" style="float: left; width: 15%; margin-right: 10px">
+									<input type="checkbox" name="garantiasfiliais"> <label>Incluir filiais</label>
+								</div>
+								<?php } ?>
+								<div class="tdbusca" style="float: left; width: 15%">
+									<input type="button" value="Buscar" class="blueBtn" id="btnGarantia">
+								</div>
+							</form>
+							<div class="fix"></div>	 
+						</div>             		   
+	                </div>
+	                
+	                <div class="widgets" id="carregarGraficos" style="display: none; padding: 10px; text-align: center">
+						<img src="<?php echo $this->baseUrl?>/public/sistema/imagens/loaders/loader6.gif"> Gerando relatório. Aguarde...
+					</div>
+						
+					<div class="widgets" id="resultadoGarantias" style="display: none">
+						<div class="left" style="width: 65%">
+				        	<div class="widget"><!-- Pie chart 1 -->
+				            	<div class="head"><h5 class="iChart8">Resultado da análise (Cliente)</h5></div>
+				                <div class="body"><div id="graph1" style="width: 380px; height: 380px; margin: 0 auto;  "></div></div>
+				            </div>
+				     	</div>
+				            
+				        <div class="right" style="width: 30%">
+				        	<div class="widget"><!-- Pie chart 2 -->
+				            	<div class="head"><h5 class="iChart8">ZTL (Vendas X Pagos)</h5></div>
+				                <div class="body">
+				                	<div id="graph2" style="width: 200px; height: 200px; margin: 0 auto;"></div>
+				                </div>
+				          	</div>
+				      		<div class="widget"><!-- Pie chart 2 -->
+				            	<div class="head"><h5 class="iChart8">Cliente (Compras X Pagos)</h5></div>
+				                <div class="body">
+				                	<div id="graph3" style="width: 200px; height: 200px; margin: 0 auto;"></div>
+				             	</div>
+				           	</div>
+				      	</div>
+				      	<div class="fix"></div>	
+					</div>
+					
+					<div class="widgets" id="resultadoGarantiasgeral" style="display: none">
+						<div class="widget"><!-- Pie chart 1 -->
+				        	<div class="head">
+				        		<h5 class="iGraph">Histórico de garantia</h5>
+				        		<div style="text-align: right; padding: 10px">
+				            		<a href="#" target="_blank" id="imprimeHistorico"><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/printer.png" width="16" border="0" title="Imprimir"></a>
+				            	</div>
+				        	</div>
+				        	<div class="body">
+				        		<div class="chart" style="height: 400px; "></div>
+				        	</div>
+				        </div>
+				     	
+				      	<div class="fix"></div>	
+					</div>
+					
+					<div class="widgets" id="dadosGarantias" style="display: none">
+						<img src="<?php echo $this->baseUrl?>/public/sistema/imagens/loaders/loader6.gif"> Listado produtos do relatório. Aguarde...
+					</div>
+	                
+	                          	             	                
+                </div>
+            </div>	
+            <div class="fix"></div>	 
+        </div>
+				
+		
+	</div>
+		
+	

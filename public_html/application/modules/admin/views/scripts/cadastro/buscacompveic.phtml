@@ -1,0 +1,143 @@
+<?php 
+if($this->objConf==1):
+	echo "erro1";
+elseif(!empty($this->objVeic)):
+?>
+<table class="tableStatic" style="width: 100%" id="tbveiculos">
+	<thead>
+    	<tr>
+            <td width=""><?=$this->translate->_("Montadora")?></td>
+			<td><?=$this->translate->_("Veículo")?></td>
+			<td><?=$this->translate->_("Ano")?></td>
+			<td><?=$this->translate->_("Combustível")?></td>
+			<td>&nbsp;</td>
+        </tr>
+    </thead>
+    <tbody>
+<?php 
+
+foreach ($this->objVeic as $listveic):
+	?>
+	<tr>
+		<td align="left"><?=$listveic->nome?><input type='hidden' name='veiculo_<?=$listveic->idveiculo?>' value='<?=$listveic->idveiculo?>' ></td>
+		<td align="left"><?=$listveic->no_modelo." ".$listveic->modelo." ".$listveic->motor." ".$listveic->valvulas." ".$listveic->tracao?></td>
+		<td align="center">
+		<?php 
+		
+		if(($listveic->ano_ini == "") && ($listveic->ano_fim != "")){
+			echo $ano = "< ".$listveic->ano_fim;
+		}else if(($listveic->ano_fim == "") && ($listveic->ano_ini != "")){
+			echo $ano = $listveic->ano_ini." > ";
+		}else if(($listveic->ano_ini == "") && ($listveic->ano_fim == "")){
+			echo $ano = "Todos";
+		}else if($listveic->ano_ini < $listveic->ano_fim){
+			echo $ano = $listveic->ano_ini." > ".$listveic->ano_fim;
+		}else if($listveic->ano_ini == $listveic->ano_fim){
+			echo $ano = $listveic->ano_ini;
+		}
+		
+		
+		?>
+		<input type='hidden' name='anoini_<?=$listveic->idveiculo?>' value='<?=$listveic->ano_ini?>' >
+		<input type='hidden' name='anofin_<?=$listveic->idveiculo?>' value='<?=$listveic->ano_fim?>' >
+		</td>
+		<td align="center">
+		  <?php 
+		  if($listveic->combustivel == 1) echo "Flex"; 
+		  elseif($listveic->combustivel == 2) echo "Gasolina";
+		  elseif($listveic->combustivel == 3) echo "Alcool";
+		  elseif($listveic->combustivel == 4) echo "Diesel";
+		  elseif($listveic->combustivel == 5) echo "Elétrico";
+		  else echo "Todos";
+		  ?>
+		</td>
+		<td align="center" class="td_orc_min"><a href="javascript:void(0);" class="deleteRow"><img src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/window-close.png" width="13"  border="0"></a></td>
+	</tr>
+	<?php
+	$idsveic .=  $listveic->idveiculo.";";
+endforeach;
+
+?>
+<tr>
+	<td align="left" colspan="7">
+		<a href="javascript:void(0);" id="addveiculo" ><?=$this->translate->_("Adicionar Veículo")?></a>  
+												
+		<div id="adiveiculo" style="display: none;">
+		  <div style="margin-top: 5px; border: 1px solid #d5d5d5; padding: 10px; width: 60%; float: left;">
+			<div style="width: 180px; float: left;">
+  				<div class="styled-select" style="width: 150px;">
+          			<select name="montadoras" id="montadoras" style="width: 172px">
+						<option><?=$this->translate->_("Montadora")?></option>
+						<?php foreach ($this->objMont as $list): ?>
+							<option value="<?php echo $list->id?>"><?php echo ($list->nome)?></option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+			</div>
+      		
+      		<div id="diveiculos" style="float: left; width: 180px">
+          		<div class="styled-select" style="width: 150px">
+          			<select style="width: 172px">
+						<option><?=$this->translate->_("Veículos")?></option>        												
+					</select>
+				</div>
+      		</div>
+																	
+			<div style="float: left; width: 110px">
+          		<div class="styled-select" style="width: 80px">
+          			<select name="tracao" style="width: 102px">
+						<option value=""><?=$this->translate->_("Tração")?></option>
+						<option value="4x2">4x2</option>
+						<option value="4x4">4x4</option>
+						<option value="6x2">6x2</option>
+						<option value="6x4">6x4</option>
+						<option value="6x6">6x6</option>        												
+					</select>
+				</div>
+      		</div>
+			
+			<div class="fix"></div>
+			
+			<div style="float: left; width: 130px; margin-top: 10px">											
+          		<div class="styled-select" style="width: 108px">
+          			<select name="combustivel" style="width: 130px">
+						<option value="0"><?=$this->translate->_("Combustível")?></option>        												
+						<option value="1"><?=$this->translate->_("Flex")?></option>
+						<option value="2"><?=$this->translate->_("Gasolina")?></option>
+						<option value="3"><?=$this->translate->_("Alcool")?></option>
+						<option value="4"><?=$this->translate->_("Diesel")?></option>
+						<option value="5"><?=$this->translate->_("Elétrico")?></option>
+					</select>
+				</div>        									
+			</div>
+			
+			<input type="text" name="modelo" placeholder="Modelo" style="width: 70px; margin-top: 10px">
+			<input type="text" name="motor" placeholder="Motor" style="width: 40px; margin-top: 10px" class="motor">
+			<input type="text" name="valvulas" placeholder="Válvulas"  style="width: 50px" class="inteiro">
+			<input type="text" name="anoini" style="width: 50px" class="ano" placeholder="Ano inicial">
+			<input type="text" name="anofin" style="width: 50px" class="ano" placeholder="Ano final">
+									
+			<div class="fix"></div>
+																	
+			<a href="javascript:void(0)" class="btnIconLeft" id="btnAddveiculo" style="margin-top: 10px">
+			    <img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/dark/add.png" alt="" class="icon" /><span>Adicionar</span>
+			</a>
+														
+			<input type="hidden" name="arrIdveiculo" id="arrIdveiculo" value="<?=$idsveic?>">
+		  </div>  
+											
+  			<div id="copveicu" style="margin-top: 5px; border: 1px solid #d5d5d5; padding: 10px; width: 30%; float: right;">
+				Copiar aplicação: <br /> 
+				<input type="text" id="codveicu" name="codveicu" style="width: 100px" placeholder="Código"> &nbsp;
+					<input type="button" value="Buscar" name="buscaveicu" id="copyAplicacao" class="basicBtn">
+				</div>
+			</div>
+		</td>
+	</tr>
+	</tbody>									
+</table>
+<?php 
+else:
+	echo "erro2";
+endif;
+?>

@@ -1,0 +1,35 @@
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl()?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/compras/estoquegrupo"><?=$this->translate->_("ESTOQUE")?></a>&nbsp;
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/nfe/nfe"><?=$this->translate->_("NFE")?></a>&nbsp;
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<b><a href="<?=$this->baseUrl()?>/admin/nfe/nfeconsulta"><?=$this->translate->_("NFE CONSULTA")?></a></b>
+	</div>
+	<div id="sistitulo">CONSULTA NF-e</div>
+	
+	<div>  
+		<form method="post">
+		<div style="margin-top: 10px">
+			Chave: <input type="text" size="50" name="chave">
+			<input type="submit" value="Consultar">
+		</div>
+		<?php if(!empty($this->objResultado)): ?>
+		<div style="border: 1px solid; margin-top: 20px; line-height: 20px; padding-left: 10px">
+		<? 
+		echo "Situação: ".$this->objResultado[xMotivo];
+		echo "<br />";
+		if($this->objResultado[cStat] == 100):
+			echo "Data: ".$this->objResultado[aProt][dhRecbto]; echo "<br />";
+			echo "Chave: ".$this->objResultado[aProt][chNFe]; echo "<br />";
+			echo "Protocolo: ".$this->objResultado[aProt][nProt]; echo "<br />";
+		endif;
+		
+		?>
+		</div>
+		<?php endif; ?>
+		</form>
+	</div>
+</div>

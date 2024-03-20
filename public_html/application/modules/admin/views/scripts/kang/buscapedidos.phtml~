@@ -1,0 +1,163 @@
+<?php 
+	if($this->objTp == 1){
+		if ( count($this->objList) > 0) :	
+		?>
+		<div class="widget">
+ 			<table style="width: 100%" class="tableStatic">
+        	<thead>
+            	<tr>
+                	<td ><?php echo $this->translate->_("Id")?></td>
+                    <td ><?php echo $this->translate->_("Data")?></td>
+                    <td ><?php echo $this->translate->_("Plano Cliente")?></td>
+                    <td ><?php echo $this->translate->_("Situação")?></td>
+                    <td width="10%"><?php echo $this->translate->_("Opções")?></td>
+                </tr>
+          	</thead>
+      		<tbody>
+      		<?php 
+			foreach($this->objList as $lista):
+	    	?>
+			<tr >
+                <td  style="text-align: center;" >
+                   <?php echo "OR".substr("000000".$lista->idped,-6,6)?>
+                </td>
+                <td  style="text-align: center;" >
+                	<?php echo $lista->dtvenda?>
+                </td>
+                <td  align="left" >
+                	<?php echo ($lista->EMPRESA)?>
+                </td>
+                <td  style="text-align: center;" > 
+                   	<?php 
+                   
+                   	if($lista->situacao == false):
+                   		?><span style="color: #f00;"><?php echo $this->translate->_("Cancelado")?></span><?php
+                    elseif($lista->STATUS=="ORDERED"): 
+                    	?><span style="color: rgb(0, 144, 0);"><?php echo $this->translate->_("Pedido")?></span><?php 
+                    elseif($lista->STATUS=="FINISHED"): 
+                     	echo $this->translate->_("Finalizado");
+                    elseif($lista->STATUS=="RECEIVED"):
+                        echo $this->translate->_("Recebido");
+                    endif;
+                    ?>                  
+                </td>
+                <td  style="text-align: center;" > 
+                	
+                	<a href="<?php echo $this->baseUrl()?>/admin/kang/pedidosprod/ped/<?php echo md5($lista->idped)?>" ><img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" border="0" title="Visualizar"></a>&nbsp;&nbsp;
+                	<?php if($this->objEdi==true):?>
+                	<a href="<?php echo $this->baseUrl()?>/admin/kang/gerarpedidocompra/ped/<?php echo md5($lista->idped)?>" ><img src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/pencil.png"  width="16" border="0" title="Ajustar"></a>&nbsp;&nbsp;
+                	<?php if($lista->STATUS=="Received" and $lista->situacao == true): ?>
+                	<a href="#" onclick="confirmRemove('<?php echo ($lista->idped)?>');"><img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" title="Remove" border="0" width="16"></a>
+                	<?php endif;
+                	endif;
+                	?>
+                </td>		                
+            </tr>		            
+			<?php  endforeach; ?>
+            	</tbody>        
+			</table>
+			
+		</div>
+		<div style="margin-top: 20px">
+			<?php 
+			if ( count($this->objList) > 0) {
+				echo $this->objList;
+			}
+		    ?>
+		</div>
+		<?php 
+		else:
+		?>
+		<div class="widget" style="border-top: 1px solid #d5d5d5; padding: 10px; text-align: center">
+ 			<?php echo $this->translate->_("Nenhum pedido encontrado!");?>
+		</div>	
+		<?php 
+		endif;
+	}else{
+		if ( count($this->objList) > 0) :
+		?>
+		<div class="widget">
+ 			<table style="width: 100%" class="tableStatic">
+        	<thead>
+            	<tr>
+                	<td ><?php echo $this->translate->_("Id")?></td>
+                	<td ><?php echo $this->translate->_("Cliente")?></td>
+                    <td ><?php echo $this->translate->_("Código")?></td>
+                    <td ><?php echo $this->translate->_("Cód cliente")?></td>
+                    <td ><?php echo $this->translate->_("QT")?></td>
+                    <td ><?php echo $this->translate->_("Data")?></td>    
+                    <td ><?php echo $this->translate->_("Situação")?></td>
+                    <td width="10%"><?php echo $this->translate->_("Opções")?></td>                
+                </tr>
+          	</thead>
+      		<tbody>
+      		<?php
+      		foreach($this->objList as $lista):
+			?>
+			<tr >
+				<td  style="text-align: center;" >
+                   <?php echo "OR".substr("000000".$lista->idped,-6,6)?>
+                </td>
+                <td  align="left" >
+                	<?php echo ($lista->EMPRESA)?>
+                </td>
+                <td  align="left" >
+                	<?php echo ($lista->CODIGO)?>
+                </td>
+                <td  align="left" >
+                	<?php echo ($lista->COD_PRODCLI)?>
+                </td>
+                <td  align="center" >
+                	<?php echo ($lista->QT)?>
+                </td>
+                <td  style="text-align: center;" >
+                	<?php echo $lista->dtvenda?>
+                </td>      
+                <td  style="text-align: center;" > 
+                   <?php 
+                   	if($lista->sitped == false): 
+                   		?><span style="color: #f00;"><?php echo $this->translate->_("Cancelado")?></span><?php 
+                   	elseif($lista->statusped=="Ordered"): 
+                   		?><span style="color: rgb(0, 144, 0);"><?php echo $this->translate->_("Pedido")?></span><?php 
+                   	elseif($lista->statusped=="Finished"): 
+                   		echo $this->translate->_("Finalizado");
+                   	elseif($lista->statusped=="Received"):
+                   		echo $this->translate->_("Recebido");
+                   	endif;
+                   
+                   	?>                  
+                </td>
+                <td  style="text-align: center;" > 
+                	
+                	<a href="<?php echo $this->baseUrl()?>/admin/kang/pedidosprod/ped/<?php echo md5($lista->idped)?>" ><img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" border="0" title="Visualizar"></a>&nbsp;&nbsp;
+                	<?php if($this->objEdi==true):?>
+                	<a href="<?php echo $this->baseUrl()?>/admin/kang/gerarpedidocompra/ped/<?php echo md5($lista->idped)?>" ><img src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/pencil.png"  width="16" border="0" title="Ajustar"></a>&nbsp;&nbsp;
+                	<?php if($lista->statusped=="Received" and $lista->sitped == true): ?>
+                	<a href="#" onclick="confirmRemove('<?php echo ($lista->idped)?>');"><img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" title="Remove" border="0" width="16"></a>
+                	<?php endif;
+                	endif;
+                	?>
+                </td>                          
+            </tr>		            
+			<?php  endforeach; ?>
+       	</tbody>        
+		</table>
+		</div>
+		<div style="margin-top: 20px">
+			<?php 
+			if ( count($this->objList) > 0) {
+				echo $this->objList;
+			}
+		    ?>
+		</div>
+		<?php 
+		else:
+		?>
+		<div class="widget" style="border-top: 1px solid #d5d5d5; padding: 10px; text-align: center">
+ 			<?php echo $this->translate->_("Nenhum produto encontrado!");?>
+		</div>	
+		<?php 
+		endif;
+
+	}
+	?>

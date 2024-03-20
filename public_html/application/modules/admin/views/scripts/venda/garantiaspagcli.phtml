@@ -1,0 +1,668 @@
+<?php
+
+
+if(!empty($this->objGarantia)):
+	foreach ($this->objGarantia as $viewGarantia);
+endif;
+
+if(!empty($this->objCliente)):
+	foreach ($this->objCliente as $viewCli);
+endif;
+
+?>
+
+<!-- Arquivos utilizados pelo jQuery lightBox plugin -->
+    <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/galeria/js/jquery.js"></script>
+    <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/galeria/js/jquery.lightbox-0.5.js"></script>
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/public/javascript/galeria/css/jquery.lightbox-0.5.css" media="screen" />
+    <!-- / fim dos arquivos utilizados pelo jQuery lightBox plugin -->
+        
+    <!-- Ativando o jQuery lightBox plugin -->
+    <script type="text/javascript">
+    $(function() {
+        $('#gallery aq').lightBox();
+    });
+    </script>
+   
+
+ <table border="0"  width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 5px">
+	<tr>
+		<td align="center" width="12%" class="menu">GARANTIAS</td>
+        <td align="center" width="2%" class="menu1">|</td>
+        <td align="center" width="13%" class="menu2"><a href="<?php echo $this->baseUrl(); ?>/admin/venda/garantiasrelcli">RELATÓRIOS</a></td>
+        <td align="center" width="">&nbsp;</td>
+	</tr>
+</table>
+
+<table width="100%" class="borda_titulo">
+	<tr>
+		<td width="left">GARANTIA N&ordm; G<?php echo substr("000000".$viewGarantia->idcli,-6,6)?></td>
+	</tr>
+</table>
+
+<table width="100%" style="border: 1px solid #000; margin-top: 10px; " cellspacing="8px" >
+<tr>
+	<td align="left" width="22%" colspan="3">
+		Empresa:<br>
+		<b><?php echo $viewCli->EMPRESA?></b>	
+	</td>
+	
+	
+</tr>
+<tr>
+	<td align="left" width="40%" colspan="2">
+		Nota Fiscal:<br>
+		<b><?php echo $viewGarantia->nota_fiscal?></b>	
+	</td>
+	
+	<td align="left" colspan="2" >
+		Data emiss&atilde;o:<br>
+		<b><?php echo substr($viewGarantia->data_nf,8,2)."/".substr($viewGarantia->data_nf,5,2)."/".substr($viewGarantia->data_nf,0,4)?></b>	
+	</td>
+	
+</tr>
+<tr>
+	<td align="left" width="25%" >
+		Peso:<br>
+		<b><?php echo $viewGarantia->peso_nf?></b> 
+		Kg
+	</td>
+	<td align="left" colspan="3" width="85%">
+		Volumes:<br>
+		<b><?php echo $viewGarantia->volumes?></b>	
+	</td>
+</tr>
+<tr>
+	<td align="left" width="15%" colspan="4" valign="middle" >
+		<?php if(!empty($viewGarantia->anexo)): ?>
+		<a target="_black" href="<?php echo $this->baseUrl()."/public/nfgarantias/".$viewGarantia->id.".".$viewGarantia->anexo?>">
+		<img alt="Anexo" src="<?php echo $this->baseUrl()."/images/anexo.png"?>" border="0" width="20" height="20">
+		<b>Anexo</b></a>
+		<?php endif;?>
+	</td>
+</tr>
+<tr>
+	<td align="left" colspan="4">
+		Observa&ccedil;&atilde;o:<br>
+		<b><?php echo htmlentities($viewGarantia->obs)?></b>
+	</td>
+</tr>
+
+</table>
+
+<form action="<?php echo $this->baseUrl(); ?>/admin/venda/gravaentregagarantia" name="novogar" method="post" onsubmit="return validarForm();">
+<input type="hidden" name="idgarantia" value="<?php echo $viewGarantia->id?>">
+		
+<br>Data da chegada: 
+<b><?php echo $viewGarantia->chegada?></b>
+<br>
+ <div id="gallery" >   
+<table align="left" class="mytable" width="100%" cellspacing="0"  style="margin-top: 10px">
+	    <tr>
+    		<th  class="th_canto" align="center" width="10%" >
+                ID
+            </th>
+            <th  class="th_orc" align="center" width="15%">
+                C&Oacute;DIGO
+            </th>
+            <th  class="th_orc" align="center" width="60%">
+            	AN&Aacute;LISE
+            </th>
+            <th  class="th_orc" align="center" >
+            	SUBSTITUIR?
+            </th>
+            <th  class="th_orc" align="center" >
+            	REL
+            </th>
+        </tr>       
+       <?php
+      
+       if(!empty($this->objAnalise)):
+       		$cont = 0;
+       		$idt = "";
+       		foreach ($this->objAnalise as $listProd):
+       		
+				if(($idt==$listProd->idt) || ($cont==0)):
+					if($listProd->id_analisegar==""):
+						$analises .= "- ".$listProd->desc_outros."<br>";
+					else:
+						$contdet = 0;
+			       		foreach ($this->objDetanalise as $listDet):
+			       			$contdet++;
+			       			if($listDet->detalhadesc==""):
+			       				$contdet--;
+			       			endif;	
+			       			if($listDet->id==$listProd->id_analisegar):
+			       				$inddet = $contdet;
+			       				$inftec = $listDet->detalhadesc;
+			       			endif;
+			       		endforeach;					
+					
+						$analises .= "- ".$listProd->descricao; 
+			       		if($inftec!=""):			       			
+			       			$analises .= "<sup><span style='color:red'>".$inddet."</span></sup>";
+			       		endif;
+						$analises .=  "<br>";
+						
+					endif;
+					$cont=1;
+					
+					$cod = $listProd->CODIGO;
+					$tipo = $listProd->substituir;
+					$n_ord = $listProd->n_ord;
+										
+				else:
+       			   ?> 
+			       <tr>
+			       		<td class="td" align="center">
+				       		<?php echo substr("000".$n_ord,-3,3); ?>
+				       	</td>
+			       		<td class="td" align="center" ><?php echo $cod?></td>
+			       		<td class="td" align="left">
+			       		<?php echo ($analises)?>
+			       		<br>
+			       		
+					    
+			       		<?php 
+				       		foreach ($this->objImg as $listimg):
+				       			if($listimg->id_detprod==$idt):
+				       				?>
+				       				<a href="<?php echo $this->baseUrl()?>/imganalises/<?php echo $listimg->nome?>" title="">
+				       					<img width="30" border="0" height="30" src="<?php echo $this->baseUrl()?>/imganalises/<?php echo $listimg->nome?>"> &nbsp;
+				       				</a> 
+				       				<?php 
+				       			endif;
+				       		endforeach;
+			       		?>
+			       								
+			       		</td>
+			       		<td class="td" align="center" id="td_analise_<?php echo $cont?>">
+			       		<?php 
+			       			if($tipo==1) echo "SIM";
+			       			else echo "N&Atilde;O";
+			       		?>	
+			       		</td>
+			       		<td class="td" align="center" >
+			       		<?php if($tipo!=1): ?>
+				       		<a href="<?=$this->baseUrl()?>/admin/venda/garantiaspagreldet/prod/<?=md5($idt)?>" target="_blank" >
+				       			<img src="<?=$this->baseUrl()?>/images/imprimir_orc.gif" width="19" height="19" border="0" title="Relatório">
+				       		</a>	
+			       		<?php endif;?>	
+		       		</td>
+			       </tr>
+			       <?php
+			       if($listProd->id_analisegar==""):
+						$analises = "- ".$listProd->desc_outros."<br>";
+				   else:
+						$contdet = 0;
+						foreach ($this->objDetanalise as $listDet):
+			       			$contdet++;
+			       			if($listDet->detalhadesc==""):
+			       				$contdet--;
+			       			endif;	
+			       			if($listDet->id==$listProd->id_analisegar):
+			       				$inddet = $contdet;
+			       				$inftec = $listDet->detalhadesc;
+			       			endif;
+			       			
+			       		endforeach;		
+						
+			       		$analises = "- ".$listProd->descricao; 
+			       		if($inftec!=""):			       			
+			       			$analises .= "<sup><span style='color:red'>".$inddet."</span></sup>";
+			       		endif;
+						$analises .=  "<br>";
+				   						   		
+				   endif;
+				   $cod = $listProd->CODIGO;
+				   $tipo = $listProd->tipo;
+				   $n_ord = $listProd->n_ord;
+				   $tipo = $listProd->substituir;
+			       
+		       endif;
+		   	   $idt = $listProd->idt;
+		    endforeach;
+		    ?><tr>
+		       		<td class="td" align="center">
+			       		<?php echo substr("000".$n_ord,-3,3); ?>
+			       	</td>
+		       		<td class="td" align="center"><?php echo $cod?></td>
+		       		<td class="td" align="left">
+		       		<?php echo ($analises)?>
+		       		<br>
+		       		
+		       		<?php 
+			       		foreach ($this->objImg as $listimg):
+			       			if($listimg->id_detprod==$idt):
+			       				?>
+			       				<a href="<?php echo $this->baseUrl()?>/imganalises/<?php echo $listimg->nome?>" title="">
+			       					<img width="30" border="0" height="30" src="<?php echo $this->baseUrl()?>/imganalises/<?php echo $listimg->nome?>"> &nbsp;
+			       				</a> 
+			       				<?php
+			       			endif;
+			       		endforeach;
+		       		?>
+		       		
+		       		</td>
+		       		<td class="td" align="center" id="td_analise_<?php echo $cont?>">
+		       		<?php 
+		       			if($tipo==1) echo "SIM";
+		       			else echo "N&Atilde;O";
+		       		?>	
+		       		</td>
+		       		<td class="td" align="center" >
+			       		<?php if($tipo!=1): ?>
+				       		<a href="<?=$this->baseUrl()?>/admin/venda/garantiaspagreldet/prod/<?=md5($idt)?>" target="_blank" >
+				       			<img src="<?=$this->baseUrl()?>/images/imprimir_orc.gif" width="19" height="19" border="0" title="Relatório">
+				       		</a>	
+			       		<?php endif;?>	
+		       		</td>
+		      </tr>
+			 <?php 
+		endif; 
+       
+        ?>
+     </table>
+     </div> 
+  	 <?php  if(!empty($this->objProdpagos)): ?>
+  	 <table align="left" class="mytable" width="100%" cellspacing="0"  style="margin-top: 15px">
+  	 <tr>
+    	<th class="th_canto" align="left" colspan="6" style="padding: 10px" >
+                PRODUTOS PAGOS
+     	</th>
+     </tr> 
+	 <tr>
+    		<th  class="th_canto" align="center" width="15%" >
+                ID
+            </th>
+            <th  class="th_orc" align="center" width="15%">
+                C&Oacute;DIGO
+            </th>
+            <th  class="th_orc" align="center" width="10%">
+            	QT
+            </th>
+            <th  class="th_orc" align="center" >
+            	NOTA FISCAL
+            </th>
+            <th  class="th_orc" align="center" >
+            	DATA NF
+            </th>
+        </tr>       
+       <?php
+      
+      
+       		$cont = 0;
+       		$idt = "";
+       		foreach ($this->objProdpagos as $listProd):
+       			$cont++;
+       			
+			   ?> 
+		       <tr>
+		       		<td class="td" align="center">
+			       		<?php echo substr("000".$cont,-3,3); ?>
+			       	</td>
+		       		<td class="td" align="center" ><?php echo $listProd->CODIGO?> </td>
+		       		<td class="td" align="center" ><?php echo $listProd->qte?></td>
+		       		<td class="td" align="center" ><?php echo $listProd->ntf?></td>
+		       		<td class="td" align="center" ><?php echo $listProd->dtn?></td>
+		       </tr>
+		       <?php
+		    endforeach;
+		 ?>
+     </table>
+     <?php endif; ?>
+     
+     <?php  
+  	 
+  	 foreach ($this->objProdnpag as $listProd);
+  	 
+  	 if($listProd->nt_fiscal!=""):
+  	 
+  	 if(!empty($this->objProdnpag)): 
+            ?>
+		  	 <table align="left" class="mytable" width="100%" cellspacing="0" style="margin-top: 15px" >
+		  	 <tr>
+		    	<th class="th_canto" align="left" colspan="6" style="padding: 10px" >
+		                PRODUTOS DEVOLVIDOS
+		     	</th>
+		     </tr> 
+			 <tr>
+		    		<th  class="th_canto" align="center" width="15%" >
+		                ID
+		            </th>
+		            <th  class="th_orc" align="center" width="20%">
+		                C&Oacute;DIGO
+		            </th>
+		            <th  class="th_orc" align="center" width="25%">
+		            	QT A DEVOLVER
+		            </th>
+		            <th  class="th_orc" align="center" >
+					    NOTA FISCAL
+		            </th>
+		            <th  class="th_orc" align="center" >
+		            	DATA NF
+		            </th>
+		        </tr>       
+	        <?php
+       		$cont = 0;
+       		$idt = "";
+       		foreach ($this->objProdnpag as $listProd):
+       				$cont++;
+				   ?> 
+			       <tr>
+			       		<td class="td" align="center">
+				       		<?php echo substr("000".$cont,-3,3);  ?>
+				       	</td>
+			       		<td class="td" align="center" ><?php echo $listProd->CODIGO?> </td>
+			       		<td class="td" align="center" >
+			       		<?php 
+			       			echo $listProd->qtent; 
+			       		?>
+			       		</td>			       		
+			       		<td class="td" align="center" ><?php echo $listProd->nt_fiscal?> </td>
+			       		<td class="td" align="center" ><?php echo $listProd->dtnt?> </td>
+			       </tr>
+			       <?php
+		     
+		    endforeach;
+		
+		 	?>
+		 	
+		 </table>
+		 <?php 
+		 endif; 
+     else:
+     
+     	if(!empty($this->objProdnpag)): 
+            ?>
+		  	 <table align="left" class="mytable" width="100%" cellspacing="0" style="margin-top: 10px" >
+		  	 <tr>
+		    	<th class="th_canto" align="left" colspan="6" style="padding: 10px" >
+		                PRODUTOS À DEVOLVER
+		     	</th>
+		     </tr> 
+			 <tr>
+		    		<th  class="th_canto" align="center" width="15%" >
+		                ID
+		            </th>
+		            <th  class="th_orc" align="center" width="20%">
+		                C&Oacute;DIGO
+		            </th>
+		            <th  class="th_orc" align="center" width="">
+		                Descri&ccedil;&atilde;o
+		            </th>
+		            <th  class="th_orc" align="center" width="25%">
+		            	QT A DEVOLVER
+		            </th>
+		           
+		        </tr>       
+	        <?php
+       		$cont = 0;
+       		$idt = "";
+       		foreach ($this->objProdnpag as $listProd):
+       				$cont++;
+				   ?> 
+			       <tr>
+			       		<td class="td" align="center">
+				       		<?php echo substr("000".$cont,-3,3);  ?>
+				       	</td>
+			       		<td class="td" align="center" ><?php echo $listProd->CODIGO?> </td>
+			       		<td class="td" align="left" ><?php echo $listProd->DESCRICAO?> </td>
+			       		<td class="td" align="center" >
+			       		<?php 
+			       			echo $listProd->qtent-$listProd->qte;
+			       			$idcod .= $listProd->id_prod.";"; 
+			       		?>
+			       		</td>			       		
+			       </tr>
+			       <?php
+		     
+		    endforeach;
+		
+		 	?>
+		 	
+		 </table>
+		 <?php 
+		 endif; 
+		 
+	 endif;
+		 
+	 ?>
+     
+  	 <?php  if(!empty($this->objPagar)): 
+            
+       		$cont = 0;
+       		$idt = "";
+       		foreach ($this->objPagar as $listProd):
+       			if(($listProd->qtent-$listProd->qte)>0):
+	       			if($cont==0):
+	       				?>
+					  	 <table align="left" class="mytable" width="100%" cellspacing="0"  style="margin-top: 15px">
+					  	 <tr>
+					    	<th class="th_canto" align="left" colspan="6" style="padding: 10px" >
+					                PRODUTOS À PAGAR
+					     	</th>
+					     </tr> 
+						 <tr>
+					    		<th  class="th_canto" align="center" width="15%" >
+					                ID
+					            </th>
+					            <th  class="th_orc" align="center" width="15%">
+					                C&Oacute;DIGO
+					            </th>
+					            <th  class="th_orc" align="center" width="40%">
+					                DESCRI&Ccedil;&Atilde;o
+					            </th>
+					            <th  class="th_orc" align="center" width="10%">
+					            	QT
+					            </th>
+					            
+					        </tr>       
+					       <?php
+	       			endif;
+	       			$cont++;
+				   ?> 
+			       <tr>
+			       		<td class="td" align="center">
+				       		<?php echo substr("000".$cont,-3,3);  ?>
+				       	</td>
+			       		<td class="td" align="center" ><?php echo $listProd->CODIGO?> </td>
+			       		<td class="td" align="left" ><?php echo $listProd->DESCRICAO?> </td>
+			       		<td class="td" align="center" >
+			       		<?php 
+			       			echo $listProd->qtent-$listProd->qte;
+			       			$idcod .= $listProd->id_prod.";"; 
+			       		?>
+			       		</td>
+			       </tr>
+			       <?php
+		       endif;
+		    endforeach;
+		if($cont>0): 
+		 	?></table><?php     	
+     	endif;
+     	
+     	
+     endif; 
+     
+      if(!empty($this->objDetanalise)):
+     	?>
+     	 <table align="left" width="100%" cellspacing="0"  style="margin-top: 15px">
+		  	 <tr>
+		    	<th  align="left" colspan="2" style="padding: 10px" >
+		                Observação
+		     	</th>
+		     </tr> 
+			 <?php       	 
+            
+	       		$cont = 0;
+	       		$idt = "";
+	       		foreach ($this->objDetanalise as $listDet):
+		       		if(!empty($listDet->detalhadesc)):	
+		       		$cont++;
+	       			
+	       			?> 
+			       <tr>
+			       		<td  align="center" width="10%" valign="top">
+				       		<?php echo $cont?> - 
+				       	</td>
+			       		<td align="left" >
+			       			<?php 
+			       			if($listDet->infotecnica!=""):
+			       				?>
+			       				<a target="_blank" href="<?php echo $this->baseUrl(); ?>/admin/venda/analiseopdetcli/analise/<?php echo md5($listDet->id)?>">
+								<?php
+							endif; 
+			       			echo ($listDet->detalhadesc);
+			       			if($listDet->infotecnica!=""):
+			       				?>
+			       				</a>
+								<?php
+							endif;
+			       			
+			       			?> <br /><br /></td>
+			       		
+			       </tr>
+			       <?php
+			       endif;
+	       		endforeach;
+	       		?>
+		 </table>
+     	<?php endif; ?>
+     	<?php if($viewGarantia->obsanalise!=""):?>
+		<table style="width: 100%; border: 1px solid #000; margin-top: 10px">
+		<tr><td align="left">
+		<b>Observação da análise:</b><br>
+		<?php echo ($viewGarantia->obsanalise)?>
+		
+		</td></tr>
+		</table>
+		<?php endif;?>
+     	
+     	<p>&nbsp;</p>
+		<p align="left">
+			<input type="button" onclick="window.location='<?php echo $this->baseUrl(); ?>/admin/venda/garantiascli'" value="Voltar">
+	        
+		</p>
+     		
+</form>
+<script type="text/javascript">
+
+	function mostraDet(){
+		if(document.getElementById('det').style.display=='none'){
+			document.getElementById('det').style.display='block';
+		}else{
+			document.getElementById('det').style.display='none';
+		}
+	}
+
+	function validarForm(){
+		var ids = document.novogar.prods.value;
+
+		texto = ids.replace(/\+/g," ");
+		texto = unescape(texto);
+		texto = texto.split(";");
+		var i = 0;
+		while(texto[i]!=""){
+			qte = (parseInt(document.getElementById('qte_'+texto[i]).value));
+			qt 	= (parseInt(document.getElementById('qt_'+texto[i]).value));
+			cod = document.getElementById('pr_'+texto[i]).value;
+			nt 	= document.getElementById('nt_'+texto[i]).value;
+			dt 	= document.getElementById('dtnt_'+texto[i]).value;
+			qtn = document.getElementById('qt_'+texto[i]).value;
+			
+			if(qte<qt){
+				alert("A quantidade a pagar do produto "+cod+" não pode ser superior a quantidade recebida!");
+				return false;
+				
+			}else if((qtn!="")||(nt!="")||(dt!="")){
+				if(qtn==""){
+					alert("A quantidade do produto "+cod+" não pode ficar em branco!");
+					return false;
+				}else if(nt==""){
+					alert("A nota fiscal do produto "+cod+" não pode ficar em branco!");
+					return false;
+				}else if(dt==""){
+					alert("A data da nota fiscal do produto "+cod+" não pode ficar em branco!");
+					return false;
+				}
+			}
+			i++;
+		}
+
+		return true;
+	}
+
+	function submitEnvia(){
+		if(document.novogar.dt_chegada.value==""){
+			alertaPadrao('Erro!', 'Preencha a data de chegada!', 'erro', 110, 250);
+			return false;	
+		}else{
+			document.novogar.enviaAn.value="1";
+			document.novogar.submit();
+		}
+	}
+
+	var alertaPadrao = function(titulo, msg, tipo, altura, largura) {
+			$('body').append('<a href="#" id="alerta-padrao"></a>');
+			$('#alerta-padrao').m2brDialog({
+					draggable: true,
+					texto: msg,
+					tipo: tipo,
+					titulo: titulo,
+					altura: altura,
+					largura: largura,
+					botoes: {
+						1: {
+							label: 'Fechar',
+							tipo: 'fechar'
+						}
+					}									   
+			});
+			$('#alerta-padrao')
+				.click()
+				.remove();
+	}; // fim alertaPadrao
+
+	function buscaprod(){
+	   	  var cod = document.getElementById('codigo').value;
+	   	  var qt  = document.getElementById('qt').value;
+	   	  var valor = document.getElementById('valor').value;
+		  var ipi = document.getElementById('ipi').value;
+		  var icms = document.getElementById('icms').value;
+	   	  
+	   	  if(cod==''){
+	       	  document.getElementById('resultado').innerHTML = 'Digite o c&oacute;digo!';
+	       	  
+	   	  }else if(qt==''){
+	   		  document.getElementById('resultado').innerHTML = 'Digite a quantidade!';
+	   		  
+	   	  }else if(valor==''){
+	   		  document.getElementById('resultado').innerHTML = 'Digite o valor!';
+	   		  
+	   	  }else if(ipi==''){
+	   		  document.getElementById('resultado').innerHTML = 'Digite o IPI!';
+	   		  
+	   	  }else if(icms==''){
+	   		  document.getElementById('resultado').innerHTML = 'Digite o ICMS!';
+	   		  
+	   	  }else{
+	   		  MostraOpcao(cod,qt,valor,ipi,icms);
+	   		  document.getElementById('codigo').value = "";
+	       	  document.getElementById('qt').value = "";
+	       	  document.getElementById('valor').value = "";
+		      document.getElementById('ipi').value = "";
+		      document.getElementById('icms').value = "";
+	   	  }
+	 }
+
+	function deleteRow(i,id){
+	    document.getElementById('txtHint').deleteRow(i);
+	    var arrId = document.getElementById('arrId').value;
+		document.getElementById('arrId').value = arrId.replace(id+";","");
+
+	}
+
+</script>
+	
+	

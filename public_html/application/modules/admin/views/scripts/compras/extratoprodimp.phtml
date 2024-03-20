@@ -1,0 +1,92 @@
+     <table border="0"  width="800" align="center">
+            <tr>
+               <td align="left" >EXTRATO DE MOVIMENTA&Ccedil;&Atilde;O <?=strtoupper($this->objCod)?></td>
+                
+            </tr>
+            </table>
+      <?php 
+      
+      if ( count($this->objList) <= 0) :
+			echo "<br><b>Produto não encontrado!</b>";
+	  else:
+		      
+      
+      ?>
+      			
+      		<?php if(($this->objPag==1)||(empty($this->objPag))): ?>
+      		<table width="800" style="margin-top: 10px; margin-bottom: 10px; font-weight: bold; border: 1px solid #000;" align="center">
+				<tr>
+					<td align="left" class="tdpar" width="50%">
+						Estoque Final
+					</td>
+					<td align="center" class="tdpar">
+						<?php echo $this->objDtfin?>
+					</td>
+					<td align="center" class="tdpar">
+						<?php echo $this->objQtfinal?>
+					</td>
+				</tr>
+	        </table>
+      		<?php endif;?>
+      		<table width="800"  cellpadding="0" cellspacing="0" align="center"  >
+		            <tr bgcolor="">
+		             	
+		                <td style="border: 1px solid #000;" width="30%" align='center'><b>TIPO</b></td>
+		                <td style="border: 1px solid #000;" width="18%"" align='center'><b>DATA</b></td>
+		                <td style="border: 1px solid #000;" align='center'><b>QT</b></td>
+		                <td style="border: 1px solid #000;" align='center'><b>ESTOQUE</b></td>
+		                <td style="border: 1px solid #000;" width="22%" align='center'><b>USU&Aacute;RIO</b></td>
+		                
+		            </tr>
+			        <?php 
+			        	$cor=0;
+				        if ( count($this->objList) > 0) :
+		    			foreach($this->objList as $listProd):
+				        
+		        			$cor++;
+		        			if(($cor%2)==0) $class = 'tdpar';
+			            	else $class = 'td';
+			            	
+			            	$dt_inicial = $listProd->dt_at;
+			            	$qt_inicial = $listProd->qt_atual;
+			            	
+		        			?>
+		        			<tr >
+				                <td style="border: 1px solid #000;" align="left"><?php 
+				                if(strripos($listProd->tipo, "FABRICA")!==false):
+				                	?>FABRICAÇÃO N&ordm; F<?php echo substr("000000".$listProd->id_atualizacao,-6,6); 
+				                elseif(strripos($listProd->tipo, "VENDA CANCELA")!==false):
+				                	?>VENDA CANCELADA N&ordm; <?php echo $listProd->id_atualizacao;				                	
+				                elseif(strripos($listProd->tipo, "VENDA")!==false):
+				                	?>VENDA N&ordm; <?php echo $listProd->id_atualizacao;
+				                elseif(strripos($listProd->tipo, "SIAC")!==false):
+				                	echo utf8_encode($listProd->tipo)." N&ordm; ".$listProd->id_atualizacao;
+				                elseif(strripos($listProd->tipo, "AJUSTE CANCELADO")!==false):
+				                	?>AJUSTE CANCELADO A<?php echo substr("000000".$listProd->id_atualizacao,-6,6); 
+				                elseif(strripos($listProd->tipo, "AJUSTE")!==false):
+				                	?>AJUSTE A<?php echo substr("000000".$listProd->id_atualizacao,-6,6); 
+				                elseif(strripos($listProd->tipo, "COMPRA")!==false):
+				                	?>ENTRADA E<?php echo substr("000000".$listProd->id_atualizacao,-6,6); 
+				                elseif(strripos($listProd->tipo, "GARANTIA CANCELA")!==false):
+				                	?>GARANTIA CANCELADA G<?php echo substr("000000".$listProd->id_atualizacao,-6,6);
+				               elseif(strripos($listProd->tipo, "GARANTIA")!==false):
+				                	?>GARANTIA G<?php echo substr("000000".$listProd->id_atualizacao,-6,6);
+				                elseif(strripos($listProd->tipo, "NFe Avulsa")!==false):
+				                	?>NFe Avulsa NFe<?php echo substr("000000".$listProd->id_atualizacao,-6,6);
+				                endif;
+				                ?> </td>
+				                <td style="border: 1px solid #000;" align="center"><?php echo $listProd->dt_at?></td>
+				                <td style="border: 1px solid #000;" align="center"><?php echo $listProd->qt_atualizacao?>&nbsp;</td>
+				                <td style="border: 1px solid #000;" align="center"><?php echo $listProd->qt_atual?></td>
+				                <td style="border: 1px solid #000;" align="center"><?php echo htmlentities($listProd->nome)?></td>
+				            </tr>
+		        				
+				        	<?php  
+				        endforeach;
+					endif;   
+					?>
+	        </table>
+	        <?php 
+	     
+             endif;?>
+	     	

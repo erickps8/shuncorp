@@ -1,0 +1,64 @@
+    <div class="content">   
+    
+    	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li class="lastB">Promoção</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Produtos em promoção</h5>
+        	<div style="float: right; padding: 10px">
+				<a href="<?=$this->baseUrl()?>/admin/venda/produtospromocaoimp" ><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/printerwhite.png" title="Imprimir" border="0" width="18"></a>
+			</div>
+        </div>
+        		
+		<div class="widgets">
+		<?php
+        if(count($this->objList) > 0) :			
+			?>			
+			<div class="widget first">
+	 			<table style="width: 100%" class="tableStatic">
+	            	<thead>
+	                	<tr>
+	                        <td width="10%">Ord</td>
+	                        <td width="">Código</td>
+	                        <td >Valor de tabela</td>
+	                        <td >Descrição</td>
+	                    </tr>
+	                </thead>
+	                <tbody>
+	               
+					<?php 
+					$cor=0;
+					foreach($this->objList as $lista):
+						$cor++;
+				    	?>
+						<tr >
+			                <td   style="text-align: center;" ><?php echo $cor?></td>
+			                <td   align="left" ><?php echo $lista->CODIGO?></td>
+			                <td   style="text-align: right;" ><?php echo number_format($lista->PRECO_UNITARIO,2,",",".")?></td>
+			                <td align="left" ><?php echo $lista->descpromo?></td>
+			            </tr>  
+			         <?php 
+			         endforeach;
+			         ?>
+			      	</tbody>       
+				</table>
+			</div>
+			
+	        <?php 
+			else :
+				?>
+				<div class="fix"></div>
+				<div style="text-align: center; margin-top: 30px">Nenhum produto está em promoção</div>
+				<?php 
+			endif;
+		?>
+		</div>	
+ 		
+	</div>
+	

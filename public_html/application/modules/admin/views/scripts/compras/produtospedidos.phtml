@@ -1,0 +1,95 @@
+<style type="text/css">
+	.inputbusca{
+		font-style: italic; color: #999;
+	}
+
+	input:focus, textarea:focus, select:focus {
+		font-style: normal; color: #000;
+	}
+</style>
+<!-- Calendarios -->
+<link type="text/css" rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.css?random=20051112" media="screen"></LINK>
+<SCRIPT type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.js?random=20060118"></script>
+
+<table width="100%" style="margin-bottom: 4px" cellpadding="0" cellspacing="0" >
+	<tr>
+		<td align="left">
+			<a href="<?=$this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+			<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+			<a href="<?=$this->baseUrl(); ?>/admin/compras/pedidoscompra">PEDIDOS DE COMPRA</a>&nbsp; 
+			<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+			<b><a href="<?=$this->baseUrl(); ?>/admin/compras/pedidoscompra">PRODUTOS PEDIDOS</a></b>  
+		</td>
+		
+	</tr>
+</table>  
+            <table border="0"  width="100%" class="borda_titulo">
+            <tr>
+               <td align="left" >LISTA DE PRODUTOS PEDIDOS</td>
+                <td align="right">
+                <a target="_blanc" href="<?=$this->baseUrl(); ?>/admin/compras/produtospedidosimp"><img border="0" width="17" height="17" src="<?php echo $this->baseUrl(); ?>/images/imprimir_orc.gif" /></a>
+                <a href="#" class="dcontexto"><img src="<?php echo $this->baseUrl(); ?>/images/interrogacao2.png" width="16" height="16" border="0">
+                <span><b>Lista de Produtos Pedidos</b><br>
+                São exibidos produtos que foram pedidos para outros fornecedores que ainda não foram entregues.
+                </span></a>
+                </td>
+            </tr>
+            </table>
+     		<form action="" method="post" name="busca" id="busca">
+			<input class="inputbusca" style="margin-top: 5px;" type="text" size="22" name="buscacod" id="buscacod" value="Digite o codigo do produto" 
+			onclick="this.value='';" >
+			</form>
+			<table width="100%"  align="left" class="mytable" id="myTable" style="margin-top: 5px">
+		            <tr bgcolor="">
+		             	
+		                <td class="th_canto" width="10%" align="center"><b>ORDEM</b></td>
+		                <td class="th_canto" width="22%" align='center'><b>C&Oacute;DIGO</b></td>
+		                <td class="th_pedido" width="18%"" align='center'><b>PEDIDO</b></td>
+		                <td class="th_pedido" width="15%" align='center'><b>QT PED</b></td>
+		                <td class="th_pedido" width="20%" align='center'><b>PREV EMBARQUE</b></td>
+		                
+		            </tr>
+			        <?php 
+			        
+			        if($this->objPage>0) $cor = ($this->objPage-1)*35;
+			        	
+				        if ( count($this->objProdutos) > 0) :
+		    			foreach($this->objProdutos as $listProd):
+				        
+		        			$cor++;
+		        			if(($cor%2)==0) $class = 'tdpar';
+			            	else $class = 'td';
+			            	
+			            	if($listProd->QT_ENT > $listProd->QUANTIDADE) $qt = $listProd->QUANTIDADE;
+			            	else $qt =  $listProd->QUANTIDADE - $listProd->QT_ENT;
+		        			?>
+		        			<tr >
+				                <td class="<?=$class?>" align="center"><?php echo $cor?></td>
+				                <td class="<?=$class?>" align="left">
+				            		<a href="<?=$this->baseUrl()?>/admin/cadastro/produtosvis/produto/<?=md5($listProd->ID_PROD)?>" target="_blank"><?=$listProd->CODIGO?></a>    
+		        				</td>
+				                <td class="<?=$class?>" align="center">
+				                	<a href="<?=$this->baseUrl()?>/admin/compras/pedidoscompraprod/ped/<?=md5($listProd->ped)?>" target="_blank"><?=$listProd->ped?></a>		        				
+		        				</td>
+				                <td class="<?=$class?>" align="center"><?php echo $qt?></td>
+				                <td class="<?=$class?>" align="center"><?php echo $listProd->dt_entrega?></td>
+				            </tr>
+		        				
+				        	<?php  
+				        endforeach;
+					endif;   
+					?>
+	        </table>
+	        <br><br>
+		<table width="100%">
+			<tr><td align="center">
+				&nbsp;
+            </td></tr>
+			<tr><td align="center">
+				<?php 
+		            if ( count($this->objProdutos) > 0) :
+		            	echo $this->objProdutos;
+		            endif;
+            	?>
+            </td></tr>
+         </table>

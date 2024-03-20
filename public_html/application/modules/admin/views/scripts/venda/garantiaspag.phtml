@@ -1,0 +1,387 @@
+<?php
+if(!empty($this->objGarantia)):
+	foreach ($this->objGarantia as $viewGarantia);
+endif;
+
+if(!empty($this->objCliente)):
+	foreach ($this->objCliente as $viewCli);
+endif;
+
+?>
+	<div class="content">
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/venda/garantias">Garantias</a></li>         
+                	<li class="lastB">G<?=str_pad($viewGarantia->idcli, 6, "0", STR_PAD_LEFT)?></li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Garantia N&ordm; G<?=str_pad($viewGarantia->idcli, 6, "0", STR_PAD_LEFT)?></h5></div>
+        
+        <div class="widget first" >
+            <div class="head" style="margin-top: -10px"><h5 class="iUser">Informações do cliente</h5></div>
+            <div class="body">
+				<table >
+				<tr>
+					<td align="left" width="12%" >
+						Empresa: 
+					</td>
+					<td align="left" colspan="3">			
+						<b><?php echo $viewCli->EMPRESA?></b>	
+					</td>
+				</tr>
+				<tr>
+					<td align="left" >
+						Nota Fiscal:
+					</td>
+					<td align="left" width="40%">
+						<b><?php echo $viewGarantia->nota_fiscal?></b>	
+					</td>			
+					<td align="left" width="12%">
+						Data emiss&atilde;o:
+					</td>
+					<td align="left" >
+						<b><?php echo substr($viewGarantia->data_nf,8,2)."/".substr($viewGarantia->data_nf,5,2)."/".substr($viewGarantia->data_nf,0,4)?></b>	
+					</td>			
+				</tr>
+				<tr>
+					<td align="left" >
+						Peso:
+					</td>
+					<td align="left" >
+						<b><?php echo $viewGarantia->peso_nf?></b> Kg
+					</td>
+					<td align="left" >
+						Volumes:<br>
+					</td>
+					<td align="left" >
+						<b><?php echo $viewGarantia->volumes?></b>	
+					</td>
+				</tr>
+				<tr>
+					<td align="left" colspan="4" valign="middle" >
+						<?php if(!empty($viewGarantia->anexo)): ?>
+						<a target="_black" href="<?php echo $this->baseUrl()."/public/sistema/upload/clientes/".$viewGarantia->id_clientes."/garantias/".$viewGarantia->idcli.".".$viewGarantia->anexo?>">
+						<img alt="Anexo" src="<?php echo $this->baseUrl()."/public/sistema/imagens/icons/middlenav/paperclip.png"?>" border="0" width="20" height="20">
+						<b>Anexo</b></a>
+						<?php endif;?>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" colspan="4">
+						Observa&ccedil;&atilde;o:<br>
+						<b><?php echo $viewGarantia->obs?></b>
+					</td>
+				</tr>
+				<?php if(strripos($viewGarantia->status, "ENVIO")!==0): ?>
+				<tr>
+					<td align="left" >
+						Tipo de envio: 
+					</td>
+					<td align="left" >
+						<?php if($viewGarantia->tipoenvio==1): ?>
+							<b>Correios/PAC</b>
+						<?php else: ?>
+							<b>Transportadora</b>
+						<?php endif;?>					
+					</td>
+					<td >
+						<?php if($viewGarantia->tipoenvio==1): ?>
+							N&ordm; PAC:
+						<?php else: ?>
+							Transportadora:
+						<?php endif;?>
+					</td>
+					<td align="left" >
+						<b><?=$viewGarantia->valorenvio?></b>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<?php if($viewGarantia->tipoenvio==1): ?>
+							Validade PAC:<br>
+							<b><?php echo $viewGarantia->data_validadepac?></b>
+						<?php endif?>
+					</td>
+				</tr>
+				<?php endif; ?>
+				</table>
+			</div>
+		</div>
+		
+		
+		<div style="padding: 10px; border: 1px solid #d5d5d5; margin-top: 10px">
+			Data da chegada: <b><?php echo $viewGarantia->chegada?></b>
+			<div class="fix"></div>
+		</div>
+			
+			
+		<div class="widget" >
+            <div class="head" style="margin-top: -10px"><h5 class="iPaperclip">NFe mão de obra</h5></div>
+            <div class="body">	
+            
+            <table id="archive" style="width: 100%; " >
+            	<?php 
+            	$contan = 0;
+				if(!empty($this->objAnexos)):
+					foreach ($this->objAnexos as $listanexo): 
+					$contan++;
+					?>
+					<tr>
+						<td style="padding-left: 7px">	
+							<a target="_black" href="<?=$this->baseUrl()?>/public/sistema/upload/clientes/<?=$viewGarantia->id_clientes?>/garantias/<?=$viewGarantia->idcli?>_mo_<?php echo $listanexo->id.$listanexo->nome?>">
+								<img alt="Anexo" src="<?php echo $this->baseUrl()."/public/sistema/imagens/icons/middlenav/paperclip.png"?>" width="12px" border="0" >
+								<b>NFe da mão de obra <?php echo $contan?></b>
+							</a>
+						</td>
+					</tr>
+				<?php 
+				endforeach; 
+				endif;	
+				?>
+			</table>
+			</div>
+		</div>	
+		
+		
+		<div class="widget">
+ 			<div class="head" style="border-bottom: 0px"><h5 class="iFrames">Produtos</h5>
+ 			
+	 			<div style="text-align: right; margin: 10px; display: none">
+		 			<input type="checkbox" name="todos" id="todos"> &nbsp;  Marcar todos
+	 			</div>
+ 			</div>
+ 			<form method="post" name="formcredito">
+ 			<input type="hidden" name="idgarantia" value="<?php echo $viewGarantia->idcli?>">
+ 			<input type="hidden" name="idcliente" value="<?php echo $viewGarantia->id_clientes?>">
+        	<table class="tableStatic" id="txtHint" style="width: 100%">
+            	<thead>
+                	<tr>
+                        <td width="5%">Id</td>
+                        <td width="20%">Código</td>
+                        <td width="40%">Análise</td>
+                        <td width="">Substituir?</td>
+                        <td width="">NF-e</td>
+                        <?php if($this->objAng == true){ ?>
+                        <td >Gerar Crédito</td>
+                        <?php } ?>
+                        <td width="">Rel</td>
+                    </tr>
+                </thead>
+                <tbody>
+        	   	<?php	
+		       	$cont = 0;
+		       	$verProd = 0;
+		       	foreach($this->objProddet as $produtos):
+		       		$cont ++;
+			       ?> 
+			       <tr>
+		       		<td style="text-align: center;"><?=substr("000".$cont,-3,3); ?>
+			       	</td>
+		       		<td style="text-align: center;" ><?=$produtos->CODIGO?></td>
+		       		<td align="left">
+			       		<?php 
+			       		$detalhes = "";
+			       		foreach ($this->objAnalise as $listProd):
+			       			if($listProd->idt == $produtos->idt):
+			       				$detalhes .= " - ".$listProd->descricao."<br />";
+			       			endif;
+			       		endforeach;
+			       		echo substr($detalhes, 0,-4);
+			       		?>
+		       		<br>						       							    
+		       		<?php 
+			       		foreach ($this->objImg as $listimg):
+			       			if($listimg->id_detprod==$produtos->idt):
+			       				?>
+			       				<a href="<?php echo $this->baseUrl()?>/imganalises/<?php echo $listimg->nome?>" title="">
+			       					<img width="30" border="0" height="30" src="<?php echo $this->baseUrl()?>/imganalises/<?php echo $listimg->nome?>"> &nbsp;
+			       				</a> 
+			       				<?php 
+			       			endif;
+			       		endforeach;
+		       		?>
+		       		</td>
+		       		<td style="text-align: center;" >
+		       		<?php 
+		       			if($produtos->substituir==1) echo "SIM";
+		       			else echo "N&Atilde;O";
+		       		?>	
+		       		</td>
+		       		<td style="text-align: center;" >
+		       		<?php 
+		       		if(empty($produtos->nfe)): 
+		       			echo $produtos->nt_fiscal;
+		       		else: ?>
+		       			<a target="_blank" href="<?=$this->baseUrl()?>/admin/venda/garantiasnfeview/nfe/<?=md5($produtos->nfe)?>"><?="NFe".substr("000000".$produtos->nfe,-6,6);?></a>
+		       		<?php endif; ?>
+		       		</td>
+		       		<?php
+		       		if($this->objAng == true){ 
+		       			if(($produtos->nfe == NULL) and ($produtos->substituir == true)){ 
+		       				if($produtos->id_creditos == NULL){
+		                		?>
+		                		<td style="padding-left: 30px"><input type="checkbox" name="<?=$produtos->idt?>" style="margin-left: 10px;" class="marcar"></td><?php
+		                		$verProd = 1;
+		                	}else{
+								?><td style="text-align: center;" ><a target="_blank" href="<?=$this->baseUrl()?>/admin/administracao/financeiroztlcreditos/cliente/<?php echo $viewGarantia->id_clientes?>"><?="C".substr("000000".$produtos->id_creditos,-6,6);?></a></td><?php 
+							}
+		       			} 
+	       			}
+	       			?>	        		
+		       		<td style="text-align: center;" >
+		       			<?php if($produtos->substituir !=1): ?>
+			       		<a href="<?=$this->baseUrl()?>/admin/venda/garantiaspagreldet/prod/<?=md5($produtos->idt)?>" target="_blank" ><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/printer.png" width="16" border="0" title="Relatório"></a>	
+			       		<?php endif;?>
+		       		</td>
+		       </tr>
+		       <?php 
+		       endforeach;
+		       ?>
+		       </tbody>
+			</table>
+			</form>
+		 </div>
+			
+		<div style="margin-top: 10px;">
+			<input type="button" value="Detalhes NF" onclick="mostraDet();"  class="basicBtn">
+		</div>
+		
+		
+	     <?php  if(!empty($this->objProdutos)): ?>
+	     <div class="widget" id="det" style="display: none">
+ 			<div class="head" style="border-bottom: 0px"><h5 class="iFrames">Detalhes da NF-e</h5></div>
+        	<table class="tableStatic" style="width: 100%">
+            	<thead>
+                	<tr>
+                		<td width="">Id</td>
+                        <td width="30%">Código</td>
+                        <td width="">QT</td>
+                        <td width="">Valor</td>
+                        <td width="50%">Descrição</td>
+                        <td width="">Valor total</td>                        
+                    </tr>
+                </thead>
+                <tbody>
+	            	<?php
+		       		$cont = 0;
+		       		$idt = "";
+		       		foreach ($this->objProdutos as $listProd):
+		       			$cont++;
+		       			?> 
+						<tr>
+				       		<td style="text-align: center;"><?php echo substr("000".$cont,-3,3); ?></td>
+				       		<td style="text-align: center;" ><?php echo $listProd->CODIGO?> </td>
+				       		<td style="text-align: center;" ><?php echo $listProd->qt?> </td>
+				       		<td align="right" ><?php echo number_format($listProd->preco_nf,2,",",".")?> </td>
+				       		<td align="left" ><?php echo ($listProd->DESCRICAO)?> </td>
+				       		<td align="right" ><?php echo number_format(($listProd->preco_nf*$listProd->qt),2,",",".")?> </td>
+				       	</tr>
+		       			 <?php
+					endforeach;
+			  		?>
+			  	</tbody>
+	     	</table>
+	     </div>
+	  	 <?php endif; ?>
+			  	 
+			  	 <?php 			      
+			      if(!empty($this->objDetanalise)):
+			     	?>
+			     	 <table style="margin-top: 15px; width: 100%" >
+					  	 <tr>
+					    	<th  align="left" colspan="2" style="padding: 10px" >
+					                Observação
+					     	</th>
+					     </tr> 
+						 <?php       	 
+			            
+				       		$contob = 0;
+				       		$idt = "";
+				       		foreach ($this->objDetanalise as $listDet):
+				       			if(!empty($listDet->detalhadesc)):
+				       			$contob++;
+				       			?> 
+						       <tr>
+						       		<td  style="text-align: center;" width="10%" valign="top">
+							       		<?php echo $contob?> - 
+							       	</td>
+						       		<td align="left" >
+						       			<?php 
+						       			if($listDet->infotecnica!=""):
+						       				?>
+						       				<a target="_blank" href="<?php echo $this->baseUrl(); ?>/admin/venda/analiseopdetcli/analise/<?php echo md5($listDet->id)?>">
+											<?php
+										endif; 
+						       			echo ($listDet->detalhadesc);
+						       			if($listDet->infotecnica!=""):
+						       				?>
+						       				</a>
+											<?php
+										endif;
+						       			?> <br /><br />
+						       		</td>
+						       </tr>
+						       <?php
+						       endif;
+				       		endforeach;
+				       		?>
+					 </table>
+			     	<?php endif; 
+			      
+			      	if($viewGarantia->obsanalise!=""):?>
+			        <div style="padding: 10px; border: 1px solid #d5d5d5;">
+					Observação da análise:<br>
+					<?php echo ($viewGarantia->obsanalise)?>					
+					</div>
+					<?php 
+					endif;			      
+					?>
+			<?php if($verProd==1 and $this->objAng == true){ ?> 
+        	<div style="padding-top: 10px"> 
+        		<input type="button" value="Gerar Crédito" class="greenBtn" onclick="gerarCredito();">
+        	</div>				
+        	<?php } ?>		
+					
+		</div>
+		
+		<script type="text/javascript">
+			function gerarCredito(){
+				document.formcredito.submit();
+			}
+			
+			function mostraDet(){
+				if(document.getElementById('det').style.display=='none'){
+					document.getElementById('det').style.display='block';
+				}else{
+					document.getElementById('det').style.display='none';
+				}
+			}	
+
+			<?php if($this->retCredito === true){ ?>	
+				jAlert('Crédito gerado com sucesso!','Sucesso!');
+			<?php }elseif($this->retCredito === false){ ?>	
+				jAlert('Erro ao gerar crédito da garantia!','Erro!');
+			<?php } ?>
+
+			$("#todos").change(function(){
+			   if ($("#todos").attr("checked")){
+			      $('.marcar').each(
+			         function(){
+			            $(this).attr("checked", true);
+			         }
+			      );
+			   }else{
+			      $('.marcar').each(
+			         function(){
+			            $(this).attr("checked", false);
+			         }
+			      );
+			   }
+			});
+			
+		</script>

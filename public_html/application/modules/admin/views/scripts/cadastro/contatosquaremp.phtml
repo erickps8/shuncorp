@@ -1,0 +1,236 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/cadastroContatosemp.js"></script>
+	
+
+	<div class="content">
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="#">Home</a> </li>
+                	<li><a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/contatos">Contatos</a></li>
+                	<li><a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/contatosemp/fil/todos">Empresas</a></li>
+                	<li class="lastB">Quarentena</li>
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Quarentena</h5></div>
+        
+        
+        <div class="widget" style="border: 1px solid #d5d5d5; padding: 10px">
+        	<form class="mainForm" method="post">
+	        	<?php 
+	        	if($this->objTp == 1) 		$cont 	= 'checked="checked"';
+	        	else if($this->objTp == 2) 	$fil	= 'checked="checked"';
+	        	else 						$mat	= 'checked="checked"';
+	        	?>
+	        	<input type="radio" name="tp" <?=$mat?> value="3" ><label>Matriz</label>
+	        	<input type="radio" name="tp" <?=$fil?> value="2" ><label>Filial</label>
+	        	<input type="radio" name="tp" <?=$cont?> value="1"><label>Contatos</label>
+	        	<div class="fix"></div>	
+	        	Nome ou ID<br />
+	        	<input type="text" style="width: 250px" name="busca">
+	        	<input type="submit" value="Pesquisar" class="blueBtn">
+        	</form>
+        	<div class="fix"></div>
+        </div>
+        
+		<?php 
+		if(count($this->objEmp) > 0) :
+			if($this->objTp == 1):
+			?>
+				<div class="widget first">
+		 			<table style="width: 100%" class="tableStatic">
+		            	<thead>
+		                	<tr>
+		                        <td width="7%">Id</td>
+		                        <td >Nome</td>
+		                        <td >Dt alteração</td>
+		                        <td width="13%">Opções</td>
+		                    </tr>
+		                </thead>
+		                <tbody>        	       
+						<?php 
+						foreach($this->objEmp as $lista):
+							?>
+							<tr >
+				                <td style="text-align: center;" >
+				                   C<?=$lista->ID?>
+				                </td>
+				                <td   align="left" >
+				                   <?=($lista->NOME)?>                 
+				                </td>
+				                <td   style="text-align: left;" >
+				                	<?php echo substr($lista->data_alt, 8,2)."/".substr($lista->data_alt, 5,2)."/".substr($lista->data_alt, 0,4)?>				                	
+				                </td>
+				                <td style="text-align: center;" >
+				                	<a href="javascript:void(0)" onclick="buscaContatoemp('<?=$lista->ID?>','0','<?php echo $lista->ID_EMP?>');"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" title="Visualizar"></a>				
+				                </td>
+				            </tr> 
+				            <?php
+				       	endforeach;
+		     			?>
+		     			</tbody>
+		     		</table>
+		    	 </div>
+		    <?php 
+		    elseif($this->objTp == 2):
+		    ?>
+		    	<div class="widget first">
+		 			<table style="width: 100%" class="tableStatic">
+		            	<thead>
+		                	<tr>
+		                        <td width="7%">Id</td>
+		                        <td >Empresa</td>
+		                        <td >Dt alteração</td>
+		                        <td width="13%">Opções</td>
+		                    </tr>
+		                </thead>
+		                <tbody>        	       
+						<?php 
+						$class = 'td_orc_par';
+						$cor=0;
+						foreach($this->objEmp as $lista):
+							$cor++;
+					    	?>
+							<tr >
+				                <td style="text-align: center;" >
+				                   F<?=$lista->id?>
+				                </td>
+				                <td   align="left" >
+				                   <?=($lista->empresa)?>                 
+				                </td>
+				                <td   style="text-align: left;" >
+				                	<?php echo substr($lista->data_alt, 8,2)."/".substr($lista->data_alt, 5,2)."/".substr($lista->data_alt, 0,4)?>				                	
+				                </td>
+				                <td style="text-align: center;" >
+				                	<a href="javascript:void(0)" onclick="buscaFilial('<?=$lista->id?>','<?php echo $lista->id_matriz?>','','1');"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" title="Editar"></a>						    					
+				                </td>
+				            </tr> 
+				            <?php
+				       	endforeach;
+		     			?>
+		     			</tbody>
+		     		</table>
+		    	 </div>
+		    <?php 
+		    else:
+		    ?>
+				<div class="widget first">
+		 			<table style="width: 100%" class="tableStatic">
+		            	<thead>
+		                	<tr>
+		                        <td width="7%">Id</td>
+		                        <td >Empresa</td>
+		                        <td >Dt alteração</td>
+		                        <td width="13%">Opções</td>
+		                    </tr>
+		                </thead>
+		                <tbody>        	       
+						<?php 
+						$class = 'td_orc_par';
+						$cor=0;
+						foreach($this->objEmp as $lista):
+							$cor++;
+					    	?>
+							<tr >
+				                <td style="text-align: center;" >
+				                   M<?=$lista->id?>
+				                </td>
+				                <td   align="left" >
+				                   <?=($lista->empresa)?>                 
+				                </td>
+				                <td   style="text-align: left;" >
+				                	<?php echo substr($lista->data_alt, 8,2)."/".substr($lista->data_alt, 5,2)."/".substr($lista->data_alt, 0,4)?>				                	
+				                </td>
+				                <td style="text-align: center;" >
+				                	<a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/contatosempcad/empresa/<?=md5($lista->id)?>/tp/3"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" title="Editar"></a>				
+				                </td>
+				            </tr> 
+				            <?php
+				       	endforeach;
+		     			?>
+		     			</tbody>
+		     		</table>
+		    	 </div>
+		     <?php 
+		     endif;
+		     ?>
+		     
+		     
+		     <div style="margin-top: 20px">
+				<?php 
+				if ( count($this->objEmp) > 0) :
+	            	echo $this->objEmp;
+	            endif;
+			    ?>
+			</div>
+		     
+		    <?php 
+		    else :
+		    ?>
+          	<div style="text-align: center; margin-top: 30px">Nenhum(a) contato/empresa encontrado(a)</div>			
+          	<?php 
+          	endif;
+		?>
+	</div>
+
+	
+<script>
+	function tpcontatosExibe(){
+		var alvo;
+
+		var i;
+	    for (i=0;i<document.pesquisa.tipopesq.length;i++){
+	    	if (document.pesquisa.tipopesq[i].checked){
+	        	alvo = document.pesquisa.tipopesq[i].value;
+	       	}
+	    }
+	    		
+		
+		if((alvo == 1)){
+			document.getElementById('ginteresse').style.display = 'table-row';
+		}else{
+			document.getElementById('ginteresse').style.display = 'none';
+		} 
+	}
+
+	function mostrarPesquisa(){				
+	    nTr = document.getElementById("tabela");
+	    if(nTr.style.display == "none"){
+	        nTr.style.display = "block";
+	    }else{
+	        nTr.style.display = "none";
+	    }
+	}	
+
+	function buscaContatoemp(contato,emptp,empresa){
+		buscaContato(contato,emptp,empresa);
+	}
+
+	function confirmeExcluirempresa(emp){
+		jConfirm('Tem certeza que deseja excluir a empresa?', 'Confirme', function(r) {
+			if(r==true){
+				window.location='<?=$this->baseUrl()?>/admin/cadastro/removematriz/empresa/'+emp;
+			}
+		});
+    }
+
+	function confirmeExcluircontato(contato){
+		jConfirm('Tem certeza que deseja excluir este contato?', 'Confirme', function(r) {
+			if(r==true){
+				window.location='<?=$this->baseUrl()?>/admin/cadastro/removecontato/contato/'+contato;
+			}
+		});
+    }
+
+	function confirmeExcluirfilial(filial){
+		jConfirm('Tem certeza que deseja excluir a filial?', 'Confirme', function(r) {
+			if(r==true){
+				window.location='<?=$this->baseUrl()?>/admin/cadastro/removeempfilial/empresa/'+filial;
+			}
+		});
+    }
+
+	
+</script>

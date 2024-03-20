@@ -1,0 +1,61 @@
+
+<div class="content">
+	<!-- Navegacao --> 
+    <div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+    	<div class="breadCrumb module">
+        	<ul>
+            	<li class="firstB"><a href="#">Home</a> </li>
+            	<li class="" ><a href="<?php echo $this->baseUrl(); ?>/admin/configuracao">Configurações</a></li>
+                <li class="lastB" >Meu menu</li>                
+            </ul>
+		</div>
+	</div>       
+
+        
+    <div class="title"><h5>Meu Menu</h5></div>
+			
+    <?php 
+    if(count($this->objMenu)>0):
+	?>
+	<div class="widget first" >
+		<div class="rowElem" style="border-top: 1px solid #d5d5d5; margin-top: -10px; padding: 20px; padding-bottom: 40px">
+			<form name="gravarmenu" method="post" action="" class="mainForm">
+				<ul >
+				<?php
+				foreach($this->objMenu as $lista):
+					?>
+		            <li style="clear: both;">
+		            	<span style="font-weight: bold; text-transform: uppercase; "><?=(($lista->item_m))?></span>
+		           		<ul style="clear: both;">
+						<?php 
+						foreach($this->objSubmenu as $listasub):
+							if($lista->id_m == $listasub->id_menu):
+								$ver = '';
+								foreach ($this->objMenuusuario as $menuuser):
+									if($listasub->id == $menuuser->idsm):
+										$ver = 'checked="checked"';
+									endif;
+								endforeach;
+								?>
+							    <li style="clear: both; padding-left: 15px"><input type="checkbox" <?php echo $ver?> name="<?php echo $listasub->id?>" /><label><?=$listasub->item?></label></li>
+							    <?php 
+						    endif;
+						endforeach;
+						?>
+						</ul>		           	 	
+		            </li>
+		            <?php 
+	            endforeach;
+	            ?>		
+	            </ul>	
+	            <div >
+	            	<input type="submit" value="Salvar" class="greenBtn" style="float: right; margin: 0px 0px 0px 0px"/>
+	            </div>		
+			</form>
+		</div>
+	</div>
+	<div class="fix"></div>        
+	<?php 
+	endif;
+	?>
+</div>

@@ -1,0 +1,204 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/cadastroBuscauf.js"></script>
+
+<?php
+
+if($this->objRes == 'sucesso'):
+	?>
+	<script>
+		jAlert('Atualizado com sucesso!', 'Sucesso!');
+	</script>
+	<?php 
+elseif($this->objRes == 'falha'):
+?>
+	<script>
+		jAlert('Erro ao atualizar. Tente novamente!', 'Erro!');
+	</script>
+	<?php 
+endif;
+ 
+if(count($this->objUser)>0):
+	foreach ($this->objUser as $usuario);
+endif;
+?>
+<div class="content">
+	<!-- Navegacao --> 
+    <div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+    	<div class="breadCrumb module">
+        	<ul>
+            	<li class="firstB"><a href="#">Home</a> </li>
+                <li class="lastB" ><a href="<?php echo $this->baseUrl(); ?>/admin/configuracao">Configurações</a></li>                
+            </ul>
+		</div>
+	</div>       
+
+        
+    <div class="title"><h5>Dados pessoais usuário <b>U<?php echo $usuario->iduser?></b>	</h5></div>
+			
+   	<div class="widget first" >
+		<form action="" class="mainForm" name="form" method="post" >
+        	<input type="hidden" value="<?php echo ($usuario->iduser)?>" name="idusuario" />
+        
+			<div class="rowElem" style=" margin-top: -10px; padding: 10px; border-top: 1px solid #d5d5d5;">
+	        	<table style="width: 100%" >
+	        		
+			     	<tr>
+			     		<td colspan="2"> 
+			     			 Nome:<br /><input type="text" name="nome" value="<?php echo $usuario->nomeusuario?>" class="botDir" title="Nome completo do usuário" style="width: 300px" />		     			 
+			     		</td>		
+			     		<td>
+			     			 Dt Nascimento:<br /><input type="text" name="dtnascimento" value="<? if(!empty($usuario->dtnasc)) echo $usuario->dtnasc?>"  class="botDir data" title="Data de nascimento do usuario" style="width: 80px" />		     			 
+			     		</td>			     		
+			     	</tr>			     	
+			     	
+			     	<tr>
+			     		<td style="width: 30%">
+			     			 CPF:<br /><input type="text" name="cpf" value="<?php echo $usuario->cpf?>" class="botDir cpf" title="CPF do usuário" style="width: 150px" />		     			 
+			     		</td>					     		
+			     		<td colspan="2">
+			     			 RG:<br /><input type="text" name="rg" value="<?php echo $usuario->rg?>" class="botDir inteiro" title="RG do usuário" style="width: 150px" />		     			 
+			     		</td>			     		
+			     	</tr>					     	
+			   	</table>		
+				<div class="fix"></div>
+	     	</div>
+	        <div class="rowElem" style="padding: 10px">
+	        	<table style="width: 100%" >
+			     	<tr>
+			     		<td style="width: 40%" colspan="2"> 
+			     			 Logradouro:<br /><input type="text" name="logradouro" value="<?php echo $usuario->logradouro?>" class="botDir" title="Endereço. Ex.: Rua, quadra, avenida..." style="width: 300px" />		     			 
+			     		</td>					     		
+			     		<td style="width: 10%"> 
+			     			 Nº:<br /><input type="text" name="numero" value="<?php echo $usuario->numero?>" class="botDir" title="Número" style="width: 40px" />		     			 
+			     		</td>
+			     		<td > 
+			     			 Bairro:<br /><input type="text" name="bairro" value="<?php echo $usuario->bairro?>" class="botDir" title="Bairro" style="width: 150px" />		     			 
+			     		</td>
+			     	</tr>	
+			     	<tr>
+			     		<td >
+			     			 Pais:<br>
+			     			 <div class="styled-select" style="width: 160px">
+								<select style="width: 182px" name="pais" onchange="buscaEstados(this.value,'1','estado');">
+									<option value='0'>Selecione</option>
+									<?php 
+									foreach ($this->objPaises as $listpaises):
+										?>
+										<option value="<?=$listpaises->id?>" <?php if($usuario->id_paises == $listpaises->id): ?> selected="selected" <?php endif; ?>><?=$listpaises->nome?></option>
+										<?php 
+									endforeach;
+									?>
+								</select>  		    
+							</div> 			 
+			     		</td>					     		
+			     		<td style="padding-left: 5px">
+			     			 Estado:<br>
+			     			 <div id="estado">
+			     			 	<div class="styled-select" style="width: 180px">
+								<select id="uf" name="uf" onchange="buscaEstados(this.value,'2','cidade');" style="width: 202px">
+									<option value="0">Selecione</option>
+									<?php 
+									foreach ($this->objEstados as $list):		
+										?>
+										<option value='<?php echo $list->id?>' <?php if($usuario->id_estados == $list->id): ?> selected="selected" <?php endif; ?>><?=$list->nome?></option>
+										<?php 
+									endforeach;
+									?>
+								</select>
+							</div>
+							</div>		     			 
+			     		</td>
+			     		<td colspan="2" style="padding-left: 5px">
+			     			 Cidade:<br>
+			     			 <div id="cidade">
+			     			 	<div class="styled-select" style="width: 260px">
+									<select id="cidade" name="cidade" style="width: 282px">
+										<option value="0">Selecione</option>
+										<?php 
+										foreach ($this->objCidades as $list):		
+											?>
+											<option value='<?php echo $list->id?>' <?php if($usuario->id_cidades == $list->id): ?> selected="selected" <?php endif; ?>><?=$list->nome?></option>
+											<?php 
+										endforeach;
+										?>
+									</select>
+								</div>
+							</div>				     			 
+			     		</td>					     		
+			     	</tr>					     	
+			     	<tr>
+			     		<td colspan="2">
+			     			Complemento:<br /><input type="text" name="complemento" value="<?php echo $usuario->complemento?>" class="botDir" title="Complemento" style="width: 250px" />
+			     		</td>
+			     		<td colspan="2">
+			     			Cep:<br /><input type="text" name="cep" class="botDir cep" value="<?php echo $usuario->cep?>" title="Bairro" style="width: 90px" />
+			     		</td>
+			     	</tr>			     	
+			    </table>			     
+		  	</div>	
+		  	
+		  	<div class="rowElem" style=" padding: 10px">
+            	<table style="width: 100%" >
+			     	<tr>
+			     		<td > 
+			     			Email:<br /><input type="text" name="email" value="<?php echo $usuario->email?>" class="botDir" title="Email" style="width: 300px" />		     			 
+			     		</td>		
+			     		<td >
+						    MSN:<br /><input type="text" name="msn" value="<?php echo $usuario->msn?>" class="botDir" title="Msn" style="width: 250px" />
+						</td>			     		
+			     	</tr>
+			     	<tr>
+			     		<td style="width: 30%">
+			     			Skype:<br /><input type="text" name="skype" value="<?php echo $usuario->skype?>" class="botDir" title="Skype" style="width: 250px" />		     			 
+				     		</td>					     		
+				     		<td>
+				     			&nbsp;		     			 
+				     		</td>
+				     	</tr>					     	
+				     	
+				     </table>			     
+                		
+                	<div class="fix"></div>
+            	</div>
+            	<div class="rowElem" style="  padding: 10px">
+                	 <table style="width: 100%" >
+			     	<tr>
+			     		<td > 
+			     			DDI:<br /><input type="text" name="ddi1" value="<?php echo $usuario->telefoneddi?>" class="botDir" title="DDI" style="width: 30px" value="+55"/>		     			 
+			     		</td>		
+			     		<td >
+						    DDD:<br /><input type="text" name="ddd1" value="<?php echo $usuario->telefoneddd?>" class="botDir inteiro" title="DDD" style="width: 30px" />
+						</td>			     		
+						<td style="width: 40%">
+						    Telefone:<br /><input type="text" name="fone1" value="<?php echo $usuario->telefone?>" class="botDir inteiro" title="Telefone" style="width: 150px" />
+						</td>
+						<td > 
+			     			DDI:<br /><input type="text" name="ddi2" value="<?php echo $usuario->telefone2ddi?>" class="botDir" title="DDI" style="width: 30px" value="+55"/>		     			 
+			     		</td>		
+			     		<td >
+						    DDD:<br /><input type="text" name="ddd2" value="<?php echo $usuario->telefone2ddd?>" class="botDir inteiro" title="DDD" style="width: 30px" />
+						</td>			     		
+						<td  style="width: 40%">
+						    Telefone:<br /><input type="text" name="fone2" value="<?php echo $usuario->telefone2?>" class="botDir inteiro" title="Telefone" style="width: 150px" />
+						</td>
+			     	</tr>
+			     	<tr>
+			     		<td colspan="4"> 
+			     			Nextel:<br /><input type="text" name="nextel" value="<?php echo $usuario->nextel?>" class="botDir" title="Rádio nextel" style="width: 150px" />		     			 
+				     		</td>	
+				     		
+				     	</tr>							     	
+				     	
+				     </table>			     
+                		
+                	<div class="fix"></div>
+            	</div>
+		  				
+	     	<div style="">
+            	<input type="submit" value="Salvar" class="greenBtn" style="float: right; margin: 10px 0px 0px 0px"/>
+            </div>		
+			</form>
+		
+	</div>
+	<div class="fix"></div>       
+	
+</div>

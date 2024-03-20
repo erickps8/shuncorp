@@ -1,0 +1,118 @@
+<?php
+
+
+if(!empty($this->objVer)):
+	?>
+	<script>
+	$(document).ready(function(){
+				
+			alertaPadrao('Success!', 'Remarks successfully changed!', 'alerta', 110, 300);
+			
+		});
+	</script>
+	<?php 
+endif;
+
+echo $this->objVer;
+?>
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl()?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/shuntaicompras/pedidos"><?=$this->translate->_("PEDIDOS DE COMPRA")?></a>&nbsp;
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/shuntaicompras/gerarpedido/ped/<?=md5($this->objPed)?>"><?=$this->translate->_("GERAR PEDIDO")?></a>
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<b><a href="<?=$this->baseUrl()?>/admin/shuntaicompras/pedidosobs/ped/<?=md5($this->objPed)?>"><?=$this->translate->_("REGRAS DE COMPRA")?></a></b>
+		
+	</div>
+	<div id="sistitulo"><?=$this->translate->_("REGRAS DE COMPRA")?></div>
+	
+	<div>
+			<form action="<?php echo $this->baseUrl(); ?>/admin/shuntaicompras/gravarobs" method="post" name="prepedido">
+			<input name="pedido" value="<?php echo $this->objPed;?>" type="hidden">
+			
+			<table 	width="100%" class="mytable" style="margin-top: 6px">
+			
+		    <tr>
+	            <th  class="th_canto" align="center" width="15%">
+	                ID
+	            </th>
+	            <th  class="th_pedido" align="center" width="80%">
+	                DESCRIPTION
+	            </th>
+	             <th  class="th_pedido" align="center" width="10%">
+	                &nbsp;
+	            </th>
+	            
+	        </tr>
+			
+			<?php 
+	    	$cor=0;
+	    		    	
+			foreach($this->objObs as $lista):
+	    	
+			$cor++;
+            if(($cor%2)==0) $class = 'td_orc_par';
+            else $class = 'td_orc';
+			?>
+			
+			<tr >
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo $cor?>                  
+                </td>
+                <td  class="<?=$class?>" align="left" >
+                   <?php 
+                   	echo $lista->desc_ing."<br>";
+                   	echo $lista->desc_chines;
+                   ?>                  
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                	<input type="checkbox" name="<?=$lista->id?>"  
+                	<?php 
+                		foreach ($this->objObsgravados as $listg):
+                			if($listg->id_obs == $lista->id):
+                				?>checked="checked"<?php 
+                			endif;
+                		endforeach; 
+                			
+                	?> value="1">
+                </td>
+            </tr>
+            
+			<?php  endforeach;
+			?></table>
+			<p align="left">
+			<input type="submit" value="Save" >
+			</p>
+			</form>
+			
+			<script type="text/javascript">
+				
+			// alerta padrão
+			// função que cria um <a> on the fly para exibir um alerta
+			// m2brDialog
+			var alertaPadrao = function(titulo, msg, tipo, altura, largura) {
+					$('body').append('<a href="#" id="alerta-padrao"></a>');
+					$('#alerta-padrao').m2brDialog({
+							draggable: true,
+							texto: msg,
+							tipo: tipo,
+							titulo: titulo,
+							altura: altura,
+							largura: largura,
+							botoes: {
+								1: {
+									label: 'Close',
+									tipo: 'fechar'
+								}
+							}									   
+					});
+					$('#alerta-padrao')
+						.click()
+						.remove();
+			}; // fim alertaPadrao
+			
+			</script>
+	</div>
+</div>		

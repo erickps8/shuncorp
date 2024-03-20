@@ -1,0 +1,383 @@
+<SCRIPT type="text/javascript" src="<?=$this->baseUrl()?>/public/javascript/contatos.js"></script>
+<?php
+if($this->objConf=="sucesso"):
+	?>
+	<script>
+	$(document).ready(function(){
+		alertaPadrao('Sucesso!', 'Empresa cadastrada com sucesso!', 'alerta', 110, 300);
+	});
+	</script>
+	<?php 
+endif;
+?>
+<script src="<?=$this->baseUrl()?>/public/javascript/buscaajax/buscaajaxuf.js"></script>
+<table width="100%" cellpadding="0" cellspacing="0" >
+	<tr>
+		<td align="left">				
+		<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 5px" >
+			<tr>
+				<td align="left">
+					<?php 
+					if(!empty($this->objMatriz)):
+						foreach ($this->objMatriz as $matriz);
+					endif;						
+					?>
+					<a href="<?php echo $this->baseUrl(); ?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+					<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+					<a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/contatos"><?=$this->translate->_("CONTATOS")?></a>&nbsp;
+					<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+					<a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/contatosemp"><?=$this->translate->_("EMPRESAS")?></a>&nbsp;					
+					<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+					<a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/contatosempcad/empresa/<?=md5($matriz->id)?>" style="text-transform: uppercase;"><?=$matriz->empresa?></a>&nbsp;
+					<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+					<a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/contatosfilialcad"><b><?=$this->translate->_("CADASTRO FILIAIS")?></b></a>&nbsp;
+				</td>
+			</tr>
+		</table>
+ 		</td>
+	</tr>
+	<tr>
+		<td>
+			<table width="100%" class="borda_titulo" >
+				<tr>
+			    	<td width="left" style="text-transform: uppercase;">
+			    	CADASTRO DE FILIAIS DA <?=$matriz->empresa?>
+					</td>
+			    </tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<table style="margin-top: 6px; width: 100%" >
+			<?php 
+			if($this->objNovaemp == true):
+				foreach ($this->objEndereco as $endereco); ?>
+				<tr>
+					<td>
+						<form name="gravaempresa" onsubmit="return validarCamposfilial();" method="post" action="<?=$this->baseUrl()?>/admin/cadastro/gravafilial">
+							<?php 
+							if((!empty($this->objEmpresa)) and ($this->objEdi == true)):
+								foreach ($this->objEmpresa as $empresa);
+							endif;						
+							?>									
+							<input type="hidden" value="<?=$this->idEmpresa?>" name="idempresa">
+							<input type="hidden" value="<?=$empresa->ID?>" name="novaempresa">
+							<input type="hidden" name="idmatriz" value="<?=$matriz->id?>" >
+							
+							<table style="width: 100%">
+								<tr>
+									<td colspan="2">
+										Empresa<br/>
+										<b><?=$empresa->EMPRESA?></b>
+										<input type="hidden" size="30" name="empresa" value="<?=$empresa->EMPRESA?>">
+									</td>
+									<td colspan="2">
+									 	CEP:<br>
+									 	<b><?=$endereco->CEP?></b>
+										<input  value="<?=$endereco->CEP?>" type="hidden" id="cep" name="cep" >
+									</td>
+								</tr>
+								<tr>
+									<td  align="left" colspan="2" width="40%">
+										Logradouro:<br>
+										<b><?=$endereco->LOGRADOURO." ".$endereco->complemento." ".$endereco->numero?></b>
+										<input value="<?=$endereco->LOGRADOURO." ".$endereco->complemento." ".$endereco->numero?>" type="hidden" id="rua" name="rua" > 
+									</td>
+									<td  align="left">
+										Bairro:<br>
+										<b><?=$endereco->BAIRRO?></b>
+										<input value="<?=$endereco->BAIRRO?>" type="hidden" id="bairro" name="bairro" >
+									</td>  
+									<td  align="left">
+										&nbsp;
+									</td>
+								</tr>
+								<tr>
+									<td align="left" colspan="4">
+										<table style="width: 100%; padding: 0px">
+										<tr>
+											<td  align="left" width="20%">										
+												Pais:<br>
+												<b>
+												<?=$endereco->npais?>
+												</b> 
+												<input value="<?=$endereco->PAIS?>" type="hidden" id="pais" name="pais" > 
+											</td>										
+											<td  align="left"  width="35%">
+												Estado:<br>
+												<b><?=$endereco->nuf?></b>
+												<input value="<?=$endereco->nuf?>" type="hidden" id="uf" name="uf" > 
+											</td>									 
+											<td  align="left"> 
+												Cidade:<br>
+												<b>
+												<?=$endereco->ncidade?></b>
+												<input value="<?=$endereco->id_cidades?>" type="hidden" id="cidade" name="cidade" >
+											</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+								
+								<?php 
+								if($this->objIns==true):
+								?>
+								<tr >
+									<td colspan="3" style="padding-top: 20px">
+										<input type="submit" value="Salvar">
+									</td>
+									<td style="text-align: right;">
+										&nbsp;					
+									</td>
+								</tr>
+								<?php 
+								endif;
+								?>
+								<tr >
+									<td colspan="4" class="borda_tcadastro">
+									&nbsp;
+									</td>
+								</tr>								
+							</table>
+						</form>
+					</td>
+				</tr>
+				<?php elseif((($this->objEdi==true) and ($this->objEditar=="ver"))|| (($this->objIns==true) and (count($this->objEmpresa)==0))): ?>
+				<tr>
+					<td>
+						<form name="gravaempresa" onsubmit="return validarCamposfilial();" method="post" action="<?=$this->baseUrl()?>/admin/cadastro/gravafilial">
+							<?php 
+							if((!empty($this->objEmpresa)) and ($this->objEdi == true)):
+								foreach ($this->objEmpresa as $empresa);
+							endif;						
+							?>
+									
+							<input type="hidden" name="idempresa" value="<?=$empresa->id?>" >
+							<input type="hidden" name="idmatriz" value="<?=$matriz->id?>" >
+							<table style="width: 100%">
+								<tr>
+									<td width="15%" style="vertical-align: top;">
+										<input type="button" onclick="document.getElementById('buscaempresa').style.display = 'block';" value="Buscar parceiros">
+									</td>
+									<td colspan="3">
+										<div style="display: none;" id="buscaempresa">
+											Clientes<br/>
+											<select id="clientes" name="clientes" onchange="window.location='<?=$this->baseUrl()?>/admin/cadastro/contatosfilialcad/matriz/<?=md5($matriz->id)?>/idempresa/<?=$empresa->id?>/novaempresa/'+this.value">
+											<option value='0'>Selecione</option>
+											<?php 
+											foreach ($this->objClientes as $listcli):
+												?><option value="<?=$listcli->ID?>" ><?=$listcli->EMPRESA?></option><?php 
+											endforeach;
+											?>
+											</select>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										Empresa<br/>
+										<input type="text" size="30" name="empresa" value="<?=$empresa->empresa?>">
+									</td>
+									<td colspan="2">
+									 	CEP:<br>
+										<input  value="<?=$empresa->cep?>" type="text" id="cep" name="cep" value='' size="15" maxlength="8" onKeyDown="Mascara(this,Integer);" onKeyPress="Mascara(this,Integer);" onKeyUp="Mascara(this,Integer);">  
+										<input type="button" value="Buscar" onclick="getEndereco()">
+										<img id="carregar" alt="Aguarde..." style="display: none" src="<?=$this->baseUrl()?>/images/loading.gif" >
+									</td>
+								</tr>
+								<tr>
+									<td  align="left" colspan="2" width="40%">
+										Logradouro:<br>
+										<input value="<?=$empresa->endereco?>" type="text" id="rua" name="rua" value='' style="width: 95%"> 
+									</td>
+									<td  align="left">
+										Bairro:<br>
+										<input value="<?=$empresa->bairro?>" type="text" id="bairro" name="bairro" size="20">
+									</td>  
+									<td  align="left">
+										&nbsp;
+									</td>
+								</tr>
+								<tr>
+									<td align="left" colspan="4">
+										<table style="width: 100%">
+										<tr>
+											<td  align="left" width="20%">										
+												Pais:<br>
+												<select style="width: 95%" name="pais" onchange="Mostramontauf(this.value);">
+												<?php 
+												foreach ($this->objPaises as $listpaises):
+													?>
+													<option <?php if($empresa->pais == $listpaises->id) echo 'selected="selected"'; ?> value="<?=$listpaises->id?>"><?=$listpaises->nome?></option>
+													<?php 
+												endforeach;
+												?>
+												</select>  
+											</td>										
+											<td  align="left"  width="35%">
+												<div id="divuf">
+												Estado:<br>
+												<select id="uf" name="uf" onchange="buscaCidades(this.value);">
+												<option value='0'>Selecione</option>
+												<?php 
+												if(!empty($empresa->pais)) $estpais = $empresa->pais;
+												else $estpais = 1;
+												foreach ($this->objUf as $listuf):
+													if($listuf->id_paises == $estpais):
+														?><option <?php if($empresa->uf == $listuf->uf) echo 'selected="selected"'; ?> value='<?=$listuf->uf?>' ><?php echo ($listuf->nome)?></option><?php 
+													endif;
+												endforeach;
+												?>
+												</select>
+												</div>
+											</td>									 
+											<td  align="left"> 
+												Cidade:<br>
+												<div id="divcid">
+													<select id="cidade" name="cidade" >
+													<option value='0'>Selecione</option>
+													<?php 
+													foreach ($this->objCidades as $listcid):
+														?><option <?php if($empresa->cidade == $listcid->id) echo 'selected="selected"'; ?> value="<?=$listcid->id?>" ><?=$listcid->nome?></option><?php 
+													endforeach;
+													?>
+													</select>
+												</div>
+											</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+								
+								<?php 
+								if($this->objIns==true):
+								?>
+								<tr >
+									<td colspan="3">
+										<input type="submit" value="Salvar">
+									</td>
+									<td style="text-align: right;">
+										<?php if(($empresa->verificado != 1) and ($this->objInterno == 1)): ?> &nbsp;
+						                <a href="#" onclick="if(confirm('Validar cadastro?')){ window.location='<?=$this->baseUrl()?>/admin/cadastro/contatosvalida/matriz/<?=md5($matriz->id)?>/contato/<?=md5($empresa->id)?>/tipo/2'; }"><img alt="Validar" title="Validar" src="<?=$this->baseUrl()?>/images/checado.jpg"></a>
+						                <?php endif; ?>									
+									</td>
+								</tr>
+								<?php 
+								endif;
+								?>
+								<tr >
+									<td colspan="4" class="borda_tcadastro">
+									&nbsp;
+									</td>
+								</tr>								
+							</table>
+						</form>
+					</td>
+				</tr>
+				<?php else: ?>
+				<tr>
+					<td>
+						<form name="gravaempresa" onsubmit="return validarCamposfilial();" method="post" action="<?=$this->baseUrl()?>/admin/cadastro/gravafilial">
+							<?php 
+							if((!empty($this->objEmpresa)) and ($this->objEdi == true)):
+								foreach ($this->objEmpresa as $empresa);
+							endif;						
+							?>
+									
+							<input type="hidden" name="idempresa" value="<?=$empresa->id?>" >
+							<input type="hidden" name="idmatriz" value="<?=$matriz->id?>" >
+							<table style="width: 100%">
+								<tr>
+									<td colspan="2">
+										Empresa<br/>
+										<b><?=$empresa->empresa?></b>
+										<input type="hidden" size="30" name="empresa" value="<?=$empresa->empresa?>">
+									</td>
+									<td colspan="2">
+									 	CEP:<br>
+									 	<b><?=$empresa->cep?></b>
+										<input  value="<?=$empresa->cep?>" type="hidden" id="cep" name="cep" >
+									</td>
+								</tr>
+								<tr>
+									<td  align="left" colspan="2" width="40%">
+										Logradouro:<br>
+										<b><?=$empresa->endereco?></b>
+										<input value="<?=$empresa->endereco?>" type="hidden" id="rua" name="rua" > 
+									</td>
+									<td  align="left">
+										Bairro:<br>
+										<b><?=$empresa->bairro?></b>
+										<input value="<?=$empresa->bairro?>" type="hidden" id="bairro" name="bairro" >
+									</td>  
+									<td  align="left">
+										&nbsp;
+									</td>
+								</tr>
+								<tr>
+									<td align="left" colspan="4">
+										<table style="width: 100%; padding: 0px">
+										<tr>
+											<td  align="left" width="20%">										
+												Pais:<br>
+												<b>
+												<?php 
+												foreach ($this->objPaises as $listpaises):
+													if($empresa->pais == $listpaises->id) echo $listpaises->nome;													 
+												endforeach;
+												?>
+												</b> 
+												<input value="<?=$empresa->pais?>" type="hidden" id="pais" name="pais" > 
+											</td>										
+											<td  align="left"  width="35%">
+												Estado:<br>
+												<b><?=$empresa->uf?></b>
+												<input value="<?=$empresa->uf?>" type="hidden" id="uf" name="uf" > 
+											</td>									 
+											<td  align="left"> 
+												Cidade:<br>
+												<b>
+												<?php 
+												foreach ($this->objCidades as $listcid):
+													if($empresa->cidade == $listcid->id) echo $listcid->nome; 
+												endforeach;
+												?></b>
+												<input value="<?=$empresa->uf?>" type="hidden" id="cidade" name="cidade" >
+											</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+								
+								<?php 
+								if(($this->objEdi==true) and ($empresa->id_clientes == "")):
+								?>
+								<tr >
+									<td colspan="3" style="padding-top: 20px">
+										<input type="button" value="Editar" onclick="window.location='<?=$this->baseUrl()?>/admin/cadastro/contatosfilialcad/matriz/<?=md5($matriz->id)?>/empresa/<?=md5($empresa->id)?>/ed/ver'">
+									</td>
+									<td style="text-align: right;">
+										<?php if(($empresa->verificado != 1) and ($this->objInterno == 1)): ?> &nbsp;
+						                <a href="#" onclick="if(confirm('Validar cadastro?')){ window.location='<?=$this->baseUrl()?>/admin/cadastro/contatosvalida/matriz/<?=md5($matriz->id)?>/contato/<?=md5($empresa->id)?>/tipo/2'; }"><img alt="Validar" title="Validar" src="<?=$this->baseUrl()?>/images/checado.jpg"></a>
+						                <?php endif; ?>									
+									</td>
+								</tr>
+								<?php 
+								endif;
+								?>
+								<tr >
+									<td colspan="4" class="borda_tcadastro">
+									&nbsp;
+									</td>
+								</tr>								
+							</table>
+						</form>
+					</td>
+				</tr>
+				<?php endif; ?>							
+			</table>				
+		</td>
+	</tr>
+</table>
+

@@ -1,0 +1,94 @@
+
+<table width="100%" >
+            <tr>
+                <td align="right"><input type="button" class="button" onclick="window.location='gerarrascunho'" value="New draft"></input></td>
+            </tr>
+        </table>
+<table width="100%" class="borda_titulo">
+            <tr>
+                <td width="left">DRAFTS</td>
+            </tr>
+        </table>
+        <br>
+        
+        <?php 
+        	if($this->objPag=="") $page = 1;
+        	else $page = $this->objPag; 
+        
+        	$cor = ($page*35)-35;
+			if ( count($this->objList) > 0) :
+			
+			?>
+			<table align="left" class="mytable" width="100%" cellspacing="0">
+		        <tr>
+		            <th  class="th_canto_orc" align="center" width="15%">
+		                ID
+		            </th>
+		            <th  class="th_orc" align="center" width="20%" >
+		                DATE
+		            </th>
+		            <th  class="th_orc" align="center" width="20%">
+		            	STATUS 
+		            </th>
+		            <th  class="th_orc" align="center" width="13%">
+		                OPTIONS
+		            </th>
+		            
+		        </tr>
+			
+			
+			<?php 
+	    	foreach($this->objList as $lista):
+	    
+			$cor++;
+            if(($cor%2)==0) $class = 'td_orc_par';
+            else $class = 'td_orc';
+			?>
+			
+			<tr >
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo "D".substr("000000".$lista->id_racunho,-6,6);?>
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo $lista->data?>                  
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo $lista->status?>                  
+                </td>
+                
+                <td  class="<?=$class?>" align="left" >
+                	<a href="<?php echo $this->baseUrl(); ?>/admin/kang/visualizarascunho/ped/<?=md5($lista->id_racunho)?>" ><img src="<?php echo $this->baseUrl(); ?>/images/visualizar_orc.gif" width="19" height="19" border="0" title="Visualize"></a> &nbsp; &nbsp; 
+                    <?php if ($lista->sit == 1) { ?>
+	                <a href="#" onclick="if(confirm('Remover rascunho?')){ window.location='<?php echo $this->baseUrl(); ?>/admin/kang/rascunhorem/rem/<?=md5($lista->id_racunho)?>';};" ><img src="<?php echo $this->baseUrl(); ?>/images/window-close.png" width="17" height="17" border="0" title="Remove draft"></a>
+	                <?php } ?>&nbsp; &nbsp;
+	                <?php if ($lista->status == "O") { ?>
+	                <a href="#" onclick="if(confirm('Close draft?')){ window.location='<?php echo $this->baseUrl(); ?>/admin/kang/rascunhoedit/st/<?=($lista->id_racunho)?>';};" ><img src="<?php echo $this->baseUrl(); ?>/images/bow_verde.jpg" width="18" height="18" border="0" title="Close draft"></a>
+	                <?php }?>
+                </td>
+                
+            </tr>
+            
+			<?php  endforeach;
+			else :
+			?>
+			<br>
+			<center>No draft registered</center>
+			
+			<?php 
+			endif;
+		?>
+		              
+        </table>
+        <br><br>
+		<table width="100%">
+			<tr><td align="center">
+				&nbsp;
+            </td></tr>
+			<tr><td align="center">
+				<?php 
+		            if ( count($this->objList) > 0) :
+		            	echo $this->objList;
+		            endif;
+            	?>
+            </td></tr>
+         </table>

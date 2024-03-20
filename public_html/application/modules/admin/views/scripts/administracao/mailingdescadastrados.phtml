@@ -1,0 +1,147 @@
+<?php 
+
+if($this->obj == 1) echo "Enviado com Sucesso!";
+
+?>    
+        
+<table width="100%" style="margin-bottom: 5px" cellspacing="0" cellpadding="0" >
+	<tr>
+		<td align="left">
+			<a href="<?php echo $this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+			<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+			<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/mailing">EMAIL MARKETING</a>&nbsp; 
+			<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+			<b><a href="<?php echo $this->baseUrl(); ?>/admin/administracao/mailingdescadastrados">EMAIL DESCADASTRADOS</a></b> 
+		</td>
+		
+	</tr>
+</table>
+        <table width="100%" class="borda_titulo">
+            <tr>
+                <td align="left">E-MAILS DESCADASTRADOS</td>
+                <td align="right">
+                <a href="#" class="dcontexto"><img src="<?php echo $this->baseUrl(); ?>/images/interrogacao2.png" width="18" height="18" border="0">
+                <span><b>Lançamentos</b><br>
+               Aqui é exibido os emails que foram descadastrados. 
+                </span></a>
+                </td>                
+            </tr>
+        </table>
+        <table width="100%" style="margin:5px 0px" cellspacing="0" cellpadding="0">
+            <tr>
+                <td align="left">
+                 <table width="40%" style="border-collapse: collapse;" cellspacing="0" cellpadding="2">
+		            <tr>
+		                <td align="left" style="border: 1px solid #999;">
+		            	    <?php 
+		            	    foreach ($this->objMot as $listmot);
+		            	    ?>
+            	   		 Envio Muito Frequente:   
+            	   		 </td>
+            	   		 <td align="center" style="border: 1px solid #999;" width="20%">
+            	   		 <?=$listmot->frequencia?>
+            	   		 </td>
+            	   	</tr>
+            	   	<tr>
+		                <td align="left" style="border: 1px solid #999;">
+            	    		Não autorizado:  
+            	    	</td>
+            	    	<td align="center" style="border: 1px solid #999;">
+            	   		<?=$listmot->autoriza?>
+            	   		 </td>
+            	   	</tr>
+            	   	<tr>
+		                <td align="left" style="border: 1px solid #999;">
+	            	    Sem tempo para leitura:  
+	            	    </td>
+	            	    <td align="center" style="border: 1px solid #999;">
+	            	    	<?=$listmot->semtempo?>
+	            	    </td>
+            	   	</tr>
+            	   	<tr>
+		                <td align="left" style="border: 1px solid #999;">
+            	    	Sem interesse:  
+            	     	</td>
+	            	    <td align="center" style="border: 1px solid #999;">
+	            	    <?=$listmot->seminteresse?>
+	            	   	</td>
+            	   	</tr>
+            	   	<tr>
+		                <td align="left" style="border: 1px solid #999;">
+            	    	Outros:  
+            	     	</td>
+            	     	<td align="center" style="border: 1px solid #999;">
+            	     	<?=$listmot->outros?>
+            	     	</td>
+            	   	</tr>
+            	   	</table>
+                </td>
+               
+            </tr>
+        </table>
+		
+		<?php if ( count($this->objList) > 0) : ?>
+        <table align="left" class="mytable" width="100%" cellspacing="0" >
+        <tr>
+            <th  class="th_canto_orc" align="center" width="20%">
+                DATA
+            </th>
+            <th  class="th_orc" align="center" width="40%">
+                E-MAIL
+            </th>
+            <th  class="th_orc" align="center" width="40%">
+                MOTIVO
+            </th>
+        </tr>
+		<?php 
+			$cor =0;
+			
+	    	foreach($this->objList as $lista):
+	    
+			$cor++;
+            if(($cor%2)==0) $class = 'td_orc_par';
+            else $class = 'td_orc';
+			?>
+			
+			<tr >
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo substr($lista->dt_descadastro,8,2).'/'.substr($lista->dt_descadastro,5,2).'/'.substr($lista->dt_descadastro,0,4); ?>
+                </td>
+                <td  class="<?=$class?>" align="left" style="text-transform: uppercase;">
+                   <?php echo ($lista->email)?>
+                </td>
+                <td  class="<?=$class?>" align="left" >
+                   <?php 
+                   if($lista->naoautoriza==1): 	
+                   		echo "Não autoriazado o envio";
+                   elseif($lista->frequencia==1):
+                   	 	echo "Envio muito frequente";
+                   elseif($lista->naotertempo==1):
+                    	echo "Sem tempo para leitura";
+                   elseif($lista->naointeressa==1):
+                    	echo "Sem interesse";
+                   elseif(!empty($lista->outros)):
+                   		echo $lista->outros;
+                   endif;
+                   
+                   ?>
+                </td> 
+            </tr>
+            
+			<?php  endforeach;			   
+		?>
+		<tr>
+			<td align="center" colspan="4"><br>
+				<?php 
+		            if ( count($this->objList) > 0) :
+		            	echo $this->objList;
+		            endif;
+            	?>
+			</td>
+		</tr>
+		</table>
+		<?php else: ?> <center>Nenhum Email cadastrado!</center>		
+		<?php 
+		endif;
+		?>
+		

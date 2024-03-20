@@ -1,0 +1,54 @@
+<script src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/vendaPendencias.js"></script>
+
+<?php foreach ($this->objCliente as $cli); ?>
+<!-- Content -->
+    <div class="content">   
+    
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/venda/pendenciasprod/fil/comp">Pendências</a></li>         
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/venda/pendenciasempresa">Empresas</a></li>
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/venda/pendenciasemp/empresa/<?=md5($cli->ID)?>" ><?php echo $cli->EMPRESA?></a></li>
+                	<li class="lastB">Pendências baixadas</li>
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Pendências <?php echo $cli->EMPRESA?></h5></div>
+        
+        <div class="widget" style="border: 1px solid #d5d5d5; padding: 15px">
+        	<form class="mainForm">
+        		<input type="hidden" name="empresa" value="<?php echo $cli->ID?>">
+		    	<div style="float: left; width: 90px"> 
+					<input placeholder="Data inicio" type="text" style="margin-right: 3px; width: 80px" name="dataini" id="dataini" class="data datepicker">
+				</div>
+				<div style="float: left; width: 90px" >
+					<input placeholder="Data fim" type="text" style="margin-right: 3px; width: 80px" name="datafim" id="datafim" class="data datepicker">
+				</div>
+				<div style="float: left; width: 180px" >
+					<input type="checkbox" name="canceladas" checked="checked"> <label>Somente canceladas</label>
+				</div>
+				<div style="float: left; ">
+					<input type="button" class="blueBtn btnpesq" value="Pesquisar" id="btnbusca">
+				</div>
+				
+				<div class="fix"></div>
+			</form>
+	        
+	    </div>
+	    
+	    
+	    <div class="clear"></div>
+		
+		<div style="display: none; margin-top: 10px" id="resultado">
+			<div style="padding: 10px; border: 1px solid #d5d5d5;">
+				<img src="<?php echo $this->baseUrl?>/public/sistema/imagens/loaders/loader6.gif"> <i>Aguarde...</i>
+			</div>
+		</div>	
+	    
+	</div>
+		
+		

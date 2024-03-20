@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>SisZTL 2.0 Alpha - ztlbrasil.com.br</title>
+<link href="<?=$this->baseUrl()?>/public/sistema/imagens/ztl.ico" rel="shortcut icon" type="image/x-ico"/>
+
+<link href="<?=$this->baseUrl()?>/public/sistema/css/mainprint.css" rel="stylesheet" type="text/css" />	
+
+</head>
+<!-- Content -->
+
+<body onload="window.print()">
+    <div class="content" style="width: 1000px; margin: auto">
+    	<div class="widgets">
+    		<div class="left">SisZTL 2.0 Alpha</div>
+    		<div class="right" style="text-align: right;"><?php echo date('d/m/Y H:i')?></div>
+    		<div class="clear"></div>	
+    	</div>   
+    	
+    	<?php 
+    	if((!empty($this->objParams['dataini'])) and (!empty($this->objParams['datafim']))):
+    		$periodo = " intervalo entre ".str_replace("-", "/", $this->objParams['dataini'])." e ".str_replace("-", "/", $this->objParams['datafim']);	    	
+    	elseif((!empty($this->objParams['dataini'])) and (empty($this->objParams['datafim']))):
+    		$periodo = " a partir da data ".str_replace("-", "/", $this->objParams['dataini']);
+    	elseif((empty($this->objParams['dataini'])) and (!empty($this->objParams['datafim']))):
+    		$periodo = " até a data  ".str_replace("-", "/", $this->objParams['datafim']);
+    	endif;
+    	?>
+    	
+	    <div class="title"><h5>Curva de produtos <?php echo $periodo?></h5></div>
+
+	<?php 
+
+    
+	$vltotal = $qtprod1 = $vlprod1 = $qtp1 = $qtprod2 = $vlprod2 = $qtp2 = $qtprod3 = $vlprod3 = $qtp3 = 0;
+    
+    if($this->objCurva){
+        
+        $arrayprod 	= $this->objCurva['produtos'];
+		$vltotal 	= $this->objCurva['vltotal'];
+        
+        foreach ($arrayprod as $key => $row) {
+        	$ordena[$key]  = $row['precototal'];
+        }
+        
+        array_multisort($ordena, SORT_ASC, $arrayprod);
+                
+        foreach ($arrayprod as $key => $row) {
+            
+    	    if($vlprod3 <=($vltotal*0.05)){
+    	    	$qtprod3 += $row['qtvendido'];
+    	        $vlprod3 += $row['precototal'];
+    	        $qtpend3 += $row['qtpend'];
+    	        $vlpend3 += $row['vlpend'];
+    	    	$qtp3++;
+    	    }elseif($vlprod2 <= ($vltotal*0.15)){
+    	    	$qtprod2 += $row['qtvendido'];
+    	        $vlprod2 += $row['precototal'];
+    	        $qtpend2 += $row['qtpend'];
+    	        $vlpend2 += $row['vlpend'];
+    	    	$qtp2++;
+    	    	    	  
+    	    }else{
+    	    	$qtprod1 += $row['qtvendido'];
+            	$vlprod1 += $row['vlvend'];
+            	$qtpend1 += $row['qtpend'];
+            	$vlpend1 += $row['vlpend'];
+    	    	$qtp1++;
+    	    }
+        }
+        
+        
+        foreach ($arrayprod as $key => $row) {
+        	$ordenadesc[$key]  = $row['precototal'];
+        }
+                
+        array_multisort($ordenadesc, SORT_DESC, $arrayprod);
+    }
+    
+    
+    ?>
+    <div class="widgets">
+    <div class="widget" style="border-top: 1px solid #d5d5d5; padding: 10px;">
+    <div style="width: 30%; float: left; background-color: #D7FFD8; margin-right: 20px; padding: 5px; margin-left: 10px; ">
+    	<div style="background-color: #057E00; padding: 5px; color: #fff; text-align: center; font-weight: bold;">Curva A</div>
+    	<div class="left" style="padding-left: 5px; width: 35%">
+    		Qt vendidos: <br /> 
+    		<?php if($this->objParams['pend'] == on){ ?>
+    		Qt pendências: <br />
+    		<?php }?>
+    		Qt itens: <br />
+    		Vendas: <br />
+    		<?php if($this->objParams['pend'] == on){ ?>
+    		Pendências <br />
+    		<span style="font-size: 14px">Total</span>
+    		<?php } ?>
+    		    		
+    	</div>
+    	<div class="right" style="font-weight: bold; text-align: right; padding-right: 5px; ">
+    		<?php echo $qtprod1." (".number_format(($qtprod1*100)/($qtprod1+$qtprod2+$qtprod3),0)."%)"?><br/>
+    		<?php 
+    		if($this->objParams['pend'] == on){
+				echo $qtpend1." (".number_format(($qtpend1*100)/($qtpend1+$qtpend2+$qtpend3),0)."%)<br />";
+			}
+    		?>
+    		
+    		<?php echo $qtp1." (".number_format(($qtp1*100)/($qtp1+$qtp2+$qtp3),0)."%)"?> <br />
+    	
+    		<?php echo number_format($vlprod1,2,",",".")." (".number_format(($vlprod1*100)/($vlprod1+$vlprod2+$vlprod3),0)."%)"?> <br />
+    		<?php 
+    		if($this->objParams['pend'] == on){ 
+    			echo number_format($vlpend1,2,",",".")." (".number_format(($vlpend1*100)/($vlpend1+$vlpend2+$vlpend3),0)."%)<br />";
+    			echo '<span style="font-size: 14px">'.number_format(($vlpend1+$vlprod1),2,",",".")." (".number_format((($vlpend1+$vlprod1)*100)/(($vlpend1+$vlprod1)+($vlpend2+$vlprod2)+($vlpend3+$vlprod3)),0)."%)</span>";
+    		}
+    		?>
+    		
+    	</div>
+    </div>
+    <div style="width: 30%; float: left; background-color: #FFE2C6; margin-right: 20px; padding: 5px;">
+    	<div style="background-color: #FEA501; padding: 5px; color: #fff; text-align: center; font-weight: bold;">Curva B</div>
+    	<div class="left" style="padding-left: 5px; width: 35%">
+    		Qt vendidos: <br /> 
+    		<?php if($this->objParams['pend'] == on){ ?>
+    		Qt pendências: <br />
+    		<?php }?>
+    		Qt itens: <br />
+    		Vendas: <br />
+    		<?php if($this->objParams['pend'] == on){ ?>
+    		Pendências <br />
+    		<span style="font-size: 14px">Total</span>
+    		<?php } ?>
+    	</div>
+    	<div class="right" style="font-weight: bold; text-align: right; padding-right: 5px;">
+    		<?php echo $qtprod1." (".number_format(($qtprod1*100)/($qtprod1+$qtprod2+$qtprod3),0)."%)"?><br/>
+    		<?php 
+    		if($this->objParams['pend'] == on){
+				echo $qtpend1." (".number_format(($qtpend1*100)/($qtpend1+$qtpend2+$qtpend3),0)."%)<br />";
+			}
+    		?>
+    		
+    		<?php echo $qtp1." (".number_format(($qtp1*100)/($qtp1+$qtp2+$qtp3),0)."%)"?> <br />
+    	
+    		<?php echo number_format($vlprod1,2,",",".")." (".number_format(($vlprod1*100)/($vlprod1+$vlprod2+$vlprod3),0)."%)"?> <br />
+    		<?php 
+    		if($this->objParams['pend'] == on){ 
+    			echo number_format($vlpend1,2,",",".")." (".number_format(($vlpend1*100)/($vlpend1+$vlpend2+$vlpend3),0)."%)<br />";
+    			echo '<span style="font-size: 14px">'.number_format(($vlpend1+$vlprod1),2,",",".")." (".number_format((($vlpend1+$vlprod1)*100)/(($vlpend1+$vlprod1)+($vlpend2+$vlprod2)+($vlpend3+$vlprod3)),0)."%)</span>";
+    		}
+    		?>
+    	</div>
+    </div>
+    <div style="width: 30%; float: left; background-color: #F3BCBF;  padding: 5px;">
+    <div style="background-color: #FE0100; padding: 5px; color: #fff; text-align: center; font-weight: bold;">Curva C</div>
+    	<div class="left" style="padding-left: 5px; width: 35%">
+    		Qt vendidos: <br /> 
+    		<?php if($this->objParams['pend'] == on){ ?>
+    		Qt pendências: <br />
+    		<?php }?>
+    		Qt itens: <br />
+    		Vendas: <br />
+    		<?php if($this->objParams['pend'] == on){ ?>
+    		Pendências <br />
+    		<span style="font-size: 14px">Total</span>
+    		<?php } ?>
+    	</div>
+    	<div class="right" style="font-weight: bold; text-align: right; padding-right: 5px;">
+    		<?php echo $qtprod3." (".number_format(($qtprod3*100)/($qtprod1+$qtprod2+$qtprod3),0)."%)"?><br/>
+    		<?php 
+    		if($this->objParams['pend'] == on){
+				echo $qtpend3." (".number_format(($qtpend3*100)/($qtpend1+$qtpend2+$qtpend3),0)."%)<br />";
+			}
+    		?>
+    		
+    		<?php echo $qtp3." (".number_format(($qtp3*100)/($qtp1+$qtp2+$qtp3),0)."%)"?> <br />
+    	
+    		<?php echo number_format($vlprod3,2,",",".")." (".number_format(($vlprod3*100)/($vlprod1+$vlprod2+$vlprod3),0)."%)"?> <br />
+    		<?php 
+    		if($this->objParams['pend'] == on){ 
+    			echo number_format($vlpend3,2,",",".")." (".number_format(($vlpend3*100)/($vlpend1+$vlpend2+$vlpend3),0)."%)<br />";
+    			echo '<span style="font-size: 14px">'.number_format(($vlpend3+$vlprod3),2,",",".")." (".number_format((($vlpend3+$vlprod3)*100)/(($vlpend1+$vlprod1)+($vlpend2+$vlprod2)+($vlpend3+$vlprod3)),0)."%)</span>";
+    		}
+    		?>
+    	</div>
+    </div>
+    <div class="clear"></div>
+    </div>
+    
+	<div class="widget first">
+ 		<table style="width: 100%" class="tableStatic">
+        	<thead>
+            	<tr>
+                	<td width="2%">&nbsp;</td>
+                	<td width="20%">Código</td>
+                    <td width="">Vendas</td>
+                    <?php if($this->objParams['pend'] == on){ ?>
+                    <td width="">Valor vendas</td>
+                    <td width="">Pendências</td>
+                    <td width="">Valor pendências</td>
+                    <?php } ?>
+                    <td width="">Valor total</td>
+                    <td >Giro</td>
+                    <td width="2%">&nbsp;</td>                                               
+               	</tr>
+         	</thead>
+            <tbody>
+           		<?php 			        
+		        $cor=0;
+		        foreach ($arrayprod as $key => $row) {
+				$cor++;
+				?>
+        		<tr >
+        			<td ><?php echo $cor?></td>
+			        <td align="left"><?php echo $row['codigo']?></td>
+	                <td style="text-align: center;"><?php echo $row['qtvend']?></td>
+	                <?php if($this->objParams['pend'] == on){ ?>
+	                <td style="text-align: right;"><?php echo number_format($row['vlvend'],2,",",".");?></td>
+	                <td style="text-align: center;"><?php if(!empty($row['qtpend'])) echo $row['qtpend']; else echo 0?></td>
+	                <td style="text-align: right;"><?php echo number_format($row['vlpend'],2,",",".");?></td>
+	                <?php } ?>
+	                <td style="text-align: right;"><?php if(!empty($row['precototal'])) echo number_format($row['precototal'],2,",","."); else echo "0,00"?></td>
+	                <td style="text-align: center;">
+	                	<?php 
+	                	echo number_format($row['giro'],2,",",".");  
+	                	if(strtotime($this->objParams['dataini']) < strtotime($row['dtgiro'])){ 
+	                		echo " (".substr($row['dtgiro'],8,2).'/'.substr($row['dtgiro'],5,2).'/'.substr($row['dtgiro'],0,4).")"; 
+						}
+						echo "<br>";
+						echo $row['diasgiro'];
+						?>
+	                </td>
+	                <td style="text-align: center;">
+	                	<?php 
+	                	if($cor <= $qtp1){ 
+							?><span style="background-color: #057E00; padding: 5px; color: #fff">A</span><?php  		                  
+	                	}elseif($cor <= ($qtp2+$qtp1)){ 
+							?><span style="background-color: #FEA501; padding: 5px; color: #fff">B</span><?php  
+	                	}else{ 
+							?><span style="background-color: #FE0100; padding: 5px; color: #fff">C</span><?php 
+						} ?>
+	                </td>
+		     	</tr>
+        		<?php
+        		}
+				?>
+			</tbody>
+        </table>
+   </div>
+   </div>
+ </div>
+ </body>
+ </html>

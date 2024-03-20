@@ -1,0 +1,148 @@
+<?php 
+
+if($this->obj == 1) echo "Enviado com Sucesso!";
+
+?>    
+<table width="100%" cellspacing="0" cellpadding="0" >
+<tr>
+	<td align="left">	
+		<table width="100%" style="margin-bottom: 5px" cellspacing="0" cellpadding="0" >
+			<tr>
+				<td align="left">
+					<a href="<?php echo $this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+					<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+					<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/mailing">EMAIL MARKETING</a>&nbsp;
+					<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+					<b><a href="<?php echo $this->baseUrl(); ?>/admin/administracao/lancamentos">LANÇAMENTOS</a></b>  
+				</td>				
+			</tr>
+		</table>
+	</td>
+</tr>
+<tr>
+	<td>
+		<table width="100%" class="borda_titulo" style="margin-bottom: 5px">
+            <tr>
+                <td align="left">LANÇAMENTOS</td>
+                <td align="right">
+                <a href="#" class="dcontexto"><img src="<?php echo $this->baseUrl(); ?>/images/interrogacao2.png" width="18" height="18" border="0">
+                <span><b>Lançamentos</b><br>
+               Aqui é exibido os lançamentos prontos para a geração e envio em forma de email marketing. 
+                </span></a>
+                </td>
+                
+              </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+	<td>
+		<?php if ( count($this->objList) > 0) : ?>
+        <table align="left" class="mytable" width="100%" cellspacing="0" >
+        <tr>
+            <th  class="th_canto_orc" align="center" width="25%">
+                CÓDIGO
+            </th>
+            <th  class="th_orc" align="center" width="60%">
+                DESCRIÇÃO
+            </th>
+            <th  class="th_orc" align="center" width="25%">
+                OPÇÕES
+            </th>
+        </tr>
+		<?php 
+			$cor =0;
+			
+	    	foreach($this->objList as $lista):
+	    
+			$cor++;
+            if(($cor%2)==0) $class = 'td_orc_par';
+            else $class = 'td_orc';
+			?>
+			
+			<tr >
+                <td  class="<?=$class?>" align="left" >
+                   <?php echo $lista->CODIGO?>
+                </td>
+                <td  class="<?=$class?>" align="left" style="text-transform: uppercase;">
+                   <?php echo utf8_encode($lista->DESCRICAO)?>
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                   <a href="#" onclick="if(confirm('Remover Lançamento?')){ window.location='<?php echo $this->baseUrl(); ?>/mailing/removemailinglancamento/id/<?=$lista->idlanc?>';};" ><img src="<?php echo $this->baseUrl(); ?>/images/window-close.png" width="17" height="17" border="0" title="Remover"></a>
+                </td>                
+            </tr>
+            
+			<?php  endforeach;
+			   
+		?>
+		
+		</table>
+		<?php else: ?> <center>Nenhum lançamento cadastrado!</center>		
+		<?php 
+		endif;
+		?>
+	</td>
+</tr>
+<tr>
+	<td>
+		<table><tr><td>
+		<form method="post" action="<?=$this->baseUrl()?>/admin/administracao/lancamentos">
+		<table style="margin-top: 10px">
+			<tr>
+		         <td align="left">
+			     <b>Enviar para:</b><br>
+			     <input type="checkbox" value="1" name="CheckTodos" id="todos" onClick="marcarCheck();" />Todos &nbsp;  &nbsp; <br>
+			     <input type="checkbox" value="1" name="alvos" id="Marcados" onClick="desmarcarCheck();">Contatos &nbsp;  &nbsp; <br>
+			     <input type="checkbox" value="1" name="clientes" id="Marcados" onClick="desmarcarCheck();">Clientes/Parceiros<br>
+			     <input type="checkbox" value="1" name="newsletter" id="Marcados" onClick="desmarcarCheck();">Newsletter<br>
+			     <input type="checkbox" value="1" name="funcionarios" id="Marcados" onClick="desmarcarCheck();">Funcion&aacute;rios
+			     <br>
+				</td>
+         	</tr>
+         	<tr>
+			    <td>
+				<br><br>
+				<input type="checkbox" checked="checked" value="1" name="remove"> Remover lista ap&oacute;s o envio
+			    </td>
+	        </tr>
+            <tr>
+            	<td align="left">
+                <br><br>
+                <input type="button" value="Remover Lista" onclick="if(confirm('Remover lançamentos?')){window.location='removerlancamentos'}">
+		    	<input type="button" value="Visualizar Lan&ccedil;amentos"  name="visualizar" id="visualizar" onclick="window.open('http://www.ztlbrasil.com.br/acessoRestrito/mailing_view.php')">
+                <input type="submit" value="Enviar" name="enviar" id="enviar">
+                    
+				</td>
+            </tr>
+		</table>
+        </form>
+	    </td></tr>
+	    </table>
+	</td>
+</tr>
+</table>
+		<script language="JavaScript">
+	    function marcarCheck() {  
+	    var contaForm = document.mensagem.elements.length;  
+	    var campo = document.mensagem;  
+	    var i;  
+	 
+	    for (i=0; i<contaForm; i++) {  
+		if (campo.elements[i].id == "Marcados") {  
+		    campo.elements[i].checked = campo.CheckTodos.checked;  
+		}  
+	    }  
+	 
+	    }
+	    
+	    function desmarcarCheck() {
+	     
+	       campoDes = document.getElementById("Marcados");
+	       
+	       document.getElementById('todos').checked=false;
+	       
+	    
+	   
+	    }  
+	    
+	</script>

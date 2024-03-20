@@ -1,0 +1,117 @@
+<?php 
+$usuario = Zend_Auth::getInstance()->getIdentity();
+?>
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	
+                	<?php 
+                	if($usuario->id_perfil != 3 and $usuario->id_perfil != 31){
+                	?>
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztl">Financeiro</a></li>
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/relatorios/financeirocomissoes">Comissões</a></li>
+                	<?php } ?>
+                	<li class="lastB">Detalha Comissões</li>           
+                </ul>
+            </div>
+        </div>       
+        
+		<div class="title"><h5>Comissões de
+		<?php 
+		
+		$tp = 0;
+		if(is_array($this->objUsuario)){
+			foreach ($this->objUsuario as $usuario);
+			echo $usuario->nomeusuario;
+			$tp = 2;
+		}else{
+			echo $this->objUsuario['EMPRESA'];
+			$tp = 1;
+		}
+				
+				
+		?>
+		
+		</h5></div>
+		
+		<div class="widgets" >
+			<div style="border: 1px solid #d5d5d5; padding: 10px; margin-top: 10px" >
+				Mês de Apuração: <?php echo substr($this->periodo,5,2)."/".substr($this->periodo,0,4)?>
+			</div>
+		
+			<div class="clear"></div>
+				
+			<div class="widget">
+	 			<table style="width: 100%" class="tableStatic">
+	            	<thead>
+	                	<tr>
+	                        <td >Venda</td>
+	                        <td >Cliente</td>
+	                        <td >Data</td>
+	                        <td >Valor</td>
+	                        <td >Descontos</td>
+	                        <td >Total</td>
+	                        <td >Comissão</td>
+	                    </tr>
+	                </thead>
+	                <tbody>
+	               	<?php 
+	               	$venda = $descontos = $percomissao = $comissao = 0;
+					foreach($this->objFaturamento as $lista){		
+						$venda 		+= $lista->precototal;
+						$descontos 	+= $lista->desconto;
+						$percomissao = ($tp == 1) ? $lista->comissaorep : $lista->comissaovend;
+						?>			
+						<tr >
+							<td  style="text-align: left;" >
+								<a target="_blank" href="<?php echo $this->baseUrl()?>/admin/venda/pedidosvenda/ped/<?php echo md5($lista->idped)?>">
+			                   		<?php echo $lista->idped?>
+			                  	</a>
+			                </td>
+			                <td  style="text-align: left;" >
+			                   	<?php echo $lista->EMPRESA?>
+			                </td>
+			                <td  style="text-align: right;" >
+			                	<?php echo $lista->dtvenda?>
+			                </td>
+			                <td  style="text-align: right;" >
+			                	<?php echo number_format($lista->precototal,2,",",".")?>
+			                </td>
+			                <td style="text-align: right;" >
+			                	<?php echo number_format($lista->desconto,2,",",".")?>
+			                </td>
+			                <td style="text-align: right;" >
+			                	<?php echo number_format($lista->precototal-$lista->desconto,2,",",".")?>
+			                </td>
+			                <td style="text-align: right; font-weight: bold;" >
+			                	<?php echo number_format((($lista->precototal-$lista->desconto)*$percomissao)/100,2,",",".")?>  
+			                	(<?php echo number_format($percomissao,2,",",".")?>%)
+			                	
+			                	<?php 
+			                	$comissao += (($lista->precototal-$lista->desconto)*$percomissao)/100;
+								?>
+			                </td>									                                                
+		            	</tr>
+					<?php } ?>
+					<tr >
+						<td  style="text-align: left; background-color: #d5d5d5" colspan="5">
+							Total
+						</td>
+		                <td style="text-align: right; background-color: #d5d5d5" >
+		                	<?php echo number_format($venda-$descontos,2,",",".")?>
+		                </td>
+		                <td style="text-align: right; font-weight: bold; background-color: #d5d5d5" >
+		                	<?php echo number_format($comissao,2,",",".")?>
+		                </td>									                                                
+	            	</tr>
+					</tbody>
+				</table>
+			</div>
+			
+		</div>
+	</div>

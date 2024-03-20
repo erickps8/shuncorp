@@ -1,0 +1,358 @@
+
+<?php 
+
+if(!empty($this->objGarantia)):
+	foreach ($this->objGarantia as $viewGarantia);
+endif;
+
+if(!empty($this->objCliente)):
+	foreach ($this->objCliente as $viewCli);
+endif;
+
+if(!empty($this->objCliend)):
+	foreach ($this->objCliend as $viewEnd);
+endif;
+
+if(!empty($this->objEmail)):
+	foreach ($this->objEmail as $viewEmail);
+endif;
+
+?>
+
+	<script src="<?=$this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxhisgarantia.js"></script>
+
+	<div class="content">
+	
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/venda/garantias">Garantias</a></li>         
+                	<li class="lastB">GARANTIA N&ordm; G<?=str_pad($viewGarantia->idcli, 6, "0", STR_PAD_LEFT)?></li>         
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5>GARANTIA N&ordm; G<?=str_pad($viewGarantia->idcli, 6, "0", STR_PAD_LEFT)?></h5></div>
+
+		<div class="widget" >
+			<div class="body" style="border-top: 1px solid #d5d5d5;">
+				<form action="<?php echo $this->baseUrl(); ?>/admin/venda/aceitargarantia" name="novogar" method="post"  class="mainForm">
+					<input type="hidden" name="idgarantia" value="<?php echo $viewGarantia->idcli?>">
+					<?php if($this->objNivel == 2): ?>
+					<table >
+					<tr>
+						<td align="left" width="22%" colspan="3">
+							Empresa:<br>
+							<b><?php echo $viewCli->EMPRESA?></b>	
+						</td>
+						
+						<td align="left" >
+								
+						</td>
+						
+					</tr>
+					<tr>
+						<td align="left" width="22%" colspan="2">
+							Logradouro:<br>
+							<b><?php echo $viewEnd->LOGRADOURO?></b>	
+						</td>
+						<td align="left" >
+							Bairro:<br>
+							<b><?php echo $viewEnd->BAIRRO?></b>
+						</td>
+						<td align="left" >
+							Cidade:<br>
+							<b><?php echo $viewEnd->CIDADE?></b>
+						</td>
+					</tr>
+					<tr>
+						<td align="left" width="22%" >
+							UF:<br>
+							<b><?php echo $viewEnd->ESTADO?></b>	
+						</td>
+						<td align="left" >
+							CEP:<br>
+							<b><?php echo $viewEnd->CEP?></b>
+						</td>
+						<td align="left" colspan="2">
+							E-mail:<br>
+							<b><?php echo $viewEmail->EMAIL?></b>
+						</td>
+					</tr>
+					
+					
+					<tr>
+						<td align="left" width="22%" colspan="2">
+							Nota Fiscal:<br>
+							<input type="text" size="20" name="ntfiscal" value="<?php echo $viewGarantia->nota_fiscal?>" style="width: 100px">	
+						</td>
+						
+						<td align="left" colspan="2" >
+							Data emiss&atilde;o:<br>
+							<input type="text" size="10" name="dt_exp" id="dt_exp" style="width: 70px" class="data datepicker" value="<?php if(!empty($this->objGarantia)) echo substr($viewGarantia->data_nf,8,2)."/".substr($viewGarantia->data_nf,5,2)."/".substr($viewGarantia->data_nf,0,4)?>">	
+						</td>
+						
+					</tr>
+					<tr>
+						<td align="left" width="15%" >
+							Peso:<br>
+							<input type="text" size="10" name="peso" style="width: 70px" class="moedacinco"  value="<?php echo $viewGarantia->peso_nf?>">
+							Kg
+						</td>
+						<td align="left" colspan="3" width="85%">
+							Volumes:<br>
+							<input type="text" size="5" name="volumes" style="width: 50px" class="50px" value="<?php echo $viewGarantia->volumes?>">	
+						</td>
+					</tr>
+					<tr>
+						<td align="left" width="15%" colspan="4" valign="middle" >
+							<?php if(!empty($viewGarantia->anexo)): ?>
+							<div id="anexo"  >
+								<a target="_black" href="<?php echo $this->baseUrl()."/public/sistema/upload/clientes/".$viewGarantia->id_clientes."/garantias/".$viewGarantia->idcli.".".$viewGarantia->anexo?>"><img alt="Anexo" src="<?php echo $this->baseUrl()."/public/sistema/imagens/icons/middlenav/paperclip.png"?>" border="0" width="20" height="20">
+								<b>Anexo</b></a>
+							
+							</div>
+							<?php endif;?>
+						</td>
+					</tr>
+					<tr>
+						<td align="left" colspan="4">
+							Observa&ccedil;&atilde;o:<br>
+							<textarea rows="2" cols="50" style="width: 350px" name="obs"><?php echo $viewGarantia->obs?></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td align="left"  colspan="4">
+						<input type="hidden" name="tipodecisao">
+						<div style="display: none; border: 1px solid #ccc; padding: 5px; margin-top: 5px" id="aceita">
+						<table>
+							<tr>
+								<td align="left">
+								Tipo de envio:<br>
+								<div class="styled-select" style="width: 140px">
+								<select name="tipoenvio" onchange="monstraTransporte(this.value)" style="width: 162px">
+									<option value="">Selecione</option>
+									<option value="1">Correios/PAC</option>
+									<option value="2">Transportadora</option>
+								</select>
+								</div>
+								</td>
+								<td align="left">
+								<div style="display: none" id="pac">
+									<table><tr><td>
+										N&ordm; PAC<br>
+										<input type="text" name="pac" size="20" style="width: 100px">
+										</td><td>
+										Validade:<br>
+										<input type="text" size="10" name="dt_val" id="dt_val" style="width: 70px" class="data datepicker">  
+							 		</td></tr></table>
+								</div>
+								<div style="display: none" id="trans">
+									Nome transportadora:<br>
+									<input type="text" name="transportadora" style="width: 220px" >
+								</div>
+								</td>
+							</tr>
+						</table>
+						</div>
+						<div style="display: none; border: 1px solid #ccc; padding: 5px; margin-top: 5px" id="recusa">
+						<table>
+							<tr>
+								<td align="left">
+								Motivo da recusa:<br>
+								<textarea rows="2" cols="50" style="width: 350px" name="textrecusa"></textarea>
+								</td>
+							</tr>
+						</table>
+						</div>
+						</td>
+					</tr>
+					
+					</table>
+					<?php else: ?>
+					
+					<table >
+						<tr>
+							<td align="left" width="40%" colspan="2">
+								Nota Fiscal:<br>
+								<b><?php echo $viewGarantia->nota_fiscal?></b>	
+							</td>
+							
+							<td align="left" colspan="2" >
+								Data emiss&atilde;o:<br>
+								<b><?php echo substr($viewGarantia->data_nf,8,2)."/".substr($viewGarantia->data_nf,5,2)."/".substr($viewGarantia->data_nf,0,4)?></b>	
+							</td>
+							
+						</tr>
+						<tr>
+							<td align="left" width="25%" >
+								Peso:<br>
+								<b><?php echo $viewGarantia->peso_nf?></b> 
+								Kg
+							</td>
+							<td align="left" colspan="3" width="85%">
+								Volumes:<br>
+								<b><?php echo $viewGarantia->volumes?></b>	
+							</td>
+						</tr>
+						<tr>
+							<td align="left" width="15%" colspan="4" valign="middle" >
+								<?php if(!empty($viewGarantia->anexo)): ?>
+								<a target="_black" href="<?php echo $this->baseUrl()."/public/sistema/upload/clientes/".$viewGarantia->id_clientes."/garantias/".$viewGarantia->idcli.".".$viewGarantia->anexo?>"><img alt="Anexo" src="<?php echo $this->baseUrl()."/public/sistema/imagens/icons/middlenav/paperclip.png"?>" border="0" width="20" height="20">
+								<b>Anexo</b></a>
+								<?php endif;?>
+							</td>
+						</tr>
+						<tr>
+							<td align="left" colspan="4">
+								Observação:<br>
+								<b><?php echo utf8_encode($viewGarantia->obs)?></b>
+							</td>
+						</tr>
+						
+						<?php if(strripos($viewGarantia->status, "ENVIO")!==0): ?>
+						<tr>
+							<td align="left" colspan="2" >
+							
+									Tipo de envio: <br>
+									<?php if($viewGarantia->tipoenvio==1): ?>
+										<b>Correios/PAC</b>
+									<?php else: ?>
+										<b>Transportadora</b>
+									<?php endif;?>
+									
+							</td>
+							<td colspan="1">
+									<?php if($viewGarantia->tipoenvio==1): ?>
+										N&ordm; PAC:<br>
+										<b><?php echo $viewGarantia->valorenvio?></b>
+									<?php else: ?>
+										Transportadora:<br>
+										<b><?php echo htmlentities($viewGarantia->valorenvio)?></b>
+									<?php endif;?>
+							</td>
+							<td colspan="1">
+									<?php if($viewGarantia->tipoenvio==1): ?>
+										Validade PAC:<br>
+										<b><?php echo $viewGarantia->data_validadepac?></b>
+									<?php endif?>
+							</td>
+						</tr>
+						
+						<?php else: ?>
+						<tr>
+							<td align="left" colspan="4" >
+								Motivo Recusa: <br>
+								<div style="background-color: #e5e5e5; margin: 5px; padding: 5px">
+								<b><?php echo $viewGarantia->motivorec?></b>
+								</div>
+									
+							</td>
+						</tr>
+						<?php endif; ?>
+						</table>
+					
+					<?php endif; ?>
+					
+				<?php if($this->objNivel == 2): ?>
+				<table style="margin-top: 8px">
+					<tr>
+					<td align="left">
+						
+						<div id="butaorec" >
+						<input type="button"  onclick="recusarGarantia()" class="redBtn"  value="Recusar envio">
+						</div>
+						<div id="bsubmitrec" style="display: none"  >
+						<input type="submit"  value="Salvar recusa" class="basicBtn" onclick="validaform()" >
+						</div>
+					</td>
+					<td align="left">
+						<div id="butao" >
+						<input type="button" name="aceitargarantia" value="Aceitar envio" class="greenBtn" onclick="aceitarGarantia()" >
+						</div>
+						<div id="bsubmit" style="display: none"  >
+						<input type="submit"  value="Salvar aceite" class="greenBtn" onclick="validaform()">
+						</div>
+					</td>
+					</tr>
+				</table>
+				<?php endif; ?>
+				</form>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript">
+	function monstraTransporte(tipo) {
+		if(tipo==1){
+			document.getElementById("pac").style.display="block";
+			document.getElementById("trans").style.display="none";
+		}else if(tipo==2){
+			document.getElementById("trans").style.display="block";
+			document.getElementById("pac").style.display="none";
+		}else{
+			document.getElementById("pac").style.display="none";
+			document.getElementById("trans").style.display="none";
+		};
+	}
+
+	function aceitarGarantia() {
+		document.getElementById("aceita").style.display="block";
+		document.getElementById("bsubmit").style.display="block";
+		document.getElementById("butao").style.display="none";
+
+		document.getElementById("recusa").style.display="none";
+		document.getElementById("bsubmitrec").style.display="none";
+		document.getElementById("butaorec").style.display="block";
+
+		document.novogar.tipodecisao.value="1";
+	}
+
+	function recusarGarantia() {
+		document.getElementById("recusa").style.display="block";
+		document.getElementById("bsubmitrec").style.display="block";
+		document.getElementById("butaorec").style.display="none";
+
+		document.getElementById("aceita").style.display="none";
+		document.getElementById("bsubmit").style.display="none";
+		document.getElementById("butao").style.display="block";
+
+		document.novogar.tipodecisao.value="2";
+	}
+
+	function validaform(){
+		
+		if(document.novogar.ntfiscal.value==""){
+			jAlert('Preencha a Nota Fiscal!', 'Campo obrigatório');
+			return false;
+		}else if(document.novogar.dt_exp.value==""){
+			jAlert('Preencha a data de expedição da Nota Fiscal!', 'Campo obrigatório');
+			return false;
+		}else if(document.novogar.peso.value==""){
+			jAlert('Preencha o peso!', 'Campo obrigatório');
+			return false;
+		}else if(document.novogar.volumes.value==""){
+			jAlert('Preencha o número de volumes!', 'Campo obrigatório');
+			return false;
+		}else if(document.novogar.tipodecisao.value==1){ 
+			if((document.novogar.pac.value=="") && (document.novogar.transportadora.value=="")){
+				jAlert('Selecine um tipo de envio!', 'Campo obrigatório');
+			return false;
+			}
+		}else if(document.novogar.tipodecisao.value==2){ 
+			if(document.novogar.textrecusa.value == ""){
+				jAlert('Preencha o motivo da recusa!', 'Campo obrigatório');
+				return false;
+			}
+		}else{
+			document.novogar.submit();
+		}
+		return false;	
+	}
+
+
+</script>
+	
+	

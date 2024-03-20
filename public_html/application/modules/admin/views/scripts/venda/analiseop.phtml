@@ -1,0 +1,108 @@
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl()?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl(); ?>/admin/venda/garantias"><?=$this->translate->_("GARANTIAS")?></a>&nbsp;
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<b><a href="<?php echo $this->baseUrl(); ?>/admin/venda/analiseop"><?=$this->translate->_("ANÁLISES")?></a></b>
+	</div>
+	<div id="sistitulo">DIAGNÓSTICOS DE ANÁLISE</div>
+	<div id="sisconteudo">  
+		<div style="margin-bottom: 5px">
+ 			<input type="button" onclick="window.location='analiseopcad'" value="Novo Diagnóstico">
+	    	<div style="float: right; font-weight: bold;">
+		    	<a href="<?php echo $this->baseUrl(); ?>/admin/venda/dicasop"><b>DICAS</b></a>   	
+		  	</div>
+ 		</div>
+		<div>
+	        <?php if(!empty($this->objAnalises)): ?>
+	        <table class="mytable" >
+	        <tr>
+	            <th  class="th_canto_orc" style="text-align: center;" width="7%">
+	                ID
+	            </th>
+	            <th  class="th_orc" style="text-align: center;" width="40%">
+	                Descri&ccedil;&atilde;o
+	            </th>
+	            <th  class="th_orc" style="text-align: center;" width="20%">
+	                Tipo
+	            </th>
+	            <th  class="th_orc" style="text-align: center;" width="13%">
+	                Op&ccedil;&otilde;es
+	            </th>
+	        </tr>
+			<?php 
+				$cor =0;
+				foreach ($this->objAnalises as $lista){
+				$cor++;
+	            if(($cor%2)==0) $class = 'td_orc_par';
+	            else $class = 'td_orc';
+				?>
+				
+				<tr >
+	                <td  class="<?=$class?>" style="text-align: center;" >
+	                   <?php echo substr("000".$lista->id,-3,3)?>
+	                </td>
+	                <td  class="<?=$class?>" align="left" >
+	                   <?php echo $lista->descricao?>                  
+	                </td>
+	                <td  class="<?=$class?>" style="text-align: center;" >
+	                   <?php if ($lista->tipo==1) echo "<span style='color: #248824;' >Procede</span>"; else echo "<span style='color: #FF0000;' >Não Procede</span>"?>
+	                </td>
+	                <td  class="<?=$class?>" style="text-align: center;" >
+	                   <a href="<?php echo $this->baseUrl(); ?>/admin/venda/analiseopdet/analise/<?=md5($lista->id)?>" ><img src="<?php echo $this->baseUrl(); ?>/images/visualizar_orc.gif" width="19" height="19" border="0" title="Visualize"></a> 
+	                   
+	                </td>
+	            </tr>            
+				
+				<?php 
+				}
+			?>
+			
+			</table>
+		</div>
+		<?php
+		else:
+		?>
+		<div style="text-align: center; margin-top: 30px">NENHUM DIAGNÓSTICO CADASTRADO</div>
+		<?php 
+		endif;
+		?>
+		
+		<script>
+			function editaAnalise(id,desc,tipo){
+				document.cad.diag.value=desc;
+				document.cad.tipo.value=tipo;
+				document.cad.id_analise.value=id;
+			}
+					
+			function validaCampos(){
+				if(document.cad.diag.value==""){
+					alertaPadrao('Erro!', 'O campo DIAGNÓSTICO não pode ficar em branco!', 'erro', 110, 300);
+					return false;
+				}
+			}
+
+			var alertaPadrao = function(titulo, msg, tipo, altura, largura) {
+					$('body').append('<a href="#" id="alerta-padrao"></a>');
+					$('#alerta-padrao').m2brDialog({
+							draggable: true,
+							texto: msg,
+							tipo: tipo,
+							titulo: titulo,
+							altura: altura,
+							largura: largura,
+							botoes: {
+								1: {
+									label: 'Fechar',
+									tipo: 'fechar'
+								}
+							}									   
+					});
+					$('#alerta-padrao')
+						.click()
+						.remove();
+			}; // fim alertaPadrao
+		</script>
+	</div>
+</div>

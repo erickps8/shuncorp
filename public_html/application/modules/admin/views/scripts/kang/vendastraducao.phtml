@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>SisCorp 2.0 Alpha - Shuncorp.com</title>
+    <link href="<?=$this->baseUrl()?>/public/sistema/imagens/ico.ico" rel="shortcut icon" type="image/x-ico"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="description" content="Shuncorp Import and Export" />
+	<meta name="keywords" content="rolamentos, cubo de roda, rolamento, embreagem, embreagens, ponta de eixo, pontas de eixo, bomba dagua, bombas dagua, roda, scania, homocinetica, homocineticas, transmissoes" />
+	<link href="<?=$this->baseUrl()?>/public/sistema/css/estiloinvoiceimp.css" rel="stylesheet" type="text/css" />
+	
+	<style>
+        .td{
+            background-color: #f4f4f4;          
+        }
+        
+        td{
+            padding: 7px !important;
+        }
+        
+    </style>		
+</head>
+
+
+
+<body > <!-- onload="window.print();" -->
+
+<?php 
+foreach ($this->objDet as $listdet);
+foreach ($this->objEnd as $listend);
+foreach ($this->objTel as $listtel);
+foreach ($this->objFax as $listfax);
+?>
+<div id="siscorpo">	
+	<div id="sistopo">
+		<div  style="padding: 0px !important; margin: 0px !important">
+			<div id="detalhes" style="float: left;">
+				发票号码:<br />
+				Invoice No.: <?="S".substr("00000".$listdet->idped, -6,6)?> &nbsp; <?php if($listdet->versao != "") echo "Ver.: ".$listdet->versao?><br /><br />			
+			</div>
+		</div>
+		
+		<div class="fix"></div>
+		
+		<div id="subtitulo" style="text-align: center; border: 1px solid #fff;">
+			PL TRANSLATE
+		</div>	
+	</div>
+	
+		<div id="produtos">
+			<table cellpadding="0" cellspacing="0">
+				 <tr>
+				    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000;" width="20">ITEM</td>
+				    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000;" width="40">COD</td>
+				    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-left: 1px solid #000; " width="310" >DESCRIÇÃO</td>				    
+				 </tr>
+				 <?php 
+				 $totalprod = $totalvl = $cor = 0;
+				 foreach ($this->objProd as $produtos): 
+    				 $cor++;
+				     $class = ($class == 'td') ? 'td2' : 'td';
+    				 ?>
+    			  	 <tr>
+    				    <td align="center"  class="<?php echo $class?>"><?=$cor?></td>
+    				    <td align="center" style="border-left: 1px solid #000;" class="<?php echo $class?>">
+    				    <?php 
+    				    	if(!empty($produtos->cod_prodcli)): 
+    				    		echo $produtos->cod_prodcli;
+    				    	else:
+    				    		echo "P".substr("000000".$produtos->idproduto, -6,6);
+    				    	endif;
+    				    ?>
+    				    </td>
+    				    <td style="border-left: 1px solid #000; text-align: left; text-transform: uppercase;" class="<?php echo $class?>" >
+    				    	<?php 
+    				    	if(!empty($produtos->cod_prodcli)): 
+    				    		echo " ".$produtos->pl_prod_desc_pt;
+    				    	else: 
+    				    		//echo " ".$produtos->pl_prod_desc." (".$produtos->CODIGO.")";
+    				    	    echo " ".$produtos->pl_prod_desc_pt." (".$produtos->CODIGO.")";
+    				    	endif;
+    				    	
+    				    	?>
+    				    </td>    				    
+    				 </tr>
+    				 <?php 
+    				 $totalprod		 += $produtos->qtprod;
+    				 $totalvl		 += $produtos->precoqt;
+				 endforeach;
+				 
+				 if($produtos->moedaprod == "") $moeda = "USD"; else $moeda = $produtos->moedaprod;				 
+				 ?>
+			</table>
+		</div>
+		
+</div>    			
+</body>
+</html>
+		    

@@ -1,0 +1,44 @@
+	<div class="content">
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="#">Home</a> </li>
+                	<li><a href="<?php echo $this->baseUrl()?>/admin/venda/pedidos">Pedidos</a></li>
+                	<li class="lastB">Novo pedido</li>         
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5>Novo pedido</h5></div>
+		
+		<div class="widget" style="border-top: 1px solid #d5d5d5; padding: 10px">
+	        <form name="prepedido" id="prepedido" action="" method="post" class="mainForm">
+				<p><b>Digite o CNPJ/CPF:</b><br />
+				<input type="text" size="30" name="cnpjparceiro" style="width: 200px">
+				<input type="submit" value="Buscar" class="basicBtn"></p>
+				<p>
+					<b>Selecione um cliente:</b><br />
+					<div class="styled-select" style="width: 270px">
+						<select name="selparceiro" onchange="submit();" style="width: 292px">
+							<option value="0">Selecione</option> 
+							<?php foreach ($this->objCli as $lista): ?>
+							<option value="<?=$lista->ID?>"><?=$lista->EMPRESA?></option>
+							<?php endforeach;?>
+						</select>
+					</div>
+				</p>
+			</form>
+		</div>
+	</div>
+
+		
+<?php 
+if(!empty($this->objErro)):
+?>
+<script>
+jAlert('<?=$this->objErro?>','Erro!');
+</script>
+<?php endif;?>
+</div>

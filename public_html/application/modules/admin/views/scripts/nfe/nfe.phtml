@@ -1,0 +1,84 @@
+<!-- Content -->
+    <div class="content">  
+
+    <!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoquegrupo/fil/comp">Estoque</a></li>
+                	<li class="lastB">NF-e</li>         
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5>Nota Fiscal Eletrônica</h5></div>
+        
+        <div class="widgets" >
+        	<!-- Busca -->
+        	<div class="left" style="margin-top: 5px; margin-bottom: 5px" >   
+	        	<?php if($this->objIns==true):?>
+		    	
+		    	<form action="<?php echo $this->baseUrl(); ?>/admin/nfe/nfelista" method="post" name="busca" id="busca" class="mainForm" >
+				<input type="text" size="25" name="nfe" style="width: 150px" placeholder="Busca Nf-e">&nbsp; <input type="submit"  value="<?=$this->translate->_("Pesquisar")?>" class="blueBtn" >
+				</form>
+		    	
+		    	<?php endif;?>  
+            </div>
+            <div style="float: right;">
+	 			<a href="<?=$this->baseUrl()?>/admin/nfe/nfeavulsas"><?=$this->translate->_("Nfe avulsas")?></a> |
+	 			<a href="<?=$this->baseUrl()?>/admin/nfe/remessas"><?=$this->translate->_("Remessas")?></a> |
+	 			<a href="<?=$this->baseUrl()?>/admin/nfe/nfeconsulta"><?=$this->translate->_("Consulta")?></a> |
+	 			<a href="<?=$this->baseUrl()?>/admin/nfe/nfeinutiliza"><?=$this->translate->_("Inutilizar")?></a>
+	 		</div>	        
+        </div>
+    
+    	
+    	<div class="widgets" >
+			<div class="widget" style="border-top: 1px solid #d5d5d5;">
+				<div class="left" style="width: 50%">
+					<div style="margin: 10px 30px 10px 30px; width: 100%">
+						<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;<b>NF-e</b><br>
+						&nbsp; &nbsp; 
+						<a href="<?php echo $this->baseUrl(); ?>/admin/nfe/nfelista" >
+						Todas as NF-e
+						</a><br>
+						&nbsp; &nbsp; 
+						<a href="<?php echo $this->baseUrl(); ?>/admin/nfe/nfelista/fil/entrada" >
+						NF-e de entrada
+						</a><br>
+						&nbsp; &nbsp; 
+						<a href="<?php echo $this->baseUrl(); ?>/admin/nfe/nfelista/fil/saida" >
+						NF-e de saída
+						</a><br>						
+						&nbsp; &nbsp; <a href="<?php echo $this->baseUrl(); ?>/admin/nfe/nfelista/fil/canceladas" >
+						NF-e canceladas
+						</a><br>
+						&nbsp; &nbsp; <a href="<?php echo $this->baseUrl(); ?>/admin/nfe/nfelista/fil/inutilizadas" >
+						NF-e inutilizadas
+						</a>
+					</div>				
+					<div style="margin: 10px 30px 10px 30px; width: 100%">
+						<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;<b>RELATÓRIOS</b><br>
+						&nbsp; &nbsp; 
+						<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeiroztlrec" >
+						Impostos
+						</a>
+					</div>
+				</div>
+				
+				<div class="right" style="width: 30%; border: 1px solid #d5d5d5; padding: 10px; margin: 20px">
+					<?php if(count($this->objTotalpagvenc)>0) foreach ($this->objTotalpagvenc as $contasvencpag);?>
+					Total de notas emitidas:
+					<span style="font-size: 14px; font-weight: bold;">
+					<?php
+					foreach ($this->objQtnfe as $qt); 
+					echo $qt->qt;
+					?></span> <br />					
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+    	
+	</div>

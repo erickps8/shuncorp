@@ -1,0 +1,17 @@
+<?php 
+if($this->menuErro != 1):
+?>
+<ul class="sub" >
+<?php 
+foreach($this->objSubmenu as $listasub):
+	?>
+    <li><a href="<?=$this->baseUrl().'/admin'.($listasub->item_new)?>" title="<?php echo $listasub->item?>"><?=$this->translate->_($listasub->item); ?></a></li>
+    <?php 
+endforeach;
+?>
+</ul>
+<?php
+else:
+	echo 1; 
+endif;
+?>

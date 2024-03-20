@@ -1,0 +1,95 @@
+<?php 
+if($this->objImg == 1):
+?>
+<img alt="Acesso ao Site da ZTL" src="<?=$this->baseUrl(); ?>/public/sistema/upload/manual/garantias/1.jpg" />
+<div style="width: 700px; margin-top: 5px" align="center" >
+<a class="a2" href="javascript:void(0);" onclick="MostraOpcao('2');">Próximo passo >></a>
+</div>
+<?php 
+elseif($this->objImg == 2):
+?>
+<img alt="Acesso ao Site da ZTL" src="<?=$this->baseUrl(); ?>/public/sistema/upload/manual/garantias/2.jpg" />
+<div style="width: 700px; margin-top: 5px" align="center" >
+<a class="a2" href="javascript:void(0);" onclick="MostraOpcao('1');"><< Passo anterior </a> | 
+<a class="a2" href="javascript:void(0);" onclick="MostraOpcao('3');">Próximo passo >></a>
+</div>
+<?php 
+elseif($this->objImg == 3):
+?>
+<img alt="Acesso ao Site da ZTL" src="<?=$this->baseUrl(); ?>/public/sistema/upload/manual/garantias/3.jpg" />
+<div style="width: 700px; margin-top: 5px" align="center" >
+<a class="a2" href="javascript:void(0);" onclick="MostraOpcao('2');"><< Passo anterior </a> | 
+<a class="a2" href="javascript:void(0);" onclick="MostraOpcao('4');">Próximo passo >></a>
+</div>
+<?php 
+elseif($this->objImg == 4):
+?>
+<img alt="Acesso ao Site da ZTL" src="<?=$this->baseUrl(); ?>/public/sistema/upload/manual/garantias/4.jpg" />
+<div style="width: 700px; margin-top: 5px" align="center" >
+<a class="a2" href="javascript:void(0);" onclick="MostraOpcao('3');"><< Passo anterior </a> | 
+<a class="a2" href="javascript:void(0);" onclick="MostraOpcao('5');">Próximo passo >></a>
+</div>
+<?php 
+elseif($this->objImg == 5):
+?>
+<img alt="Acesso ao Site da ZTL" src="<?=$this->baseUrl(); ?>/public/sistema/upload/manual/garantias/5.jpg" />
+<div style="width: 700px; margin-top: 5px" align="center" >
+<a class="a2" href="javascript:void(0);" onclick="MostraOpcao('4');"><< Passo anterior </a> | 
+<a class="a2" href="javascript:void(0);" onclick="MostraOpcao('6');">Próximo passo >></a>
+</div>
+<?php 
+elseif($this->objImg == 6):
+?>
+<img alt="Acesso ao Site da ZTL" src="<?=$this->baseUrl(); ?>/public/sistema/upload/manual/garantias/6.jpg" />
+<div style="width: 700px; margin-top: 5px" align="center" >
+<a class="a2" href="javascript:void(0);" onclick="MostraOpcao('5');"><< Passo anterior </a> | 
+<a class="a2" href="javascript:void(0);" onclick="MostraOpcao('7');">Próximo passo >></a>
+
+<map name="Map" id="Map">
+<area shape="rect" coords="505,433,535,443" href="javascript:void(0);" onclick="MostraOpcao('3');" />
+</map>
+</div>
+<?php 
+elseif($this->objImg == 7):
+?>
+<img alt="Acesso ao Site da ZTL" src="<?=$this->baseUrl(); ?>/public/sistema/upload/manual/garantias/7.jpg" />
+<div style="width: 700px; margin-top: 5px" align="center" >
+<a class="a2" href="javascript:void(0);" onclick="MostraOpcao('6');"><< Passo anterior </a> | 
+<a class="a2" href="javascript:void(0);" onclick="MostraOpcao('8');">Próximo passo >></a>
+</div>
+<?php
+elseif($this->objImg == 8):
+?>
+<img alt="Acesso ao Site da ZTL" src="<?=$this->baseUrl(); ?>/public/sistema/upload/manual/garantias/8.jpg" />
+<div style="width: 700px; margin-top: 5px" align="center" >
+<a class="a2" href="javascript:void(0);" onclick="MostraOpcao('7');"><< Passo anterior </a> | 
+<a class="a2" href="javascript:void(0);" onclick="MostraOpcao('9');">Próximo passo >></a>
+</div>
+<?php
+elseif($this->objImg == 9):
+?>
+<img alt="Acesso ao Site da ZTL" src="<?=$this->baseUrl(); ?>/public/sistema/upload/manual/garantias/9.jpg" />
+<div style="width: 700px; margin-top: 5px" align="center" >
+<a class="a2" href="javascript:void(0);" onclick="MostraOpcao('8');"><< Passo anterior </a> | 
+<a class="a2" href="javascript:void(0);" onclick="MostraOpcao('10');">Próximo passo >></a>
+</div>
+<?php 
+elseif($this->objImg == 10):
+?>
+<img alt="Acesso ao Site da ZTL" src="<?=$this->baseUrl(); ?>/public/sistema/upload/manual/garantias/10.jpg" />
+<div style="width: 700px; margin-top: 5px" align="center" >
+<a class="a2" href="javascript:void(0);" onclick="MostraOpcao('9');"><< Passo anterior </a> | 
+<a class="a2" href="javascript:void(0);" onclick="MostraOpcao('11');">Próximo passo >></a>
+</div>
+<?php
+elseif($this->objImg == 11):
+?>
+<img alt="Acesso ao Site da ZTL" src="<?=$this->baseUrl(); ?>/public/sistema/upload/manual/garantias/11.jpg" />
+<div style="width: 700px; margin-top: 5px" align="center" >
+<a class="a2" href="javascript:void(0);" onclick="MostraOpcao('10');"><< Passo anterior </a>
+</div>
+<?php    
+else:
+echo "Página não encontrada!";
+endif;
+?>

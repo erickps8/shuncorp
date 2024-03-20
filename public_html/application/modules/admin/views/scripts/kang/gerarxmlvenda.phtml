@@ -1,0 +1,11 @@
+<?php 
+
+	#cabeçalho da página
+	header("Content-Type: text/xml");
+	header("Content-Disposition: attachment; filename=S".substr("000000".$this->objDom,-6,6).".xml");
+	# imprime o xml na tela
+	//print $this->objDom->saveXML();
+	
+	//$this->objDom->save("cominvoice.xml");
+
+?>

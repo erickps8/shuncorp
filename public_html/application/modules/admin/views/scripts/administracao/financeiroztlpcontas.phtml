@@ -1,0 +1,172 @@
+<?php 
+$sessaopl = new Zend_Session_Namespace('planocontas');
+foreach ($this->objPconta as $conta);
+
+?>
+
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztl">Financeiro</a></li>
+                	<li >Administração</li>
+                	<?php 
+					if(count($conta)>0):
+						?>
+						<li ><a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlpcontas">Plano de contas</a></li>
+						<?php 
+						if($conta->nivel1==""):
+						?>
+						<li class="lastB"><?=$conta->navsup2?></li>
+						<?php 
+						elseif($conta->nivel1==1):
+						?>
+						<li ><a href="<?=$this->baseUrl()?>/admin/administracao/financeiroztlpcontas/conta/<?=md5($conta->id1)?>"><?=$conta->navsup1?></a></li>
+						<li class="lastB"><?=$conta->navsup2?></li>
+						<?php 
+						else:
+						?>
+						<li >...</li>
+						<li ><a href="<?=$this->baseUrl()?>/admin/administracao/financeiroztlpcontas/conta/<?=md5($conta->id1)?>"><?=$conta->navsup1?></a></li>
+						<li class="lastB"><?=$conta->navsup2?></li>
+						<?php 
+						endif;
+					
+					?>					    		
+					
+					<?php 
+					else:
+					?>
+					<li class="lastB">Plano de contas</li>
+					<?php 
+					endif;
+					?>
+                	         
+                </ul>
+            </div>
+        </div> 
+        
+        <div class="title"><h5>Plano de contas</h5></div>
+
+        <div class="widgets" >
+        	<div class="left" style="padding: 5px 0px 5px 0px; ">
+				<a href="<?=$this->baseUrl()?>/admin/administracao/financeiroztlpcontaslista">Listar plano de contas</a>
+			</div>
+        	<div class="right" style="text-align: right; padding: 5px 0px 5px 0px; width: 40%">
+				<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlpag">Pagar</a> |
+				<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlrec">Receber</a> | 
+	    		<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlconc">Conciliação</a>
+			</div>
+		</div>
+
+		
+		<div class="widgets" >
+			<div class="first" style="margin-top: 5px; margin-bottom: 5px; " >
+		
+			<?php if($this->objIns==1){	?>
+			<form action="<?php echo $this->baseUrl(); ?>/admin/administracao/cadplanocontasztl" method="post" name="plano" id="plano" class="mainForm">
+				<input type="hidden" name="idplanoconta" >
+				<table style="margin-bottom: 8px; border: 1px solid #d5d5d5; width: 100%">
+				    <tr>
+				    	<td align="left" style="padding: 10px; width: 17%" >
+				    		Plano de conta:<br>	
+				    		<input type="hidden" name="nivel" value="<?=$conta->nivel2?>">
+				    		<input type="hidden" name="idsup" value="<?=$conta->id2?>">
+				    		<input type="hidden" name="codsup" value="<?=$conta->cod2?>">
+				    		<input type="hidden" name="navegacaosup" value="<?=$conta->navsup2?>">							 
+				    		<input type="text" size="25" name="planoconta" id="planoconta" style="width: 200px">
+				    	</td>
+				    	<td style="vertical-align: bottom; width: 5%; padding: 10px;">
+				    		<input type="checkbox" name="utilizavel" value="1" <?php if($conta->utilizavel == 1) echo 'checked="checked"'; ?> >
+				    	</td>
+				    	<td style="vertical-align: bottom; padding: 10px;">
+				    		<input type="submit" value="Salvar" class="greenBtn" >
+				    	</td>
+					</tr>
+				</table>  
+			</form>
+			<?php } ?>
+			</div>
+		</div>
+		
+		<?php
+		if(count($this->objPlanocontas)>0){
+		?>
+		<div class="widget">
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td >Código</td>
+                        <td >Plano de conta</td>
+                        <td >Util</td>
+                        <?php if($this->objIns==1){?>
+                        <td width="10%">&nbsp;</td>
+                        <?php } ?>
+                    </tr>
+                </thead>
+                <tbody>	
+		
+				<?php 	
+				$verexc = 0;
+				foreach ($this->objPlanocontas as $listplan){
+					?>
+					<tr>
+						<td style="text-align: center;">
+							<?=$listplan->navegacao?>
+						</td>
+						<td align="left">
+							<?=$listplan->nome?>
+						</td>
+						<td style="text-align: center;">
+							<?php if($listplan->utilizavel == 1) echo "SIM"; else echo "NÃO";?>
+						</td>
+						<?php if($this->objIns==1):?>
+						<td style="text-align: center;">
+							<a href="#" onclick="editarConta('<?=$listplan->nome?>','<?=$listplan->id?>','<?=$listplan->utilizavel?>');"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/pencil.png" width="14" border="0" title="Editar"></a> &nbsp; 
+							<?php if($this->objEdi==1):?>
+							<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlpcontas/conta/<?=md5($listplan->id)?>"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/magnify.png" width="14" border="0" title="Visualizar"></a> &nbsp;
+							<a href="javascript:void(0);" onclick="if(confirm('Remover Plano de conta?')){window.location='<?=$this->baseUrl()?>/admin/administracao/remplanocontasztl/idplano/<?=md5($listplan->id)?>/conta/<?=$conta->id2?>'};"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" width="13" border="0" title="Remover"></a>
+							<?php endif;?>
+						</td>
+						<?php endif;?>
+					</tr>
+					<?php	
+					/* -- cambeta para verificar se conta foi exclusa ----------------------------*/
+					if($this->objRet == $listplan->id):
+						$verexc = 1;
+					endif;	
+					}
+					?>						
+				</tbody>
+            </table>            
+        </div>
+		<?php 
+		}else{
+		?>
+		<div class="widget" style="border-top: 1px solid #d5d5d5; padding: 10px; text-align: center">
+ 			Nenhuma conta encontrada!
+		</div>	
+		<?php 
+		}
+		?>
+	</div>
+	
+	
+<script>
+	<?php if($verexc == 1): ?>
+	alert('A conta não pode ser excluida!\nRemova todos as pagamentoscom essa conta e tente novamente.');
+	<?php endif; ?>
+	function editarConta(nome,id,util){
+		document.plano.planoconta.value=nome; 
+		document.plano.idplanoconta.value=id;
+		if(util == true){ 
+			document.plano.utilizavel.checked=true;
+		}else{
+			document.plano.utilizavel.checked=false;
+		}
+	} 
+</script>

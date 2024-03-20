@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>ZTL Brasil - www.ztlbrasil.com.br </title>
+<link href="<?=$this->baseUrl()?>/public/images/ztl_favicon1.ico" rel="shortcut icon" type="image/x-ico"/>
+<meta http-equiv="Content-Type" content="application/html; charset=ISO-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+
+
+</head>
+
+<body>
+<?php 
+ 
+$mail = new Zend_Mail_Storage_Imap(array(
+	'host' 		=> 'pop.ztlbrasil.com.br',
+	'user'		=> 'cleiton@ztlbrasil.com.br',
+	'password' 	=> '010203',
+	'ssl'		=> 'SSL',
+	'port'		=> '993')
+);
+ 
+
+
+
+echo $mail->getUniqueId(1);
+$message = $mail->getMessage(1);
+echo $message->subject;
+
+$fileName = str_replace("<", "", $message->to);
+$fileName = str_replace(">", "", $fileName);
+
+echo $fileName;
+
+Zend_Debug::dump($message);
+
+
+
+/* 
+
+$cont =0;
+foreach ($mail as $message) {
+    $cont++;
+    echo $mail->getUniqueId($cont)." - ";
+	echo $message->subject."<br />";
+}
+
+ */
+
+
+//$mail->moveMessage(1,'Drafts');
+
+echo "<br />";
+echo "<br />";
+
+//echo $mail->getNumberByUniqueId(2127);
+
+
+/* 
+
+echo $folder = $mail->getCurrentFolder();
+
+foreach ($mail as $message) {
+    echo $message->subject."<br />";
+}
+
+echo "<br />";
+echo "<br />";
+echo "<br />";
+
+
+
+$mail->selectFolder("Sent");
+
+echo $folder = $mail->getCurrentFolder();
+
+foreach ($mail as $message) {
+	echo $message->subject."<br />";
+}
+
+echo "<br />";
+echo "<br />";
+echo "<br />";
+
+$mail->selectFolder("Drafts");
+
+echo $folder = $mail->getCurrentFolder();
+
+foreach ($mail as $message) {
+	echo $message->subject."<br />";
+}
+
+echo "<br />";
+echo "<br />";
+echo "<br />";
+
+$mail->selectFolder("Trash");
+
+echo $folder = $mail->getCurrentFolder();
+
+foreach ($mail as $message) {
+	echo $message->subject."<br />";
+}
+
+ */
+
+
+/* 
+$message = $mail->getMessage($this->idmsn);
+
+echo "Assunto: ".$message->subject;
+echo "<br />";
+echo "De: ".$message->from;
+echo "<br />";
+echo "Para: ".$message->to;
+echo "<br />";
+
+if( isset($message->cc) ) { // or $message->headerExists('cc');
+	echo $message->cc;
+}
+echo "<br />";
+echo "<br />";
+echo "<br />";
+
+
+echo "Time: ".((date("d-m-Y H:s" ,strtotime($message->date))));
+        
+
+Zend_Debug::dump($message);
+ */
+/* 
+echo "Unread mails: <br />";
+$cont = 0;
+foreach ($mail as $message) {
+     if ($message->hasFlag(Zend_Mail_Storage::FLAG_SEEN)) {
+        continue;
+    }
+    // mark recent/new mails
+    if ($message->hasFlag(Zend_Mail_Storage::FLAG_RECENT)) {
+        echo '! ';
+    } else {
+        echo '  ';
+    } 
+    
+    
+    echo $cont++;
+    
+    if($message->hasFlag(Zend_Mail_Storage::FLAG_SEEN)) echo " Lida - ";
+    
+    echo $message->subject . "<br />";
+
+    $mail->setFlags($cont, array(Zend_Mail_Storage::FLAG_SEEN));
+    
+} */
+
+
+
+
+
+/* 
+	
+if($message->isMultipart()):
+	$foundPart = null;
+	foreach (new RecursiveIteratorIterator($message) as $part) {
+		
+		echo "<br />";
+		
+		if (strtok($part->contentType, ';') == 'text/html') {
+		    echo $part->contentType;
+		    echo "<br />";
+			echo $part->getContent();
+			echo "<br />";
+		
+		}
+		
+		if ((strtok($part->contentType, '/') == 'application') || (strtok($part->contentType, '/') == 'image')) {
+		
+			//-- busco nome do arquivo ----------------------
+			$fileName = explode(";", $part->contentType);
+			$fileName = explode('=', $fileName[1]);
+			$fileName = str_replace('"', '', $fileName[1]);
+			
+			
+			
+			
+			foreach ($part->getHeaders() as $name => $value) {
+				if($name == "content-id"){
+				 	$fileName = str_replace("<", "", $value);
+				    $fileName = str_replace(">", "", $fileName);
+				    echo $fileName;
+				}
+			}
+			
+			
+			
+			
+			// Get the attachement and decode
+			$attachment = base64_decode($part->getContent());
+			
+			// Save the attachment
+			$fh = fopen("/aplic/ztlbrasil.com.br/public/sistema/email/".$fileName, 'w');
+			
+			fwrite($fh, $attachment);
+			
+			fclose($fh);
+			
+		}
+		
+	}
+	
+else:
+	echo $message->contentType;
+	echo "<br /><br />";
+	echo nl2br(quoted_printable_decode($mail->getMessage($this->idmsn)->getContent()));
+endif;
+ */
+
+?>
+
+
+</body>
+</html>

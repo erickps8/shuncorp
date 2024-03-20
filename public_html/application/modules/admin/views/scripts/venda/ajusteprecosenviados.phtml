@@ -1,0 +1,100 @@
+<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxsubgrupo.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxtipoparceiro.js"></script>
+<table width="100%" style="margin-bottom: 7px" cellpadding="0" cellspacing="0" >
+	<tr>
+		<td align="left">
+			<a href="<?php echo $this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+			<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+			<a href="<?php echo $this->baseUrl(); ?>/admin/venda/ajusteprecos"><?=$this->translate->_("AJUSTE DE PREÇOS")?></a>
+			&nbsp;<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+			<b><a href="<?php echo $this->baseUrl(); ?>/admin/venda/ajusteprecos"><?=$this->translate->_("ENVIADOS")?></a></b>  
+		</td>
+	</tr>
+</table>
+<table width="100%" class="borda_titulo">
+	<tr>
+		<td width="left">TABELAS ENVIADAS</td>
+	</tr>
+</table>
+<table cellpadding="0" cellspacing="0" style="margin-top: 0px">
+<tr>
+	<td>        
+         <table align="left" class="mytable"  width="554" cellspacing="0" style="margin-top: 5px;  ">
+	         <tr>
+	            <th  class="th_canto_orc" align="center" width="28%">
+	                <?=$this->translate->_("DATA")?>
+	            </th>
+	            <th  class="th_orc" align="center" width="32%">
+	                <?=$this->translate->_("USUÁRIO")?>
+	            </th>
+	            <th  class="th_orc" align="center" width="10%">
+	                <?=$this->translate->_("FUNC")?>
+	            </th>
+	            <th  class="th_orc" align="center" width="10%">
+	                <?=$this->translate->_("GER")?>
+	            </th>
+	             <th  class="th_orc" align="center" width="10%">
+	                <?=$this->translate->_("REP")?>
+	            </th>
+	            <th  class="th_orc" align="center" width="10%">
+	                <?=$this->translate->_("CLI")?>
+	            </th>
+	            <th  class="th_orc" align="center" width="10%">
+	                &nbsp;
+	            </th>
+	         </tr>
+			       
+				<?php 
+				$cor=0;
+		    	foreach($this->objEnviados as $lista):		    	
+		    		$cor++;
+		            if(($cor%2)==0) $class = 'td_orc_par';
+		            else $class = 'td_orc';
+		            
+					?>					
+					<tr >
+		                <td  class="<?=$class?>" align="center" >
+		                   <?=substr($lista->dt_envio,8,2)."/".substr($lista->dt_envio,5,2)."/".substr($lista->dt_envio,0,4)." ".substr($lista->dt_envio,10)?>
+		                </td>
+		                <td  class="<?=$class?>" align="left" style="text-transform: uppercase;">
+		                   <?=$lista->EMPRESA?>
+		                </td>
+		                <td  class="<?=$class?>" align="center" >
+		                   <?php if($lista->funcionarios==true): ?>
+		                   <img width="10" alt="Enviado" src="<?=$this->baseUrl(); ?>/images/checado.jpg">
+		                   <?php endif;?>
+		                </td>                
+		                <td  class="<?=$class?>" align="center" >
+		                   <?php if($lista->gerente==true): ?>
+		                   <img width="10" alt="Enviado" src="<?=$this->baseUrl(); ?>/images/checado.jpg">
+		                   <?php endif;?>
+		                </td>
+		                <td  class="<?=$class?>" align="center" >
+		                   <?php if($lista->representantes==true): ?>
+		                   <img width="10" alt="Enviado" src="<?=$this->baseUrl(); ?>/images/checado.jpg">
+		                   <?php endif;?>
+		                </td>
+		                <td  class="<?=$class?>" align="center" >
+		                   <?php if($lista->clientes==true): ?>
+		                   <img width="10" alt="Enviado" src="<?=$this->baseUrl(); ?>/images/checado.jpg">
+		                   <?php endif;?>
+		                </td>
+		                <td  class="<?=$class?>" align="center" >
+		                   <a href="<?=$this->baseUrl(); ?>/admin/venda/ajusteprecosprod/ajuste/<?=md5($lista->id)?>" >
+		                   <img src="<?=$this->baseUrl(); ?>/images/visualizar_orc.gif" width="15" border="0" title="Visualizar"></a>
+		                </td>
+		                
+		            </tr>
+		            
+					<?php  
+					
+				endforeach;
+				?>        
+				</table>
+			
+		</td>
+	</tr>
+	
+</table>
+		
+	

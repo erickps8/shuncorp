@@ -1,0 +1,221 @@
+
+  <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/public/javascript/graficos/jquery.jqplot.css" />
+    
+  <!-- Calendarios -->
+  <link type="text/css" rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.css?random=20051112" media="screen"></LINK>
+  <SCRIPT type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.js?random=20060118"></script>
+
+  
+  <!-- BEGIN: load jqplot -->
+  <script language="javascript" type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/graficos/jquery.jqplot.js"></script>
+  <!--<script language="javascript" type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/graficos/plugins/jqplot.highlighter.js"></script>
+  -->
+  <script language="javascript" type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/graficos/plugins/jqplot.dateAxisRenderer.js"></script>
+  <!-- END: load jqplot -->
+  <style type="text/css" media="screen">
+    .jqplot-axis {
+      font-size: 0.85em;
+    }
+  </style>
+
+<table width="100%" class="borda_titulo">
+            <tr>
+                <td width="left">RELAT&Oacute;RIO DE PEND&Ecirc;NCIAS</td>
+                
+            </tr>
+        </table>
+        
+        <script>
+            function mostrar(){
+                var id = document.getElementById('pesq');
+                
+                if(id.value==1){
+                    document.getElementById('p_nome').style.display='block';
+                    document.getElementById('p_reg').style.display='none';
+                    document.getElementById('p_cod').style.display='none';
+                    
+                }else if(id.value==2){
+                    document.getElementById('p_nome').style.display='none';
+                    document.getElementById('p_reg').style.display='block';
+                    document.getElementById('p_cod').style.display='none';
+                    
+                }else if(id.value==3){
+                	document.getElementById('p_nome').style.display='none';
+                    document.getElementById('p_reg').style.display='none';
+                    document.getElementById('p_cod').style.display='block';
+                }
+            }
+            
+            function valida(){
+            	emp = document.busca.pesq_emp;
+            	reg = document.busca.pesq_reg;
+            	cod = document.busca.cod_prod;
+            	dti = document.busca.dt_inicial;
+            	dtf = document.busca.dt_final;
+            	
+            	if((emp.value == '') && (reg.value == '') && (cod.value == '')){
+                	alert("Favor, selecione uma opção para pesquisa.");
+        			return false;        			
+        		}else if(dti.value == ''){
+        			alert("Favor, preencha a data inicial.");
+        			return false;        			
+        		}else if(dtf.value == ''){
+        			alert("Favor, preencha a data final.");
+        			return false;        			
+        		}else{ 
+            		return true;
+        		}
+            }
+        </script>
+        <br>
+        <form method="post" name="busca" id="busca"  onsubmit="javascript:return valida();">
+        <table width="100%" cellspacing="5" cellpadding="5" style="border: 1px solid #999">
+            <tr>
+                <td width="20%" valign="top"  align="left">
+                    Pesquisar:<br>
+                    <select class="borda" id="pesq" onchange="javascript:mostrar();" style="margin-top:3px; width: 110px;">
+                        <option value="">Selecione</option>
+                        <option value="1">Por Empresa</option>
+                        <?php //if($reg==2){ ?>
+                        <option value="2">Por Regi&atilde;o</option>
+                        <?php //} ?>
+                        <option value="3">Por Produto</option>
+                    </select>
+                </td>
+                <td align="left">
+                    <div id="p_nome" style="display:none;"  align="left">
+                       
+                        Selecione a Empresa:<br>
+                        <select name="pesq_emp" class="borda" id="pesq_emp" style="margin-top:3px;">
+                        <option value="">Selecione</option>
+                            <?
+                            foreach ($this->objEmpresas as $listaEmp):
+                                ?>
+                                <option value="<?php echo $listaEmp->ID;?>"><?php echo $listaEmp->EMPRESA;?></option>
+                                <?
+                            endforeach;
+                            ?>
+                    	</select>
+                    </div>
+                    <div id="p_reg" style="display:none;">
+                        Selecione a regi&atilde;o:<br>
+                        <select name="pesq_reg" class="borda" id="pesq_reg" style="margin-top:3px;">
+                        <option value="">Selecione</option>
+                            <?
+                            foreach ($this->objRegioes as $listaReg):
+                                ?>
+                                <option value="<?php echo $listaReg->ID;?>"><?php echo $listaReg->NOME;?></option>
+                                <?
+                            endforeach;
+                            ?>
+                    </select>
+                    </div>
+                    
+                    <div id="p_cod" style="display:none;"  align="left">
+                        Digite o c&oacute;digo do produto:<br><input name="cod_prod" id="cod_prod" type="text" class="borda_input" size="20" style="margin-top:3px;">
+                        
+                    </div>
+                </td>
+            </tr>
+            <tr>
+	            <td align="left">
+	            Data inicial:<br>
+	            <input type="text" size="10" name="dt_inicial" id="dt_inicial" onclick="displayCalendar(document.busca.dt_inicial,'dd/mm/yyyy',this)">
+	            </td>
+	            <td align="left">
+	            Data final:<br>
+	            <input type="text" size="10" name="dt_final" id="dt_final" onclick="displayCalendar(document.busca.dt_final,'dd/mm/yyyy',this)">
+	            </td>
+            </tr>
+            
+            <tr>
+	            <td colspan="2" align="center">
+	            <input type="submit" value="Pesquisar" name="pesquisar" class="borda">
+	            </td>
+            </tr>
+        </table>
+        </form>
+        
+        <?php 
+        if((!empty($this->objRel))||(!empty($this->objVen))):
+        	$linha= '[';
+        	$cont=0;
+	        foreach ($this->objRel as $listaRel):
+	         $linha .= '["'.$listaRel->dt_pend.'",'.$listaRel->valortotal.'],';
+	         $total += $listaRel->valortotal;
+	         $qtpecas += $listaRel->qttotal;
+	         $cont++;
+	        endforeach;
+	   		$linha = substr($linha,0,-1).']';
+	   		
+	   		$linha2= '[';
+	   		foreach ($this->objVen as $listaRel):
+	         $linha2 .= '["'.$listaRel->dt_pend.'",'.(($listaRel->valortotal/2)-100).'],';
+	         $total += $listaRel->valortotal;
+	         $qtpecas += $listaRel->qttotal;
+	         $cont++;
+	        endforeach;
+	   		$linha2 = substr($linha2,0,-1).']';
+        
+	   		
+	   		if($this->objTipo==1){ 
+	   			foreach ($this->objEmpresas as $listaEmp):
+					if($listaEmp->ID==$this->objValor) $emp = $listaEmp->EMPRESA;
+                endforeach;
+                $titulo = "Comparativo empresa ".$emp;
+	   		}
+	   		if($this->objTipo==2){ 
+	   			foreach ($this->objRegioes as $listaReg):
+                	if($listaReg->ID==$this->objValor) $reg = $listaReg->NOME;
+                endforeach;
+	   			$titulo = "Comparativo região ".$reg." ".$listaReg->ID;
+	   			
+	   		}
+	   		if($this->objTipo==3) $titulo = "Comparativo produto código ".strtoupper($this->objValor);
+	   		
+	   		echo "<br>";
+	   		echo "Linha 1: ".$linha;
+	   		echo "<br>";
+	   		echo "<br>";
+	   		echo "Linha 2: ".$linha2;
+	   		
+        ?>
+        <br><br><span><center><b>
+        <?php echo $titulo?></b>
+        </center></span>
+        Total: R$ <b><?php echo number_format($total,2,",",".")?></b><br>
+        <?php if($cont>1){ ?>
+        <script type="text/javascript" language="javascript">
+  
+		  $(document).ready(function(){
+		      $.jqplot.config.enablePlugins = true;
+		
+			line1 = <?php echo $linha;?>;
+			line2 = <?php echo $linha2;?>;
+			//plot2 = $.jqplot('chart', [line1,line2], {
+			    title: '',
+			    axes: {
+				xaxis: {
+				    renderer: $.jqplot.DateAxisRenderer,
+				    numberTicks: <?php echo $cont;?>,
+				    tickOptions:{formatString:'%#m/%Y'} 
+				    
+				},
+				yaxis: { 
+				    renderer: $.jqplot.LogAxisRenderer, 
+				    numberTicks: <?php echo $cont;?>,
+				    tickOptions:{formatString:'R$%.2f'} 
+				} 
+			    }
+			});
+		
+		
+		  });
+		  </script>
+		  <div id="chart" style="margin-top:20px; margin-left:20px; width:500px; height:300px;"></div>
+        
+        <?php 
+        }
+	    endif;
+        
+        ?>

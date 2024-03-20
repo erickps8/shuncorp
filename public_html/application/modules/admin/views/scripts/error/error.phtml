@@ -1,0 +1,58 @@
+<div id="corpo">
+  	<img style="margin-top: 25px; margin-left: -60px;" alt="Ops" src="<?=$this->baseUrl()?>/public/imagens/site/principal/erro.png">
+  	<div id="diverro">
+   	<?php
+	if($this->tipo==1):
+		?>
+		PÁGINA NÃO ENCONTRADA!
+		<div id="suberro">
+		A página que está tentando acessar foi movida ou digitada incorretamente.
+		</div>
+		<?php 
+	else:
+   		?>
+		OCORREU UM ERRO NO SISTEMA!
+		<div id="suberro">
+		Os administradores do sistema já foram informados e estão providenciando a solução.
+		</div>
+		<?php
+   	endif;
+   	?>
+	   	<div id="suberro" style="margin-top: 25px;">
+			<a href="javascript:void(0)" onclick="history.go(-1)">Voltar</a>
+		</div>
+	</div>
+	
+	
+	
+	
+  	<div id="exibeerro" style="display: none">
+		  <h3>Exception information:</h3>
+		  <p>
+		      <b>Message:</b> <?php echo $this->exception->getMessage() ?>
+		  </p>
+		
+		  <h3>Stack trace:</h3>
+		  <pre><?php echo $this->exception->getTraceAsString() ?>
+		  </pre>
+		
+		  <h3>Request Parameters:</h3>
+		  <pre><?php echo var_export($this->request->getParams(), true) ?>
+		  </pre>		  
+	</div>
+
+</div>
+
+		
+<script type="text/javascript">
+<!--
+//Capturar teclas pressionadas -------------------------------
+var teclaspressionadas = 0;
+document.onkeyup = function(e){
+   teclaspressionadas = teclaspressionadas+e.which;
+   if(teclaspressionadas == 118){  
+	   document.getElementById('exibeerro').style.display = 'block';
+   } 
+}
+//-->
+</script>

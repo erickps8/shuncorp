@@ -1,0 +1,111 @@
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/javascript/buscaajax/buscaajaxsubgrupo.js"></script>
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl(); ?>/admin/venda/pendenciasprod"><b>PENDÊNCIAS</b></a>&nbsp;
+	</div>
+	<div id="sistitulo">PENDÊNCIAS</div>
+    <div id="sisconteudo">
+    	<div style="margin-top: 5px">
+		<table width="100%" cellpadding="0" cellspacing="0"> 
+			<tr>
+				<td>		        
+		           <?php
+		           if ( count($this->objList) > 0) :			
+					?>
+					<form action="<?=$this->baseUrl()?>/admin/venda/baixapendempresa" method="post" name="pendendencias">
+					<input type="hidden" name="cliente" value="<?=$cli->ID?>">
+					<table align="left" class="mytable" width="100%" cellspacing="0" cellpadding="0" >
+				        <tr>
+				            <th  class="th_canto_orc" align="center" width="20%" >
+				                CÓDIGO
+				            </th>
+				            <th  class="th_canto_orc" align="center" width="40%" >
+				                DESCRIÇÃO
+				            </th>
+				            <th  class="th_orc" align="center" width="13%">
+				            	PEDIDO
+				            </th>
+				            <th  class="th_orc" align="center" width="13%">
+				            	DT PEND
+				            </th>
+				            <th  class="th_orc" align="center" width="7%">
+				            	QT
+				            </th>
+				            <th  class="th_orc" align="center" width="7%">
+				                <input type="checkbox" onclick="marcarTodos(this.value)" name="todos">
+				            </th>
+				       </tr>	
+					
+					<?php 
+					$cor=0;
+			    	foreach($this->objList as $lista):
+			    	$cor++;
+		            if(($cor%2)==0) $class = 'td_orc_par';
+		            else $class = 'td_orc';
+					?>
+					
+					<tr >
+		                <td  class="<?=$class?>" align="center" >
+		                   	<a href="<?=$this->baseUrl();?>/admin/cadastro/produtosvis/produto/<?=md5($lista->ID)?>" target="_blank">
+						 	<?=$lista->CODIGO?></a>  
+		                </td>
+		                <td class="<?=$class?>" align="left" >
+		                	<?=$lista->DESCRICAO?>
+		                </td>
+		                <td class="<?=$class?>" align="center" >
+		                	<a href="<?=$this->baseUrl();?>/admin/venda/pedidosvenda/ped/<?=md5($lista->id_ped)?>" target="_blank">
+		                	<?=$lista->id_ped?></a>
+		                </td>
+		                <td class="<?=$class?>" align="center" >
+		                	<?=$lista->dtpend?>
+		                </td>                
+		                <td  class="<?=$class?>" align="center" >
+		                	<?=$lista->qt?>               	
+		                </td>
+		                <td  class="<?=$class?>" align="center" >
+		                	<input type="checkbox" value="1" name="<?=$lista->idpend?>">
+		                </td>                
+		            	</tr>            
+					<?php  endforeach; ?>
+					</table>
+					<input style="margin-top: 10px" type="submit" value="Cancelar selecionados">
+					</form>					
+					<?php 
+					else :
+					?>
+					<br>
+					<center>Nenhuma Pendência encontrada</center>
+					
+					<?php 
+					endif;
+				?>
+				</td>
+			</tr>
+		</table>
+		
+		<script type="text/javascript">
+		function marcarTodos(val){
+        //alert(val);
+	        if(val=='on'){    
+				for (i=0;document.pendendencias.elements.length;i++){
+					if((document.pendendencias.elements[i].type == "checkbox")){			                    	
+				       document.pendendencias.elements[i].checked=1;				        
+					}
+				}
+			}else{
+	        	for (i=0;document.pendendencias.elements.length;i++){
+	        		if((document.pendendencias.elements[i].type == "checkbox")){
+			        	document.pendendencias.elements[i].checked=0;
+					}
+				}
+			}
+	    }
+        </script>
+		
+		
+		</div>
+	</div>
+</div>
+	

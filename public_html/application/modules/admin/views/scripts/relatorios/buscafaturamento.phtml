@@ -1,0 +1,139 @@
+<?php 
+if($this->tiPo==0):
+?>
+<td colspan="3">
+<table style="width: 100%; border: 1px solid; padding: 5px">
+	<?php foreach ($this->objRep as $representantes): 
+	if(empty($representantes->idrep)):
+		$idrep = 'sem';
+	else:
+		$idrep = $representantes->idrep;
+	endif;
+	?>
+	<tr style="background-color: #fff; cursor: hand; cursor: pointer" onclick="mostrarDivcli('cli_<?=$representantes->mes."_".$representantes->ano."_".$idrep?>'); buscaClientes('<?=$representantes->mes?>','<?=$representantes->ano?>','<?=$idrep?>')">
+		<td style="text-decoration: underline;">
+		<? 
+		if(empty($representantes->representante)):
+			echo "Sem representante";
+		else:
+		    echo $representantes->representante;
+		endif;
+		?>		    
+		<?php 
+            if(count($this->objDesc)>0):
+            	$vldesc = 0;
+            	foreach ($this->objDesc as $descontos):
+            		if(($descontos->idrep == $representantes->idrep)):
+            			$vldesc = $descontos->descvendas;
+            		endif;
+            	endforeach;
+           	endif;           	
+        ?>
+		</td>
+		<td style="text-align: right; padding: 2px">
+		<?=number_format($representantes->precototal-$vldesc,2,",",".")?>
+		</td>
+	</tr>
+	<tr style="display: none;" id="cli_<?=$representantes->mes."_".$representantes->ano."_".$idrep?>" >
+    	<td colspan="2">
+			<img alt="Carregando ..." src="<?=$this->baseUrl()?>/public/images/loading.gif">
+        </td>
+    </tr>
+	<?php endforeach; ?>
+</table>
+</td>
+<?php 
+elseif($this->tiPo==1):
+?>
+<td colspan="2">
+<table style="width: 100%; border: 1px solid; padding: 5px">
+	<?php foreach ($this->objReg as $regioes): ?>
+	<tr style="background-color: #ccc;" >
+		<td>
+			<?=$regioes->NOME?>		    
+		</td>
+		<td  style="text-align: right; padding: 2px">
+			<?php 
+	        if(count($this->objDescreg)>0):
+            	$vldesc = 0;
+            	foreach ($this->objDescreg as $descontos):
+            		if(($descontos->ID_REGIOES == $regioes->ID_REGIOES)):
+            			$vldesc = $descontos->descvendas;
+            		endif;
+            	endforeach;
+           	endif;
+	        ?>
+			<?=number_format($regioes->precototal-$vldesc,2,",",".")?>
+		</td>
+	</tr>
+		<?php 
+		foreach ($this->objCli as $clientes): 
+			if($regioes->idreg == $clientes->ID_REGIOES):
+				if(empty($clientes->idrep)):
+					$idrep = 'sem';
+				else:
+					$idrep = $clientes->idrep;
+				endif;
+			
+				?>
+				<tr style="background-color: #fff; cursor: hand; cursor: pointer" onclick="mostrarDivvenda('venda_<?=$clientes->mes."_".$clientes->ano."_".$idrep."_".$clientes->id_parceiro?>'); buscaVendas('<?=$clientes->mes?>','<?=$clientes->ano?>','<?=$idrep?>','<?=$clientes->id_parceiro?>')">
+					<td>
+						<?=$clientes->EMPRESA?>		    
+					</td>
+					<td style="text-align: right; padding: 2px">
+						<?php 
+						
+				        if(count($this->objDesc)>0):
+			            	$vldesc = 0;
+			            	foreach ($this->objDesc as $descontos):
+			            		if(($descontos->id_parceiro == $clientes->id_parceiro)):
+			            			$vldesc = $descontos->descvendas;
+			            		endif;
+			            	endforeach;
+			           	endif;
+			           	?>
+						<?=number_format($clientes->precototal-$vldesc,2,",",".")?>
+					</td>
+				</tr>
+				<tr style="display: none;" id="venda_<?=$clientes->mes."_".$clientes->ano."_".$idrep."_".$clientes->id_parceiro?>" >
+			    	<td colspan="2">
+						<img alt="Carregando ..." src="<?=$this->baseUrl()?>/public/images/loading.gif">
+			        </td>
+			    </tr>
+				<?php 
+			endif;
+		endforeach;
+	endforeach;
+	?>	
+</table>
+</td>
+<?php 
+elseif($this->tiPo==2):
+?>
+<td colspan="2">
+<table style="width: 100%; border: 1px solid; padding: 5px">
+	<?php 
+	foreach ($this->objVenda as $venda):
+		?>
+		<tr style="background-color: #fff;" >
+			<td width="25%">
+				<?=$venda->idvenda?>		    
+			</td>
+			<td style="text-align: right; padding: 2px" width="25%">
+				<?=$venda->data?>
+			</td>
+			<td style="text-align: right; padding: 2px" width="25%">
+				<?=number_format($venda->desconto,2,",",".")?>
+			</td>
+			<td style="text-align: right; padding: 2px" width="25%">
+				<?=number_format($venda->precototal-$venda->desconto,2,",",".")?>
+			</td>
+		</tr>		
+		<?php 
+	endforeach;
+	?>	
+</table>
+</td>
+<?php 
+endif;
+?>

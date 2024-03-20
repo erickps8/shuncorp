@@ -1,0 +1,406 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxvendaprod.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	document.prepedido.codigo.focus();
+});	
+</script>
+
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?php echo $this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?php echo $this->baseUrl(); ?>/admin/venda/pedidos">PEDIDOS</a>&nbsp;
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<b>AJUSTE DE PEDIDOS</b>
+	</div>
+	<div id="sistitulo">INFORMAÇÕES DO CLIENTE</div>
+    <div id="sisconteudo">
+		<?php 
+			foreach ($this->objCliente as $listCli);
+		?> 
+		<div>
+			<table width="100%" class="borda" cellspacing="7">
+	            <tr>
+	                <td width="20%">Cliente:</td>
+	                <td colspan="3"><b><?=$listCli->EMPRESA?></b></td>
+	            </tr>
+	            <tr>
+	                <td>Raz&atilde;o Social:</td>
+	                <td colspan="3"><b><?=$listCli->RAZAO_SOCIAL?></b></td>
+	            </tr>
+	            <tr>
+	                <td>CPF/CNPJ:</td>
+	                <td width="35%"><b><?=$listCli->CPF_CNPJ?></b></td>
+	                <td width="15%">RG/INSC:</td>
+	                <td ><b><?=$listCli->RG_INSC?></b></td>
+	            </tr>
+	            <tr>
+	                <td>Cidade:</td>
+	                <td width="35%"><b><?=($listCli->CIDADE)?></b></td>
+	                <td width="15%">Estado:</td>
+	                <td ><b><?=($listCli->nome)?></b></td>
+	            </tr>
+	            <tr>
+	                <td>Transportadora:</td>
+	                <td width="35%" colspan="3"><b><?=$listCli->trans?></b></td>
+	            </tr>
+	        </table>
+        </div>
+        <div id="sissubtitulo">
+        	NOVO PEDIDO
+        </div>
+        <div id="sisconteudo">
+        	<form name="prepedido" id="prepedido" action="<?php echo $this->baseUrl(); ?>/admin/venda/pedidosentorc" method="post">
+		    <input type="hidden" name="ped" value="<?=$this->objPed;?>">
+		    <input type="hidden" name="pedcli" value="<?=$listCli->ID;?>">
+		    <input type="hidden" name="pedidosnovo" value="true">
+		    
+		    <table align="left" class="mytable" width="100%" cellspacing="0">
+		        <tr>
+		        	<th  class="th_canto" align="center" width="4%">
+		                ID
+		            </th>
+		            <th  class="th_pedido" align="center" width="15%">
+		                Codigo
+		            </th>
+		            <th  class="th_pedido" align="center" width="5%">
+		                QT
+		            </th>
+		            <th  class="th_pedido" align="center" width="">
+		                Descri&ccedil;&atilde;o
+		            </th>
+		             <th  class="th_pedido" align="center" width="5%">
+		                Pre&ccedil;o Tabela
+		            </th>
+		            <th  class="th_pedido" align="center" width="5%">
+		                Pre&ccedil;o NF
+		            </th>
+		            <th  class="th_pedido" align="center" width="10%">
+		                Pre&ccedil;o Total
+		            </th>
+		            <th  class="th_canto" align="center" width="">
+		                &nbsp;
+		            </th>
+		            
+		        </tr>
+		        <?php 
+		        $cor=0;
+		        $total_pedido = 0;
+		        $total_pedido_liquido = 0;
+		        
+		        foreach ($this->objPend as $listaProd):
+		        	$arrId .=  $listaProd->ID.";";
+		        	$cor++;
+		            if(($cor%2)==0) $class = 'td_orc_par';
+		            else $class = 'td_orc';
+		            
+		            
+		            if(!empty($listaProd->promo)): 
+						if(($listaProd->valor_promo!='') and ($listaProd->valor_promo!=0)): 
+		                	$valor_unitario = $listaProd->valor_promo;
+		                
+		                elseif(($listaProd->valor_desc!='') and ($listaProd->valor_desc!=0)):
+		                    $valor_unitario = $listaProd->PRECO_UNITARIO;
+		                    
+		                    $valor_unitario = $valor_unitario - (($listCli->desc1 / 100)*$valor_unitario);
+		                    $valor_unitario = $valor_unitario - (($listCli->desc2 / 100)*$valor_unitario);
+		                    $valor_unitario = $valor_unitario - (($listCli->desc3 / 100)*$valor_unitario);
+		                    $valor_unitario = $valor_unitario - (($listCli->desc4 / 100)*$valor_unitario);
+		                    $valor_unitario = $valor_unitario - (($listCli->desc5 / 100)*$valor_unitario);
+		                
+		                    $valor_unitario = $valor_unitario - (($listCli->valor_desc / 100)*$valor_unitario);
+			            else:
+			                $valor_unitario = $listaProd->PRECO_UNITARIO;
+			                $valor_unitario = $valor_unitario - (($listCli->desc1 / 100)*$valor_unitario);
+			            	$valor_unitario = $valor_unitario - (($listCli->desc2 / 100)*$valor_unitario);
+			                $valor_unitario = $valor_unitario - (($listCli->desc3 / 100)*$valor_unitario);
+			                $valor_unitario = $valor_unitario - (($listCli->desc4 / 100)*$valor_unitario);
+			                $valor_unitario = $valor_unitario - (($listCli->desc5 / 100)*$valor_unitario);
+						endif;
+		            else:
+		                $valor_unitario = $listaProd->PRECO_UNITARIO;
+		                $valor_unitario = $valor_unitario - (($listCli->desc1 / 100)*$valor_unitario);
+		            	$valor_unitario = $valor_unitario - (($listCli->desc2 / 100)*$valor_unitario);
+		                $valor_unitario = $valor_unitario - (($listCli->desc3 / 100)*$valor_unitario);
+		                $valor_unitario = $valor_unitario - (($listCli->desc4 / 100)*$valor_unitario);
+		                $valor_unitario = $valor_unitario - (($listCli->desc5 / 100)*$valor_unitario);
+		               
+					endif;
+					
+					$valor_unitario = round($valor_unitario * 100) / 100; 
+		            
+			        ?>
+			        <tr >
+			        				        
+		                <td  class="<?=$class?>" align="center" >
+		                    <span style="color:#FF0000;"><?=$cor?>*</span>
+		                </td>
+		                <td  class="<?=$class?>" align="center" >
+		                    <a href="<?=$this->baseUrl();?>/admin/cadastro/produtosvis/produto/<?=md5($listaProd->ID)?>" target="_blank">
+							<?=$listaProd->CODIGO?></a>
+		                </td>
+		                <td  class="<?=$class?>" align="center" >
+		                	<!--<a href="#" onclick="document.prepedido.editqt_<?=$listaProd->ID?>.style.display = 'block'; this.style.display = 'none';"><?=$listaProd->qt?></a>
+		                	<input style="display: none" type="text" size="5" name="editqt_<?=$listaProd->ID?>" value="<?=$listaProd->qt?>" onblur="editaProduto();" onKeyDown="Mascara(this,Integer);" onKeyPress="Mascara(this,Integer);" onKeyUp="Mascara(this,Integer);">
+		                --></td>
+		                <td  class="<?=$class?>" " align="left">
+		                   <?=utf8_encode($listaProd->DESCRICAO)?> 
+		                </td>
+		                <td  class="<?=$class?>" " align="center">
+		                    <?=number_format($listaProd->PRECO_UNITARIO,3,',','.')?>
+		                </td>
+		                <td  class="<?=$class?>" " align="right">
+			                <!--<a href="#" onclick="document.prepedido.editvl_<?=$listaProd->ID?>.style.display = 'block'; this.style.display = 'none';"><?=number_format($valor_unitario,3,',','.')?></a>
+			                <input style="display: none" type="text" size="5" name="editvl_<?=$listaProd->ID?>" value="<?=number_format($valor_unitario,3,',','.')?>" onblur="editaProduto();" onKeyDown="Mascara(this,Valorc);" onKeyPress="Mascara(this,Valorc);" onKeyUp="Mascara(this,Valorc);">
+		                -->
+		                <?=number_format($valor_unitario,3,',','.')?>
+		                </td>
+		                <td  class="<?=$class?>" " align="right">
+		                    <?=number_format(($listaProd->qt*$valor_unitario),3,',','.')?>
+		                </td>
+		                <td  class="<?=$class?>" align="center" >
+		                    <a href="#" onclick="if(confirm('Remover pendência do código <?=$listaProd->CODIGO?>?')){window.location='<?=$this->baseUrl(); ?>/admin/venda/removependorc/ped/<?=$this->objPed;?>/id/<?=$listaProd->idpend;?>';}"><img src="<?=$this->baseUrl(); ?>/images/window-close.png" title="Remover?" width="13"  border="0"></a>
+		                </td>		                
+		            </tr>
+			        <?php
+					
+			        $total_prod += $listaProd->qt;
+			        $total_pedido += $listaProd->PRECO_UNITARIO*$listaProd->qt;
+			        $total_pedido_liquido += $listaProd->qt*$valor_unitario;
+		        endforeach;
+		        
+		        foreach ($this->objList as $listaProd):
+		        	$arrId .=  $listaProd->id_prod.";";
+		        	$cor++;
+		            if(($cor%2)==0) $class = 'td_orc_par';
+		            else $class = 'td_orc';
+		            		            
+		           	//--Calcula valor produto----------------------------------
+		           	
+		            if(!empty($listaProd->promo)): 
+						if(($listaProd->valor_promo!='') and ($listaProd->valor_promo!=0)): 
+		                	$valor_unitario = $listaProd->valor_promo;
+		                
+		                elseif(($listaProd->valor_desc!='') and ($listaProd->valor_desc!=0)):
+		                    $valor_unitario = $listaProd->PRECO_UNITARIO;
+		                    
+		                    $valor_unitario = $valor_unitario - (($listCli->desc1 / 100)*$valor_unitario);
+		                    $valor_unitario = $valor_unitario - (($listCli->desc2 / 100)*$valor_unitario);
+		                    $valor_unitario = $valor_unitario - (($listCli->desc3 / 100)*$valor_unitario);
+		                    $valor_unitario = $valor_unitario - (($listCli->desc4 / 100)*$valor_unitario);
+		                    $valor_unitario = $valor_unitario - (($listCli->desc5 / 100)*$valor_unitario);
+		                
+		                    $valor_unitario = $valor_unitario - (($listCli->valor_desc / 100)*$valor_unitario);
+			            else:
+			                $valor_unitario = $listaProd->PRECO_UNITARIO;
+			                $valor_unitario = $valor_unitario - (($listCli->desc1 / 100)*$valor_unitario);
+			            	$valor_unitario = $valor_unitario - (($listCli->desc2 / 100)*$valor_unitario);
+			                $valor_unitario = $valor_unitario - (($listCli->desc3 / 100)*$valor_unitario);
+			                $valor_unitario = $valor_unitario - (($listCli->desc4 / 100)*$valor_unitario);
+			                $valor_unitario = $valor_unitario - (($listCli->desc5 / 100)*$valor_unitario);
+						endif;
+		            else:
+		                $valor_unitario = $listaProd->PRECO_UNITARIO;
+		                $valor_unitario = $valor_unitario - (($listCli->desc1 / 100)*$valor_unitario);
+		            	$valor_unitario = $valor_unitario - (($listCli->desc2 / 100)*$valor_unitario);
+		                $valor_unitario = $valor_unitario - (($listCli->desc3 / 100)*$valor_unitario);
+		                $valor_unitario = $valor_unitario - (($listCli->desc4 / 100)*$valor_unitario);
+		                $valor_unitario = $valor_unitario - (($listCli->desc5 / 100)*$valor_unitario);
+		               
+					endif;
+					
+					$valor_unitario = round($valor_unitario * 100) / 100; 
+		    				            
+			        ?>
+			        <tr >			        				        
+		                <td  class="<?=$class?>" align="center" >
+		                    <?=$cor; echo $listaProd->promo; ?>
+		                </td>
+		                <td  class="<?=$class?>" align="center" >
+		                    <?=$listaProd->CODIGO?>
+		                </td>
+		                <td  class="<?=$class?>" align="center" >
+		                	<a href="#" onclick="document.prepedido.editqt_<?=$listaProd->id_prod?>.style.display = 'block'; this.style.display = 'none';"><?=$listaProd->qt?></a>
+		                	<input style="display: none" type="text" size="5" name="editqt_<?=$listaProd->id_prod?>" value="<?=$listaProd->qt?>" onblur="editaProduto();" onKeyDown="Mascara(this,Integer);" onKeyPress="Mascara(this,Integer);" onKeyUp="Mascara(this,Integer);">
+		                </td>
+		                <td  class="<?=$class?>" " align="left">
+		                   <?=utf8_encode($listaProd->DESCRICAO)?> 
+		                </td>
+		                <td  class="<?=$class?>" " align="center">
+		                    <?=number_format($listaProd->PRECO_UNITARIO,3,',','.')?>
+		                </td>
+		                <td  class="<?=$class?>" " align="right">
+			                <?=number_format($valor_unitario,3,',','.')?>
+		                </td>
+		                <td  class="<?=$class?>" " align="right">
+		                    <?=number_format(($listaProd->qt*$valor_unitario),3,',','.')?>
+		                </td>
+		                <td  class="<?=$class?>" align="center" >
+		                    <a href="#" onclick="if(confirm('Remover produto código <?=$listaProd->CODIGO?>?')){window.location='<?php echo $this->baseUrl(); ?>/admin/venda/removeprodorc/ped/<?=$this->objPed;?>/id/<?=$listaProd->idprorc;?>';}"><img src="<?php echo $this->baseUrl(); ?>/images/window-close.png" title="Remover?" width="13"  border="0"></a>
+		                </td>		                
+		            </tr>
+			        <?php
+
+			        $total_prod += $listaProd->qt;
+			        $total_pedido += $listaProd->PRECO_UNITARIO*$listaProd->qt;
+			        $total_pedido_liquido += $listaProd->qt*$valor_unitario;
+		        endforeach;
+		        ?>
+		         <tr>
+                    <td  class="td" align="left" colspan="4" >
+                    	<input type="hidden" name="promo" id="promo" >
+		                <input style="text-transform: uppercase;" type="text" size="30" name="codigo" id="codigo" 
+		                onclick="document.getElementById('resultado').innerHTML = ''; document.getElementById('resultadobusca').style.display='none';" 
+		                onkeyup="buscaProdlista(this.value);"
+		                onkeydown="if(event.keyCode == '13'){ document.prepedido.qt.focus(); return false };" >
+		                
+		            	<input type="hidden" name="qtprod" id="qtprod" >
+		                <input type="text" class="borda_input" size="5" name="qt" id="qt" 
+		                onblur="enviaProduto();" 
+		                onfocus="buscaprod(document.getElementById('codigo').value); document.getElementById('resultadobusca').style.display='none';" 
+		                onkeydown="if(event.keyCode == '13'){  return false };"  >
+		                <div id="resultadobusca" >
+		                	<img alt="Aguarde..." src="<?=$this->baseUrl()?>/images/progress.gif">
+		                </div>
+		            </td>
+		            <td  class="td" align="center" colspan="5" style="color:#FF0000; font-weight: bold;">
+		            	<input type="hidden" name="arrId" id="arrId" value="<?=$arrId?>">
+		               <div id="resultado" ></div>
+		            </td>		            
+		        </tr>
+		        <tr>
+		            <td  class="td_total" align="left" colspan="6" >
+		                <table>
+		                	<tr>			            
+					            <td   align="left"  valign="middle" colspan="2" >
+					               Prazo <span style="color:#FF0000;">*</span>:
+					                <input type="text" name="prazo1" class="borda_input" size="3" onkeypress="mascara_num(this)" value="<? if($listCli->prazo1 != '') echo $listCli->prazo1;?>">
+					                <input type="text" name="prazo2" class="borda_input" size="3" onkeypress="mascara_num(this)" value="<? if($listCli->prazo2 != '') echo $listCli->prazo2;?>">
+					                <input type="text" name="prazo3" class="borda_input" size="3" onkeypress="mascara_num(this)" value="<? if($listCli->prazo3 != '') echo $listCli->prazo3;?>">
+					                <input type="text" name="prazo4" class="borda_input" size="3" onkeypress="mascara_num(this)" value="<? if($listCli->prazo4 != '') echo $listCli->prazo4;?>">
+					                <input type="text" name="prazo5" class="borda_input" size="3" onkeypress="mascara_num(this)"  onblur="document.prepedido.obs.focus();" value="<? if($listCli->prazo5 != '') echo $listCli->prazo5;?>">
+					            </td>
+					            <td>
+					            <br><br>
+					            </td>			            
+					        </tr>
+					        <tr >			            
+					            <td  align="left" valign="top"  >
+					                Observa&ccedil;&otilde;es<br>
+					                <textarea name="obs" id="obs" tabindex="412" cols="50" rows="4" class="borda_text" onfocus="javascript:textArea();" onblur="document.prepedido.salvar_orc.focus();"></textarea>
+					            </td>
+		            		</tr>
+		            	</table>  
+		            </td>
+		            <td class="td_total2"  align="left" colspan="3" >			                    
+		                <table width="100%" border="0"><tr><td align="left">
+		                    <span >Total de pe&ccedil;as:</span><br>
+		                    <span style="font-size:14px; font-weight:bold; text-align:right;" ><?=$total_prod?></span><br>
+		                    </td></tr><tr><td>
+		                    Valor Total bruto:<br>
+		                    <span style="font-size:14px; font-weight:bold;">R$ <?=number_format($total_pedido,3,',','.')?></span><br>
+		                    </td></tr><tr><td>
+		                    Valor Total l&iacute;quido:<br>
+		                    <span style="font-size:14px; font-weight:bold; color:#0010e1;">R$ <?=number_format($total_pedido_liquido,3,',','.')?></span><br>
+		                    </td></tr>
+		                </table>
+		            </td>			            
+		        </tr>
+			               
+		        <tr><td align="left" colspan="5">
+			        	<br>
+			            <!--<input type="button" name="gerarpend" id="gerarpend" value="Gerar Pendências" onclick="gerarPendencias();" >
+			            --><input type="button" name="salvar_orc" id="salvar_orc" value="Gerar Pedido" onclick="gerarVenda();" >
+			        </td>
+			    </tr>
+			    <tr>
+			    	<td align="left" colspan="5">
+			        	<br>
+			            <span style="color:#FF0000;">*</span> <i>Produtos pendentes de outras compras. 
+			            Deseja remover todos? <input type="button" value="Sim"> </i>
+			        </td>
+			    </tr>
+			
+			</table>
+			</form>
+		</div>
+	</div>
+</div> 
+ <script type="text/javascript">
+
+	function selecionaCodigo(codigo){
+		document.getElementById('codigo').value=codigo;
+		document.getElementById('resultadobusca').style.display='none';
+		document.getElementById('qt').focus();
+	}
+ 
+	function buscaProdlista(busca){
+		if (busca.length >= "3"){
+			buscaProdutosvenda(busca);
+    	}
+    }
+ 
+	function enviaProduto(){
+		if((document.prepedido.codigo.value!="") && (document.prepedido.qt.value!="")) {
+			if(document.prepedido.promo.value=="1"){
+				if(confirm('Produto em promoção. Deseja utilizar o preço da promoção?')){
+					document.prepedido.submit();
+				}else{
+					document.prepedido.promo.value="";
+					document.prepedido.submit();
+				}
+			}else{
+				document.prepedido.submit();
+			}
+			document.prepedido.promo.value="";
+		}
+	}
+
+	function buscaprod(cod){
+		if(cod!=''){
+	       	  MostraOpcao(cod);
+	   	}else{
+			//alert("Digite o código!");
+			//document.getElementById('codigo').focus();
+	   	 }
+	 }
+	
+	function editaProduto(){
+		document.prepedido.action = "<?php echo $this->baseUrl(); ?>/admin/venda/pedidosent/editprod/true"; 
+		document.prepedido.submit();
+	}
+
+	function gerarPendencias(){
+		document.prepedido.action = "<?php echo $this->baseUrl(); ?>/admin/venda/pedidosent/pendprod/true"; 
+		document.prepedido.submit();
+	}	
+
+	function gerarVenda(){
+		document.prepedido.action = "<?php echo $this->baseUrl(); ?>/admin/venda/pedidosent/gerarvenda/true"; 
+		document.prepedido.submit();
+	}
+	
+	var alertaPadrao = function(titulo, msg, tipo, altura, largura) {
+			$('body').append('<a href="#" id="alerta-padrao"></a>');
+			$('#alerta-padrao').m2brDialog({
+					draggable: true,
+					texto: msg,
+					tipo: tipo,
+					titulo: titulo,
+					altura: altura,
+					largura: largura,
+					botoes: {
+						1: {
+							label: 'Fechar',
+							tipo: 'fechar'
+						}
+					}									   
+			});
+			$('#alerta-padrao')
+				.click()
+				.remove();
+	}; 
+
+	
+	
+</script>

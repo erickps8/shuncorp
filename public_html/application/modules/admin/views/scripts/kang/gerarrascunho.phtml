@@ -1,0 +1,105 @@
+
+<body  onload="document.prepedido.codigo.focus();">
+<script src="<?php echo $this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxrasc.js"></script>    
+<script type="text/javascript">
+
+function deleteRow(i,id){
+    document.getElementById('txtHint').deleteRow(i);
+
+    var arrId = document.getElementById('arrId').value;
+	document.getElementById('arrId').value = arrId.replace(id+";","");
+
+}
+
+</script>
+		
+<table class="borda_titulo" width="100%" align="center" >
+    <tr>
+	<td align="left" >
+		New Draft <b></b>
+	</td>
+</tr>
+</table>
+<br>
+<form action="gravarascunho" method="post" name="prepedido" id="prepedido">
+    
+    <input type="hidden" name="arrId" id="arrId">
+    
+    <table align="left" class="mytable" width="100%" cellspacing="0"  id="txtHint">
+        <tr>
+            <th  class="th_orc" align="center" width="15%">
+                Code
+            </th>
+            <th  class="th_orc" align="center" width="5%">
+                QT
+            </th>
+            <th  class="th_orc" align="center" width="">
+                Description
+            </th>
+             <th  class="th_orc" align="center" width="5%">
+                Price
+            </th>
+            <th  class="th_orc" align="center" width="15%">
+                Total price
+            </th>
+            <th  class="th_orc" align="center" width="">
+                &nbsp;
+            </th>
+        </tr>       
+       
+        <tr>
+            
+                <td  class="td" align="center"  >
+                <input type="text" size="7" name="codigo" id="codigo" class="borda_input" onkeydown="if (event.keyCode == '13'){ return false; }; document.getElementById('resultado').innerHTML = '';">
+            </td>
+            <td  class="td" align="center" >
+                <input type="text" size="5" name="qt" id="qt"  onkeydown="if (event.keyCode == '13'){ return false; }; Mascara(this,Integer);" onclick="document.getElementById('resultado').innerHTML = '';"  onKeyPress="Mascara(this,Integer);" onKeyUp="Mascara(this,Integer);" >
+                  <script>
+                  
+                  function buscaprod(){
+                	  var cod = document.getElementById('codigo').value;
+                	  var qt  = document.getElementById('qt').value;
+                	  var valor = document.getElementById('valor').value;
+                	  
+                	  if(cod==''){
+                    	  document.getElementById('resultado').innerHTML = 'Enter code!';
+                    	  
+                	  }else if(qt==''){
+                		  document.getElementById('resultado').innerHTML = 'Enter amount!';
+                		  
+                	  }else if(valor==''){
+                		  document.getElementById('resultado').innerHTML = 'Enter price!';
+                		  
+                	  }else{
+                		  MostraOpcao(qt,cod,valor);
+                	  }
+
+                	  document.getElementById('codigo').value = "";
+                	  document.getElementById('qt').value = "";
+                	  document.getElementById('valor').value = "";
+                	  
+                  }
+
+				 
+                  </script>
+            </td>
+            <td  class="td" align="left"  >
+            <input type="text" size="5" name="valor" id="valor"  onkeydown="if (event.keyCode == '13'){ return false; }; Mascara(this,Valorcinco);" onclick="document.getElementById('resultado').innerHTML = '';" 
+            	 onKeyPress="Mascara(this,Valorcinco);" onKeyUp="Mascara(this,Valorcinco);"    onblur="buscaprod();" >
+            	 
+            </td>
+            <td  class="td" align="left" colspan="3" >
+            	 <div id="resultado" style="color:#FF0000; font-weight: bold;"></div>
+            </td>
+            
+        </tr>
+     </table>
+     <p>&nbsp;</p>
+     <p align="left">
+        Observation:<br>
+        <textarea rows="3" cols="50" style="margin-bottom: 10px" name="obs"></textarea><br>
+     	<input type="button" value="Back" onclick="window.location='rascunhos';" >
+		<input type="submit" value="Generate Draft" >
+	</p>
+	</form>
+     

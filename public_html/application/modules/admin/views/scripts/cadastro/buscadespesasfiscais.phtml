@@ -1,0 +1,6 @@
+<select name="despesasfiscais" class="input" style="text-transform: uppercase;">
+  	<option value='0'>Selecione</option>
+  	<?php foreach ($this->objTributos as $listTributos){ ?>
+	<option value='<?=$listTributos->id?>' ><?=$listTributos->descricao?></option>
+	<?php } ?>
+</select>

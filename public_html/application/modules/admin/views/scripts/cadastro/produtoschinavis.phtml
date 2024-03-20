@@ -1,0 +1,346 @@
+<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxprodutoscad.js"></script> 
+<table width="100%" style="margin-bottom: 10px" >
+	<tr>
+		<td align="left">
+			<a href="<?php echo $this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+			<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+			<a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/produtoschina"><?=$this->translate->_("PRODUTOS CHINA");?></a> &nbsp; 
+			<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" /> &nbsp;<b><?=$this->translate->_("CADASTRO")?></b>
+		</td>
+	</tr>
+</table>
+
+<?php
+
+
+if($this->objVer==1){
+	?>
+	<script>
+	$(document).ready(function(){
+			alertaPadrao('<?=$this->translate->_("Sucesso")?>!', '<?=$this->translate->_("Produto cadastrado com sucesso")?>!', 'alerta', 110, 300);
+			
+		});
+	</script>
+	<?php 
+}elseif($this->objVer==2){
+	?>
+	<script>
+	$(document).ready(function(){
+				
+			alertaPadrao('<?=$this->translate->_("Sucesso")?>!', '<?=$this->translate->_("Produto alterado com sucesso")?>!', 'alerta', 110, 300);
+			
+		});
+	</script>
+	<?php 
+}
+
+
+
+?>
+	
+      <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/abas.js"></script>
+	  <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/css/abas.css" />
+		
+       <form action="<?php echo $this->baseUrl(); ?>/admin/cadastro/produtoschinacad" method="post" name="cad_prod" id="cad_prod" enctype="multipart/form-data" onsubmit="return validaformprodutochina();"  >
+     
+       <?php if(!empty($this->objProd)) foreach ($this->objProd as $prod); ?>
+       <table width="100%" class="borda_titulo" >
+            <tr>
+                <td width="left"><?=$this->translate->_("CADASTRO DE PRODUTOS ")?> <?=$prod->CODIGO?></td>
+            </tr>
+        </table>
+		<br>
+		
+		
+		
+		<input type="hidden" name="id_produto" value="<?php echo $prod->ID?>">
+      	 
+              <table width="100%" cellpadding="0" cellspacing="5" border="0">
+              	<tr>
+              		<td colspan="4" class="borda_tcadastro" align="left">
+					<b><?=$this->translate->_("SHUNKANG")?></b>
+              		</td>
+              	</tr>
+              	
+              	<tr >
+              	     <td  align="left" colspan="2" valign="top" width="40%">
+							
+		                     <?=$this->translate->_("Fornecedor")?>:<br> 
+		                     <input type="hidden" name="idantkang" value="<?=$prod->id_cliente_fornecedor_shuntai?>">
+		            			<select name="fornecedorkang" id="fornecedorkang" >
+		 							<option value="0"><?=$this->translate->_("SELECIONE")?></option>
+		 							<?php foreach ($this->objFor as $list): ?>
+		 								<option <?php if($prod->id_cliente_fornecedor_shuntai == $list->ID) echo 'selected="selected"';?> value="<?php echo $list->ID?>"><?php echo $list->EMPRESA?></option>
+		 							<?php endforeach; ?>
+		 						</select>
+                        </td>
+                        <td align="left" width="25%">
+                                <?=$this->translate->_("Código")?>:<br> 
+                                <input  name="codekang" value="<?=$prod->supplier_code?>" style="font-size: 10px;">
+						</td>
+						<td align="left">
+                                <?=$this->translate->_("HS Code")?>:<br> 
+                                <input  name="hscode" value="<?=$prod->hs_code?>" style="font-size: 10px;" size="12" maxlength="10" onKeyDown="Mascara(this,Integer);" onKeyPress="Mascara(this,Integer);" onKeyUp="Mascara(this,Integer);">
+						</td>
+				</tr>
+    
+				<tr >
+				<td colspan="4" align="left">
+					<table width="100%"  cellpadding="0" cellspacing="0" border="0"><tr>
+                        <td  align="left"  width="70px"><?=$this->translate->_("Moeda")?>:<br> 
+			              			<select name="moedakang">
+			              				<?php if(empty($prod->tipo_moeda_shuntai)) $check2 = 'selected="selected"';?>
+			              				<option <?php if($prod->tipo_moeda_shuntai == "BRL") echo 'selected="selected"';?> value="BRL">BRL</option>
+			              				<option <?php if($prod->tipo_moeda_shuntai == "USD") echo 'selected="selected"';?> value="USD">USD</option>
+			              				<option <?php if($prod->tipo_moeda_shuntai == "RMB") echo 'selected="selected"';  echo $check2?> value="RMB">RMB</option>
+			              				<option <?php if($prod->tipo_moeda_shuntai == "EUR") echo 'selected="selected"';?> value="EUR">EUR</option>
+			              			</select>
+                        </td>
+                        <td align="left" width="100">
+                           <?=$this->translate->_("Preço")?>:<br>
+                           <input type="text" value="<?php if(!empty($prod->custo_valor_shuntai)) echo number_format($prod->custo_valor_shuntai,5,",",".")?>" size="8" name="precokang" id="precokang" onKeyDown="Mascara(this,Valorcinco);" onKeyPress="Mascara(this,Valorcinco);" onKeyUp="Mascara(this,Valorcinco);">
+                           <input type="hidden" value="<?=$prod->custo_valor_shuntai?>" name="precoantkang" >
+				           
+                        </td>
+                        <td align="left"><br>
+                           <input type="checkbox" value="1" name="precoshunkang"> Gravar no histórico
+                        </td>
+                        </tr>
+                    </table>
+                         </td>
+                            </tr>
+			<tr>
+              		<td colspan="4" class="borda_tcadastro" align="left">
+              		<br>
+					<b><?=$this->translate->_("SHUNTAI")?></b>
+              		</td>
+              	</tr>
+                            <tr >
+                                <td colspan="2" align="left" valign="top">
+                                <?=$this->translate->_("Fornecedor")?>:<br> 
+                                <input type="hidden" name="idanttai" value="<?=$prod->id_cliente_shuntai?>">
+		            			<select name="fornecedortai" id="fornecedortai" >
+		 							<option value="0"><?=$this->translate->_("SELECIONE")?></option>
+		 							<?php foreach ($this->objFor as $list): ?>
+		 								<option <?php if($prod->id_cliente_shuntai == $list->ID) echo 'selected="selected"';?> value="<?php echo $list->ID?>"><?php echo $list->EMPRESA?></option>
+		 							<?php endforeach; ?>
+		 						</select>
+                                </td>
+                                <td align="left">
+                                <?=$this->translate->_("Código")?>:<br> <input name="codetai" value="<?=$prod->cod_shuntai?>" style="font-size: 10px;">
+				</td>
+				</tr>
+    
+				<tr >
+                               <td colspan="4" align="left">
+									<table width="100%" cellpadding="0" cellspacing="0"><tr>
+				                        <td  align="left" width="70px"><?=$this->translate->_("Moeda")?>:<br> 
+						              			<select name="moedatai">
+						              				<?php if(empty($prod->tipo_moeda_shuntai)) $check2 = 'selected="selected"';?>
+						              				<option <?php if($prod->moeda_shuntai == "BRL") echo 'selected="selected"';?> value="BRL">BRL</option>
+						              				<option <?php if($prod->moeda_shuntai == "USD") echo 'selected="selected"';?> value="USD">USD</option>
+						              				<option <?php if($prod->moeda_shuntai == "RMB") echo 'selected="selected"'; echo $check2?> value="RMB">RMB</option>
+						              				<option <?php if($prod->moeda_shuntai == "EUR") echo 'selected="selected"';?> value="EUR">EUR</option>
+						              			</select>
+			                           </td>
+			                           <td  align="left" width="100">
+			                           <?=$this->translate->_("Preço")?>:<br> <input type="text" value="<?php if(!empty($prod->custo_shuntai)) echo number_format($prod->custo_shuntai,5,",",".")?>" size="8" name="precotai" id="precotai" onKeyDown="Mascara(this,Valorcinco);" onKeyPress="Mascara(this,Valorcinco);" onKeyUp="Mascara(this,Valorcinco);">
+							   			<input type="hidden" value="<?=$prod->custo_shuntai?>" name="precoanttai" >
+	                                   </td>
+	                                   <td align="left"><br>
+				                           <input type="checkbox" value="1" name="precoshuntai"> Gravar no histórico
+				                        </td>
+	                                </tr>
+                          		</table>
+                         	</td>
+                         </tr>
+                         <tr >
+	              			<td class="borda_tcadastro" colspan="4" align="left">
+	              			<br>
+							<b><?=$this->translate->_("COMPOSIÇÃO")?></b>
+	              			</td>
+	              		</tr>
+	              		<tr>
+	              			<td colspan="4">
+								<table align="left" class="mytable" width="70%" cellspacing="0" id="tbcomp" >
+									<tr>
+										<th class="th_canto_min"><?=$this->translate->_("PRODUTO")?></th>
+										<th class="th_orc_min"><?=$this->translate->_("Sit")?></th>
+										<th class="th_orc_min"><?=$this->translate->_("For")?></th>
+										<th class="th_orc_min"><?=$this->translate->_("Qt")?></th>
+										<th class="th_orc_min"><?=$this->translate->_("Moeda")?></th>
+										<th class="th_orc_min"><?=$this->translate->_("Custo")?></th>
+										
+									</tr>
+									<?php 
+									if(!empty($this->objComp)):
+									foreach ($this->objComp as $listkit):
+										?>
+										<tr>
+											<td class="td_orc_min" align="left">
+												<a href="<?=$this->baseUrl()?>/admin/cadastro/produtoschinacad/produto/<?=md5($listkit->IDPROD)?>" >
+												<?=$listkit->CODIGO?>
+												</a><input type='hidden' name='kit_<?=$listkit->IDPROD?>' value='<?=$listkit->qt?>' >
+											</td>
+											<td class="td_orc_min" align="center">
+											<?php 
+											if($listkit->situacao==0) echo "P";
+											elseif($listkit->situacao==1) echo "D";
+											elseif($listkit->situacao==2) echo "I";
+											?></td>
+											<td class="td_orc_min" align="left">
+											<?php
+											$moeda 	= "";
+											$vl 	= "";
+											if((($listkit->idforshunkang != 395) and (!empty($listkit->idforshunkang))) || (($listkit->idforshunkang == 395) and (empty($listkit->empshuntai)))):
+												echo $listkit->empshukang;
+												$moeda 	= $listkit->moedakang;
+												$vl 	= $listkit->custokang;
+											elseif(!empty($listkit->empshuntai)):
+												echo $listkit->empshuntai;
+												$moeda 	= $listkit->moedatai;
+												$vl 	= $listkit->custotai;
+											else:
+												echo "Não informado";
+											endif;
+											?>
+											</td>
+											<td class="td_orc_min" align="center"><?=$listkit->qt?></td>
+											<td class="td_orc_min" align="center"><?=$moeda?></td>
+											<td class="td_orc_min" align="right"><?=number_format(($listkit->qt*$listkit->custokang),5,",",".")?></td>
+										</tr>
+										<?php
+										$idscomp .=  $listkit->IDPROD.";";
+										if($listkit->id_gruposprodsub!=14) $totalcomp += ($listkit->qt*$vl);
+									endforeach;
+									endif;
+									?>
+									<tr>
+										<td class="td_orc_min"  colspan="6">
+										<?=$this->translate->_("Total")?>:  
+										<span id="idtotal"><?=number_format($totalcomp,5,",",".")?></span>
+										<input type="hidden" name="totalkit" id="totalkit" value="<?=$totalcomp?>"> 
+										</td>
+									</tr>
+								</table>
+								
+	              			</td>
+	              		</tr>
+	              		<?php if(!empty($prod->ID)): ?>
+		              	<tr>
+	              			<td class="borda_tcadastro" colspan="4" align="left">
+							<br><b><?=$this->translate->_("HISTÓRICO DE FORNECEDOR")?></b>
+	              			</td>
+	              		</tr>
+	              		<tr>
+	              			<td align="left" colspan="4">
+	              			
+	              				<table align="left" class="mytable" width="70%" cellspacing="0" id="tablehist"  >
+									<tr>
+										<th class="th_canto_min" align="center"><?=$this->translate->_("DATA")?></th>
+										<th class="th_orc_min" align="center"><?=$this->translate->_("FORNECEDOR")?></th>
+										<th class="th_orc_min" align="center"><?=$this->translate->_("MOEDA")?></th>
+										<th class="th_orc_min" align="center"><?=$this->translate->_("VALOR")?></th>
+										<th class="th_orc_min" align="center"><?=$this->translate->_("ESF/ROL")?></th>
+										<th class="th_orc_min" align="center">&nbsp;</th>
+									</tr>
+									<?php 
+									foreach ($this->objHisc as $listhisc):
+										?> 
+										<tr>
+											<td class="td_orc_min" align="center"><?=substr($listhisc->data,8,2)."/".substr($listhisc->data,5,2)."/".substr($listhisc->data,0,4)?></td>
+											<td class="td_orc_min" align="left"><?=$listhisc->EMPRESA?></td>
+											<td class="td_orc_min" align="center"><?=$listhisc->moed?></td>
+											<td class="td_orc_min" align="right"><?=number_format($listhisc->valor,5,",",".")?></td>
+											<td class="td_orc_min" align="center"><?=$listhisc->balls?></td>
+											<td class="td_orc_min" align="center">
+											<img onclick="if(confirm('Remover histórico?')){window.location='<?=$this->baseUrl(); ?>/admin/cadastro/removehistoricochina/produto/<?=md5($prod->ID)?>/idihistc/<?=$listhisc->idhistc?>'};" 
+											style="cursor: pointer; cursor: hand;" src="<?=$this->baseUrl(); ?>/public/images/window-close.png" width="13" border="0"></td>
+										</tr>
+										<?php
+									endforeach;
+									?>	
+									<tr>
+										<td  align="left" class="td_orc_min" colspan="6">
+											<a href="javascript:void(0);" onclick="mostarPainel('adihist');"  >Adicionar Histórico</a>
+											<table id="adihist" style="display: none; margin-top: 5px">
+												<tr>
+													<td align="left" >
+														<?=$this->translate->_("Fornecedor")?>:<br> 
+								              			<select style="width: 150px" name="fornecedor_hist" id="fornecedor_hist" >
+															<option value="0"><?=$this->translate->_("SELECIONE")?></option>
+															<?php foreach ($this->objFor as $list): ?>
+																<option value="<?=$list->ID?>-<?=$list->EMPRESA?>"><?=$list->EMPRESA?></option>
+															<?php endforeach; ?>
+														</select>
+													</td>
+													<td align="left" >
+														<?=$this->translate->_("Moeda")?>:<br> 
+								              			<select name="moedahist" id="moedahist">
+								              				<option value="RMB">RMB</option>
+								              				<option value="BRL">BRL</option>
+								              				<option value="USD">USD</option>
+								              				<option value="EUR">EUR</option>
+								              			</select>
+													</td>
+													<td align="left" >
+														<?=$this->translate->_("Valor")?>:<br>
+								              			<input type="text" size="8" name="preco_hist" id="preco_hist" onKeyDown="Mascara(this,Valorcinco);" onKeyPress="Mascara(this,Valorcinco);" onKeyUp="Mascara(this,Valorcinco);">
+													</td>
+													<td align="left" >
+														<?=$this->translate->_("Esf/Rol")?>:<br>
+								              			<input type="text" size="3" name="balls" id="balls" onKeyDown="Mascara(this,Integer);" onKeyPress="Mascara(this,Integer);" onKeyUp="Mascara(this,Integer);">
+													</td>
+													<td align="left" >
+														<?=$this->translate->_("Data")?>:<br>
+								              			<input type="text" size="7" maxlength="10" name="data_hist" id="data_hist"  onKeyDown="Mascara(this,Data);" onKeyPress="Mascara(this,Data);" onKeyUp="Mascara(this,Data);">
+													</td>
+													<td align="left" valign="bottom">
+													<img onclick="adcionaHistoricochina();" style="cursor: pointer; cursor: hand;" border="0" width="20" height="20" src="<?php echo $this->baseUrl(); ?>/images/Add-32.png" alt="Adiciona Historico" />
+													</td>
+												</tr>
+											</table>
+										</td>
+									</tr>															
+								</table>
+	              				
+	              			</td>
+	              		</tr>
+	              		<?php endif; ?>
+		              </table>
+	              
+         	<div align="left" style="margin-left: 5px; margin-top: 14px" >
+         	<input type="button" value="<?=$this->translate->_("Cancelar")?>" onclick="window.location='<?php echo $this->baseUrl(); ?>/admin/cadastro/produtos'" style="width: 80px"> 
+         	<input type="submit" value="<?=$this->translate->_("Salvar")?>" style="width: 80px"> 
+         	</div>
+         	  
+         	</form>
+         	 
+			<script type="text/javascript">
+			
+			// alerta padrão
+			// função que cria um <a> on the fly para exibir um alerta
+			// m2brDialog
+			var alertaPadrao = function(titulo, msg, tipo, altura, largura) {
+					$('body').append('<a href="#" id="alerta-padrao"></a>');
+					$('#alerta-padrao').m2brDialog({
+							draggable: true,
+							texto: msg,
+							tipo: tipo,
+							titulo: titulo,
+							altura: altura,
+							largura: largura,
+							botoes: {
+								1: {
+									label: '<?=$this->translate->_("Fechar")?>',
+									tipo: 'fechar'
+								}
+							}									   
+					});
+					$('#alerta-padrao')
+						.click()
+						.remove();
+			}; // fim alertaPadrao
+			
+			</script>
+			

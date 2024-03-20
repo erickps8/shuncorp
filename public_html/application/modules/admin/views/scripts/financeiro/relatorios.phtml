@@ -1,0 +1,114 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/financeiroRelatorios.js" type="text/javascript" ></script>
+
+
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li><a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeirochina">Financeiro Shunkang</a> </li>
+                	<li class="lastB">Relatórios</li>
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Relatórios</h5>
+            <div style="float: right; padding: 10px">
+                <a href="#" id="btnImprimir"><img title="Imprimir" src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/printerwhite.png" border="0" width="18" /></a>
+            </div>
+        </div>
+
+        <div class="widgets" >
+        	<div class="right" style="font-weight: bold; text-align: right; padding: 5px 0px 5px 0px; width: 40%">
+				<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeirochinapag"><?php echo $this->translate->_("Pagar")?></a> |
+				<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeirochinarec"><?php echo $this->translate->_("Receber")?></a> |
+                <a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeirochinaconc"><?=$this->translate->_("Conciliação")?></a> |
+				<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeirochinabancos"><?php echo $this->translate->_("Adm")?></a> 
+	    		
+			</div>
+		</div>
+
+        <div class="widget" style="margin-top: 5px; margin-bottom: 5px; border: 1px solid #d5d5d5; padding: 10px" >
+            <form class="mainForm" id="form" method="post">
+                <table style="border: 1px solid #d5d5d5; width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td class="tdbusca" colspan="3">
+                            <?php echo $this->translate->_("Selecione um relatório")?>:<br>
+                            <div class="styled-select" style="width: 230px">
+                                <select name="tpRelatorio" id="tpRelatorio" style="width: 252px">
+                                    <option value="0" ><?php echo $this->translate->_("Selecione")?></option>
+                                    <option value="1" <?php if($this->params['tpRelatorio'] == 1) echo 'selected' ?> ><?php echo $this->translate->_("Rebate")?></option>
+                                    <option value="2" <?php if($this->params['tpRelatorio'] == 2) echo 'selected' ?>> <?php echo $this->translate->_("Frete")?></option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            <table style="border: 1px solid #d5d5d5; width: 100%; border-collapse: collapse; margin-top: 5px">
+                <tr class="fil-frete">
+                    <td style="vertical-align: bottom;" class="tdbusca" >
+                        <div class="styled-select" style="width: 170px">
+                            <select name="buscasit" id="buscasit" style="width: 190px">
+                                <option value="" <?php if(!isset($this->params['buscafor']) || $this->params['buscafor'] == "") echo 'selected' ?>><?=$this->translate->_("Situação")?></option>
+                                <option value="2" <?php if($this->params['buscafor'] == "2") echo 'selected' ?>><?=$this->translate->_("Aguardando documentos")?></option>
+                                <option value="3" <?php if($this->params['buscafor'] == "3") echo 'selected' ?>><?=$this->translate->_("Aguardando embarque")?></option>
+                                <option value="4" <?php if($this->params['buscafor'] == "4") echo 'selected' ?>><?=$this->translate->_("Embarcado")?></option>
+                                <option value="5" <?php if($this->params['buscafor'] == "5") echo 'selected' ?> ><?=$this->translate->_("Cancelado")?></option>
+                            </select>
+                        </div>
+                    </td>
+                    <td class="tdbusca" colspan="2">
+                        <div class="styled-select" style="width: 250px">
+                            <select name="buscafor" id="buscafor" style="width: 272px">
+                                <option value="0"><?=$this->translate->_("Fornecedor")?></option>
+                                <?php foreach ($this->objFornec as $listcli): ?>
+                                    <option <?php if($this->params['buscafor'] == $listcli->ID) echo 'selected' ?> value="<?php echo $listcli->ID?>"><?php echo $listcli->EMPRESA ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </td>
+                    <td class="tdbusca" >
+                        <div class="styled-select" style="width: 250px">
+                            <select name="buscacli" id="buscacli" style="width: 272px">
+                                <option value="0"><?=$this->translate->_("Cliente")?></option>
+                                <?php foreach ($this->objClientes as $listcli): ?>
+                                    <option <?php if($this->params['buscacli'] == $listcli->ID) echo 'selected' ?> value="<?php echo $listcli->ID?>"><?php echo $listcli->EMPRESA ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdbusca">
+                        <input type="text" name="idInvoice" id="idInvoice" placeholder="Invoice" style="width: 100px" value="<?php echo $this->params['idInvoice'] ?>">
+                    </td>
+                    <td class="tdbusca">
+                        <input type="text" name="dtiniconc" id="dtiniconc" placeholder="Data inicial" maxlength="10" class="data datepicker" value="<?php echo $this->params['dtiniconc'] ?>">
+                    </td>
+                    <td class="tdbusca">
+                        <input type="text"  size="8" name="dtfimconc" placeholder="Data final" id="dtfimconc" value="<?php echo $this->params['dtfimconc'] ?> maxlength="10"  class="data datepicker">
+
+                    </td>
+                    <td class="tdbusca">
+                        <input type="button" id="btnPesq" value="<?php echo $this->translate->_("Pesquisar")?>" class="blueBtn btnpesq">
+                    </td>
+                </tr>
+            </table>
+            </form>
+        </div>
+
+        <?php
+        if($this->objRetono) {
+            if($this->params['tpRelatorio'] == 1) {
+                echo $this->action('rebate', 'financeiro', 'admin', ['objRetono' => $this->objRetono]);
+            }else if($this->params['tpRelatorio'] == 2) {
+                echo $this->action('frete', 'financeiro', 'admin', ['objRetono' => $this->objRetono]);
+            }
+        }
+        ?>
+
+	</div>
+	

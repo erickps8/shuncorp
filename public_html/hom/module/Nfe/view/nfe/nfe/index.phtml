@@ -1,0 +1,26 @@
+
+<h1>NFe</h1>
+
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Ação</th>
+        <th>CFOP</th>
+        <th>Natureza OP</th>
+    </tr>
+    <?php foreach ($nfes as $nfe): ?>
+        <tr>
+            <td><?= $this->escapeHtml($nfe->id); ?></td>
+            <td><?= $this->escapeHtml($nfe->cfop); ?></td>
+            <td><?= $this->escapeHtml($nfe->naturezaop); ?></td>
+            <td>
+                <a href="<?=$this->url('nfe', ['action'=>'editar', 'id' => $nfe->id] );?>">
+                    Editar
+                </a>
+                <a href="<?=$this->url('nfe', ['action'=>'deletar', 'id' => $nfe->id] );?>">
+                    Deletar
+                </a>
+            </td>            
+        </tr>
+    <?php endforeach; ?>
+</table>

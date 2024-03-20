@@ -1,0 +1,60 @@
+        
+        <table width="100%" >
+            <tr>
+                <td align="right"><input type="button" class="button" onclick="window.location='transpcad'" value="Nova Transportadora"></input></td>
+            </tr>
+        </table>
+        <br>
+        <table width="100%" class="borda_titulo">
+            <tr>
+                <td width="left">TRANSPORTADORAS</td>
+            </tr>
+        </table>
+		<br>
+        <table align="left" class="mytable" width="100%" cellspacing="0">
+        <tr>
+            <th  class="th_canto_orc" align="center" width="7%">
+                ID
+            </th>
+            <th  class="th_orc" align="center" width="38%">
+                Empresa
+            </th>
+            <th  class="th_orc" align="center" width="20%">
+                Contato
+            </th>
+            <th  class="th_orc" align="center" width="15%">
+                Op&ccedil;&otilde;es
+            </th>
+        </tr>
+		<?php 
+			$cor =0;
+			foreach ($this->objTrans as $lista){
+			$cor++;
+            if(($cor%2)==0) $class = 'td_orc_par';
+            else $class = 'td_orc';
+			?>
+			
+			<tr >
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo $lista->id?>
+                </td>
+                <td  class="<?=$class?>" align="left" >
+                   <?php echo $lista->nome?>
+                  
+                </td>
+                <td  class="<?=$class?>" align="left" >
+                   <?php echo $lista->contato?>
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                   <a href="<?php echo $this->baseUrl(); ?>/venda/transpdet/id/<?php echo md5($lista->id)?>"><img src="<?php echo $this->baseUrl(); ?>/images/visualizar_orc.gif" width="19" height="19" border="0" title="Visualizar"></a>&nbsp;&nbsp;
+                   <a href="#" onclick="if(confirm('Remover transportadora?')){ window.location='<?php echo $this->baseUrl(); ?>/venda/transprem/id/<?php echo md5($lista->id)?>';};" ><img src="<?php echo $this->baseUrl(); ?>/images/window-close.png" width="17" height="17" border="0" title="Remover"></a>
+                </td>
+            </tr>
+            
+			
+			<?php 
+			}
+		?>
+		
+		</table>
+

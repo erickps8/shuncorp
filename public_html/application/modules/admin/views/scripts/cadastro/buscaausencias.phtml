@@ -1,0 +1,238 @@
+		
+		<?php 
+		
+		if($this->objParams['tp'] == 0){ 
+		    if (count($this->objFaltas) > 0){ 
+				?>
+		    			        
+    			 			<table style="width: 100%; " class="tableStatic">
+    			            	<thead>
+    			                	<tr>
+    			                        <td width="">Período</td>
+    			                        <td width="15%">Dias</td>
+    			                        <td width="20%">Tipo</td>
+    			                        <td width="15%">Obs</td>
+    			                        <td width="10%">Opções</td>
+    			                    </tr>
+    			                </thead>
+    			                <tbody>
+    							<?php 
+    							$totaltime = $totaltimeh = 0;
+    							foreach($this->objFaltas as $lista):
+    					    		?>
+    								<tr >
+    									<td align="center">
+    					                   <?php echo substr($lista->dtini,8,2)."/".substr($lista->dtini,5,2)."/".substr($lista->dtini,0,4)." ".substr($lista->dtini,11,5)?> à 
+    					                   <?php echo substr($lista->dtfim,8,2)."/".substr($lista->dtfim,5,2)."/".substr($lista->dtfim,0,4)." ".substr($lista->dtfim,11,5)?>
+    					                </td>
+    					                <td align="center" >
+    					                   <?php 
+    					                   
+    					                   $_split_datehour = explode(' ',$lista->dtini);
+    					                   $_split_data = explode("-", $_split_datehour[0]);
+    					                   $_split_hour = explode(":", $_split_datehour[1]);
+    					                   $dtini = mktime ($_split_hour[0], $_split_hour[1], (integer)$_split_hour[2], $_split_data[1], $_split_data[2], $_split_data[0]);
+    					                   
+    					                   $_split_datehour = explode(' ',$lista->dtfim);
+    					                   $_split_data = explode("-", $_split_datehour[0]);
+    					                   $_split_hour = explode(":", $_split_datehour[1]);
+    					                   
+    					                   if($_split_datehour[1] == "23:59:00"){
+    											$_split_hour[0] = 24;
+    											$_split_hour[1] = 0;
+    											$_split_hour[2] = 0;
+    									   }
+    					                   $dtfim = mktime ($_split_hour[0], $_split_hour[1], (integer)$_split_hour[2], $_split_data[1], $_split_data[2], $_split_data[0]);
+    					                   
+    					                   $time = ($dtfim - $dtini);
+    					                   
+    					                   $days  = floor($time/86400);
+    					                   $hours = floor(($time-($days*86400))/3600);
+    					                   $mins  = floor(($time-($days*86400)-($hours*3600))/60);
+    					                   $secs  = floor($time-($days*86400)-($hours*3600)-($mins*60));
+    					                   
+    					                   $retorno  = "";
+    					                   $retorno .= ($days>0)  ?  $days .'d ' : ""  ;
+    					                   $retorno .= ($hours>0) ?  $hours .'h ': ""  ;
+    					                   $retorno .= ($mins>0)  ?  $mins .'m ' : ""  ;
+    					                   
+    					                   
+    					                   $totaltime += ($lista->tpfreq == 0 and $lista->justificado != 1) ? $time : 0;
+    					                   $totaltimeh += ($lista->tpfreq == 1) ? $time : 0;
+    					                   
+    					                   $cor = ($lista->tpfreq == 0) ? "#f00" : "#12B73B"
+    					                   
+    					                   ?>
+    					                   <span style="color: <?php echo $cor?>"><?php echo $retorno?></span>
+    					                   
+    					                </td>
+    					                <td align="center" >
+    					                   <?php echo ($lista->justificado == 1) ? "Justificado" : "Não justificado"; ?>
+    					                </td>
+    					                <td align="center" >
+    					                   <img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/info.png" width="16" title="Observação" onclick='jModal("<?php echo $lista->obs?>", "Observação", 400, 300);'>
+    					                </td>
+    					                <td align="center" >
+    					                	<a href="#" onclick="removeCadastro('<?php echo md5($lista->id)?>','<?php echo $this->objParams['tp']?>','<?php echo $this->objParams['div']?>','<?php echo md5($lista->id_usuarios)?>');" ><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/close.png" width="17" border="0" title="Remover"></a>
+    					                </td>
+    					            </tr>			            
+    							<?php  endforeach; ?>
+    						
+    							<tr >
+    				                <td align="center" style="font-weight: bold;">
+    				                   Total: 
+    				                </td>
+    				                <td align="center" style="font-weight: bold;">
+    				                   <?php 
+    				                   
+    				                   $cor = ($totaltimeh < $totaltime) ? "#f00" : "#12B73B";
+    				                   $totaltime = ($totaltimeh > $totaltime) ? $totaltimeh - $totaltime : $totaltime - $totaltimeh ;
+    				                   
+    				                   
+    				                   $days  = floor($totaltime/86400);
+    				                   $hours = floor(($totaltime-($days*86400))/3600);
+    				                   $mins  = floor(($totaltime-($days*86400)-($hours*3600))/60);
+    				                   $secs  = floor($totaltime-($days*86400)-($hours*3600)-($mins*60));
+    				                   
+    				                   $retorno  = "";
+    				                   $retorno .= (!empty($days))  ?  $days .'d ' : ""  ;
+    				                   $retorno .= (!empty($hours)) ?  $hours .'h ': ""  ;
+    				                   $retorno .= (!empty($mins))  ?  $mins .'m ' : ""  ;
+    				                   
+    				                   ?>
+    				                   <span style="color: <?php echo $cor?>"><?php echo $retorno?></span>
+    				                </td>
+    				                <td align="center" colspan="3" >&nbsp;</td>
+    				            </tr>
+    						
+    			                </tbody>
+    			            </table>            
+    			        
+    			        
+    					<?php 
+    		            }else{
+    					?>
+    					<div style="text-align: center; padding: 10px; border-top: 1px solid #d5d5d5; ">
+    			 			Nenhum registro Encontrado 
+    					</div>	
+    					<?php 
+    					}
+		    					
+		}else{
+		    
+		
+			if(count($this->objUser)>0){
+			    foreach ($this->objUser as $usuario);
+			    $dtinicial 	= date('Y/m/d',strtotime($usuario->dt_admissao));
+			    $datafinal 	= date('Y/m/d', strtotime("+1 Year",strtotime($usuario->dt_admissao)));
+			    
+			    $data1 = new DateTime(date('Y/m/d')); //data atual --
+			    $data2 = new DateTime($datafinal); //data q fecha o ano -----
+			    
+			    ?>
+			    <table style="width: 100%; " class="tableStatic">
+	    			<thead>
+	    				<tr>
+	    			    	<td width="">Competência</td>
+	    			        <td >Férias</td>
+	    			        <td width="15%">Dias</td>
+	    			   	</tr>
+	    			</thead>
+	    			<tbody>
+	    			<?php 
+	    			$qtferias = 0;
+	    			$verferias = array();
+	    			while ($data1 >= $data2) {
+	    				?>
+	    				<tr >
+							<td align="center">
+						    	<?php echo date('d/m/Y',strtotime($dtinicial))?> à <?php echo date('d/m/Y',strtotime("-1 days",strtotime($datafinal)))?>
+						    </td>
+						    <td>
+						    	<?php if (count($this->objFaltas) > 0){ ?>
+						    	  
+					 			<table style="width: 100%;" >
+					            	<tbody>
+									<?php 
+									$totalferias = $totaltime = 0;
+									foreach($this->objFaltas as $lista){
+										$verlinha = 0;
+										foreach ($verferias as $row => $valor){
+											if($valor == $lista->id) $verlinha = 1;
+										}
+										
+										if($verlinha == 0){
+								    		?>
+											<tr style="background-color: #fff; border-bottom: 1px solid #d5d5d5;">
+												<td align="center" >
+								                   <?php echo substr($lista->dtini,8,2)."/".substr($lista->dtini,5,2)."/".substr($lista->dtini,0,4)?> à 
+								                   <?php echo substr($lista->dtfim,8,2)."/".substr($lista->dtfim,5,2)."/".substr($lista->dtfim,0,4)?>
+								                </td>
+								                <td align="center" >
+								                   <?php 
+								                   
+								                   $_split_datehour = explode(' ',$lista->dtini);
+								                   $_split_data = explode("-", $_split_datehour[0]);
+								                   $dtini = mktime (0, 0, 0, $_split_data[1], $_split_data[2], $_split_data[0]);
+								                   
+								                   $_split_datehour = explode(' ',$lista->dtfim);
+								                   $_split_data = explode("-", $_split_datehour[0]);
+								                   $dtfim = mktime (24, 0, 0, $_split_data[1], $_split_data[2], $_split_data[0]);
+								                   
+								                   $totaltime += $time = ($dtfim - $dtini);
+								                   
+								                   $days  = floor($time/86400);
+								                   $hours = floor(($time-($days*86400))/3600);
+								                   $mins  = floor(($time-($days*86400)-($hours*3600))/60);
+								                   $secs  = floor($time-($days*86400)-($hours*3600)-($mins*60));
+								                   
+								                   $retorno  = "";
+								                   $retorno .= ($days>0)  ?  $days .'d ' : ""  ;
+								                   
+								                   echo $retorno;
+								                   
+								                   $totalferias += $retorno;
+								                   
+								                   $verferias[] = $lista->id;
+								                   
+								                   ?>
+								                </td>
+								                <td align="center" >
+								                   <img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/info.png" width="12" title="Observação" onclick='jModal("<?php echo $lista->obs?>", "Observação", 400, 300);'>
+								                </td>
+								                <td align="center" >
+								                	<a href="#" onclick="removeCadastro('<?php echo md5($lista->id)?>','<?php echo $this->objParams['tp']?>','<?php echo $this->objParams['div']?>','<?php echo $usuario->id?>');" ><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/close.png" width="12" border="0" title="Remover"></a>
+								                </td>
+								            </tr>			            
+											<?php  
+											if($totalferias >= 30){
+												$qtferias++;
+												break;
+											}
+										}
+									} 
+									?>								
+					                </tbody>
+					            </table> 
+					            
+					            <?php 
+		    					}
+				            	?>           
+				            </td>
+				            <td style="text-align: center;">
+				            <?php if($totalferias!= 0) echo $totalferias."d"?>
+				            </td>
+						</tr>	
+	    				<?php
+	    				$dtinicial = $datafinal;
+	    				$datafinal 	= date('Y/m/d', strtotime("+1 Year",strtotime($datafinal)));
+	    				$data2 = new DateTime($datafinal);
+	    			}
+	    			?>
+	    			</tbody>
+				</table>
+	    		<?php 
+			}
+		}
+	?>
+			

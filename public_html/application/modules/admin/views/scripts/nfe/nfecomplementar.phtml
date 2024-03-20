@@ -1,0 +1,241 @@
+<script src="<?=$this->baseUrl()?>/public/sistema/js/janelamodal.js"></script>
+<script src="<?=$this->baseUrl()?>/public/javascript/nfe/nfecomplementar.js"></script>
+
+<link type="text/css" rel="stylesheet" href="<?=$this->baseUrl()?>/public/sistema/css/modalestilo.css" ></link>
+
+<style>
+#divbarra{
+	border:1px solid #DFDFDF;
+	text-align:left;	
+}
+
+#barraprogresso{
+	width:1px; 
+	background: -moz-linear-gradient(top, #00bfbf, #007d7d);
+	background: -webkit-gradient(linear, left top, left bottom, from(#00bfbf), to(#007d7d)) repeat-X;
+	background-color: #00bfbf;
+	height:20px;
+}
+</style>
+
+<?php 
+	foreach ($this->objNfe as $listNfe);		
+?>
+
+<div class="content">
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="#">Home</a> </li>
+                	<li><a href="<?=$this->baseUrl()?>/admin/compras/estoquegrupo">Estoque</a></li>
+                	<li><a href="<?=$this->baseUrl()?>/admin/nfe/nfe">NF-e</a></li>
+                	<?php if($this->objTp == 'avulsa'): ?>
+					<li><a href="<?=$this->baseUrl()?>/admin/nfe/nfeavulsas">NF-e AVULSAS</a></li>
+                	<?php endif; ?>
+                	<li class="lastB"><?="NFe".substr("000000".$listNfe->id,-6,6);?></li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5><?="NFe".substr("000000".$listNfe->id,-6,6);?></h5></div>
+        
+        <div class="widget first" >
+            <div class="head" style="margin-top: -10px"><h5 class="iUser">Informações do cliente</h5></div>
+            <div class="body">
+                <table style="width: 100%;">
+		            <tr>
+		                <td>Raz&atilde;o Social:</td>
+		                <td colspan="2"><b><?=$listNfe->empresa?></b></td>
+		            </tr>
+		            <tr>
+		                <td>CPF/CNPJ:</td>
+		                <td width="35%"><b><?=$listNfe->cnpj?></b></td>
+		                <td width="15%">RG/INSC:</td>
+		                <td ><b><?=$listNfe->inscricao?></b></td>
+		            </tr>
+		            <tr>
+		                <td>Cidade:</td>
+		                <td width="35%"><b><?=$listNfe->cidade?></b></td>
+		                <td width="15%">Estado:</td>
+		                <td ><b><?=$listNfe->uf?></b></td>
+		            </tr>
+		            <tr>
+		            	<td>Pais:</td>
+		                <td ><b>Brasil</b></td>
+		                <td>Transportadora:</td>
+		                <td ><b><?=$listNfe->transportadora?></b></td>
+		            </tr>
+		            <tr>
+		            	<td style="vertical-align: top;">Nat Op:</td>
+		                <td colspan="3"><b><?=$listNfe->cfop." - ".$listNfe->naturezaop?></b></td>                
+		            </tr>
+		        </table>
+        	</div>
+        </div>
+                
+		<div class="widget">
+ 			<div class="head" ><h5 class="iView">Informações adicionais</h5></div>
+        	<div class="body">
+        		<table style="width: 100%">
+	            	<tr>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			              Frete:<br>
+			              <span style="font-size:14px; font-weight:bold;">
+			              <?=number_format($listNfe->frete,2,',','.')?>
+                    	  </span> 
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			              Seguro:<br>
+                    	  <span style="font-size:14px; font-weight:bold;">
+			              <?=number_format($listNfe->seguro,2,',','.')?>
+                    	  </span> 
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			              Desconto:<br>
+                    	  <span style="font-size:14px; font-weight:bold;">
+			              <?=number_format($listNfe->desconto,2,',','.')?>
+                    	  </span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			              &nbsp;
+			            </td>
+			    	</tr>
+		            <tr>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               Base do calculo ICMS:<br>
+                    	   <span style="font-size:14px; font-weight:bold;">
+	                       <?=number_format($listNfe->baseicms,2,',','.')?>
+                    	   </span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               	Base do calculo ICMS S.T.:<br>
+                    	   	<span style="font-size:14px; font-weight:bold;">
+                    	   	<?=number_format($listNfe->basest,2,',','.')?>
+                    	   	</span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               Valor total do IPI:<br>
+                    	   <span style="font-size:14px; font-weight:bold;">
+                    	        <?=number_format($listNfe->totalipi,2,',','.')?>  
+                    	   </span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			              Valor Total dos produtos:<br>
+                    	  <span style="font-size:14px; font-weight:bold; "><?=number_format($listNfe->totalprodutos,2,',','.')?></span>
+			            </td>
+			    	</tr>
+				    <tr >
+			    		<td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               Valor ICMS:<br>
+                    	   <span style="font-size:14px; font-weight:bold;">
+                    	   		<?=number_format($listNfe->vlicms,2,',','.')?>
+                    	   </span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               Valor ICMS S.T.:<br>
+                    	   <span style="font-size:14px; font-weight:bold;">
+                    	   		<?=number_format($listNfe->vlst,2,',','.')?>
+                    	   </span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               Outras despesas:<br>
+                    	   <span style="font-size:14px; font-weight:bold;"><?=number_format($listNfe->outrasdesp,2,',','.')?></span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			              Valor Total da nota:<br>
+                    	  <span style="font-size:14px; font-weight:bold; color:#0010e1;">
+                    	  <?=number_format($listNfe->totalnota,2,',','.')?>
+                    	  </span>
+			            </td>
+		            </tr>
+	       		</table>  
+	        </div>
+	    </div>
+		        
+	   	<form action="" class="mainForm">
+		   	<input type="hidden" value="<?php echo $listNfe->id?>" name="idnfe">
+	        <div class="widget">
+	 			<div class="head" style="border-bottom: 0px"><h5 class="iFrames">Descrição do complemento</h5></div>
+	        	<table class="tableStatic">
+	            	<thead>
+	                	<tr>
+	                        <td width="3%">Código</td>
+	                        <td width="">Descrição</td>
+	                        <td width="">NCM</td>
+	                        <td width="">ICMS</td>
+	                        <td width="">ICMS ST</td>
+	                        <td width="">PIS</td>
+	                        <td width="">COFINS</td>
+	                        <td width="">IPI</td>		                        
+	                    </tr>
+	                </thead>
+	                <tbody>
+	       
+	                <?php  
+			        $cor=0;
+			        foreach ($this->objList as $listaProd);
+			        	
+			            ?>
+				        <tr >
+				        	<td style="text-align: center;" >
+			                    0001
+			                </td>
+			                <td style="text-align: center;" >
+			                    <input type="text" name="descricao" style="width: 250px">
+			                </td>
+			                <td style="text-align: center;" >
+			                    <span style="color: #999"><?=$listaProd->ncm?></span>
+			                </td>
+			                <td style="text-align: center;" >
+			                	<input type="text" name="icms" style="width: 60px" class="moeda">
+			                </td>
+			                <td style="text-align: center;" >
+			                    <input type="text" name="icmsst" style="width: 60px" class="moeda">
+			                </td>
+			                <td style="text-align: center;" >
+			                    <input type="text" name="pis" style="width: 60px" class="moeda">
+			                </td>
+			                <td style="text-align: center;" >
+			                    <input type="text" name="cofins" style="width: 60px" class="moeda">
+			                </td>                
+			                <td style="text-align: center;" >
+			                    <input type="text" name="ipi" style="width: 60px" class="moeda">
+			                </td>
+			            </tr>					       
+			        </tbody>
+	            </table>            
+	        </div>
+	        <div style="margin-top: 5px">
+		        Observação:<br />
+		        <textarea rows="" cols="" style="width: 350px" id="obs" name="obs"></textarea>
+	        </div>
+	    </form>
+		         		
+		<div style="padding-top: 10px">
+			<input janela="#jconfirma"  type="button" name="janelamodal" value="Gerar NF-e"  class="greenBtn">
+		</div>
+	</div>
+
+	
+	
+<!-- Janelas modal -->
+<div class="window" id="jconfirma" style="width: 350px; height: 110px" >
+    <span class="titulojanela" >Gerar NF-e complementar?</span><br />
+    <span class="subtitulojanela">Não será possivel edição após a nf-e gerada.</span>
+    <div style="margin-top: 30px; text-align: center;">
+	    <input type="button" class="greenBtn" name="janelamodal" janela="#jmodal" onclick="gravarDadosnfe();" value="OK">
+	 	<input type="button" class="redBtn"  value="Cancelar" onclick="$('#mascara').hide(); $('.window').hide();">
+    </div> 
+</div>
+
+
+<div class="window" id="jmodal" style="width: 350px; height: 110px" >
+    <span class="titulojanela" id="titulojanelager">Gerando NF-e complementar</span><br />
+    <span class="subtitulojanela" id="subtitulojanelager">Salvando dados da NF-e...</span>
+    <div id="subtexto" style="margin-top: 45px; text-align: center; ">
+    	<div id="barraprogresso"></div> 	
+    </div> 
+</div>
+
+<div id="mascara"></div>

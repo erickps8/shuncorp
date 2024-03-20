@@ -1,0 +1,114 @@
+<div class="content">  
+	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+    	<div class="breadCrumb module">
+        	<ul>
+            	<li class="firstB"><a href="#">Home</a> </li>
+            	<li><a href="<?=$this->baseUrl(); ?>/admin/kang/pedidos">Pedidos de venda</a></li>
+            	<li class="lastB"><b>Classes</b></li>         
+            </ul>
+        </div>
+    </div>  
+        
+    <div class="title"><h5>Classes de produtos</h5></div>
+        
+    <div class="widgets" >
+    	<form action="/admin/kang/gravaprodutosclasse" name="cadastra" id="cadastra" method="post" class="mainForm">
+		<input type="hidden" id="idprodutosclasse" name="idprodutosclasse">
+		<table>
+			<tr>
+				<td width="70px">
+					Letra<br />
+					<input type="text" name="letra" id="letra" style="text-transform: uppercase; width: 40px">
+				</td>
+				
+				<td width="80px">
+					Margem (%)<br />
+					<input type="text" name="margem" id="margem" style="width: 50px">
+				</td>
+				<td >
+					<br><input type="button" id="btnSalvar" class="greenBtn" value="Salvar">
+				</td>
+			</tr>
+		</table>
+		
+		</form> 
+	</div>
+
+    <?php 			
+    if(count($this->objProdutosclasses) > 0){			
+	?>
+		<div class="widget" style="width: 60%" >
+ 		<table style="width: 100%" class="tableStatic">
+        	<thead>
+            	<tr>
+                	<td width="15%">Ordem</td>
+                    <td width="" >Letra</td>
+                    <td >Margem (%)</td>
+                    <td width="15%">Opções</td>
+                </tr>
+          	</thead>
+       	<tbody>
+			
+		<?php 
+		$cor=0;
+		foreach($this->objProdutosclasses as $lista){
+	    	$cor++;
+            ?>
+			<tr >
+                <td style="text-align: center;">
+                   <?php echo substr("000".$cor,-3,3)?>
+                </td>
+                <td style="text-transform: uppercase; text-align: center;">
+                   <?php echo $lista->letra?>
+                </td>
+                <td style="text-align: center;">
+                   <?php echo number_format($lista->margem,2,",",".")?>
+                </td>
+                <td style="text-align: center;">
+                	<a href="javascript:" class="editar" data-id='<?=$lista->id?>' data-letra='<?=$lista->letra?>' data-margem='<?=number_format($lista->margem,2,",",".")?>' ><img src="/public/sistema/imagens/icons/middlenav/pencil.png" width="16" border="0" title="Editar" ></a> &nbsp; 
+                	<a href="javascript:" class="remover" data-id='<?php echo $lista->id?>' ><img src="/public/sistema/imagens/icons/middlenav/close.png" width="15" border="0" title="Remover"></a>
+                </td>
+            </tr>
+        	<?php  
+		}
+		?>        
+		</table>
+		</div>
+    <?php 
+    }else{
+    	?>
+    		<div style="text-align: center;">Nenhuma classe cadastrada</div>	
+    	<?php 
+    }
+	?>
+				
+</div>
+	
+<script>
+$("#btnSalvar").click(function(){
+	if($("#letra").val() == ""){
+		jAlert("O campo Letra não pode ficar em branco!", "Erro!");
+	}else if($("#margem").val() == ""){
+		jAlert("O campo Margem não pode ficar em branco!", "Erro!");
+	}else{
+		$("#cadastra").submit();
+	}
+});
+
+$(".editar").click(function(){
+	$("#letra").val($(this).attr('data-letra'));
+	$("#idprodutosclasse").val($(this).attr('data-id'));
+	$("#margem").val($(this).attr('data-margem'));
+});
+
+$(".remover").click(function(){
+
+	var idprodutosclasse = $(this).attr('data-id');
+	
+	jConfirm('Você deseja remover esta regiao?', 'Confirme', function(r) {
+		if(r==true){
+			window.location='/admin/kang/removeprodutosclasse/idprodutosclasse/'+idprodutosclasse;
+		}
+	});
+});
+</script>

@@ -1,0 +1,914 @@
+    <script type="text/javascript" src="<?php echo $this->baseUrl()?>/public/sistema/js/buscaajax/cadastroSubgrupo.js"></script>
+    <script type="text/javascript" src="<?php echo $this->baseUrl()?>/public/sistema/js/buscaajax/cadastroProdutoscad.js"></script>
+ 
+    <!-- Content -->
+	<div class="content">   
+
+	<?php 
+    if(!empty($this->objProd)){
+        $cod = "Produto ".$this->objProd->CODIGO;
+    }else{
+        $cod = "Cadastro de produtos";
+    }
+    ?>
+    
+    <script type="text/javascript">
+        $(function(){
+        	bloqCampos();
+        });    
+        </script>
+		
+    <!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/cadastro/produtos/fil/comp">Produtos</a></li>
+                	<li class="lastB">Cadastro de produtos</li>         
+                </ul>
+            </div>
+        </div>    
+        
+        <div class="title"><h5>Produto<?php echo " ".$this->objProd->CODIGO?></h5></div>  
+ 		
+       	<form action="<?php echo $this->baseUrl(); ?>/admin/cadastro/cadproduto" method="post" name="cadProduto" id="cadProduto" enctype="multipart/form-data" onsubmit="return validaformproduto();" class="mainForm">
+       	<input type="hidden" name="id_produto" value="<?php if(isset($this->objProd)) echo $this->objProd->ID?>" class="desbloqueio">
+       	<input type="hidden" name="codigoprod" value="<?php echo $this->objProd->CODIGO?>" class="desbloqueio">
+
+       	<div class="widget">
+        	<ul class="tabs">
+        	<?php if($this->objPri==1): ?>
+            	<li><a href="#tab1">Principal</a></li>
+             <?php endif; if($this->objVen==5): ?>
+                <li><a href="#tab2">Venda</a></li>
+            <?php endif; if($this->objCom==1): ?>
+                <li><a href="#tab3">Compra</a></li>
+            <?php endif; if($this->objTec==1): ?>
+                <li><a href="#tab4">Técnico</a></li>
+            <?php endif; ?>
+            </ul>
+
+       		<div class="tab_container">
+	        	<?php if($this->objPri==1): ?>
+	            <div id="tab1" class="tab_content">
+		        	<div>
+		            	<table style="width: 100%">
+		              		<tr>
+			              		<td align="left" width="150">
+			              			<?=$this->translate->_("Código do produto")?>:<br>
+			              			<input value="<?php if(isset($this->objProd)) echo $this->objProd->CODIGO?>" type="text" name="codigo" style="text-transform: uppercase; width: 150px" >
+			              		</td>
+			              		<td align="left" width="150" >
+			              			<?=$this->translate->_("Máscara")?>:<br>
+			              			<input value="<?php if(isset($this->objProd)) echo $this->objProd->codigo_mask?>" type="text" name="mascara" style="width: 150px">
+			              		</td>
+			              		<td align="left" width="150">
+			              			<?=$this->translate->_("Código EAN")?>:<br>
+			              			<input value="<?php if(isset($this->objProd)) echo $this->objProd->codigo_ean?>" type="text" style="width: 200px" name="ean" class="inteiro">
+			              		</td>
+			              		<td align="right" >
+			              			<br>
+			              			<!-- <input type="button" class="blueBtn desbloqueio" value="Atualizar produto" id="atualizaProduto"> -->
+			              		</td>
+			              	</tr>
+			              	<tr>
+			              		<td align="left" width="150">
+			              			<?=$this->translate->_("Cl Fiscal")?>:<br>
+			              			<div class="styled-select" style="width: 100px">
+			              			<select name="classfiscal" id="classfiscal" style="text-transform: uppercase; width: 122px" >
+										<option value="1"><?=$this->translate->_("Selecione")?></option>
+										<?php
+										foreach ($this->objNcm as $listncm): ?>
+											<option <?php if($listncm->id == $this->objProd->id_ncm) echo 'selected="selected"';?> value="<?=$listncm->id?>"><?=$listncm->ncm." ".$listncm->ncmex?></option>
+										<?php endforeach; ?>
+									</select>
+									</div>
+			              			<?php ?>
+			              		</td>
+			              		<td align="left" colspan="3" >
+			              			<?=$this->translate->_("Peso")?>:<br>
+			              			<input value="<?php if(isset($this->objProd)) echo $this->objProd->PESO?>" type="text" name="peso" class="peso" style="width: 80px"> Kg
+			              		</td>
+			              	</tr>
+              			</table>
+		            </div>
+
+              		<div>
+						 <table style="width: 100%">
+	              			<tr>
+			              		<td align="left" valign="bottom" width="100">
+			              		<?=$this->translate->_("Grupo")?>: <br>
+			              		<div class="styled-select" style="width: 172px">
+		              			<select name="buscagrupo" id="3" style="width: 192px">
+									<option value="0"><?=$this->translate->_("Selecione")?></option>
+									<?php
+									foreach ($this->objSubg as $listsubg);
+									foreach ($this->objGrupo as $list): ?>
+										<option <?php if(isset($listsubg) and $listsubg->id_gruposprod == $list->id) echo 'selected="selected"';?> value="<?php echo $list->id?>"><?php echo ($list->descricao)?></option>
+									<?php endforeach; ?>
+								</select>
+								</div>
+								</td>
+			              		<td align="left" valign="bottom" width="200">
+			              		    <div id="subgrupo" align="left">
+			              		        <?php if(!empty($this->objProd->id_gruposprodsub)){ ?>
+			              		        Subgrupo:<br />
+			              		        <div class="styled-select" style="width: 220px">
+											<select name="buscagruposub" id="buscagruposub" style="width: 242px">
+    											<?php foreach ($this->objSubgp as $list): ?>
+    												<option <?php if(isset($this->objProd) and $this->objProd->id_gruposprodsub == $list->id) echo 'selected="selected"';?> value="<?php echo $list->id?>"><?php echo $list->descricao?></option>
+    											<?php endforeach; ?>
+    										</select>
+    									</div>
+    									<?php }else{ ?>
+    									Subgrupo:<br />
+			              		        <div class="styled-select" style="width: 220px">
+    										<select name="buscagruposub" id="buscagruposub" style="width: 212px">
+    											<option >Selecione o grupo</option>
+    										</select>
+    									</div>
+										<?php } ?>
+										&nbsp;
+									</div>
+								</td>
+								<td>
+									<?=$this->translate->_("Unidade")?>:<br>
+									<div class="styled-select" style="width: 65px">
+			              			<select name="unidade" id="unidade" style="width: 87px">
+										<option value="Und" <?php if(isset($this->objProd) and ($this->objProd->unidade == "Und" || $this->objProd->unidade == "UNI")) echo 'selected="selected"';?> >UNI</option>
+										<option value="Mt" <?php if(isset($this->objProd) and $this->objProd->unidade == "Mt") echo 'selected="selected"';?> >Mt</option>
+										<option value="Mt2" <?php if(isset($this->objProd) and $this->objProd->unidade == "Mt2") echo 'selected="selected"';?> >Mt²</option>
+										<option value="Mil" <?php if(isset($this->objProd) and $this->objProd->unidade == "Mil") echo 'selected="selected"';?> >Mil</option>
+										<option value="Kgs" <?php if(isset($this->objProd) and $this->objProd->unidade == "Kgs") echo 'selected="selected"';?> >Kgs</option>
+
+									</select>
+									</div>
+			              			<?php ?>
+								</td>
+	              			</tr>
+              			</table>
+		             </div>
+
+		             <div class="widgets" >
+
+			             <div class="left">
+	                     	<?=$this->translate->_("Descrição")?>: <br>
+	              			<textarea rows="2" cols="33" style="width: 400px" name="descricao"><?php if(isset($this->objProd)) echo $this->objProd->DESCRICAO?></textarea>
+						 </div>
+						 <div class="right">
+						 	<?=$this->translate->_("Detalhes do produto")?>: <br>
+					        <textarea rows="2" cols="33" style="width: 400px" name="detproduto"><?php if(isset($this->objProd)) echo $this->objProd->APLICACAO?></textarea>
+					     </div>
+
+
+
+					    <div class="left" style="margin-top: 15px;">
+	              			<?php
+
+//	              			$link = "http://hbr.ind.br/public/sistema/upload/produtos/".$this->objProd->CODIGO."/imagens";
+//
+//	              			$img = get_headers($link."/imagem1.jpg");
+                            $img = array();
+	              			if(isset($this->objProd) and strpos($img[0],'200')){		?>
+	              			<div style="width: 140px; float: left;" >
+		              			<a href="javascript:" id="imgProd1" title="Imagem 1">
+			       					<img style="padding: 2px; border: 1px solid #d5d5d5;" width="100" src="<?php echo $link?>/imagem1.jpg">
+			       				</a>
+						    </div>
+						    <?php }?>
+
+		          			<?php
+//		          			$img2 = get_headers($link."/imagem1_".$this->objProd->ID.".jpg");
+                            $img2 = array();
+		          			if(isset($this->objProd) and strpos($img2[0],'200')){ ?>
+	              			<div style="width: 140px; float: left;" >
+	              				<a href="javascript:" id="imgProd2" title="Imagem 2">
+		       						<img style="padding: 2px; border: 1px solid #d5d5d5;" width="100" border="1" src="<?php echo $link?>/imagem1_<?php if(isset($this->objProd)) echo $this->objProd->ID?>.jpg">
+		       					</a>
+    		       			</div>
+	              			<?php }?>
+						 </div>
+
+						 <div class="fix"></div>
+					</div>
+
+					<div class="fix"></div>
+
+					<div class="widget first" >
+						<div class="head" style="border-bottom: 0px"><h5 class="iFrames">Composição</h5></div>
+			        	<table class="tableStatic" style="width: 100%">
+			            	<thead>
+			                	<tr>
+			                        <td width=""><?=$this->translate->_("Produto")?></td>
+									<td ><?=$this->translate->_("Descrição")?></td>
+									<td ><?=$this->translate->_("Qt")?></td>
+			                    </tr>
+			                </thead>
+			                <tbody>
+							  <?php
+							    $totalcomp   = 0;
+							    $idscomp     = "";
+								if(!empty($this->objComp)):
+								foreach ($this->objComp as $listkit):
+									?>
+									<tr>
+										<td align="left">
+											<a href="<?=$this->baseUrl()?>/admin/cadastro/produtoscad/produto/<?=md5($listkit->IDPROD)?>" >
+											<?=$listkit->CODIGO?>
+											</a>
+										</td>
+										<td align="left"><?=utf8_encode($listkit->DESCRICAO)?></td>
+										<td align="center"><?=$listkit->qt?></td>
+									</tr>
+									<?php
+									$idscomp .=  $listkit->IDPROD.";";
+									if($listkit->id_gruposprodsub!=14) $totalcomp += ($listkit->qt*$listkit->CUSTO_VALOR);
+								endforeach;
+								endif;
+								?>
+							</tbody>
+						</table>
+					</div>
+
+	              </div>
+	            <?php
+	            endif;
+	            if($this->objVen==1):
+	            ?>
+	              <div id="tab2" class="tab_content">
+	              	<div >
+		            	<table style="width: 500px">
+              				<tr>
+			              		<td align="left" width="">
+			              			Preço BRL: <br>
+			              			<input value="<?php if(!empty($this->objProd->PRECO_UNITARIO)) echo number_format($this->objProd->PRECO_UNITARIO,2,",",".")?>" type="text"  name="preco_brl" style="width: 70px" class="moeda desbloqueio">
+			              		</td>
+			              		<td align="left" >
+			              			Preço USD: <br>
+			              			<input value="<?php if(!empty($this->objProd->PRECO_UNITARIO_USD)) echo number_format($this->objProd->PRECO_UNITARIO_USD,2,",",".")?>" type="text" size="10" name="preco_usd" style="width: 70px" class="moeda desbloqueio">
+			              		</td>
+			              		<td align="left">
+			              			Preço RMB:<br>
+			              			<input value="<?php if(!empty($this->objProd->PRECO_UNITARIO_RMB)) echo number_format($this->objProd->PRECO_UNITARIO_RMB,2,",",".")?>" type="text" size="10" name="preco_rmb" style="width: 70px" class="moeda desbloqueio" >
+			              		</td>
+			              		<td align="left" valign="top" >
+			              			Preço EUR:<br>
+			              			<input value="<?php if(!empty($this->objProd->PRECO_UNITARIO_EUR)) echo number_format($this->objProd->PRECO_UNITARIO_EUR,2,",",".")?>" type="text" size="10" name="preco_eur" style="width: 70px" class="moeda desbloqueio">
+			              		</td>
+
+			              	</tr>
+              			</table>
+		          	</div>
+
+		           <div class="widget" >
+			            <div class="head" ><h5 class="iUser"><?=$this->translate->_("Histórico de preço")?></h5></div>
+		            	<table class="tableStatic" style="width: 100%">
+              				<thead>
+			                	<tr>
+									<td ><?=$this->translate->_("Data")?></td>
+									<td><?=$this->translate->_("Moeda")?></td>
+									<td><?=$this->translate->_("Valor")?></td>
+								</tr>
+							</thead>
+              				<?php if(!empty($this->objHisv)): ?>
+              				<tbody>
+							<?php
+							foreach ($this->objHisv as $listhisv):
+								?>
+								<tr>
+									<td align="center"><?=substr($listhisv->data,8,2)."/".substr($listhisv->data,5,2)."/".substr($listhisv->data,0,4)?></td>
+									<td align="center"><?=$listhisv->moeda?></td>
+									<td align="right"><?=number_format($listhisv->valor,2,",",".")?></td>
+								</tr>
+								<?php
+							endforeach;
+							?>
+							</tbody>
+							<?php endif; ?>
+						</table>
+	              	</div>
+
+	              	<div class="widget" >
+			            <div class="head" ><h5 class="iUser"><?=$this->translate->_("Histórico de venda")?></h5></div>
+			            <table class="tableStatic" style="width: 100%">
+              				<thead>
+			                	<tr>
+			                		<td ><?=$this->translate->_("Venda")?></td>
+									<td ><?=$this->translate->_("Data")?></td>
+									<td><?=$this->translate->_("Cliente")?></td>
+									<td><?=$this->translate->_("Qt")?></td>
+								</tr>
+							</thead>
+              				<?php if(!empty($this->objHisped)): ?>
+              				<tbody>
+	              				<?php
+								foreach ($this->objHisped as $listhisped):
+									?>
+									<tr>
+										<td align="center">
+    										<a target="_blank" href="<?php echo $this->baseUrl()?>/admin/kang/vendasdet/ped/<?php echo md5($listhisped->idpedido)?>" >S<?php echo str_pad($listhisped->idpedido, 6, "0", STR_PAD_LEFT); ?></a>
+										</td>
+										<td align="center"><?=substr($listhisped->data_vend,8,2)."/".substr($listhisped->data_vend,5,2)."/".substr($listhisped->data_vend,0,4)?></td>
+										<td align="left"><?=utf8_encode($listhisped->EMPRESA)?></td>
+										<td align="center"><?=$listhisped->qt?></td>
+									</tr>
+									<?php
+								endforeach;
+								?>
+							</tbody>
+							<?php endif; ?>
+						</table>
+	              		</div>
+	              </div>
+	            <?php
+	            endif;
+	            if($this->objCom==1):
+	            ?>
+	              <!-- Compra -->
+	              <div id="tab3" class="tab_content">
+	              	<div>
+	              		<table style="width: 100%">
+              				<tr>
+			              		<td align="left" width="60%" colspan="2" >
+			              			<?=$this->translate->_("Grupo de Compra")?>:<br>
+			              			<div class="styled-select" style="width: 230px">
+			              			<select name="grupocompra" id="grupocompra" style="width: 253px"  class="desbloqueio">
+										<option value="0"><?=$this->translate->_("Selecione")?></option>
+										<?php foreach ($this->objGrupcom as $list): ?>
+											<option <?php if($this->objProd->Purchasing_group == $list->id) echo 'selected="selected"';?>  value="<?php echo $list->id?>"><?php echo $list->purchasing?></option>
+										<?php endforeach; ?>
+									</select>
+									</div>
+			              		</td>
+			              		<td align="right"  >
+				              		<div style="border: 1px solid #d5d5d5; margin-left: 15px; padding: 5px; float: right;">
+				              			<?php if(empty($this->objProd->situacao)) $check2 = 'checked="checked"';?>
+			              				<input <?php if($this->objProd->situacao == 0) echo 'checked="checked"';?> class="desbloqueio" type="radio" name="sit" <?=$check2?> value="0"><label><?=$this->translate->_("Pronto")?></label>
+			              				<input <?php if($this->objProd->situacao == 1) echo 'checked="checked"';?> class="desbloqueio" type="radio" name="sit" value="1"><label><?=$this->translate->_("Em Desenvolvimento")?></label>
+			              				<input <?php if($this->objProd->situacao == 2) echo 'checked="checked"';?> class="desbloqueio" type="radio" name="sit" value="2"><label><?=$this->translate->_("Inativo")?></label>
+
+			              				<div class="fix"></div>
+			              			</div>
+			              		</td>
+			              	</tr>
+              				<tr>
+			              		<td align="left" colspan="4" >
+			              			<?=$this->translate->_("Descrição PL")?>:<br>
+			              			<input value="<?php if(isset($this->objProd)) echo $this->objProd->pl_prod_desc?>" class="desbloqueio" type="text" name="pl_desc" style="text-transform: uppercase; width: 70%" >
+			              		</td>
+			              	</tr>
+			              	<tr>
+			              		<td align="left" colspan="4" >
+			              			<?=$this->translate->_("Descrição PL (Tradução)")?>:<br>
+			              			<input value="<?php if(isset($this->objProd)) echo $this->objProd->pl_prod_desc_pt?>" class="desbloqueio" type="text" name="pl_prod_desc_pt" style="text-transform: uppercase; width: 70%" >
+			              		</td>
+			              	</tr>
+			              	<tr>
+			              		<td align="left" colspan="4" >
+			              			<?=$this->translate->_("Detalhes da compra")?>:<br>
+			              			<textarea rows="2" cols="40" name="detcompra" class="desbloqueio" style="width: 70%"><?php if(isset($this->objProd)) echo $this->objProd->purchasing_det?></textarea>
+			              		</td>
+			              	</tr>
+              			</table>
+		           </div>
+
+		           <div class="widget" >
+		             <div class="head"><h5 class="iFrames"><?=$this->translate->_("Shunkang")?></h5></div>
+        				<div class="body">
+        					<div class="campos">
+        						<?=$this->translate->_("Fornecedor")?>:<br>
+        						<input type="hidden" name="idantkang" value="<?=$this->objProd->id_cliente_fornecedor_shuntai?>">
+        						<div class="styled-select" style="width: 250px ">
+        	              			<select name="fornecedorkang" id="fornecedorkang" class="desbloqueio" style="width: 272px">
+        			 					<option value="0"><?=$this->translate->_("SELECIONE")?></option>
+        			 					<?php foreach ($this->objFor as $list): ?>
+        			 						<option <?php if($this->objProd->id_cliente_fornecedor_shuntai == $list->ID) echo 'selected="selected"';?> value="<?php echo $list->ID?>"><?php echo $list->EMPRESA?></option>
+        			 					<?php endforeach; ?>
+        			 				</select>
+        			 			</div>
+        			 		</div>
+        			 		<div class="campos" style="width: 20%">
+        			 			<?=$this->translate->_("Código")?>:<br>
+                            	<?php
+                                	if(count($this->objCodigocross)>0):
+                                    	foreach ($this->objCodigocross as $codigocross);
+                                    endif;
+                                ?>
+                                <div id="codigofornecedor" style="font-weight: bold;"><?=$codigocross->codigocross?></div>
+        			 		</div>
+
+        			 	  	<div class="campos" style="width: 40%">
+        						<?=$this->translate->_("HS Code")?>:<br>
+        						<div class="styled-select" style="width: 130px">
+        	                    	<select name="hscode" class="desbloqueio" style="width: 152px">
+        		 						<option value="0"><?=$this->translate->_("Selecione")?></option>
+        	 							<?php foreach ($this->objHscode as $listhscode): ?>
+        	 								<option  <?php if($this->objProd->id_hscode == $listhscode->id) echo 'selected="selected"';?> value="<?=$listhscode->id?>"><?=$listhscode->ncm?></option>
+        	 							<?php endforeach; ?>
+        	 						</select>
+        	 					</div>
+        	 				</div>
+
+
+        					<div class="campos" style="padding-top: 5px; width: 15%">
+        						<?=$this->translate->_("Moeda")?>:<br>
+        						<div class="styled-select" style="width: 80px">
+        	              			<select name="moedakang" class="desbloqueio" style="width: 102px">
+        	              				<?php if(empty($this->objProd->tipo_moeda_shuntai)) $check2 = 'selected="selected"';?>
+        	              				<option <?php if($this->objProd->tipo_moeda_shuntai == "BRL") echo 'selected="selected"';?> value="BRL">BRL</option>
+        	              				<option <?php if($this->objProd->tipo_moeda_shuntai == "USD") echo 'selected="selected"';?> value="USD">USD</option>
+        	              				<option <?php if($this->objProd->tipo_moeda_shuntai == "RMB") echo 'selected="selected"';  echo $check2?> value="RMB">RMB</option>
+        	              				<option <?php if($this->objProd->tipo_moeda_shuntai == "EUR") echo 'selected="selected"';?> value="EUR">EUR</option>
+        	              			</select>
+                                </div>
+                          	</div>
+
+                            <div class="campos" style="padding-top: 5px; width: 15%">
+                            	<?=$this->translate->_("Preço")?>:<br>
+                                <input type="text" value="<?php if(!empty($this->objProd->custo_valor_shuntai)) echo number_format($this->objProd->custo_valor_shuntai,5,",",".")?>" name="precokang" id="precokang" class="moedacinco desbloqueio" style="width: 80px">
+                                <input type="hidden"  value="<?=$this->objProd->custo_valor_shuntai?>" name="precoantkang" class="desbloqueio">
+        			        </div>
+
+        			        <div class="campos" style="padding-top: 5px; width: 20%; vertical-align: bottom;"><br />
+        			            <input type="checkbox" value="1" name="precoshunkang" class="desbloqueio"><label>Gravar no histórico</label>
+                            </div>
+
+                            <div class="campos" style="padding-top: 5px; ">
+                            	<?=$this->translate->_("Material")?>:<br>
+                            	<div class="styled-select" style="width: 440px">
+                                    <select name="material" class="desbloqueio" style="width: 462px">
+        	 							<option value=""><?=$this->translate->_("SELECIONE")?></option>
+        	 							<?php foreach ($this->objMaterial as $listmaterial): ?>
+        	 								<option <?php if($this->objProd->id_produtosmaterial == $listmaterial->id) echo 'selected="selected"';?> value="<?=$listmaterial->id?>"><?=$listmaterial->descricao?></option>
+        	 							<?php endforeach; ?>
+        	 						</select>
+        	 					</div>
+        	 				</div>
+
+        	 				<div class="clear"></div>
+        				</div>
+			        </div>
+
+                  	<div class="widget" >
+        				<div class="head"><h5 class="iFrames"><?=$this->translate->_("Shuntai")?></h5></div>
+        				<div class="body">
+                      		<div class="campos">
+                      			<input type="hidden" name="idanttai" value="<?=$this->objProd->id_cliente_shuntai?>">
+                      			<?=$this->translate->_("Fornecedor")?>:<br>
+                      			<div class="styled-select" style="width: 250px">
+                                	<select name="fornecedortai" class="desbloqueio fornecedorcod" id="fornecedortai" style="width: 272px">
+        		 						<option value="0"><?=$this->translate->_("Selecione")?></option>
+        		 						<?php foreach ($this->objFor as $list): ?>
+        		 							<option <?php if($this->objProd->id_cliente_shuntai == $list->ID) echo 'selected="selected"';?> value="<?php echo $list->ID?>"><?php echo $list->EMPRESA?></option>
+        		 						<?php endforeach; ?>
+        		 					</select>
+                               	</div>
+                         	</div>
+
+                            <div class="campos">
+                            	<?=$this->translate->_("Código")?>:<br>
+                                <?php
+                                	if(count($this->objCodigocrosstai)>0):
+                                    	foreach ($this->objCodigocrosstai as $codigocrosstai);
+                                    endif;
+                               	?>
+                               	<div id="codigofornecedortai" style="font-weight: bold;">
+        							<?=$codigocrosstai->codigocross?>
+        						</div>
+                            </div>
+
+        					<div class="clear"></div>
+
+        					<div class="campos" style="padding-top: 5px; width: 15%">
+        						<?=$this->translate->_("Moeda")?>:<br>
+        						<div class="styled-select" style="width: 80px">
+        	              			<select name="moedatai" class="desbloqueio" style="width: 102px">
+        					            <?php if(empty($this->objProd->tipo_moeda_shuntai)) $check2 = 'selected="selected"';?>
+        	              				<option <?php if($this->objProd->moeda_shuntai == "BRL") echo 'selected="selected"';?> value="BRL">BRL</option>
+        	              				<option <?php if($this->objProd->moeda_shuntai == "USD") echo 'selected="selected"';?> value="USD">USD</option>
+        	              				<option <?php if($this->objProd->moeda_shuntai == "RMB") echo 'selected="selected"'; echo $check2?> value="RMB">RMB</option>
+        	              				<option <?php if($this->objProd->moeda_shuntai == "EUR") echo 'selected="selected"';?> value="EUR">EUR</option>
+        					      	</select>
+        			           	</div>
+        			      	</div>
+
+        			        <div class="campos" style="padding-top: 5px; width: 15%">
+        			        	<?=$this->translate->_("Preço")?>:<br> <input type="text" value="<?php if(!empty($this->objProd->custo_shuntai)) echo number_format($this->objProd->custo_shuntai,5,",",".")?>" name="precotai" id="precotai" class="moedacinco desbloqueio" style="width: 80px">
+        						<input type="hidden" value="<?=$this->objProd->custo_shuntai?>" name="precoanttai" class="desbloqueio">
+        	                </div>
+
+        	            	<div class="campos" style="padding-top: 5px; width: 30%"><br />
+        	                 	<input type="checkbox" value="1" name="precoshuntai" class="desbloqueio"><label>Gravar no histórico</label>
+        				    </div>
+
+        				    <div class="clear"></div>
+                        </div>
+
+                   	</div>
+
+
+
+              		<?php
+              		if(!empty($this->objRel)):
+              		?>
+
+	              	<div class="widget">
+			            <div class="head" ><h5 class="iUser"><?=$this->translate->_("Relacionamentos")?></h5></div>
+		            	<table class="tableStatic" style="width: 100%" >
+              				<thead>
+			                	<tr>
+									<td ><?=$this->translate->_("Produto")?></td>
+									<td><?=$this->translate->_("Sit")?></td>
+									<td><?=$this->translate->_("For")?></td>
+									<td><?=$this->translate->_("Moeda")?></td>
+									<td><?=$this->translate->_("Custo")?></td>
+									<td>&nbsp;</td>
+								</tr>
+							</thead>
+							<tbody>
+              				<?php
+							foreach ($this->objRel as $listkit):
+								?>
+								<tr>
+									<td align="left">
+										<a href="<?=$this->baseUrl()?>/admin/cadastro/produtoscad/produto/<?=md5($listkit->IDPROD)?>" >
+										<?=$listkit->CODIGO?>
+										</a>
+									</td>
+									<td align="center">
+									<?php
+									if($listkit->situacao==0) echo "P";
+									elseif($listkit->situacao==1) echo "D";
+									elseif($listkit->situacao==2) echo "I";
+									?></td>
+									<td align="left"><?=$listkit->EMPRESA?></td>
+									<td align="center"><?=$listkit->MOEDA?></td>
+									<td align="right"><?php if(!empty($listkit->CUSTO_VALOR)) echo number_format(($listkit->CUSTO_VALOR),3,",",".")?></td>
+								</tr>
+								<?php
+							endforeach;
+							?>
+							</tbody>
+						</table>
+					</div>
+	              	<?php
+	              	endif;
+
+	              	if(!empty($this->objProd->ID)){ ?>
+              		<div class="widget">
+			            <div class="head" style="border-bottom: 0px"><h5 class="iUser"><?=$this->translate->_("Histórico de fornecedor")?></h5></div>
+		            	<table class="tableStatic" style="width: 100%" id="tablehist">
+              				<thead>
+			                	<tr>
+									<td ><?=$this->translate->_("Data")?></td>
+									<td><?=$this->translate->_("Fornecedor")?></td>
+									<td><?=$this->translate->_("Moeda")?></td>
+									<td><?=$this->translate->_("Valor")?></td>
+									<td><?=$this->translate->_("Esf/Rol")?></td>
+									<td>&nbsp;</td>
+								</tr>
+							</thead>
+							<tbody id="boryHistfornec">
+
+							<?php
+							foreach ($this->objHisc as $listhisc){
+								?>
+								<tr>
+									<td style="text-align: center;"><?=substr($listhisc->data,8,2)."/".substr($listhisc->data,5,2)."/".substr($listhisc->data,0,4)?></td>
+									<td align="left"><?=$listhisc->EMPRESA?></td>
+									<td style="text-align: center;"><?=$listhisc->moed?></td>
+									<td style="text-align: right;"><?=number_format($listhisc->valor,5,",",".")?></td>
+									<td style="text-align: center;"><?=$listhisc->balls?></td>
+									<td style="text-align: center;">
+										<a href="javascript:void(0);" class="removeHistorico" rel="<?=$listhisc->idhistc?>"><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/close.png" width="13" border="0"></a>
+									</td>
+								</tr>
+								<?php
+							}
+							?>
+							</tbody>
+							<tbody >
+							<tr>
+								<td  align="left" colspan="6">
+									<a href="javascript:void(0);" id="addHistorico" >Adicionar Histórico</a>
+									<table id="adihist" style="display: none; margin-top: 5px; border: 1px solid #d5d5d5;">
+										<tr>
+											<td align="left" >
+												<?=$this->translate->_("Fornecedor")?>:<br>
+												<div class="styled-select" style="width: 250px">
+						              			<select style="width: 272px" name="fornecedor_hist" id="fornecedor_hist" class="desbloqueio">
+													<option value="0"><?=$this->translate->_("SELECIONE")?></option>
+													<?php foreach ($this->objFor as $list): ?>
+														<option value="<?=$list->ID?>-<?=$list->EMPRESA?>"><?=$list->EMPRESA?></option>
+													<?php endforeach; ?>
+												</select>
+												</div>
+											</td>
+											<td align="left" >
+												<?=$this->translate->_("Moeda")?>:<br>
+												<div class="styled-select" style="width: 65px">
+    			              			            <select name="moedahist" id="moedahist" style="width: 87px" class="desbloqueio">
+    						              				<option value="BRL">BRL</option>
+    						              				<option value="USD">USD</option>
+    						              				<option value="RMB">RMB</option>
+    						              				<option value="EUR">EUR</option>
+    						              			</select>
+    						              		</div>
+											</td>
+											<td align="left" >
+												<?=$this->translate->_("Valor")?>:<br>
+						              			<input type="text" size="8" name="preco_hist" id="preco_hist" class="moedacinco desbloqueio" style="width: 90%">
+											</td>
+											<td align="left" >
+												<?=$this->translate->_("Esf/Rol")?>:<br>
+						              			<input type="text" size="3" name="balls" id="balls" class="inteiro desbloqueio" style="width: 90%">
+											</td>
+											<td align="left" >
+												<?=$this->translate->_("Data")?>:<br>
+						              			<input type="text" size="7" maxlength="10" name="data_hist" id="data_hist" class="data datepicker desbloqueio" style="width: 90%">
+											</td>
+											<td align="left" valign="bottom">
+
+    											<a href="javascript:void(0)" class="btnIconLeft desbloqueio" id="btnAddhistoricofor" style="margin-top: 10px">
+    											    <img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/dark/add.png" alt="" class="icon" /><span>Adicionar</span>
+    											</a>
+
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+          		    </div>
+        	        <?php } ?>
+
+	       		</div>
+	            <?php
+	            endif;
+	            if($this->objTec==1):
+	            ?>
+	            <!-- Tecnico -->
+	            <div id="tab4" class="tab_content">
+	            	<div class="widget" >
+			            <div class="head" ><h5 class="iFrames"><?=$this->translate->_("Rolamento")?></h5></div>
+			            <div class="body">
+              		  		<table >
+		              			<tr>
+					            	<td align="left" width="90">
+					              		<?=$this->translate->_("Interno")?>:<br>
+				              			<input value="<?php if(isset($this->objProd)) echo $this->objProd->M_INNER?>" type="text" size="10" name="altura" style="width: 70px" class="moedatres">
+				              		</td>
+				              		<td align="left" width="90">
+				              			<?=$this->translate->_("Externo")?>:<br>
+				              			<input value="<?php if(isset($this->objProd)) echo $this->objProd->M_OUTER?>" type="text" size="10" name="largura" style="width: 70px" class="moedatres">
+				              		</td>
+				              		<td align="left" width="200">
+				              			<?=$this->translate->_("Altura")?>:<br>
+				              			<input value="<?php if(isset($this->objProd)) echo $this->objProd->M_HIGH?>" type="text" size="10" name="profundidade" style="width: 70px" class="moedatres">
+				              		</td>
+				              		<td align="left" width="90">
+				              			<?=$this->translate->_("BL/ROLLERS")?>:<br>
+				              			<input value="<?php if(isset($this->objProd)) echo $this->objProd->ball?>" type="text" size="5" name="roletes"  style="width: 70px" class="inteiro">
+				              		</td>
+				              	</tr>
+	              			</table>
+		              	</div>
+		           	</div>
+
+		            <div class="widget">
+			            <div class="head" ><h5 class="iFrames"><?=$this->translate->_("Cubo")?></h5></div>
+			            <div class="body">
+		             		<?php
+		             		if(count($this->objMedida)>0):
+								foreach ($this->objMedida as $medidas);
+							endif;
+
+							?>
+	              			<table>
+	              				<tr>
+				              		<td align="left" width="90">
+				              			<?=$this->translate->_("Eixo rolamento")?>:<br>
+				              			<input value="<?php if(isset($medidas)) echo number_format($medidas->cubo_eixo,2,",",".")?>" type="text" size="10" name="cuboeixo" style="width: 70px" class="moeda">
+				              		</td>
+				              		<td align="left" width="90">
+				              			<?=$this->translate->_("Altura")?>:<br>
+				              			<input value="<?php if(isset($medidas)) echo number_format($medidas->cubo_altura,2,",",".")?>" type="text" size="10" name="cuboaltura" style="width: 70px" class="moeda">
+				              		</td>
+				              		<td align="left" width="90">
+				              			<?=$this->translate->_("Externo")?>:<br>
+				              			<input value="<?php if(isset($medidas)) echo number_format($medidas->cubo_externo,2,",",".")?>" type="text" size="10" name="cuboexterno" style="width: 70px" class="moeda">
+				              		</td>
+				              		<td align="left" width="130">
+				              			<?=$this->translate->_("Dentes homocinética")?>:<br>
+				              			<input value="<?php if(isset($medidas)) echo $medidas->cubo_denteshomo?>" type="text" size="10" name="cubodenteshomo" style="width: 70px" class="inteiro">
+				              		</td>
+				              	</tr>
+				              	<tr>
+				              		<td align="left" >
+				              			<?=$this->translate->_("Geração")?>:<br>
+				              			<div class="styled-select" style="width: 100px">
+				              			<select name="cubogeracao" style="width: 122px">
+				              				<option value="0">Selecione</option>
+				              				<option <?php if(isset($medidas) and $medidas->cubo_geracao==1) echo 'selected="selected"'; ?> value="1">1ª</option>
+				              				<option <?php if(isset($medidas) and $medidas->cubo_geracao==2) echo 'selected="selected"'; ?> value="2">2ª</option>
+				              				<option <?php if(isset($medidas) and $medidas->cubo_geracao==3) echo 'selected="selected"'; ?> value="3">3ª</option>
+				              			</select>
+				              			</div>
+				              		</td>
+				              		<td align="left" >
+				              			<?=$this->translate->_("Construção")?>:<br>
+				              			<div class="styled-select" style="width: 110px">
+				              			<select name="cubocontrucao" style="width: 132px">
+				              				<option value="0">Selecione</option>
+				              				<option <?php if(isset($medidas) and $medidas->cubo_construcao==1) echo 'selected="selected"'; ?> value="1">Esfera</option>
+				              				<option <?php if(isset($medidas) and $medidas->cubo_construcao==2) echo 'selected="selected"'; ?> value="2">Roletes</option>
+				              			</select>
+				              			</div>
+				              		</td>
+				              		<td align="left" >
+				              			<?=$this->translate->_("Alt/Conj/Rolante")?>:<br>
+				              			<input value="<?php if(isset($medidas)) echo number_format($medidas->cubo_altconjrolante,2,",",".")?>" type="text" size="10" name="cuboaltconjrol" style="width: 100px" class="moeda">
+				              		</td>
+				              		<td align="left" >
+				              			<?=$this->translate->_("Tipo ABS")?>:<br>
+				              			<div class="styled-select" style="width: 150px">
+				              			<select name="cuboabs" style="width: 172px">
+				              				<option value="0">Selecione</option>
+				              				<option <?php if(isset($medidas) and $medidas->cubo_tipoabs==1) echo 'selected="selected"'; ?> value="1">Magnético</option>
+				              				<option <?php if(isset($medidas) and $medidas->cubo_tipoabs==2) echo 'selected="selected"'; ?> value="2">Cabo conector</option>
+				              				<option <?php if(isset($medidas) and $medidas->cubo_tipoabs==3) echo 'selected="selected"'; ?> value="3">Coroa</option>
+				              				<option <?php if(isset($medidas) and $medidas->cubo_tipoabs==4) echo 'selected="selected"'; ?> value="4">Sem ABS</option>
+				              			</select>
+				              			</div>
+				              		</td>
+				              	</tr>
+				              	<tr>
+				              		<td align="left" colspan="2">
+				              			<?=$this->translate->_("Altura coroa ABS")?>:<br>
+				              			<input value="<?php if(isset($medidas)) echo number_format($medidas->cubo_alturacoroaabs,2,",",".")?>" type="text" size="10" name="cuboaltcoroaabs" style="width: 70px" class="moeda">
+				              		</td>
+				              		<td align="left" colspan="2">
+				              			<?=$this->translate->_("Dentes coroa ABS")?>:<br>
+				              			<input value="<?php if(isset($medidas)) echo $medidas->cubo_dentescoroaabs?>" type="text" size="10" maxlength="8" name="cubodentescoroaabs" style="width: 70px" class="inteiro">
+				              		</td>
+
+				              	</tr>
+				              	<tr>
+				              		<td align="left" colspan="2" >
+				              		    Cubo com:<br />
+				              			<div class="styled-select" style="width: 120px">
+				              			<select name="cuboprisioneiros" style="width: 142px">
+				              				<option <?php if(isset($medidas) and $medidas->cubo_tipoparafuso==1) echo 'selected="selected"'; ?> value="1">Furos</option>
+				              				<option <?php if(isset($medidas) and $medidas->cubo_tipoparafuso==2) echo 'selected="selected"'; ?> value="2">Parafusos</option>
+				              			</select>
+				              			</div>
+				              		</td>
+				              		<td align="left" colspan="2">
+				              		Qt Prisioneiros:<br />
+				              		<input value="<?php if(isset($medidas)) echo $medidas->cubo_qtfuroparafuso?>" type="text" size="10" name="cuboqtprisioneiros" style="width: 70px" class="inteiro">
+				              		</td>
+				              	</tr>
+	              			</table>
+		              	</div>
+		              </div>
+
+		              <div class="widget">
+			            <div class="head" ><h5 class="iFrames"><?=$this->translate->_("Homocinética")?></h5></div>
+			            <div class="body">
+	              			<table style="width: 100%">
+	              				<tr>
+				              		<td align="left" width="250">
+				              			<?=$this->translate->_("Estriado macho")?>:<br>
+				              			<input value="<?php if(isset($this->objProd)) echo $this->objProd->estriado_macho_d?>" type="text" size="10" name="machod_homo" style="width: 70px"> D <input value="<?php if(isset($this->objProd)) echo $this->objProd->estriado_macho_mm?>" type="text" size="10" name="machomm_homo" style="width: 70px"> mm
+				              		</td>
+				              		<td align="left" width="90">
+				              			<?=$this->translate->_("Diâmetro")?>:<br>
+				              			<input value="<?php if(isset($this->objProd)) echo $this->objProd->diametro_homo?>" type="text" size="10" name="diametro_homo" style="width: 70px">
+				              		</td>
+				              		<td align="left" width="90">
+				              			<?=$this->translate->_("Raio da porca")?>:<br>
+				              			<input value="<?php if(isset($this->objProd)) echo $this->objProd->raio_porca_homo?>" type="text" size="10" name="raio_homo" style="width: 70px">
+				              		</td>
+				              		<td align="left" width="90">
+				              			<?=$this->translate->_("Aperto")?>:<br>
+				              			<input value="<?php if(isset($this->objProd)) echo $this->objProd->aperto_homo?>" type="text" size="10" name="aperto_homo" style="width: 70px">
+				              		</td>
+				              	</tr>
+				              	<tr>
+				              		<td align="left"  >
+				              			<?=$this->translate->_("Estriado Femêo")?>:<br>
+				              			<input value="<?php if(isset($this->objProd)) echo $this->objProd->estriado_femea_d?>" type="text" size="10" name="femead_homo" style="width: 70px"> D <input value="<?php if(isset($this->objProd)) echo $this->objProd->estriado_femea_mm?>" type="text" size="10" name="femeamm_homo" style="width: 70px"> mm
+				              		</td>
+				              		<td align="left" colspan="3">
+				              			<?=$this->translate->_("Instruções de aperto")?>:<br>
+				              			<textarea rows="2" cols="20" name="instaperto_homo"><?php if(isset($this->objProd)) echo $this->objProd->ins_aperto_homo?></textarea>
+				              		</td>
+				              	</tr>
+	              			</table>
+		              	</div>
+		        	</div>
+
+		            <div class="widget">
+			            <div class="head" ><h5 class="iFrames"><?=$this->translate->_("Juntas deslizantes")?></h5></div>
+			            <div class="body">
+	              			<table >
+	              				<tr>
+				              		<td align="left" width="">
+				              			<?=$this->translate->_("Interno")?>:<br>
+				              			<input value="<?php if(isset($this->objProd)) echo $this->objProd->medida_inner_desl?>" type="text" size="10" name="junta_interno" style="width: 70px">
+				              		</td>
+				              		<td align="left" width="">
+				              			<?=$this->translate->_("Externo")?>:<br>
+				              			<input value="<?php if(isset($this->objProd)) echo $this->objProd->medida_outer_desl?>" type="text" size="10" name="junta_externo" style="width: 70px">
+				              		</td>
+				              		<td align="left" width="">
+				              			<?=$this->translate->_("Altura")?>:<br>
+				              			<input value="<?php if(isset($this->objProd)) echo $this->objProd->medida_high_desl?>" type="text" size="10" name="junta_altura" style="width: 70px">
+				              		</td>
+				              		<td align="left" width="">
+				              			<?=$this->translate->_("Dentes")?>:<br>
+				              			<input value="<?php if(isset($this->objProd)) echo $this->objProd->medida_teeth_desl?>" type="text" size="10"  name="junta_dentes" style="width: 70px" class="inteiro">
+				              		</td>
+				              	</tr>
+	              			</table>
+		              	</div>
+		          	</div>
+
+		          	<div class="widget">
+			            <div class="head" ><h5 class="iFrames"><?=$this->translate->_("Cruzetas")?>/<?=$this->translate->_("Trizetas")?></h5></div>
+			            <div class="body">
+			                <table>
+	              				<tr>
+				              		<td align="left" width="">
+				              			<?=$this->translate->_("Interno")?>:<br>
+				              			<input value="<?php if(isset($this->objProd)) echo $this->objProd->medida_inner_cru?>" type="text" size="10" name="cru_interno" style="width: 70px">
+				              		</td>
+				              		<td align="left" width="">
+				              			<?=$this->translate->_("Altura")?>:<br>
+				              			<input value="<?php if(isset($this->objProd)) echo $this->objProd->medida_high_cru?>" type="text" size="10" name="cru_externo" style="width: 70px">
+				              		</td>
+				              		<td align="left" width="">
+				              			<?=$this->translate->_("Dentes")?>:<br>
+				              			<input value="<?php if(isset($this->objProd)) echo $this->objProd->medida_teeth_cru?>" type="text" size="10" name="cru_dentes" style="width: 70px" class="inteiro">
+				              		</td>
+				              	</tr>
+	              			</table>
+	              		</div>
+	              	</div>
+
+	              	<div class="widget" >
+			            <div class="head" style="margin-top: -10px"><h5 class="iFrames">Anexos</h5></div>
+			            <div class="body">
+
+			                <?php
+			                if(!empty($this->objProd) and $this->objProd->ID){
+                                ?>
+                                <button type="button" id="btnAnexos" class="blueBtn desbloqueio">Buscar anexos</button>
+                                <div class="widget first" id="containerAnexos" style="width: 50%">
+
+                                </div>
+                                <?php
+			                }
+            		        ?>
+
+    						<div class="fix"></div>
+			            </div>
+			        </div>
+
+		          	<div>
+		              	<?=$this->translate->_("Observações")?>:<br>
+              			<textarea rows="2" cols="60" style="width: 500px" name="observacaoprod" class="desbloqueio"><?php if(isset($this->objProd)) echo $this->objProd->observacao?></textarea>
+					</div>
+				</div>
+	               <?php
+	            endif;
+	            ?>
+         		</div>
+	         	<div class="fix"></div>
+         	</div>
+
+         	
+         	<div align="left" style="margin-top: 10px">
+         	  <input type="button" value="<?=$this->translate->_("Salvar")?>" id="btnSalvar" style="width: 80px" class="greenBtn desbloqueio"> 
+         	</div>
+         	  
+         	</form>
+         	 <div style="display: none">
+         	 <?php
+         	 $this->translate->_("Tem certeza que deseja remover a imagem 1?");
+         	 $this->translate->_("Tem certeza que deseja remover a imagem 2?");
+         	 $this->translate->_("sim");
+         	 $this->translate->_("Salvar");
+         	 $this->translate->_("n&atilde;o");
+         	 $this->translate->_("Cancelar");
+         	 $this->translate->_("Novo produto");
+         	 $this->translate->_("Pesquisar");
+         	 $this->translate->_("Voltar");
+         	 $this->translate->_("Editar");
+         	 
+         	 ?>
+         	</div>
+	       
+	</div>
+			

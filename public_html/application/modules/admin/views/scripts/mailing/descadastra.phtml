@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>ZTL Brasil - www.ztlbrasil.com.br </title>
+<link href="<?=$this->baseUrl()?>/public/sistema/imagens/ztl.ico" rel="shortcut icon" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="">
+	body {
+		font: 12px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+		color: #4f6b72;
+		text-align: left;
+	}
+</style>
+</head>
+<body>
+<table width="800px" align="center">
+	<tr>
+		<td align="left">
+		<img src="<?=$this->baseUrl()?>/images/logo.jpg" alt="Logo ZTL" />
+		</td>
+	</tr>
+	<tr>
+		<td align="left" style="border-top: 2px solid #999;">&nbsp;
+		</td>
+	</tr>
+</table>
+<?php 
+if(!empty($this->obj)):
+?>
+<table width="800px" align="center">
+	<tr>
+		<td align="left">
+		<font size="5">Seu e-mail foi removido com sucesso!</font>
+		</td>
+	</tr>
+	<tr>
+		<td align="left">
+		A ZTL Brasil está sempre buscando melhorar o relacionamento com seus clientes. Se nossa comunicação por e-mail o 
+		desagradou de alguma forma, lamentamos muito o inconveniente, e agradecemos por sua atenção.
+		<br /><br />
+		
+		</td>
+	</tr>
+	<tr>
+		<td align="center">
+		<a href="http://www.ztlbrasil.com.br">www.ztlbrasil.com.br</a>
+		<br /><br /> 
+		</td>
+	</tr>
+	<tr>
+		<td align="left" style="border-top: 1px solid #999;">&nbsp;
+		</td>
+	</tr>
+</table>
+<?php 
+else:
+?>
+
+<form action="<?=$this->baseUrl()?>/admin/mailing/descadastra" method="post">
+<table width="800px" align="center">
+	<tr>
+		<td align="left">
+		<font size="5">Descadastro</font>
+		</td>
+	</tr>
+	<tr>
+		<td align="left">
+		Coloque seu e-mail abaixo e confirme o seu descadastro:<br />
+		<input type="text" size="25" style="border: 1px solid #999; margin-bottom: 10px; margin-top: 10px" name="email" />
+		</td>
+	</tr>
+	<tr>
+		<td align="left">
+		Motivo:<br />
+		<input type="radio" style="border: 1px solid #999;" name="motivo" value="2" checked="checked" onclick="(document.getElementById('div_outros').style.display = 'none')" />
+		Considero a frequência de envio muito alta<br />
+		<input type="radio" style="border: 1px solid #999;" name="motivo" value="1" onclick="(document.getElementById('div_outros').style.display = 'none')" />
+		Não autorizei ou não me recordo de ter autorizado o envio de mensagens para o meu e-email<br />
+		<input type="radio" style="border: 1px solid #999;" name="motivo" value="4" onclick="(document.getElementById('div_outros').style.display = 'none')"/>
+		O conteúdo dos e-emails não me interessa<br />
+		<input type="radio" style="border: 1px solid #999;" name="motivo" value="3" onclick="(document.getElementById('div_outros').style.display = 'none')" />
+		Não tempo tempo pra ler os e-mails<br />
+		<input type="radio" style="border: 1px solid #999;" name="motivo" value="5" onclick="document.getElementById('div_outros').style.display = 'block';" />
+		Outros
+		<div id="div_outros" style="display: none;">
+        <textarea id="texto_motivo" name="outros" style="width: 300px; height: 80px;"></textarea>
+        </div>
+		</td>
+	</tr>
+	<tr>
+		<td align="left">
+		<input style="margin-top: 20px; margin-bottom: 10px" type="image" name="salvar" src="<?=$this->baseUrl()?>/images/descadastrar_botao.jpg" />
+		</td>
+	</tr>
+	<tr>
+		<td align="left" style="border-top: 1px solid #999;">&nbsp;
+		</td>
+	</tr>
+</table>
+</form>
+</body>
+
+<?php 
+endif;
+?>
+</html>

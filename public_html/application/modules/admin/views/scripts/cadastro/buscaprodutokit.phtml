@@ -1,0 +1,28 @@
+<?php 
+
+foreach ($this->objProd as $list);
+
+if(!empty($list)):
+echo $list->IDPROD;
+echo "|";
+echo $list->CODIGO;
+echo "|";
+echo $list->CUSTO_VALOR;
+echo "|";
+echo $list->DESCRICAO;
+echo "|";
+echo $list->CUSTO_VALOR*($this->qt);
+echo "|";
+echo number_format($list->CUSTO_VALOR*($this->qt),3,',','.');
+echo "|";
+echo $list->MOEDA;
+echo "|";
+echo $list->situacao;
+echo "|";
+echo $list->EMPRESA;
+else:
+
+echo "erro1";
+
+endif;
+?>

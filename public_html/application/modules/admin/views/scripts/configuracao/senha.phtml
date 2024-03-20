@@ -1,0 +1,71 @@
+<?php
+
+echo $this->objRes;
+
+if($this->objRes == 'sucesso'):
+	?>
+	<script>
+		jAlert('Senha atualizada com sucesso!', 'Sucesso!');
+	</script>
+	<?php 
+elseif($this->objRes == 'erro:1'):
+?>
+	<script>
+		jAlert('Senha atual não confere!', 'Erro!');
+	</script>
+<?php
+elseif($this->objRes == 'erro:2'):
+?>
+	<script>
+		jAlert('A nova senha não pode ficar em branco!', 'Erro!');
+	</script>
+	
+<?php
+elseif($this->objRes == 'erro:3'):
+?>
+	<script>
+		jAlert('A nova senha não confere com a confirmação da senha!', 'Erro!');
+	</script>
+	<?php 
+elseif($this->objRes == 'erro:4'):
+?>
+	<script>
+		jAlert('Erro ao gravar senha. Tente novamente!', 'Erro!');
+	</script>
+<?php 
+endif; 
+?>
+<div class="content">
+	<!-- Navegacao --> 
+    <div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+    	<div class="breadCrumb module">
+        	<ul>
+            	<li class="firstB"><a href="#">Home</a> </li>
+                <li class="" ><a href="<?php echo $this->baseUrl(); ?>/admin/configuracao">Configurações</a></li>
+                <li class="lastB" >Trocar senha</li>                    
+            </ul>
+		</div>
+	</div>       
+
+        
+    <div class="title"><h5>Trocar senha</h5></div>
+			
+   	<div class="widget first" >
+		<form action="<?php echo $this->baseUrl()?>/admin/configuracao/senha" class="mainForm" name="form" method="post" >
+        	<div class="rowElem" style="border-top: 1px solid #d5d5d5; padding: 15px">
+	        	Senha atual:<br /><input type="password" name="senhaatual" class="botDir" title="Sua senha atual" style="width: 200px" />
+	        </div>
+	        <div class="rowElem" style="padding: 15px" >
+	        	Nova senha:<br /><input type="password" name="novasenha1" class="botDir" title="Sua nova senha" style="width: 200px" /> <br />
+	        	Repita a nova senha:<br /><input type="password" name="novasenha2" class="botDir" title="Repita sua nova senha" style="width: 200px" />
+	        </div>
+		  				
+	     	<div style="">
+            	<input type="submit" value="Salvar" class="greenBtn" style="float: right; margin: 10px 0px 0px 0px"/>
+            </div>		
+			</form>
+		
+	</div>
+	<div class="fix"></div>       
+	
+</div>

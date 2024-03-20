@@ -1,0 +1,75 @@
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?php echo $this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/mailing"><?=$this->translate->_("EMAIL MARKETING")?></a>&nbsp;
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<b><a href="<?php echo $this->baseUrl(); ?>/admin/marketing/mailcorrige"><?=$this->translate->_("EMAIL ERRADOS")?></a></b>
+	</div>
+	<div id="sistitulo"><?=$this->translate->_("EMAIL ERRADOS")?></div>
+    <div id="sisconteudo"> 
+		<div>
+            <?php 
+			if ( count($this->objList) > 0) :
+			?>
+			<form name="formemail" method="post" action="<?=$this->baseUrl()?>/admin/marketing/alteraemail">
+			<input type="hidden" name="mailid" id="mailid" value="">
+			<table class="mytable" style="width: 100%; padding: 0px; ">
+		        <tr>
+		            <th class="th_canto_orc" style="text-align: center;" width="8%">
+		                <?=$this->translate->_("ID")?>
+		            </th>
+		            <th  class="th_orc" style="text-align: center;" width="74%" >
+		                <?=$this->translate->_("EMAIL")?>
+		            </th>
+		            <th  class="th_orc" style="text-align: center;" width="18%">
+		                <?=$this->translate->_("OPÇÕES")?>
+		            </th>
+		       </tr>
+					<?php 
+					$cor=0;
+			    	foreach($this->objList as $lista):
+			    	$cor++;
+		            if(($cor%2)==0) $class = 'td_orc_par';
+		            else $class = 'td_orc';
+					?>
+					<tr >
+		                <td  class="<?=$class?>" style="text-align: center;">
+		                   <?=$cor?>
+		                </td>
+		                <td  class="<?=$class?>" style="text-align: left;" >
+		                	<div id="div_<?=$lista->id?>"><?=$lista->email?></div>
+		                	<input type="text" value="<?=$lista->email?>" name="email_<?=$lista->id?>" id="email_<?=$lista->id?>" size="40" style="display: none" onblur="document.formemail.submit();">		                	
+		                </td>
+		                <td  class="<?=$class?>" style="text-align: center;" >
+		                	<a href="javascript:void(0)" onclick="campoEditar(<?=$lista->id?>);" ><img src="<?=$this->baseUrl(); ?>/images/edit_orc.gif"  width="13" border="0" title="Ajustar"></a>&nbsp;&nbsp;
+		                	<a href="#" onclick="if(confirm('O Email está correto?')){ window.location='<?=$this->baseUrl()?>/admin/marketing/excluimailcorrige/idmail/<?=md5($lista->id)?>'};" ><img src="<?=$this->baseUrl(); ?>/images/checado.jpg"  width="13" border="0" title="Checado"></a>&nbsp;&nbsp;
+		                	<a href="#" onclick="if(confirm('Apagar email da base de dados?')){ window.location='<?=$this->baseUrl()?>/admin/marketing/removeemail/idmail/<?=md5($lista->id)?>'};" ><img src="<?=$this->baseUrl(); ?>/images/window-close.png" width="13" border="0" title="Remover"></a>		                	
+		                </td>		                
+		            </tr>		            
+					<?php  
+					endforeach;	
+					?>					
+					</table>
+					</form>
+					<?php 							
+					else :
+					?>
+					<div style="text-align: center; padding: 20px"><?=$this->translate->_("Nenhum email cadastrado")?></div>
+					<?php 
+					endif;
+				?> 
+				
+				<script type="text/javascript">
+					function campoEditar(id){
+						document.getElementById('email_'+id).style.display = 'block';
+						document.getElementById('div_'+id).style.display = 'none';
+						document.getElementById('mailid').value=id;    
+					}
+					
+				</script>
+				   			
+		</div>
+	</div>
+</div>   
+	

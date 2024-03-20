@@ -1,0 +1,132 @@
+<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxsubgrupo.js"></script>
+<table width="100%" style="margin-bottom: 7px" cellpadding="0" cellspacing="0" >
+	<tr>
+		<td align="left">
+			<a href="<?php echo $this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+			<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+			<a href="<?php echo $this->baseUrl(); ?>/admin/venda/ajusteprecos"><?=$this->translate->_("AJUSTE DE PREÇOS")?></a>
+			&nbsp;<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+			<b><a href="<?php echo $this->baseUrl(); ?>/admin/venda/ajusteprecosenviados"><?=$this->translate->_("ENVIADOS")?></a></b> 
+		</td>
+	</tr>
+</table>
+
+<table width="100%" class="borda_titulo">
+	<tr>
+		<td align="center">
+		<?php foreach($this->objAjuste as $listAjuste);?>
+		TABELA ENVIADA EM <?=substr($listAjuste->dt_envio,8,2)."/".substr($listAjuste->dt_envio,5,2)."/".substr($listAjuste->dt_envio,0,4)." ".substr($listAjuste->dt_envio,10)?></td>
+	</tr>
+</table>
+
+<table cellpadding="0" cellspacing="0" style="margin-top: 0px">
+<tr>
+	<td>        
+           <?php 
+			foreach($this->objGrupos as $listGrupos):
+				$verg = 0; 
+				foreach($this->objList as $lista):
+					if($lista->id_gruposprodsub==$listGrupos->idsub):
+						$verg 		= 1;
+						$grupo		= $listGrupos->grupo;
+						$subgrupo	= $listGrupos->subgrupo;
+					endif;
+				endforeach;
+				
+	        	if ($verg==1) :
+	        					
+				?>
+				
+				<table width="100%" cellpadding="0" cellspacing="0" >
+					<tr>
+              			<td class="borda_tcadastro">
+              			<br>
+						<b><?=utf8_encode($grupo." / ".$subgrupo)?></b>
+              			</td>
+              		</tr>
+	            </table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<table align="left" class="mytable"  width="554" cellspacing="0" style="margin-top: 5px">
+			         <tr>
+			            <th  class="th_canto_orc" align="center" width="30%">
+			                <?=$this->translate->_("CÓDIGO")?>
+			            </th>
+			            <th  class="th_orc" align="center" width="20%">
+			                <?=$this->translate->_("PREÇO ATUAL")?>
+			            </th>
+			            <th  class="th_orc" align="center" width="20%">
+			                <?=$this->translate->_("NOVO PREÇO")?>
+			            </th>
+			            <th  class="th_orc" align="center" width="10%">
+			                <?=$this->translate->_("PERCENTUAL")?>
+			            </th>
+			             <th  class="th_orc" align="center" width="30%">
+			                <?=$this->translate->_("DT AJUSTE")?>
+			            </th>
+			            <th  class="th_orc" align="center" width="30%">
+			                <?=$this->translate->_("DT CADASTRO")?>
+			            </th>
+			            <th class="th_orc" align="center" width="30%">
+			                <?=$this->translate->_("USUÁRIO")?>
+			            </th>
+			        </tr>
+			       
+				<?php 
+				$cor=0;
+		    	foreach($this->objList as $lista):
+		    	if($lista->id_gruposprodsub==$listGrupos->idsub):
+		    		$cor++;
+		            if(($cor%2)==0) $class = 'td_orc_par';
+		            else $class = 'td_orc';
+		            
+		            if(!empty($lista->preconovo)):
+		            	$novopreco 	= number_format($lista->preconovo,"2",",",".");
+		            	$percent	= $lista->preconovo - $lista->precoatual;
+		            	$percent	= number_format(($percent*100)/$lista->precoatual,"2",",",".");
+		            elseif(!empty($lista->percent)):
+		            	$novopreco 	= number_format($lista->precoatual+($lista->precoatual*($lista->percent/100)),"2",",",".");
+		            	$percent	= number_format($lista->percent,"2",",",".");
+		            endif;
+					?>					
+					<tr >
+		                <td  class="<?=$class?>" align="center" >
+		                   <?php echo $lista->CODIGO?>
+		                </td>
+		                <td  class="<?=$class?>" align="right" style="text-transform: uppercase;">
+		                   <?php if(!empty($lista->precoatual)) echo number_format($lista->precoatual,"2",",","."); else echo "0,00"?>
+		                </td>
+		                <td  class="<?=$class?>" align="right" >
+		                   <?php echo $novopreco?>
+		                </td>                
+		                <td  class="<?=$class?>" align="right" >
+		                   <?php echo $percent?>%
+		                </td>
+		                <td  class="<?=$class?>" align="center" >
+		                   <?=substr($lista->dt_ajuste,8,2)."/".substr($lista->dt_ajuste,5,2)."/".substr($lista->dt_ajuste,0,4)?>
+		                </td>
+		                <td  class="<?=$class?>" align="center" >
+		                   <?=substr($lista->dt_cadajuste,8,2)."/".substr($lista->dt_cadajuste,5,2)."/".substr($lista->dt_cadajuste,0,4)?>
+		                </td>                
+		                <td  class="<?=$class?>" align="left" >
+		                   <?php $user = explode(" ",$lista->EMPRESA); echo utf8_encode($user[0])?>
+		                </td>
+		            </tr>
+		            
+					<?php  
+					endif;
+				endforeach;
+				?>        
+				</table>
+			
+	         	 <?php 
+				endif;
+			endforeach;
+			
+		?>
+		</td>
+	</tr>
+</table>

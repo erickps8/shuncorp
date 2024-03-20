@@ -1,0 +1,2231 @@
+msgid ""
+			msgstr ""
+			"Project-Id-Version: ZTL EN\n"
+			"Report-Msgid-Bugs-To: \n"
+			"POT-Creation-Date: 2011-02-21 16:31-0300\n"
+			"PO-Revision-Date: \n"
+			"Last-Translator: Cleiton Silva Barbosa <cleiton@ztlbrasil.com.br>\n"
+			"Language-Team: Cleiton Silva Barbosa <cleiton@ztlbrasil.com.br>\n"
+			"Language: \n"
+			"MIME-Version: 1.0\n"
+			"Content-Type: text/plain; charset=UTF-8\n"
+			"Content-Transfer-Encoding: 8bit\n"
+			"X-Poedit-Language: en\n"
+			"X-Poedit-Country: UNITED STATES\n"
+			"X-Poedit-SourceCharset: utf-8\n"
+			"X-Poedit-Basepath: /aplic/ztlbrasil.com.br/application/\n"
+			"X-Poedit-SearchPath-0: modules/admin\n"
+			"X-Poedit-SearchPath-1: modules/default\n"
+			"X-Poedit-SearchPath-2: layouts\n"
+			
+			
+				
+				msgid "Administração"
+				msgstr "Administration"
+				
+				msgid "Cadastro"
+				msgstr "Register
+"
+				
+				msgid "Venda"
+				msgstr "Sales
+"
+				
+				msgid "ZTL Compra"
+				msgstr "ZTL Purchase
+"
+				
+				msgid "Outros"
+				msgstr "Other
+"
+				
+				msgid "Área do Cliente"
+				msgstr "Customer Area
+"
+				
+				msgid "Shunkang"
+				msgstr "Shunkang
+"
+				
+				msgid "Shuntai"
+				msgstr "Shuntai
+"
+				
+				msgid "Registro de Acesso"
+				msgstr "Acess Log"
+				
+				msgid "Registro de Mensagens"
+				msgstr "Messages Log
+"
+				
+				msgid "Funcionários"
+				msgstr "Employees
+"
+				
+				msgid "Extrato de Estoque"
+				msgstr "Stock Extract
+"
+				
+				msgid "Novo Pedido"
+				msgstr "New Order
+"
+				
+				msgid "Listar Pedidos"
+				msgstr "Order List
+"
+				
+				msgid "Referência Cruzada"
+				msgstr "Cross Reference
+"
+				
+				msgid "IRV"
+				msgstr "IRV
+"
+				
+				msgid "Contatos"
+				msgstr "Contacts
+"
+				
+				msgid "Parceiros"
+				msgstr "Partners
+"
+				
+				msgid "Produtos"
+				msgstr "Products
+"
+				
+				msgid "Relatório de Produtos"
+				msgstr "Products Report
+"
+				
+				msgid "Lista de Produtos"
+				msgstr "Products List
+"
+				
+				msgid "Fabricantes"
+				msgstr "Suppliers
+"
+				
+				msgid "Pedidos"
+				msgstr "Orders
+"
+				
+				msgid "Relatório de Vendas"
+				msgstr "Sales Report
+"
+				
+				msgid "Metas de Compra"
+				msgstr "Purchase Goals
+"
+				
+				msgid "Controle de Visitas"
+				msgstr "Visit Control
+"
+				
+				msgid "Correio Eletrônico"
+				msgstr "WebMail
+"
+				
+				msgid "Hoteis"
+				msgstr "Hotels
+"
+				
+				msgid "Mailing"
+				msgstr "Mailing
+"
+				
+				msgid "Etiquetas"
+				msgstr "Tags
+"
+				
+				msgid "Lista de Preços"
+				msgstr "Price List
+"
+				
+				msgid "Lançamentos"
+				msgstr "New Releases
+"
+				
+				msgid "Pendências"
+				msgstr "Pending
+"
+				
+				msgid "Alterar Senha"
+				msgstr "Change Password"
+				
+				msgid "Garantias"
+				msgstr "Warranty
+"
+				
+				msgid "Comparativo"
+				msgstr "Comparative
+"
+				
+				msgid "Veiculos"
+				msgstr "Vehicles
+"
+				
+				msgid "Análise"
+				msgstr "Analysis"
+				
+				msgid "Catálogo"
+				msgstr "Catalogue"
+				
+				msgid "Catálogo Completo"
+				msgstr "Full Catalogue
+"
+				
+				msgid "Lista de Faixa de Códigos"
+				msgstr "Track Code List
+"
+				
+				msgid "Vendas"
+				msgstr "Sales
+"
+				
+				msgid "Lista de preço resumida"
+				msgstr "Price List Summary
+"
+				
+				msgid "Novos Contatos"
+				msgstr "New Contacts
+"
+				
+				msgid "ZTL Inventário"
+				msgstr "ZTL Inventory
+"
+				
+				msgid "Kang Inventário"
+				msgstr "Kang Inventory
+"
+				
+				msgid "Migração de Contatos"
+				msgstr "Contacts Migration
+"
+				
+				msgid "Pré Pedidos"
+				msgstr "Pre-Orders
+"
+				
+				msgid "Localizar Produtos"
+				msgstr "Search Products
+"
+				
+				msgid "Compras"
+				msgstr "Purchase
+"
+				
+				msgid "Transportadoras"
+				msgstr "Transporter
+"
+				
+				msgid "Relatório de Pendências"
+				msgstr "Pending Report
+"
+				
+				msgid "Rascunhos"
+				msgstr "Drafts
+"
+				
+				msgid "Contêiners"
+				msgstr "Container
+"
+				
+				msgid "Atividades"
+				msgstr "Task
+"
+				
+				msgid "Financeiro"
+				msgstr "Finance
+"
+				
+				msgid "Perfis"
+				msgstr "Perfil
+"
+				
+				msgid "HOME"
+				msgstr "HOME
+"
+				
+				msgid "ESTOQUE"
+				msgstr "STOCK"
+				
+				msgid "GARANTIAS"
+				msgstr "WARRANTIES"
+				
+				msgid "AJUSTE DE PREÇOS"
+				msgstr "PRICE ADJUSTMENT
+"
+				
+				msgid "ENVIADOS"
+				msgstr "SENT
+"
+				
+				msgid "DATA"
+				msgstr "DATE
+"
+				
+				msgid "USUÁRIO"
+				msgstr "USER
+"
+				
+				msgid "FUNC"
+				msgstr "WORKER
+"
+				
+				msgid "GER"
+				msgstr "MANAGER
+"
+				
+				msgid "REP"
+				msgstr "SELLER
+"
+				
+				msgid "CLI"
+				msgstr "CLIENT"
+				
+				msgid "Grupo"
+				msgstr "Group
+"
+				
+				msgid "SELECIONE"
+				msgstr "SELECT
+"
+				
+				msgid "TODOS"
+				msgstr "ALL"
+				
+				msgid "Percentual"
+				msgstr "Percentage
+"
+				
+				msgid "CÓDIGO"
+				msgstr "CODE"
+				
+				msgid "PREÇO ATUAL"
+				msgstr "CURRENT PRICE
+"
+				
+				msgid "NOVO PREÇO"
+				msgstr "NEW PRICE
+"
+				
+				msgid "PERCENTUAL"
+				msgstr "PERCENTAGE
+"
+				
+				msgid "DT AJUSTE"
+				msgstr "ADJUST DATE"
+				
+				msgid "DT CADASTRO"
+				msgstr "REGISTER DATE
+"
+				
+				msgid "Nenhum Produto encontrado"
+				msgstr "Product not found
+"
+				
+				msgid "ID"
+				msgstr "ID
+"
+				
+				msgid "SITUAÇÃO"
+				msgstr "Situation
+"
+				
+				msgid "DATA ATUALIZAÇÃO"
+				msgstr "UPDATE DATE"
+				
+				msgid "OPÇÕES"
+				msgstr "OPTION
+"
+				
+				msgid "CLIENTE"
+				msgstr "CUSTOMER
+"
+				
+				msgid "DICAS"
+				msgstr "TIPS"
+				
+				msgid "NOVA DICA"
+				msgstr "NEW TIP"
+				
+				msgid "RELATÓRIOS"
+				msgstr "REPORTS
+"
+				
+				msgid "Dt inicio"
+				msgstr "Beginning"
+				
+				msgid "Dt fim"
+				msgstr "End
+"
+				
+				msgid "NOVA GARANTIA"
+				msgstr "NEW WARRANTY"
+				
+				msgid "ANÁLISES"
+				msgstr "ANALYSIS"
+				
+				msgid "Código"
+				msgstr "Code"
+				
+				msgid "NOVO PEDIDO"
+				msgstr "NEW ORDER
+"
+				
+				msgid "Por Grupo"
+				msgstr "By Group"
+				
+				msgid "Por Código"
+				msgstr "By Code"
+				
+				msgid "VENDAS"
+				msgstr "SALE
+"
+				
+				msgid "FÍSICO"
+				msgstr "PHYSICAL
+"
+				
+				msgid "VIRTUAL"
+				msgstr "VIRTUAL
+"
+				
+				msgid "SUGESTÃO"
+				msgstr "SUGESTION
+"
+				
+				msgid "QT"
+				msgstr "QT
+"
+				
+				msgid "DETALHA DICA"
+				msgstr "TIP DETAIL"
+				
+				msgid "Mudar análise"
+				msgstr "Analysis Change"
+				
+				msgid "Adicionar análise"
+				msgstr "Add analysis"
+				
+				msgid "NOVA ANÁLISE"
+				msgstr "NEW ANALYSIS"
+				
+				msgid "FINANCEIRO"
+				msgstr "FINANCE
+"
+				
+				msgid "RETORNO IMPOSTOS"
+				msgstr "Tax Return
+"
+				
+				msgid "RETORNOS CADASTRADOS"
+				msgstr "REBATE REGISTRED
+"
+				
+				msgid "FINALIZADOS"
+				msgstr "FINISHED
+"
+				
+				msgid "CADASTRADOS"
+				msgstr "REGISTERED
+"
+				
+				msgid "Fatura"
+				msgstr "Invoice
+"
+				
+				msgid "Emissão"
+				msgstr "Issued
+"
+				
+				msgid "Anexo"
+				msgstr "Attached file"
+				
+				msgid "Conta"
+				msgstr "Account"
+				
+				msgid "Dt Cad"
+				msgstr "Reg Dt
+"
+				
+				msgid "Valor"
+				msgstr "Value
+"
+				
+				msgid "Dt Pag"
+				msgstr "Pay Dt
+"
+				
+				msgid "Valor pag"
+				msgstr "Pay Value
+"
+				
+				msgid "Valor Retorno"
+				msgstr "Rebate Value
+"
+				
+				msgid "Dt Pedido"
+				msgstr "Orders
+"
+				
+				msgid "Dt Prevista"
+				msgstr "Forecast Dt
+"
+				
+				msgid "Conta de recebimento:"
+				msgstr "Received account
+"
+				
+				msgid "CONCILIAÇÃO BANCÁRIA"
+				msgstr "BANK CHECK"
+				
+				msgid "ORD"
+				msgstr "ORDER
+"
+				
+				msgid "VALOR"
+				msgstr "VALUE
+"
+				
+				msgid "CONCILIAÇAO"
+				msgstr "CHECK"
+				
+				msgid "RETORNO DE IMPOSTOS"
+				msgstr "Tax Return
+"
+				
+				msgid "HS CODE"
+				msgstr "HS CODE
+"
+				
+				msgid "PESO LIQ"
+				msgstr "NET WEIGHT
+"
+				
+				msgid "PESO BRUTO"
+				msgstr "GROSS WEIGHT
+"
+				
+				msgid "QUANTIDADE"
+				msgstr "QUANTITY
+"
+				
+				msgid "TOTAL"
+				msgstr "TOTAL
+"
+				
+				msgid "Total"
+				msgstr "Total
+"
+				
+				msgid "PAGAMENTOS"
+				msgstr "PAYMENTS
+"
+				
+				msgid "Id"
+				msgstr "Id
+"
+				
+				msgid "Vencimento"
+				msgstr "Due date
+"
+				
+				msgid "Dt pagamento"
+				msgstr "Payment date
+"
+				
+				msgid "Valor pago"
+				msgstr "Value Paid
+"
+				
+				msgid "Não pago"
+				msgstr "Not paid
+"
+				
+				msgid "ID Tax Return"
+				msgstr "ID Tax Return
+"
+				
+				msgid "Não existe pagamentos relacionados com essa compra"
+				msgstr "No payments connected with this purchase
+"
+				
+				msgid "CONTAS À PAGAR"
+				msgstr "Accounts to pay"
+				
+				msgid "NOVO PAGAMENTO"
+				msgstr "NEW PAYMENT
+"
+				
+				msgid "Fornecedor"
+				msgstr "Supplier
+"
+				
+				msgid "Selecione"
+				msgstr "Select
+"
+				
+				msgid "Outro Fornecedor"
+				msgstr "Another Supplier"
+				
+				msgid "Moeda"
+				msgstr "Currency
+"
+				
+				msgid "Valor Total"
+				msgstr "Value Total
+"
+				
+				msgid "Plano de conta"
+				msgstr "Account Plan"
+				
+				msgid "Tx câmbio"
+				msgstr "Exchange rate"
+				
+				msgid "Conta origem"
+				msgstr "Payment Type
+"
+				
+				msgid "Anexar arquivos"
+				msgstr "Add File"
+				
+				msgid "Observação"
+				msgstr "Observation
+"
+				
+				msgid "EMISSÃO"
+				msgstr "ISSUED
+"
+				
+				msgid "VENCIMENTO"
+				msgstr "DUE DATE
+"
+				
+				msgid "ADM"
+				msgstr "ADM"
+				
+				msgid "PLANO DE CONTAS"
+				msgstr "ACCOUNT PLAN"
+				
+				msgid "PAGAR"
+				msgstr "To Pay
+"
+				
+				msgid "RECEBER"
+				msgstr "To Receive
+"
+				
+				msgid "CONCILIAÇÃO"
+				msgstr "Double check
+"
+				
+				msgid "CONTAS BANCÁRIAS"
+				msgstr "BANK ACCOUNT"
+				
+				msgid "PLANO DE CONTA"
+				msgstr "ACCOUNT PLAN"
+				
+				msgid "CONCILIACAO"
+				msgstr "CHECK"
+				
+				msgid "OPCOES"
+				msgstr "OPTIONS
+"
+				
+				msgid "REGISTRO DE NAVEGAÇÃO"
+				msgstr "NAVIGATION REGISTRY"
+				
+				msgid "REGISTRO DE ACESSO"
+				msgstr "ACESS REGISTRY"
+				
+				msgid "Nome do Usuário"
+				msgstr "User name"
+				
+				msgid "RET IMPOSTOS"
+				msgstr "Tax Rebate
+"
+				
+				msgid "PAGAMENTOS DE CONTAS"
+				msgstr "ACCOUNT PAYMENT"
+				
+				msgid "Selecione uma conta"
+				msgstr "Select an account
+"
+				
+				msgid "Nova transação"
+				msgstr "New transaction
+"
+				
+				msgid "Data"
+				msgstr "Date
+"
+				
+				msgid "TX Câmbio"
+				msgstr "Exchange Rate
+"
+				
+				msgid "Busca por"
+				msgstr "Seek for
+"
+				
+				msgid "Por ID"
+				msgstr "BY ID"
+				
+				msgid "Por Valor"
+				msgstr "For Value
+"
+				
+				msgid "Valor Ini"
+				msgstr "Init Value
+"
+				
+				msgid "Valor Fim"
+				msgstr "End Value
+"
+				
+				msgid "Saldo"
+				msgstr "Balance"
+				
+				msgid "FORNECEDOR"
+				msgstr "SUPPLIER
+"
+				
+				msgid "PLANO CONTA"
+				msgstr "ACCOUNT PLAN"
+				
+				msgid "MOEDA"
+				msgstr "CURRENCY
+"
+				
+				msgid "SIT"
+				msgstr "SIT
+"
+				
+				msgid "CONTAS À RECEBER"
+				msgstr "To receive
+"
+				
+				msgid "RECEBIMENTO DE CONTAS"
+				msgstr "RECEIVING BILLS
+"
+				
+				msgid "Por Fornecedor"
+				msgstr "For Supplier
+"
+				
+				msgid "Por Pl Contas"
+				msgstr "For Account
+"
+				
+				msgid "Todos"
+				msgstr "All"
+				
+				msgid "TAX CÂMBIO"
+				msgstr "EXCHANGE RATE
+"
+				
+				msgid "Por Compra"
+				msgstr "Purchase
+"
+				
+				msgid "Compra"
+				msgstr "Purchase
+"
+				
+				msgid "NOVO RECEBIMENTO"
+				msgstr "New Income
+"
+				
+				msgid "RMB"
+				msgstr "RMB
+"
+				
+				msgid "USD"
+				msgstr "USD
+"
+				
+				msgid "BRL"
+				msgstr "BRL"
+				
+				msgid "EUR"
+				msgstr "EUR
+"
+				
+				msgid "Parc"
+				msgstr "Parc
+"
+				
+				msgid "Valor recebido"
+				msgstr "Income value
+"
+				
+				msgid "Baixar"
+				msgstr "Down
+"
+				
+				msgid "Insira sua busca"
+				msgstr "Insert your search"
+				
+				msgid "Por Parceiro"
+				msgstr "Partners
+"
+				
+				msgid "Por Plano de conta"
+				msgstr "Account Plan"
+				
+				msgid "Nome da conta"
+				msgstr "Account name"
+				
+				msgid "Banco"
+				msgstr "Bank"
+				
+				msgid "Agência"
+				msgstr "Bank Branch"
+				
+				msgid "NOME"
+				msgstr "NAME
+"
+				
+				msgid "BANCO"
+				msgstr "BANK"
+				
+				msgid "AGÊNCIA"
+				msgstr "BRANCH"
+				
+				msgid "CONTA"
+				msgstr "ACCOUNT"
+				
+				msgid "Adicionar Pedidos"
+				msgstr "Order List
+"
+				
+				msgid "CONTAS A RECEBER"
+				msgstr "RECEIVABLE
+"
+				
+				msgid "CONTAS A PAGAR"
+				msgstr "PAYABLE
+"
+				
+				msgid "PAINEL DE ATIVIDADES"
+				msgstr "TASK MANAGER
+"
+				
+				msgid "ATIVIDADES"
+				msgstr "TASK
+"
+				
+				msgid "Nova Atividade"
+				msgstr "New Task
+"
+				
+				msgid "Atualizar"
+				msgstr "Update
+"
+				
+				msgid "Finalizar"
+				msgstr "End task
+"
+				
+				msgid "Responder"
+				msgstr "Reply
+"
+				
+				msgid "Enviar"
+				msgstr "Send
+"
+				
+				msgid "MINHAS ATIVIDADES"
+				msgstr "MY TASKS
+"
+				
+				msgid "Para"
+				msgstr "For
+"
+				
+				msgid "Descrição da atividade"
+				msgstr "Task description
+"
+				
+				msgid "Data conclusão"
+				msgstr "Due date
+"
+				
+				msgid "Privado"
+				msgstr "Private
+"
+				
+				msgid "EXECUTOR"
+				msgstr "EXECUTOR
+"
+				
+				msgid "PENDENTES"
+				msgstr "PENDING
+"
+				
+				msgid "AGUARDANDO"
+				msgstr "WAITING
+"
+				
+				msgid "FINALIZADAS"
+				msgstr "FINISHED
+"
+				
+				msgid "LISTA DE ATIVIDADES"
+				msgstr "TASK LIST
+"
+				
+				msgid "ID Atividade"
+				msgstr "ID task
+"
+				
+				msgid "Executor"
+				msgstr "Executor
+"
+				
+				msgid "Data Solicitação"
+				msgstr "Application date"
+				
+				msgid "Data Limite"
+				msgstr "Deadline
+"
+				
+				msgid "Descrição"
+				msgstr "Description
+"
+				
+				msgid "DATA VENDA "
+				msgstr "Sales Date
+"
+				
+				msgid "CLIENTE "
+				msgstr "Client"
+				
+				msgid "ABERTO"
+				msgstr "Open
+"
+				
+				msgid "PENDENTE"
+				msgstr "Pending
+"
+				
+				msgid "CONCLUIDO"
+				msgstr "Finished
+"
+				
+				msgid "Nenhum Invoice Encontrada"
+				msgstr "No Invoice Found
+"
+				
+				msgid "Recebimento"
+				msgstr "Due date
+"
+				
+				msgid "RETORNOS FINALIZADOS"
+				msgstr "FINISHED
+"
+				
+				msgid "Dt Emissão"
+				msgstr "Issued
+"
+				
+				msgid "Valor retorno"
+				msgstr "Rebate
+"
+				
+				msgid "Dt Recebimento"
+				msgstr "Due date
+"
+				
+				msgid "PAGAMENTOS PENDENTES"
+				msgstr "PENDING
+"
+				
+				msgid "Por Cliente"
+				msgstr "By Client"
+				
+				msgid "Cliente"
+				msgstr "Client"
+				
+				msgid "COMPRA"
+				msgstr "PURCHASE
+"
+				
+				msgid "VALOR PEDIDO"
+				msgstr "ORDER VALUE"
+				
+				msgid "VALOR PAGO"
+				msgstr "VALUE PAY
+"
+				
+				msgid "SOLICITANTE"
+				msgstr "APPLICANT"
+				
+				msgid "PEND"
+				msgstr "PENDING
+"
+				
+				msgid "AGU"
+				msgstr "WAITING
+"
+				
+				msgid "FIN"
+				msgstr "FINISHED
+"
+				
+				msgid "CONTATOS"
+				msgstr "CONTACTS
+"
+				
+				msgid "VISUALIZAR CONTATOS"
+				msgstr "CONTACTS VIEW"
+				
+				msgid "CONTATO"
+				msgstr "CONTACTS
+"
+				
+				msgid "Empresa"
+				msgstr "Company"
+				
+				msgid "Nome Contato"
+				msgstr "Contact Name"
+				
+				msgid "Pais"
+				msgstr "Country"
+				
+				msgid "Cidade"
+				msgstr "City"
+				
+				msgid "E-mail"
+				msgstr "E-mail"
+				
+				msgid "Sítio"
+				msgstr "Website"
+				
+				msgid "TELEFONES"
+				msgstr "Phones"
+				
+				msgid "Tipo"
+				msgstr "Type
+"
+				
+				msgid "Número"
+				msgstr "Number"
+				
+				msgid "ARQUIVOS"
+				msgstr "FILES
+"
+				
+				msgid "Por Contato"
+				msgstr "By contact"
+				
+				msgid "Por Empresa"
+				msgstr "By company"
+				
+				msgid "Por Cidade"
+				msgstr "By City"
+				
+				msgid "EMPRESA"
+				msgstr "Company"
+				
+				msgid "Op&ccedil;&otilde;es"
+				msgstr "Options"
+				
+				msgid "Nenhum contato encontrado!"
+				msgstr "No contact found!"
+				
+				msgid "GRUPOS"
+				msgstr "GROUP
+"
+				
+				msgid "GRUPO"
+				msgstr "GROUP
+"
+				
+				msgid "CADASTRO CONTATO"
+				msgstr "REGISTER CONTACTS
+"
+				
+				msgid "Adcionar telefones"
+				msgstr "Add phones"
+				
+				msgid "Comercial"
+				msgstr "Comercial"
+				
+				msgid "Pessoal"
+				msgstr "Personal"
+				
+				msgid "Celular"
+				msgstr "Mobile"
+				
+				msgid "Fax"
+				msgstr "Fax"
+				
+				msgid "REFERÊNCIA CRUZADA"
+				msgstr "CROSS REFERENCE
+"
+				
+				msgid "CÓDIGOS"
+				msgstr "CODES"
+				
+				msgid "REFERÊNCIAS"
+				msgstr "REFERENCES
+"
+				
+				msgid "PRODUTOS"
+				msgstr "PRODUCT
+"
+				
+				msgid "GRUPOS DE PRODUTOS"
+				msgstr "PRODUCT GROUPS
+"
+				
+				msgid "Por Descrição"
+				msgstr "By Description"
+				
+				msgid "Por Medidas"
+				msgstr "By measures"
+				
+				msgid "INTERNO"
+				msgstr "Inner"
+				
+				msgid "EXTERNO"
+				msgstr "OUTER"
+				
+				msgid "ALTURA"
+				msgstr "HIGH"
+				
+				msgid "ESTRIADO MACHO"
+				msgstr "MALE STRIATUM"
+				
+				msgid "ESTRIADO FÊMEO"
+				msgstr "FEMALE STRIATUM"
+				
+				msgid "DENTES"
+				msgstr "TEETH"
+				
+				msgid "DESCRIÇÃO"
+				msgstr "DESCRIPTION
+"
+				
+				msgid "Situa&ccedil;&atilde;o"
+				msgstr "Situation"
+				
+				msgid "NCM"
+				msgstr "HS CODE"
+				
+				msgid "CFOP"
+				msgstr "CFOP"
+				
+				msgid "CST"
+				msgstr "CST"
+				
+				msgid "TRIBUTOS"
+				msgstr "TAXES"
+				
+				msgid "DESCRIÇÃO "
+				msgstr "DESCRIPTION
+"
+				
+				msgid "SITUAÇÃO "
+				msgstr "SITUATION
+"
+				
+				msgid "Nenhum perfil fiscal cadastrado"
+				msgstr "No tax profile registered"
+				
+				msgid "EMPRESAS"
+				msgstr "COMPANY"
+				
+				msgid "PARCEIROS"
+				msgstr "PARTNERS
+"
+				
+				msgid "PAÍSES"
+				msgstr "COUNTRIES"
+				
+				msgid "PAÍS"
+				msgstr "COUNTRY"
+				
+				msgid "Nenhum PAÍS Cadastrado"
+				msgstr "No COUNTRY Registered"
+				
+				msgid "NOVO PERFIL FISCAL"
+				msgstr "NEW TAX PROFILE"
+				
+				msgid "PRODUTOS CHINA"
+				msgstr "CHINA PRODUCTS"
+				
+				msgid "CADASTRO CONTATOS"
+				msgstr "REGISTERED CONTACTS
+"
+				
+				msgid "FÁBRICA"
+				msgstr "FACTORY
+"
+				
+				msgid "FABRICANTE"
+				msgstr "MANUFACTURER
+"
+				
+				msgid "HISTÓRICO DE BUSCA"
+				msgstr "SEARCH HISTORY
+"
+				
+				msgid "PRODUTO"
+				msgstr "PRODUCT
+"
+				
+				msgid "Sit"
+				msgstr "Sit
+"
+				
+				msgid "For"
+				msgstr "Sup
+"
+				
+				msgid "Qt"
+				msgstr "Qt
+"
+				
+				msgid "Custo"
+				msgstr "Cost
+"
+				
+				msgid "Adicionar Componente"
+				msgstr "Add Component"
+				
+				msgid "Copiar Composição"
+				msgstr "Copy Composition
+"
+				
+				msgid "MONTADORA"
+				msgstr "ASSEMBLER"
+				
+				msgid "VEICULO"
+				msgstr "VEHICLE
+"
+				
+				msgid "ANO"
+				msgstr "YEAR
+"
+				
+				msgid "Adicionar Veículo"
+				msgstr "Add Vehicle"
+				
+				msgid "Copiar Aplicação"
+				msgstr "Copy Aplication
+"
+				
+				msgid "Montadora"
+				msgstr "Dealer
+"
+				
+				msgid "Ano Ini"
+				msgstr "Year Ini
+"
+				
+				msgid "Ano Fim"
+				msgstr "Year End
+"
+				
+				msgid "ESTADOS"
+				msgstr "STATES"
+				
+				msgid "CIDADES"
+				msgstr "CITIES"
+				
+				msgid "ESTADO"
+				msgstr "STATE"
+				
+				msgid "Nenhuma Cidade Cadastrada"
+				msgstr "No City Registered"
+				
+				msgid "VISUALIZAR"
+				msgstr "VIEW
+"
+				
+				msgid "VISUALIZAR PRODUTOS"
+				msgstr "PRODUCT VIEW
+"
+				
+				msgid "PRINCIPAL"
+				msgstr "MAIN
+"
+				
+				msgid "VENDA"
+				msgstr "SALE
+"
+				
+				msgid "TÉCNICO"
+				msgstr "TECHNICAL
+"
+				
+				msgid "Código do produto"
+				msgstr "Product Code
+"
+				
+				msgid "Máscara"
+				msgstr "Mask
+"
+				
+				msgid "Código EAN"
+				msgstr "EAN Code
+"
+				
+				msgid "Cl Fiscal"
+				msgstr "NCM Code
+"
+				
+				msgid "Peso"
+				msgstr "Weight
+"
+				
+				msgid "Subgrupo"
+				msgstr "Undergroup
+"
+				
+				msgid "Produto"
+				msgstr "Product
+"
+				
+				msgid "Componente"
+				msgstr "Component
+"
+				
+				msgid "Molde"
+				msgstr "Mould
+"
+				
+				msgid "Caixa"
+				msgstr "Box"
+				
+				msgid "Etiqueta"
+				msgstr "Tag
+"
+				
+				msgid "Detalhes do produto"
+				msgstr "Product details
+"
+				
+				msgid "Imagem"
+				msgstr "Photo
+"
+				
+				msgid "COMPOSIÇÃO"
+				msgstr "COMPOSITION
+"
+				
+				msgid "APLICAÇÃO"
+				msgstr "APLICATION"
+				
+				msgid "PREÇOS DE VENDA"
+				msgstr "SALES PRICE
+"
+				
+				msgid "Promoção"
+				msgstr "Promotion
+"
+				
+				msgid "Preço"
+				msgstr "Price
+"
+				
+				msgid "Desconto"
+				msgstr "Discount
+"
+				
+				msgid "Ajuste de preço"
+				msgstr "Adjustment Price"
+				
+				msgid "HISTÓRICO DE PREÇOS"
+				msgstr "PRICE HISTORY
+"
+				
+				msgid "HISTÓRICO DE VENDA"
+				msgstr "SALES HISTORY
+"
+				
+				msgid "QUANT"
+				msgstr "QUANT
+"
+				
+				msgid "FORNECEDORES"
+				msgstr "SUPPLIERS
+"
+				
+				msgid "Grupo de Compra"
+				msgstr "Purchase Group
+"
+				
+				msgid "Situação"
+				msgstr "Situation
+"
+				
+				msgid "Previsão"
+				msgstr "Forecast
+"
+				
+				msgid "Descrição PL"
+				msgstr "PL Description
+"
+				
+				msgid "Detalhes da compra"
+				msgstr "Details Purchase
+"
+				
+				msgid "RELACIONAMENTOS"
+				msgstr "RELATIONSHIPS
+"
+				
+				msgid "HISTÓRICO DE FORNECEDOR"
+				msgstr "SUPPLIER HISTORY
+"
+				
+				msgid "ESF/ROL"
+				msgstr "BALL/ROLL"
+				
+				msgid "HISTÓRICO DE COMPRA"
+				msgstr "PURCHASE HISTORY
+"
+				
+				msgid "PED"
+				msgstr "PUR
+"
+				
+				msgid "SITUACAO"
+				msgstr "SITUATION
+"
+				
+				msgid "HISTÓRICO DE LOTE"
+				msgstr "BATCH HISTORY"
+				
+				msgid "LOTE"
+				msgstr "BATCH"
+				
+				msgid "PADRÃO"
+				msgstr "STANDARD
+"
+				
+				msgid "Interno"
+				msgstr "Inner
+"
+				
+				msgid "Externo"
+				msgstr "Outer
+"
+				
+				msgid "Altura"
+				msgstr "Height
+"
+				
+				msgid "BL/ROLLERS"
+				msgstr "BL/ROLLERS"
+				
+				msgid "HOMOCINÉTICA"
+				msgstr "CV JOINT
+"
+				
+				msgid "Estriado macho"
+				msgstr "Striatum male
+"
+				
+				msgid "Diâmetro"
+				msgstr "Diameter
+"
+				
+				msgid "Raio da porca"
+				msgstr "Nut Radius
+"
+				
+				msgid "Aperto"
+				msgstr "Tightness
+"
+				
+				msgid "Estriado Femêo"
+				msgstr "Stiatum female
+"
+				
+				msgid "Instruções de aperto"
+				msgstr "Tightness Instruction
+"
+				
+				msgid "SLIDING JOINTS"
+				msgstr "SLIDING JOINTS
+"
+				
+				msgid "Dentes"
+				msgstr "Teeth
+"
+				
+				msgid "CRUZETAS"
+				msgstr "U-Joint
+"
+				
+				msgid "TRIZETAS"
+				msgstr "U-Joint
+"
+				
+				msgid "Observações"
+				msgstr "Observation
+"
+				
+				msgid "CADASTRO EMPRESAS"
+				msgstr "COMPANY REGISTER"
+				
+				msgid "CADASTRO"
+				msgstr "REGISTER
+"
+				
+				msgid "CADASTRO DE PRODUTOS "
+				msgstr "PRODUCTS REGISTRATION
+"
+				
+				msgid "SHUNKANG"
+				msgstr "SHUNKANG
+"
+				
+				msgid "HS Code"
+				msgstr "HS Code
+"
+				
+				msgid "SHUNTAI"
+				msgstr "SHUNTAI
+"
+				
+				msgid "Esf/Rol"
+				msgstr "Ball/Roll"
+				
+				msgid "CADASTRO DE PRODUTOS"
+				msgstr "PRODUCT REGISTRATION
+"
+				
+				msgid "Remover imagem"
+				msgstr "Remove photo
+"
+				
+				msgid "EXIBIR NO CATÁLOGO"
+				msgstr "SHOW ON CATALOG"
+				
+				msgid "Pronto"
+				msgstr "Ready
+"
+				
+				msgid "Em Desenvolvimento"
+				msgstr "Under Development
+"
+				
+				msgid "Inativo"
+				msgstr "Inactive
+"
+				
+				msgid "ROLAMENTO"
+				msgstr "BEARING"
+				
+				msgid "CUBO"
+				msgstr "HUB"
+				
+				msgid "Eixo rolamento"
+				msgstr "Bearing shaft"
+				
+				msgid "Dentes homocinética"
+				msgstr "CV Joint teeth"
+				
+				msgid "Geração"
+				msgstr "Generation"
+				
+				msgid "Construção"
+				msgstr "Construction"
+				
+				msgid "Alt/Conj/Rolante"
+				msgstr "Total assemble high"
+				
+				msgid "Tipo ABS"
+				msgstr "ABS Type"
+				
+				msgid "Altura coroa ABS"
+				msgstr "ABS ring high"
+				
+				msgid "Dentes coroa ABS"
+				msgstr "ABS teeth"
+				
+				msgid "Adicionar arquivo"
+				msgstr "Add File"
+				
+				msgid "Tem certeza que deseja remover a imagem 1?"
+				msgstr "Sure to remove photo 1?
+"
+				
+				msgid "Tem certeza que deseja remover a imagem 2?"
+				msgstr "Sure to remove photo 2?
+"
+				
+				msgid "sim"
+				msgstr "yes
+"
+				
+				msgid "Salvar"
+				msgstr "Save
+"
+				
+				msgid "n&atilde;o"
+				msgstr "no"
+				
+				msgid "Cancelar"
+				msgstr "Cancel"
+				
+				msgid "Novo produto"
+				msgstr "New product
+"
+				
+				msgid "Pesquisar"
+				msgstr "Search
+"
+				
+				msgid "Voltar"
+				msgstr "Back"
+				
+				msgid "Editar"
+				msgstr "Edit
+"
+				
+				msgid "Estado"
+				msgstr "State"
+				
+				msgid "UF"
+				msgstr "STATE "
+				
+				msgid "Nenhum ESTADO Cadastrado"
+				msgstr "No STATE Registered"
+				
+				msgid "REFER&Ecirc;NCIA CRUZADA"
+				msgstr "CROSS REFERENCE
+"
+				
+				msgid "CONTATOS/EMPRESAS"
+				msgstr "CONTACTS/COMPANIES"
+				
+				msgid "CADASTRO FILIAIS"
+				msgstr "BRANCHES REGISTER"
+				
+				msgid "EMAIL"
+				msgstr "EMAIL
+"
+				
+				msgid "EMAIL MARKETING"
+				msgstr "EMAIL MARKETING"
+				
+				msgid "EMAIL ERRADOS"
+				msgstr "WRONG EMAILS"
+				
+				msgid "Nenhum email cadastrado"
+				msgstr "No email registered"
+				
+				msgid "PEDIDOS DE COMPRA"
+				msgstr "PURCHASE ORDERS
+"
+				
+				msgid "PRÉ ORDEM"
+				msgstr "PRE ORDER"
+				
+				msgid "PO"
+				msgstr "PO"
+				
+				msgid "PRODUTOS PEDIDOS"
+				msgstr "ORDERED PRODUCTS"
+				
+				msgid "GERAR PEDIDO"
+				msgstr "MAKE A ORDER"
+				
+				msgid "Impressão"
+				msgstr "Print
+"
+				
+				msgid "Data da entrega"
+				msgstr "Delivery date"
+				
+				msgid "Produtos entregues"
+				msgstr "Delivered products"
+				
+				msgid "Pagamentos"
+				msgstr "Payments
+"
+				
+				msgid "Entrega"
+				msgstr "Delivery"
+				
+				msgid "Por período"
+				msgstr "By period"
+				
+				msgid "Nenhuma pré-ordem encontrado"
+				msgstr "No pre order found"
+				
+				msgid "NOVA PRÉ ORDEM"
+				msgstr "NEW PRE ORDER"
+				
+				msgid "REGRAS DE COMPRA"
+				msgstr "RULES PURCHASE
+"
+				
+				msgid "AJUSTE"
+				msgstr "ADJUST"
+				
+				msgid "GARANTIA"
+				msgstr "WARRANTY"
+				
+				msgid "FABRICA"
+				msgstr "MANUFACTURER
+"
+				
+				msgid "ENTRADA"
+				msgstr "ENTRY"
+				
+				msgid "ESTOQUE DE PRODUTOS"
+				msgstr "PRODUCT STOCK
+"
+				
+				msgid "AJUSTES"
+				msgstr "ADJUST"
+				
+				msgid "NOVO AJUSTE"
+				msgstr "NEW ADJUST
+"
+				
+				msgid "ENTRADA DE PRODUTOS"
+				msgstr "PRODUCT REGISTRATION
+"
+				
+				msgid "NOVA ENTRADA"
+				msgstr "NEW ENTRY"
+				
+				msgid "ENTRADA DE PRODUTO"
+				msgstr "PRODUCT ENTRY"
+				
+				msgid "CURVA DE PRODUTOS"
+				msgstr "PRODUCTS CURVE"
+				
+				msgid "MOVIMENTAÇÃO"
+				msgstr "MOVIMENTATION"
+				
+				msgid "NOVA FABRICAÇÃO"
+				msgstr "NEW MANUFATURING"
+				
+				msgid "RELATÓRIO DE VENDAS"
+				msgstr "SALES REPORT"
+				
+				msgid "PEDIDOS DE VENDA"
+				msgstr "SALES ORDER"
+				
+				msgid "ORÇAMENTOS"
+				msgstr "BUDGETS"
+				
+				msgid "ORÇAMENTOS KANG"
+				msgstr "KANG BUDGETS"
+				
+				msgid "DATA DO ORÇAMENTO"
+				msgstr "BUDGET DATE"
+				
+				msgid "Nenhum Orçamento Encontrado"
+				msgstr "No budget found"
+				
+				msgid "Total de peças"
+				msgstr "Total pieces"
+				
+				msgid "Valor total"
+				msgstr "Total value
+"
+				
+				msgid "Preço total"
+				msgstr "Total price
+"
+				
+				msgid "PEDIDOS DE VENDAS"
+				msgstr "SA
+"
+				
+				msgid "Razão Social"
+				msgstr "Corporate Name"
+				
+				msgid "CPF/CNPJ"
+				msgstr "Tax Code - National"
+				
+				msgid "RG/INSC"
+				msgstr "Tax Code - Local"
+				
+				msgid "PREÇO"
+				msgstr "PRICE
+"
+				
+				msgid "INSTRUÇÕES DA PROFORMA"
+				msgstr "PROFORMA INSTRUCTIONS"
+				
+				msgid "Pedido Cliente"
+				msgstr "C"
+				
+				msgid "De"
+				msgstr "From"
+				
+				msgid "Termos da entrega"
+				msgstr "Delivery Terms"
+				
+				msgid "Termos do pagamento"
+				msgstr "Payment Terms"
+				
+				msgid "Agente de embarque"
+				msgstr "Shipment agent"
+				
+				msgid "Aceita embarque parcial"
+				msgstr "Partial shipment accepted"
+				
+				msgid "Data de embarque"
+				msgstr "Shipment date"
+				
+				msgid "EMBARCADO"
+				msgstr "SHIPPED"
+				
+				msgid "CADASTRADO"
+				msgstr "REGISTERED
+"
+				
+				msgid "AGUARDANDO DOCUMENTOS"
+				msgstr "WAITING FOR DOCS
+"
+				
+				msgid "AGUARDANDO EMBARQUE"
+				msgstr "WAITING FOR SHIPPING"
+				
+				msgid "PEDIDO"
+				msgstr "NEW ORDER
+"
+				
+				msgid "Por períoodo"
+				msgstr "By Period"
+				
+				msgid "DATA VENDA"
+				msgstr "Sales Date
+"
+				
+				msgid "Nenhum Pedido Encontrado"
+				msgstr "No Order Found"
+				
+				msgid "GERAR VENDA"
+				msgstr "MAKE SALE"
+				
+				msgid "Selecione um cliente"
+				msgstr "Select a client"
+				
+				msgid "AJUSTE DE ORÇAMENTO"
+				msgstr "BUDGET ADJUST"
+				
+				msgid "ORÇAMENTO"
+				msgstr "BUDGET"
+				
+				msgid "Código Cliente"
+				msgstr "Client Code"
+				
+				msgid "Preço Total"
+				msgstr "Total Price
+"
+				
+				msgid "Aceita entrega parcial"
+				msgstr "Partial delivery accepted"
+				
+				msgid "SIM"
+				msgstr "YES
+"
+				
+				msgid "NÃO"
+				msgstr "NO"
+				
+				msgid "Data entrega"
+				msgstr "Delivery Date"
+				
+				msgid "Entregue"
+				msgstr "Delivered"
+				
+				msgid "Total entregue"
+				msgstr "Total delivered"
+				
+				msgid "NOVO ORÇAMENTO"
+				msgstr "NEW BUDGET"
+				
+				msgid "LISTA DE PACOTES"
+				msgstr "PACKING LIST
+"
+				
+				msgid "CODIGO"
+				msgstr "CODE"
+				
+				msgid "QT DISPONÍVEL"
+				msgstr "AVAILABLE QTT."
+				
+				msgid "PKGS"
+				msgstr "PKGS"
+				
+				msgid "G.W.KGS"
+				msgstr "GROSS_KG"
+				
+				msgid "N.W.KGS"
+				msgstr "NET_KGS"
+				
+				msgid "MEAS.M3"
+				msgstr "MEAS M3"
+				
+				msgid "PALLET Nº "
+				msgstr "PALLET ID"
+				
+				msgid "TOTAL GERAL"
+				msgstr "TOTAL"
+				
+				msgid "Preencha todos os campos corretamente"
+				msgstr "Please, fill all fields correctly"
+				
+				msgid "Selecione ao menos um produto"
+				msgstr "At least one product must be selected"
+				
+				msgid "O peso bruto não pode ficar em branco"
+				msgstr "The gross weight can\'t be empty"
+				
+				msgid "O peso líquido não pode ficar em branco"
+				msgstr "The net weight can\'t be empty"
+				
+				msgid "A medida do palete não pode ficar em branco"
+				msgstr "Pallet dimension can\'t be empty"
+				
+				msgid "Lista de produtos entregues"
+				msgstr "Delivered products list"
+				
+				msgid "Dimensões (M)"
+				msgstr "Dimensions (M)"
+				
+				msgid "Finalizar edição"
+				msgstr "End change"
+				
+				msgid "QT Entregue"
+				msgstr "QTT Delivered"
+				
+				msgid "QT Pedido"
+				msgstr "QTT Ordered"
+				
+				msgid "Total de entregue"
+				msgstr "Total delivered"
+				
+				msgid "Total pedido"
+				msgstr "Total ordered"
+				
+				msgid "REGRAS DE PEDIDOS"
+				msgstr "ROLES"
+				
+				msgid "Por Situação"
+				msgstr "For Situation"
+				
+				msgid "FINALIZADO"
+				msgstr "FINISHED"
+				
+				msgid "CANCELADO"
+				msgstr "CANCELLED"
+				
+				msgid "&agrave;"
+				msgstr "to"
+				
+				msgid "OP&Ccedil;&Otilde;ES"
+				msgstr "OPTIONS"
+				
+				msgid "DESCRIÇÂO"
+				msgstr "DESCRIPTION"
+				
+				msgid "Regra salva com sucesso!"
+				msgstr "Rule successfully saved!"
+				
+				msgid "Remover regra!"
+				msgstr "Remove rule!"
+				
+				msgid "Remover"
+				msgstr "Remove"
+				
+				msgid "PRODUTOS PARA EMBARQUE"
+				msgstr "SHIPPING PRODUCTS"
+				
+				msgid "DATA ENTREGA"
+				msgstr "DELIVERY DATE"
+				
+				msgid "Regras alteradas com sucesso!"
+				msgstr "Rule successfully changed!"
+				
+				msgid "Sem acesso ao sistema de geração de pallets"
+				msgstr "No access to pallet generation system"
+				
+				msgid "Favor entrar em contato pelo e-mail"
+				msgstr "Please, contact us using email"
+				
+				msgid "REPRESENTANTES"
+				msgstr "REPRESENTATIVES"
+				
+				msgid "Para visualizar os representantes, clique no estado desejado"
+				msgstr "Click on desired state to view representatives"
+				
+				msgid "ATENDIMENTO ON-LINE"
+				msgstr "ON-LINE ASSISTANCE"
+				
+				msgid "Atendimento"
+				msgstr "Assistance"
+				
+				msgid "Faturamento"
+				msgstr "Invoice"
+				
+				msgid "Engenharia"
+				msgstr "Engineering"
+				
+				msgid "Informática"
+				msgstr "IT Depto"
+				
+				msgid "Fone"
+				msgstr "Phone"
+				
+				msgid "mapa"
+				msgstr "map"
+				
+				msgid "Assistência Técnica"
+				msgstr "Technical Assistance"
+				
+				msgid "Envie-nos uma mensagem"
+				msgstr "Send us a message"
+				
+				msgid "Nome"
+				msgstr "Name"
+				
+				msgid "Mensagem"
+				msgstr "Message"
+				
+				msgid "Campos obrigatórios"
+				msgstr "Mandatory fields"
+				
+				msgid "Caracters digitados não confere!"
+				msgstr "The characters typed do not match!"
+				
+				msgid "LOCALIZAÇÃO"
+				msgstr "LOCALIZATION"
+				
+				msgid "Telefone"
+				msgstr "Phone"
+				
+				msgid "Nextel"
+				msgstr "Nextel"
+				
+				msgid "Sem representantes neste estado"
+				msgstr "No representative on this state"
+				
+				msgid "NOSSA HISTÓRIA"
+				msgstr "OUR HISTORY"
+				
+				msgid "A ZTL Brasil, como o nome sugere, é uma empresa de capital BRASILEIRO, com atuação em diversos países. Apesar de iniciarmos nossas atividades em 1995, no ano de 2005 que a divisão rolamentos começou a operar. Em 2005 nosso portfólio, possuía apenas 08 itens; hoje são mais de 500 itens, com diversas características técnicas"
+				msgstr ""
+				
+				msgid "O QUE FAZEMOS"
+				msgstr ""
+				
+				msgid "A ZTL Brasil se especializou inicialmente em rolamentos, devido à demanda e para satisfazer ainda mais as necessidades do mercado de reposição, começamos então a trabalhar com a linha de Cubo de Roda, hoje além dessas linhas trabalhamos com Atuadores Hidráulicos de Embreagem, Tensionadores e Polias e Juntas Homocinéticas. Para saber detalhes de cada ítem, consulte toda linha de produtos ZTL clicando"
+				msgstr ""
+				
+				msgid "aqui"
+				msgstr "here"
+				
+				msgid "EQUIPE ZTL"
+				msgstr "ZTL TEAM"
+				
+				msgid "Diretor Geral"
+				msgstr "General Director"
+				
+				msgid "Gerente Operacional"
+				msgstr "Operational Manager"
+				
+				msgid "Supervisor Nacional de Vendas"
+				msgstr "National Sales Supervisor"
+				
+				msgid "Engenheiro"
+				msgstr "Enginer"
+				
+				msgid "Secretária"
+				msgstr "Secretary"
+				
+				msgid "Marketing"
+				msgstr "Marketing"
+				
+				msgid "Gerente Regional SP"
+				msgstr "SP Area Manager"
+				
+				msgid "Por trás de toda grande empresa sempre existirá uma grande equipe que faz a diferença. "
+				msgstr "Behind a big company always exists a team that makes difference."
+				
+				msgid "Rolamento"
+				msgstr "Bearing"
+				
+				msgid "Cubo de roda"
+				msgstr "Wheel hub"
+				
+				msgid "Ponta de eixo"
+				msgstr "Rear Stub axle"
+				
+				msgid "Trasmissão"
+				msgstr "Transmission"
+				
+				msgid "A linha de transmissão ZTL é composta por junta homocinética fixas e kits de reparos de juntas"
+				msgstr ""
+				
+				msgid "Produto de fácil instalação e de fabricação robusta e que respeita o meio ambiente sendo armazenado "
+				msgstr ""
+				
+				msgid "Fabricada em aço forjado as pontas de eixo ZTL garante qualidade e as especificações exigidas para uma perfeita "
+				msgstr ""
+				
+				msgid "O Cubo de roda é a peça responsável por ser o alojamento do rolamento de roda e transição de torque é considerada "
+				msgstr ""
+				
+				msgid "Com departamento de engenharia no Brasil e na China a ZTL dispõem de uma grande facilidade no desenvolvimento de produtos, "
+				msgstr ""
+				
+				msgid "A ZTL Brasil disponibiliza para o mercado brasileiro uma vasta linha de cubos de roda de primeira, "
+				msgstr ""
+				
+				msgid "Fabricado em linhas de produção extremamente modernas e totalmente automatizadas garantem produtos de altíssima "
+				msgstr ""
+				
+				msgid "ZTL Brasil depõem de uma grande linha de rolamentos automotivos. Esta variedade de itens aplicados em veículos leves "
+				msgstr ""
+				
+				msgid "ZTL Brasil - Catálogo Completo"
+				msgstr "ZTLBrasil - Full Catalogue"
+				
+				msgid "Código ZTL"
+				msgstr "ZTL Code"
+				
+				msgid "Grupos"
+				msgstr "Group"
+				
+				msgid "Modelo"
+				msgstr "Model"
+				
+				msgid "Ano"
+				msgstr "Year"
+				
+				msgid "mm"
+				msgstr "mm"
+				
+				msgid "Furos"
+				msgstr "Holes"
+				
+				msgid "Receba novidades e lançamentos"
+				msgstr "Receive news and new releases"
+				
+				msgid "E-mail já cadastrado em nossa base de dados!"
+				msgstr "E-mail already exists in our database!"
+				
+				msgid "E-mail atualizado com sucesso!"
+				msgstr "E-mail successfully updated!"
+				
+				msgid "E-mail cadastrado com sucesso!"
+				msgstr "E-mail successfully registered!"
+				
+				msgid "VIDEOS"
+				msgstr "VIDEOS"
+				
+				msgid "NOTÍCIAS"
+				msgstr "NEWS"
+				
+				msgid "Mais notícias"
+				msgstr "More news"
+				
+				msgid "DICAS DE MONTAGEM"
+				msgstr "ASSEMBLE TIPS"
+				
+				msgid "ORIENTAÇÃO DE MONTAGEM DE ROLAMENTO DO SEMI EIXO LINHA FIAT - 110165"
+				msgstr "ASSEMBLE TIPS FOR BEARING 110165 - FIAT"
+				
+				msgid "ORIENTAÇÃO DE MONTAGEM DO CUBO DE RODA COM ROLAMENTO TRASEIRO"
+				msgstr "ASSEMBLE TIPS FOR REAR 2/3 GEN WHEELHUBS"
+				
+				msgid "ORIENTAÇÃO DE MONTAGEM DE EMBREAGENS"
+				msgstr "CLUTCH ASSEMBLE TIPS"
+				
+				msgid "ORIENTAÇÃO DE MONTAGEM DE CORREIA DENTADA E TENCIONADORES"
+				msgstr "ASSEMBLE TIPS FOR DRIVING BELTS AND TENSIONERS"
+				
+				msgid "Sobre a Ztl"
+				msgstr "About ZTL"
+				
+				msgid "O que Fazemos"
+				msgstr "What we do"
+				
+				msgid "Como nos encontrar"
+				msgstr "How to find us"
+				
+				msgid "Representantes"
+				msgstr "Representatives"
+				
+				msgid "Fale Conosco"
+				msgstr "Contact us"
+				
+				msgid "Equipe ZTL"
+				msgstr "ZTL Team"
+				
+				msgid "Catálogo online"
+				msgstr "Online Catalogue"
+				
+				msgid "Linha de produtos"
+				msgstr "Products Line"
+				
+				msgid "Multimídia"
+				msgstr "Multimidea"
+				
+				msgid "Vídeos"
+				msgstr "Videos"
+				
+				msgid "Notícias"
+				msgstr "News"
+				
+				msgid "Garantia"
+				msgstr "Warranty"
+				
+				msgid "Downloads"
+				msgstr "Downloads"
+				
+				msgid "Catálogo (pdf)"
+				msgstr "Catalogue (pdf)"
+				
+				msgid "Manual da Logo"
+				msgstr "Logo manual"
+				
+				msgid "Dicas de montagem"
+				msgstr "Assemble tips"
+				
+				msgid "Todos os direitos reservados - ZTL do Brasil Importação Exportação &amp; Comércio Ltda"
+				msgstr "All rigths reserved - ZTL do Brasil Imp. Exp. & Com. Ltda."
+				
+				msgid "acesso restrito"
+				msgstr "restricted access"
+				
+				msgid "Acesso Restrito"
+				msgstr "Restricted Access"
+				
+				msgid "Esqueci minha senha"
+				msgstr "Forgot password"
+				
+				msgid "Entrar"
+				msgstr "Acess"
+				
+				msgid "Recuperar senha"
+				msgstr "Change Password"
+				
+				msgid "Enviar senha"
+				msgstr "Send password"
+				
+				msgid "MULTIMÍDIA"
+				msgstr "Multimidea"
+				
+				msgid "DOWNLOAD"
+				msgstr "Download"
+				
+				msgid "QUEM SOMOS"
+				msgstr "About us"

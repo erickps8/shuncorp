@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>SisCorp 2.0 Alpha - Shuncorp.com</title>
+<link href="<?=$this->baseUrl()?>/public/sistema/imagens/ico.ico" rel="shortcut icon" type="image/x-ico"/>
+
+<script src="<?=$this->baseUrl()?>/public/sistema/js/jquery-1.4.4.js" type="text/javascript"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/jquery-ui.min.js"></script> 
+
+<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/layoutMenu.js"></script>
+
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/ui/progress.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/ui/jquery.tipsy.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/ui/jquery.alerts.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/ui/jquery.jgrowl.js"></script>
+
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/cal.min.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/jquery.collapsible.min.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/jquery.ToTop.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/jquery.timeentry.min.js"></script>
+
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/forms/forms.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/forms/autogrowtextarea.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/forms/autotab.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/forms/jquery.validationEngine-en.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/forms/jquery.validationEngine.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/forms/jquery.dualListBox.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/forms/jquery.filestyle.js"></script>
+
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/jquery.form.js"></script>
+
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/custom.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/jquery.mask.min.js"></script>
+
+<link href="<?=$this->baseUrl()?>/public/sistema/css/main.css" rel="stylesheet" type="text/css" />	
+
+<script type="text/javascript">
+	  
+	  function GetXmlHttpObject(){
+	  	var xmlHttp=null;
+	  	try	{
+	  	// Firefox, Opera 8.0+, Safari
+	  	xmlHttp=new XMLHttpRequest();
+	  	}catch (e){
+	  	// Internet Explorer
+	  		try	{
+	  		xmlHttp=new ActiveXObject("Msxml2.XMLHTTP");
+	  		}catch (e)	{
+	  			xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
+	  		}
+	  	}
+	  	return xmlHttp;
+	  }
+</script>	
+
+</head>
+
+<body>
+
+<?php 
+$usuario = Zend_Auth::getInstance()->getIdentity();
+foreach ($this->objPerfilusuario as $perfilusuario);
+
+?>
+
+<!-- Top navigation bar -->
+<div id="topNav">
+    <div class="fixed">
+        <div class="wrapper" style="padding: 0px 10px 0px 10px;">
+            <div class="welcome"><a href="#" title=""><img src="<?=$this->baseUrl()?>/public/sistema/imagens/userPic.png" alt="" /></a><span>Olá, <?php echo $usuario->nome?></span></div>
+            <div class="userNav">
+                <ul>
+                	<?php 
+                	if(strpos($usuario->email, '@ztlbrasil.com.br')):
+                	?>
+                	<!--<li class="bReportar"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/notifications/error.png" style="width: 12px" alt="" /><span>Solicitações/Relatar falha</span></li>
+                	 <li class="dd"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/topnav/messages.png" alt="" /><span>E-mail</span>
+                        <ul class="menu_body">
+                            <li><a href="<?php echo $this->baseUrl()?>/admin/correio/novocorreio" title="">Novo e-mail</a></li>
+                            <li><a href="<?php echo $this->baseUrl()?>/admin/correio/caixa/tp/entrada" title="">Entrada</a></li>
+                            <li><a href="<?php echo $this->baseUrl()?>/admin/correio/caixa/tp/enviadas" title="">Saída</a></li>
+                            <li><a href="<?php echo $this->baseUrl()?>/admin/correio/caixa/tp/lixeira" title="">Lixo</a></li>
+                            <li><a href="<?php echo $this->baseUrl()?>/admin/correio/caixa/tp/rascunhos" title="">Rascunhos</a></li>
+                        </ul>
+                    </li>
+                     -->
+                    <?php endif; ?>
+                    
+                    <?php if($usuario->id_cliente == 662): ?>
+                    <!-- 
+                    <li><a href="<?php echo $this->baseUrl()?>/admin/cadastro/contatosinteracoes/pendentes/1/user/1/todos/1" title=""><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/topnav/tasks.png" alt="" /><span>Interações pendentes</span><span class="numberTop" id="countinteracoes">0</span></a></li>
+                     -->
+                    <li><a href="<?php echo $this->baseUrl()?>/admin/administracao/painelatividades" title=""><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/topnav/tasks.png" alt="" /><span>Atividades</span><span class="numberTop" id="countatividades">0</span></a></li>
+                    <?php endif; ?>
+                    
+                    <li class="configuracoes"><a href="#" title=""><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/topnav/settings.png" alt="" /><span>Configurações</span></a>
+                    	<ul class="menu_config">
+                            <li><a href="<?php echo $this->baseUrl()?>/admin/configuracao/meumenu" title="">Meu menu</a></li>
+                            <li><a href="<?php echo $this->baseUrl()?>/admin/configuracao" title="">Dados pessoais</a></li>
+                            <li><a href="<?php echo $this->baseUrl()?>/admin/configuracao/senha" title="">Mudar senha</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="<?php echo $this->url(array('controller' => 'auth', 'action' => 'logout'), null, true); ?>" title=""><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/topnav/logout.png" alt="" /><span>Sair</span></a></li>
+                </ul>
+            </div>
+            <div class="fix"></div>                     
+        </div>
+    </div>
+</div>
+
+<?php
+$url 	= "Página: http://ztlbrasil.com.br".str_replace("?".$_SERVER["QUERY_STRING"],"",$_SERVER['REQUEST_URI']);
+$link 	=  str_replace("?".$_SERVER["QUERY_STRING"],"",$_SERVER['REQUEST_URI']);
+$var 	= '<form action="" class="mainForm"><input type="hidden" name="pagina" value="'.$link.'"/><div style="width: 360px; text-align: left;">Descrição:<br /><textarea rows="" cols="" name="reporte" id="reporte" style="width: 350px"></textarea><br /><br />Prioridade<br /><div class="styled-select" style="width: 100px"><select name="prioridade" style="width: 122px"><option value="0" >Baixa</option><option value="1" >Média</option><option value="2" >Alta</option></select></div><input type="button" style="margin-top: 5px; margin-left: 294px" class="basicBtn" value="Enviar" onclick="gravarReporte()"/></div></form>';
+
+?>
+
+<script>
+$(".bReportar").click( function() {
+	jModal('<?php echo $var?>', 'Solicitações/Reportar erros', 400, 200);
+});
+</script>
+
+<!-- Header -->
+<div id="header" class="wrapper">
+    <div class="logo" style="margin-top: 15px; text-align: right;">
+    <a href="/" title=""><img src="<?=$this->baseUrl()?>/public/sistema/imagens/logo.png" width="210px" alt="" /></a><br />
+    SisCorp 2.0 Alpha
+    </div>
+    
+    <div class="middleNav">
+    	<ul>
+    		<?php 
+    		if($perfilusuario->pedidos == 1):
+    		?>
+        	<li class="iVenda"><a href="<?php echo $this->baseUrl()?>/admin/kang/pedidos" title=""><span>Kang pedidos</span></a></li>
+        	<?php 
+        	endif;
+        	if($perfilusuario->logs == 1):
+        	?>
+            <li class="iLog"><a href="<?php echo $this->baseUrl()?>/admin/administracao/logacesso" title=""><span>Log acesso</span></a></li>
+            <?php 
+        	endif;
+        	if($perfilusuario->financeiro == 1):
+	        	?>
+		        <li class="iFinanceiro"><a href="<?php echo $this->baseUrl()?>/admin/administracao/financeirochina" title=""><span>Financeiro</span></a></li>
+		    <?php endif; ?>
+        </ul>
+    </div>
+    <div class="fix"></div>
+</div>
+
+
+</script>
+<!-- Content wrapper -->
+<div class="wrapper">	
+	<!-- Left navigation -->
+    <div class="leftNav">
+	    <?php 
+	    $ativomeumenu 	='class="exp"';
+	    $ativopainel 	= "exp";
+	    if(empty($this->ativo)):
+    		$ativopainel = "active";
+	    elseif(strripos('meumenu', $this->ativo)!==false):
+	   		$ativomeumenu = 'class="active"';
+    	endif;
+    	
+    	?>
+           
+    	<ul id="menu">
+        	<li class="dash" onclick="window.location='<?=$this->baseUrl()?>/admin'"><a href="javascript:void(0)" title="" class="<?php echo $ativopainel?>"><span>Painel</span></a></li>
+        	<li class="meumenu"><a href="#" title="" <?php echo $ativomeumenu?> onclick="buscaSubmenu('meumenu');" ><span>Meu menu</span></a>
+            	<div id="meumenu"></div>
+            </li>
+            <?php
+			foreach($this->objMenu as $lista):
+				
+				if(strripos($lista->class, $this->ativo)!==false):
+					$ativomenu = 'class="active"';
+				else:
+					$ativomenu = 'class="exp"';
+				endif;
+				
+				?>
+	            <li class="<?=$lista->class?>"><a href="#" title="<?=(($lista->item_m))?>" <?php echo $ativomenu?> onclick="buscaSubmenu('<?php echo $lista->id_m?>');"><span><?=(($lista->item_m))?></span></a>
+	            	<div id="<?php echo $lista->id_m?>"></div>
+	            </li>
+	            <?php 
+            endforeach;
+            ?>
+    	</ul>
+    </div>
+

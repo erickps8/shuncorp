@@ -1,0 +1,286 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/kangOrcamentos.js"></script>
+<?php 
+	foreach ($this->objCliente as $listCli);
+?> 
+
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li class=""><a href="<?php echo $this->baseUrl(); ?>/admin/kang/pedidos">Pedidos de venda</a> </li>
+                	<li class=""><a href="<?php echo $this->baseUrl(); ?>/admin/kang/orcamentos">Orçamentos</a> </li>
+                	<li class="lastB"><?php echo $this->translate->_("Ajuste de orçamento")?></li>
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5><?php echo $this->translate->_("Ajuste de orçamento")?></h5></div>
+
+        <div class="widget first" >
+            <div class="head" style="margin-top: -10px"><h5 class="iUser">Informações do cliente</h5></div>
+            <div class="body">
+                <table style="width: 100%; border-spacing: 7px ">
+                	<tr>
+		                <td width="20%" >Cliente:</td>
+		                <td colspan="3"><b><?php echo $listCli->EMPRESA?></b></td>
+		            </tr>
+		            <tr>
+		                <td>Razão Social:</td>
+		                <td colspan="3"><b><?php echo ($listCli->RAZAO_SOCIAL)?></b></td>
+		            </tr>
+		            <tr>
+		                <td>CPF/CNPJ:</td>
+		                <td width="35%"><b><?php echo $listCli->CPF_CNPJ?></b></td>
+		                <td width="15%">RG/INSC:</td>
+		                <td><b><?php echo $listCli->RG_INSC?></b></td>
+		            </tr>	            
+		        </table>
+            </div>
+        </div>
+        
+       
+		<form name="prepedido" id="prepedido" action="<?php echo $this->baseUrl(); ?>/admin/kang/cadprodorcamento" method="post" class="mainForm">
+	    <input type="hidden" name="ped" value="<?php echo $listCli->idped;?>">
+	    <input type="hidden" name="orc" value="<?php echo md5($listCli->idped);?>">
+	    <input type="hidden" name="pedcli" value="<?php echo $listCli->idcli;?>">
+        <div class="widget">
+ 			<div class="head" style="border-bottom: 0px"><h5 class="iFrames">Produtos</h5></div>
+        	<table class="tableStatic" style="width: 100%">
+            	<thead>
+                	<tr>
+                        <td width="3%">Id</td>
+                        <td width="">Código</td>
+                        <td width="10%">Cód cliente</td>
+                        <td width="5%">Ref</td>
+                        <td width="5%">QT</td>
+                        <td >Descrição</td>
+			            <td width="">Moeda</td>
+                        <td width="">Preço</td>
+                        <td width="">Preço Total</td>                        
+                        <td width="">+</td>
+                    </tr>
+                </thead>
+                <tbody>
+       
+		        <?php 
+		        $cor = $total_pedido = $total_pedido_liquido = $total_prod = 0;
+		        $arrId = "";
+		        foreach ($this->objList as $listaProd):
+		        	$arrId .=  $listaProd->ID.";";
+		        	$cor++;
+		            
+		            ?>
+			        <tr >
+			            <td style="text-align: center;" >
+		                    <?php echo $cor?>
+		                </td>
+		                <td style="text-align: center;" >
+		                	<a href="<?php echo $this->baseUrl()?>/admin/cadastro/produtoschina/produto/<?php echo md5($listaProd->ID)?>" target="_blank">
+							<?php echo $listaProd->CODIGO?></a>							
+		                </td>
+		                <td style="text-align: center;">
+		                	<?php echo $listaProd->cod_cli?>							
+		                </td>
+		                <td style="text-align: center;">
+		                	<?php echo $listaProd->letra?>							
+		                </td>
+		                <td style="text-align: center;" >
+		                	<?php echo $listaProd->qt?>
+		                </td>
+		                <td align="left">
+		                   <?php echo $listaProd->DESCRICAO?> 
+		                </td>
+		                <td style="text-align: center;">
+		                    USD
+		                </td>
+		                <td align="right">
+			                <?php echo number_format($listaProd->preco_ut,3,',','.')?>
+		                </td>
+		                <td align="right">
+			                <?php echo number_format($listaProd->preco_ut*$listaProd->qt,3,',','.')?>
+		                </td>
+		                <td style="text-align: center;" >
+		                    <a href="#" onclick="if(confirm('Remover produto <?php echo $listaProd->CODIGO?>?')){window.location='<?php echo $this->baseUrl()?>/admin/kang/remprodorcamento/ped/<?php echo $listaProd->id_pedido_tmp;?>/prodorc/<?php echo $listaProd->idprodtmp?>';}"><img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" title="Remove" border="0" width="16"></a>
+		                </td>		                
+		            </tr>
+			        <?php
+					
+			        $total_prod += $listaProd->qt;
+			        $total_pedido += $listaProd->preco_ut*$listaProd->qt;			        
+		        endforeach;
+		        
+		        ?>
+		        
+		        <tr>
+		        	<td  class="td" style="text-align: left;" colspan="2" >
+                        <input style="text-transform: uppercase; width: 80px" type="text" name="codigo" id="codigo" placeholder="Código">
+                    </td>
+		            <td  align="left" >	
+		                <input type="text" name="codigocli" placeholder="Código do cliente" style="width: 100px">
+		            </td>
+		            <td  align="left" >
+		                <div class="styled-select" style="width: 90px">
+		            	<select name="classe" id="classe" style="width: 102px">
+		            		<option>Selecione</option>
+		            		<?php foreach($this->objProdutosclasses as $lista){ ?>
+		            		<option value="<?php echo $lista->id?>"><?php echo $lista->letra?></option>		            		
+		            		<?php } ?>
+		            	</select>
+		            	</div>
+		            </td>
+		            <td  align="left" >
+		                <input type="hidden" name="qtprod" id="qtprod" >
+		                <input type="text" style="width: 50px" name="qt" id="qt" placeholder="QT" style="width: 60px" class="inteiro">
+		            </td>
+		            <td  align="left" >
+		                <input type="text" size="5" name="preco" id="preco" placeholder="Preço" style="width: 80px" class="moeda"> 
+                    </td>
+		            <td  class="td" style="text-align: center;" colspan="5" style="color:#FF0000; font-weight: bold;">
+		            	<input type="hidden" name="arrId" id="arrId" value="<?php echo $arrId?>">
+		               	<div id="resultado" style="color: #f00;"></div>
+		            </td>
+		        </tr>		        	
+		      	</tbody>
+		    </table>
+		</div>  
+		
+		<div class="widget">
+ 			<div class="head" ><h5 class="iView">Informações adicionais</h5></div>
+        	<div class="body">
+                <table style="width: 100%; border-spacing: 7px ">
+		        <tr>
+		            <td align="left" style="width: 70%" valign="top" >
+		                Frete<br>
+		                <input type="text" name="frete" size="30" value="<?php echo number_format($listCli->frete,2,",",".")?>" style="width: 80px" class="moeda">
+		                <br>
+		                <?php echo $this->translate->_("Observação")?><br>
+					    <textarea name="obs" id="obs" style="width: 80%"></textarea>
+					</td>
+		            <td align="left">			                    
+	                    <span >Total de pe&ccedil;as</span><br>
+	                    <span style="font-size:14px; font-weight:bold; text-align:right;" ><?php echo $total_prod?></span><br>
+	                    Valor Total<br>
+	                    <span style="font-size:14px; font-weight:bold; color:#0010e1;">USD <?php echo number_format($total_pedido,2,',','.')?></span><br>
+		            </td>			            
+		        </tr>
+		        </table>
+		   	</div>
+		</div>
+		
+		<div class="widget">
+ 			<div class="head" ><h5 class="iView">Informações da proforma</h5></div>
+        	<div class="body">
+                <table style="width: 100%; border-spacing: 7px ">     
+		            <tr>
+			            <td align="left" width="20%">
+			            <?php echo $this->translate->_("Pedido Cliente")?>: 
+			            </td>
+			            <td colspan="3" align="left">
+			            	<input type="text" name="you_order" style="width: 200px" value="<?php echo $listCli->pedidocli?>">
+			            </td>
+		            </tr>
+		            <tr>
+			            <td align="left" width="20%">	
+			            	<?php echo $this->translate->_("De")?>: 
+			            </td>
+			            <td align="left" width="30%">
+			            	<input type="text" name="defrom" size="30" value="<?php echo $listCli->from_c?>" style="width: 200px"> 
+			            </td>
+		                <td style="text-align: right;" width="20%">
+			            <?php echo $this->translate->_("Para")?>: 
+			            </td>
+			            <td align="left">
+			            	<input type="text" name="para" size="30" value="<?php echo $listCli->to_c?>" style="width: 200px"> 
+			            </td>	
+		            </tr>
+		             <tr>
+			            <td align="left" >
+			            <?php echo $this->translate->_("Termos da entrega")?>: 
+			            </td>
+			            <td align="left" >
+			            	<input type="text" name="freight" value="<?php echo $listCli->freight?>" style="width: 200px"> 
+			            </td>					                
+			            <td style="text-align: right;" >
+			            <?php echo $this->translate->_("Aceita entrega parcial")?>: 
+			            </td>
+			            <td  align="left" >
+			                <div class="styled-select" style="width: 70px">
+			            	<select name="partial_shipment" style="width: 92px">
+			            		<option <?php if($listCli->partial_shipment== "YES") echo 'selected="selected"'?> value="YES"><?php echo $this->translate->_("SIM")?></option>
+			            		<option <?php if($listCli->partial_shipment== "NO") echo 'selected="selected"'?> value="NO"><?php echo $this->translate->_("NÃO")?></option>
+			            	</select>
+			            	</div>
+			            </td>
+		            </tr>					
+		            <tr>
+			            <td align="left">
+			            <?php echo $this->translate->_("Termos do pagamento")?>: 
+			            </td>
+			            <td  align="left">
+			            	<input type="text" name="payment"  value="<?php echo $listCli->payment?>" style="width: 250px">  
+			            </td>	
+			            <td style="text-align: right;" >
+			            <?php echo $this->translate->_("Data entrega")?>: 
+			            </td>
+			            <td  align="left" >
+			            	<input type="text" name="dataent" maxlength="10" class="datepicker" style="width: 70px" value="<?php echo $listCli->dt_entrega?>">
+			            </td>                
+		            </tr>
+		            <tr>
+			            <td align="left">
+			            <?php echo $this->translate->_("Agente de embarque")?>: 
+			            </td>
+			            <td colspan="3" align="left">
+			            	<input type="text" name="shipment_agent" value="<?php echo $listCli->agente_shipment?>" style="width: 350px"> 
+			            </td>
+		            </tr>
+	        	</table>
+			</div>			        				        	
+		</div>
+		
+		<div style="margin-top: 10px">
+			<input type="button" class="greenBtn" value="Gerar Pedido" onclick="gerarVenda();" >
+		</div>
+		
+		</form>
+	</div>
+	
+	
+	<script type="text/javascript">
+	
+		function selecionaCodigo(codigo){
+			document.getElementById('codigo').value=codigo;
+			document.getElementById('resultadobusca').style.display='none';
+			document.getElementById('qt').focus();
+		}
+	 
+		
+		function gerarVenda(){
+			document.prepedido.action = "<?php echo $this->baseUrl(); ?>/admin/kang/gerarpedidodevenda"; 
+			document.prepedido.submit();
+		}
+			
+	</script>
+		        	<?php /* 
+                    <td  class="td" align="left" colspan="5" >
+                    	Cod: <input style="text-transform: uppercase;" type="text" size="15" name="codigo" id="codigo" onclick="document.getElementById('resultadobusca').style.display='none';"  onkeydown="if(event.keyCode == '13'){ document.prepedido.qt.focus(); return false }; document.getElementById('resultado').innerHTML = ''; " >		                
+		            	Cod Cli: <input type="text" size="8" name="codigocli" id="codigocli" onfocus="document.getElementById('resultadobusca').style.display='none'; buscaprod(document.getElementById('codigo').value);" >
+		            	<input type="hidden" name="qtprod" id="qtprod" >
+		                QT: <input type="text" class="borda_input" size="5" name="qt" id="qt" onkeydown="if(event.keyCode == '13'){  return false };" onfocus="document.getElementById('resultadobusca').style.display='none';"  >
+		                Preço: <input type="text" size="5" name="preco" id="preco" onblur="enviaProduto();" onkeydown="Mascara(this,Kilo);" onkeypress="Mascara(this,Kilo);" onkeyup="Mascara(this,Kilo);" > 
+		                <div id="resultadobusca" >
+		                	
+		                </div>
+		             </td>
+		             <td  class="td" align="left" colspan="4" >
+		                <input type="hidden" name="arrId" id="arrId" value="<?=$arrId?>">
+		                <div id="resultado" style="color: #f00" ></div>
+		                		                
+		                <input type="hidden" name="promo" id="promo" >
+		            </td>		            		            
+		        
+		        */?>

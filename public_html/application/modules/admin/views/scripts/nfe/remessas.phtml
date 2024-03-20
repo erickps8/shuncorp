@@ -1,0 +1,121 @@
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl()?>/admin/compras/estoqueresumo">Estoque</a></li>         
+                	<li ><a href="<?=$this->baseUrl()?>/admin/nfe/nfe">NF-e</a></li>
+                	<li class="lastB">Remessas</li>
+                </ul>
+            </div>
+        </div>       
+
+        <div class="title"><h5>Remessas contábil</h5></div>
+
+        <div class="widgets" >
+        	<input type="button" class="basicBtn" value="Gerar nova Remessa" onclick="window.location='<?=$this->baseUrl(); ?>/admin/nfe/remessasger'" style="margin-top: 5px"></input>
+			
+        	<?php 
+			if ( count($this->objRemessas) > 0) :
+			?>
+	        <div class="widget">
+	 			<table style="width: 100%" class="tableStatic">
+	            	<thead>
+	                	<tr>
+	                        <td width="">Ord</td>
+	                        <td width="25%">Período</td>
+	                        <td width="15%">Data</td>
+	                        <td width="15%">Dentinatários</td>
+	                        <td width="">Situação</td>
+	                        <td width="10%">Opções</td>
+	                    </tr>
+	                </thead>
+                	<tbody>
+        
+	
+					<?php 
+					$cor=0;
+			    	foreach($this->objRemessas as $lista):
+			    	?>
+				
+						<tr >
+			                <td style="text-align: center;" >
+			                   <?=$lista->id?>
+			                </td>
+			                <td  style="text-align: center;" > 
+			                   <?=substr($lista->dt_inicial,8,2)."/".substr($lista->dt_inicial,5,2)."/".substr($lista->dt_inicial,0,4)?> à
+			                   <?=substr($lista->dt_final,8,2)."/".substr($lista->dt_final,5,2)."/".substr($lista->dt_final,0,4)?>                   
+			                </td>
+			                <td style="text-align: center;" >
+			                   <?=substr($lista->dt_geracao,8,2)."/".substr($lista->dt_geracao,5,2)."/".substr($lista->dt_geracao,0,4)?>                  
+			                </td>
+			                <td style="text-align: left;" >
+			                   <?php
+			                   $email = explode(";", $lista->email);
+			                   
+			                   for ($i=0;$i<count($email);$i++):
+				               		$emailenv = str_replace(";", "", $email[$i]);
+			                   		if(!empty($emailenv)):
+				                   		echo $emailenv."<br />";
+			                   		endif;
+			                   endfor;
+			                   
+			                   ?>
+			                </td>
+			                <td style="text-align: center;" >
+			                   <?php if($lista->sit == 0): ?>GERADO
+			                   <?php elseif($lista->sit == 1): ?>ENVIADO
+			                   <?php elseif($lista->sit == 2): ?>CANCELADO
+			                   <?php endif;?>
+			                </td>
+			                <td style="text-align: center;" >
+			                	<a href="<?=$this->baseUrl(); ?>/admin/nfe/remessasvis/remessa/<?=md5($lista->id)?>"><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" border="0" title="Visualizar"></a>              	
+			                </td>                
+			            </tr>
+	            	<?php  endforeach; ?>
+	            	</tbody>        
+				</table>
+			</div>	
+			<div style="margin-top: 20px">
+				<?php 
+	            if ( count($this->objRemessas) > 0) :
+	            	echo $this->objRemessas;
+	            endif;
+	            ?>
+	        </div>
+			 <?php 
+			else :
+			?>
+			<div style="text-align: center; margin-top: 50px; border: 1px solid #d5d5d5; padding: 20px">
+				Nenhuma NFe cadastrada
+			</div>
+			<?php 
+			endif;
+		?>		
+		</div>
+	</div>
+
+
+<script>
+function mostrarPesquisa(){
+	
+    nTr = document.getElementById("tabela");
+    if(nTr.style.display == "none"){
+        nTr.style.display = "block";
+    }else{
+        nTr.style.display = "none";
+    }
+}
+
+<?php 
+if($this->objMail == "sucesso"):
+?>
+jAlert('Email enviado com sucesso!','Sucesso');
+<?php 
+endif;
+?>
+
+</script>

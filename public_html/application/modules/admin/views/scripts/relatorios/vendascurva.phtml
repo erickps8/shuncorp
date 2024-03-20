@@ -1,0 +1,142 @@
+<script src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/cadastroSubgrupo.js" type="text/javascript"></script>
+<script src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/buscaGenerica.js" type="text/javascript"></script>
+
+	<!-- Content -->
+    <div class="content">   
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li class=""><a href="<?php echo $this->baseUrl(); ?>/admin/relatorios">Relatórios</a></li>
+                	<li class="lastB">Curva de venda</li>         
+                </ul>
+            </div>
+        </div>       
+
+        <div class="title"><h5>Curva de produtos</h5></div>
+        
+		<div class="widgets" >
+        	<!-- Busca -->
+        	<div class="" style="margin-top: 5px; margin-bottom: 5px; " >            
+	            <form method="post" name="busca" id="busca" class="mainForm" >
+	            	<table style="border: 1px solid #d5d5d5; width: 100%">
+	            	<tr>
+					    <td style="padding: 10px 0px 0px 10px; vertical-align: middle;" >
+					    	<input type="radio" name="tpdata" value="1" <?php if($this->objParams['tpdata'] != 2) echo 'checked="checked"'?> onclick="$('#televendas').css({display:'none'}); $('#representantes').css({display:'block'});" ><label>Rep</label>
+						    <input type="radio" name="tpdata" value="2" <?php if($this->objParams['tpdata'] == 2) echo 'checked="checked"'?> onclick="$('#representantes').css({display:'none'}); $('#televendas').css({display:'block'});"><label>Televendas</label>					    		
+					    </td>
+					    <td colspan="2">
+					    	<input type="checkbox" name="pend" <?php if(isset($this->objParams['pend']) and $this->objParams['pend'] == on) echo 'checked="checked"'?>><label>Incluir pendências</label>
+					    </td>
+					</tr>
+	            	<tr>
+				    	<td align="left" width="340" style="padding: 0px 0px 0px 10px">
+				    		<div id="representantes" <?php if($this->objParams['tpdata'] == 2) echo 'style="display: none"'?>>
+			            		Regiões:<br />
+				    			<div class="styled-select" style="width: 300px">
+					    			<select name="representante" id="representante" style="width: 322px">
+					    			<option value="0">Selecione</option>
+					    			<?php foreach ($this->objRegioes as $listR){ ?>
+										<option <?php if($this->objParams['representante'] == $listR->idreg) echo 'selected="selected"'?>  value='<?php echo $listR->idreg?>'><?php echo ($listR->NOME." - ".$listR->EMPRESA)?></option>
+									<?php } ?>    				
+					    			</select>
+					    		</div>
+				    		</div>
+				    		<div id="televendas" <?php if($this->objParams['tpdata'] != 2) echo 'style="display: none"'?>>
+				    			Teleregiões:<br />
+				    			<div class="styled-select" style="width: 300px">
+					    			<select name="televenda" id="televenda" style="width: 322px">
+						    			<option value='0'>Selecione</option>
+									  	<?php foreach ($this->objRegtelvend as $listT){ ?>
+											<option <?php if($this->objParams['representante'] == $listT->idreg) echo 'selected="selected"'?> value='<?php echo $listT->idreg?>'><?php echo ($listT->regiao." - ".$listT->usuario)?></option>
+										<?php } ?>
+									</select>
+					    		</div>
+				    		</div>
+			    		</td>
+			    		<td align="left" width="70" style="padding: 5px">
+					    	Dt ini:<br>
+					    	<input type="text" size="8" name="dataini" id="dataini" class="data datepicker" style="width: 70px" value="<?php if(isset($this->objParams['dataini'])) echo $this->objParams['dataini']?>">
+						</td>
+						<td align="left" >
+							Dt fim:<br>
+							<input type="text" size="8" name="datafim" id="datafim" class="data datepicker" style="width: 70px" value="<?php if(isset($this->objParams['datafim'])) echo $this->objParams['datafim']?>">
+						</td>
+			    	</tr>
+				    <tr>
+				    	<td align="left" width="200" style="padding: 0px 0px 10px 10px">
+							Grupos de Venda:<br>
+							<div class="styled-select" style="width: 180px">
+							<select name="grupovenda" id="grupovenda" onchange="Mostrasubgrupos(this.value,3);" style="width: 202px; text-transform: uppercase;">
+								<option value="0">SELECIONE</option>
+								<?php foreach ($this->objGrupov as $listG): ?>
+								<option <?php if($this->objParams['grupovenda'] == $listG->id) echo 'selected="selected"'?> value="<?php echo $listG->id?>" ><?php echo $listG->descricao?></option>
+								<?php endforeach;?>					
+							</select>								
+							</div>	
+						</td>
+						<td align="left" colspan="2">
+							<div id="subgrupo" align="left">
+							<?php if(!empty($this->objParams['buscagruposub'])){ ?>
+								Subgrupo: <br>
+								<div class="styled-select" style="width: 220px">
+								<select name="buscagruposub" id="buscagruposub" style="width: 242px">
+									<option value="0">SELECIONE</option>
+									<?php foreach ($this->objGrupsub as $list): ?>
+										<option <?php if($this->objParams['buscagruposub'] == $list->id) echo 'selected="selected"'?> value="<?php echo $list->id?>"><?php echo $list->descricao?></option>
+									<?php endforeach; ?>
+								</select>	
+								</div>
+								<?php } ?>
+							</div>
+						</td>	
+						<td style="text-align: right; padding-right: 20px"><br />
+				    		<input type="submit"  value="<?=$this->translate->_("Gerar relatório")?>" class="blueBtn" >				
+				    	</td>	
+					</tr>		
+					    		
+					</table> 
+				</form>
+			</div>
+			
+			<div id="resultado" style="display: none">
+				<img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/loaders/loader6.gif" alt="Carregando"> <i>Aguarde, gerando relatório...</i>
+			</div>
+			
+		</div>
+		
+		
+   </div>
+   
+   <script>
+   <?php if($this->submitPost){ ?>
+	$(document).ready(function() {
+	
+		$('#resultado').html('<img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/loaders/loader6.gif" alt="Carregando"> <i>Aguarde, gerando relatório...</i>');
+		$('#resultado').css({display:'block'});
+
+		var variaveis = '/tpdata/<?php echo $this->objParams['tpdata']?>'+
+		'/pend/<?php echo $this->objParams['pend']?>'+
+		'/representante/<?php echo $this->objParams['representante']?>'+
+		'/televenda/<?php echo $this->objParams['televenda']?>'+
+		'/dataini/<?php echo str_replace("/", "-", $this->objParams['dataini'])?>'+
+		'/datafim/<?php echo str_replace("/", "-", $this->objParams['datafim'])?>'+
+		'/grupovenda/<?php echo $this->objParams['grupovenda']?>'+
+		'/buscagruposub/<?php echo $this->objParams['buscagruposub']?>';
+		
+		buscaGenerica('<?php echo $this->baseUrl()?>/admin/relatorios/buscavendascurva'+variaveis,'resultado');
+	});
+	<?php } ?>
+
+	function selecionaTodos(){
+		if($("#trocar").is(":checked")){
+			$(".check").attr("checked",true);
+		}else{
+			$(".check").attr("checked",false);
+		}
+	}
+
+	
+	   
+   </script>

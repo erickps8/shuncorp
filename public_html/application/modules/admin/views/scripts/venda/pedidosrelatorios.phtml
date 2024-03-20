@@ -1,0 +1,175 @@
+<!-- Calendarios -->
+<link type="text/css" rel="stylesheet" href="<?=$this->baseUrl()?>/public/javascript/calendario/dhtmlgoodies_calendar.css?random=20051112" media="screen"></LINK>
+<SCRIPT type="text/javascript" src="<?=$this->baseUrl()?>/public/javascript/calendario/dhtmlgoodies_calendar.js?random=20060118"></script>
+
+<table width="100%" cellpadding="0" cellspacing="0" >
+	<tr>
+		<td align="left">  
+			<table width="100%" style="margin-bottom: 4px" cellpadding="0" cellspacing="0" >
+				<tr>
+					<td align="left">
+						<a href="<?php echo $this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+						<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+						<a href="<?php echo $this->baseUrl(); ?>/admin/venda/pedidos">PEDIDOS</a>&nbsp; 
+						<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+						<b><a href="<?php echo $this->baseUrl(); ?>/admin/venda/pedidosrelatorios">RELATÓRIOS</a></b>
+					</td>					
+				</tr>
+			</table>
+    	</td>					
+	</tr>
+	<tr>
+		<td align="left">  
+			<table width="100%" class="borda_titulo">
+				<tr>
+					<td width="left">RELATÓRIO DE VENDAS</td>
+				</tr>
+			</table>
+		</td>					
+	</tr>
+	<tr>
+		<td align="left">
+		<form action="" method="post" name="busca" id="busca">
+		<table  width="100%" border="0" style="margin-top: 8px; display: block; border: 1px solid #000; padding: 4px;" id="tabela">
+			<tr>
+		    	<td valign="top">										 
+					<table width="150px" border="0" cellpadding="0" cellspacing="0">
+			    		<tr>
+				    		<td>
+								<?=$this->translate->_("Dt inicio")?>:<br>
+								<input type="text" style="margin-right: 3px" size="8" name="dataini" id="dataini" maxlength="10" onKeyDown="Mascara(this,Data);" onKeyPress="Mascara(this,Data);" onKeyUp="Mascara(this,Data);" onclick="displayCalendar(this,'dd/mm/yyyy',this)">
+							</td>
+							<td>
+								<?=$this->translate->_("Dt fim")?>:<br>
+								<input type="text" style="margin-right: 3px" size="8" name="datafim" id="datafim" maxlength="10" onKeyDown="Mascara(this,Data);" onKeyPress="Mascara(this,Data);" onKeyUp="Mascara(this,Data);" onclick="displayCalendar(this,'dd/mm/yyyy',this)">
+							</td>
+							<td valign="bottom">
+								<input type="submit" value="<?=$this->translate->_("Pesquisar")?>">
+							</td>
+						</tr>
+					</table>										
+		    	</td>
+			</tr>
+		</table>  
+		</form>
+		</td>					
+	</tr>
+	<tr>
+		<td align="left">
+		<?php 
+		if(!empty($this->objRelatorio)):
+			foreach ($this->objRelatorio as $relatorio);
+		endif;
+		
+		if(!empty($this->objPendencias)):
+			foreach ($this->objPendencias as $pendencias);
+		endif;
+				
+		?>
+			<table width="100%" style="border: 1px solid #333; margin-top: 8px; " cellpadding="0" cellspacing="0">
+	    		<tr>
+		    		<td >
+						<table  width="100%" border="0" style="font-size: 14px" cellspacing="3" cellpadding="3">
+							<tr>
+					    		<td style="background-color: #ccc" colspan="2">
+					    			<?php 
+					    			if(!empty($this->dataIni) and !empty($this->dataFim)):
+					    				echo $this->dataIni." à ".$this->dataFim; 
+					    			elseif(!empty($this->dataIni)):
+					    				echo "A partir de ".$this->dataIni;
+					    			elseif(!empty($this->dataFim)):
+					    				echo "Antes de ".$this->dataFim;
+					    			else:
+					    				echo "Hoje";
+					    			endif;
+					    			?>
+					    		</td>
+					    			    		
+					    	</tr>
+							<tr>
+						    	<td align="left" width="20%">	
+						    	Valor Pedido: 
+						    	</td>
+						    	<td align="left" style="color: #000">	
+						    	<b><?=number_format($pendencias->precopend+$relatorio->precototal,2,",",".")?></b>
+						    	</td>
+						    </tr>
+						    <tr>
+						    	<td align="left">	
+						    	Valor Faturado: 
+						    	</td>
+						    	<td align="left" style="color: #000">	
+						    	<b><?=number_format($relatorio->precototal,2,",",".")?></b>
+						    	</td>
+						    </tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+		    		<td >
+		    			<?php 
+		    			if($this->objVer!=1):
+		    			?>
+						<table  width="100%" border="0"  cellspacing="3" cellpadding="3">
+							<tr>
+					    		<td style="background-color: #ccc">
+					    			Ontem:
+					    		</td>
+					    		<td style="background-color: #ccc">
+					    			Esse mês:
+					    		</td>
+					    		<td style="background-color: #ccc">
+					    			Mês passado:
+					    		</td>
+					    	</tr>
+					    	<tr>
+					    		<td>
+					    			<?php 
+					    			if(!empty($this->objPendent)):
+					    				foreach ($this->objPendent  as $pedontem);
+					    			endif;
+					    		
+					    			if(!empty($this->objRelant)):
+					    				foreach ($this->objRelant  as $fatontem);
+					    			endif;
+					    			?>
+					    		
+					    			Pedido: <b><span style="color: #000"><?=number_format($pedontem->precopend+$fatontem->precototal,2,",",".")?></span></b><br>
+					    			Faturado: <b><span style="color: #000"><?=number_format($fatontem->precototal,2,",",".")?></span></b>		    			
+					    			
+					    		</td>
+					    		<td>
+					    			<?php 
+					    			if(!empty($this->objPendmes)):
+					    				foreach ($this->objPendmes  as $pedmes);
+					    			endif;
+					    			if(!empty($this->objRelmes)):
+					    				foreach ($this->objRelmes  as $fatmes);
+					    			endif;
+					    			?>
+					    		
+					    			Pedido: <b><span style="color: #000"><?=number_format($pedmes->precopend+$fatmes->precototal,2,",",".")?></span></b><br>
+					    			Faturado: <b><span style="color: #000"><?=number_format($fatmes->precototal,2,",",".")?></span></b>		
+					    		</td>
+					    		<td>
+					    			<?php 
+					    			if(!empty($this->objPendmespas)):
+					    				foreach ($this->objPendmespas  as $pedmespas);
+					    			endif;
+					    			if(!empty($this->objRelmespas)):
+					    				foreach ($this->objRelmespas  as $fatmespas);
+					    			endif;
+					    			?>
+					    		
+					    			Pedido: <b><span style="color: #000"><?=number_format($pedmespas->precopend+$fatmespas->precototal,2,",",".")?></span></b><br>
+					    			Faturado: <b><span style="color: #000"><?=number_format($fatmespas->precototal,2,",",".")?></span></b>		
+					    		</td>
+					    	</tr>
+					    </table>
+					    <?php endif; ?>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>

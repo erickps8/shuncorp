@@ -1,0 +1,366 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>ZTL Brasil - www.ztlbrasil.com.br </title>
+	<link href="<?=$this->baseUrl()?>/public/sistema/imagens/ztl.ico" rel="shortcut icon" type="image/x-ico"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="rolamentos, cubo de roda, rolamento, embreagem, embreagens, ponta de eixo, pontas de eixo, bomba dagua, bombas dagua, roda, scania, homocinetica, homocineticas, transmissoes" />
+	
+	<link href="<?=$this->baseUrl()?>/public/css/estiloimpressao.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body onload="window.print()">
+
+<!--  
+
+-->
+<div id="siscorpo">
+	<div id="sistopo">
+	<?php if($this->objPesq == 0): ?>
+	LISTAR POR EMPRESA
+	<?php else: ?>
+	LISTAR POR CONTATO
+	<?php endif; ?>
+		<div style="float: right;"><?php echo date('d/m/Y')?></div>
+	</div>
+	<div id="sisconteudo">    	        
+           	<?php
+           	if($this->objPesq == 0):
+				if(count($this->objEmp) > 0) :			
+				?>
+				<table align="left" class="mytable" id="listcontatos"  width="100%" cellspacing="0">
+			         <tr>
+			            <th  class="th_canto_orc" style="text-align: center;" width="15%">
+			                ID
+			            </th>
+			            <th  class="th_orc" width="50%" style="text-align: center;">
+			                Nome
+			            </th>
+			            <th  class="th_orc" style="text-align: center;" width="">
+			                Tipo
+			            </th>
+			            <th  class="th_orc" style="text-align: center;" width="">
+			                Estado
+			            </th>
+			        </tr>
+			       
+				<?php 
+				$class = 'td_orc_par';
+				$cor=0;
+				foreach($this->objEmp as $lista):
+					$cor++;
+			    	if($class=='td_orc') $class = 'td_orc_par';
+		            else $class = 'td_orc';
+		            ?>
+					<tr >
+		                <td  class="<?=$class?>" style="text-align: center; background-color: #ccc; font-size: 12px" >
+		                   M<?=$lista->idmatriz?>
+		                </td>
+		                <td  class="<?=$class?>" style="background-color: #ccc; font-size: 12px">
+		                   <span style=" text-transform: uppercase;"> <?=($lista->empmatriz)?></span>
+		                </td>
+		                <td  class="<?=$class?>" style="text-align: center; background-color: #ccc; font-size: 12px" >
+		                   <?php echo $lista->tipo_par?>
+		                </td>
+		                <td  class="<?=$class?>" style="text-align: center; background-color: #ccc; font-size: 12px" >
+		                   <?php echo $lista->ufmatriz?>
+		                </td>
+		            </tr>  
+		            <tr >
+				    	<td  class="<?=$class?>" style="text-align: center;" colspan="5" >
+				    	<?php 
+				    	//--- Lista contatos --------------------------------------
+						if(!empty($this->objCom)):
+							?>
+							<table class="mytable" width="90%" style="margin-top: 3px; text-align: center; margin: 0 auto;" cellpadding="0" cellspacing="0" >
+							<?php 													
+							foreach ($this->objCom as $listcom):
+								if($listcom->ID_EMP == $lista->idmatriz):
+									?>
+									<tr >
+						                <td style="padding: 0; padding-left: 3px; text-align: center; width: 15%; font-size: 10px" class="<?=$class?>"  >
+						                   C<?=$listcom->idcontato?>
+						                </td>
+						                <td  style="padding: 0; padding-left: 3px; text-transform: uppercase; width: 45%; font-size: 10px" class="<?=$class?>" align="left" >
+						                   <?=($listcom->contato)?>
+						                </td>
+						                 <td  style="padding: 0; padding-left: 3px; text-align: center; font-size: 10px" class="<?=$class?>" align="left" >
+						                	<?=$listcom->interesse?>
+						                </td>
+						            </tr>
+						            <?php
+								endif;
+							endforeach;
+							?>
+							</table>
+							<?php 
+						endif;	
+				    	
+						//--- Lista filiais --------------------------------------
+						if(!empty($this->objFil)):
+							?>
+							<table class="mytable" style="width:90%; text-align: center; margin: 0 auto; margin-top: 3px; " cellpadding="0" cellspacing="0" >
+							<?php 
+							$corf = 0;
+							
+							foreach ($this->objFil as $listfil):
+								
+								if($listfil->id_matriz == $lista->idmatriz):
+								$corf++;
+									?>
+									<tr >
+						                <td style="padding: 0; padding-left: 3px; text-align: center; background-color: #dedede; font-size: 12px" class="<?=$class?>">
+						                   F<?=$listfil->id?>
+						                </td>
+						                <td  style="padding: 0; padding-left: 3px; text-transform: uppercase; background-color: #dedede; font-size: 12px" class="<?=$class?>" align="left" >
+						                   <?=($listfil->empresa)?>
+						                </td>
+						                <td  style="padding: 0; text-align: center;  background-color: #dedede; font-size: 12px" class="<?=$class?>"  >
+						                   <?php echo $listfil->uf?>
+						                </td>
+						            </tr>
+						            <?php 
+									//--- Lista contatos filial --------------------------------------
+									if(!empty($this->objCof)):
+									?>
+								    <tr >
+						            	<td  class="<?=$class?>" style="text-align: center;" colspan="4" >
+								    		<table class="mytable" width="90%" style="margin: 0 auto; margin-top: 3px;"  cellpadding="0" cellspacing="0" >
+											<?php 																
+											foreach ($this->objCof as $listcof):
+												if($listcof->ID_EMP == $listfil->id):
+													?>
+													<tr >
+										                <td style="padding: 0; padding-left: 3px; text-align: center; width: 15%; font-size: 10px" class="<?=$class?>" >
+										                   C<?=$listcof->idcontato?>
+										                </td>
+										                <td  style="padding: 0; padding-left: 3px;  width: 45%; font-size: 10px; text-transform: uppercase;" class="<?=$class?>" align="left" >
+										                   <?=($listcof->contato)?>
+										                </td>
+										                 <td  style="padding: 0; padding-left: 3px; text-align: center; font-size: 10px" class="<?=$class?>">
+										                	<?=$listcof->interesse?>
+										                </td>           
+										            </tr>
+										            <?php
+												endif;
+											endforeach;
+											?>
+											</table>											
+										</td>
+							        </tr>
+							        <?php 	
+							        endif;
+								endif;
+							endforeach;							
+							?></table><?php 
+						endif;			    	
+				    	?>
+		            	</td>
+					</tr>
+					<?php 			
+				endforeach;
+				?>        
+			</table>
+			<script type="text/javascript">
+			
+			function mostrarFiliais(id,idlinha){
+	
+				for (i=0; i<<?=$cor?>; i++){
+					if(document.getElementById("linhager_"+i)!=null){
+						document.getElementById("linhager_"+i).style.display = "none";
+					}
+	
+					if(document.getElementById("linhagerfil_"+i)!=null){
+						document.getElementById("linhagerfil_"+i).style.display = "none";
+					}				
+			    }
+				
+				document.getElementById(idlinha).style.display = "table-row";	
+				nTr = document.getElementById(id);
+			    if(nTr!=null){
+				    if(nTr.style.display == "none"){
+				        nTr.style.display = "table";
+				    }else{
+				        nTr.style.display = "none";
+				    }
+			    }					
+			}
+	
+			function mostrarContatos(id,idlinha){
+				document.getElementById(idlinha).style.display = "table-row";	
+				nTr = document.getElementById(id);
+			    if(nTr!=null){
+				    if(nTr.style.display == "none"){
+				        nTr.style.display = "table";
+				    }else{
+				        nTr.style.display = "none";
+				    }
+			    }					
+			}
+			
+			function mostrarContfiliais(idlinha){
+				nTr = document.getElementById(idlinha)	
+				if(nTr!=null){
+				    if(nTr.style.display == "none"){
+				        nTr.style.display = "table-row";
+				    }else{
+				        nTr.style.display = "none";
+				    }
+			    }			
+			}
+				
+			</script>
+			
+	        <?php 
+			else :
+				?>
+				<div style="text-align: center; margin-top: 30px">Nenhuma Empresa encontrado</div>			
+				<?php 
+			endif;
+			
+		else:
+			if(count($this->objEmp) > 0) :
+			?>
+				<table class="mytable" id="listcontatos"  width="100%" cellspacing="0" style="font-size: 12px">
+			         <tr>
+			            <th  class="th_canto_orc" style="text-align: center;" width="10%">
+			                ID
+			            </th>
+			            <th  class="th_orc"  style="text-align: center;">
+			                Contato
+			            </th>			            
+			        </tr>
+			       
+				<?php 
+				$class = 'td_orc_par';
+				$cor=0;
+				foreach($this->objEmp as $lista):
+					$cor++;
+			    	if($class=='td_orc') $class = 'td_orc_par';
+		            else $class = 'td_orc';
+		            ?>
+					<tr >
+		                <td  class="<?=$class?>" style="text-align: center;" >
+		                   C<?=$lista->idcontato?>
+		                </td>
+		                <td  class="<?=$class?>" align="left" >
+		                	<table cellpadding="0" cellspacing="0" style="width: 100%">
+		                		<tr>
+		                			<td style="width: 60%">
+		                				Nome: <b><?=($lista->ncontato)?></b>		
+		                			</td>
+		                			<td>
+		                				Grupo: <b><?=($lista->ngrupointeresse)?></b>	
+		                			</td>
+		                			
+		                		</tr>
+		                		<tr>
+		                			<td colspan="2">
+		                				Empresa: <b><?php if($lista->idmatriz != NULL) echo "M".$lista->idmatriz." - ".$lista->empmatriz; else echo "F".$lista->idfilial." - ".$lista->empfilial; ?></b>			
+		                			</td>
+		                			
+		                		</tr>
+		                		<tr>
+		                			<td colspan="2">
+		                				<?php 
+		                				if($lista->ID_END==1):
+											if($lista->TIPO == 0):
+												$endereco = 'Logradouro: <b>'.$lista->mend.'</b> &nbsp; &nbsp; Bairro: <b>'.$lista->mbairro.'</b> &nbsp; &nbsp; Cep: <b>'.$lista->mcep.'</b><br />
+		                						Cidade: <b>'.$lista->mcidade.' - '.$lista->muf.'</b>';
+											else: 
+												$endereco = 'Logradouro: <b>'.$lista->fend.'</b> &nbsp; &nbsp; Bairro: <b>'.$lista->fbairro.'</b> &nbsp; &nbsp; Cep: <b>'.$lista->fcep.'</b><br />
+		                						Cidade: <b>'.$lista->fcidade.'</b> - '.$lista->fuf.'</b>';
+											
+											endif;
+		                				else:
+		                					$endereco = 'Logradouro: <b>'.$lista->cend.'</b> &nbsp; &nbsp; Bairro: <b>'.$lista->cbairro.'</b> &nbsp; &nbsp; Cep: <b>'.$lista->ccep.'</b><br />
+		                						Cidade: <b>'.$lista->ncidade.' - '.$lista->nuf.'</b>';
+			                				
+		                				endif;
+		                				
+		                				?>
+		                				<?=($endereco)?>		
+		                			</td>
+		                			
+		                		</tr>
+		                		
+		                	</table>
+		                </td>
+		                
+		            </tr> 
+		            <?php 
+		       endforeach;
+		     ?></table>
+		     
+		     <?php 
+		     else :
+		     ?>
+          	 <div style="text-align: center; margin-top: 30px">Nenhum contato encontrado</div>			
+          	 <?php 
+          	 endif;		 
+			/*
+          	 
+			else:
+					
+			if(count($this->objEmp) > 0) :
+				?>
+				<table class="mytable" id="listcontatos"  width="100%" cellspacing="0">
+			         <tr>
+			            <th  class="th_canto_orc" style="text-align: center;" width="10%">
+			                ID
+			            </th>
+			            <th  class="th_orc" width="30%" style="text-align: center;">
+			                Nome
+			            </th>
+			            <th  class="th_orc" style="text-align: center;" width="">
+			                Empresa
+			            </th>
+			            <th  class="th_orc" style="text-align: center;" width="">
+			                Estado
+			            </th>
+			            
+			        </tr>
+			       
+				<?php 
+				$class = 'td_orc_par';
+				$cor=0;
+				foreach($this->objEmp as $lista):
+					$cor++;
+			    	if($class=='td_orc') $class = 'td_orc_par';
+		            else $class = 'td_orc';
+		            ?>
+					<tr >
+		                <td  class="<?=$class?>" style="text-align: center;" >
+		                   C<?=$lista->ID?>
+		                </td>
+		                <td  class="<?=$class?>" align="left" >
+		                   <?=($lista->NOME)?>                 
+		                </td>
+		                <td  class="<?=$class?>" style="text-align: left;" >
+		                	<?php if($lista->idmatriz != NULL) echo "M".$lista->idmatriz." - ".$lista->empmatriz; else echo "F".$lista->idfilial." - ".$lista->empfilial; ?>
+		                </td>
+		                <td  class="<?=$class?>" style="text-align: center;" >
+		                   <?php echo $lista->UF?>
+		                </td>
+		            </tr> 
+		            <?php 
+		       endforeach;
+		     ?></table>
+		     
+		     <?php 
+		     else :
+		     ?>
+          	 <div style="text-align: center; margin-top: 30px">Nenhum contato encontrado</div>			
+          	 <?php
+          	 
+          	 endif; 
+          	 */		     
+		endif;
+		?>
+    	
+    	
+	</div>
+</div> 
+ 
+</body>
+</html>

@@ -1,0 +1,811 @@
+<!-- Calendarios -->
+<link type="text/css" rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.css?random=20051112" media="screen"></LINK>
+<SCRIPT type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.js?random=20060118"></script>
+
+<script src="<?=$this->baseUrl()?>/public/javascript/janelamodal.js"></script>
+<script src="<?=$this->baseUrl()?>/public/javascript/buscaajax/buscaajaxvendaprod.js"></script>
+<script src="<?=$this->baseUrl()?>/public/javascript/nfe/nfevenda.js"></script>
+<script src="<?=$this->baseUrl()?>/public/javascript/jquery-1.4.min.js" type="text/javascript"></script>
+
+<link type="text/css" rel="stylesheet" href="<?=$this->baseUrl()?>/public/css/modalestilo.css" ></link>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	document.prepedido.codigo.focus();
+});	
+</script>
+
+<style>
+#divbarra{
+	border:1px solid #DFDFDF;
+	text-align:left;	
+}
+
+#barraprogresso{
+	width:1px; 
+	background: -moz-linear-gradient(top, #00bfbf, #007d7d);
+	background: -webkit-gradient(linear, left top, left bottom, from(#00bfbf), to(#007d7d)) repeat-X;
+	background-color: #00bfbf;
+	height:20px;
+}
+</style>
+
+<?php 
+	$valida = "";
+	foreach ($this->objEnd as $listEnd);
+	if(empty($listEnd->npais)||empty($listEnd->nuf)||empty($listEnd->ncidade)||empty($listEnd->numero)||empty($listEnd->CEP)):
+		$valida = "- Endereço do cliente incompleto;<br />";
+	elseif(empty($listEnd->codcidade)):
+		$valida = "- Cidade do cliente sem código;<br />";
+	endif;	
+	
+	foreach ($this->objPed as $listPed);
+	if(!empty($this->objTrib)):
+		foreach ($this->objTrib as $listTri);
+	endif;
+	foreach ($this->objEmail as $listEmail);
+?>
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl()?>/admin/painel">HOME</a>&nbsp; 
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/venda/pedidos/fil/comp">PEDIDOS</a>&nbsp;
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/venda/pedidosedit/ped/<?=md5($listPed->id)?>"><b>PEDIDO <?=($listPed->id)?></b></a>
+	</div>
+	<div id="sistitulo">INFORMAÇÕES DO CLIENTE</div>
+	<div id="sisconteudo">
+		<form name="prepedido" id="prepedido" action="<?=$this->baseUrl()?>/admin/venda/pedidosent" method="post">
+		<div> 
+		<table class="borda" style="width: 100%; border-spacing: 7px ">
+            <tr>
+                <td width="12%">Cliente:</td>
+                <td colspan="3"><b><?=$listPed->nempresa?></b></td>                
+            </tr>
+            <tr>
+                <td>Raz&atilde;o Social:</td>
+                <td><b><?=$listPed->nrazao_social?></b></td>
+                <td>Perfil Fiscal:</td>
+                <td><b><?=$listTri->descperfil?></b></td>
+            </tr>
+            <tr>
+                <td>CPF/CNPJ:</td>
+                <td width="35%"><b><?=$listPed->ncpf_cnpj?></b></td>
+                <td width="12%">RG/INSC:</td>
+                <td ><b><?=$listPed->nrg_insc?></b></td>
+            </tr>
+            <tr>
+                <td>Cidade:</td>
+                <td><b><?=$listEnd->ncidade?></b></td>
+                <td>Estado:</td>
+                <td ><b><?=$listEnd->nestado?></b></td>
+            </tr>
+            <tr>
+            	<td>Pais:</td>
+                <td ><b><?=$listEnd->npais?></b></td>
+                <td>Transportadora:</td>
+                <td ><b>
+                <? 
+                if(!empty($listPed->idtrans)): 
+                	echo $listPed->transportadora;
+                else:
+                	$valida .= "- Cadastre uma transportadora para o cliente;<br />";
+                endif;
+                
+                ?>
+                </b></td>
+            </tr>
+            <tr>
+            	<td style="vertical-align: top;">Nat Op:</td>
+                <td colspan="3"><b><?=$listTri->cfop." - ".substr($listTri->desccfop,0,60)?></b></td>                
+            </tr>
+            <tr>
+                <td>Email NFe:</td>
+                <td><input type="text" name="email" value="<?=$listEmail->EMAIL?>" size="25" onblur="validaDados()" > 
+                <?php if($listEmail->EMAIL=="") $valida .= "- O Email da NFe não pode ficar em branco;<br />";?>
+                </td>
+                <td>Contato NFe:</td>
+                <td><input type="text" name="contatoemail" value="<?=$listEmail->NOME_CONTATO?>" size="25"> </td>
+            </tr>
+        </table>
+        </div>
+        <div >
+     		<p style="text-align: center;"><font style="font-weight:bold; font-size:14px;">PEDIDO <?=($listPed->id)?></font></p>
+		    
+		    <input type="hidden" name="ped" value="<?=$listPed->idped?>">
+		    <input type="hidden" name="pedcli" value="<?=$listPed->id_parceiro;?>">
+		    
+		    <table class="mytable" >
+		        <tr>
+		        	<th  class="th_canto" style="text-align: center;" width="4%">
+		                ID
+		            </th>
+		            <th  class="th_pedido" style="text-align: center;" width="15%">
+		                Codigo
+		            </th>
+		            <th  class="th_pedido" style="text-align: center;" width="10%">
+		                NCM
+		            </th>
+		            <th  class="th_pedido" style="text-align: center;" width="5%">
+		                QT
+		            </th>
+		            <th  class="th_pedido" style="text-align: center;" width="5%">
+		                Pre&ccedil;o Tabela
+		            </th>
+		            <th  class="th_pedido" style="text-align: center;" width="5%">
+		                Pre&ccedil;o NF
+		            </th>
+		            <th  class="th_pedido" style="text-align: center;" width="10%">
+		                Pre&ccedil;o Total
+		            </th>
+		            <th  class="th_pedido" style="text-align: center;" width="">
+		                ICMS
+		            </th>
+		            <th  class="th_pedido" style="text-align: center;" width="">
+		                IPI
+		            </th>
+		            <th  class="th_pedido" style="text-align: center;" width="">
+		                AL ICMS
+		            </th>
+		            <th  class="th_pedido" style="text-align: center;" width="">
+		                AL IPI
+		            </th>
+		            <th  class="th_canto" style="text-align: center;" width="">
+		                &nbsp;
+		            </th>		            
+		        </tr>
+		        <?php 
+		       		        
+		        $cor=0;
+		        $total_pedido = $ipi = 0;
+		        $total_pedido_liquido = 0;
+		        $v_estoque = 0;
+		        foreach ($this->objList as $listaProd):
+		        	$arrId .=  $listaProd->ID.";";
+		        	$cor++;
+		            if(($cor%2)==0) $class = 'td_orc_par';
+		            else $class = 'td_orc';
+		            
+		            //--- Descontos -------------------------
+		            
+		            $desconto 	= (($listaProd->qt*$listaProd->preco_unit)*$listPed->descontoperc)/100;
+		            $vldesc 	= ($listaProd->qt*$listaProd->preco_unit)-$desconto;
+		            $total_desc	+= $desconto;
+		            
+			        ?>
+			        <tr >
+			        	<td  class="<?=$class?>" style="text-align: center;" >
+		                    <?=$cor?>
+		                </td>
+		                <td  class="<?=$class?>" style="text-align: center;" >
+		                    <a href="javascript:void(0);" class="dcontexto" >
+		                		<?=$listaProd->CODIGO?>
+		                    	<span style="width: 300px"><?=($listaProd->DESCRICAO)?></span>		                    
+		                	</a>
+		                </td>
+		                <td  class="<?=$class?>" style="text-align: center; color: #ff0" >
+		                	<?php 
+		                	$fontlink = "";
+		                	if(empty($listaProd->id_tributocsticms)||empty($listaProd->id_tributocstcofins)||empty($listaProd->id_tributocstpis)||empty($listaProd->id_tributocstipi)):
+		                		$fontlink = 'style="color: #f00"';
+		                		$valida .= "- O Produto ".$listaProd->CODIGO." está com o NCM incompleto;<br />";
+		                	endif;
+		                	
+		                	?>
+		                	<a href="javascript:void(0)"  class="dcontexto" <?=$fontlink?> >
+		                	    <?=$listaProd->ncm?>
+			                    <span style="width: 250px">
+				                    <table style="width: 100%">
+				                    	<tr>
+				                    		<td width="40%">
+						                    CST ICMS<br />
+						                    CST IPI<br />
+						                    CST PIS<br />
+						                    CST COFINS
+				                    		</td>
+				                    		<td width="15%" style="text-align: center;">
+						                    <?=$listaProd->origem.str_pad($listaProd->csticms, 2, '0',STR_PAD_LEFT)?><br />
+						                    <?=str_pad($listaProd->cstipi, 2, '0',STR_PAD_LEFT)?><br />
+						                    <?=str_pad($listaProd->cstpis, 2, '0',STR_PAD_LEFT)?><br />
+						                    <?=str_pad($listaProd->cstcofins, 2, '0',STR_PAD_LEFT)?>
+				                    		</td>
+				                    		<td width="20%" style="text-align: right;">
+						                    <?=number_format($listTri->vendaicms,2,',','.')?>%<br />
+						                    <?=number_format($listaProd->ipi,2,',','.')?>%<br />
+						                    <?=number_format($listaProd->pis,2,',','.')?>%<br />
+						                    <?=number_format($listaProd->cofins,2,',','.')?>%
+				                    		</td>
+				                    		<td width="25%" style="text-align: right;">
+						                    <?=number_format(($vldesc*$listTri->vendaicms)/100,2,',','.')?><br />
+						                    <?=number_format((($listaProd->qt*$listaProd->preco_unit)*$listaProd->ipi)/100,2,',','.')?><br />
+						                    <?=number_format(($vldesc*$listaProd->pis)/100,2,',','.')?><br />
+						                    <?=number_format(($vldesc*$listaProd->cofins)/100,2,',','.')?>
+				                    		</td>
+				                    	</tr>
+				                    </table>
+			                    </span>		                    
+		                	</a>
+		                </td>
+		                <td  class="<?=$class?>" style="text-align: center;" >
+		                	<? if($listaProd->qt_atual<=0):?>
+		                	<a href="javascript:void(0);" class="dcontexto" 
+		                		<?php 
+		                		if($listaProd->qt_atual < $listaProd->qt): 
+			                		echo 'style="color: red;"'; 
+			                		$v_estoque = 1;
+		                		endif;?>>
+		                		<?=$listaProd->qt?>
+		                    	<span><?=$listaProd->qt_atual?></span>		                    
+		                	</a>
+		                	<?php else: ?>
+		                	<a href="javascript:void(0);" class="dcontexto" onclick="document.prepedido.editqt_<?=$listaProd->ID?>.style.display = 'block'; this.style.display = 'none';" <?php if($listaProd->qt_atual<$listaProd->qt): echo 'style="color: red;"'; $v_estoque = 1; endif;?>>
+		                		<?=$listaProd->qt?>
+		                    	<span><?=$listaProd->qt_atual?></span>		                    
+		                	</a>		                	
+		                	<input style="display: none" type="text" size="5" name="editqt_<?=$listaProd->ID?>" value="<?=$listaProd->qt?>" onblur="editaProdutoqt();" onKeyDown="Mascara(this,Integer);" onKeyPress="Mascara(this,Integer);" onKeyUp="Mascara(this,Integer);">
+		                	<?php endif; ?>
+		                </td>		               
+		                <td  class="<?=$class?>" style="text-align: right;">
+		                    <?=number_format($listaProd->preco_tabela,2,',','.')?>
+		                </td>
+		                <td  class="<?=$class?>" style="text-align: right;">
+			                <a href="#" onclick="document.prepedido.editvl_<?=$listaProd->idprorc?>.style.display = 'block'; this.style.display = 'none';" <?php if(($listaProd->preco_alt!="") and ($listaProd->preco_alt>0)): echo 'style="color: red;"'; endif;?>  ><?=number_format($listaProd->preco_unit,2,',','.')?></a>
+			                <input style="display: none" type="text" size="5" name="editvl_<?=$listaProd->idprorc?>" value="<?=number_format($listaProd->preco_unit,2,',','.')?>" onblur="editaProduto(<?=$listaProd->idprorc?>);" onKeyDown="Mascara(this,Valorc);" onKeyPress="Mascara(this,Valorc);" onKeyUp="Mascara(this,Valorc);">
+			                <input type="hidden" name="pendvl_<?=$listaProd->ID?>" value="<?=$listaProd->preco_unit?>" >
+		                </td>
+		                <td  class="<?=$class?>" style="text-align: right;">
+		                    <b><?=number_format(($listaProd->qt*$listaProd->preco_unit),2,',','.')?></b>
+		                </td>
+		                <td  class="<?=$class?>" style="text-align: right;" >
+		                	<span style="color: #999">
+			                    <?php if($listTri->usevendaicms==true): ?>
+			                    <?=number_format(($vldesc*$listTri->vendaicms)/100,2,',','.')?>
+			                    <?php else: ?>
+			                    <?=number_format(0,2,',','.')?>
+			                    <?php endif;?>
+		                    </span>
+		                </td>
+		                <td  class="<?=$class?>" style="text-align: right;" >
+		                    <span style="color: #999">
+			                    <?php if($listTri->semipi==false): ?>
+			                    <?=number_format((($listaProd->qt*$listaProd->preco_unit)*$listaProd->ipi)/100,2,',','.')?>
+			                    <?php else: ?>
+			                    <?=number_format(0,2,',','.')?>
+			                    <?php endif;?>
+		                    </span>
+		                </td>
+		                <td  class="<?=$class?>" style="text-align: center;" >
+		                    <span style="color: #999"><?=$listTri->vendaicms?></span>
+		                </td>
+		                <td  class="<?=$class?>" style="text-align: center;" >
+		                    <span style="color: #999"><?=$listaProd->ipi?></span>
+		                </td>
+		                <td  class="<?=$class?>" style="text-align: center;" >
+		                    <a href="#" onclick="if(confirm('Remover produto código <?=$listaProd->CODIGO?>?')){window.location='<?=$this->baseUrl()?>/admin/venda/pedidosremprod/ped/<?=$listPed->id;?>/idprod/<?=$listaProd->ID?>/pedcli/<?=$listPed->id_parceiro?>/qt/<?=$listaProd->qt?>/valor/<?=$listaProd->preco_unit?>';}"><img src="<?php echo $this->baseUrl(); ?>/images/window-close.png" width="15" border="0"></a>
+		                </td>		                
+		            </tr>
+			        <?php
+			        $total_prod 			+= $listaProd->qt;
+			        $total_pedido 			+= $listaProd->preco_tabela*$listaProd->qt;
+			        $total_pedido_liquido 	+= $listaProd->qt*$listaProd->preco_unit;
+			        if(($listaProd->ipi!=0) and ($listTri->semipi==false)): //--Se IPI nao for zero, e se perfil fiscal obriga ter ipi -----------------
+			        	$ipi				+= (($listaProd->qt*$listaProd->preco_unit)*$listaProd->ipi)/100;
+			        endif;
+			        $peso = 0;
+			        $peso = str_replace(",", ".", $listaProd->PESO);
+			        $pesoliquido += $listaProd->qt*$peso;
+		        endforeach;
+		        
+		        if($v_estoque==1) $valida .= "- Produtos sem estoque disponível. Favor ajustar;<br />";
+		        ?>
+		         <tr>
+                    <td  class="td" style="text-align: center;" colspan="2" >
+                    	<input type="hidden" name="promo" id="promo" >
+		                <input style="text-transform: uppercase;" type="text" size="10" name="codigo" id="codigo" onclick="document.getElementById('resultado').innerHTML = '';"
+		                onkeydown="if(event.keyCode == '13'){ document.prepedido.qt.focus(); return false;};" onblur="buscaprod(this.value);" >
+		            </td>
+		            <td  class="td" style="text-align: center;" >
+		            	<input type="hidden" name="vestoque" id="vestoque" value="<?=$v_estoque?>">
+		            	<input type="hidden" name="qtprod" id="qtprod" >
+		                <input type="text" class="borda_input" size="5" name="qt" id="qt" onblur="enviaProduto();" 
+		                onkeydown="if(event.keyCode == '13'){  return false;};"  >
+		            </td>
+		            <td  class="td" style="text-align: center;" colspan="9" style="color:#FF0000; font-weight: bold;">
+		            	<input type="hidden" name="arrId" id="arrId" value="<?=$arrId?>">
+		               <div id="resultado" style="color: #f00;"></div>
+		            </td>		            
+		        </tr>
+		        
+		        <?php 		
+		        
+		        $bicms	= $total_pedido_liquido-$listPed->desconto;
+		        $vicms	= ($bicms*$listTri->vendaicms)/100;
+		       		        
+		        if($listTri->usectm==true):
+		        /*-- Regra valida somente para o estado do  Mato Grosso, para alguns casos especiais ---------*/
+		        	if(($listTri->vendaicmsdest!=0) and ($listTri->usevendaicmsdest==true)):
+				        $vst	= (($ipi+$bicms+$listPed->frete)*$listTri->ctm)/100; 
+				        $bst	= ($vicms+$vst)/($listTri->vendaicmsdest/100);				        	        
+				    else:
+				    	$bst	= 0;
+				        $vst	= 0;
+				    endif;		
+		        else:
+			        if(($listTri->vendaicmsdest!=0) and ($listTri->usevendaicmsdest==true)):
+				        $bst	= $listPed->frete + $ipi + $bicms + ((($ipi+$bicms)*$listTri->vendast)/100);
+				        $vst	= (($bst*$listTri->vendaicmsdest)/100) - $vicms;
+				    else:
+				    	$bst	= 0;
+				        $vst	= 0;
+				    endif;
+				endif;
+				 
+				$vltotalnota	=	$total_pedido_liquido+$ipi+$vst;
+
+				if(!empty($listPed->frete)) $vltotalnota += $listPed->frete;
+				if(!empty($listPed->seguro)) $vltotalnota += $listPed->seguro;
+				if(!empty($listPed->desconto)) $vltotalnota -= $listPed->desconto;
+				
+			    				
+				?>
+		        
+		        <tr>
+			    	<td  class="td" align="left" colspan="12" >
+			            <table style="width: 100%">
+			            	<tr>
+					            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+					              Frete:<br>
+		                    	  <input type="text" size="12" name="frete" value="<? if(!empty($listPed->frete)) echo number_format($listPed->frete,2,',','.')?>" onKeyDown="Mascara(this,Valorduascasas);" onKeyPress="Mascara(this,Valorduascasas);" onKeyUp="Mascara(this,Valorduascasas);"> 
+					            </td>
+					            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+					              Seguro:<br>
+		                    	  <input type="text" size="12" name="seguro" value="<? if(!empty($listPed->seguro)) echo number_format($listPed->seguro,2,',','.')?>" onKeyDown="Mascara(this,Valorduascasas);" onKeyPress="Mascara(this,Valorduascasas);" onKeyUp="Mascara(this,Valorduascasas);"> 
+					            </td>
+					            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+					              Desconto:<br>
+		                    	  R$ <input type="text" size="10" name="desconto" value="<? if(!empty($listPed->desconto)) echo number_format($listPed->desconto,2,',','.')?>" onKeyDown="Mascara(this,Valorduascasas);" onKeyPress="Mascara(this,Valorduascasas);" onKeyUp="Mascara(this,Valorduascasas);">
+		                    	  <input type="text" size="7" name="descontoperc" value="<? if(!empty($listPed->descontoperc)) echo number_format($listPed->descontoperc,2,',','.')?>" onKeyDown="Mascara(this,Valorduascasas);" onKeyPress="Mascara(this,Valorduascasas);" onKeyUp="Mascara(this,Valorduascasas);"> %
+					            </td>
+					            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+					              &nbsp;
+					            </td>
+					    	</tr>
+				            <tr>
+					            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+					               Base do calculo ICMS:<br>
+		                    	   <span style="font-size:14px; font-weight:bold;">
+			                    	   	<?php if($listTri->usevendaicms==true): ?>
+					                    <?=number_format($bicms,2,',','.')?>
+					                    <?php else: ?>
+					                    <?=number_format(0,2,',','.')?>
+					                    <?php endif;?>
+		                    	   </span>
+					            </td>
+					            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+					               	Base do calculo ICMS S.T.:<br>
+		                    	   	<span style="font-size:14px; font-weight:bold;">
+		                    	   		<?php if($listTri->usevendaicmsdest==true): ?>
+					                    <?=number_format($bst,2,',','.')?>
+					                    <?php else: ?>
+					                    <?=number_format(0,2,',','.')?>
+					                    <?php endif;?>
+		                    	   	</span>
+					            </td>
+					            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+					               Valor total do IPI:<br>
+		                    	   <span style="font-size:14px; font-weight:bold;">
+		                    	        <?php if($listTri->semipi==false): ?>
+					                    <?=number_format($ipi,2,',','.')?>
+		                    	   		<?php else: ?>
+					                    <?=number_format(0,2,',','.')?>
+					                    <?php endif;?>     
+		                    	   </span>
+					            </td>
+					            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+					              Valor Total dos produtos:<br>
+		                    	  <span style="font-size:14px; font-weight:bold; "><?=number_format($total_pedido_liquido,2,',','.')?></span>
+					            </td>
+					    	</tr>
+						    <tr >
+					    		<td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+					               Valor ICMS:<br>
+		                    	   <span style="font-size:14px; font-weight:bold;">
+		                    	   		<?php if($listTri->usevendaicms==true): ?>
+					                    <?=number_format($vicms,2,',','.')?>
+					                    <?php else: ?>
+					                    <?=number_format(0,2,',','.')?>
+					                    <?php endif;?>
+		                    	   </span>
+					            </td>
+					            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+					               Valor ICMS S.T.:<br>
+		                    	   <span style="font-size:14px; font-weight:bold;">
+		                    	   		<?php if($listTri->usevendaicmsdest==true): ?>
+					                    <?=number_format($vst,2,',','.')?>
+					                    <?php else: ?>
+					                    <?=number_format(0,2,',','.')?>
+					                    <?php endif;?>
+		                    	   </span>
+					            </td>
+					            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+					               Outras despesas:<br>
+		                    	   <span style="font-size:14px; font-weight:bold;"><?=number_format("0",2,',','.')?></span>
+					            </td>
+					            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+					              Valor Total da nota:<br>
+		                    	  <span style="font-size:14px; font-weight:bold; color:#0010e1;">
+		                    	  <input type="hidden" value="<?=$total_pedido_liquido?>" name="totalnota">
+		                    	  <?=number_format($vltotalnota,2,',','.')?>
+		                    	  </span>		                    	  
+					            </td>
+				            </tr>
+			       		</table>  
+		            </td>		            		            
+			    </tr>	
+		        <tr>
+			    	<td  class="td" align="left" colspan="12" >
+			            <table  style="width: 100%" >
+				            <tr>
+					            <td style="padding-top: 5px; padding-bottom: 5px; width: 320px" >
+					                 <span style="font-weight: bold;">Prazo:</span>
+					                <br />
+					                <?php 
+					                $v_parc = 0;
+					                $vltotalnota_ver = number_format($vltotalnota,2,".","");
+					                //-- calculo das parcelas ---------------------
+					                //-- busco qt de parcelas ---------------------
+					                $qtprazos = 0;
+					                if(!empty($listPed->prazo1)) $qtprazos ++;
+					                if(!empty($listPed->prazo2)) $qtprazos ++;
+					                if(!empty($listPed->prazo3)) $qtprazos ++;
+					                if(!empty($listPed->prazo4)) $qtprazos ++;
+					                if(!empty($listPed->prazo5)) $qtprazos ++;
+					                
+					                //-- busco parcelas com valor definido --------
+					                if(!empty($listPed->vlprazo1)): 
+					                	$vltotalnota -= $listPed->vlprazo1;
+					                	$vlprazo1	= $listPed->vlprazo1;
+					                	$vlprazodef += $listPed->vlprazo1;
+					                	$qtprazos--;	
+					                else:
+					                	$vltotalnota -= $vst;			                	
+					               	endif;
+					               	
+					                if(!empty($listPed->vlprazo2)): 
+					                	$vltotalnota -= $listPed->vlprazo2;
+					                	$vlprazo2	= $listPed->vlprazo2;
+					                	$vlprazodef += $listPed->vlprazo2;
+					                	$qtprazos--;
+					               	endif;
+					               	
+					               	if(!empty($listPed->vlprazo3)):
+						               	$vltotalnota -= $listPed->vlprazo3;
+						               	$vlprazo3	= $listPed->vlprazo3;
+						               	$vlprazodef += $listPed->vlprazo3;
+						               	$qtprazos--;
+					               	endif;
+					               	
+					               	if(!empty($listPed->vlprazo4)):
+						               	$vltotalnota -= $listPed->vlprazo4;
+						               	$vlprazo4	= $listPed->vlprazo4;
+						               	$vlprazodef += $listPed->vlprazo4;
+						               	$qtprazos--;
+					               	endif;
+					               	
+					               	if(!empty($listPed->vlprazo5)):
+						               	$vltotalnota -= $listPed->vlprazo5;
+						               	$vlprazo5	= $listPed->vlprazo5;
+						               	$vlprazodef += $listPed->vlprazo5;
+						               	$qtprazos--;
+					               	endif;
+
+					               	//-- gero valor para parcelas sem valor definido --------
+					               	if(!empty($listPed->prazo1) and ($vlprazo1=="")) $vlprazo1 = ($vltotalnota/$qtprazos)+$vst;
+					               	if(!empty($listPed->prazo2) and ($vlprazo2=="")) $vlprazo2 = $vltotalnota/$qtprazos;
+					               	if(!empty($listPed->prazo3) and ($vlprazo3=="")) $vlprazo3 = $vltotalnota/$qtprazos;
+					               	if(!empty($listPed->prazo4) and ($vlprazo4=="")) $vlprazo4 = $vltotalnota/$qtprazos;
+					               	if(!empty($listPed->prazo5) and ($vlprazo5=="")) $vlprazo5 = $vltotalnota/$qtprazos;
+					               					                
+					               	$vltotalnota_ver 	= (float) $vltotalnota_ver;
+					               	$vlprazodef 		= (float) $vlprazodef;
+					                if(($qtprazos==0) and (abs($vlprazodef-$vltotalnota_ver) >= 0.00001)) $valida .= "- Valor da soma das parcelas diferente do valor total;<br />";
+					               	
+					                ?>		
+					                <input type="hidden" name="vltotalnota" value="<?=$vltotalnota_ver?>">			                
+					                <table style="border: 0px; width: 220px" >
+						            <tr>
+							            <td style="background-color: #efefef; text-align: center; width: 20px">Dias</td>
+							            <td style="background-color: #efefef; text-align: center;">Data</td>
+							            <td style="background-color: #efefef; text-align: center;">Valor</td>
+							        </tr>
+							        <tr>
+							        	<td ><input type="text" name="prazo1" size="3" value="<? if(!empty($listPed->prazo1)) echo $listPed->prazo1;?>" onKeyDown="Mascara(this,Integer);" onKeyPress="Mascara(this,Integer);" onKeyUp="Mascara(this,Integer);"></td>
+							            <td ><input type="text" size="8" name="dataprazo1" value="<? if(!empty($listPed->prazo1)) echo date('d/m/Y', strtotime("+".$listPed->prazo1." days"));?>" onclick="displayCalendar(this,'dd/mm/yyyy',this)"></td>
+							            <td ><input type="text" size="12" name="vlprazo1" onblur="validaDados()" value="<? if(!empty($listPed->prazo1)) echo number_format($vlprazo1,2,',','.')?>" onKeyDown="Mascara(this,Valorduascasas);" onKeyPress="Mascara(this,Valorduascasas);" onKeyUp="Mascara(this,Valorduascasas);"></td>
+							        </tr>
+							        <tr>
+							            <td ><input type="text" name="prazo2" class="borda_input" size="3" value="<? if(!empty($listPed->prazo2)) echo $listPed->prazo2;?>" onKeyDown="Mascara(this,Integer);" onKeyPress="Mascara(this,Integer);" onKeyUp="Mascara(this,Integer);"></td>
+							            <td ><input type="text" size="8" name="dataprazo2" value="<? if(!empty($listPed->prazo2)) echo date('d/m/Y', strtotime("+".$listPed->prazo2." days"));?>" onclick="displayCalendar(this,'dd/mm/yyyy',this)"></td>
+							            <td ><input type="text" size="12" name="vlprazo2" onblur="validaDados()" value="<? if(!empty($listPed->prazo2)) echo number_format($vlprazo2,2,',','.')?>" onKeyDown="Mascara(this,Valorduascasas);" onKeyPress="Mascara(this,Valorduascasas);" onKeyUp="Mascara(this,Valorduascasas);"></td>
+							        </tr>
+							        <tr>
+							            <td ><input type="text" name="prazo3" class="borda_input" size="3" value="<? if(!empty($listPed->prazo3)) echo $listPed->prazo3;?>" onKeyDown="Mascara(this,Integer);" onKeyPress="Mascara(this,Integer);" onKeyUp="Mascara(this,Integer);"></td>
+							            <td ><input type="text" size="8" name="dataprazo3" value="<? if(!empty($listPed->prazo3)) echo date('d/m/Y', strtotime("+".$listPed->prazo3." days"));?>" onclick="displayCalendar(this,'dd/mm/yyyy',this)"></td>
+							            <td ><input type="text" size="12" name="vlprazo3" onblur="validaDados()" value="<? if(!empty($listPed->prazo3)) echo number_format($vlprazo3,2,',','.')?>" onKeyDown="Mascara(this,Valorduascasas);" onKeyPress="Mascara(this,Valorduascasas);" onKeyUp="Mascara(this,Valorduascasas);"></td>
+							        </tr>
+							        <tr>
+							            <td ><input type="text" name="prazo4" class="borda_input" size="3" value="<? if(!empty($listPed->prazo4)) echo $listPed->prazo4;?>" onKeyDown="Mascara(this,Integer);" onKeyPress="Mascara(this,Integer);" onKeyUp="Mascara(this,Integer);"></td>
+							            <td ><input type="text" size="8" name="dataprazo4" value="<? if(!empty($listPed->prazo4)) echo date('d/m/Y', strtotime("+".$listPed->prazo4." days"));?>" onclick="displayCalendar(this,'dd/mm/yyyy',this)"></td>
+							            <td ><input type="text" size="12" name="vlprazo4" onblur="validaDados()" value="<? if(!empty($listPed->prazo4)) echo number_format($vlprazo4,2,',','.')?>" onKeyDown="Mascara(this,Valorduascasas);" onKeyPress="Mascara(this,Valorduascasas);" onKeyUp="Mascara(this,Valorduascasas);"></td>
+							        </tr>
+							        <tr>
+							            <td ><input type="text" name="prazo5" class="borda_input" size="3" value="<? if(!empty($listDes->$listPed)) echo $listPed->prazo5;?>" onKeyDown="Mascara(this,Integer);" onKeyPress="Mascara(this,Integer);" onKeyUp="Mascara(this,Integer);"></td>
+							            <td ><input type="text" size="8" name="dataprazo5" value="<? if(!empty($listPed->prazo5)) echo date('d/m/Y', strtotime("+".$listPed->prazo5." days"));?>" onclick="displayCalendar(this,'dd/mm/yyyy',this)"></td>
+							            <td ><input type="text" size="12" name="vlprazo5" onblur="validaDados()" value="<? if(!empty($listPed->prazo5)) echo number_format($vlprazo5,2,',','.')?>" onKeyDown="Mascara(this,Valorduascasas);" onKeyPress="Mascara(this,Valorduascasas);" onKeyUp="Mascara(this,Valorduascasas);"></td>
+							        </tr>
+							        <tr>
+							        	<td colspan="3" style="text-align: left; padding-top: 10px">
+							        		Banco: 
+							        		<select name="bancofin">
+							        			<option value="1">Banco do Brasil</option>
+							        			<option value="2">Itaú SA</option>
+							        		</select>
+							        	</td>
+							        </tr>
+							        </table>
+							        <input type="hidden" name="parcela" value="">
+					            </td>
+					            <td style="width: 250px;">
+					            	<span style="font-weight: bold;">Transporte:</span><br />
+					            	<table>
+					            		<tr>
+					            			<td>Qt pacotes:</td>
+					            			<td>
+						            			<input type="text" value="<?=$listPed->qtpacotes?>" name="qtpacote" size="2" onblur="validaDados()" onKeyDown="Mascara(this,Integer);" onKeyPress="Mascara(this,Integer);" onKeyUp="Mascara(this,Integer);">
+						            			<select name="especie" id="especie">
+								            		<option <? if($listPed->especie=='CAIXAS') echo 'selected="selected"';?> >CAIXAS</option>
+								            		<option <? if($listPed->especie=='ROLOS') echo 'selected="selected"';?> >PALLETS</option>
+								            	</select>
+								            	<?php if(empty($listPed->qtpacotes)) $valida .= "- Digite a quantidade de pacotes; <br />"; ?>
+					            			</td>
+					            		</tr>
+					            		<tr>
+					            			<td>Por conta:</td>
+					            			<td>
+					            				<select name="tipofrete" id="tipofrete">
+								            		<option value="0" <? if($listPed->tipofrete=='EMITENTE') echo 'selected="selected"';?> >EMITENTE</option>
+								            		<option value="1" <? if($listPed->tipofrete=='DESTINATÁRIO') echo 'selected="selected"';?> >DESTINATÁRIO</option>
+								            	</select>
+								            </td>
+					            		</tr>
+					            		<tr>
+					            			<td>Peso Bruto:</td>
+					            			<td><input type="text" value="<?=number_format($listPed->pesobruto,3,",",".")?>" onblur="validaDados()" name="pesobruto" size="6" onKeyDown="Mascara(this,Kilo);" onKeyPress="Mascara(this,Kilo);" onKeyUp="Mascara(this,Kilo);"></td>
+					            		</tr>
+					            		<tr>
+					            			<td>Peso Líquido:</td>
+					            			<td>
+					            				<b><?=number_format($pesoliquido,3,",",".")?></b>
+					            				<input type="hidden" name="pesoliquido" value="<?=$pesoliquido?>">
+					            				<?php if($listPed->pesobruto <= $pesoliquido) $valida .= "- Peso bruto deve ser maior que peso líquido; <br />"; ?>
+					            			</td>
+					            		</tr>
+					            		<tr>
+					            			<td>Placa/UF:</td>
+					            			<td>
+					            				<input type="text" name="placa" value="<?=strtoupper($listPed->placa)?>" size="6" maxlength="7">
+					            				<select name="ufplaca" id="ufplaca">
+					            				<?php foreach ($this->objUf as $uf): ?>
+								            		<option <? if($listPed->ufplaca==$uf->uf) echo 'selected="selected"';?> ><?=$uf->uf?></option>
+								            	<?php endforeach;?>
+								            	</select>
+					            			</td>
+					            		</tr>
+					            		<tr>
+					            			<td>ANTT:</td>
+					            			<td><input type="text" value="<?=$listPed->antt?>"  name="antt" size="6" ></td>
+					            		</tr>
+					            	</table>					            	
+					            </td>
+					            <td style="vertical-align: top;">
+					            	<span >Total de pe&ccedil;as:</span><br>
+				                    <span style="font-size:14px; font-weight:bold; text-align:right;" ><?=$total_prod?></span><br>				                
+				                    Valor Total bruto:<br>
+				                    <span style="font-size:14px; font-weight:bold;"><?=number_format($total_pedido,2,',','.')?></span><br>					                
+					            </td>	
+					    	</tr>
+						    <tr >
+					    		<td  align="left" valign="top" colspan="2" >
+					                Observa&ccedil;&otilde;es do pedido<br>
+					                <textarea name="obs" id="obs" tabindex="412" cols="50" rows="2" class="borda_text"  onblur="document.prepedido.obsnfe.focus();"><?=$listPed->obs?></textarea>
+					                <br />Observa&ccedil;&otilde;es da NFe<br>
+					                <textarea name="obsnfe" id="obsnfe" tabindex="412" cols="50" rows="2" class="borda_text"  onblur="document.prepedido.janelamodal.focus();"><? if(!empty($listPed->obsnota)) echo $listPed->obsnota; else echo $listPed->obsnfecli;?></textarea>
+					            </td>
+				            </tr>
+			       		</table>  
+		            	</td>
+		            </tr>			               
+			        <tr>
+				        <td align="left" colspan="12">
+				        	<br>
+				        	<input type="button" value="Salvar" onclick="gravaDados(0);">
+				            <input <?php if($valida!=""): ?> disabled="disabled" <?php endif; ?> janela="#jconfirma"  type="button" name="janelamodal" value="Gerar Venda"  >				            
+				            <br />
+				            <div id="textovalida" style="color: red; font-style: italic; margin-top: 10px"><?=$valida?></div>
+				        </td>
+			        </tr>			
+			    </table>
+			    </div>
+		    </form>
+		   &nbsp;
+		</div>
+		<?php 
+		if(count($this->objGarantias)>0):
+			?>
+			<p style="text-align: center;"><font style="font-weight:bold; font-size:14px;">GARANTIAS PARA ENVIO</font></p>
+			<?php 
+		endif;
+		?>
+		<div style="padding: 5px; background-color: #e8e8e8">
+		<?php 
+		if(count($this->objGarantias)>0):
+			foreach ($this->objGarantias as $garantias):
+				?>
+				<a target="_blank" href="<?=$this->baseUrl()?>/admin/venda/garantiaspag/garantia/<?=md5($garantias->id)?>" >
+				Garantia G<?=substr("000000".$garantias->id, -6,6)?></a><br />				
+				<?php 
+			endforeach;
+		endif;
+		?>
+	</div>		
+</div>	
+
+
+<!-- Janelas modal -->
+<div class="window" id="jconfirma" style="width: 320px; height: 110px" >
+    <span class="titulojanela" >Gerar Venda?</span><br />
+    <span class="subtitulojanela">Não será possivel edição após a venda gerada.</span>
+    <div style="margin-top: 30px; text-align: center;">
+	    <a class="botaoconfirma" href="javascript:void(0)" name="janelamodal"  janela="#jconfirmapc"> &nbsp; OK &nbsp; </a> &nbsp; 
+	    <a class="botaocancela" href="javascript:void(0)" onclick="$('#mascara').hide(); $('.window').hide();"> Cancelar </a>
+    </div> 
+</div>
+<div class="window" id="jconfirmapc" style="width: 320px; height: 110px" >
+    <span class="titulojanela" >Já verificou se existe PC?</span><br />
+    <span class="subtitulojanela">Não será possivel edição após a venda gerada</span>
+    <div style="margin-top: 30px; text-align: center; ">
+	  <a class="botaoconfirma" href="javascript:void(0)" 
+	  onclick="criaModal({'largura': 340, 'altura': 110, 'titulo':'Gerando venda','subtitulo':'Salvando dados da venda...','btsim':0,'clicksim':'','btnao':0,'tpj':'1'}); gravarDadosnfevenda();"> &nbsp; Sim &nbsp; </a> &nbsp;
+	  <a class="botaocancela" href="javascript:void(0)" onclick="$('#mascara').hide(); $('.window').hide();"> Cancelar </a>
+    </div> 
+</div>
+
+<!-- mascara para cobrir o site -->
+<div id="mascara"></div>
+
+
+ <script type="text/javascript">
+			
+	function validaDados(){
+		var texto 		= "";
+		var pesobruto 	= 0;
+		var vlprazo1 	= 0;
+		var vlprazo2 	= 0;
+		var vlprazo3 	= 0;
+		var vlprazo4 	= 0;
+		var vlprazo5 	= 0;
+		var vltotalnota = document.prepedido.vltotalnota.value;
+		
+		if(document.prepedido.pesobruto.value!=""){
+			var pesobruto 	= parseFloat(document.prepedido.pesobruto.value.replace(",", "."));
+		}
+		
+		var pesoliquido = parseFloat(document.prepedido.pesoliquido.value.replace(",", "."));	
+			
+		if((document.prepedido.qtpacote.value=="")||(document.prepedido.qtpacote.value==0)){
+			texto = "- Quantidade de pacotes deve ser maior que zero;<br />";
+		}
+
+		if(pesobruto <= pesoliquido){	
+			texto = texto + "- Peso bruto tem que ser maior que peso líquido;<br />";			
+		}
+
+		if(document.prepedido.vlprazo1.value!=""){			
+			vlprazo1 	= document.prepedido.vlprazo1.value.replace(".", "");	
+			vlprazo1 	= parseFloat(vlprazo1.replace(",", "."));					
+		}
+
+		if(document.prepedido.vlprazo2.value!=""){			
+			vlprazo2 	= document.prepedido.vlprazo2.value.replace(".", "");	
+			vlprazo2 	= parseFloat(vlprazo2.replace(",", "."));				
+		}
+
+		if(document.prepedido.vlprazo3.value!=""){			
+			vlprazo3 	= document.prepedido.vlprazo3.value.replace(".", "");	
+			vlprazo3 	= parseFloat(vlprazo3.replace(",", "."));			
+		}
+
+		if(document.prepedido.vlprazo4.value!=""){	
+			vlprazo4 	= document.prepedido.vlprazo4.value.replace(".", "");	
+			vlprazo4 	= parseFloat(vlprazo4.replace(",", "."));			
+		}
+
+		if(document.prepedido.vlprazo5.value!=""){			
+			vlprazo5 	= document.prepedido.vlprazo5.value.replace(".", "");	
+			vlprazo5 	= parseFloat(vlprazo5.replace(",", "."));				
+		}
+
+		if((vlprazo1+vlprazo2+vlprazo3+vlprazo4+vlprazo5).toFixed(2) != vltotalnota){
+			texto = texto + "- Valor da soma das parcelas diferente do valor total;<br />";				
+		}
+
+		if(document.prepedido.email.value==""){
+			texto = "- O Email da NFe não pode ficar em branco;<br />";
+		}else{
+			email = document.prepedido.email.value;
+			er = /^[a-zA-Z0-9][a-zA-Z0-9\._-]+@([a-zA-Z0-9\._-]+\.)[a-zA-Z-0-9]{2}/;
+			if(er.exec(email)){
+				
+			}else{
+				texto += "- O formato do email da NFe está incorreto;<br />";
+			}
+		}
+		
+		if(texto==""){
+			document.prepedido.janelamodal.disabled = false;	
+		}else{
+			document.prepedido.janelamodal.disabled = true;
+		}
+		document.getElementById('textovalida').innerHTML = texto;	
+
+	}
+	
+	function gravaDados(tp){
+		document.prepedido.action = "<?=$this->baseUrl()?>/admin/venda/pedidosentdados";
+		document.prepedido.parcela.value = tp;
+		document.prepedido.submit();	
+	}
+		 
+	function enviaProduto(){
+		if((document.prepedido.codigo.value!="") && (document.prepedido.qt.value!="")) {
+			var qtprod = parseInt(document.getElementById('qtprod').value);
+			if(qtprod<document.prepedido.qt.value){
+				alert("Produto com estoque inferior a solicitada! Estoque atual: "+qtprod);
+				document.prepedido.qt.focus();	
+			}else{
+				if(document.prepedido.promo.value=="1"){
+					if(confirm('Produto em promoção. Deseja utilizar o preço da promoção?')){
+						document.prepedido.submit();
+					}else{
+						document.prepedido.promo.value="";
+						document.prepedido.submit();
+					}
+				}else{
+					document.prepedido.submit();
+				}
+			
+			}
+			document.prepedido.promo.value="";
+		}
+	}
+
+	function editaProduto(id){
+		document.prepedido.action = "<?=$this->baseUrl()?>/admin/venda/pedidosent/editprod/true/idprodedit/"+id;  
+		document.prepedido.submit();
+	}
+
+	function editaProdutoqt(){
+		document.prepedido.action = "<?=$this->baseUrl()?>/admin/venda/pedidosent/editprod/true";  
+		document.prepedido.submit();
+	}
+	
+	function buscaprod(cod){
+	   	  if(cod!=''){
+	       	  MostraOpcao(cod);
+	   	  }else{
+			//alert("Digite o código!");
+			//document.getElementById('codigo').focus();
+	   	  }
+	 }
+	
+</script>

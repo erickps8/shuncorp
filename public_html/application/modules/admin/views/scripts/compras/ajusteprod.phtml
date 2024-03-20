@@ -1,0 +1,127 @@
+<?php 
+foreach ($this->objAjus as $lisObs);
+?>
+
+<!-- Content -->
+    <div class="content">   
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoqueresumo">Estoque</a></li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/ajustestoque">Ajustes</a></li>
+                	<li class="lastB">A<?php echo substr("000000".$lisObs->idajuste,-6,6);?></li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Ajuste A<?php echo substr("000000".$lisObs->idajuste,-6,6);?> <?php if($lisObs->sitajuste == 0){ ?>(Cancelado)<?php } ?></h5></div>
+        
+        <div class="widgets" >
+        
+    		<div class="widget">
+ 			<table style="width: 100%" class="tableStatic" >
+            	<thead>
+                	<tr>
+                        <td width="10%">Id</td>
+                        <td width="20%">Código</td>
+                        <td width="">Descrição</td>
+                        <td width="15%">Qt</td>
+                    </tr>
+                </thead>
+                <tbody>
+		   	 	<?php
+		   	 	$cor = 0; 
+		        foreach ($this->objList as $listProd){
+        			$cor++;
+        			?>
+        			<tr >
+		                <td style="text-align: center;"><?php echo $cor?></td>
+		                <td align="left">
+		                	<a href="<?=$this->baseUrl();?>/admin/cadastro/produtosvis/produto/<?=md5($listProd->id_prod)?>" target="_blank"><?=$listProd->CODIGO?></a> 
+		                </td>
+	                	<td align="left"><?php echo $listProd->DESCRICAO?></td>
+	                	<td style="text-align: center;">
+		                	<a href="<?=$this->baseUrl();?>/admin/compras/extratoprod/codproduto/<?=$listProd->CODIGO?>" target="_blank"><?php echo $listProd->qt?></a> 
+		                </td>			                
+		            </tr>
+        		<?php
+	        	}
+	        	?>
+	        	</tbody>
+	        </table>
+	     	</div>
+	        
+	        <form action="<?=$this->baseUrl()?>/admin/compras/autorizarajuste" method="post" name="ajuste" id="ajuste" class="mainForm">	
+	    	<input type="hidden" name="ajuste" value="<?=md5($lisObs->idajuste)?>">
+	    	<input type="hidden" name="sicron" value="<?=$lisObs->nivelamento?>">				
+		
+	     	<div style="margin-top: 10px; border: 1px solid #d5d5d5; padding: 10px">        	
+	        	Justificativa por <?=$lisObs->solicitante?>:<br />
+	        	<div style="padding: 5px; background-color: #d5d5d5"><?=$lisObs->obs?></div>
+	        	<?php if($lisObs->obsautoriza!=""){ ?>
+	        	<br />
+	        	Autorizado por <?=$lisObs->autorizador?>:<br />
+	        	<div style="padding: 5px; background-color: #d5d5d5"><?=$lisObs->obsautoriza?></div>
+	        	<?php } ?>
+	        	<?php if($lisObs->obscancela!=""){ ?>
+	        	<br />
+	        	<span style="color: #f00">Cancelado por <?=$lisObs->cancelador?>:</span><br />
+	        	<div style="padding: 5px; background-color: #d5d5d5"><?=$lisObs->obscancela?></div>
+	        	<?php } ?>
+	       	</div>
+	        
+	        <div style="margin-top: 10px">
+	        <?php if(($this->objAut==1) and ($lisObs->sitajuste==2)): ?>
+			 	Observação:<br>
+        		<textarea rows="3" cols="50" style="margin-bottom: 10px; width: 350px" name="obs" ></textarea><br>      
+			 	<input type="button" class="greenBtn" value="Autorizar" onclick="confirmAjuste();"> &nbsp;
+			 	<input type="button" class="redBtn" value="Cancelar" onclick="$('#divcancelamento').slideToggle('slow');">
+			 	<?php 
+			 endif;
+			 ?>
+			</div>
+			</form> 
+			
+			<?php if(($this->objAut==1) and ($lisObs->sitajuste==1)){ ?> 
+			<input type="button" class="redBtn" value="Cancelar" onclick="$('#divcancelamento').slideToggle('slow');">
+			<?php } ?> 
+			 
+			<form action="<?=$this->baseUrl()?>/admin/compras/ajusterem" method="post" name="ajusterem" class="mainForm">	
+	    	<input type="hidden" name="ajuste" value="<?php echo ($lisObs->idajuste)?>">
+	    	
+			<div style="margin-top: 10px; display: none" id="divcancelamento">
+			 	Justificativa para o cancelamento:<br>
+        		<textarea rows="3" cols="50" style="margin-bottom: 10px; width: 350px" name="obscancela" id="obscancela" ></textarea><br>      
+		 		<input type="button" class="redBtn" value="Salvar" onclick="confirmCancelamento();">
+			</div>
+			</form>
+			 
+		</div>	    
+	</div>
+
+
+<script>
+function confirmAjuste(){
+	jConfirm('Autorizar este ajuste ao estoque?', 'Confirme', function(r) {
+		if(r==true){
+			document.ajuste.submit();
+		}
+	});
+}
+
+function confirmCancelamento(){
+	if($("#obscancela").val() == ""){
+		jAlert('Informe o motivo do cancelamento!','Erro!');
+	}else{
+		jConfirm('Você tem certeza que deseja cancelar este ajuste?', 'Confirme', function(r) {
+			if(r==true){
+				
+				document.ajusterem.submit();
+			}
+		});
+	}
+}
+
+</script>

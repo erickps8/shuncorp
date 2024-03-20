@@ -1,0 +1,24 @@
+<?php 
+
+foreach ($this->objProd as $list);
+
+if(!empty($list)):
+	echo $list->ID;
+	echo "|";
+	echo $list->CODIGO;
+	echo "|";
+	echo number_format(str_replace(",",".",$list->PRECO_UNITARIO),2,',','.');
+	echo "|";
+	echo number_format(str_replace(",",".",$list->CUSTO_VALOR),2,',','.');
+	echo "|";
+	echo $list->DESCRICAO;	
+	echo "|";
+	echo $list->codigo_ean;
+	echo "|";
+	echo $list->id_ncm;
+	echo "|";
+	echo $list->unidade;
+else:
+	echo "erro1";
+endif;
+?>

@@ -1,0 +1,177 @@
+<?php 
+foreach ($this->objDet as $listdet);
+$ped = $listdet->idped;
+?>
+
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl()?>/admin/kang/pedidos"><?=$this->translate->_("Pedidos de venda")?></a></li>
+                	<li ><a href="<?=$this->baseUrl()?>/admin/kang/vendas"><?=$this->translate->_("Vendas")?></a></li>
+                	<li ><a href="<?=$this->baseUrl()?>/admin/kang/vendasdet/ped/<?=md5($listdet->idped)?>">S<?=substr("000000".$listdet->idped,-6,6)?></a></li>
+                	<li class="lastB">Vendas por fornecedor</li>
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title">
+        	<h5><?=$this->translate->_("Venda")?> S<?=substr("000000".$listdet->idped,-6,6)?></h5>
+        	<div style="float: right; padding: 10px">
+				<a href="<?=$this->baseUrl()?>/admin/kang/vendaspurchaseimp/ped/<?=md5($listdet->idped)?>" target="_blank"><img title="Imprimir" src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/printerwhite.png" border="0" width="18" /> </a>
+			</div>
+        </div>
+
+	<?php
+	foreach ($this->objFor as $fornecedores):
+		if(!empty($this->objComp)):
+			$vergeral = 1;
+			foreach ($this->objComp as $compras):
+				if($compras->id_for == $fornecedores->id_for):					
+				?>		
+				
+				<div class="widget">
+         			<div class="head" style="border-bottom: 0px"><h5 class="iFrames"><?=strtoupper($fornecedores->EMPRESA)." (".strtoupper($fornecedores->nome).")";?> - <?="PK".substr("000000".$compras->id_kang_compra,-6,6);?></h5></div>
+                	<table class="tableStatic">
+                    	<thead>
+                        	<tr>
+                                <td width="3%"><?=$this->translate->_("Id")?></td>
+                                <td width=""><?=$this->translate->_("Code")?></td>
+                                <td width=""><?=$this->translate->_("QT Order")?></td>
+                                <td width=""><?=$this->translate->_("QT Delivered")?> </td>
+                                <td width=""><?=$this->translate->_("Price")?></td>
+                                <td width=""><?=$this->translate->_("Total")?></td>
+                                <td width=""><?=$this->translate->_("Delivered date")?></td>
+                                <td width=""><?=$this->translate->_("Print instruction")?></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+        						
+        				<?php 
+        				$cor=0;
+        				$total_pecas = $tpecasent = $total_valor = 0;
+        				$moeda = "";
+        		    	foreach($this->objProd as $lista):
+            		    	if($compras->id_kang_compra == $lista->id_kang_compra):
+                		    	$total_pecas 	+= $lista->qt;
+                		    	$tpecasent 		+= $lista->qtent;
+                		    	$total_valor 	+= $lista->preco*$lista->qtent;
+                		    	
+                		    	$cor++;
+                		    	$class = (($cor%2)==0) ? 'td_orc_par' : 'td_orc';
+                		    	
+                		    	?>
+    							<tr >
+    				                <td  class="<?=$class?>" style="text-align: center;">
+    				                   <?=$cor?>                  
+    				                </td>
+    				                <td  class="<?=$class?>" align="left" >
+    				                   <?=$lista->CODIGO?>                  
+    				                </td>
+    				                <td  class="<?=$class?>" style="text-align: center;" >
+    				                	<?=$lista->qt?>
+    				                </td>
+    				                <td  class="<?=$class?>" style="text-align: center;" >
+    				                	<span style="color: <?php echo ($lista->qtent!=$lista->qt) ? '#f00' : 'green'?>">
+    				                    <?=$lista->qtent?>
+    				                    </span>
+    				                </td>
+    				                <td  class="<?=$class?>" style="text-align: right;">
+    				                   <?=number_format(($lista->preco),2,',','.')?>                  
+    				                </td>
+    				                <td  class="<?=$class?>" style="text-align: right;">
+    				                	<?=number_format(($lista->preco*$lista->qtent),2,',','.')?>
+    				                </td>
+    				                <td  class="<?=$class?>" style="text-align: center;" >
+    				                	<?=$lista->dtent?>
+    				                </td>
+    				                <td  class="<?=$class?>" style="text-align: left;" >
+    				                   <?=$lista->gravacao?> 
+    				                </td>    				                    				                             
+    				            </tr>				            
+    							<?php 
+    						endif; 
+        				endforeach;	
+        				
+        				if($moeda == "") $moeda = "USD";
+        				
+        				?>        				
+        				<tr >
+    		                <td colspan="2"  class="<?=$class?>" style="text-align: right;"></td>
+    		                <td class="<?=$class?>" style="text-align: center;"><b><?=$total_pecas?></b></td>
+    		                <td class="<?=$class?>" style="text-align: center;"><b><?=$tpecasent?></b></td>
+    		                <td class="<?=$class?>" style="text-align: right;"></td>
+    		                <td  class="<?=$class?>" style="text-align: right;" ><b><?=number_format(($total_valor),2,',','.')?></b></td>
+    		                <td class="<?=$class?>" style="text-align: right;"></td>
+    		                <td class="<?=$class?>" style="text-align: right;"></td>
+    		            </tr>
+        				</tbody>
+                    </table>
+        		</div>
+				
+				<?php
+				
+				if(!empty($this->objFin)){
+				    $verfin = 0;
+				    foreach($this->objFin as $listafin){
+				        if($listafin->id_kang_compra == $compras->id_kang_compra) $verfin = 1;
+				    }
+				    
+				    if($verfin==1){
+				        ?>
+						<div style="width: 400px; margin-top: 10px">		
+							<table style="padding: 3px; width: 100%; border: 1px solid #d4d4d4;" >
+				         	<tr>
+				         		<td colspan="4" align="left" style="padding: 5px">
+				         		<b><?=$this->translate->_("Payments")?></b>
+				           		</td>
+				       		</tr>
+			       			<?php   
+			       			$totalfin = 0;     			
+				         	foreach($this->objFin as $listafin){
+				         		if($listafin->id_kang_compra == $compras->id_kang_compra){				
+					         		$totalfin += $listafin->vlparc;
+						         	?>
+						         	<tr>
+						         		<td width="25%" style="text-align: left; padding: 5px">
+					           				<a target="_blank" href="<?=$this->baseUrl()?>/admin/administracao/financeirochinapagcad/pay/<?=md5($listafin->idconta)?>" >P<?=substr("000000".$listafin->idconta,-6,6)?></a>
+					           			</td>
+					           			<td width="25%" style="text-align: right; padding: 5px">
+					           			<?=$listafin->dtpag?>
+					           			</td>				        
+					           			<td width="25%" style="text-align: right; padding: 5px">
+					           			<?=number_format($listafin->vlparc,3,",",".")?>
+					           			</td>
+					           			<td width="25%" style="text-align: right; padding: 5px">
+					           			<?=$listafin->dtpagamento?>
+					           			</td>
+						       		</tr>
+						       		<?php
+				         		}
+				         	}
+				         	?>
+				         	<tr>
+				         		<td colspan="3" style="border-top: 1px solid #d4d4d4; text-align: right; padding: 5px">
+			           			<b><?=number_format($totalfin,2,",",".")?></b>
+			           			</td>
+			           			<td style="border-top: 1px solid #d4d4d4; text-align: right;">
+			           			&nbsp;
+			           			</td>
+				       		</tr>
+					        </table>
+					    </div>  
+					<?php 
+                	}
+            	}
+            	
+				endif;
+			endforeach;			
+		endif;
+	endforeach;
+	?>		
+	</div>			
+		    

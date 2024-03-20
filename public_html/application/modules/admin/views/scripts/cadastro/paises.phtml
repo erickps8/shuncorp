@@ -1,0 +1,99 @@
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?php echo $this->baseUrl(); ?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/parceiroslista"><?=$this->translate->_("PARCEIROS")?></a>&nbsp;
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/paises"><b><?=$this->translate->_("PAÍSES")?></b></a>&nbsp;
+	</div>
+	<div id="sistitulo">PAÍSES</div>
+    <div id="sisconteudo">  
+		<div>
+			<table cellpadding="0" cellspacing="0" width="100%" style="margin: 5px 0px">
+				<tr>
+					<td width="left">
+					<form action="<?=$this->baseUrl()?>/admin/cadastro/cadastrapaises" name="cadastra" method="post">
+						<input type="hidden" name="idpais">
+						<input type="text" name="pais" size="30px" >
+						<input type="submit" value="Salvar">
+						<script type="text/javascript">
+						function editarPais(id, nome){
+							document.cadastra.pais.value = nome;
+							document.cadastra.idpais.value = id;
+						}
+						</script>
+					</form>  
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div>
+			<table cellpadding="0" cellspacing="0" width="100%" style="margin: 5px 0px">	
+			<tr>
+				<td>        
+			           <?php 			
+			        	if(count($this->objList) > 0) :			
+						?>
+						<table align="left" class="mytable"  width="554" cellspacing="0" cellpadding="0">
+					         <tr>
+					            <th  class="th_canto_orc" style="text-align: center;" width="15%">
+					                <?=$this->translate->_("ID")?>
+					            </th>
+					            <th  class="th_orc" style="text-align: center;" width="45%">
+					                <?=$this->translate->_("PAÍS")?>
+					            </th>
+					            <th  class="th_orc" style="text-align: center;" width="15%">
+					                <?=$this->translate->_("CÓDIGO")?>
+					            </th>
+					            <th  class="th_orc" style="text-align: center;" width="12%">
+					                <?=$this->translate->_("OPÇÕES")?>
+					            </th>
+					        </tr>		       
+						<?php 
+						$cor=0;
+				    	foreach($this->objList as $lista):
+				    	$cor++;
+			            if(($cor%2)==0) $class = 'td_orc_par';
+			            else $class = 'td_orc';
+						?>
+						
+						<tr >
+			                <td  class="<?=$class?>" style="text-align: center;" >
+			                   <?php echo substr("000".$cor,-3,3)?>
+			                </td>
+			                <td  class="<?=$class?>" align="left" >
+			                   <?=$lista->nome?>
+			                </td>
+			                <td class="<?=$class?>" style="text-align: center;">
+			                   <?=$lista->codigo?>
+			                </td>
+			                <td  class="<?=$class?>" style="text-align: center;" >
+			                	<a href="#" onclick="editarPais('<?=$lista->id?>','<?=$lista->nome?>');" >
+			                	<img src="<?php echo $this->baseUrl(); ?>/images/edit_orc.gif" width="15" height="15" border="0" title="Editar" ></a> &nbsp;
+			                	<a href="<?=$this->baseUrl()?>/admin/cadastro/estados/idpais/<?=md5($lista->id)?>" >
+			                	<img src="<?php echo $this->baseUrl(); ?>/images/visualizar_orc.gif" width="15" height="15" border="0" title="Visualizar estados" ></a>
+			                </td>
+			                
+			            </tr>
+			            
+						<?php  endforeach;
+						?>        </table>
+						<table width="100%">
+						
+			         </table>
+			         	 <?php 
+						else :
+						?>
+						<br>
+						<center><?=$this->translate->_("Nenhum PAÍS Cadastrado")?></center>			
+						<?php 
+						endif;
+					?>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+		
+	

@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>SisCorp 2.0 Alpha - Shuncorp.com</title>
+	<link href="<?=$this->baseUrl()?>/public/sistema/imagens/ico.ico" rel="shortcut icon" type="image/x-ico"/>
+	<link href="<?=$this->baseUrl()?>/public/sistema/css/mainprint.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	
+
+<?php 
+foreach ($this->objDet as $listdet);
+?>
+
+<!-- Content -->
+	<div class="content" style="width: 800px; margin: auto"> 
+
+        <div class="title" >
+        	<h5>Taxes rebate return S<?php echo substr("000000".$listdet->idped,-6,6)?></h5>
+        </div>
+		        
+		<div class="widget" style="margin-top: -10px !important">
+ 			<table class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="3%">ID</td>
+                        <td width="">HS Code</td>
+                        <td width="">PK</td>
+                        <td width="">Supplier</td>
+                        <td width="">Product Description</td>
+                        <td width="">Reb %</td>
+                        <td width="">Value</td>
+                        <td width="">Reb Value</td>
+                        <td width="">RMB Cost</td>
+                    </tr>
+                </thead>
+                <tbody>
+						
+				<?php 
+				$cor=0;
+				$totalreb = $totalvalue = $totalcost = 0;
+				
+            	$moeda = $lasths = $lastcor = "";
+		    	foreach($this->objProdutos as $lista){
+		    	    $rebvalue=0;		    	    
+    				?>					
+    				<tr >
+    	                <td  style="text-align: center;" >
+    	                <?php 
+    	                if($lista->hscode != $lastcor){
+    	                    $lastcor = $lista->hscode;
+    	                    $cor++;    	                    
+    	                    echo $cor;
+    	                }
+    	                ?></td>
+    	                <td  style="text-align: center;" >
+    	                <?php 
+    	                if($lista->hscode != $lasths){
+    	                    echo $lasths = $lista->hscode;
+    	                }
+    	                ?>
+    	                </td>
+    	                <td  style="text-align: center;" ><?php echo "PK".substr("000000".$lista->id_kang_compra,-6,6)?></td>
+    	                <td  style="text-align: left;" ><?php echo $lista->nome?></td>
+    	                <td  style="text-align: left;" ><?php echo $lista->deschscode?></td>
+    	                <td  style="text-align: right;" ><?php echo number_format($lista->retornohs,2,",",".")?></td>	
+    	                <td  style="text-align: right;" ><?php echo number_format($lista->precocompra,2,",",".")?></td>
+    	                <td  style="text-align: right;" ><?php $rebvalue = ($lista->precocompra/1.16) * ($lista->retornohs/100); echo number_format($rebvalue,2,",",".")?></td>
+    	                <td  style="text-align: right;" ><?php echo number_format($lista->precocompra-$rebvalue,2,",",".")?></td>
+    	            </tr>
+    				<?php  
+    				$totalvalue += $lista->precocompra;
+    				$totalreb   += $rebvalue;
+    				$totalcost  += $lista->precocompra-$rebvalue;
+    			}
+				?>				
+				<tr >	                
+	                <td  style="text-align: right;" colspan="6">&nbsp;</td>
+	                <td  style="text-align: right;" ><?php echo number_format($totalvalue,2,",",".")?></td>	
+	                <td  style="text-align: right;" ><?php echo number_format($totalreb,2,",",".")?></td>
+	                <td  style="text-align: right;" ><?php echo number_format($totalcost,2,",",".")?></td>
+	            </tr>
+				</tbody>
+            </table>
+		</div>
+		
+		
+    </div>
+</body>
+</html>

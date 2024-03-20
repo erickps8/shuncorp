@@ -1,0 +1,72 @@
+<?php 
+if(!empty($this->objComp)):
+?>
+<table align="left" class="mytable" width="70%" cellspacing="0" id="tbcomp" >
+<tr>
+	<th class="th_canto_min"><?=$this->translate->_("PRODUTO")?></th>
+	<th class="th_orc_min"><?=$this->translate->_("Moeda")?></th>
+	<th class="th_orc_min"><?=$this->translate->_("Sit")?></th>
+	<th class="th_orc_min"><?=$this->translate->_("For")?></th>
+	<th class="th_orc_min"><?=$this->translate->_("Qt")?></th>
+	<th class="th_orc_min"><?=$this->translate->_("Custo")?></th>
+	<th class="th_orc_min">&nbsp;</th>
+</tr>
+<?php 
+foreach ($this->objComp as $listkit):
+	?>
+	<tr>
+		<td class="td_orc_min" align="left"><?=$listkit->CODIGO?><input type='hidden' name='kit_<?=$listkit->IDPROD?>' value='<?=$listkit->qt?>' ></td>
+		<td class="td_orc_min" align="center"><?=$listkit->MOEDA?></td>
+		<td class="td_orc_min" align="center">
+		<?php 
+		if($listkit->situacao==0) echo "P";
+		elseif($listkit->situacao==1) echo "D";
+		elseif($listkit->situacao==2) echo "I";
+		?></td>
+		<td class="td_orc_min" align="left"><?=$listkit->EMPRESA?></td>
+		<td class="td_orc_min" align="center"><?=$listkit->qt?></td>
+		<td class="td_orc_min" align="right"><?=number_format(($listkit->qt*$listkit->CUSTO_VALOR),2,",",".")?></td>
+		<td class="td_orc_min" align="center"><a href="javascript:void(0);" onclick="deleteRow(this.parentNode.parentNode.rowIndex,'<?=$listkit->IDPROD?>')"><img src="<?php echo $this->baseUrl(); ?>/images/window-close.png" width="13" border="0"></a></td>
+	</tr>
+	<?php
+	$idscomp .=  $listkit->IDPROD.";";
+endforeach;
+
+?>
+<tr>
+	<td class="td_orc_min" align="left" colspan="7">
+		<a href="javascript:void(0);" onclick="mostarPainel('adiprod'); document.getElementById('codbusca').focus(); document.getElementById('copcomp').style.display='none';"  ><?=$this->translate->_("Adicionar Componente")?></a> &nbsp; | &nbsp;  
+		<a href="javascript:void(0);" onclick="mostarPainel('copcomp'); document.getElementById('codcomp').focus(); document.getElementById('adiprod').style.display='none';"  ><?=$this->translate->_("Copiar Composição")?></a>
+			<table id="adiprod" style="display: none; margin-top: 5px">
+				<tr>
+					<td align="left" >
+					Cod <input type="text" size="7" id="codbusca" name="codbusca"  onkeydown="if(event.keyCode == '13'){ return false; }; " style="text-transform: uppercase;"> &nbsp;
+					QT <input type="text" size="5" id="qtbusca" name="qtbusca" onblur="buscaprod();" onkeydown="if(event.keyCode == '13'){ return false; };">
+					<input type="hidden" name="arrId" id="arrId" value="<?=$idscomp?>">
+   					<input type="hidden" name="enviaAn"  >
+					</td>
+				</tr>
+			</table>
+			<table id="copcomp" style="display: none; margin-top: 5px">
+				<tr>
+					<td align="left" >
+					Cod <input type="text" size="7" id="codcomp" name="codcomp"  onkeydown="if(event.keyCode == '13'){ return false; }; " style="text-transform: uppercase;"> &nbsp;
+					<input type="button" value="Buscar" name="buscacomp" onclick="buscaComposicaoprod();" >
+					</td>
+				</tr>
+			</table>
+	</td>
+</tr>
+<tr>
+	<td class="td_orc_min"  colspan="7">
+	<?=$this->translate->_("Total")?>:  
+	<span id="idtotal">0</span>
+	<input type="hidden" name="totalkit" id="totalkit" value="0"> 
+	</td>
+</tr>
+</table>
+<?php 
+else:
+	echo "erro1";
+endif;
+?>

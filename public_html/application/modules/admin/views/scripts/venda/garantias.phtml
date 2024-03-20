@@ -1,0 +1,221 @@
+	<script src="<?=$this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxhisgarantia.js"></script>
+
+	<div class="content">
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li class="lastB">Garantias</li>         
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5>Garantias</h5></div>
+
+		<div class="widgets" >
+        	<!-- Busca -->
+        	<div class="left" style="margin-top: 5px; margin-bottom: 5px" >   
+	        	<?php 
+				if($this->objIns==true):
+					?>
+				    <input type="button" class="basicBtn" style="width: 110px" onclick="window.location='<?=$this->baseUrl(); ?>/admin/venda/garantiasnovo'" value="Nova Garantia" >
+		    		<?php		    	
+			    endif; 
+			    ?>              
+            </div>
+            <div class="right" style=" text-align: right; padding-top: 7px; width: 40%">
+            <?php if($this->objNivel == 2): ?>
+	        	<a href="<?=$this->baseUrl(); ?>/admin/venda/garantiasnfe">Garantias pagas</a> |
+		    	<a href="<?=$this->baseUrl(); ?>/admin/venda/analiseop">Análises</a> | 
+		    	<a href="<?=$this->baseUrl(); ?>/admin/venda/dicasop">Dicas</a> |
+		    <?php endif; 
+		    if($this->objNivel != 0): 
+		    ?> 
+		    	<a href="<?=$this->baseUrl(); ?>/admin/venda/garantiasrel">Relatórios</a>
+	        </div>
+	        <?php endif; ?>
+        </div>
+        
+	
+ 		
+		<script>
+		function tipoPesquisa(valor){		
+			if(valor==1){
+				document.getElementById("buscid").style.display = "block";
+				document.getElementById("buscprod").style.display = "none";
+				document.getElementById("busccliente").style.display = "none";
+				document.getElementById("buscstatus").style.display = "none";
+			}else if(valor==2){
+				document.getElementById("buscprod").style.display = "block";
+				document.getElementById("buscid").style.display = "none";
+				document.getElementById("busccliente").style.display = "none";
+				document.getElementById("buscstatus").style.display = "none";
+			}else if(valor==3){
+				document.getElementById("busccliente").style.display = "block";
+				document.getElementById("buscid").style.display = "none";
+				document.getElementById("buscprod").style.display = "none";
+				document.getElementById("buscstatus").style.display = "none";
+			}else if(valor==4){
+				document.getElementById("busccliente").style.display = "none";
+				document.getElementById("buscid").style.display = "none";
+				document.getElementById("buscprod").style.display = "none";
+				document.getElementById("buscstatus").style.display = "block";
+			}
+		    
+		}
+		</script>
+		
+		
+		<div class="widgets" >
+        	<!-- Busca -->
+        	<div class="first" style="margin-top: 5px; margin-bottom: 5px; " >    
+				<form action="" method="post" name="busca" id="busca" class="mainForm" >
+				<table style="border: 1px solid #ccc; width: 100%; " >
+				    <tr>
+				    	<td width="95px" style="padding: 5px">
+				    		Busca por:<br>
+				    		<div class="styled-select" style="width: 180px">
+					    	<select name="tipo" onchange="tipoPesquisa(this.value);" style="width: 202px">
+								<option value="1">Por ID</option>
+								<?php if($this->objNivel != 0): ?>
+								<option value="3">Por Cliente</option>
+								<?php endif; ?>
+								<option value="4">Por Situação</option>
+							</select> 
+							</div>   
+				    	</td>
+				    	
+				    	<td width="210px" >
+				    		<?php if($this->objNivel != 0): ?>
+					    	<div style="display: none;" id="busccliente">
+					    		Cliente:<br>
+					    		<div class="styled-select" style="width: 190px">
+					    		<select name="buscacli" id="buscacli" style="width: 212px">
+									<?php foreach ($this->objCli as $listcli): ?>
+										<option value="<?=$listcli->ID?>"><?=$listcli->EMPRESA ?></option>
+									<?php endforeach; ?>
+								</select>
+								</div>
+							</div>
+							<?php endif; ?>
+							<div style="display: block;" id="buscid">
+								ID<br>
+								<input type="text" name="buscaid" id="buscaid" style="width: 80px">
+							</div>
+							<div style="display: none;" id="buscprod">
+								Código<br>
+								<input type="text" size="12" name="buscaprod" id="buscaprod">
+							</div>
+							<div style="display: none;" id="buscstatus">
+								Situação:<br>
+								<div class="styled-select" style="width: 190px">
+						    	<select name="tipostatus" style="width: 212px">
+							    	<option value="AGUARDANDO">Aguardando autorização</option>
+									<option value="REMETIDO">Remetido a ZTL</option>
+									<option value="RECUSADO">Envio recusado</option>
+									<option value="RECEBIDO">Em análise</option>
+									<option value="CONCLUIDA">Análise concluida</option>
+									<option value="PARCIAL">Finalização parcial</option>
+									<option value="FINALIZADO">Finalizado</option>
+									<option value="CANCELADO">Cancelado</option>
+								</select>   
+								</div>
+							</div>
+										
+				    	</td>
+				    	<td width="30px">
+				    	Dt ini<br>
+				    	<input type="text" name="dataini" id="dataini" class="data datepicker"  style="width: 80px">
+						</td>
+						<td align="left">
+						Dt fim<br>
+						<input type="text"  name="datafin" id="datafin" class="data datepicker"  style="width: 80px">
+						<input type="submit" value="Pesquisar" class="basicBtn">
+						</td>
+					</tr>
+				</table>  
+				</form>
+			</div>
+		</div>
+	
+		<?php 
+		if ( count($this->objList) > 0) :
+		?>
+		
+		<div class="widget first">
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="10%">Id</td>
+                        <td width="25%">Cliente</td>
+                        <td >Situação</td>
+                        <td width="15%">Dt atualização</td>
+                        <td width="10%">Opções</td>
+                    </tr>
+                </thead>
+                <tbody>
+			
+				<?php 
+				foreach($this->objList as $lista):
+		    		?>
+					<tr >
+		                <td style="text-align: center;" >
+		                   <?="G".substr("000000".$lista->id,-6,6);?>
+		                </td>
+		                <td align="left" > 
+		                   <?=($lista->EMPRESA)?>                  
+		                </td>
+		                <td align="left" >
+		                   <?=($lista->status);
+		                   if((strripos($lista->status, "RECEBIDO")!==false) || (strripos($lista->status, "EM ")!==false)):?>
+		                   <br>(Data chegada: <?=$lista->chegada?>) 
+		                   <?php endif;?>
+		                </td>
+		                <td style="text-align: center;" valign="middle">
+		                    <a href="#" class="dcontexto" onmouseover="MostraOpcao(<?=$lista->id?>);"><?=$lista->data;?>
+			                <span id="m_<?=$lista->id?>" style="width: 450px; margin-left: -350px"></span></a>
+		                </td>
+		                <td style="text-align: center;" >
+		                	<?php if(strripos($lista->status, "CANCELADO")!==false): ?>
+		                	<a href="<?=$this->baseUrl(); ?>/admin/venda/garantiascancel/garantia/<?=md5($lista->id)?>/page/<?=$this->page?>" ><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" border="0" title="Visualizar"></a> &nbsp; &nbsp;
+		                	<?php elseif((strripos($lista->status, "EM ")!==false) and ($this->objNivel == 2)): ?>
+		                	<a href="<?=$this->baseUrl(); ?>/admin/venda/garantiasanalise/garantia/<?=md5($lista->id)?>/page/<?=$this->page?>" ><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" border="0" title="Visualizar"></a> &nbsp; &nbsp;
+		                	<?php elseif((strripos($lista->status, "FINALIZA")!==false) || (strripos($lista->status, "CONCLU")!==false)):?>
+		                	<a href="<?=$this->baseUrl(); ?>/admin/venda/garantiaspag/garantia/<?=md5($lista->id)?>/page/<?=$this->page?>" ><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" border="0" title="Visualizar"></a> &nbsp; &nbsp;
+		                	<?php elseif(strripos($lista->status, "AGUARDANDO")!==false): ?>
+		                	<a href="<?=$this->baseUrl(); ?>/admin/venda/garantiasview/garantia/<?=md5($lista->id)?>/page/<?=$this->page?>" ><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" border="0" title="Visualizar"></a> &nbsp; &nbsp;
+		                	<?php else: ?>
+		                	<a href="<?=$this->baseUrl(); ?>/admin/venda/garantiasaceit/garantia/<?=md5($lista->id)?>/page/<?=$this->page?>" ><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" border="0" title="Visualizar"></a> &nbsp; &nbsp;
+		                	<?php endif; 
+		                	if((strripos($lista->status, "EM ")!==false) || (strripos($lista->status, "CONCLUIDA")!==false) || (strripos($lista->status, "FINALIZA")!==false)): ?>
+		                	<a target="_blank" href="<?=$this->baseUrl(); ?>/admin/venda/garantiasanaliseimp/garantia/<?=md5($lista->id)?>"><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/printer.png" width="16" border="0" title="Imprimir"></a> &nbsp; 
+		                    <?php 
+		                    endif;
+		                    ?>
+		                </td>		                
+		            </tr>
+		        	<?php  
+            	endforeach; 
+            	?>
+            	</tbody>        
+			</table>
+		</div>	
+		<div style="margin-top: 20px">
+			<?php 
+			if ( count($this->objList) > 0) :
+				echo $this->objList;
+			endif;
+		    ?>
+		</div>
+		<?php 
+		else :
+		?>
+		<div class="widget first">
+ 			Nenhuma garantia Encontrada
+		</div>	
+		<?php 
+		endif;
+		?>
+	</div>

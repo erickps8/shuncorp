@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>SisZTL 2.0 Alpha - ztlbrasil.com.br</title>
+<link href="<?=$this->baseUrl()?>/public/sistema/imagens/ztl.ico" rel="shortcut icon" type="image/x-ico"/>
+
+<link href="<?=$this->baseUrl()?>/public/sistema/css/mainprint.css" rel="stylesheet" type="text/css" />	
+
+</head>
+<!-- Content -->
+<body onload="window.print()">
+    <div class="content" style="width: 1000px; margin: auto">
+    	<div class="widgets">
+    		<div class="left">SisZTL 2.0 Alpha</div>
+    		<div class="right" style="text-align: right;"><?php echo date('d/m/Y H:i')?></div>
+    		<div class="clear"></div>	
+    	</div>   
+    	<?php 
+    	if((!empty($this->objParams['dataini'])) and (!empty($this->objParams['datafim']))):
+    		$periodo = " intervalo entre ".str_replace("-", "/", $this->objParams['dataini'])." e ".str_replace("-", "/", $this->objParams['datafim']);	    	
+    	elseif((!empty($this->objParams['dataini'])) and (empty($this->objParams['datafim']))):
+    		$periodo = " a partir da data ".str_replace("-", "/", $this->objParams['dataini']);
+    	elseif((empty($this->objParams['dataini'])) and (!empty($this->objParams['datafim']))):
+    		$periodo = " até a data  ".str_replace("-", "/", $this->objParams['datafim']);
+    	endif;
+    	?>
+	    <div class="title"><h5>Seleção de produtos <?php echo $periodo?></h5></div>
+
+	    <div class="widgets">
+		<div class="widget first">
+ 		<table style="width: 100%" class="tableStatic">
+        	<thead>
+            	<tr>
+                	<td width="">Código</td>
+                    <td width="">Estoque</td>
+                    <td width="">Custo</td>
+                    <td width="">Preço</td>
+                    <td width="">Margem</td>
+                    <td width="">Markup</td>
+                    <td width="">Vendas</td>
+                    <td width="">Sugestão</td>                                               
+               	</tr>
+         	</thead>
+            <tbody>
+           		<?php
+           		$arrayprod = $this->objProd;
+           		foreach ($arrayprod as $key => $row) {
+           			$ordenadesc[$key]  = $row['sugestao'];
+           		}
+           		
+           		array_multisort($ordenadesc, SORT_ASC, $arrayprod);
+           		
+		        foreach ($arrayprod as $key => $row) {
+				
+				?>
+        		<tr >
+        			<td align="left"><?php echo $row['codigo']?></td>
+	                <td align="right"><?php echo number_format($row['valorestoque'],2,",",".")?> (<?php echo $row['estoque']."/".number_format($row['estoqueper'],3,",",".")?>%)</td>
+	                <td align="right"><?php echo number_format($row['valorcmv'],2,",",".")?></td>
+	                <td align="right"><?php echo number_format($row['preco'],2,",",".")?></td>
+	                <td align="right"><?php echo number_format($row['margem'],2,",",".")?></td>
+	                <td align="right"><?php echo number_format($row['markup'],2,",",".")?></td>
+	                <td align="right"><?php echo number_format($row['vendastotal'],2,",",".")?> (<?php echo number_format($row['vendasper'],3,",",".")?>%)</td>
+	                <td align="right"><?php echo number_format($row['sugestao'],2,",",".")?> (<?php echo number_format($row['sugestaoper'],3,",",".")?>%)</td>
+		     	</tr>
+        		<?php
+        		}
+				?>
+			</tbody>
+        </table>
+   </div>
+   </div>
+ </div>
+ </body>
+ </html>

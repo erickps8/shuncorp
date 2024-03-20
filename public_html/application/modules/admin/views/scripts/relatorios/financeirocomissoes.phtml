@@ -1,0 +1,50 @@
+<script src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/relatoriosComissoes.js"></script>
+
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztl">Financeiro</a></li>
+                	<li class="lastB">Comissões</li>           
+                </ul>
+            </div>
+        </div>       
+
+		<div class="title"><h5>Comissões</h5></div>
+
+		<div class="widgets" >
+			<div style="border: 1px solid #d5d5d5; padding: 10px; margin-top: 10px" >
+				<form method="post" >
+		    		Mês de Apuração:
+		    		<div class="styled-select" style="width: 100px"> 
+			    	<select name="periodo" style="width: 122px">
+			    	<option value="0">Selecione</option>
+			    	<?php 
+			    	$data = date("01/m/Y");			    	
+ 			    	while($data != "01/07/2012"): 
+ 			    		?>
+    	 			    <option value="<?=substr($data, 6,4)."-".substr($data, 3,2)?>" <?php if($this->objPeriodo == (substr($data, 6,4)."-".substr($data, 3,2))) echo 'selected="selected"'; ?>><?=substr($data, 3)?></option>
+    				    <?php
+    				    $thisyear = substr ( $data, 6, 4 );
+    				    $thismonth = substr ( $data, 3, 2 );
+    				    $thisday = substr ( $data, 0, 2 );
+    				    $nextdate = mktime ( 0, 0, 0, $thismonth-1, $thisday, $thisyear );
+    				    $data = strftime("%d/%m/%Y", $nextdate);
+ 			    	endwhile;
+			    	
+			    	?>	
+			    	</select>
+			    	</div>
+			    </form>
+			</div>
+		</div>	
+		
+		<div class="clear"></div>
+			
+		<div id="resultado"></div>
+		
+	</div>

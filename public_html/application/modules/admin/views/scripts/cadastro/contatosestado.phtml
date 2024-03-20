@@ -1,0 +1,93 @@
+<link href="/maps/documentation/javascript/examples/default.css" rel="stylesheet">
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script>
+		var geocoder;
+	    var map;
+      	function initialize() {
+	        geocoder = new google.maps.Geocoder();
+	        var latlng = new google.maps.LatLng(-15.007536, -47.334595);
+	        var mapOptions = {
+	          zoom: 10,
+	          center: latlng,
+	          mapTypeId: google.maps.MapTypeId.ROADMAP
+	        }
+	        map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+	
+	        codeAddress();
+		}
+      
+      function codeAddress() {
+        var address = ""; //document.getElementById('address').value;
+       
+		<?php 
+		if(count($this->objEmp)>0):
+			foreach ($this->objEmp as $empresas):
+			?>
+				address = "";
+				address =  '<?=$empresas->endereco.", ".$empresas->bairro.", ".html_entity_decode($empresas->ncidade,ENT_COMPAT, "UTF-8").", ".$empresas->uf?>';
+				geocoder.geocode( { 'address': address}, function(results, status) {
+		          if (status == google.maps.GeocoderStatus.OK) {
+		            map.setCenter(results[0].geometry.location);
+		            var marker = new google.maps.Marker({
+		                map: map,
+		                position: results[0].geometry.location,
+		                title: "<?=$empresas->empresa?> \n<?=$empresas->endereco.", ".$empresas->bairro.", ".html_entity_decode($empresas->ncidade,ENT_COMPAT, "UTF-8").", ".$empresas->uf?>"
+		            });
+		          } else if (status === google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {    
+		       			sleep(1000);
+
+		            	 geocoder.geocode( { 'address': address}, function(results, status) {
+		    		          if (status == google.maps.GeocoderStatus.OK) {
+		    		            map.setCenter(results[0].geometry.location);
+		    		            var marker = new google.maps.Marker({
+		    		                map: map,
+		    		                position: results[0].geometry.location,
+		    		                title: "<?=$empresas->empresa?> \n<?=$empresas->endereco.", ".$empresas->bairro.", ".html_entity_decode($empresas->ncidade,ENT_COMPAT, "UTF-8").", ".$empresas->uf?>"
+		    		            });
+		    		          } else {
+		    		            alert('Erro na geração do mapa: ' + status);
+		    		          }
+		    		        });
+		              
+		          } else {
+		            alert('Erro na geração do mapa: ' + status);
+		          }
+		        });
+			<?php 
+			endforeach;
+		endif; 
+		?>
+		
+      }
+
+
+      $(function() {
+    	  initialize()
+  	  });
+
+      function sleep(milliseconds) {
+    	  var start = new Date().getTime();
+    	  for (var i = 0; i < 1e7; i++) {
+    	    if ((new Date().getTime() - start) > milliseconds){
+    	      break;
+    	    }
+    	  }
+    	}
+      
+    </script>
+
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?php echo $this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/contatos">CONTATOS</a>&nbsp;			
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/contatos"><b><?=$this->objUf?></b></a>&nbsp;		    	
+	</div>
+	<div id="sistitulo">CONTATOS DO <?=$this->objUf?></div>
+	<div id="sisconteudo">
+		<div id="map_canvas" style="width: 750px; height: 600px;"></div>
+		
+	</div>
+</div>
+

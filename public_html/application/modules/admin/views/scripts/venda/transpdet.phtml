@@ -1,0 +1,154 @@
+<?php
+
+
+foreach ($this->objTransp as $lista);
+
+?>
+        
+        <table width="100%" >
+            <tr>
+                <td align="right"><input type="button" class="button" onclick="window.location='<?php echo $this->baseUrl(); ?>/venda/transportadoras'" value="Voltar"></input></td>
+            </tr>
+        </table>
+        <br>
+        <table width="100%" class="borda_titulo">
+            <tr>
+                <td width="left"> TRANSPORTADORA</td>
+            </tr>
+        </table>
+			<br>
+			<form action="<?php echo $this->baseUrl(); ?>/venda/cadastrarota" method="post" name="cad">
+			<input type="hidden" name="emp" value="<?php echo $lista->id?>">
+			<table class="borda" width="100%" cellspacing="5">
+				<tr>
+					<td colspan="3">
+					Empresa:<br>
+					<b><?php echo $lista->nome?></b>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					Endere&ccedil;o:<br>
+					<b><?php echo $lista->endereco?></b>
+					</td>
+					<td>
+					Cidade:<br>
+					<b><?php echo $lista->cidade?></b>
+					</td>
+					<td>
+					Estado:<br>
+					<b><?php echo $lista->uf?></b>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					CEP:<br>
+					<b><?php echo $lista->cep?></b>
+					</td>
+				
+				</tr>
+				<tr>
+					<td>
+					Contato:<br>
+					<b><?php echo $lista->contato?></b>
+					</td>
+					<td>
+					Telefone:<br>
+					<b><?php echo $lista->telefone?></b>
+					</td>
+					<td>
+					Fax:<br>
+					<b><?php echo $lista->fax?></b>
+					</td>
+				</tr>
+			</table>
+			<br>
+			<table class="borda" width="100%" cellspacing="5">
+				<tr>
+					<td align="left">
+						Estado:<br>
+						<select class="borda_input" name="uf">
+						<?php foreach ($this->objUf as $lista){ ?>
+							<option value="<?php echo $lista->uf?>" ><?php echo $lista->uf?></option>
+						<?php } ?>
+						</select>
+					</td>
+					<td align="left">
+						<input type="radio" name="cidtipo" value="Capital" checked="checked"> Capital <br>
+						<input type="radio" name="cidtipo" value="Interior"> Interior 
+					</td>
+					<td align="left"> Percentual:<br>
+						<input type="text" name="perc" class="borda_input" size="7"  onKeyDown="Mascara(this,Valor);" onKeyPress="Mascara(this,Valor);" onKeyUp="Mascara(this,Valor);">
+					</td>
+					<td align="left"> Frete M&iacute;nimo:<br>
+						<input type="text" name="minimo" class="borda_input" size="7"  onKeyDown="Mascara(this,Valor);" onKeyPress="Mascara(this,Valor);" onKeyUp="Mascara(this,Valor);">
+					</td>
+					<td align="left"> Gatilho:<br>
+						<input type="text" name="gatilho" class="borda_input" size="7"  onKeyDown="Mascara(this,Valor);" onKeyPress="Mascara(this,Valor);" onKeyUp="Mascara(this,Valor);">
+					</td>
+				</tr>
+			</table>
+			<br>
+			 <table width="100%" >
+	            <tr>
+	                <td align="left"><input type="submit" class="button" value="Salvar"></td>
+	            </tr>
+        	</table>
+			</form>
+			<br>
+			 <table align="left" class="mytable" width="100%" cellspacing="0">
+	        <tr>
+	            <th  class="th_canto_orc" align="center" width="7%">
+	                UF
+	            </th>
+	            <th  class="th_orc" align="center" width="25%">
+	                Destino
+	            </th>
+	            <th  class="th_orc" align="center" width="20%">
+	                Percentual
+	            </th>
+	            <th  class="th_orc" align="center" width="20%">
+	                Frete M&iacute;nimo
+	            </th>
+	            <th  class="th_orc" align="center" width="15%">
+	                Gatilho
+	            </th>
+	            <th  class="th_orc" align="center" width="13%">
+	                Op&ccedil;&otilde;es
+	            </th>
+	        </tr>
+		<?php 
+			$cor =0;
+			foreach ($this->objRotas as $lista){
+			$cor++;
+            if(($cor%2)==0) $class = 'td_orc_par';
+            else $class = 'td_orc';
+			?>
+			
+			<tr >
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo $lista->uf?>
+                </td>
+                <td  class="<?=$class?>" align="left" >
+                   <?php echo $lista->tipo?>
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo number_format($lista->percentual,2,",","")?> %
+                </td>
+                <td  class="<?=$class?>" align="right" >
+                   <?php echo number_format($lista->frete_minimo,2,",",".")?>
+                </td>
+                <td  class="<?=$class?>" align="right" >
+                   <?php echo number_format($lista->gatilho,2,",",".")?>
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                   <a href="#" onclick="if(confirm('Remover rota?')){ window.location='<?php echo $this->baseUrl(); ?>/venda/removerota/id/<?php echo md5($lista->id)?>';};" ><img src="<?php echo $this->baseUrl(); ?>/images/window-close.png" width="17" height="17" border="0" title="Remover"></a>
+                </td>
+            </tr>
+            
+			
+			<?php 
+			}
+		?>
+		
+		</table>

@@ -1,0 +1,95 @@
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li><a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeirochina">Financeiro Shunkang</a> </li>
+                	<li class="lastB">Plano de contas</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Plano de contas</h5></div>
+
+        <div class="widgets" >
+        	<div class="left" style="font-weight: bold; padding: 5px 0px 5px 0px; ">
+				<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeirochinabancos"><?=$this->translate->_("Bancos")?></a>
+			</div>
+        	<div class="right" style="font-weight: bold; text-align: right; padding: 5px 0px 5px 0px; width: 40%">
+				<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeirochinapag"><?=$this->translate->_("Pagar")?></a> |
+				<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeirochinarec"><?=$this->translate->_("Receber")?></a> | 
+	    		<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeirochinaconc"><?=$this->translate->_("Conciliação")?></a>
+			</div>
+		</div>
+
+		<div class="widgets" >
+			<div class="first" style="margin-top: 5px; margin-bottom: 5px; " >
+				<?php if($this->objIns==1):?>
+				<form action="<?php echo $this->baseUrl(); ?>/admin/administracao/cadplanocontas" method="post" name="plano" id="plano" class="mainForm">
+					<input type="hidden" name="idplanoconta" >
+					<table style="margin-bottom: 8px; border: 1px solid #d5d5d5; width: 100%">
+					    <tr>
+					    	<td align="left" style="padding: 10px;" >
+					    		<?=$this->translate->_("Plano de conta")?>:<br>							 
+					    		<input type="text" style="text-transform: uppercase; width: 230px"  name="planoconta" id="planoconta" >
+					    		<input type="submit" value="<?=$this->translate->_("Salvar")?>" class="greenBtn">
+					    	</td>
+						</tr>
+					</table>  
+				</form>
+				<?php endif;?>
+			</div>
+		</div>
+		
+		<?php if(!empty($this->objPlanocontas)): ?>		
+		<div class="widget">
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td ><?=$this->translate->_("Id")?></td>
+                        <td ><?=$this->translate->_("Plano de conta")?></td>
+                        <?php if($this->objIns==1){?>
+                        <td width="10%"><?=$this->translate->_("Opções")?></td>
+                        <?php } ?>
+                    </tr>
+                </thead>
+                <tbody>	
+					<?php 
+					foreach ($this->objPlanocontas as $listplan):
+						?>
+						<tr>
+							<td class="td_orc_min" align="center">
+								<?=substr("000".$listplan->id_conta_plano,-3)?>
+							</td>
+							<td class="td_orc_min" align="left">
+								<?=$listplan->no_conta_plano?>
+							</td>
+							<?php if($this->objIns==1):?>
+							<td class="td_orc_min" align="center">
+								<a href="#" onclick="document.plano.planoconta.value='<?=$listplan->no_conta_plano?>'; document.plano.idplanoconta.value='<?=$listplan->id_conta_plano?>';"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/pencil.png" width="13" border="0" title="Editar"></a> &nbsp; 
+								<?php if($this->objEdi==1):?>
+								<a href="<?=$this->baseUrl(); ?>/admin/administracao/remplanocontas/idplano/<?=md5($listplan->id_conta_plano)?>"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" width="13" border="0" title="Remover"></a>
+								<?php endif;?>
+							</td>
+							<?php endif;?>
+						</tr>
+						<?php								
+				endforeach;			
+				?>
+			 	</tbody>
+            </table>            
+        </div>
+       
+		<?php 
+		else :
+		?>
+		<div class="widget" style="border-top: 1px solid #d5d5d5; padding: 10px; text-align: center">
+ 			Nenhuma plano de conta encontrado!
+		</div>	
+		<?php 
+		endif;
+		?>
+	</div>

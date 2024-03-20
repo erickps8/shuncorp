@@ -1,0 +1,429 @@
+<script src="<?=$this->baseUrl()?>/public/sistema/js/janelamodal.js"></script>
+<script src="<?=$this->baseUrl()?>/public/javascript/nfe/nfevendacancela.js"></script>
+
+<link type="text/css" rel="stylesheet" href="<?=$this->baseUrl()?>/public/sistema/css/modalestilo.css" ></link>
+
+<style>
+#divbarra{
+	border:1px solid #DFDFDF;
+	text-align:left;	
+}
+
+#barraprogresso{
+	width:1px; 
+	background: -moz-linear-gradient(top, #00bfbf, #007d7d);
+	background: -webkit-gradient(linear, left top, left bottom, from(#00bfbf), to(#007d7d)) repeat-X;
+	background-color: #00bfbf;
+	height:20px;
+}
+</style>
+
+<?php 
+	foreach ($this->objNfe as $listNfe);
+	foreach ($this->objPed as $listPed);		
+?>
+<div class="content">
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="#">Home</a> </li>
+                	<li><a href="<?php echo $this->baseUrl()?>/admin/venda/pedidos">Pedidos</a></li>
+                	<li class="lastB">Pedido <?=($listPed->idped)?> <?php if($listPed->sitvenda == 1) echo "(CANCELADO)"; ?></li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>PEDIDO <?=($listPed->idped)?> <?php if($listPed->sitvenda == 1) echo "(CANCELADO)"; ?></h5>
+       		<div style="float: right; padding: 10px">
+				<a href="<?php echo $this->baseUrl(); ?>/admin/venda/pedidosvendimp/ped/<?=md5($listPed->id)?>" target="_blank" ><img title="Imprimir" src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/printerwhite.png" border="0" width="18" /> </a>
+			</div>
+        </div>
+        
+        <div class="widget first" >
+            <div class="head" style="margin-top: -10px"><h5 class="iUser">Informações do cliente</h5></div>
+            <div class="body">
+                <table class="borda" style="width: 100%; border-spacing: 7px ">
+                	<tr>
+		                <td width="12%">Data da venda:</td>
+		                <td colspan="3"><b><?=substr($listPed->data_vend,8,2)."/".substr($listPed->data_vend,5,2)."/".substr($listPed->data_vend,0,4).substr($listPed->data_vend,10)?></b></td>		                
+		            </tr>
+		            <tr>
+		                <td width="12%">Cliente:</td>
+		                <td ><b><?=$listPed->nempresa?></b></td>
+		                <td>Raz&atilde;o Social:</td>
+		                <td><b><?=$listNfe->empresa?></b></td>
+		            </tr>
+		            <tr>
+		                <td>CPF/CNPJ:</td>
+		                <td width="35%"><b><?=$listNfe->cnpj?></b></td>
+		                <td width="15%">RG/INSC:</td>
+		                <td ><b><?=$listNfe->inscricao?></b></td>
+		            </tr>
+		            <tr>
+		                <td>Cidade:</td>
+		                <td width="35%"><b><?=$listNfe->cidade?></b></td>
+		                <td width="15%">Estado:</td>
+		                <td ><b><?=$listNfe->uf?></b></td>
+		            </tr>
+		            <tr>
+		            	<td>Pais:</td>
+		                <td ><b>Brasil</b></td>
+		                <td>Transportadora:</td>
+		                <td ><b><?=$listNfe->transportadora?></b></td>
+		            </tr>
+		            <tr>
+		            	<td style="vertical-align: top;">Nat Op:</td>
+		                <td colspan="3"><b><?=$listNfe->cfop." - ".$listNfe->naturezaop?></b></td>                
+		            </tr>
+		        </table>
+                
+            </div>
+        </div>
+
+        <div class="widget">
+ 			<?php
+			if (count($this->objList) > 0):			
+			?>       
+        	<div class="head" style="border-bottom: 0px"><h5 class="iFrames">Produtos</h5></div>
+        	<table class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="3%">Id</td>
+                        <td width="">Código</td>
+                        <td width="18%">NCM</td>
+                        <td width="5%">QT</td>
+                        <?php if($this->objCmv == 1): ?>	
+			            <td width="5%">Custo</td>
+			            <?php endif; ?>
+                        <td width="">Preço NF</td>
+                        <td width="">Preço Total</td>
+                        <td width="">ICMS</td>
+                        <td width="">IPI</td>
+                        <td width="10%">AL ICMS</td>
+                        <td width="10%">AL IPI</td>
+                    </tr>
+                </thead>
+                <tbody>
+                
+                <?php  
+		        $cor=$totalcusto=0;
+		        $total_pedido = $ipi = 0;
+		        $total_pedido_liquido = $totalcusto = $total_desc = $total_prod = $pesoliquido = $markupmin = $markup = 0;
+		        
+		        foreach ($this->objList as $listaProd):
+		        	$cor++;
+		            ?>
+			        <tr >
+			        	<td  style="text-align: center;" >
+		                    <?=$cor?>
+		                </td>
+		                <td  style="text-align: center;" >
+		                    <a href="javascript:void(0);" class="dcontexto" >
+		                		<?=$listaProd->codigo?>
+		                    	<span style="width: 300px"><?=($listaProd->descricao)?></span>		                    
+		                	</a>
+		                </td>
+		                <td  style="text-align: center;" >
+		                    <span style="color: #999"><?=$listaProd->ncm?></span>
+		                </td>
+		                <td  style="text-align: center;" >
+		                	<?=$listaProd->qt?>		                    
+		                </td>		            
+		                <?php if($this->objCmv == 1): ?>			               
+			                <td  style="text-align: right;">
+			                    <?php echo number_format($listaProd->custocompra,2,',','.');
+			                    $totalcusto += $listaProd->custocompra*$listaProd->qt;
+			                    ?>
+			                </td>			                
+			            <?php endif; ?>   
+		                <td  style="text-align: right;">
+		                    <?=number_format($listaProd->preco,2,',','.')?>
+		                </td>
+		                <td  style="text-align: right;">
+		                    <b><?=number_format(($listaProd->qt*$listaProd->preco),2,',','.')?></b>
+		                </td>
+		                <td  style="text-align: right;" >
+		                	<span style="color: #999">
+			                    <?=number_format($listaProd->vlicms,2,',','.')?>
+		                    </span>
+		                </td>
+		                <td  style="text-align: right;" >
+		                    <span style="color: #999">
+			                     <?=number_format($listaProd->vlipi,2,',','.')?>
+		                    </span>
+		                </td>
+		                <td  style="text-align: center;" >
+		                    <span style="color: #999"> <?=number_format($listaProd->alicms,2,',','.')?></span>
+		                </td>
+		                <td  style="text-align: center;" >
+		                    <span style="color: #999"> <?=number_format($listaProd->alipi,2,',','.')?></span>
+		                </td>                
+		            </tr>
+			        <?php	
+			        $total_prod 			+= $listaProd->qt;
+			        $total_pedido 			+= $listaProd->preco_tabela*$listaProd->qt;
+			        $total_pedido_liquido 	+= $listaProd->qt*$listaProd->preco_unit;
+			        
+			        //-- markups ---------------------------------------
+			        $markupmin 	+= (!empty($listaProd->markupmin)) ? $listaProd->markupmin * $listaProd->qt : 100 * $listaProd->qt;
+			        $markup 	+= (!empty($listaProd->markup)) ? $listaProd->markup * $listaProd->qt : 100 * $listaProd->qt;
+		        endforeach;
+		        ?>
+		        </tbody>
+            </table>            
+        </div>
+		        
+		<div class="widget">
+ 			<div class="head" ><h5 class="iView">Informações adicionais</h5></div>
+        	<div class="body">
+                <table class="borda" style="width: 100%; border-spacing: 7px ">
+		        <tr>
+    	            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+		              Frete:<br>
+		              <span style="font-size:14px; font-weight:bold;">
+		              <?=number_format($listNfe->frete,2,',','.')?>
+                    	  </span> 
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			              Seguro:<br>
+                    	  <span style="font-size:14px; font-weight:bold;">
+		              <?=number_format($listNfe->seguro,2,',','.')?>
+                    	  </span> 
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			              Desconto:<br>
+                    	  <span style="font-size:14px; font-weight:bold;">
+		              <?=number_format($listNfe->desconto,2,',','.')?>
+                    	  </span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+		              &nbsp;
+		            </td>
+		    	</tr>
+	            <tr>
+		            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               Base do calculo ICMS:<br>
+                    	   <span style="font-size:14px; font-weight:bold;">
+                       <?=number_format($listNfe->baseicms,2,',','.')?>
+                    	   </span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               	Base do calculo ICMS S.T.:<br>
+                    	   	<span style="font-size:14px; font-weight:bold;">
+                    	   	<?=number_format($listNfe->basest,2,',','.')?>
+                    	   	</span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               Valor total do IPI:<br>
+                    	   <span style="font-size:14px; font-weight:bold;">
+                    	        <?=number_format($listNfe->totalipi,2,',','.')?>  
+                    	   </span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			              Valor Total dos produtos:<br>
+                    	  <span style="font-size:14px; font-weight:bold; "><?=number_format($listNfe->totalprodutos,2,',','.')?></span>
+		            </td>
+		    	</tr>
+			    <tr >
+		    		<td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               Valor ICMS:<br>
+                    	   <span style="font-size:14px; font-weight:bold;">
+                    	   		<?=number_format($listNfe->vlicms,2,',','.')?>
+                    	   </span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               Valor ICMS S.T.:<br>
+                    	   <span style="font-size:14px; font-weight:bold;">
+                    	   		<?=number_format($listNfe->vlst,2,',','.')?>
+                    	   </span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               Outras despesas:<br>
+                    	   <span style="font-size:14px; font-weight:bold;"><?=number_format($listNfe->outrasdesp,2,',','.')?></span>
+		            </td>
+		            <td align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			        	Valor Total da nota:<br>
+                  		<span style="font-size:14px; font-weight:bold; color:#0010e1;">
+                    	<?=number_format($listNfe->totalnota,2,',','.')?>
+                    	</span>
+			        </td>
+		      	</tr>
+			    <tr>
+    	            <td style="padding-top: 20px; " colspan="2">
+		                <span style="font-weight: bold;">Pagamentos:</span>
+		                <table style="border: 1px solid #d5d5d5; width: 280px;" >
+			            <tr>
+			            	<td style="background-color: #efefef; text-align: center;">Fatura</td>
+				            <td style="background-color: #efefef; text-align: center;">Data</td>
+				            <td style="background-color: #efefef; text-align: center;">Valor</td>
+				            <td style="background-color: #efefef; text-align: center;">Situação</td>
+				        </tr>
+		                <?php 
+		                $contparc = 0;
+		               	foreach($this->objFin as $listfin):
+		               	$contparc++;
+		                ?>						                
+				        <tr>
+				        	<td style="padding: 3px"><a target="_blank" href="<?=$this->baseUrl()?>/admin/administracao/financeiroztlreccad/rec/<?=md5($listfin->id_financeirorec)?>"><?="NE".substr("000000".$listfin->id_nfe, -6, 6)."/".$contparc?></a></td>
+				        	<td style="padding: 3px"><?=substr($listfin->vencimento,8,2)."/".substr($listfin->vencimento,5,2)."/".substr($listfin->vencimento,0,4)?></td>
+				            <td style="text-align: right; padding: 3px"><?=number_format($listfin->valor_apagar,2,",",".")?></td>
+				            <td style="padding: 3px; text-align: center;">Em aberto</td>
+				        </tr>
+				        <?php 
+				        endforeach;
+				        ?>
+				        </table>							        
+		            </td>
+		            <td style="padding-top: 20px;">
+		            	<span style="font-weight: bold;">Transporte:</span><br />
+		            	<table>
+		            		<tr>
+		            			<td>Qt pacotes:</td>
+		            			<td style="font-weight: bold;">
+			            			<?=$listNfe->quantidade." ".$listNfe->especie?>
+		            			</td>
+		            		</tr>
+		            		<tr>
+		            			<td>Por conta:</td>
+		            			<td style="font-weight: bold;">
+		            				<?php if($listNfe->tipofrete == 0) echo "Emitente"; else echo "Destinatário"?>
+					            </td>
+		            		</tr>
+		            		<tr>
+		            			<td>Peso Bruto:</td>
+		            			<td style="font-weight: bold;"><?=number_format($listNfe->pesobruto,3,",",".")?></td>
+		            		</tr>
+		            		<tr>
+		            			<td>Peso Líquido:</td>
+		            			<td style="font-weight: bold;">
+		            				<?=number_format($listNfe->pesoliquido,3,",",".")?>
+		            			</td>
+		            		</tr>
+		            		<tr>
+		            			<td>Placa/UF:</td>
+		            			<td style="font-weight: bold;">
+		            				<?php if($listNfe->transplaca!="") echo $listNfe->transplaca." ".$listNfe->transuf?>
+		            			</td>
+		            		</tr>
+		            		<tr>
+		            			<td>ANTT:</td>
+		            			<td style="font-weight: bold;"><?=$listNfe->transantt?></td>
+		            		</tr>
+		            	</table>					            	
+		            </td>
+		            <td style="vertical-align: top; padding-top: 20px">
+	            		<span >Total de pe&ccedil;as:</span><br>
+	                    <span style="font-size:14px; font-weight:bold; text-align:right;" ><?=$total_prod?></span><br>				                
+	                    	
+	                    <?php if($this->objCmv == 1): ?>				                
+	                    Custo Total:<br>
+	                    <span style="font-size:14px; font-weight:bold;"><?=number_format($totalcusto,2,',','.')?></span><br>
+	                    Média Custo:<br>
+	                    <span style="font-size:14px; font-weight:bold;"><?php if($totalcusto !=0) { echo number_format($total_pedido_liquido/$totalcusto,2,',','.'); }?></span><br>
+	                    
+	                    <?php 
+	                    $makupdesejado 		= $markup/$total_prod;
+	                    $makupmindesejado 	= $markupmin/$total_prod;
+	                    $totalmarkup 		= ($total_pedido_liquido/$totalcusto)*100-100;
+	                    ?>
+	                    
+	                    Média markup:<br>
+	                    <span style="font-size:14px; font-weight:bold;"><?php if($totalcusto !=0) { echo number_format(($total_pedido_liquido/$totalcusto)*100-100,2,',','.'); }?></span><br>
+	                    Markup mínimo:<br>
+	                    <span style="font-size:14px; font-weight:bold;"><?php if($makupmindesejado !=0) { echo number_format($makupmindesejado,2,',','.'); }?></span><br>
+	                    <?php endif; ?>
+		                 
+		            </td>					            
+			    	</tr>
+				    <tr >
+			    		<td  align="left" valign="top" colspan="4" >
+			                Observa&ccedil;&otilde;es<br>
+			                <b><?=$listNfe->obs?></b>
+			            </td>
+		            </tr>
+		            <tr >
+			    		<td  align="left" valign="top" colspan="4" >
+			    			<div style="border: 1px solid #ccc; padding: 10px; line-height: 15px">
+			                XML da NFe<br>
+			                <a href="<?=$this->baseUrl()?>/public/nfe/nfe/producao/enviadas/aprovadas/<?=$listNfe->chave?>-nfe.xml"><?=$listNfe->chave?>-nfe.xml</a>
+			                <br />
+			                Danfe<br>
+			                <a href="<?=$this->baseUrl()?>/public/nfe/nfe/producao/pdf/<?=$listNfe->chave?>.pdf"><?=$listNfe->chave?>.pdf</a>
+			                </div>
+			            </td>
+		            </tr>
+		            <?php 
+		            //--- Se venda for cancelada -----------------------------------------------------------
+				    if(!empty($listPed->motivocanc)):
+				    ?>	
+		            <tr >
+			    		<td colspan="4" style="padding-top: 15px">
+			    			<span style="color: #f00; font-weight: bold;" >NF-e Cancelada</span><br />
+			                Motivo<br />
+			                <b><?=$listNfe->motivocanc?></b>
+			    			<div style="border: 1px solid #ccc; padding: 10px; line-height: 15px">
+			    			XML do Cancelamento<br>
+			                <a href="<?=$this->baseUrl()?>/public/nfe/nfe/producao/canceladas/<?=$listNfe->chave?>-procCanc.xml"><?=$listNfe->chave?>-procCanc.xml</a>
+			                </div>
+			            </td>
+		            </tr>
+		            <?php 
+		            endif;
+		            ?>
+			       		
+	            </table>            
+	        </div>
+      	</div>
+      	<?php 
+	    if($listPed->sitvenda == 0):
+	    ?>			    	
+	    <div style="margin-top: 10px">
+	    	<?php 
+	    
+	    	if(strtotime($listNfe->data_saida.'+1 days') > strtotime(date("Y-m-d H:i:s"))):
+	    	?>
+	    	<form class="mainForm" >
+	    		<input type="button" class="basicBtn" value="Cancelar NFe" onclick="if(document.getElementById('divcanc').style.display=='none'){document.getElementById('divcanc').style.display='block'}"> <br />
+		    	<div style="border: 1px solid #ccc; padding: 10px; line-height: 15px; display: none; margin-top: 5px" id="divcanc">
+		    	Motivo:<br />
+		    	<textarea name="obscancela" id="obscancela" tabindex="412" style="width: 400px; margin-bottom: 5px"></textarea> <br />
+		    	<input  value="Enviar"  class="basicBtn" janela="#jconfirma"  type="button" name="janelamodal">
+		    	
+		    	<input type="hidden" name="ped" value="<?=$listPed->idped?>">
+		    	<input type="hidden" name="idnfe" value="<?=$listNfe->id?>">
+		    	</div>
+	    	</form>
+	    	<?php 
+	    	endif;
+	    	?>
+	    </div>	  
+	    <?php 
+	    endif;
+	endif; ?>
+</div>
+	
+	<!-- Janelas modal -->
+	<div class="window" id="jconfirma" style="width: 320px; height: 110px" >
+	    <span class="titulojanela" >Cancelar Venda?</span><br />
+	    <span class="subtitulojanela">O estoque será ajustado de acordo com a venda</span>
+	    <div style="margin-top: 30px; text-align: center;">
+	    	<input type="button" class="greenBtn" name="janelamodal" janela="#jmodal" value="OK" onclick="cancelarVenda();">
+		    <input type="button" class="redBtn"  value="Cancelar" onclick="$('#mascara').hide(); $('.window').hide();">
+	    </div> 
+	</div>
+	
+	<div class="window" id="jmodal" style="width: 320px; height: 110px" >
+	    <span class="titulojanela" id="titulojanelager">Cancelar venda</span><br />
+	    <span class="subtitulojanela" id="subtitulojanelager">Salvando dados da venda...</span>
+	    <div id="subtexto" style="margin-top: 45px; text-align: center; ">
+	    	<div id="barraprogresso"></div> 	
+	    </div> 
+	</div>
+		
+	    
+	 	
+	
+	<!-- mascara para cobrir o site -->
+	<div id="mascara"></div>
+	

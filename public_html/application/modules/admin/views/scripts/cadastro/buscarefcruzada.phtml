@@ -1,0 +1,9 @@
+<?php 
+if(($this->objCross!='erro') and (count($this->objCross) > 0)):
+	foreach ($this->objCross as $list):
+		echo $list->codigo.":".$list->id_fabricante.":".$list->no_fabricante.";";
+	endforeach;
+else:
+	echo "erro";
+endif;
+?>

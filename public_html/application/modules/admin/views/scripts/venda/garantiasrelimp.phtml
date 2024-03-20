@@ -1,0 +1,394 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>SisZTL 2.0 Alpha - ztlbrasil.com.br</title>
+<link href="<?=$this->baseUrl()?>/public/sistema/imagens/ztl.ico" rel="shortcut icon" type="image/x-ico"/>
+<link href="<?=$this->baseUrl()?>/public/sistema/css/main.css" rel="stylesheet" type="text/css" />
+
+<script src="<?=$this->baseUrl()?>/public/sistema/js/jquery-1.4.4.js" type="text/javascript"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/flot/jquery.flot.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/flot/jquery.flot.pie.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/flot/jquery.flot.resize.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/flot/excanvas.min.js"></script>
+
+
+</head>
+
+<?php 
+if($this->objParams['tipo'] == 3):
+
+	if($this->objDevolvidos != 'erro'):
+	
+	if(count($this->objDevolvidos)>0):
+		foreach ($this->objDevolvidos as $produtos):
+			$array .= $produtos->qttotal.":".$produtos->mes."/".$produtos->ano."|";
+		endforeach;
+	endif;
+	
+	$arraydados .= substr($array,0,-1);
+	
+	$arraydados .= "-";
+	
+	if(count($this->objPagos)>0):
+		foreach ($this->objPagos as $produtos):
+			$array2 .= $produtos->qttotal.":".$produtos->mes."/".$produtos->ano."|";
+		endforeach;
+	endif;
+	$arraydados .= substr($array2,0,-1);
+	
+	$arraydados .= "-";
+	
+	if(count($this->objVendas)>0):
+		foreach ($this->objVendas as $produtos):
+			$array3 .= $produtos->qttotal.":".$produtos->mes."/".$produtos->ano."|";
+		endforeach;
+	endif;
+	$arraydados .= substr($array3,0,-1);
+	
+	else:
+		echo "erro";
+	endif;
+else:
+	foreach ($this->objNaopagos as $npagos);
+	foreach ($this->objPagos as $pagos);
+	foreach ($this->objCortesia as $cortesia);
+	
+	foreach ($this->objVendas as $vendas);
+	foreach ($this->objVendasztl as $vendasztl);
+	foreach ($this->objPagosztl as $pagosztl);
+	
+	//naopagoscli|pagoscli|vendascli|vendasztl|pagosztl
+	$arraydados = $npagos->qttotal."|".($pagos->qttotal-$cortesia->qttotal)."|".$vendas->qttotal."|".$vendasztl->qttotal."|".$pagosztl->qttotal."|".$cortesia->qttotal;
+endif;
+?>
+	
+    <body style="width: 800px; margin: 0 auto; background-color: #fff; background: url();" >         
+    <div class="title" style="padding: 15px 15px 0px 0px"><h3>Relatório de garantia</h3></div>
+
+        
+	
+	<div class="widgets" id="carregarGraficos" style="display: none; padding: 10px; text-align: center; background-color: #fff">
+		<img src="<?php echo $this->baseUrl?>/public/sistema/imagens/loaders/loader6.gif" /> Gerando relatório. Aguarde...
+	</div>
+	
+	<?php 
+	if($this->objParams['tipo'] != 3):
+	?>	
+	<div class="widgets" id="resultadoGarantias" style="background-color: #fff">
+		<div class="left" style="width: 65%">
+        	<div class="widget"><!-- Pie chart 1 -->
+            	<div class="head"><h5 class="iChart8">Resultado da análise (Cliente)</h5></div>
+                <div class="body">
+                	<div id="graph1" style="width: 380px; height: 380px; margin: 0 auto;  "></div>
+                </div>
+            </div>
+     	</div>
+            
+        <div class="right" style="width: 30%">
+        	<div class="widget"><!-- Pie chart 2 -->
+            	<div class="head"><h5 class="iChart8" style="font-size: 12px">ZTL (Vendas X Pagos)</h5></div>
+                <div class="body">
+                	<div id="graph2" style="width: 200px; height: 200px; margin: 0 auto;"></div>
+                </div>
+          	</div>
+      		<div class="widget"><!-- Pie chart 2 -->
+            	<div class="head"><h5 class="iChart8" style="font-size: 12px">Cliente (Compras X Pagos)</h5></div>
+                <div class="body">
+                	<div id="graph3" style="width: 200px; height: 200px; margin: 0 auto;"></div>
+             	</div>
+           	</div>
+      	</div>
+      	<div class="fix"></div>	
+	</div>
+	<?php else: ?>
+	<div class="widgets" id="resultadoGarantiasgeral" style="background-color: #fff">
+		<div class="widget"><!-- Pie chart 1 -->
+        	<div class="head"><h5 class="iGraph">Histórico de garantias</h5></div>
+        	<div class="body">
+        		<div class="chart" style="height: 400px; "></div>
+        	</div>
+        </div>
+     	
+      	<div class="fix"></div>	
+	</div>
+	
+	<?php 
+	endif;
+	 
+	if($this->objParams['tipo'] != 3):
+	?>
+	<div class="widgets" id="dadosGarantias" style="background-color: #fff">
+		
+		<div class="widget">
+ 			<div class="head" style="border-bottom: 0px"><h5 class="iFrames">Produtos</h5></div>
+        	<table class="tableStatic" id="txtHint" style="width: 100%">
+            	<thead>
+                	<tr>
+                        <td width="25%">Código</td>
+                        <td width="20%">Comprados</td>
+                        <td width="20%">Enviados para análise</td>
+                        <td width="20%">Pagos</td>
+                    </tr>
+                </thead>
+                <tbody>
+        	   	<?php	
+		       	$cont = 0;
+		       	foreach($this->objVendasg as $produtos):
+		       		$cont ++;
+			       	?> 
+			       	<tr>
+			       		<td style="text-align: center;" ><?=$produtos->CODIGO?></td>
+			       		<td style="text-align: center;" >
+			       		<?
+			       		echo $produtos->qttotal;
+			       		$compra += $produtos->qttotal;
+			       		?>
+			       		</td>
+			       		<td style="text-align: center;" >
+			       		<?php 
+			       		$qtgarantia = 0;
+			       		if(count($this->objProdutos)>0):
+			       			foreach ($this->objProdutos as $gar):
+			       				if($gar->idproduto == $produtos->idproduto): 
+			       					$qtgarantia = $gar->qttotal;
+			       					$garantia += $gar->qttotal;
+			       				endif;
+			       			endforeach;
+			       		endif;
+			       		
+			       		echo $qtgarantia;			       		
+			       		?>
+			       		
+			       		</td>
+			       		<td style="text-align: center;" >
+			       		<?
+			       		if($qtgarantia == 0) $qtpago = "-";
+			       		else $qtpago = 0;
+			       		if(count($this->objProcede)>0):
+			       			foreach ($this->objProcede as $procede):
+			       				if($procede->idproduto == $produtos->idproduto): 
+			       					$qtpago = $procede->qttotal;
+			       					$pagos += $procede->qttotal;
+			       				endif;
+			       			endforeach;
+			       		endif;
+			       		
+			       		echo $qtpago;
+			       		
+			       		?></td>
+		       		</tr>
+		       <?php 
+		       endforeach;
+		       ?>
+		       </tbody>
+		       <thead>
+                	<tr>
+                        <td width="25%" style="font-weight: bold;">Total</td>
+                        <td width="20%" style="font-weight: bold;"><?=$compra?></td>
+                        <td width="20%" style="font-weight: bold;"><?=$garantia?></td>
+                        <td width="20%" style="font-weight: bold;"><?=$pagos?></td>
+                    </tr>
+                </thead>
+			</table>
+		 </div>
+	</div>
+	<?php endif; ?>
+	
+<script>
+
+<?php 
+if($this->objParams['tipo'] == 3):
+?>
+
+$(function(){
+	
+	var periodorel = "<?=$this->objParams['periodo']?>";
+	var texto = "<?=$arraydados?>";
+	texto = texto.split("-");
+	
+	var d1 = [];
+	var d2 = [];
+	var d3 = [];
+	data = new Date();
+	
+	var ticks = [];
+	
+	for (var i = periodorel; i > 0; i -= 1){
+		ticks.push([i,((data.getMonth()+1)+"/"+data.getFullYear())]);
+		
+		//--- dados das devolucoes em garantis --------------------------
+		
+		var dp1 = 0;
+		arrTexto = texto[0].split("|");
+		for (var j = 0; j < arrTexto.length; j += 1){
+			dadosArray = arrTexto[j].split(":");
+			
+			if(dadosArray[1] == ((data.getMonth()+1)+"/"+data.getFullYear())){
+				dp1 = dadosArray[0];
+			}
+		}
+		
+		d1.push([i, dp1]);
+		
+		//--- dados das garantias pagas --------------------------
+		var dp2 = 0;
+		arrTexto = texto[1].split("|");
+		for (var j = 0; j < arrTexto.length; j += 1){
+			dadosArray = arrTexto[j].split(":");
+			
+			if(dadosArray[1] == ((data.getMonth()+1)+"/"+data.getFullYear())){
+				dp2 = dadosArray[0];
+			}
+		}
+		
+		d2.push([i, dp2]);
+		
+		//--- dados das vendas --------------------------
+		var dp3 = 0;
+		arrTexto = texto[2].split("|");
+		for (var j = 0; j < arrTexto.length; j += 1){
+			dadosArray = arrTexto[j].split(":");
+			
+			if(dadosArray[1] == ((data.getMonth()+1)+"/"+data.getFullYear())){
+				dp3 = dadosArray[0];
+			}
+		}
+		
+		d3.push([i, dp3]);
+		
+		data.setMonth(data.getMonth() - 1);
+	}
+	  
+
+	var plot = $.plot($(".chart"), [
+    	{label: "Devoluções", data: d1, lines: { show: true }, yaxis: 2},
+        {label: "Pagas", data: d2, lines: { show: true }, yaxis: 2},
+        {label: "Vendas", data: d3, lines: { show: true }, yaxis: 1}
+        ], 
+        {
+        	series: {
+            	lines: { show: true },
+                points: { show: true }
+            },
+            xaxis: { 
+				max: periodorel,
+                ticks: ticks
+            },
+            yaxes: [
+            	{position: 'left'},
+                {position: 'right'}	
+    	]
+    });
+
+
+	document.getElementById('carregarGraficos').style.display = "none";
+});
+
+
+<?php 
+else:
+?>
+
+
+$(function(){
+	
+	var texto = "<?=$arraydados?>";
+	texto = texto.split("|");
+	
+	var data = [];
+	data[0] = { label: "Não procedente", data: parseInt(texto[0]) };
+	data[1] = { label: "Procedente", data: parseInt(texto[1]) };
+	data[2] = { label: "Cortesia", data: parseInt(texto[5]) };
+	
+	var data2 = [];
+	data2[0] = { label: "Vendas", data: parseInt(texto[3]) };
+	data2[1] = { label: "Procedente", data: parseInt(texto[4]) };			
+	
+	var data3 = [];
+	data3[0] = { label: "Compras", data: parseInt(texto[2]) };
+	data3[1] = { label: "Procedente", data: parseInt(texto[1]) };
+	
+	
+	$.plot($("#graph1"), data, 
+	{
+		series: {
+	        pie: {
+	            show: true,
+	            radius: 1,
+	            label: {
+                    show: true,
+                    radius: 1,
+                    formatter: function(label, series){
+                        return '<div style="font-size:8pt;text-align:center;padding:2px;color:white;">'+label+'<br/>'+Math.round(series.percent)+'%</div>';
+                    },
+                    background: { opacity: 0.8 }
+                }
+	        }
+	    },
+
+		legend: {
+	        show: false
+	    }
+			
+	});
+
+	$.plot($("#graph2"), data2, 
+	{
+		series: {
+	        pie: {
+	            show: true,
+	            radius: 1,
+	            label: {
+                    show: true,
+                    radius: 1,
+                    formatter: function(label, series){
+                        return '<div style="font-size:8pt;text-align:center;padding:2px;color:white;">'+label+'<br/>'+Math.round(series.percent)+'%</div>';
+                    },
+                    background: { opacity: 0.8 }
+                }
+	        }
+	    },
+
+		legend: {
+	        show: false
+	    }
+			
+	});
+
+	$.plot($("#graph3"), data3, 
+	{
+		series: {
+	        pie: {
+	            show: true,
+	            radius: 1,
+	            label: {
+                    show: true,
+                    radius: 1,
+                    formatter: function(label, series){
+                        return '<div style="font-size:8pt;text-align:center;padding:2px;color:white;">'+label+'<br/>'+Math.round(series.percent)+'%</div>';
+                    },
+                    background: { opacity: 0.8 }
+                }
+	        }
+	    },
+
+		legend: {
+	        show: false
+	    }
+			
+	});
+	
+});
+
+
+<?php 
+endif;
+?>
+
+$(function(){
+	window.print();
+});
+</script>
+</body>
+	</html>

@@ -1,0 +1,330 @@
+<?php 
+	foreach ($this->objNfe as $listNfe);
+	foreach ($this->objEntrada as $listent);	
+?>
+
+	<div class="content">   
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoqueresumo">Estoque</a></li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/entradaest">Entrada de produtos</a></li>
+                	<li class="lastB">E<?=substr("000000".$listent->id, -6,6);?></li>          
+                </ul>
+            </div>            
+        </div>       
+        
+        <div class="title"><h5>E<?=substr("000000".$listent->id, -6,6);?></h5></div>
+        
+        <div style="float: right;">
+			<?php if(($this->objEdi==true) and ($listent->status!=1)):?>
+			<a href="<?=$this->baseUrl()?>/admin/compras/entradaprodcmv/entrada/<?=md5($listent->id)?>">
+			<b>CMV</b></a>
+			<?php endif; ?>
+		</div>
+        
+		<div class="widget" >
+            <div class="head" style="margin-top: -5px"><h5 class="iUser">Informações do cliente</h5></div>
+            <div class="body"> 
+				<table class="borda" style="width: 100%; border-spacing: 7px ">
+		            <tr>
+		                <td width="12%">Cliente:</td>
+		                <td ><b><?=$listent->EMPRESA?></b></td>
+		                <td>Raz&atilde;o Social:</td>
+		                <td><b><?=$listNfe->empresa?></b></td>
+		            </tr>
+		            <tr>
+		                <td>CPF/CNPJ:</td>
+		                <td width="35%"><b><?=$listNfe->cnpj?></b></td>
+		                <td width="15%">RG/INSC:</td>
+		                <td ><b><?=$listNfe->inscricao?></b></td>
+		            </tr>
+		            <tr>
+		                <td>Cidade:</td>
+		                <td width="35%"><b><?=$listNfe->cidade?></b></td>
+		                <td width="15%">Estado:</td>
+		                <td ><b><?=$listNfe->uf?></b></td>
+		            </tr>
+		            <tr>
+		            	<td>Pais:</td>
+		                <td ><b>Brasil</b></td>
+		                <td>Transportadora:</td>
+		                <td ><b><?=$listNfe->transportadora?></b></td>
+		            </tr>
+		            <tr>
+		            	<td style="vertical-align: top;">Nat Op:</td>
+		                <td colspan="3"><b><?=$listNfe->cfop." - ".$listNfe->naturezaop?></b></td>                
+		            </tr>
+		        </table>
+        	</div>
+        </div>
+        
+        <div class="widget">
+ 			<?php
+			if(count($this->objList)>0):			
+			?>       
+        	<div class="head" style="border-bottom: 0px"><h5 class="iFrames">Produtos</h5></div>
+        	<table class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="3%">Id</td>
+                        <td width="">Código</td>
+                        <td width="15%">NCM</td>
+                        <td width="">Qt</td>
+                        <td width="">Preço</td>
+                        <td width="">Preço Total</td>
+                        <td width="">ICMS</td>
+                        <td width="">IPI</td>
+                        <td width="">AL ICMS</td>
+                        <td width="">AL IPI</td>
+                    </tr>
+                </thead>
+                <tbody>
+               <?php  
+		        $cor=0;
+		        foreach ($this->objList as $listaProd):
+		        	$cor++;
+			        ?>
+			        <tr >
+			        	<td  style="text-align: center;" >
+		                    <?=$cor?>
+		                </td>
+		                <td  style="text-align: center;" >
+		                    <a href="javascript:void(0);" class="dcontexto" >
+		                		<?=$listaProd->codigo?>
+		                    	<span style="width: 300px"><?=($listaProd->descricao)?></span>		                    
+		                	</a>
+		                </td>
+		                <td  style="text-align: center;" >
+		                    <span style="color: #999"><?=$listaProd->ncm?></span>
+		                </td>
+		                <td  style="text-align: center;" >
+		                	<?=$listaProd->qt?>		                    
+		                </td>		               
+		                <td  style="text-align: right;">
+		                    <?=number_format($listaProd->preco,2,',','.')?>
+		                </td>
+		                <td  style="text-align: right;">
+		                    <b><?=number_format(($listaProd->qt*$listaProd->preco),2,',','.')?></b>
+		                </td>
+		                <td  style="text-align: right;" >
+		                	<span style="color: #999">
+			                    <?=number_format($listaProd->vlicms,2,',','.')?>
+		                    </span>
+		                </td>
+		                <td  style="text-align: right;" >
+		                    <span style="color: #999">
+			                     <?=number_format($listaProd->vlipi,2,',','.')?>
+		                    </span>
+		                </td>
+		                <td  style="text-align: center;" >
+		                    <span style="color: #999"> <?=number_format($listaProd->alicms,2,',','.')?></span>
+		                </td>
+		                <td  style="text-align: center;" >
+		                    <span style="color: #999"> <?=number_format($listaProd->alipi,2,',','.')?></span>
+		                </td>                
+		            </tr>
+			        <?php			        
+		        endforeach;
+		        ?>
+		        </tbody>
+		   	</table>
+		   	<?php 
+		   	endif; 
+		   	?>
+		</div>
+		
+		<div class="widget">
+ 			<div class="head" ><h5 class="iView">Informações adicionais</h5></div>
+        	<div class="body">
+            <table style="width: 100%; border-spacing: 7px ">
+		        <tr>
+			    	<td  class="td" align="left" colspan="12" >
+			            <table style="width: 100%">
+			            	<tr>
+					            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+					              Frete:<br>
+					              <span style="font-size:14px; font-weight:bold;">
+					              <?=number_format($listNfe->frete,2,',','.')?>
+		                    	  </span> 
+					            </td>
+					            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+					              Seguro:<br>
+		                    	  <span style="font-size:14px; font-weight:bold;">
+					              <?=number_format($listNfe->seguro,2,',','.')?>
+		                    	  </span> 
+					            </td>
+					            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+					              Desconto:<br>
+		                    	  <span style="font-size:14px; font-weight:bold;">
+					              <?=number_format($listNfe->desconto,2,',','.')?>
+		                    	  </span>
+					            </td>
+					            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+					              &nbsp;
+					            </td>
+					    	</tr>
+				            <tr>
+					            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+					               Base do calculo ICMS:<br>
+		                    	   <span style="font-size:14px; font-weight:bold;">
+			                       <?=number_format($listNfe->baseicms,2,',','.')?>
+		                    	   </span>
+					            </td>
+					            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+					               	Base do calculo ICMS S.T.:<br>
+		                    	   	<span style="font-size:14px; font-weight:bold;">
+		                    	   	<?=number_format($listNfe->basest,2,',','.')?>
+		                    	   	</span>
+					            </td>
+					            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+					               Valor total do IPI:<br>
+		                    	   <span style="font-size:14px; font-weight:bold;">
+		                    	        <?=number_format($listNfe->totalipi,2,',','.')?>  
+		                    	   </span>
+					            </td>
+					            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+					              Valor Total dos produtos:<br>
+		                    	  <span style="font-size:14px; font-weight:bold; "><?=number_format($listNfe->totalprodutos,2,',','.')?></span>
+					            </td>
+					    	</tr>
+						    <tr >
+					    		<td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+					               Valor ICMS:<br>
+		                    	   <span style="font-size:14px; font-weight:bold;">
+		                    	   		<?=number_format($listNfe->vlicms,2,',','.')?>
+		                    	   </span>
+					            </td>
+					            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+					               Valor ICMS S.T.:<br>
+		                    	   <span style="font-size:14px; font-weight:bold;">
+		                    	   		<?=number_format($listNfe->vlst,2,',','.')?>
+		                    	   </span>
+					            </td>
+					            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+					               Outras despesas:<br>
+		                    	   <span style="font-size:14px; font-weight:bold;"><?=number_format($listNfe->outrasdesp,2,',','.')?></span>
+					            </td>
+					            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+					              Valor Total da nota:<br>
+		                    	  <span style="font-size:14px; font-weight:bold; color:#0010e1;">
+		                    	  <?=number_format($listNfe->totalnota,2,',','.')?>
+		                    	  </span>
+					            </td>
+				            </tr>
+			       		</table>  
+		            </td>		            		            
+			    </tr>	
+		        <tr>
+			    	<td  class="td" align="left" colspan="12" >
+			            <table  style="width: 100%" >
+				            <tr>
+					            <td style="padding-top: 5px; padding-bottom: 5px; width: 320px; vertical-align: top;" >
+					                <span style="font-weight: bold;">Pagamentos:</span>
+					                <table style="border: 1px solid; width: 250px" >
+						            <tr>
+						            	<td style="background-color: #efefef; text-align: center;">Fatura</td>
+							            <td style="background-color: #efefef; text-align: center;">Data</td>
+							            <td style="background-color: #efefef; text-align: center;">Valor</td>
+							            <td style="background-color: #efefef; text-align: center;">Situação</td>
+							        </tr>
+					                <?php 
+					                $contparc = 0;
+					               	foreach($this->objFin as $listfin):
+					               	$contparc++;
+					                ?>						                
+							        <tr>
+							        	<td><a target="_blank" href="<?=$this->baseUrl()?>/admin/administracao/financeiroztlreccad/rec/<?=md5($listfin->id_financeirorec)?>"><?="NE".substr("000000".$listfin->id_nfe, -6, 6)."/".$contparc?></a></td>
+							        	<td><?=substr($listfin->vencimento,8,2)."/".substr($listfin->vencimento,5,2)."/".substr($listfin->vencimento,0,4)?></td>
+							            <td style="text-align: right;"><?=number_format($listfin->valor_apagar,2,",",".")?></td>
+							            <td >Em aberto</td>
+							        </tr>
+							        <?php 
+							        endforeach;
+							        ?>
+							        </table>							        
+					            </td>
+					            <td style="width: 250px;">
+					            	<span style="font-weight: bold;">Transporte:</span><br />
+					            	<table>
+					            		<tr>
+					            			<td>Qt pacotes:</td>
+					            			<td style="font-weight: bold;">
+						            			<?=$listNfe->quantidade." ".$listNfe->especie?>
+					            			</td>
+					            		</tr>
+					            		<tr>
+					            			<td>Por conta:</td>
+					            			<td style="font-weight: bold;">
+					            				<?php if($listNfe->tipofrete == 0) echo "Emitente"; else echo "Destinatário"?>
+								            </td>
+					            		</tr>
+					            		<tr>
+					            			<td>Peso Bruto:</td>
+					            			<td style="font-weight: bold;"><?=number_format($listNfe->pesobruto,3,",",".")?></td>
+					            		</tr>
+					            		<tr>
+					            			<td>Peso Líquido:</td>
+					            			<td style="font-weight: bold;">
+					            				<?=number_format($listNfe->pesoliquido,3,",",".")?>
+					            			</td>
+					            		</tr>
+					            		<tr>
+					            			<td>Placa/UF:</td>
+					            			<td style="font-weight: bold;">
+					            				<?php if($listNfe->transplaca!="") echo $listNfe->transplaca." ".$listNfe->transuf?>
+					            			</td>
+					            		</tr>
+					            		<tr>
+					            			<td>ANTT:</td>
+					            			<td style="font-weight: bold;"><?=$listNfe->transantt?></td>
+					            		</tr>
+					            	</table>					            	
+					            </td>					            
+					    	</tr>
+						    <tr >
+					    		<td  align="left" valign="top" colspan="2" >
+					                Observa&ccedil;&otilde;es<br>
+					                <b><?=$listNfe->obs?></b>
+					            </td>
+				            </tr>
+				            <tr >
+					    		<td  align="left" valign="top" colspan="2" >
+					    			<div style="border: 1px solid #ccc; padding: 10px; line-height: 15px">
+					                XML da NFe<br>
+					                <a href="<?=$this->baseUrl()?>/public/nfe/nfe/producao/enviadas/aprovadas/<?=$listNfe->chave?>-nfe.xml"><?=$listNfe->chave?>-nfe.xml</a>
+					                <br />
+					                Danfe<br>
+					                <a href="<?=$this->baseUrl()?>/public/nfe/nfe/producao/pdf/<?=$listNfe->chave?>.pdf"><?=$listNfe->chave?>.pdf</a>
+					                </div>
+					            </td>
+				            </tr>
+			       		</table>  
+		            	</td>
+		            </tr>	
+			    </table>
+			    
+			    <?php 
+			    if(/* $listent->entestoque == 1 and  */$listent->status == 1):
+			    ?>
+			    <div style="padding: 3px">
+			    	<input type="button" class="basicBtn" value="Inserir no estoque" onclick="produtosEntrada('<?=md5($listent->id)?>');">
+			    </div>			  
+			    <?php 
+			    endif;
+			    ?>
+			</div>		
+		</div>		
+	</div>	
+
+	<script>
+	function produtosEntrada(id){	
+		jConfirm('Inserir produtos no estoque?', 'Confirme', function(r) {
+			if(r==true){
+				window.location='<?=$this->baseUrl()?>/admin/compras/gravarestoque/entrada/'+id;
+			}
+		});
+	}
+	</script>

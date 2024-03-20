@@ -1,0 +1,24 @@
+<?php 
+
+foreach ($this->objProd as $list);
+
+if(!empty($list)):
+echo $list->ID;
+echo "|";
+echo $list->CODIGO;
+echo "|";
+echo $list->custo_shuntai;
+echo "|";
+echo $list->DESCRICAO;
+echo "|";
+echo $list->id_cliente_shuntai;
+echo "|";
+echo number_format($list->custo_shuntai,5,',','.');
+echo "|";
+echo number_format($list->custo_shuntai*$this->qt,5,',','.');
+else:
+
+echo "erro1";
+
+endif;
+?>

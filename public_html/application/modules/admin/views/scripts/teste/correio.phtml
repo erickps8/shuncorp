@@ -1,0 +1,24 @@
+<?php 
+$mail = new Zend_Mail_Storage_Pop3(array(
+		'host' 		=> 'pop.ztlbrasil.com.br',
+		'user'		=> 'cleiton@ztlbrasil.com.br',
+		'password' 	=> '010203',
+		'ssl'		=> 'SSL',
+		'port'		=> '995')
+);
+
+
+echo $mail->countMessages() . " messages found\n";
+echo "<br /><br />";
+
+$contmsg = 0;
+foreach ($mail as $message) {
+    $contmsg++;
+    
+    ?><a href="<?php echo $this->baseUrl()?>/admin/teste/correio2/email/<?php echo $contmsg?>" ><?php  
+	echo "Mail from '{$message->from}': {$message->subject}\n";
+	?></a><?php 
+
+echo "<br />";
+}
+?>

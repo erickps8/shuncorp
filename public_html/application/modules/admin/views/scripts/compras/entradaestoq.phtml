@@ -1,0 +1,124 @@
+<!-- Calendarios -->
+<link type="text/css" rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.css?random=20051112" media="screen"></LINK>
+<SCRIPT type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.js?random=20060118"></script>
+
+<?php 
+	foreach ($this->objForn as $listent);	
+?>
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl(); ?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoquegrupo"><?=$this->translate->_("ESTOQUE")?></a>&nbsp;
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp; 
+		<a href="<?=$this->baseUrl(); ?>/admin/compras/entradaest"><?=$this->translate->_("ENTRADA DE PRODUTOS")?></a>&nbsp;
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp; 
+		<b><a href="<?=$this->baseUrl(); ?>/admin/compras/entradaestoq"><?=$this->translate->_("NOVA ENTRADA")?></a></b>
+	</div>
+	<div id="sistitulo">ENTRADA DE PRODUTO</div>
+	<div id="sisconteudo">
+		<div> 
+		<table class="borda" style="width: 100%; border-spacing: 7px ">
+            <tr>
+                <td width="12%">Fornecedor:</td>
+                <td ><b><?=$listent->EMPRESA?></b></td>
+                <td>Raz&atilde;o Social:</td>
+                <td><b><?=$listent->RAZAO_SOCIAL?></b></td>
+            </tr>
+            <tr>
+                <td>CPF/CNPJ:</td>
+                <td width="35%"><b><?=$listent->CPF_CNPJ?></b></td>
+                <td width="15%">RG/INSC:</td>
+                <td ><b><?=$listent->RG_INSC?></b></td>
+            </tr>
+            
+        </table>
+        </div>
+        <div >
+		    <form action="<?=$this->baseUrl()?>/admin/compras/gerarentradaestoquenac" method="post" name="prepedido" id="prepedido" enctype="multipart/form-data" >
+		    <input type="hidden" value="<?=$listent->ID?>" name="empresa">
+		    <div style="margin: 5px 5px 10px 0px">
+		    	<table>
+		    		<tr>
+			    		<td align="left" width="150px">
+			    			Documento:<br />		     			
+		    				<input type="text" name="documento" size="12" >
+		    			</td>
+		    			<td align="right" >
+			    			Data:<br />
+		    				<input type="text" size="9" name="datadoc" id="datadoc" onclick="displayCalendar(this,'dd/mm/yyyy',this)">
+		    			</td>
+		    		</tr>
+		    		<tr>
+			    		<td align="left" colspan="2">
+			    			Anexo:<br />
+		    				<input type="file" name="anexo">
+		    			</td>		    			
+		    		</tr>
+		    	</table>
+		    	
+		    </div>    
+		    <div>
+			    <table class="mytable" style="margin-top: 6px">
+			        <tr>
+			            <th  class="th_canto" style="text-align: center;" width="20%" >
+			                C&Oacute;DIGO
+			            </th>
+			            <th  class="th_canto" style="text-align: center;" width="20%" >
+			                PED
+			            </th>
+			            <th  class="th_orc" style="text-align: center;" width="10%">
+			                QT PED
+			            </th>
+			            <th  class="th_orc" style="text-align: center;" width="10%">
+			                QT ENT
+			            </th>
+			            <th  class="th_orc" style="text-align: center;" width="15%">
+			                Pre&ccedil;o
+			            </th>
+			        </tr>  
+			        <?php 
+			        $cor=0;        	
+			        foreach ($this->objProdped as $listaprod):
+			        	$cor++;
+				        if(($cor%2)==0) $class = 'td_orc_par';
+				        else $class = 'td_orc';
+				            
+				        ?>
+						<tr >
+							<td  class="<?=$class?>" style="text-align: center;" >
+			                   <? 
+			                   echo $listaprod->CODIGO;
+			                   ?>
+			                </td>
+			                <td  class="<?=$class?>" style="text-align: center;" >
+			                   <a href="<?=$this->baseUrl()?>/admin/compras/pedidoscompraprod/ped/<?=md5($listaprod->ID_PEDIDO_COMPRA)?>" target="_blank">
+			                   <?=$listaprod->ID_PEDIDO_COMPRA?>
+			                   </a>
+			                </td>
+			                <td  class="<?=$class?>" style="text-align: center;" >
+			                   <?=$listaprod->QUANTIDADE?>
+			                </td>
+			                <td  class="<?=$class?>" style="text-align: center; font-weight: bold;">
+			                	<input type="text" size="5" name="qt_<?=$listaprod->idpedprod?>" >	                   	
+			                </td>
+			                <td  class="<?=$class?>" style="text-align: right;" >
+			                   <input type="text" size="5" name="preco_<?=$listaprod->idpedprod?>" value="<?=number_format($listaprod->precocompra,3,",",".");?>">              
+			                </td>	                	               
+			            </tr>
+				    <?php 
+				    endforeach;
+				    ?>    	        	
+			     	</table>
+		     	</div>
+		     	<div style="margin-top: 10px">
+		     		Observação:<br />
+					<textarea rows="2" cols="50" name="obs"></textarea>
+		     	</div>
+		     	<div style="margin-top: 10px">
+		     		<input type="submit" value="Gerar Entrada">
+		     	</div>
+		    </form>
+		</div>
+	</div>
+</div>	

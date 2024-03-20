@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>SisCorp 2.0 Alpha - Shuncorp.com</title>
+    <link href="<?=$this->baseUrl()?>/public/sistema/imagens/ico.ico" rel="shortcut icon" type="image/x-ico"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="description" content="Shuncorp Import and Export" />
+	<meta name="keywords" content="rolamentos, cubo de roda, rolamento, embreagem, embreagens, ponta de eixo, pontas de eixo, bomba dagua, bombas dagua, roda, scania, homocinetica, homocineticas, transmissoes" />
+	<link href="<?=$this->baseUrl()?>/public/sistema/css/estiloinvoiceimp.css" rel="stylesheet" type="text/css" />		
+
+	<style type="">
+	*{
+		font-size: 11px;	
+	}
+	</style>
+	
+</head>
+
+<body >
+
+<?php 
+foreach ($this->objDet as $listdet);
+$ped = $listdet->idped;
+?>
+<div id="siscorpo">
+	<div id="titulo" style="width: 750px; text-align: center; margin: 0 auto; margin-bottom: 15px; font-weight: bold;">
+		<div id="titulo">
+			<span style="font-size: 16px; tex">
+				順合進出口有限公司<br />
+				SHUNCORP IMP & EXP CO., LIMITED<br />
+			</span>
+			NO 300 LOCKHART ROAD - KIUFU COMMERCIAL BUILDING - ROOM 20A, HONG KONG, WAN CHAI, HONG KONG
+<br />
+			P.Code: 90000 PHONE: +852-25211836 FAX: +852-25211836
+		</div>
+		
+		
+		<div style="margin-bottom: 10px; font-size: 16px">
+			装 箱 单 （重量单)<br />
+			PACKING LIST (Weight List or Note)
+		</div>
+		<div style="text-align: center;">
+			<table style="width: 600px; margin: 0 auto;"><tr>
+				<td style="text-align: left; width: 65%; font-size: 16px">
+				日期:<br />
+				DATE: <?=$listdet->dtcominvoice?>
+				</td>
+				<td style="text-align: left; font-size: 16px">
+				发票号码:<br />
+				INVOICE NO.: <?='S'.substr("000000".$ped, -6,6)?>
+				</td>
+			</tr></table>
+		</div>
+	</div>
+	
+    <div id="sisconteudo">
+		<div>
+		
+		<table style="border-collapse: collapse; border: 1px solid #000;" cellpadding="0" cellspacing="0" width="750" align="center">
+	    	<tr>
+		    	<td style="border: 1px solid; font-size: 12px;" width="15%" align="center">PALLET NO</td>
+		    	<td style="border: 1px solid; font-size: 12px;" width="15%" align="center"></td>
+		    	<td style="border: 1px solid; font-size: 12px;" width="15%" align="center">QUANTITY</td>
+		    	<td style="border: 1px solid; font-size: 12px;" width="10%" align="center">PKGS</td>
+		    	<td style="border: 1px solid; font-size: 12px;" width="15%" align="center">G.W.KGS</td>
+		    	<td style="border: 1px solid; font-size: 12px;" width="15%" align="center">N.W.KGS</td>
+		    	<td style="border: 1px solid; font-size: 12px;" width="15%" align="center">MEAS.M3</td>
+	    	</tr>
+	    </table>
+		
+    	<?php 
+    	if(!empty($this->objPack)):
+    	$contp 		= 0;
+    	$totalpacks = count($this->objPack); 
+    	
+    	foreach ($this->objPack as $pack):
+    		$contp ++;
+    	
+	    	$totalp = $totalc = $countpl = $verdup = $cor = 0;
+	    	//--- conta o qt para o rowspan da tabela -----------------------
+	    	foreach($this->objProdpl as $lista):
+		    	if($pack->id == $lista->id_pack):
+			    	$countpl++;
+			    endif;
+	    	endforeach;
+	    	
+	    	$countpl = $countpl*2;
+	    	$countpl++;
+	    	
+    		?>
+    		<table style="border-collapse: collapse; border: 1px solid #000; margin-top: 10px" cellpadding="0" cellspacing="0" width="750" align="center">
+    			<?php 
+    			
+				foreach($this->objProdpl as $lista):
+					if($pack->id == $lista->id_pack):
+		            	$cor++;			            
+		               	?>
+						<tr >
+							<?php if($cor==1):?>
+			                <td width="15%"  rowspan="<?=$countpl?>" style="text-align: center; padding: 3px; font-weight: bold; border: 1px solid #000; font-size: 14px" >
+			                	 <?=$contp."/".$totalpacks?>
+			                </td>
+			                <?php endif; ?>
+							<td colspan="5"  align="left" style="padding: 3px; border: 1px solid #000;">
+			                   <?php 
+			                   	 if(!empty($lista->ncmg)):
+			                   		echo $lista->ncmg." ".$lista->ncmex;
+			                   	else:
+			                   		echo $lista->ncm." ".$lista->ncmex;
+			                   	endif; 
+			                   	//echo $lista->ncmg;
+			                   	
+			                   	echo " ";
+			                    
+			                    
+			                    
+		               	        if(!empty($lista->cod_prodcli)): 
+			                    	echo $lista->cod_prodcli." ".$lista->pl_prod_desc;
+						    	else:
+						    		echo "P".substr("000000".$lista->id_prod, -6,6)." ".$lista->pl_prod_desc." (".$lista->CODIGO.")";
+						    	endif;?>			                                  
+			                </td>			                
+			                <?php if($cor==1):?>
+			                <td width="15%"   rowspan="<?=$countpl?>" style="text-align: center; padding: 3px; font-weight: bold; border: 1px solid #000; font-size: 14px" >
+			                	 <?php
+			                	 if(($pack->altura!=0)||($pack->comprimento!=0)||($pack->largura!=0)):
+			                	 	echo number_format($pack->altura*$pack->comprimento*$pack->largura,3,",",".");
+			                	 else:
+			                		echo number_format($pack->medida,3,",",".");
+			                	 endif;
+			                	 ?>			                	 
+			                </td>
+			                <?php endif; ?>
+			            </tr>
+			            <tr >
+							<td width="15%"   style="text-align: center; padding: 3px; border: 1px solid #000;" >
+			                  &nbsp;         
+			                </td>
+			               <td width="15%"   style="text-align: center; padding: 3px; border: 1px solid #000;" >
+			                    <?=$lista->qt?> PCS
+			                </td>
+			                <td   style="text-align: center; padding: 3px; border: 1px solid #000;" >
+			                    <?=$lista->pkgs?> CTNS
+			                </td>
+                   			<td width="15%"   style="text-align: center; padding: 3px; border: 1px solid #000;" >
+			                    <?php if(($lista->peso_bruto!="") and ($lista->peso_bruto!=0)) echo number_format($lista->peso_bruto,3,",",".")." KGS"?> 
+			                </td>
+			                <td  width="15%"  style="text-align: center; padding: 3px; border: 1px solid #000;" >
+			                    <?php if(($lista->peso_liquido!="") and ($lista->peso_liquido!=0)) echo number_format($lista->peso_liquido,3,",",".")." KGS"?> 
+			                </td>
+			            </tr>				            
+						<?php 
+						$totalp += $lista->qt;
+						$totalc	+= $lista->pkgs;
+					endif; 					
+				endforeach;
+				
+				$cor++;
+	            if(($cor%2)==0) $class = 'td_orc_par';
+	            else $class = 'td_orc';	
+				
+				?>
+				<tr >
+	                <td style="text-align: left; padding: 3px; border: 1px solid #000;" >
+	                   TOTAL:
+	                </td>
+	                <td style="text-align: center; padding: 3px; border: 1px solid #000;" >
+	                    <?=$totalp?> PCS
+	                </td>
+	                <td  style="text-align: center; padding: 3px; border: 1px solid #000;" >
+	                    <?=$totalc?>CTNS
+				    </td>
+	                <td style="text-align: center; padding: 3px; border: 1px solid #000;" >
+	                    <?=number_format($pack->peso_bruto,3,",",".")?> KGS
+	                </td>
+	                <td style="text-align: center; padding: 3px; border: 1px solid #000;" >
+	                    <?=number_format($pack->peso_liquido,3,",",".")?> KGS
+	                </td>	                
+	            </tr>						
+			</table>
+    		<?php 
+    		
+    		$totalgerp 	+= $totalp;
+    		$totalgerc 	+= $totalc;
+    		$totalpesol += $pack->peso_liquido;
+    		$totalpesog += $pack->peso_bruto;
+    		//$totalmeas	+= $pack->altura*$pack->comprimento*$pack->largura;
+    		
+    		if(($pack->altura!=0)||($pack->comprimento!=0)||($pack->largura!=0)):
+    			$totalmeas	+= $pack->altura*$pack->comprimento*$pack->largura;
+    		else:
+    			$totalmeas	+= $pack->medida;
+    		endif;
+    		
+    		
+    	endforeach;
+    	endif;
+    	?>
+    	
+    	<table style="border-collapse: collapse; border: 1px solid #000; margin-top: 10px; margin-bottom: 10px" cellpadding="0" cellspacing="0" width="750" align="center">
+	    	<tr>
+		    	<td style="border: 1px solid; font-size: 12px;" width="30%" align="center" colspan="2">TOTAL</td>
+		    	<td style="border: 1px solid; font-size: 12px;" width="10%" align="center"><?=$totalgerp?> PCS</td>
+		    	<td style="border: 1px solid; font-size: 12px;" width="15%" align="center"><?=$totalpacks?> PALLET</td>
+		    	<td style="border: 1px solid; font-size: 12px;" width="15%" align="center"><?=number_format($totalpesog,3,",",".")?> KGS</td>
+		    	<td style="border: 1px solid; font-size: 12px;" width="15%" align="center"><?=number_format($totalpesol,3,",",".")?> KGS</td>
+		    	<td style="border: 1px solid; font-size: 12px;" width="15%" align="center"><?=number_format($totalmeas,3,",",".")?> M3</td>
+	    	</tr>
+	    </table>
+    	
+    	</div>	
+    </div>	
+</div>
+
+</body>
+</html>

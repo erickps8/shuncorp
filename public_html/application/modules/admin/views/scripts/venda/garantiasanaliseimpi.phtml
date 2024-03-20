@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>ZTL Brasil - www.ztlbrasil.com.br </title>
+<link href="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/ztl.ico" rel="shortcut icon" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/css/pedidos_imp.css" />
+</head>
+
+<br></br>
+<?php 
+
+if(!empty($this->objGarantia)):
+	foreach ($this->objGarantia as $viewGarantia);
+endif;
+
+if(!empty($this->objCliente)):
+	foreach ($this->objCliente as $viewCli);
+endif;
+
+?>
+<table width="800" class="borda_titulo"  align="center">
+	<tr>
+		<td width="left">GARANTIA N&ordm; G<?php echo substr("000000".$viewGarantia->id,-6,6)?></td>
+	</tr>
+</table>
+
+<table width="800" style="border: 1px solid #000; margin-top: 10px; " cellspacing="8px" align="center">
+<tr>
+	<td align="left" width="22%" colspan="3">
+		Empresa:<br>
+		<b><?php echo htmlentities($viewCli->EMPRESA)?></b>	
+	</td>
+	
+	
+</tr>
+<tr>
+	<td align="left" width="40%" colspan="2">
+		Nota Fiscal:<br>
+		<b><?php echo $viewGarantia->nota_fiscal?></b>	
+	</td>
+	
+	<td align="left" colspan="2" >
+		Data emiss&atilde;o:<br>
+		<b><?php echo substr($viewGarantia->data_nf,8,2)."/".substr($viewGarantia->data_nf,5,2)."/".substr($viewGarantia->data_nf,0,4)?></b>	
+	</td>
+	
+</tr>
+<tr>
+	<td align="left" width="25%" >
+		Peso:<br>
+		<b><?php echo $viewGarantia->peso_nf?></b> 
+		Kg
+	</td>
+	<td align="left" colspan="3" width="85%">
+		Volumes:<br>
+		<b><?php echo $viewGarantia->volumes?></b>	
+	</td>
+</tr>
+
+<tr>
+	<td align="left" colspan="4">
+		Observa&ccedil;&atilde;o:<br>
+		<b><?php echo htmlentities($viewGarantia->obs)?></b>
+	</td>
+</tr>
+
+</table>
+
+<table  align="center" width="800">
+<tr><td align="left"><br>
+Data da chegada: 
+<b><?php echo $viewGarantia->chegada?></b>
+
+
+</td></tr>		
+</table>
+<table align="center" class="mytable" width="800" cellspacing="0" style="margin-top: 10px">
+	<tr>
+    		<th  class="th_canto_orc" align="center" width="15%" >
+                ID
+            </th>
+            <th  class="th_orc" align="center" width="5%">
+                C&Oacute;DIGO
+            </th>
+            <th  class="th_orc" align="center" width="55%">
+            	AN&Aacute;LISE
+            </th>
+            <th  class="th_orc" align="center" colspan="2">
+            	SUBSTITUIR?
+            </th>
+        </tr>       
+       <?php
+       if(!empty($this->objAnalise)):
+       		$cont = 0;
+       		$idt = "";
+       		foreach ($this->objAnalise as $listProd):
+				if(($idt==$listProd->idt) || ($cont==0)):
+					if($listProd->id_analisegar==""):
+						$analises .= "- ".$listProd->desc_outros."<br>";
+					else:
+						$analises .= "- ".$listProd->descricao."<br>";
+					endif;
+					$cont=1;
+					
+					$cod = $listProd->CODIGO;
+					$tipo = $listProd->tipo;
+					$n_ord = $listProd->n_ord;
+				else:
+       			   ?> 
+			       <tr>
+			       		<td class="td" align="center">
+				       		<?php echo substr("000".$n_ord,-3,3); ?>
+				       	</td>
+			       		<td class="td" align="center" ><?php echo $cod?></td>
+			       		<td class="td" align="left">
+			       		<?php echo ($analises)?>
+			       		</td>
+			       		<td class="td" align="center" id="td_analise_<?php echo $cont?>">
+			       		<?php 
+			       			if($tipo==1) echo "SIM";
+			       			else echo "N&Atilde;O";
+			       		?>	
+			       		</td>
+			       </tr>
+			       <?php
+			       if($listProd->id_analisegar==""):
+						$analises = "- ".$listProd->desc_outros."<br>";
+				   else:
+						$analises = "- ".$listProd->descricao."<br>";
+				   endif;
+				   $cod = $listProd->CODIGO;
+				   $tipo = $listProd->tipo;
+				   $n_ord = $listProd->n_ord;
+			       
+		       endif;
+		   	   $idt = $listProd->idt;
+		    endforeach;
+		    ?><tr>
+		       		<td class="td" align="center">
+			       		<?php echo substr("000".$n_ord,-3,3); ?>
+			       	</td>
+		       		<td class="td" align="center"><?php echo $cod?></td>
+		       		<td class="td" align="left">
+		       		<?php echo htmlentities($analises)?>
+		       		</td>
+		       		<td class="td" align="center" id="td_analise_<?php echo $cont?>">
+		       		<?php 
+		       			if($tipo==1) echo "SIM";
+		       			else echo "N&Atilde;O";
+		       		?>	
+		       		</td>
+		      </tr>
+			 <?php 
+		    
+		elseif(!empty($this->objProdutos)):
+       		$cont = 0;
+       		foreach ($this->objProdutos as $listProd):
+       			for($i = 0; $i<$listProd->qt; $i++):
+       				$cont++;
+			       ?> 
+			       <tr>
+			       		<td class="td" align="center">
+				       		<?php echo substr("000".$cont,-3,3)?>
+				       		<input type="hidden" name="id_prod_<?php echo $cont?>" value="<?php echo $listProd->ID?>" />
+				       		<input type="hidden" name="analises_<?php echo $cont?>" id="analises_<?php echo $cont?>" value="" />
+			       		</td>
+			       		<td class="td" align="center"><?php echo $listProd->CODIGO?></td>
+			       		<td class="td" align="left" id="td_analise_<?php echo $cont?>">
+			       			
+			       		</td>
+			       		<td class="td" align="left" id="td_analise_<?php echo $cont?>">
+			       			
+			       		</td>
+			       </tr>
+			       <?php
+			   endfor;
+		    endforeach;
+		endif; 
+       
+		?>
+     </table>
+     
+	<!--<table width="800" align="center" >
+		  <tr>
+		    <td>
+		    
+		    NOTA TÉCNICA:<br><br>
+
+			 A ZTL EM CONSIDERAÇÃO E RESPEITO AOS SEUS CLIENTES, ATRAVÉS DOS "LAUDOS TÉCNICOS"  ESTÁ TRABALHANDO PARA A REDUÇÃO DOS ÍNDICES DE GARANTIA, MELHORIA CONTÍNUA DOS SEUS PRODUTOS E QUALIFICAÇÃO DOS APLICADORES ATRAVÉS DE INFORMAÇÕES ÚTEIS À MONTAGEM DOS NOSSOS PRODUTOS. 
+			 <br><br>
+			 ABAIXO SEGUEM ALGUMAS  DICAS IMPORTANTES:
+			 <br><br>
+			-EVITE A OVALIZAÇÃO FAZENDO UMA LIMPEZA PRÉVIA DA MANGA DE EIXO E CUBO ANTES DA MONTAGEM RETIRANDO TODA OXIDAÇÃO UTILIZANDO UMA LIXA FINA E PASSANDO ÓLEO LOGO EM SEGUIDA PARA PROTEGER A SUPERFÍCIE. VERIFIQUE COM INSTRUMENTOS DE MEDIÇÕES APROPRIADOS AS MEDIDAS DOS ALOJAMENTOS (CUBO E MANGA DE EIXO) ANTES DE EFETUAR A MONTAGEM.
+			<br>
+			-OVALIZAÇÕES NOS ALOJAMENTOS  (CUBO E MANGA)ACIMA OU ABAIXO DE 0,05mm PODEM CAUSAR DIMINUIÇÕES NA VIDA ÚTIL DO ROLAMENTO E CAUSAR DANOS MAIORES. CASO OCORRA A ZTL RECOMENDA A SUBSTITUIÇÃO DA PEÇA POR UMA NOVA.
+			<br>
+			-DESALINHAMENTOS, COMPONENTES DE SUSPENSÃO EM MÁS CONDIÇÕES E  MONTAGENS INADEQUADAS PODEM PROVOCAR DANOS AOS ROLAMENTOS.
+			<br>
+			-VERIFIQUE O TORQUE  DE APERTO INDICADO PELO FABRICANTE DO VEÍCULO!
+			<br>
+			-TODOS OS ROLAMENTOS ZTL POSSUEM A MARCA "ZTL" GRAVADA NA FACE LATERAL DO ANEL EXTERNO DO ROLAMENTO (CAPA) OU ANEL INTERNO.
+			<br>
+			-OS PRODUTOS ZTL POSSUEM GARANTIA DE 06 (SEIS) MESES A PARTIR DA COMPROVAÇÃO DA NOTA FISCAL DE VENDA AO CONSUMIDOR. SEM A APRESENTAÇÃO DA NOTA FISCAL, O PRODUTO PERDE SUA GARANTIA.
+							Dpto. de GARANTIA  -  ZTL DO BRASIL
+							</td>
+  
+		  </tr>
+		</table>
+
+--></html>

@@ -1,0 +1,463 @@
+<?php 
+foreach ($this->objDet as $listdet);
+$ped = $listdet->idped;
+$verpk = "";
+?>
+
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl()?>/admin/kang/pedidos"><?=$this->translate->_("Pedidos de venda")?></a></li>
+                	<li ><a href="<?=$this->baseUrl()?>/admin/kang/vendas"><?=$this->translate->_("Vendas")?></a></li>
+                	<li class="lastB">S<?=substr("000000".$listdet->idped,-6,6)?></li>
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title">
+        	<h5><?=$this->translate->_("Venda")?> S<?=substr("000000".$listdet->idped,-6,6)?></h5>
+        	<div style="float: right; padding: 10px">
+				<a target="_blank" href="<?=$this->baseUrl()?>/admin/kang/invoicecomimp/ped/<?=md5($listdet->idped)?>"><img title="Imprimir" src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/printerwhite.png" border="0" width="18" /> </a>
+			</div>
+        </div>
+
+        <div class="widgets" >
+        	<div class="right" style="text-align: right; width: 100%; padding: 0px 0px 5px 0px; ">
+				<a href="<?=$this->baseUrl()?>/admin/kang/vendalistapacotes/ped/<?=md5($listdet->idped)?>"><?=$this->translate->_("Lista de pacotes")?></a> |
+	    		<a href="<?=$this->baseUrl()?>/admin/kang/vendaspurchase/ped/<?=md5($listdet->idped)?>"><?=$this->translate->_("Detalhar por empresa")?></a> | 					    		  
+	    		<a href="<?=$this->baseUrl()?>/admin/kang/vendasretorno/ped/<?=md5($listdet->idped)?>"><?=$this->translate->_("Retorno de imposto")?></a> |
+	    		<a href="<?=$this->baseUrl()?>/admin/kang/vendastraducao/ped/<?=md5($listdet->idped)?>"><?=$this->translate->_("Tradução PL")?></a> |
+	    		<a target="_blank" href="<?=$this->baseUrl()?>/admin/kang/vendasclasses/ped/<?=md5($listdet->idped)?>"><?=$this->translate->_("Classes")?></a>
+			</div>
+		</div>
+		
+		<div class="widget first" >
+	    	<div class="head" style="margin-top: -10px"><h5 class="iUser">Informações do cliente</h5></div>
+            <div class="body">
+            <table style="width: 100%; border-spacing: 7px ">
+             	<tr>
+		        	<td width="12%" ><?=$this->translate->_("Cliente")?>:</td>
+	                <td colspan="3"><b><?=$listdet->EMPRESA?></b></td>               
+	            </tr>
+	            <tr>
+	                <td ><?=$this->translate->_("Razão Social")?>:</td>
+	                <td colspan="3"><b><?=($listdet->RAZAO_SOCIAL)?></b></td>
+	            </tr>
+	            <tr>
+	                <td ><?=$this->translate->_("CPF/CNPJ")?>:</td>
+	                <td width="35%"><b><?=$listdet->CPF_CNPJ?></b></td>
+	                <td width="15%" style="text-align: right;"><?=$this->translate->_("RG/INSC")?>:</td>
+	                <td><b><?=$listdet->RG_INSC?></b></td>
+	            </tr>
+	            </table>                
+            </div>
+        </div>
+        
+		<?php          
+		if (count($this->objProd) > 0) :			
+		?>
+		
+		<form name="proforma" action="<?=$this->baseUrl()?>/admin/kang/gravarinvoice" method="post" class="mainForm">
+		
+		<div class="widget">
+ 			<div class="head" style="border-bottom: 0px"><h5 class="iFrames">Produtos</h5></div>
+        	<table class="tableStatic" style="width: 100%">
+            	<thead>
+                	<tr>
+                        <td width="3%"><?=$this->translate->_("Id")?></td>
+                        <td width=""><?=$this->translate->_("Código")?></td>
+                        <?php if($listdet->sitinv!=0){ ?>
+                        <td width="10%"><?=$this->translate->_("Compra")?> </td>
+                        <?php } ?>
+                        <td width="40%"><?=$this->translate->_("Descrição")?></td>
+                        <td width=""><?=$this->translate->_("Qt")?></td>
+                        <td width=""><?=$this->translate->_("Moeda")?></td>
+                        <td width=""><?=$this->translate->_("Preço")?></td>
+                        <td width=""><?=$this->translate->_("Total")?></td>
+                    </tr>
+                </thead>
+                <tbody>
+						
+				<?php 
+				$cor=0;
+				$totalqt = 0;
+				$total_pedido = 0;
+            	$moeda = "";
+		    	foreach($this->objProd as $lista):
+		    	$cor++;
+		            $moeda = $lista->moedaprod;
+	            	            
+				?>					
+				<tr >
+	                <td  style="text-align: center;" >
+	                   <?=$cor?>
+	                </td>
+	                <td  style="text-align: center;" >
+	                	<?=$lista->CODIGO?>
+	                </td>
+	                <?php if($listdet->sitinv!=0){ ?>
+	                <td   style="text-align: center;" >
+	                	<?php 
+	                	//--- Verifico as compras dos produtos -----------------------
+	                	foreach ($this->objProdpk as $purchase):
+	                		if($purchase->id_prod == $lista->idproduto):
+			                	?>
+			                	<a target="_blank" href="<?=$this->baseUrl()?>/admin/kang/pedidoscompraped/ped/<?=md5($purchase->id_kang_compra)?>">PK<?=substr("000000".$purchase->id_kang_compra, -6,6)?></a><br />
+			                	<?php
+			                endif;
+	                	endforeach;	                	
+	                	?>
+	                </td>
+	                <?php } ?>
+	                <td  align="left" >
+	                	<?=stripslashes($lista->DESCRICAO)?>
+	                </td>
+	                <td  style="text-align: center;" > 
+	                   <?=$lista->qtprod; $totalqt += $lista->qtprod; ?>              
+	                </td>
+	                <td  style="text-align: center;" >
+	                	<?php if($lista->moedaprod != "") echo $lista->moedaprod; else echo "USD";?>
+	                </td>	
+	                <td  style="text-align: right;" >
+	                	<?=number_format($lista->precoqt/$lista->qtprod,3,",",".")?>
+	                </td>	
+	                <td  style="text-align: right;" >
+	                	<?=number_format($lista->precoqt,3,",",".")?>
+	                </td>
+	            </tr>
+				<?php  
+				$total_pedido += $lista->precoqt;
+				endforeach;	
+				
+				if($moeda == "") $moeda = "USD";
+				
+				?>
+				
+				<tr>
+					<td colspan="6" style="vertical-align: top;">
+					    <?php if($listdet->sitinv==1){ ?>
+                		Frete<br>
+		                <input type="text" name="frete" id="frete" size="30" value="<?php echo number_format($listdet->kfreight_charge,2,",",".")?>" style="width: 80px" class="moeda">
+		                <br>
+
+                         <input type="checkbox" checked name="sum_freight" id="somaFrete"> <label>Somar o valor do frete</label>
+                        <?php } ?>
+                    </td>
+                 	<td colspan="2">
+	               		<span ><?=$this->translate->_("Total de peças")?></span><br>
+				        <span style="font-size: 14px; font-weight: bold; text-align: right;"><?=$totalqt?></span><br>
+			            
+			            <?php if(($listdet->sitinv==2)||($listdet->sitinv==3)){ ?>
+			            <?=$this->translate->_("Frete")?><?php if($listdet->sum_freight) echo '+'?> <br>
+	                    <span style="font-size: 14px; font-weight: bold; "><?=$moeda?> <?=number_format($listdet->kfreight_charge,2,",",".")?></span><br>
+	                    <?php } ?>
+	                    
+	                    <?=$this->translate->_("Valor total")?><br>
+                        <input type="hidden" id="totalVendaHidden" value="<?php echo $total_pedido?>">
+                        <input type="hidden" id="moeda" value="<?=$moeda?>">
+                        <?php
+                        $total_pedido = ($listdet->sum_freight) ? $total_pedido + $listdet->kfreight_charge : $total_pedido;
+                        ?>
+	                    <span style="font-size: 14px; font-weight: bold; color: rgb(0, 16, 225);" id="totalVenda"><?=$moeda?> <?=number_format($total_pedido,2,",",".")?></span><br>
+                    </td>
+		         </tr>
+				</tbody>
+            </table>
+		</div>
+		<?php 							
+		endif;
+		?>    			
+				
+		<input type="hidden" name="invoice" value="<?=$listdet->idped?>">
+		<div class="widget">
+ 			<div class="head" ><h5 class="iView">Informações da comercial invoice</h5></div>
+        	<div class="body">
+        	    
+			<?php 
+        	if($listdet->sitinv==1):
+        	?>
+        	<table style="width: 100%; border-spacing: 7px "> 
+	            <tr>
+		            <td align="left" width="20%" style="text-align: right;">
+		            <?=$this->translate->_("Pedido Cliente")?>:<br />
+		            </td>
+		            <td colspan="3" align="left">
+		            	<input type="text" name="you_order" size="30" style="width: 110px" value="<?=$listdet->kyou_order?>">
+		            </td>
+	            </tr>
+	            <tr>
+		            <td align="left" width="20%" style="text-align: right;">	
+		            	<?=$this->translate->_("De")?>: 
+		            </td>
+		            <td align="left" width="30%">
+		            	<input type="text" name="defrom" size="30" value="<?=$listdet->kdefrom?>" style="width: 150px">
+		            </td>
+	                <td style="text-align: right;" width="20%">
+		            	<?=$this->translate->_("Para")?>: 
+		            </td>
+		            <td align="left">
+		            	<input type="text" name="para" size="30" value="<?=$listdet->kpara?>"  style="width: 110px"> 
+		            </td>	
+	            </tr>
+	             <tr>
+		            <td width="20%" style="text-align: right;">
+		            <?=$this->translate->_("Termos da entrega")?>: 
+		            </td>
+		            <td colspan="3" align="left" width="30%">
+		            	<input type="text" name="freight" size="30" value="<?=$listdet->kfreight?>"  style="width: 250px">
+		            </td>	                
+	            </tr>
+	            <tr>
+		            <td  style="text-align: right;">
+		            <?=$this->translate->_("Termos do pagamento")?>: 
+		            </td>
+		            <td colspan="3" align="left">
+		            	<input type="text" name="payment" size="30" value="<?=$listdet->kpayment?>"  style="width: 250px">  
+		            </td>	                
+	            </tr>
+	            <tr>
+		            <td style="text-align: right;">
+		            <?=$this->translate->_("Agente de embarque")?>: 
+		            </td>
+		            <td colspan="3" align="left">
+		            	<input type="text" name="shipment_agent" size="30" value="<?=$listdet->kshipment_agent?>" style="width: 200px">   
+		            </td>
+	            </tr>
+	            <tr>
+	            	<td  style="text-align: right;">
+		            <?=$this->translate->_("Previsão de embarque")?>: 
+		            </td>
+		            <td align="left">
+		            	<input type="text" name="dt_previsao" class="data datepicker" value="<?=$listdet->dtprevisao?>"> 
+		            </td>	                
+	            </tr>	            
+        	</table>
+        	<div>
+				 <br />			
+				 <input value="<?=$this->translate->_("Salvar")?>" type="submit" class="greenBtn">
+			</div>
+						
+        	<?php 
+        	elseif(($listdet->sitinv==2)||($listdet->sitinv==3)):        	
+        	?>
+        	<table style="width: 100%; border-spacing: 7px "> 
+	            <tr>
+		            <td align="left" width="20%">
+		            <?=$this->translate->_("Pedido Cliente")?>: 
+		            </td>
+		            <td colspan="3" align="left"><b>
+		            <?=strtoupper($listdet->kyou_order)?></b>
+		            </td>
+	            </tr>
+	             <tr>
+		            <td align="left" width="20%">
+		            <?=$this->translate->_("De")?>: 
+		            </td>
+		            <td align="left" width="30%">
+		            <b><?=strtoupper($listdet->kdefrom)?></b> 
+		            </td>
+	                <td align="right" width="20%">
+		            <?=$this->translate->_("Para")?>: 
+		            </td>
+		            <td align="left">
+		            <b><?=strtoupper($listdet->kpara)?></b> 
+		            </td>
+	
+	            </tr>
+	             <tr>
+		            <td align="left" width="20%">
+		            <?=$this->translate->_("Termos da entrega")?>: 
+		            </td>
+		            <td colspan="3" align="left" width="30%">
+		            <b><?=strtoupper($listdet->kfreight)?></b> 
+		            </td>
+	                
+	            </tr>
+	
+	            <tr>
+		            <td align="left">
+		            <?=$this->translate->_("Termos do pagamento")?>: 
+		            </td>
+		            <td colspan="3" align="left">
+		            <b><?=strtoupper($listdet->kpayment)?></b> 
+		            </td>
+	                
+	            </tr>
+	            <tr>
+		            <td align="left">
+		            <?=$this->translate->_("Agente de embarque")?>: 
+		            </td>
+		            <td colspan="3" align="left">
+		            <b><?=strtoupper($listdet->kshipment_agent)?></b> 
+		            </td>
+	            </tr>
+	            <tr>
+	            	<td  style="text-align: left;">
+		            <?=$this->translate->_("Previsão de embarque")?>: 
+		            </td>
+		            <td align="left" colspan="3">
+		            <b><?=substr($listdet->dt_previsao,8,2)."/".substr($listdet->dt_previsao,5,2)."/".substr($listdet->dt_previsao,0,4);?></b> 	 
+		            </td>	                
+	            </tr>
+        	</table>
+        	<?php 
+			//--- Verifico se ha produtos sem pack list -----------------------
+			/* $verpk = 0;
+			foreach ($this->objProdpk as $purchase):
+	        	if($purchase->qtdisp > 0):
+	        		$verpk = 1;
+			    endif; 
+	        endforeach; */
+	        
+        	
+	        	if($listdet->sitinv==3):
+		        ?>
+	        	<table  style="margin-top: 15px;" >
+	        		<tr>	
+			            <td align="left" width="20%">
+			            <?=$this->translate->_("Data de embarque")?>: 
+			            </td>
+			            <td align="left" >
+			            	<input type="text" name="dt_embarque" size="12" class="data datepicker"  <?php if($verpk==1): ?> disabled="disabled" <?php endif; ?>> 
+			            </td>	                
+		            </tr>
+	        	</table>
+	        	<div>
+					 <br />	
+					 <input type="hidden" name="embarcar" value="1" >		
+					 <input value="<?=$this->translate->_("Embarcar")?>" type="submit" class="greenBtn" >
+				</div>
+				<?php
+				endif;
+			else:
+			?>
+			
+			<table style="width: 100%; border-spacing: 7px ">
+				<tr>
+					<td align="left" width="20%">
+					<?=$this->translate->_("Pedido Cliente")?>:
+					</td>
+					<td colspan="3" align="left"><b>
+					<?=strtoupper($listdet->kyou_order)?></b>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" width="20%">
+					
+					<?=$this->translate->_("De")?>:
+					</td>
+					<td align="left" width="30%">
+					<b><?=strtoupper($listdet->kdefrom)?></b>
+					</td>
+					<td align="right" width="20%">
+					<?=$this->translate->_("Para")?>:
+					</td>
+					<td align="left">
+					<b><?=strtoupper($listdet->kpara)?></b>
+					</td>				
+				</tr>
+				<tr>
+					<td align="left" width="20%">
+					<?=$this->translate->_("Termos da entrega")?>:
+					</td>
+					<td colspan="3" align="left" width="30%">
+					<b><?=strtoupper($listdet->kfreight)?></b>
+					</td>				
+				</tr>				
+				<tr>
+					<td align="left">
+					<?=$this->translate->_("Termos do pagamento")?>:
+					</td>
+					<td colspan="3" align="left">
+					<b><?=strtoupper($listdet->kpayment)?></b>
+					</td>				
+				</tr>
+				<tr>
+					<td align="left" width="20%">
+					<?=$this->translate->_("Data de embarque")?>:
+					</td>
+					<td align="left" width="30%">
+					<b><?=substr($listdet->dt_embarque,8,2)."/".substr($listdet->dt_embarque,5,2)."/".substr($listdet->dt_embarque,0,4)?></b>
+					
+					</td>
+					<td colspan="2" align="left">
+					<?php /* 
+					<?=$this->translate->_("Aceita embarque parcial")?>? &nbsp;
+					<b><?=strtoupper($listdet->kpartial_shipment)?></b> */ ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="left">
+					<?=$this->translate->_("Agente de embarque")?>:
+					</td>
+					<td colspan="3" align="left">
+					<b><?=strtoupper($listdet->kshipment_agent)?></b>
+					</td>
+				</tr>
+			</table>
+			<?php
+        	endif;
+        	?>
+		</div>
+	</div>
+	</form>
+		
+	<?php 
+	if(!empty($this->objFin)):
+	?>			
+	<div style="margin-top: 20px; margin-bottom: 10px">
+		<table style="border: 1px solid #d5d5d5; float: left; width: 50%">
+         	<tr>
+         		<td colspan="4" align="left" style="padding: 10px">
+         		<b><?=$this->translate->_("Pagamentos")?></b>
+           		</td>
+       		</tr>
+   			<?php    
+       		$totalfin = 0;
+         	foreach($this->objFin as $listafin):
+         		$totalfin += $listafin->valor;
+	         	?>
+           		<tr>
+             		<td width="25%" style="text-align: center;">
+           				<a target="_blank" href="<?=$this->baseUrl()?>/admin/administracao/financeirochinareccad/rec/<?=md5($listafin->idconta)?>" >R<?=substr("000000".$listafin->idconta,-6,6)?></a>
+           			</td>
+           			<td width="25%" style="text-align: center;">
+           			<?=$listafin->dtpag?>
+           			</td>
+           			<td width="25%" style="text-align: right;">
+           			<?=number_format($listafin->vlparc,3,",",".")?>
+           			</td>
+           			<td width="25%" style="text-align: right;">
+           			<?=$listafin->dtpagamento?>
+           			</td>	           			
+	       		</tr>
+	       		<?php 
+         	endforeach;
+         	?>
+         	<tr>
+         		<td colspan="4" style="border-top: 1px solid #d5d5d5; text-align: right; padding-right: 94px">
+           			<b><?=number_format($totalfin,2,",",".")?></b><br><br>
+           		</td>
+	       	</tr>
+	   </table>
+	</div>		
+    <?php 
+	endif;
+	?>
+			
+		
+</div>
+
+<div style="display: none">
+<?=$this->translate->_("EMBARCADO")?>
+<?=$this->translate->_("CADASTRADO")?>
+<?=$this->translate->_("AGUARDANDO DOCUMENTOS")?>
+<?=$this->translate->_("AGUARDANDO EMBARQUE")?>
+</div>
+
+<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/vendasdet.js"></script>

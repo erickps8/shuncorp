@@ -1,0 +1,6 @@
+RewriteEngine on
+RewriteRule !\.(js|gif|jpg|png|css|txt|swf)$ public/index.php [L]
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteRule ^(.*)$ public/$1 [L]
+AddType audio/ogg .ogg
+AddType audio/mp3 .mp3

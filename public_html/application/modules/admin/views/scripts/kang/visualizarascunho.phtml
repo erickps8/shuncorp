@@ -1,0 +1,97 @@
+
+			<table class="borda_titulo" width="100%" align="center" >
+		    <tr>
+				<td align="left" >
+					D<?php echo substr("000000".$this->objPed,-6,6);?> 
+					
+				</td>
+				
+			</tr>
+			</table>
+			<br>
+			
+			<table 	width="100%" class="mytable" >
+			
+		    <tr>
+	            <th  class="th_canto" align="center" width="5%">
+	                ID
+	            </th>
+	            <th  class="th_pedido" align="center" width="20%">
+	                Code
+	            </th>
+	            <th  class="th_pedido" align="center" width="35%">
+	                Description
+	            </th>
+	            <th  class="th_pedido" align="center" width="10%">
+	                QT
+	            </th>
+	            <th  class="th_pedido" align="center" width="10%">
+	                Price
+	            </th>
+	            <th  class="th_pedido" align="center" width="10%">
+	                Total price
+	            </th>
+	            
+	            
+	        </tr>
+			
+			<?php 
+	    	$cor=0;
+	    	$total_pecas = 0;    	
+			foreach($this->objProdutos as $lista):
+	    	 
+			$total_pecas += $lista->qt; 
+			$total_valor += $lista->preco*$lista->qt;
+			
+			$cor++;
+            if(($cor%2)==0) $class = 'td_orc_par';
+            else $class = 'td_orc';
+                        
+			?>
+			
+			<tr >
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo $cor?>                  
+                </td>
+                <td  class="<?=$class?>" align="left" >
+                   <?php echo $lista->CODIGO?>                  
+                </td>
+                <td  class="<?=$class?>" align="left" >
+                   <?php echo htmlentities($lista->DESCRICAO)?>                  
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                    <?php echo $lista->qt?>                    
+                </td>
+                <td  class="<?=$class?>" align="right" >
+                   <?php echo number_format(($lista->preco),5,',','.')?>                  
+                </td>
+                <td  class="<?=$class?>" align="right" >
+                	<?=number_format(($lista->preco*$lista->qt),5,',','.')?>
+                </td>
+                
+                
+            </tr>
+            
+			<?php  
+			endforeach;
+			?>
+			<tr >
+                <td colspan="4"  class="<?=$class?>" align="left" valign="top" >
+                   Observation:<br>
+                   <?php echo $this->objObs?>                  
+                </td>
+                <td  class="<?=$class?>" align="left" colspan="2">
+                   Total pieces:<br>
+                   <span style="font-size: 14px; font-weight: bold;"><?=$total_pecas?></span><br>
+                   Total price:<br>
+                   <span style="font-size: 14px; font-weight: bold;"><?=number_format(($total_valor),5,',','.')?></span>
+                </td>
+            </tr>
+			</table>
+			
+			
+			<p align="left">
+			<input type="button" value="Back" onclick="window.location='<?php echo $this->baseUrl(); ?>/admin/kang/rascunhos';" >
+			</p>
+			
+	

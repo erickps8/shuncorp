@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt_br">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>SisCorp 2.0 Alpha - Shuncorp.com</title>
+    <link href="<?=$this->baseUrl()?>/public/sistema/imagens/ico.ico" rel="shortcut icon" type="image/x-ico"/>
+
+    <!-- Bootstrap core CSS -->
+    <link href="<?php echo $this->baseUrl()?>/public/site/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="<?php echo $this->baseUrl()?>/public/site/css/signin.css" rel="stylesheet">
+
+    <script src="/public/sistema/js/jquery-1.4.4.js" type="text/javascript"></script>
+    
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="<?php echo $this->baseUrl()?>/public/site/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+  </head>
+
+  <body >
+	  <div class="fundo">
+	    <div class="container" >
+	    
+	       
+	       <div class="development">
+    	       <img alt="Shuncorp" src="/public/sistema/imagens/logo.png">   
+    	       
+    	       <div class="development-text">
+                    <p>WEBSITE UNDER DEVELOPMENT</p>
+    	            <span>
+    	            慈溪市顺康进出口有限公司<br>
+                    CIXI SHUNKANG IMPORT AND EXPORT CO.,LTD<br>
+                    NO.388 EAST KAIFA ROAD ZHOUXIANG,CIXI,ZHEJIANG,CHINA<br>
+                    P.Code: 315324 PHONE: +86-0574-63315331 FAX: +86-0574-63315677
+                    </span> 
+    	       </div>
+	       </div>
+	       
+	    	<div id="login" style="display: none">
+			  <form class="form-signin" action="<?php echo $this->baseUrl()?>/public/auth/login" method="post">
+		        <h2 class="form-signin-heading">Acesso restrito</h2>
+		        <input type="text" name="email" class="form-control email" placeholder="Email" required autofocus>
+		        <input type="password" name="senha" class="form-control" placeholder="Senha" required>
+		        
+		        <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+		      </form>
+			</div>
+	    </div>
+	   </div>
+	   
+	   <script language="JavaScript">
+	       $(document).ready(function() {
+
+	    	   var contTeclas = 0;
+		       
+    		   $(document).keyup(function(e) {
+
+    			   if(e.which == 96){ 
+        			   contTeclas = 0; 
+    			   }else{
+        			   contTeclas += e.which;
+    
+        			   console.log(contTeclas);
+    
+        			   if(contTeclas == 168){
+            			   $("#login").show();
+        			   }
+    			   }
+    		   });
+		   });
+        </script>
+
+	   
+	   
+	   
+  </body>
+</html>

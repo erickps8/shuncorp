@@ -1,0 +1,277 @@
+<!-- Calendarios -->
+<link type="text/css" rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.css?random=20051112" media="screen"></LINK>
+<SCRIPT type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.js?random=20060118"></script>
+
+<?php 
+foreach ($this->objDet as $listdet);
+$ped = $listdet->idped;
+?>
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl()?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/kang/pedidos"><?=$this->translate->_("PEDIDOS DE VENDAS")?></a>&nbsp;
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/kang/vendas"><?=$this->translate->_("VENDAS")?></a>&nbsp;
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/kang/vendasdet/ped/<?=md5($listdet->idped)?>">S<?=substr("000000".$listdet->idped,-6,6)?></a>&nbsp;
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<b><a href="<?=$this->baseUrl()?>/admin/kang/vendaspurchase/ped/<?=md5($listdet->idped)?>"><?=$this->translate->_("DECLARAÇÃO DE EXPORTAÇÃO")?></a></b>
+	</div>
+	<div id="sistitulo">
+		S<?=substr("000000".$listdet->idped,-6,6)?>			
+	</div>
+	<div id="sisconteudo">
+		<div style="font-size: 14px; font-weight: bold; text-align: center;">
+			<?=$this->translate->_("DECLARAÇÃO DE EXPORTAÇÃO")?> 	
+		</div>
+		<div>
+		<?php          
+		if (count($this->objProddet) > 0) :			
+		?>
+		<table class="mytable" style="margin-top: 5px" >
+	        <tr>
+	            <th  class="th_canto_orc" style="text-align: center;" width="5%">
+	                <?=$this->translate->_("ORD")?>
+	            </th>
+	            <th  class="th_orc" style="text-align: center;" width="10%" >
+	                <?=$this->translate->_("HS CODE")?>
+	            </th>
+	            <th  class="th_orc" style="text-align: center;" width="45%" >
+	                <?=$this->translate->_("DESCRIÇÃO")?>
+	            </th>
+	            <th  class="th_orc" style="text-align: center;" width="10%">
+	            	<?=$this->translate->_("QT")?> 
+	            </th>
+	            <th  class="th_orc" style="text-align: center;" width="10%">
+	                <?=$this->translate->_("PREÇO")?>
+	            </th>
+	            <th  class="th_orc" style="text-align: center;" width="10%">
+	                <?=$this->translate->_("TOTAL")?>
+	            </th>
+	            <th  class="th_orc" style="text-align: center;" width="10%">
+	                <?=$this->translate->_("RETORNO")?>
+	            </th>
+	       </tr>					
+			<?php 
+				$cor=0;
+				$totalqt = 0;
+				$total_pedido = 0;
+            	$moeda = "";
+		    	foreach($this->objProddet as $lista):
+		    	$cor++;
+	            if(($cor%2)==0) $class = 'td_orc_par';
+	            else $class = 'td_orc';
+	            
+	            $moeda = $lista->moeda;
+	            	            
+				?>					
+			<tr >
+                <td  class="<?=$class?>" style="text-align: center;" >
+                   <?=$cor?>
+                </td>
+                <td  class="<?=$class?>" style="text-align: center;" >
+                	<?=$lista->hscode?>
+                </td>
+                <td  class="<?=$class?>" align="left" >
+                	<?=$lista->deschscodechines?>
+                </td>
+                <td  class="<?=$class?>" style="text-align: center;" > 
+                   <?=$lista->qtprod?>              
+                </td>
+                <td  class="<?=$class?>" style="text-align: right;" >
+                	<?=number_format($lista->precounit/$lista->qtprod,3,",",".")?>
+                </td>	
+                <td  class="<?=$class?>" style="text-align: right;" >
+                	<?=number_format($lista->precounit,3,",",".")?>
+                </td>
+                <td  class="<?=$class?>" style="text-align: center;" > 
+                   <?=$lista->retorno?>%          
+                </td>
+            </tr>
+			<?php  
+			$total_pedido += $lista->precoqt;
+			endforeach;	
+			?>
+			</table>
+			<?php 							
+			endif;
+		?> 
+		</div>  	
+		<div style="font-size: 14px; font-weight: bold; text-align: center; margin-top: 10px">
+			<?=$this->translate->_("COMPRAS")?> 	
+		</div>		
+		<div>
+		<form name="proforma" action="<?=$this->baseUrl()?>/admin/kang/gravarretornoinvoice" method="post">
+		<input type="hidden" name="ped" value="<?=md5($listdet->idped)?>">
+		<?php
+		foreach ($this->objFor as $fornecedores):
+			?><div style="border-bottom: 1px solid; font-size: 13px; font-weight: bold; position: relative; margin-top: 10px"><?=strtoupper($fornecedores->EMPRESA)." (".strtoupper($fornecedores->nome).")";?></div><?php
+			
+			if(!empty($this->objComp)):
+				$vergeral = 1;
+				foreach ($this->objComp as $compras):
+					if($compras->id_for == $fornecedores->id_for):					
+					?>		
+					<table class="mytable" style="margin-top: 5px; width: 100%" >
+						<tr>
+				            <th  class="th_canto" colspan="9" style="padding: 5px">
+				                <?="PK".substr("000000".$compras->id_kang_compra,-6,6);?>
+				            </th>
+				        </tr>
+						<tr>
+				            <th  class="th_canto_orc" style="text-align: center;" width="5%">
+				                <?=$this->translate->_("ORD")?>
+				            </th>
+				            <th  class="th_orc" style="text-align: center;" width="10%" >
+				                <?=$this->translate->_("HS CODE")?>
+				            </th>
+				            <th  class="th_orc" style="text-align: center;" width="45%" >
+				                <?=$this->translate->_("DESCRIÇÃO")?>
+				            </th>
+				            <th  class="th_orc" style="text-align: center;" width="10%">
+				            	<?=$this->translate->_("QT")?> 
+				            </th>
+				            <th  class="th_orc" style="text-align: center;" width="10%">
+				                <?=$this->translate->_("PREÇO")?>
+				            </th>
+				            <th  class="th_orc" style="text-align: center;" width="10%">
+				                <?=$this->translate->_("TOTAL")?>
+				            </th>
+				            <th  class="th_orc" style="text-align: center;" width="10%">
+				                <?=$this->translate->_("RETORNO")?>
+				            </th>
+				            <th  class="th_orc" style="text-align: center;" width="10%">
+				                <?=$this->translate->_("DT RETORNO")?>
+				            </th>
+				            <th  class="th_orc" style="text-align: center;" width="10%">
+				                <?=$this->translate->_("INVOICE FORN")?>
+				            </th>
+				       </tr>
+						
+						<?php 
+				    	$total_pecas = $total_valor = $tpecasent = $cor = 0;
+						foreach($this->objProd as $lista):
+				    	 	if($compras->id_kang_compra == $lista->id_kang_compra):
+				            	$total_pecas 	+= $lista->qt;
+								$tpecasent 		+= $lista->qtent;  
+								$total_valor 	+= $lista->preco*$lista->qtent;
+								
+								$cor++;
+					            if(($cor%2)==0) $class = 'td_orc_par';
+					            else $class = 'td_orc';
+					            
+				               	?>
+								<tr >
+					                <td  class="<?=$class?>" style="text-align: center;" >
+					                   <?=$cor?>
+					                </td>
+					                <td  class="<?=$class?>" style="text-align: center;" >
+					                	<?=$lista->hscode?>
+					                </td>
+					                <td  class="<?=$class?>" align="left" >
+					                	<?=$lista->deschscodechines?>
+					                </td>
+					                <td  class="<?=$class?>" style="text-align: center;" > 
+					                   <?=$lista->qtprod?>              
+					                </td>
+					                <td  class="<?=$class?>" style="text-align: right;" >
+					                	<?=number_format($lista->precounit/$lista->qtprod,3,",",".")?>
+					                </td>	
+					                <td  class="<?=$class?>" style="text-align: right;" >
+					                	<?=number_format($lista->precounit,3,",",".")?>
+					                </td>
+					                <td  class="<?=$class?>" style="text-align: center;" > 
+					                   <?=$lista->retorno?>%          
+					                </td>
+					                <td  class="<?=$class?>" style="text-align: right;" >
+					                	<?php if($listdet->sit==1): ?>
+					                	<input type="text" value="<?=$lista->dataret?>" name="dr_<?=str_replace(".", "", $lista->hscode)."_".$lista->id_kang_compra?>" size="8" onclick="displayCalendar(this,'dd/mm/yyyy',this)" onKeyDown="Mascara(this,Data);" onKeyPress="Mascara(this,Data);" onKeyUp="Mascara(this,Data);" maxlength="10" >
+					                	<?php else: ?>
+					                	<?=$lista->dataret?>
+					                	<?php endif; ?>
+					                </td>
+					                <td  class="<?=$class?>" style="text-align: center;" > 
+					                	<?php if($listdet->sit==1): ?>
+					                   	<input type="text" size="10" value="<?=$lista->invoiceretorno?>"  name="ret_<?=str_replace(".", "", $lista->hscode)."_".$lista->id_kang_compra?>">
+					                   	<?php else: ?>
+					                	<?=$lista->invoiceretorno?>
+					                	<?php endif; ?>          
+					                </td>
+					            </tr>			            
+								<?php 
+							endif; 
+						endforeach;
+						?>
+						
+					</table>
+					<?php 
+					if(!empty($this->objFin)):
+						$verfin = 0;
+						foreach($this->objFin as $listafin):
+							if($listafin->id_kang_compra == $compras->id_kang_compra):
+								$verfin = 1;
+							endif;
+						endforeach;
+						if($verfin==1):
+							?>	
+							<div style=" margin: 5px 0px 10px 0px">		
+								<table width="400px" style="border: 1px solid #999; padding: 3px" cellspacing="0">
+					         	<tr>
+					         		<td colspan="5" align="left">
+					         		<b><?=$this->translate->_("Pagamentos")?></b>
+					           		</td>
+					       		</tr>
+				       			<?php   
+				       			$totalfin = 0;     			
+					         	foreach($this->objFin as $listafin):
+					         		if($listafin->id_kang_compra == $compras->id_kang_compra):				
+						         		$totalfin += $listafin->vlparc;
+							         	?>
+							         	<tr>
+							         		<td width="25%" style="text-align: left;">
+						           				<a target="_blank" href="<?=$this->baseUrl()?>/admin/administracao/financeirochinapagcad/pay/<?=md5($listafin->idconta)?>" >P<?=substr("000000".$listafin->idconta,-6,6)?></a>
+						           			</td>
+						           			<td width="25%" style="text-align: right;">
+						           			<?=$listafin->dtpag?>
+						           			</td>				        
+						           			<td width="25%" style="text-align: right;">
+						           			<?=number_format($listafin->vlparc,3,",",".")?>
+						           			</td>
+						           			<td width="25%" style="text-align: right;">
+						           			<?=$listafin->dtpagamento?>
+						           			</td>
+						           			<td width="25%" style="text-align: right;">
+						           			<? if(!empty($listafin->dtpagamento)): echo "Pago";  endif; ?>
+						           			</td>
+							       		</tr>
+							       		<?php
+							       	endif; 
+					         	endforeach;
+					         	?>
+					         	<tr>
+					         		<td colspan="3" style="border-top: 1px solid #999; text-align: right;">
+				           			<b><?=number_format($totalfin,2,",",".")?></b>
+				           			</td>
+				           			<td style="border-top: 1px solid #999; text-align: right;" colspan="2">
+				           			&nbsp;
+				           			</td>
+					       		</tr>
+						        </table>
+						    </div>  
+						<?php 
+						endif;
+					endif;
+					endif;
+				endforeach;			
+			endif;
+		endforeach;
+		?>		
+		<?php if($listdet->sit==1): ?>
+		<input type="submit" value="<?=$this->translate->_("Salvar")?>">
+		<?php endif; ?>
+		</form>
+		</div>
+	</div>
+</div>    			
+		    

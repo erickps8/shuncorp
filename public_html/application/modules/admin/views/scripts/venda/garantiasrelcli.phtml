@@ -1,0 +1,659 @@
+
+<!-- Graficos -->
+
+<!--[if IE]><script language="javascript" type="text/javascript" src="../excanvas.js"></script><![endif]-->
+  <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxsubgrupo.js"></script>  
+  <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/public/javascript/graficos/jquery.jqplot.css" />
+  <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/public/javascript/graficos/exemplos/examples.css" />
+  
+  <!-- BEGIN: load jquery -->
+  <script language="javascript" type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/graficos/jquery-1.4.2.min.js"></script>
+  <!-- END: load jquery -->
+  
+  <link type="text/css" href="<?php echo $this->baseUrl(); ?>/public/javascript/graficos/examples/jquery-ui/css/ui-lightness/jquery-ui-1.8.1.custom.css" rel="Stylesheet" />	
+  <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/graficos/examples/jquery-ui/js/jquery-ui-1.8.1.custom.min.js"></script>
+  
+  
+  <!-- BEGIN: load jqplot -->
+  <script language="javascript" type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/graficos/jquery.jqplot.js"></script>
+  <script language="javascript" type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/graficos/plugins/jqplot.barRenderer.js"></script>
+  <script language="javascript" type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/graficos/plugins/jqplot.categoryAxisRenderer.js"></script>
+  <script language="javascript" type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/graficos/plugins/jqplot.highlighter.js"></script>
+  <script language="javascript" type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/graficos/plugins/jqplot.pointLabels.js"></script>
+  <script language="javascript" type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/graficos/plugins/jqplot.canvasTextRenderer.js"></script>
+  <script language="javascript" type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/graficos/plugins/jqplot.canvasAxisTickRenderer.js"></script>
+  <script language="javascript" type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/graficos/plugins/jqplot.dateAxisRenderer.js"></script>
+  <script language="javascript" type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/graficos/plugins/jqplot.pieRenderer.js"></script>
+
+
+  <style type="text/css">
+    #code {
+        font: 10pt "Andale Mono", Monaco, "Courier New", sans-serif ;
+        white-space: pre;
+    }
+    .jqplot-axis {
+      font-size: 0.85em;
+    }
+    .jqplot-title {
+      font-size: 1.1em;
+    }
+  </style>
+<table width="100%" style="margin-bottom: 5px" cellspacing="0" cellpadding="0" >
+	<tr>
+		<td align="left">
+			<a href="<?php echo $this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+			<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+			<a href="<?=$this->baseUrl()?>/admin/venda/garantiascli">GARANTIAS</a>&nbsp;
+			<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+			<b><a href="<?=$this->baseUrl()?>/admin/venda/garantiasrelcli">RELATÓRIOS</a></b>
+		</td>
+	</tr>
+</table>   
+            
+<table width="100%" class="borda_titulo">
+	<tr>
+		<td width="left">RELATÓRIO DE GARANTIA</td>
+	</tr>
+</table>
+<form name="relatorios" action="garantiasrelcli" method="post" >
+	<table width="100%" class="borda"  style="margin-top: 10px; padding: 7px">
+		<tr>
+			<td align="left" width="25%" >
+			Tipo:<br>
+			<select name="origem">
+				<option value="0">Selecione</option>
+				<option value="1">Enviados para an&aacute;lise</option>
+				<option value="2">Não procedentes</option>
+			</select>
+			
+			</td>
+			<td align="left" width="18%" >
+			Abrangência:<br>
+			<select name="tipo">
+				<option value="1">Cliente/ZTL</option>
+				<option value="2">Cliente/Estado</option>
+			</select>
+			
+			</td>
+			<td align="left" width="17%" >
+			Filtro:<br>
+			<select name="frel" onchange="tipoPesquisa(this.value)">
+				<option value="0">Selecione</option>
+				<option value="1">Por Produto</option>
+				<option value="2">Por Grupo</option>
+			</select>
+			
+			</td>
+			<td width="left">
+			<div id="fprod" style="display: none">
+			Código:<br>
+			<input type="text" size="10" name="prod" id="prod" style="text-transform: uppercase;">
+			<input type="submit" value="Gerar">
+			</div>
+			
+			</td>
+		</tr>
+		<tr>
+			<td align="left" >
+				<div id="fgrupo" style="display: none">
+				Grupo de produtos:<br>
+				<select name="grupo" id="grupo" style="width: 65%" onchange="Mostrasubgrupos(this.value,3);">
+					<option value="0">Selecione</option>
+					<?php foreach ($this->objGrupo as $listG): ?>
+					<option value="<?php echo $listG->id?>"><?php echo $listG->descricao?></option>
+					<?php endforeach;?>	
+				</select>
+				</div>
+			</td>
+			<td align="left">
+				<div id="subgrupo" align="left">
+				</div>
+			</td>
+			<td align="left" colspan="2">
+				<br>
+				<input type="submit" value="Gerar" id="submitgerar" style="display: none">
+			</td>
+		</tr>
+	</table>
+
+<?php 
+
+if($this->objorig==1):
+if(!empty($this->objCompras)): 
+
+echo $this->objOri;
+?>
+<br />
+
+<table width="100%" cellspacing="10" >
+	<tr>
+		<td align="left" colspan="3" style="text-transform: uppercase;">
+			Tipo: <b>Enviados para an&aacute;lise</b>
+		</td>
+	</tr>
+	<tr>
+		<td align="left" colspan="3" style="text-transform: uppercase;">
+			Base de c&aacute;lculo: <b>12 meses anteriores</b> (In&iacute;cio da s&eacute;rie: Jan/2010)
+		</td>
+	</tr>
+	<tr>
+		<td align="left" width="30%">
+		Tipo de relatório: <b>
+		<?php 	if($this->objtipo==1): 
+					echo "Cliente/ZTL";
+					$vlt = "ZTL"; 
+				else: 
+					echo "Cliente/Estado";
+					$vlt = "Estado";
+				endif;?>
+		</b> 
+		</td>
+		<td align="left" width="30%">
+		Filtro do relatório: <b>
+		<?php if($this->objfiltro==1) echo "Por produto"; else echo "Por grupo"?>
+		</b> 
+		</td>
+		<td align="left" width="40%" >
+		<?php 
+		if(($this->objprod!="") || ($this->objgrupo!=0)):
+			if($this->objfiltro==1): 
+				echo "Código do produto: <b>".strtoupper($this->objprod)."</b>";
+			else: 
+			  	foreach ($this->objGrupo as $listG):
+			  		if($listG->ID==$this->objgrupo) echo "Grupo: <b>".$listG->NOME."</b>";
+			  	endforeach;
+			endif;
+		endif;
+		?>
+		
+		</td>
+	</tr>
+	<tr>
+		<td align="left" colspan="2">
+		Quantidade de Envios: <b>
+		<?php if(!empty($this->objGarantias)) echo count($this->objGarantias)?>
+		</b> 
+		</td>
+	</tr>
+</table>
+
+	
+<?php if(!empty($this->objComprasg)): 
+
+foreach ($this->objComprasg as $listger):
+	$compg += $listger->qttotal;
+endforeach;
+
+//echo $compg."<br>";
+
+foreach ($this->objGarantg as $listger):
+		$garan += $listger->qttotal;
+endforeach;
+
+//echo $garan."<br>";
+
+foreach ($this->objPagosg as $listger):
+		$garpag += $listger->qttotal;
+endforeach;
+
+//echo $garpag."<br>";
+
+$garan 	= ($garan*100)/$compg;
+$garpag = ($garpag*100)/$compg;
+
+foreach ($this->objCompras as $listcomp):
+	$totalcomp += $listcomp->qttotal;
+endforeach;
+
+foreach ($this->objGarant as $listG):
+	$totalgar  += $listG->qttotal;
+endforeach;
+		
+foreach ($this->objPagos as $listP):
+	$totalpag  += $listP->qttotal;
+endforeach;
+
+$totalgar = ($totalgar*100)/$totalcomp;
+$totalpag = ($totalpag*100)/$totalcomp;
+
+
+
+?>	
+	<script type="text/javascript">    
+    
+    $(document).ready(function(){
+
+    	s1 = [<?php echo $garan?>, <?php echo $garpag?>];
+    	s2 = [<?php echo $totalgar?>, <?php echo $totalpag?>];
+	    
+	    ticks = ['ENVIADOS PARA ANALISE', 'PAGOS'];
+	    
+	    s5 = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+			    
+	    plot2 = $.jqplot('chart2', [s1, s2], {
+		seriesDefaults: {
+		    renderer:$.jqplot.BarRenderer,
+		    pointLabels: { show: true }
+		},  
+		axes: {
+		    xaxis: {
+				renderer: $.jqplot.CategoryAxisRenderer,
+		        ticks: ticks
+		    },
+		    yaxis: { 
+                tickOptions:{formatString:'%.2f%'} 
+            } 
+		},
+		legend: {
+            show: true,
+            location: 'e',
+            placement: 'outside'
+        },
+        series:[{label:'<?php echo $vlt?>'}, {label:'Cliente'}]
+	    });
+	     
+	    $(document).unload(function() {$('*').unbind(); });
+	});
+
+    </script>
+	<table width="100%" style="margin-bottom: 10px; margin-top: 10px">
+		<tr><td align="center">
+			<div id="chart2" style="width:400px; height:300px; "></div>
+		</td></tr>
+	</table>
+	<?php endif;?>
+</form>
+
+
+<table align="left" class="mytable" width="100%" cellspacing="0">
+<tr>
+	<td class="th_canto_orc" align="center" width="34%" >
+	CODIGO
+	</td>
+	<td class="th_orc" width="22%">
+	QT COMPRADA
+	</td>
+	<td class="th_orc"  width="22%">
+	QT ENVIADA PARA ANÁLISE
+	</td>
+	<td class="th_orc" width="22%">
+	QT PROCEDENTES
+	</td>
+</tr>
+<?php 
+	$cor=1; 
+	$totalgar = 0;
+	$totalpag = 0; 
+	$totalcomp = 0;
+	foreach ($this->objCompras as $listcomp):  
+		if(($cor%2)==0) $class = 'td_orc_par';
+        else $class = 'td_orc';
+        $cor++;
+		?>
+		<tr >
+        <td  class="<?=$class?>" align="left" >
+		<?php echo $listcomp->CODIGO?>
+		</td>
+		<td class="<?=$class?>">
+		<?php echo $listcomp->qttotal?>
+		</td>
+		<td class="<?=$class?>">
+		<?php
+		$gent = 0; 
+		foreach ($this->objGarant as $listG):
+			if($listG->id_prod == $listcomp->id_prod): 
+				$gent = $listG->qttotal;
+				$totalgar  += $gent;
+			endif;
+		endforeach;
+		echo $gent;
+		?>
+		</td>
+		<td class="<?=$class?>">
+		<?php
+		$gpag = 0; 
+		foreach ($this->objPagos as $listP):
+			if($listP->id_prod == $listcomp->id_prod): 
+				$gpag = $listP->qttotal;
+				$totalpag  += $gpag;
+			endif;
+		endforeach;
+		echo $gpag;
+		?>
+		</td>
+	</tr>
+<?php 
+$totalcomp += $listcomp->qttotal;
+
+endforeach;?>
+	<tr >
+        <td  class="td_orc" align="left" >
+		<b>Total</b>
+		</td>
+		<td class="td_orc">
+		<b><?php echo $totalcomp?></b>
+		</td>
+		<td class="td_orc">
+		<b><?php echo $totalgar?></b>
+		</td>
+		<td class="td_orc">
+		<b><?php echo $totalpag?></b>
+		</td>
+	</tr>
+</table>
+<?php 
+
+else:
+?>
+<p align="center">Nenhum produto encontrado</p>
+<?php 
+endif;
+
+elseif($this->objorig==2):
+
+if(!empty($this->objDev)): ?>
+
+<table width="100%" cellspacing="10" >
+	<tr>
+		<td align="left" colspan="3" style="text-transform: uppercase;">
+			Tipo: <b>Não procedentes</b>
+		</td>
+	</tr>
+	<tr>
+		<td align="left" colspan="3" style="text-transform: uppercase;">
+			Base de c&aacute;lculo: <b>12 meses anteriores</b> (In&iacute;cio da s&eacute;rie: Jan/2010)
+		</td>
+	</tr>
+	<tr>
+		<td align="left" width="30%">
+		Filtro do relatório: <b>
+		<?php if($this->objfiltro==1) echo "Por produto"; else echo "Por grupo"?>
+		</b> 
+		</td>
+		<td align="left" width="40%" >
+		<?php 
+		 
+		 	if($this->objfiltro==1): 
+				echo "Código do produto: <b>";
+				if($this->objprod!="") strtoupper($this->objprod);
+				else echo "Todos";				
+				echo "</b>";
+			else: 
+			  	foreach ($this->objGrupo as $listG):
+			  		if($listG->id==$this->objgrupo) echo "Grupo: <b>".$listG->descricao."</b>";
+			  	endforeach;
+			  	if($this->objgrupo==0) echo "Grupo: <b>Todos</b>";
+			endif;
+		?>
+		
+		</td>
+	</tr>
+	<tr>
+		<td align="left" colspan="2">
+		Quantidade de Envios: <b>
+		<?php if(!empty($this->objGarantias)) echo count($this->objGarantias)?>
+		</b> 
+		</td>
+	</tr>
+</table>
+
+	
+<?php if(!empty($this->objCompras)): 
+
+foreach ($this->objCompras as $listcomp):
+	$totalcomp += $listcomp->qttotal;
+endforeach;
+
+foreach ($this->objGarant as $listG):
+	$totalgar  += $listG->qttotal;
+endforeach;
+		
+foreach ($this->objPagos as $listP):
+	$totalpag  += $listP->qttotal;
+endforeach;
+
+foreach ($this->objCompras as $listcomp):
+	$totalcomp += $listcomp->qttotal;
+endforeach;
+
+foreach ($this->objGarant as $listG):
+	$totalgar  += $listG->qttotal;
+endforeach;
+
+foreach ($this->objPagos as $listP):
+	$totalpag  += $listP->qttotal;
+endforeach;
+
+//$totaldev = count($this->objDev);
+
+$int = 0;
+$idcod = "";
+$somdi = 0;
+$desctext = "";
+$outros = 0;
+	
+foreach ($this->objDev as $listN):
+	$totaltpanalise += $listN->qtanalise+ $listN->qtanaliseout;
+endforeach;
+
+$conttp = 0;
+$out = 0;
+foreach ($this->objDev as $listN):
+	$conttp++;
+    if($conttp<=11):
+		if($listN->qtanalise==0):
+	    	$tpa = number_format((($listN->qtanaliseout*100)/$totaltpanalise),2);
+	     	$line .= "['Resultado ".$conttp." - ".$tpa."%',".$tpa."],";
+	    else:
+	    	$tpa = number_format((($listN->qtanalise*100)/$totaltpanalise),2);
+	     	$line .= "['Resultado ".$conttp." - ".$tpa."%',".$tpa."],";
+	    endif;
+	else:
+		if($listN->qtanalise==0):
+			$tpaex += $listN->qtanaliseout;	     	    		
+		else:
+			$tpaex += $listN->qtanalise;
+		endif;	
+		$conttp--;
+		$out = 1;	     	    	
+	endif;	    	
+     	    	
+endforeach;
+if($out==1):
+	$tpaex = number_format((($tpaex*100)/$totaltpanalise),2);
+	$line .= "['Resultado ".($conttp+1)." - ".$tpaex."%',".$tpaex."],";
+endif;
+$line = substr($line, 0,-1);
+		     	   
+
+?>	
+	<script type="text/javascript">    
+    
+	$(document).ready(function(){
+	      $.jqplot.config.enablePlugins = true;
+	    
+	       line1 = [<?=$line?>];
+	  	   
+	   plot4 = $.jqplot('chart4', [line1], {
+	     seriesDefaults:{
+			renderer:$.jqplot.PieRenderer, 
+				pointLabels: { show: true },
+				rendererOptions:{sliceMargin:0}}, 
+	     legend:{show:true,
+		    location: 'e'}
+	   });
+	   
+	  });
+
+    </script>
+	<table width="100%" style="" border="0">
+		<tr><td align="left">
+			<div id="chart4" style=" width:550px; height:300px;"></div>
+		</td></tr>
+	</table>
+	<table width="100%" style="border: 1px solid #999; margin-bottom: 10px; padding: 8px">
+		<?php 
+		
+		$conttp = 0;
+		$out = 0;
+     	foreach ($this->objDev as $listN):
+     	    $conttp++;
+     	    if($conttp<=11):
+	     	    if($listN->descricao!=""):
+				?>
+				<tr>
+					<td align="left" >
+					Resultado <?=$conttp?> - 
+					<a target="_blank" href="<?php echo $this->baseUrl(); ?>/admin/venda/analiseopdetcli/analise/<?php echo md5($listN->id_analisegar)?>">
+					<?php echo utf8_encode(strtoupper($listN->descricao))?>
+					</a>
+					</td>
+				</tr>
+				<?php 
+				else:
+					$out=$conttp;
+				endif;
+			else:
+				$out=$conttp;	
+				$conttp--;
+			
+				if($listN->descricao!=""):
+					if($listN->qtanalise==0):
+	     	    		$tpa = number_format((($listN->qtanaliseout*100)/$totaltpanalise),2);
+	     	    	else:
+	     	    		$tpa = number_format((($listN->qtanalise*100)/$totaltpanalise),2);
+	     	    	endif;				
+				
+					$descout .= $tpa.'% - <a target="_blank" href="'.$this->baseUrl().'/admin/venda/analiseopdetcli/analise/'.md5($listN->id_analisegar).'">
+								'.utf8_encode(strtoupper($listN->descricao)).'</a><br>';
+				else:
+					$tpa = number_format((($listN->qtanaliseout*100)/$totaltpanalise),2);
+					$descout .= $tpa.'% - OUTROS';
+				endif;
+			endif;
+		endforeach;
+		if($out!=0): ?>
+		<tr>
+			<td align="left" >
+				Resultado <?=($out)?> - OUTROS
+				<br>
+				<?php if(!empty($descout)):?>
+				<div style="border: 1px solid #999; margin-left: 45px; padding: 3px">
+				<?php echo $descout?>
+				</div>
+				<?php endif;?>
+			</td>
+		</tr>
+		<?php endif;
+		?>
+	</table>
+		
+	<!-- ---------------------------- -->
+	
+	<table align="left" class="mytable" width="100%" cellspacing="0">
+	<tr>
+		<td class="th_canto_orc" width="30%" >
+		CODIGO
+		</td>
+		<td class="th_orc" width="22%">
+		QT COMPRADA
+		</td>
+		<td class="th_orc"  width="26%">
+		QT ENVIADA PARA ANÁLISE
+		</td>
+		<td class="th_orc" width="22%">
+		QT NÃO PROCEDENTE
+		</td>
+	</tr>
+	<?php 
+		$cor=1; 
+		$totalgar = 0;
+		$totalpag = 0; 
+		$totalcomp = 0;
+		foreach ($this->objCompras as $listcomp):  
+			if(($cor%2)==0) $class = 'td_orc_par';
+	        else $class = 'td_orc';
+	        $cor++;
+			?>
+			<tr >
+	        <td  class="<?=$class?>" align="left" >
+			<?php echo $listcomp->CODIGO?>
+			</td>
+			<td class="<?=$class?>">
+			<?php echo $listcomp->qttotal?>
+			</td>
+			<td class="<?=$class?>">
+			<?php
+			$gent = 0; 
+			foreach ($this->objGarant as $listG):
+				if($listG->id_prod == $listcomp->id_prod): 
+					$gent = $listG->qttotal;
+					$totalgar  += $gent;
+				endif;
+			endforeach;
+			echo $gent;
+			?>
+			</td>
+			<td class="<?=$class?>">
+			<?php
+			$gpag = 0; 
+			foreach ($this->objPagos as $listP):
+				if($listP->id_prod == $listcomp->id_prod): 
+					$gpag = $listP->qttotal;
+					$totalpag  += $gpag;
+				endif;
+			endforeach;
+			echo $gent - $gpag;
+			?>
+			</td>
+		</tr>
+	<?php 
+	$totalcomp += $listcomp->qttotal;
+	
+	endforeach;?>
+		<tr >
+	        <td  class="td_orc" align="left" >
+			<b>Total</b>
+			</td>
+			<td class="td_orc">
+			<b><?php echo $totalcomp?></b>
+			</td>
+			<td class="td_orc">
+			<b><?php echo $totalgar?></b>
+			</td>
+			<td class="td_orc">
+			<b><?php echo $totalgar - $totalpag?></b>
+			</td>
+		</tr>
+	</table>
+	<?php 
+	endif;
+  else:
+	?>
+	<p align="center">Nenhum produto encontrado</p>
+	<?php 
+  endif;
+endif;
+?>
+
+
+
+<script>
+function tipoPesquisa(valor){
+
+	if(valor==1){
+		document.getElementById("fprod").style.display = "block";
+		document.getElementById("fgrupo").style.display = "none";
+		document.getElementById("submitgerar").style.display = "none";
+		document.getElementById("grupo").value = "0";
+	}else if(valor==2){
+		document.getElementById("fprod").style.display = "none";
+		document.getElementById("fgrupo").style.display = "block";
+		document.getElementById("submitgerar").style.display = "block";
+		document.getElementById("prod").value = "";
+	}
+}
+
+</script>
+
+	

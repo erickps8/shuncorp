@@ -1,0 +1,217 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/cadastroContatosemp.js"></script>
+	<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/cadastroBuscauf.js"></script>
+
+	<div class="content">
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="#">Home</a> </li>
+                	<li><a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/contatos">Contatos</a></li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/contatosrelsalvos">Listas</a></li>
+                	<li class="lastB">
+                	<?php 
+			        if(empty($this->contId)){
+						echo "Nova lista";
+					}else{
+			        	echo $this->contNome;
+			        }
+			        ?>
+			        </li>
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>
+        <?php 
+        if(empty($this->contId)){
+			echo "Nova lista";
+		}else{
+        	echo $this->contNome." (".$this->objContcamp." contatos)";
+        }
+        ?></h5></div>       
+			    	 
+		<div class="widgets" style="border: 0px;" >
+			<div class="left" style="width: 75%; padding-top: 12px; ">
+			<input type="button" class="basicBtn" value="Busca" onclick='$("#pesquisa").toggle();'>
+ 			<form name="pesquisa" action="<?php echo $this->baseUrl(); ?>/admin/cadastro/contatosrel" method="post" class="mainForm" >
+			<table style="margin-top: 5px; border: 1px solid #ccc; display: none; width: 100%" id="pesquisa">
+				<tr>
+			    	<td style="padding: 5px" colspan="2">
+			    		Nome<br />
+				    	<input type="text" name="empresa" size="30" style="margin-bottom: 4px; width: 280px" >
+			    	</td>
+			    </tr>
+			    <tr>
+			    	<td style="padding: 5px">
+			    		Grupo de interesse:<br>
+					    <div class="styled-select" style="width: 220px">
+						<select name="ginteresse" style="width: 242px">
+							<option value="0">SELECIONE</option>
+							<option value="100">SEM GRUPO</option>
+							<?php 
+							foreach ($this->objGinteresse as $listg):
+								?>
+								<option <?php if($contato->id_ginteresse == $listg->id) echo 'selected="selected"'; ?> value="<?=$listg->id?>"><?=$listg->nome?></option>
+								<?php 
+							endforeach;
+							?>
+						</select>
+						</div>		
+				    </td>
+				    <td style="vertical-align: middle;">
+				    	<input type="checkbox" name="parceiros" checked="checked"><label>Parceiros</label>
+						<input type="checkbox" name="alvos" checked="checked"><label>Alvos</label>
+						<input type="checkbox" name="mercado" checked="checked"><label>Mercado</label>
+				    </td>
+				</tr>
+				<tr>
+			    	<td style="padding: 5px">
+					    Regi&atilde;o:	<br >
+					    <div class="styled-select" style="width: 250px">	
+							<select name="buscaregioes"  style="width: 272px">
+						  	<option value='0'>Selecione</option>
+						  	<?php foreach ($this->objRegioes as $listR): ?>
+								<option value='<?=$listR->idreg?>'><?php echo ($listR->NOME." ".$listR->EMPRESA)?></option>
+							<?php endforeach; ?>
+							</select>
+						</div>
+					</td>
+					<td style="padding: 5px">
+				    	Estados: <br />	
+				    	<div class="styled-select" style="width: 150px">
+						<select name="uf"  style="width: 172px">
+						  	<option value='todos'>Todos</option>
+						  	<?php foreach ($this->objUf as $listUf): ?>
+								<option value='<?=$listUf->uf?>'><?php echo ($listUf->nome)?></option>
+							<?php endforeach; ?>
+						</select>
+						</div>
+			    	</td>
+			    	<td style="text-align: right; vertical-align: bottom; padding: 5px">
+			    		<input type="submit" value="Buscar" class="blueBtn"/>
+			    	</td>
+				</tr>
+			</table>  
+			</form>
+			
+			<?php 
+			if(!empty($this->contId)){
+			?>
+			<form name="selec" method="post" class="mainForm" action="gravacontatosrel">
+				<input type="hidden" name="idcampanha" id="idcampanha" value="<?php echo $this->contId?>">
+				<input type="checkbox" name="selecionados" <?php if($this->checkSel == 1): ?> checked="checked" <?php endif; ?>  onchange="document.selec.submit();" value="1"> <label>Exibir somente contatos selecionados</label>
+			</form>
+			<?php 
+			};
+			?>
+			</div>
+			<div class="right" style="padding-top: 12px; text-align: right; width: 17%">
+			    <input type="button" value="Salvar" class="basicBtn bSalvar" style="width: 110px" ><br />
+			    <input type="button" value="Salvar como"  class="basicBtn bSalvarcomo" style="margin-top: 3px; width: 110px" ><br />
+			    <input type="button" value="Imprimir" class="basicBtn" style="margin-top: 3px; width: 110px" onclick="window.open('<?php echo $this->baseUrl()?>/admin/cadastro/contatosrelimp');"/> <br />
+			    <input type="button" value="Conferencia" class="basicBtn" style="margin-top: 3px; width: 110px" onclick="window.open('<?php echo $this->baseUrl()?>/admin/cadastro/contatosrelimpconf');"/> <br />
+		    </div>
+	    
+	        <div class="fix"></div>
+		</div>	
+		
+	   	<?php
+        	if(count($this->objEmp) > 0) :
+				?>
+				<div class="widget first">
+					<table style="width: 100%" class="tableStatic">
+		            	<thead>
+		                	<tr>
+		                        <td width="7%">Id</td>
+		                        <td width="30%">Nome</td>
+		                        <td >Empresa</td>
+		                        <td >Estado</td>
+		                        <td >Cidade</td>
+		                        <td width="13%">Opções</td>
+		                    </tr>
+		                </thead>
+		                <tbody>        	       
+						<?php 
+						$ids = "";
+						foreach($this->objEmp as $lista):							
+						
+							$bg = "";
+							if((strtotime($lista->dataalteracao) > strtotime($this->dtRel)) and !empty($this->contId)):
+								$bg = "background-color: #FFE0D7";
+							endif;
+						
+							$sel = '';
+							$contrel = explode(',', $this->contSelecionados,-1);
+							foreach ($contrel as $idcont):
+								if($idcont ==  $lista->idcontato): 
+									$sel = 'checked="checked"';
+									$bg = "";
+								endif;
+							endforeach;
+							
+					    	?>
+							<tr >
+				                <td style="text-align: center; <?php echo $bg?>">
+				                   C<?=$lista->idcontato?>
+				                </td>
+				                <td   align="left" style="<?php echo $bg?>">
+				                   <?=($lista->nomecontato)?>           
+				                </td>
+				                <td   style="text-align: left; <?php echo $bg?>" >
+				                	<?php 
+				                		$tp = (!$lista->id_matriz) ? "M" : "F" ;
+				                		echo $tp.$lista->id." - ".$lista->empresa; 
+				                	?>
+				                </td>
+				                <td   style="text-align: center; <?php echo $bg?>" >
+				                   	<?php 
+				                   	if($lista->tipoend==1):
+					                   $uf				= $lista->ufempresa;
+						               $cidade			= $lista->cidadeempresa;
+					              	else:
+					                   $uf				= $lista->ufcontato;
+					                   $cidade			= $lista->cidadecontato;
+					              	endif;
+				                  
+					              	echo $uf?>
+				                </td>
+				                <td   style="text-align: left; <?php echo $bg?>" >
+				                   <?php echo $cidade?>
+				                </td>
+				                <td style="text-align: center; <?php echo $bg?>" >
+				                	<a href="javascript:void(0)" rel="<?php echo $lista->idcontato?>" class="btnContato" ><img src="/public/sistema/imagens/icons/middlenav/magnify.png" width="16" title="Visualizar"></a> &nbsp;			
+		                			
+		                			<input type="checkbox" name="contatosrel[]" value="<?php echo $lista->idcontato?>" <?php echo $sel?>>
+				                </td>
+				            </tr> 
+				            <?php
+				            $ids .= $lista->idcontato.",";
+				       	endforeach;
+		     			?>
+		     		</tbody>
+		     	</table>
+		     	<input type="hidden" name="idscontatos" id="idscontatos" value="<?php echo $ids?>">
+		     	
+		     </div>
+		     
+		     <div style="margin-top: 20px">
+				<?php 
+				if ( count($this->objEmp) > 0) :
+	            	echo $this->objEmp;
+	            endif;
+			    ?>
+			</div>		     
+	     	<?php 
+	     	else :
+		     	?><div style="text-align: center; margin-top: 30px">Nenhum contato encontrado</div><?php 
+          	endif;		     
+		?>
+	</div>
+
+	
+<script>
+	
+	
+	
+</script>

@@ -1,0 +1,111 @@
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/javascript/financeiro.js"></script>
+
+<!-- Calendarios -->
+<link type="text/css" rel="stylesheet" href="<?=$this->baseUrl()?>/public/javascript/calendario/dhtmlgoodies_calendar.css?random=20051112" media="screen"></LINK>
+<SCRIPT type="text/javascript" src="<?=$this->baseUrl()?>/public/javascript/calendario/dhtmlgoodies_calendar.js?random=20060118"></script>
+
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl()?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/administracao/financeiroztl"><?=$this->translate->_("FINANCEIRO")?></a>&nbsp;
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeiroztlpag"><b><?=$this->translate->_("RELATÓRIO");?></b></a>		
+	</div>
+	<div id="sistitulo"><?=$this->translate->_("RELATÓRIO DE CONTAS A RECEBER")?></div>
+    <div id="sisconteudo">  
+		<form action="<?php echo $this->baseUrl(); ?>/admin/relatorios/financeirorelreceber" method="post" name="busca" id="busca">
+			<table style="margin-bottom: 8px; display: block; border: 1px solid #000; padding: 4px;" id="tabela">
+			    <tr>
+	    			<td >
+						<?=$this->translate->_("Dt inicio")?>:<br>
+						<input type="text" style="margin-right: 3px" size="8" name="dtini" id="dtini" maxlength="10" onKeyDown="Mascara(this,Data);" onKeyPress="Mascara(this,Data);" onKeyUp="Mascara(this,Data);" onclick="displayCalendar(this,'dd/mm/yyyy',this)">
+					</td>
+					<td >
+						<?=$this->translate->_("Dt fim")?>:<br>
+						<input type="text" style="margin-right: 3px" size="8" name="dtfim" id="dtfim" maxlength="10" onKeyDown="Mascara(this,Data);" onKeyPress="Mascara(this,Data);" onKeyUp="Mascara(this,Data);" onclick="displayCalendar(this,'dd/mm/yyyy',this)">
+					</td>
+					<td >
+						<br />
+						<input type="submit" value="<?=$this->translate->_("Pesquisar")?>">
+					</td>
+				</tr>
+			</table>  
+		</form>
+	</div>
+	<div>
+		<?php
+		if(!empty($this->objDatas)):
+			foreach ($this->objDatas as $datas):
+				?>
+				<div style="font-size: 14px; font-weight: bold; padding: 5px 0px 5px 0px">
+				Data emissão: <?=$datas->dtcad?>;
+				</div> 
+				<?php 
+				if(!empty($this->objContas)):		
+				?>
+				<div>
+					<table class="mytable" >	
+						<tr>
+							<th class="th_canto_min" style="text-align: center;"><?=$this->translate->_("ID")?></th>
+							<th class="th_orc_min" width="35%"><?=$this->translate->_("FORNECEDOR")?></th>
+							<th class="th_orc_min"><?=$this->translate->_("FATURA")?></th>
+							<th class="th_orc_min"><?=$this->translate->_("VENCIMENTO")?></th>
+							<th class="th_orc_min"><?=$this->translate->_("VALOR PARC")?></th>
+							<th class="th_orc_min"><?=$this->translate->_("SITUAÇÃO")?></th>
+							<th  class="th_orc_min" align="center" width="5%"><?=$this->translate->_("OPÇÕES")?></th>
+						</tr>	
+						<?php							
+						foreach ($this->objContas as $listreceber):
+							if($listreceber->dtcad == $datas->dtcad):
+							?>
+							<tr  >
+								<td class="td_orc_min" style="text-align: center;" >
+									R<?=substr("000000".$listreceber->idfin,-6)?>/<?=$listreceber->parc?>
+								</td>
+								<td class="td_orc_min" align="left">
+									<? if($listreceber->id_fornecedor!=0) echo $listreceber->EMPRESA; else echo $listreceber->out_fornecedor?>
+								</td>
+								<td class="td_orc_min" style="text-align: center;">
+									<?=$listreceber->fat?>/<?=$listreceber->parc?>
+								</td>
+								<td class="td_orc_min" style="text-align: center;">
+									<?=$listreceber->dtvencimento?>
+								</td>
+								<td class="td_orc_min" style="text-align: right;">
+									<?=number_format($listreceber->valor_apagar,2,",",".")?>
+								</td>
+								<td class="td_orc_min" style="text-align: center;">
+									<?php 											
+									if($listreceber->conciliado == 1): 
+										echo '<font color="#2a9cec">Finalizado</font>';
+					                elseif($listreceber->contaquitada == 1): 
+					                	echo '<font color="#009900">Pago</font>';
+					                elseif(($listreceber->quitado == 0) and (strtotime($listreceber->vencimento) < strtotime(date("Y-m-d"))) and (!empty($listreceber->dtvencimento))):
+					                	echo '<font color="#F00">Em atraso</font>';
+					                else: echo 'Em Aberto'; endif;                
+									?>
+								</td>
+								<td  class="td_orc_min" style="text-align: center;" >
+					                <a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlreccad/rec/<?=md5($listreceber->idfin)?>" target="_blank"><img src="<?=$this->baseUrl()?>/images/visualizar_orc.gif" width="16" border="0" title="Visualizar"></a>
+					            </td>  
+							</tr>
+							<?php	
+							endif;							
+						endforeach;						
+					?>
+					</table>
+				</div>
+				<?php 
+				else:
+					?> 
+					<div style="margin-top: 30px; font-weight: bold; text-align: center;">Nenhuma conta encontrada!</div>
+					<?php 
+				endif;
+				?>
+			</div>	
+			<?php 
+		endforeach;
+	endif;	
+	?>
+</div>

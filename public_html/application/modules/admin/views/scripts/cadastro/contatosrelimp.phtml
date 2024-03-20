@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>SisZTL 2.0 Alpha - ztlbrasil.com.br</title>
+	<link href="<?=$this->baseUrl()?>/public/sistema/imagens/ztl.ico" rel="shortcut icon" type="image/x-ico"/>
+	<link href="<?=$this->baseUrl()?>/public/sistema/css/mainprint.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div class="content">
+	  
+	   	<?php
+        	if(count($this->objEmp) > 0) :
+				?>
+				<div class="widget first">
+					<?php 
+					foreach($this->objEmp as $contato):
+						
+						if($contato->ID_END==1):
+							if($contato->TIPO == 0){
+								$uf				= $contato->muf;
+								$cidade			= $contato->mcidade;
+								$endereco		= $contato->mend;
+								$bairro			= $contato->mbairro;
+								$cep			= $contato->mcep;
+							}else{
+								$uf				= $contato->fuf;
+								$cidade			= $contato->fcidade;
+								$endereco		= $contato->fend;
+								$bairro			= $contato->fbairro;
+								$cep			= $contato->fcep;
+							}
+						else:
+							$uf				= $contato->nuf;
+							$cidade			= $contato->ncidade;
+							$endereco		= $contato->cend;
+							$bairro			= $contato->cbairro;
+							$cep			= $contato->ccep;
+						endif;
+						
+							?>
+							<div style="width: 400px; margin: 0 auto; margin-top: 15px; font-size: 14px; padding-left: 20px; padding-top: 5px; page-break-after: always; line-height: 140%" >
+		            			<b>Destinatário: </b><span style="font-size: 21px"><?=($contato->ncontato)?><br /></span>                 
+				                <b>Empresa: </b><?php if($contato->idmatriz != NULL) echo $contato->empmatriz; else echo $contato->empfilial; ?><br />
+				            	<b>End.: </b><?=$endereco?><br />
+								<b>Bairro: </b><?=$bairro?><br />
+								<b>Cidade: </b><?php echo $cidade?> - <?php echo $uf?><br /> 
+								<b>CEP: </b><?=substr(str_replace("-","",$cep),0,5)."-".substr(str_replace("-","",$cep),5)?><br />								 
+							</div>        
+	            	<?php
+		        endforeach;
+     			?>
+		     </div>		     
+	     	<?php 
+	     	endif;		     
+		?>
+	</div>
+	</body>
+</html>

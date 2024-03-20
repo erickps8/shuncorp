@@ -1,0 +1,102 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/cadastroContatosemp.js"></script>
+	<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/cadastroBuscauf.js"></script>
+
+	<div class="content">
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="#">Home</a> </li>
+                	<li><a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/contatos">Contatos</a></li>
+                	<li class="lastB"><a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/contatosrelsalvos">Listas</a></li>
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Listas de contatos</h5></div>
+       			    	 
+		<div class="widgets" style="border: 0px;" >
+			<div class="left" style="width: 47%; padding-top: 5px">
+				<input type="button" value="Novo" class="basicBtn" style="width: 110px" onclick="window.location='<?php echo $this->baseUrl()?>/admin/cadastro/contatosrel/fil/todos/filrel/todos';"/> <br />
+	 			<form name="pesquisa" action="<?php echo $this->baseUrl(); ?>/admin/cadastro/contatosrelsalvos" method="post" class="mainForm" >
+				<table style="border: 1px solid #ccc; width: 100%; margin-top: 5px">
+				    <tr>
+				    	<td style="padding: 5px">
+				    		Nome:<br>
+						    <input type="text" name="nome" style="width: 250px" >
+						    <input type="submit" value="Buscar" class="blueBtn">		
+					    </td>				    
+					</tr>				
+				</table>  
+				</form>
+			</div>
+			<div class="right" style="padding-top: 12px; text-align: right; border: 0px solid; width: 13%">
+			   
+		    </div>
+	    
+	        <div class="fix"></div>
+		</div>	
+		
+	   	<?php
+        	if(count($this->objRelatorios) > 0) :
+				?>
+				<div class="widget first">
+					<table style="width: 100%" class="tableStatic">
+		            	<thead>
+		                	<tr>
+		                        <td width="7%">Id</td>
+		                        <td >Nome</td>
+		                        <td width="25%">Data</td>
+		                        <td width="13%">Opções</td>
+		                    </tr>
+		                </thead>
+		                <tbody>        	       
+						<?php 
+						foreach($this->objRelatorios as $lista):
+							?>
+							<tr >
+				                <td style="text-align: center;" >
+				                   <?=$lista->id?>
+				                </td>
+				                <td   align="left" >
+				                   <?=($lista->nome)?>
+				                </td>
+				                <td style="text-align: center;" >
+				                	<?php echo substr($lista->data, 8,2).'/'.substr($lista->data, 5,2).'/'.substr($lista->data, 0,4).' '.substr($lista->data, 10)?>
+				                </td>
+				                <td style="text-align: center;" >
+				                	<a href="<?php echo $this->baseUrl()?>/admin/cadastro/abrircontatosrel/idcampanha/<?php echo md5($lista->id)?>"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" title="Visualizar"></a>
+				                	<a href="javascript:void(0);" onclick="confirmeExcluircampanha('<?php echo md5($lista->id)?>');" ><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/close.png" width="15" border="0" title="Remover"></a>
+				                </td>
+				            </tr> 
+				            <?php
+				       	endforeach;
+		     			?>
+		     		</tbody>
+		     	</table>		     	
+		     </div>
+		     
+		     <div style="margin-top: 20px">
+				<?php 
+				if ( count($this->objRelatorios) > 0) :
+	            	echo $this->objRelatorios;
+	            endif;
+			    ?>
+			</div>		     
+	     	<?php 
+	     	else :
+		     	?><div style="text-align: center; margin-top: 30px">Nenhuma campanha encontrada</div><?php 
+          	endif;		     
+		?>
+	</div>
+
+	
+	<script>
+	function confirmeExcluircampanha(lista){
+		jConfirm('Tem certeza que deseja excluir esta lista?', 'Confirme', function(r) {
+			if(r==true){
+				window.location='<?=$this->baseUrl()?>/admin/cadastro/removecontatosrel/idcampanha/'+lista;
+			}
+		});
+    }
+	</script>

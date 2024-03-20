@@ -1,0 +1,10 @@
+<select name="buscagruposub" id="buscagruposub" style="width: 100%">
+	<option value="0">Selecione</option>
+	<?php foreach ($this->objGrupsub as $list):
+			if($list->tipo==1):
+				?>
+				<option value="<?php echo $list->id?>"><?php echo $list->descricao?></option>
+		<?php 
+			endif;
+		endforeach; ?>
+</select>

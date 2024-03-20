@@ -1,0 +1,379 @@
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/cadastroSubgrupo.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/vendaGarantias.js"></script>
+
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/flot/jquery.flot.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/flot/jquery.flot.pie.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/flot/jquery.flot.resize.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/flot/excanvas.min.js"></script>
+
+ 	<div class="content">
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/venda/garantias">Garantias</a></li>         
+                	<li class="lastB">Relatórios</li>
+                </ul>
+            </div>
+        </div>       
+                
+        <div class="title"><h5>Relatório de garantia</h5></div>
+        
+        <div class="widgets" >
+        	<!-- Busca -->
+        	<div class="widget" style="border: 1px solid #ccc;" >  
+        		<form name="relatorios" action="" method="post" class="mainForm">
+			        <table style="width: 100%;" >
+					<tr>
+						<td align="left" width="18%" style="padding: 10px">
+						Abrangência:<br>
+						<div class="styled-select" style="width: 140px">
+							<select name="tipo" onchange="tipoAbrange(this.value);" style="width: 162px">
+								<option value="0">Selecione</option>
+								<option value="3">Todos</option>
+								<option value="1">ZTL/Cliente</option>
+								<!-- <option value="2">ZTL/Estado</option> --> 				
+							</select>
+							</div>
+						</td>
+						<td align="left" width="30px">
+							<div id="fcli" style="display: none">
+								Cliente:<br>
+								<div class="styled-select" style="width: 200px">
+								<select name="clientes" id="clientes"  style="width: 222px">
+									<option value="0">Selecione</option>
+									<?php foreach ($this->objClientes as $listG): ?>
+									<option value="<?php echo $listG->ID?>"><?php echo $listG->EMPRESA?></option>
+									<?php endforeach;?>
+								</select>
+								</div>
+							</div>
+							<div id="fuf" style="display: none">
+							Estado:<br>
+							<select name="uf" id="uf" >
+								<option value="0">Selecione</option>
+								<?php foreach ($this->objUf as $listG): ?>
+								<option value="<?php echo $listG->id?>"><?php echo $listG->nome?></option>
+								<?php endforeach;?>
+							</select>
+							</div>
+						</td>
+						<td >
+					    	Período:<br />
+					    	<div class="styled-select" style="width: 130px">
+								<select name="periodo"  style="width: 152px">
+									<option value="1">1 mes</option>
+									<option value="3">3 meses</option>
+									<option value="6">6 meses</option>
+									<option value="12" selected="selected">1 ano</option>
+									<option value="24">2 anos</option>
+								</select>
+							</div>
+						</td>
+					</tr>
+					</table>
+					<table style="width: 100%;" >
+					<tr>			
+						<td align="left" width="20%" style="padding: 10px">
+							Filtro:<br>
+							<div class="styled-select" style="width: 130px">
+							<select name="frel" onchange="tipoPesquisa(this.value)" style="width: 152px">
+								<option value="0">Selecione</option>
+								<option value="1">Por Produto</option>
+								<option value="2">Por Grupo</option>
+							</select>
+							</div>
+						</td>
+						<td width="10%" >
+							<div id="fprod" style="display: none">
+								Código:<br>
+								<input type="text" size="10" name="prod" id="prod" style="text-transform: uppercase; width: 150px">
+							</div>
+							<div id="fgrupo" style="display: none">
+							Grupo de produtos:<br>
+								<div class="styled-select" style="width: 220px">
+									<select name="buscagrupo" id="buscagrupo" onchange="Mostrasubgrupos(this.value,3);" style="width: 242px">
+										<option value="0">Todos</option>
+										<?php foreach ($this->objGrupo as $list): ?>
+											<option value="<?=$list->id?>"><?php echo substr($list->descricao,0,20)?></option>
+										<?php endforeach; ?>
+									</select>	
+								</div>		
+							</div>	
+									
+						</td>
+						<td align="left">
+							<div id="subgrupo">&nbsp;</div>
+						</td>
+						<td align="left">
+							<br>
+							<input type="button" onclick="validaForm();" value="Gerar" id="submitgerar" style="display: none" class="blueBtn">
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
+	
+	<div class="widgets" id="carregarGraficos" style="display: none; padding: 10px; text-align: center">
+		<img src="<?php echo $this->baseUrl?>/public/sistema/imagens/loaders/loader6.gif"> Gerando relatório. Aguarde...
+	</div>
+		
+	<div class="widgets" id="resultadoGarantias" style="display: none">
+		<div class="left" style="width: 65%">
+        	<div class="widget"><!-- Pie chart 1 -->
+            	<div class="head">
+            		<h5 class="iChart8">Resultado da análise (Cliente)</h5>
+            		<div style="text-align: right; padding: 10px">
+            		<a href="#" target="_blank" id="imprimeGrafico"><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/printer.png" width="16" border="0" title="Imprimir"></a>
+            		</div>
+            	</div>
+                <div class="body">
+                	<div id="graph1" style="width: 380px; height: 380px; margin: 0 auto;  "></div>
+                </div>
+            </div>
+     	</div>
+            
+        <div class="right" style="width: 30%">
+        	<div class="widget"><!-- Pie chart 2 -->
+            	<div class="head"><h5 class="iChart8">ZTL (Vendas X Pagos)</h5></div>
+                <div class="body">
+                	<div id="graph2" style="width: 200px; height: 200px; margin: 0 auto;"></div>
+                </div>
+          	</div>
+      		<div class="widget"><!-- Pie chart 2 -->
+            	<div class="head"><h5 class="iChart8">Cliente (Compras X Pagos)</h5></div>
+                <div class="body">
+                	<div id="graph3" style="width: 200px; height: 200px; margin: 0 auto;"></div>
+             	</div>
+           	</div>
+      	</div>
+      	<div class="fix"></div>	
+	</div>
+	
+	<div class="widgets" id="resultadoGarantiasgeral" style="display: none">
+		<div class="widget"><!-- Pie chart 1 -->
+        	<div class="head">
+        		<h5 class="iGraph">Histórico de garantia</h5>
+        		<div style="text-align: right; padding: 10px">
+            		<a href="#" target="_blank" id="imprimeHistorico"><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/printer.png" width="16" border="0" title="Imprimir"></a>
+            	</div>
+        	</div>
+        	<div class="body">
+        		<div class="chart" style="height: 400px; "></div>
+        	</div>
+        </div>
+     	
+      	<div class="fix"></div>	
+	</div>
+	
+	<div class="widgets" id="dadosGarantias" style="display: none">
+		<img src="<?php echo $this->baseUrl?>/public/sistema/imagens/loaders/loader6.gif"> Listado produtos do relatório. Aguarde...
+	</div>
+</div>
+	
+	
+<script>
+
+function validaForm(){
+	if(document.relatorios.tipo.value == 1){
+		if(document.relatorios.clientes.value == 0){
+			jAlert('Selecione um cliente!','Erro');
+		}else{	
+			gerarRelatorio();
+		}
+	}else{
+		gerarRelatorio();
+	}
+}
+
+function tipoPesquisa(valor){
+
+	if(valor==1){
+		document.getElementById("fprod").style.display = "block";
+		document.getElementById("fgrupo").style.display = "none";
+		document.getElementById("subgrupo").style.display = "none";
+		document.getElementById("submitgerar").style.display = "block";
+		document.getElementById("buscagrupo").value = "0";
+	}else if(valor==2){
+		document.getElementById("fprod").style.display = "none";
+		document.getElementById("fgrupo").style.display = "block";
+		document.getElementById("submitgerar").style.display = "block";
+		document.getElementById("buscagrupo").value = "";
+	}
+}
+
+function tipoAbrange(valor){
+
+	if(valor==1){
+		document.getElementById("fcli").style.display = "block";
+		document.getElementById("fuf").style.display = "none";
+		document.getElementById("uf").value = "0";
+	}else if(valor==2){
+		document.getElementById("fcli").style.display = "none";
+		document.getElementById("fuf").style.display = "block";
+		document.getElementById("clientes").value = "0";
+	}else if(valor==3){
+		document.getElementById("fcli").style.display = "none";
+		document.getElementById("fuf").style.display = "none";
+		document.getElementById("clientes").value = "0";
+	}
+}
+
+
+function showTooltip(x, y, contents) {
+	$("<div id='tooltip'>" + contents + "</div>").css({
+		position: "absolute",
+		display: "none",
+		top: y + 5,
+		left: x + 5,
+		border: "1px solid #fdd",
+		padding: "2px",
+		"background-color": "#fee",
+		opacity: 0.80
+	}).appendTo("body").fadeIn(200);
+}
+
+function exibeRelatoriogeral(data,data2,data3,mascara,maxdata){
+	document.getElementById('resultadoGarantiasgeral').style.display = "block";
+	document.getElementById('resultadoGarantias').style.display = "none";
+	document.getElementById('dadosGarantias').style.display = "none";
+	  
+
+	var plot = $.plot($(".chart"), [
+		{label: "Devoluções", data: data, lines: { show: true }, yaxis: 2},
+		{label: "Pagas", data: data2, lines: { show: true }, yaxis: 2},
+		{label: "Vendas", data: data3, lines: { show: true }, yaxis: 1}
+		], 
+	    {
+			series: {
+               lines: { show: true },
+               points: { show: true }
+           	},
+           	grid: {
+    			hoverable: true,
+    			clickable: true
+    		},
+           	xaxis: { 
+			   	max: maxdata,
+				ticks: mascara
+			},
+			yaxes: [
+			    {position: 'left'},
+			    {position: 'right'}	
+			]
+           
+         });
+
+
+	document.getElementById('carregarGraficos').style.display = "none";
+
+	var previousPoint = null;
+	$(".chart").bind("plothover", function (event, pos, item) {
+
+
+		
+		if (item) {
+			if (previousPoint != item.dataIndex) {
+
+				previousPoint = item.dataIndex;
+
+				$("#tooltip").remove();
+				var x = item.datapoint[0].toFixed(0),
+				y = item.datapoint[1].toFixed(0);
+
+				showTooltip(item.pageX, item.pageY,
+				    item.series.label + ":" + y);
+			}
+		} else {
+			$("#tooltip").remove();
+			previousPoint = null;            
+		}
+		
+	});
+	
+};
+
+	
+function exibeRelatorio(data,data2,data3){
+	document.getElementById('resultadoGarantias').style.display = "block";
+	document.getElementById('resultadoGarantiasgeral').style.display = "none";
+	
+	$.plot($("#graph1"), data, 
+	{
+		series: {
+	        pie: {
+	            show: true,
+	            radius: 1,
+	            label: {
+                    show: true,
+                    radius: 1,
+                    formatter: function(label, series){
+                        return '<div style="font-size:8pt;text-align:center;padding:2px;color:white;">'+label+'<br/>'+Math.round(series.percent*100)/100+'%</div>';
+                    },
+                    background: { opacity: 0.8 }
+                }
+	        }
+	    },
+
+		legend: {
+	        show: false
+	    }
+			
+	});
+
+	$.plot($("#graph2"), data2, 
+	{
+		series: {
+	        pie: {
+	            show: true,
+	            radius: 1,
+	            label: {
+                    show: true,
+                    radius: 1,
+                    formatter: function(label, series){
+                        return '<div style="font-size:8pt;text-align:center;padding:2px;color:white;">'+label+'<br/>'+Math.round(series.percent*100)/100+'%</div>';
+                    },
+                    background: { opacity: 0.8 }
+                }
+	        }
+	    },
+
+		legend: {
+	        show: false
+	    }
+			
+	});
+
+	$.plot($("#graph3"), data3, 
+	{
+		series: {
+	        pie: {
+	            show: true,
+	            radius: 1,
+	            label: {
+                    show: true,
+                    radius: 1,
+                    formatter: function(label, series){
+                        return '<div style="font-size:8pt;text-align:center;padding:2px;color:white;">'+label+'<br/>'+Math.round(series.percent*100)/100+'%</div>';
+                    },
+                    background: { opacity: 0.8 }
+                }
+	        }
+	    },
+
+		legend: {
+	        show: false
+	    }
+			
+	});
+
+	document.getElementById('carregarGraficos').style.display = "none";
+	
+}
+
+
+</script>
+
+	

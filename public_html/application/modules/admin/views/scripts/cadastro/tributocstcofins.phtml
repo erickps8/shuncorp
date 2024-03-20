@@ -1,0 +1,76 @@
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?php echo $this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/despesasfiscais">TRIBUTOS</a>&nbsp;
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/produtosncm">NCM</a>&nbsp;
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp; 
+		<b><a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/tributocstpis">CST COFINS</a></b>
+	</div>
+	<div id="sistitulo">CST COFINS</div>
+    <div id="sisconteudo">    
+	    <?php  if($this->objIns==true):?>
+	    <div style="margin-bottom: 5px">
+	    	<input type="button" class="button" onclick="window.location='<?=$this->baseUrl()?>/admin/cadastro/tributocstcofinscad'" value="Novo CST"></input>
+	    </div>
+	    <?php endif;?> 
+		<div>      
+            <?php			
+        	if (count($this->objList) > 0) :			
+			?>
+			<table class="mytable" >
+		         <tr>
+		            <th  class="th_canto_orc" style="text-align: center;"width="10%">
+		                ID
+		            </th>
+		            <th  class="th_orc" style="text-align: center;"width="15%">
+		                CST
+		            </th>
+		            <th  class="th_orc" style="text-align: center;"width="65%">
+		                DESCRIÇÃO
+		            </th>
+		            <?php if ($this->objEdi==true){  ?>
+		            <th  class="th_orc" style="text-align: center;"width="10%">
+		                Op&ccedil;&otilde;es
+		            </th>
+		            <?php } ?>
+		        </tr>		       
+			<?php 
+			$cor=0;
+	    	foreach($this->objList as $lista):
+	    	$cor++;
+            if(($cor%2)==0) $class = 'td_orc_par';
+            else $class = 'td_orc';
+			?>			
+			<tr >
+                <td  class="<?=$class?>" style="text-align: center;">
+                   <?php echo substr("000".$cor,-3,3)?>
+                </td>
+                <td  class="<?=$class?>" style="text-align: center;"style="text-transform: uppercase;">
+                   <?=substr("00".$lista->cstcofins,-2,2)?>
+                </td>
+                <td  class="<?=$class?>" align="left" style="text-transform: uppercase;">
+                   <?=$lista->desccofins?>
+                </td>
+                <?php if ($this->objEdi==true){  ?>
+                <td  class="<?=$class?>" style="text-align: center;">
+                	<a href="<?=$this->baseUrl()?>/admin/cadastro/tributocstcofinscad/idcst/<?=md5($lista->id)?>" >
+                	<img src="<?php echo $this->baseUrl(); ?>/images/edit_orc.gif" width="15" height="15" border="0" title="Editar" ></a> &nbsp; 
+                	<a href="javascript:void(0)" onclick="if(confirm('Remover CST ICMS?')){ window.location='<?=$this->baseUrl()?>/admin/cadastro/removetributocstcofins/idcst/<?=md5($lista->id)?>';};" ><img src="<?=$this->baseUrl()?>/images/window-close.png" width="15" border="0" title="Remover"></a>
+                </td>
+                <?php  }  ?>
+            </tr>
+            
+			<?php  endforeach;
+			?></table>
+		</div>
+		 	 <?php 
+			else :
+			?>
+		<div style="margin-top: 20px; text-align: center;">Nenhum CST PIS/PASEP e COFINS Cadastrado</div>			
+			<?php 
+			endif;
+		?>
+	</div>
+</div>

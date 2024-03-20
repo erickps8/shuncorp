@@ -1,0 +1,78 @@
+<!-- Content -->
+    <div class="content">   
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="#">Home</a> </li>
+                	<li><a href="<?php echo $this->baseUrl()?>/admin/venda/pedidos/fil/comp">Pedidos</a></li>
+                	<li class="lastB">Orçamentos</li>         
+                </ul>
+            </div>
+        </div>       
+        <div class="title"><h5>Orçamentos</h5></div>
+
+        <div class="widgets" >
+        	<!-- Busca -->
+        	<div class="left" style="margin-top: 5px; margin-bottom: 5px" >   
+	        	<?php if($this->objIns==true):?>
+			    <input type="button" class="basicBtn" style="width: 110px"  onclick="window.location='<?php echo $this->baseUrl(); ?>/admin/venda/pedidosbuscacli'" value="Novo Orçamento"></input>
+			    <?php endif;?>                
+            </div>            
+        </div>
+
+        <!-- Static table -->
+        <div class="widget first">
+ 			<?php
+			if (count($this->objList) > 0):			
+			?>       
+        
+        	<table class="tableStatic" style="width: 100%">
+            	<thead>
+                	<tr>
+                        <td width="10%">Id</td>
+                        <td width="">Última atualização</td>
+                        <td width="40%">Cliente</td>
+                        <td width="15%">Opções</td>
+                    </tr>
+                </thead>
+                <tbody>
+    
+				<?php 
+				$cor=0;
+		    	foreach($this->objList as $lista):
+		    		$cor++;
+	            	?>			
+					<tr >
+		                <td style="text-align: center;">
+		                   <?=$lista->id?>
+		                </td>
+		                <td style="text-align: center;" >
+		                	<?=$lista->dtvenda?>
+		                </td>
+		                <td >
+		                	<?=$lista->EMPRESA?>
+		                </td>
+		                <td style="text-align: center;">		                	
+			                <a href="<?=$this->baseUrl()?>/admin/venda/orcamento/ped/<?=md5($lista->id)?>"" ><img src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/pencil.png" width="17" border="0" title="Editar/Enviar"></a>&nbsp;&nbsp;
+		                    <a href="<?=$this->baseUrl()?>/admin/venda/pedidosorcimp/ped/<?=md5($lista->id)?>" target="_blank"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/printer.png" width="17" border="0" title="Imprimir"></a>&nbsp;&nbsp;
+		                    <?php if($this->objIns==1):?>
+		                    <a href="<?=$this->baseUrl()?>/admin/venda/removeorcamento/orcamento/<?=md5($lista->id)?>" ><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" width="17" border="0" title="Remover"></a>
+			                <?php endif;?>
+			                
+		                </td>
+		                
+		            </tr>
+            
+			<?php  endforeach;	?>
+			</table>
+			
+			<?php 
+			else :
+			?>
+			Nenhuma Orçamento cadastrado			
+			<?php 
+			endif;
+		?>
+		</div>
+	</div>

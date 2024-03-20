@@ -1,0 +1,37 @@
+<?php 
+foreach ($this->objRemessa as $remessa);
+?>
+
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl()?>/admin/compras/estoqueresumo">Estoque</a></li>         
+                	<li ><a href="<?=$this->baseUrl()?>/admin/nfe/nfe">NF-e</a></li>
+                	<li ><a href="<?=$this->baseUrl()?>/admin/nfe/remessas">Remessas</a></li>
+                	<li class="lastB">Remessa <?php echo $remessa->id?></li>
+                </ul>
+            </div>
+        </div>       
+
+        <div class="title"><h5>Remessa <?php echo $remessa->id?></h5></div>
+
+        <div class="widgets" >
+			<div class="widget" style="border-top: 1px solid #d5d5d5; padding: 10px">
+				<?=$remessa->msg?>
+			</div>
+
+			<div class="widget" style="border-top: 1px solid #d5d5d5; padding: 10px">
+	 			<form action="<?=$this->baseUrl()?>/admin/nfe/remessasemail" method="post" class="mainForm">
+	 			<input type="hidden" name="idremessa" value="<?=$remessa->id?>">
+	 			Emails (separados por <b>;</b>):<br />
+	 			<textarea style="width: 400px" name="email"><?=$remessa->email?></textarea><br />
+	 			<input type="submit" value="Enviar email" style="margin-top: 5px" class="basicBtn">
+	 			</form>	
+	 		</div>
+		</div>
+	</div>

@@ -1,0 +1,119 @@
+<?php 
+if($this->flashMessages()){ 
+	$mes = explode("|", $this->flashMessages());
+	?><script>jAlert("<?php echo $mes[1]?>","<?php echo $mes[0]?>")</script><?php
+}?>
+
+<div class="content">
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="#">Home</a> </li>
+                	<li><a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/contatos">Contatos</a></li>
+                	<li>Empresas</li>
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Empresas contatos</h5></div>
+            
+        <?php if($this->objIns==true){ ?>
+        <div class="widgets" >
+        	<div class="left" style="margin-top: 5px; margin-bottom: 5px" >   
+	        	<input type="button" class="basicBtn" onclick="window.location='<?php echo $this->baseUrl(); ?>/admin/cadastro/contatosempcad'" value="Nova Empresa"></input>
+		    </div>
+        </div>
+        <?php } ?>
+			 
+		<!-- Busca ------------------------------------------------------ -->
+		<div class="widgets" >
+			<div class="first" style="margin-top: 5px; margin-bottom: 5px; border: 1px solid #d5d5d5; padding: 10px" >  
+				<form method="post" name="busca" id="busca" class="mainForm">
+					<div >
+						<table style="width: 100%">
+							<tr>
+						    	<td class="tdbusca">
+					    			<input type="radio" name="tipopesq" value="0" checked="checked"><label>Empresas</label> 
+				    				<input type="radio" name="tipopesq" value="1"><label>Contato</label>					    			
+					    		</td>
+					    		<td class="tdbusca">
+					    			<input type="checkbox" name="parceiros" checked="checked"><label>Parceiros</label>
+									<input type="checkbox" name="alvos" checked="checked"><label>Alvos</label>
+									<input type="checkbox" name="mercado" checked="checked"><label>Mercado</label>
+					    		</td>
+							 	<td style="vertical-align: bottom;" class="tdbusca" >
+							 		<div class="styled-select" style="width: 180px">
+									<select name="ginteresse" style="width: 202px">
+										<option value="0">Grupo de interesse</option>
+										<option value="100">Sem grupo</option>
+										<?php 
+										foreach ($this->objGinteresse as $listg):
+											?>
+											<option value="<?=$listg->id?>"><?=$listg->nome?></option>
+											<?php 
+										endforeach;
+										?>
+									</select>
+									</div>
+								</td>
+							</tr>
+							<tr>
+						    	<td class="tdbusca" >
+					    			<input type="text" name="empresa" style="width: 300px" placeholder="Nome ou ID da empresa">					    			
+					    		</td>
+					    		<td class="tdbusca">
+					    			<input type="checkbox" name="quarentena" value="1"> <label>Quarentena</label>					    			
+					    		</td>
+					    		<td style="vertical-align: bottom; width: 80%" class="tdbusca" >
+				    				<div class="styled-select" style="width: 150px">
+									<select name="uf"  style="width: 172px">
+									  	<option value='todos'>Estados</option>
+									  	<?php foreach ($this->objUf as $listUf): ?>
+											<option value='<?=$listUf->uf?>'><?php echo ($listUf->nome)?></option>
+										<?php endforeach; ?>
+									</select>
+									</div>
+								</td>
+								
+							</tr>
+							<tr>								
+				    			<td class="tdbusca">
+					    			<div class="styled-select" style="width: 290px">	
+										<select name="buscaregioes"  style="width: 312px">
+									  	<option value='0'>Região</option>
+									  	<?php foreach ($this->objRegioes as $listR): ?>
+											<option value='<?=$listR->idreg?>'><?php echo ($listR->NOME." ".$listR->EMPRESA)?></option>
+										<?php endforeach; ?>
+										</select>
+									</div>
+					    		</td>
+							 	<td style="vertical-align: bottom;" class="tdbusca" >
+							 		<div class="styled-select" style="width: 310px">
+						    			<select name="televenda" style="width: 332px">
+							    			<option value="0">Teleregiões</option>
+							    			<?php foreach ($this->objTel as $tel){ 
+							    			    ?>
+							    				<option value="<?php echo $tel->idreg?>"><?php echo $tel->regiao." - ".$tel->usuario?></option>
+							    				<?php
+											} ?>    				
+						    			</select>
+					    			</div>
+								</td>
+				    			<td class="tdbusca">
+									<input type="button" class="blueBtn btnpesq" value="Pesquisar" id="btnbusca">
+								</td>
+							</tr>								
+						</table>
+					</div>
+				</form>
+			</div>
+		</div>	 
+		
+		<div class="clear"></div>
+		
+		<div id="resultado"></div>
+		
+	</div>
+	
+<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/cadastroContatosemp.js"></script>

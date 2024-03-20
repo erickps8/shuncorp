@@ -1,0 +1,209 @@
+<!-- Content -->
+    <div class="content">   
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/pedidoscompra">Pedidos de compra</a></li>
+                	<li class="lastB">Entrada de produtos</li>          
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Entrada de produtos</h5></div>
+        
+        <div class="widgets" >
+        	<!-- Busca -->
+        	<div class="widget noborder" style="margin-top: 5px; margin-bottom: 5px; " >  
+	        	<?php if($this->objIns==true):?>
+		    	<input type="button" class="basicBtn" onclick="mostrarFornecedores()" value="Nova Entrada">
+		    	<?php endif;?>
+		    	<div class="right" style="text-align: right; padding-top: 7px; width: 40%">
+		        	<a href="<?=$this->baseUrl(); ?>/admin/compras/entradasimulacao">Simulações</a>
+	        	</div>		    	
+        	</div>
+        	
+        	<div class="widget noborder" style="margin-top: 5px; margin-bottom: 5px; " >          
+        	    <form action="entradaest" method="post" name="busca" id="busca" class="mainForm" >
+				<table style="border: 1px solid #d5d5d5;" id="tabela">
+				    <tr>
+				    	<td align="left" width="20%" style="padding: 10px">
+				    		Busca por:<br />
+				    		<div class="styled-select" style="width: 140px">
+					    	<select name="tipo" onchange="tipoPesquisa(this.value);" style="width: 162px">
+							<option value="1">Por ID</option>
+							<option value="2">Por Documento</option>			
+							</select>    
+							</div>
+				    	</td>				    	
+				    	<td align="left">	    	
+							<div style="display: none;" id="buscdoc">
+								Documento:<br />
+								<input type="text" size="15" name="buscadoc" id="buscadoc" style="width: 100px">				
+							</div>
+							<div style="display: block;" id="buscid">
+								ID:<br />
+								<input type="text" size="8" name="buscaid" id="buscaid" style="width: 100px" class="inteiro">							
+							</div>			
+				    	</td>
+				    	<td align="left" width="10%">
+				    		Data ini:<br />	    	
+							<input type="text" size="8" name="dataini" class="data datepicker" style="width: 70px">									
+				    	</td>
+				    	<td align="left" width="40%">
+				    		Data fim:<br />
+				    		<input type="text" size="8" name="datafin"  class="data datepicker" style="width: 70px">
+							<input type="submit" value="Pesquisar" class="blueBtn">						
+				    	</td>
+					</tr>
+				</table>  
+				</form>
+				
+				<form action="<?=$this->baseUrl(); ?>/admin/compras/entradaestoque" method="post" >
+				<table style="border: 1px solid #d5d5d5; display: none; width: 50%" id="tabelafor">
+				    <tr>
+				    	<td align="left" width="30%" style="padding: 10px;">
+				    	<div class="styled-select" style="width: 250px;">
+					    	<select name="fornecedor" onchange="submit();" style="width: 272px">
+					    	<option>SELECIONE</option>
+							<?php foreach ($this->objFor as $fornecedores): ?>
+							<option value="<?=$fornecedores->ID?>"><?=$fornecedores->EMPRESA?></option>
+							<?php endforeach; ?>
+							</select>
+							</div>    
+				    	</td>    	
+					</tr>
+				</table>  
+				</form>       
+        	     
+			</div>
+		</div>
+		
+		<div style="margin: 5px 0px 8px">
+		<?php 
+		if ( count($this->objList) > 0) :
+		?>	
+		</div>
+		
+		<div class="widget first">
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="">Id</td>
+                        <td width="50%">Documento</td>
+                        <td width="15%">Data</td>
+                        <td width="15%">Situção</td>
+                        <td width="15%">Opções</td>
+                    </tr>
+                </thead>
+                <tbody>
+       			<?php 
+		    	foreach($this->objList as $lista):
+		    	?>
+				<tr >
+	                <td  style="text-align: center;" >
+	                   <?php echo "E".substr("000000".$lista->id,-6,6);?>
+	                </td>
+	                <td  style="text-align: center;" style="text-transform: uppercase;">
+	                   <?=$lista->fornecimento?>
+	                </td>
+	                <td  style="text-align: center;" >
+	                   <?php echo $lista->data;?>                  
+	                </td>
+	                <td  style="text-align: center;" >
+	                	
+	                   <?php 
+	                   	if($lista->sit==false):
+	                   		echo '<span style="color: #f00">CANCELADO</span>';                   	
+	                   	elseif($lista->status==1):
+	                   		echo "CADASTRADO";
+	                   	elseif($lista->status==2):
+	                   		echo "ENTREGUE";
+	                   	elseif($lista->status==3):
+	                   		echo "FINALIZADO";
+	                   	elseif($lista->status==4):
+	                   		echo "CMV GERADO";
+	                   	endif;
+	                   ?>                  
+	                </td>
+	                
+	                <td  style="text-align: center;" >
+	                <?php if($lista->tipo==1): ?>
+	                	<a href="<?php echo $this->baseUrl(); ?>/admin/compras/entradaprodnac/entrada/<?=md5($lista->id)?>" ><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" border="0" title="Visualizar"></a> &nbsp; 
+	                <?php else: ?>
+	                	<a href="<?php echo $this->baseUrl(); ?>/admin/compras/entradaprodutos/entrada/<?=md5($lista->id)?>" ><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" border="0" title="Visualizar"></a> &nbsp; 
+	                <?php endif; ?>
+	                <?php 
+	                if($lista->sit!=false):
+	                ?>
+	                	<a target="_blank" href="<?php echo $this->baseUrl(); ?>/admin/compras/entradaprodimp/entrada/<?php echo md5($lista->id)?>"><img src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/printer.png" width="16" border="0" title="Imprimir"></a> &nbsp; 
+	                <?php if(($this->objEdi==true) and ($lista->bloq==0)):  ?>
+	                    <a href="#" onclick="removeEntrada('E<?=substr("000000".$lista->id,-6,6)?>', '<?=md5($lista->id)?>');" ><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/close.png" width="17" border="0" title="Remover"></a>
+	                <?php endif; 
+	                endif;
+	                ?>
+	                </td>                
+	            </tr>
+	        	<?php  endforeach; ?>
+                </tbody>
+            </table>            
+        </div>
+        <div style="margin-top: 20px">
+		<?php 
+		if ( count($this->objList) > 0) :
+			echo $this->objList;
+		endif;
+	    ?>
+	</div>
+	<?php 
+	else :
+	?>
+		<div class="widget first">
+ 			Nenhuma Entrada Encontrada
+		</div>	
+		<?php 
+	endif;
+	?>
+	</div>
+	
+	
+	
+	
+	<script>
+
+function mostrarFornecedores(){
+    nTr = document.getElementById("tabelafor");
+    if(nTr.style.display == "none"){
+        nTr.style.display = "block"
+        document.getElementById("tabela").style.display = "none";
+    }else{
+        nTr.style.display = "none";
+    }
+}
+
+function tipoPesquisa(valor){
+	if(valor==1){
+		document.getElementById("buscid").style.display = "block";
+		document.getElementById("buscdoc").style.display = "none";
+		document.getElementById("baucadoc").value = "";		
+	}else{
+		document.getElementById("buscdoc").style.display = "block";
+		document.getElementById("buscid").style.display = "none";
+		document.getElementById("baucaid").value = "";
+	}
+    
+}
+
+
+function removeEntrada(entrada, id){	
+	jConfirm('Você deseja remover a '+entrada+'?', 'Confirme', function(r) {
+		if(r==true){
+			window.location='<?=$this->baseUrl()?>/admin/compras/removeentrada/entrada/'+id;
+		}
+	});
+}
+
+</script>
+
+

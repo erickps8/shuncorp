@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<pedido>
+  <pedidocli>134</pedidocli>
+  <dataentrega>2016-11-25 00:00:00</dataentrega>
+  <parcial></parcial>
+  <produtos>
+    <produto>
+      <idprod></idprod>
+      <cod>KROL13X01</cod>
+      <qt>3000.00000</qt>
+      <preco>1.15000</preco>
+    </produto>
+    <produto>
+      <idprod></idprod>
+      <cod>KROL13X05</cod>
+      <qt>3000.00000</qt>
+      <preco>2.68000</preco>
+    </produto>
+    <produto>
+      <idprod></idprod>
+      <cod>HBR23</cod>
+      <qt>500.00000</qt>
+      <preco>1.76000</preco>
+    </produto>
+    <produto>
+      <idprod></idprod>
+      <cod>KROL14X01</cod>
+      <qt>1500.00000</qt>
+      <preco>0.99000</preco>
+    </produto>
+    <produto>
+      <idprod></idprod>
+      <cod>KROL14X05</cod>
+      <qt>1500.00000</qt>
+      <preco>2.32000</preco>
+    </produto>
+    <produto>
+      <idprod></idprod>
+      <cod>KCR1X01</cod>
+      <qt>3100.00000</qt>
+      <preco>1.27000</preco>
+    </produto>
+    <produto>
+      <idprod></idprod>
+      <cod>KPE1X01</cod>
+      <qt>4000.00000</qt>
+      <preco>0.67000</preco>
+    </produto>
+  </produtos>
+</pedido>
+                               

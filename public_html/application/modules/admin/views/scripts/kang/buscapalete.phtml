@@ -1,0 +1,109 @@
+<?php 
+foreach ($this->objDet as $listdet);
+$ped = $listdet->idped;
+?>
+	<form action="<?php echo $this->baseUrl()?>/admin/kang/gerarpacklist" method="post" name="cad" id="cad"  class="mainForm" style="text-align: left;">
+	    Próximo pallet: <b><?php echo $this->ordem?></b> &nbsp; &nbsp; Qt pacotes <input type="text" name="qtpacotes" id="qtpacotes" style="width: 30px" value="1"> 
+	
+		<input type="hidden" value="<?php echo $listdet->idped?>" name="ped">
+		<div class="fix"></div>
+		<div class="widget" style="overflow: auto; width: 705px; height: 400px;">
+			<table class="tableStatic" style="width: 100%">
+				<thead>	
+					<tr>
+						<td style="text-align: center;"><?php echo $this->translate->_("Código")?></td>
+						<td style="text-align: center;"><?php echo $this->translate->_("Compra")?></td>
+						<td style="text-align: center;"><?php echo $this->translate->_("Qt disponível")?></td>
+						<td style="text-align: center;"><?php echo $this->translate->_("Qt")?></td>
+						<td style="text-align: center;"><?php echo $this->translate->_("PKGS")?></td>
+						<td style="text-align: center;"><?php echo $this->translate->_("G.W.KGS")?></td>
+						<td style="text-align: center;"><?php echo $this->translate->_("N.W.KGS")?></td>						
+					</tr>
+				</thead>
+				<tbody>
+						
+				<?php 
+				$cor = 0;
+		    	foreach($this->objProd as $lista):
+		    		if($lista->qtprod > $lista->qtpack):		    	 				            
+		               	?>
+						<tr >
+			                <td  align="left" style="padding: 3px">
+			                   <?php echo $lista->CODIGO?>                  
+			                </td>
+			                <td   style="text-align: center; padding: 3px" >
+			                    <?php 
+			                	//--- Verifico as compras dos produtos -----------------------
+			                	foreach ($this->objProdpk as $purchase):
+			                		if($purchase->id_prod == $lista->idproduto):
+					                	?>
+					                	<a target="_blank" href="<?php echo $this->baseUrl()?>/admin/kang/pedidoscompraped/ped/<?php echo md5($purchase->id_kang_compra)?>">PK<?php echo substr("000000".$purchase->id_kang_compra, -6,6)?></a><br />
+					                	<?php
+					                endif; 
+			                	endforeach;
+			                	?>
+			                </td>
+			                <td   style="text-align: center; padding: 3px" >
+			                    <?php echo $lista->qtprod-$lista->qtpack?>			                    
+			                </td>
+			                <td   style="text-align: center; padding: 3px" >
+			                   <input name="qt_<?php echo $lista->id_prod?>" type="text" class="inteiro qtpacote" style="width: 50px" data-qtpack="<?php echo $lista->qtprod-$lista->qtpack?>">           
+			                </td>
+			                <td   style="text-align: center;" >
+			                   <input name="pc_<?php echo $lista->id_prod?>" id="pc_<?php echo $lista->id_prod?>" type="text" size="5px" class="moedacinco"  style="width: 50px">
+			                </td>
+			                <td   style="text-align: center;" >
+			                	<input name="gw_<?php echo $lista->id_prod?>" type="text" size="5px" class="moedacinco" style="width: 70px">
+			                </td>
+			                <td   style="text-align: center;" >
+			                	<input name="nw_<?php echo $lista->id_prod?>" type="text" size="5px" class="moedacinco" style="width: 70px">
+			                </td>                 
+			            </tr>				            
+						<?php	
+					endif;				
+				endforeach;
+				?>	
+				</tbody>				
+			</table>
+		</div>
+		
+		<div style="margin: 10px 0px 10px 0o">
+			<table  style="width: 100%">
+				<tr >
+		            <th class="th_canto" style="text-align: center;" width="30%">
+		                &nbsp;
+		            </th>
+		            <th  class="th_pedido" align="center" width="10%">
+		                <?php echo $this->translate->_("G.W.KGS")?>
+		            </th>
+		            <th  class="th_pedido" align="center" width="10%">
+		                <?php echo $this->translate->_("N.W.KGS")?>
+		            </th>
+		            <th  class="th_pedido" align="center" width="10%">
+		                <?php echo $this->translate->_("Dimensões (M)")?>
+		            </th>
+		        </tr>
+				<tr >
+	                <td   style="padding: 3px; text-align: center; font-weight: bold;">
+	                   Total
+	                </td>
+	                <td   style="text-align: center;" width="10%">
+	                	<input name="gw" id="gw" type="text" size="5px" class="moedacinco" style="width: 50px">
+	                </td>
+	                <td   style="text-align: center;" width="10%">
+	                	<input name="nw" id="nw" type="text" size="5px" class="moedacinco" style="width: 50px">
+	                </td>                 
+	                <td   style="text-align: center;" width="30%">
+	                	C <input name="comprimento" id="comprimento" maxlength="5" type="text" size="5px" class="moedacinco" style="width: 50px" >
+	                	L <input name="largura" id="largura" maxlength="5" type="text" size="5px" class="moedacinco" style="width: 50px" >
+	                	A <input name="altura" id="altura" maxlength="5" type="text" size="5px" class="moedacinco"  style="width: 50px">
+	                </td>
+	            </tr>
+	         </table>
+		</div>	
+		<div style="margin-top: 10px; text-align: left;">
+			<input type="button" value="Gerar pacote" id="btnGerarpallet" class="greenBtn"><br />
+			<i>* Campos obrigatórios</i>
+		</div>
+	</form>	
+ 

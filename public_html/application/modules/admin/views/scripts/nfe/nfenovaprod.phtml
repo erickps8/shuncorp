@@ -1,0 +1,218 @@
+<script src="<?=$this->baseUrl()?>/public/javascript/buscaajax/buscaajaxprod.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	document.prepedido.codigo.focus();
+});	
+</script>
+
+<?php 
+	if(!empty($this->objCliente)):
+		foreach ($this->objCliente as $parceiro);
+	endif;
+?>
+
+<!-- Content -->
+    <div class="content">  
+
+    <!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoquegrupo/fil/comp">Estoque</a></li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/nfe/nfe">NF-e</a></li>
+                	<li ><a href="<?=$this->baseUrl()?>/admin/nfe/nfeavulsas">NF-e Avulsas</a></li>         
+                	<li class="lastB">Produtos da NF-e Avulsa</li>
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Nova NF-e</h5></div>
+        
+        <form name="prepedido" id="prepedido" action="" method="post" class="mainForm">
+        <input type="hidden" name="nfetmp" value="<?=$parceiro->id?>">
+	        <div class="widget first" >
+	        	<div class="head" style="margin-top: -10px"><h5 class="iUser">Informações do cliente</h5></div>
+	        	<div class="body">
+        			<table class="borda" style="width: 100%; border-spacing: 7px ">
+			            <tr>
+			                <td width="12%">Cliente:</td>
+			                <td colspan="3"><b><?=$parceiro->empresa?></b></td>                
+			            </tr>
+			            <tr>
+			                <td>CPF/CNPJ:</td>
+			                <td width="35%"><b><?=$parceiro->cnpj?></b></td>
+			                <td width="12%">RG/INSC:</td>
+			                <td ><b><?=$parceiro->inscricao?></b></td>
+			            </tr>
+			            <tr>
+			                <td>Cidade:</td>
+			                <td><b><?=$parceiro->cidade?></b></td>
+			                <td>Estado:</td>
+			                <td ><b><?=$parceiro->uf?></b></td>
+			            </tr>
+			            <tr>
+			            	<td>Pais:</td>
+			                <td ><b>Brasil</b></td>
+			                <td>Transportadora:</td>
+			                <td ><b>
+			                <?=$parceiro->transportadora?>
+			                </b></td>
+			            </tr>
+			            <tr>
+			            	<td style="vertical-align: top;">Nat Op:</td>
+			                <td colspan="3"><b><?=$parceiro->cfop." - ".substr($parceiro->naturezaop,0,60)?></b></td>                
+			            </tr>
+			            <tr>
+			                <td>Email NFe:</td>
+			                <td><b><?=$parceiro->email?></b></td>
+			                <td>Contato NFe:</td>
+			                <td><b><?=$parceiro->contato?></b></td>
+			            </tr>
+			        </table>
+			   	</div>
+			</div>
+			
+			<div class="widget" >
+				<div class="head" style="border-bottom: 0px"><h5 class="iFrames">Produtos</h5></div>
+	        	<table class="tableStatic">
+	            	<thead>
+	                	<tr>
+	                        <td width="3%">Id</td>
+	                        <td width="15%">Código</td>
+	                        <td width="5%">QT</td>
+	                        <td width="">Preço</td>
+	                        <td width="">Preço Total</td>
+	                        <td width="40%">Descrição</td>
+	                        <td width="">&nbsp;</td>
+	                    </tr>
+	                </thead>
+	                <tbody>
+	       
+			        <?php 
+			       		        
+			        $cor=0;
+			        foreach ($this->objList as $listaProd):
+			        	$arrId .=  $listaProd->id_prod.";";
+			        	$cor++;
+			            
+			            ?>
+				        <tr >
+				        	<td style="text-align: center;" >
+			                    <?=$cor?>
+			                </td>
+			                <td style="text-align: center;" >
+			                    <?=$listaProd->codigo?>
+			                </td>		                
+			                <td style="text-align: center;" >
+			                	<? 		                	
+			                	if(($parceiro->movestoque == 1) and ($parceiro->tipo == 1)):
+				                	if($listaProd->qt_atual<=0):?>
+				                	<a href="javascript:void(0);" class="dcontexto" 
+				                		<?php 
+				                		if($listaProd->qt_atual < $listaProd->qt): 
+					                		echo 'style="color: red;"'; 
+					                		$v_estoque = 1;
+				                		endif;?>>
+				                		<?=$listaProd->qt?>
+				                    	<span><?=$listaProd->qt_atual?></span>		                    
+				                	</a>
+				                	<?php else: ?>
+				                	<a href="javascript:void(0);" class="dcontexto" onclick="document.prepedido.editqt_<?=$listaProd->ID?>.style.display = 'block'; this.style.display = 'none';" <?php if($listaProd->qt_atual<$listaProd->qt): echo 'style="color: red;"'; $v_estoque = 1; endif;?>>
+				                		<?=$listaProd->qt?>
+				                    	<span><?=$listaProd->qt_atual?></span>		                    
+				                	</a>
+				                	<?php
+				                	endif; 
+				                endif; ?>
+			                </td>		               
+			                <td style="text-align: right;">
+			                    <?=number_format($listaProd->preco,2,',','.')?>
+			                </td>
+			                <td style="text-align: right;">
+			                    <b><?=number_format(($listaProd->qt*$listaProd->preco),2,',','.')?></b>
+			                </td>
+			                <td style="text-align: left;" >
+			                    <span style="color: #999"><?=$listaProd->descricao?></span>
+			                </td>
+			                <td style="text-align: center;" >
+			                    <a href="#" onclick="confirmRemoveprod('<?=md5($parceiro->id)?>','<?=md5($listaProd->idnfeprod)?>');"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" width="15" border="0"></a>
+			                </td>		                
+			            </tr>
+				        <?php			        
+			        endforeach;
+			        
+			        if($v_estoque==1) $valida .= "- Produtos sem estoque disponível. Favor ajustar;<br />";
+			        ?>
+			         <tr>
+	                    <td  class="td" style="text-align: center;" colspan="2" >
+	                    	<input style="text-transform: uppercase; width: 90px" type="text" size="8" name="codigo" id="codigo" onclick="document.getElementById('resultado').innerHTML = '';"
+			                onkeydown="if(event.keyCode == '13'){ document.prepedido.qt.focus(); return false;};" onblur="buscaprod(this.value);" >
+			                
+			                <input type="hidden" name="produto" id="produto" >
+			            </td>
+			            <td  class="td" style="text-align: center;" >
+			            	<input type="text" size="3" name="qt" id="qt" onkeydown="if(event.keyCode == '13'){  return false;};"  class="inteiro" style="width: 20px">
+			            </td>
+			            <td class="td" style="text-align: center;" >
+			            	<input type="text" size="6" name="preco" class="moeda" onblur="enviaProduto();" style="width: 70px">
+			            </td>
+			            <td class="td" style="text-align: center;" >
+			            	&nbsp; 
+			            </td>		           
+			            <td  class="td" style="text-align: center;" style="color:#FF0000; font-weight: bold;">
+			            	<input type="hidden" name="arrId" id="arrId" value="<?=$arrId?>">
+			               	<div id="resultado" style="color: #f00;"></div>
+			            </td>
+			            <td class="td" style="text-align: center;" >
+			            	&nbsp; 
+			            </td>
+			        </tr>
+			        <tr>
+				        <td align="left" colspan="12">
+				        	<br>
+				        	<input type="button" value="Próximo" class="basicBtn" onclick="window.location='<?=$this->baseUrl()?>/admin/nfe/nfenovaprodet/nfe/<?=md5($parceiro->id)?>'">
+				        </td>
+			        </tr>
+			        </tbody>			
+			    </table>
+			</div>
+	 	</form>
+	</div>	  
+ <script type="text/javascript">
+	
+	function gravaDados(tp){
+		document.prepedido.action = "<?=$this->baseUrl()?>/admin/venda/pedidosentdados";
+		document.prepedido.parcela.value = tp;
+		document.prepedido.submit();	
+	}
+		 
+	function enviaProduto(){
+		if((document.prepedido.codigo.value!="") && (document.prepedido.qt.value!="")) {
+			document.prepedido.submit();
+		}else{
+			alert('Os campos CÓDIGO e QT não podem ficar em branco!');
+		}
+	}
+	
+	function buscaprod(cod){
+		if(cod!=''){
+		   	buscaProduto(cod);
+	   	}else{
+			//alert("Digite o código!");
+			//document.getElementById('codigo').focus();
+	   	}
+	 }
+
+
+	function confirmRemoveprod(nfe,prod){
+		jConfirm('Você deseja remover este produto?', 'Confirme', function(r) {
+			if(r==true){
+				window.location='<?=$this->baseUrl()?>/admin/nfe/removeprodnfetmp/nfe/'+nfe+'/prod/'+prod;
+			}
+		});
+    }
+
+	
+</script>

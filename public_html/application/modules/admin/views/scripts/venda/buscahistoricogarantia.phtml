@@ -1,0 +1,23 @@
+<table class="mytable" style="border-spacing: 5px">
+<tr><td colspan="2" align="center">
+<b>Hist&oacute;rico Movimenta&ccedil;&atilde;o</b>
+</td></tr>
+ <?php 
+foreach ($this->objHis as $lista):
+?>
+<tr>
+	<td width="100px" style="border-right: 1px solid;">
+	<?php if(!empty($lista->data)) echo substr($lista->data,8,2)."/".substr($lista->data,5,2)."/".substr($lista->data,0,4);?>
+	 <?php echo substr($lista->data,10,6)?>
+	</td>
+	<td width="200" style="border-right: 1px solid;">
+	<?php echo ($lista->status)?>
+	</td>
+	<td >
+	<?php echo (substr($lista->EMPRESA,0,10))?>
+	</td>
+</tr>
+<?php 
+endforeach;
+?>
+</table>

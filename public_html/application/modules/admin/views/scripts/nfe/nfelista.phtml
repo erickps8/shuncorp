@@ -1,0 +1,104 @@
+<!-- Content -->
+    <div class="content">  
+
+    <!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoquegrupo/fil/comp">Estoque</a></li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/nfe/nfe">NF-e</a></li>         
+                	<li class="lastB">NF-e emitidas</li>
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5>Nota Fiscal Eletrônica</h5></div>
+        
+        <div class="widgets" >
+        	<!-- Busca -->
+        	<div class="left" style="margin-top: 5px; margin-bottom: 5px" >   
+	        	<form action="<?php echo $this->baseUrl(); ?>/admin/nfe/nfelista" method="post" name="busca" id="busca" class="mainForm" >
+				<input type="text" size="25" name="nfe" style="width: 150px" placeholder="Busca Nf-e">&nbsp; <input type="submit"  value="<?=$this->translate->_("Pesquisar")?>" class="blueBtn" >
+				</form>  
+            </div>
+            <div style="float: right;">
+	 			<a href="<?=$this->baseUrl()?>/admin/nfe/nfeavulsas"><?=$this->translate->_("Nfe avulsas")?></a> |
+	 			<a href="<?=$this->baseUrl()?>/admin/nfe/remessas"><?=$this->translate->_("Remessas")?></a> |
+	 			<a href="<?=$this->baseUrl()?>/admin/nfe/nfeconsulta"><?=$this->translate->_("Consulta")?></a> |
+	 			<a href="<?=$this->baseUrl()?>/admin/nfe/nfeinutiliza"><?=$this->translate->_("Inutilizar")?></a>
+	 		</div>	        
+        </div>
+    
+    	<!-- Static table -->
+        <?php
+		if (count($this->objList) > 0):			
+		?>       
+        <div class="widget first">
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="">NF-ee</td>
+                        <td width="25%">Cliente</td>
+                        <td width="15%">Data</td>
+                        <td width="15%">CFOP</td>
+                        <td width="">Situação</td>
+                        <td width="10%">Opções</td>
+                    </tr>
+                </thead>
+                <tbody>
+	            <?php 
+				foreach($this->objList as $lista):
+		    	?>
+				
+				<tr >
+	                <td style="text-align: center;" >
+	                   <?="NFe".substr("000000".$lista->id,-6,6);?>
+	                </td>
+	                <td align="left" > 
+	                   <?=($lista->empresa)?>                  
+	                </td>
+	                <td style="text-align: center;" >
+	                   <?=substr($lista->data,8,2)."/".substr($lista->data,5,2)."/".substr($lista->data,0,4)?>                  
+	                </td>
+	                <td style="text-align: center;" >
+	                   <?=($lista->cfop)?>                  
+	                </td>
+	                <td style="text-align: center;" >
+	                   <? if($lista->status == 1):?>
+	                   AUTORIZADO
+	                   <?php elseif($lista->status == 3): ?>
+	                   CANCELADO
+	                   <?php elseif($lista->status == 2): ?>
+	                   INUTILIZADO
+	                   <?php else: ?>
+	                   REJEITADO
+	                   <?php endif; ?>                  
+	                </td>
+	                <td style="text-align: center;" >
+	                	<?php if($lista->status != 2): ?>
+	                	<a href="<?=$this->baseUrl(); ?>/admin/nfe/visualizarnfe/nfe/<?=md5($lista->id)?>"><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" border="0" title="Visualizar"></a>
+	                	<?php endif; ?>                	
+	                </td>                
+	            </tr>
+	            <?php  endforeach; ?>        
+			</table>
+		</div>	
+		<div style="margin-top: 20px">
+			<?php 
+            if ( count($this->objList) > 0) :
+            	echo $this->objList;
+            endif;
+            ?>
+        </div>
+			 <?php 
+			else :
+			?>
+		<div style="text-align: center; margin-top: 50px; border: 1px solid #d5d5d5; padding: 20px">
+			Nenhuma NFe cadastrada
+		</div>
+		<?php 
+		endif;
+		?>
+	</div>

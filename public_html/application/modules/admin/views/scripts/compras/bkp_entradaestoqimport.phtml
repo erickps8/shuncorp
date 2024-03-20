@@ -1,0 +1,391 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxverproduto.js"></script>    
+<!-- Calendarios -->
+<link type="text/css" rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.css?random=20051112" media="screen"></LINK>
+<SCRIPT type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.js?random=20060118"></script>
+<style type="text/css">
+	<!--	  
+	  a.dcontexto1{
+	  position:relative; 
+	  font:12px arial, verdana, helvetica, sans-serif; 
+	  padding:0;
+	  color:#039;
+	  text-decoration:none;
+	  z-index:24;
+	  }
+	  a.dcontexto1:hover{
+	  background:transparent;
+	  z-index:25; 
+	  }
+	  a.dcontexto1 span{display: none}
+	  a.dcontexto1:hover span{ 
+	  display:block;
+	  position:absolute;
+	  width:150px; 
+	  top:1em;
+	  text-align:justify;
+	  left:0;
+	  font: 12px arial, verdana, helvetica, sans-serif; 
+	  padding:5px 10px;
+	  background-color: #FFF;
+	  border: 1px solid #000;
+	  color:#000;
+	  }
+	  
+	  a.dcontexto2{	
+	  position:relative; 
+	  font:12px arial, verdana, helvetica, sans-serif; 
+	  padding:0;
+	  color:#039;
+	  text-decoration:none;
+	  z-index:24;
+	  }
+	  a.dcontexto2:hover{
+	  background:transparent;
+	  z-index:25; 
+	  }
+	  a.dcontexto2 span{display: none}
+	  a.dcontexto2:hover span{ 
+	  display:block;
+	  position:absolute;
+	  width:280px; 
+	  top:1em;
+	  text-align:justify;
+	  left:0;
+	  font: 12px arial, verdana, helvetica, sans-serif; 
+	  padding:5px 10px;
+	  background-color: #FFF;
+	  border: 1px solid #000;
+	  color:#000;
+	  }
+	  -->
+</style>
+
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl(); ?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoquegrupo"><?=$this->translate->_("ESTOQUE")?></a>&nbsp;
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp; 
+		<a href="<?=$this->baseUrl(); ?>/admin/compras/entradaest"><?=$this->translate->_("ENTRADA DE PRODUTOS")?></a>&nbsp;
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp; 
+		<b><a href="<?=$this->baseUrl(); ?>/admin/compras/entradaestoq"><?=$this->translate->_("NOVA ENTRADA")?></a></b>
+	</div>
+	<div id="sistitulo"><?=$this->translate->_("ENTRADA DE PRODUTO")?></div>
+	
+	<div id="sisconteudo">
+		<div>
+			<form action="<?=$this->baseUrl()?>/admin/compras/importaped" enctype="multipart/form-data" method="post" >
+				<table width="100%" cellspacing="4" style="margin-top: 6px; border: 1px solid;" >
+					<tr>
+						<td align="left">
+							<a href="javascript:void(0);" onclick="document.getElementById('import').style.display='block'">Importar arquivo</a>
+						</td>
+					</tr>
+					<tr>
+						<td align="left" style="display: none;" id="import">
+							<input type="file" name="arquivo" size="20" style="border: 1px solid;">
+							<input type="submit" value="Enviar">
+						</td>
+					</tr>
+				</table>		
+			</form>
+		</div>
+		<div>		
+		    <form action="<?=$this->baseUrl()?>/admin/compras/entradaestoqreg" method="post">
+		    <table width="100%" border="0" cellspacing="0" cellpadding="0" >
+		    <tr>
+			<td align="left">
+		    <?php 
+		     if(!empty($this->objProdutos)):        	 
+		    ?>
+		    <table align="left" class="mytable" width="100%" cellspacing="0" id="txtHint" style="margin-top: 6px">
+		        <tr>
+		            <th  class="th_canto" style="text-align: center;" width="20%" >
+		                C&Oacute;DIGO
+		            </th>
+		            <th  class="th_canto" style="text-align: center;" width="20%" >
+		                PED
+		            </th>
+		            <th  class="th_orc" style="text-align: center;" width="10%">
+		                QT PED
+		            </th>
+		            <th  class="th_orc" style="text-align: center;" width="10%">
+		                QT ENT
+		            </th>
+		            <th  class="th_orc" style="text-align: center;" width="10%">
+		                NCM
+		            </th>
+		           
+		            <th  class="th_orc" style="text-align: center;" width="15%">
+		                Pre&ccedil;o
+		            </th>
+		            <th  class="th_orc" style="text-align: center;" width="20%">
+		                total
+		            </th>
+		            
+		        </tr>  
+		        <?php 
+		        if(!empty($this->objProdutos)): 	
+		        	$cor=0;
+		        	$idverqt="";
+		        	$qtenvi	= $this->objQt;
+		        	$auxqt=0;
+		        	foreach ($this->objProdutos as $listaprod):
+		        		$cor++;
+			            if(($cor%2)==0) $class = 'td_orc_par';
+			            else $class = 'td_orc';
+			            $idprodutos .= $listaprod->ID_PRODUTO.";";
+			            
+			            //--- Exibir produtos iguais de pedidos diferentes sem qt ---------------------------
+			        	$qtprod = 0;
+			        	$cont = $contqt = 1;
+			        	foreach ($this->objProddet as $list):
+			        		if(($list->ID_PRODUTO == $listaprod->ID_PRODUTO) and ($listaprod->ID_PEDIDO_COMPRA!=$list->ID_PEDIDO_COMPRA)):
+			        			$cont++;
+			        			$contqt++;	        				        				        		
+			        		endif;	        	
+			        	endforeach;	 
+			        	        	
+			            ?>
+						<tr >
+							<td  class="<?=$class?>" style="text-align: center;" rowspan="<?=$cont?>" >
+			                   <? 
+			                   echo $listaprod->CODIGO;
+			                   ?>
+			                </td>
+			                <td  class="<?=$class?>" style="text-align: center;" >
+			                   <a target="_blank" href="<?=$this->baseUrl()?>/admin/compras/pedidoscompraprod/ped/<?=md5($listaprod->ID_PEDIDO_COMPRA)?>" >
+			                   	<?=$listaprod->ID_PEDIDO_COMPRA?>
+			                	</a>
+			                </td>
+			                <td  class="<?=$class?>" style="text-align: center;" >
+			                   <?=$listaprod->QUANTIDADE?>
+			                </td>
+			                <td  class="<?=$class?>" style="text-align: center;" style="font-weight: bold;">
+			                <?php 
+			                	$qt=0;
+			                	foreach ($this->objImp as $listimp):
+							   		foreach($listimp->produto as $lp):
+										if($lp->idprod==$listaprod->ID_PRODUTO):					   		
+							   				$qt += ($lp->qt);
+							   			endif;   			
+							   		endforeach;   		
+							   	endforeach;	
+									
+							   	$qtent=0;
+							   	if($contqt>1):
+							   		if($listaprod->QUANTIDADE<=$qt):
+							   			$qtent = $listaprod->QUANTIDADE;
+							   			$qt -= $listaprod->QUANTIDADE;
+							   			$contqt--; 
+							   		else:
+							   			$qtent = $qt;
+							   			$qt = 0;
+							   			$contqt--;
+							   		endif;
+							   	else:
+							   		$qtent = $qt;					   		
+							   	endif;	
+							   	
+			                ?>
+			                	<input type="text" size="5" name="qt_<?=$listaprod->ident?>" value="<?=$qtent?>">
+			                </td>
+			                <td  class="<?=$class?>" style="text-align: right;" rowspan="<?=$cont?>" >
+			                	<?php 
+			                	$color = "";
+			                	if(($listaprod->ii==0)||($listaprod->ipi==0)||($listaprod->pis==0)||($listaprod->cofins==0)):
+			                		$color = "#FF0000";
+			                	endif;
+			                	?>
+			                   <a href="#" class="dcontexto1" ><font color="<?=$color?>" ><?=$listaprod->ncm." ".$listaprod->ncmex;?></font>
+			                   <span >	 
+			                      	<table width="100%" border="0"  class="mytable">
+										<tr>
+											<td class="th_orc_min">II</td>
+											<td class="th_orc_min">IPI</td>
+											<td class="th_orc_min">PIS</td>
+											<td class="th_orc_min">COFINS</td>
+										</tr>
+										<tr>
+											<td class="td_orc_par_min" style="text-align: center;"> <?=$listaprod->ii?>%</td>
+											<td class="td_orc_par_min" style="text-align: center;"><?=$listaprod->ipi?>%</td>
+											<td class="td_orc_par_min" style="text-align: center;"><?=$listaprod->pis?>%</td>
+											<td class="td_orc_par_min" style="text-align: center;"><?=$listaprod->cofins?>%</td>
+										</tr>								
+									</table>
+				               </span>
+				               </a>                  
+			                </td>
+			               
+			                <td  class="<?=$class?>" style="text-align: right;" >
+			                   <?=number_format($listaprod->preco,2,",",".");?>                    
+			                </td>
+			                <td  class="<?=$class?>" style="text-align: right;" >
+			                   <? 
+			                   if(!empty($qtent)):
+			                   		echo number_format($listaprod->preco*$qtent,2,",","."); 
+			                   endif;	                   
+			                   ?>
+			                </td>
+			                               
+			            </tr>
+			        	<?php 
+			        	$idverqt = $listaprod->ID_PRODUTO;	        	
+			        	
+			        	//--- Exibir produtos iguais de pedidos diferentes sem qt ---------------------------
+			        	foreach ($this->objProddet as $list):
+		        			if(($list->ID_PRODUTO == $listaprod->ID_PRODUTO) and ($listaprod->ID_PEDIDO_COMPRA!=$list->ID_PEDIDO_COMPRA)):
+		        				?>
+			        			<tr >
+									<td  class="<?=$class?>" style="text-align: center;" >
+					                    <a target="_blank" href="<?=$this->baseUrl()?>/admin/compras/pedidoscompraprod/ped/<?=md5($list->ID_PEDIDO_COMPRA)?>" >
+					                   	<?=$list->ID_PEDIDO_COMPRA?>
+					                	</a>
+					                </td>
+					                <td  class="<?=$class?>" style="text-align: center;" >
+					                   <?=$list->QUANTIDADE?>
+					                </td>
+					                <td  class="<?=$class?>" style="text-align: center;"  style="font-weight: bold;" >
+					                <?php 
+					                	
+					                	$qtent=0;
+					                	if($contqt>1):
+									   		if($listaprod->QUANTIDADE<=$qt):
+									   			$qtent = $listaprod->QUANTIDADE;
+									   			$qt -= $listaprod->QUANTIDADE;
+									   			$contqt--; 
+									   		else:
+									   			$qtent = $qt;
+									   			$qt = 0;
+									   			$contqt--;
+									   		endif;
+									   	else:
+									   		$qtent = $qt;
+									   	endif;			                
+					                ?>
+					                
+					                  <input type="text" size="5" name="qt_<?=$list->ident?>" value="<?=$qtent?>">
+					                </td>
+					                <td  class="<?=$class?>" style="text-align: right;" >
+					                   <?=number_format($listaprod->preco,2,",",".");?>                    
+					                </td>
+					                <td class="<?=$class?>" style="text-align: right;" >
+					                   <? 
+					                   if(!empty($qtent)):
+					                   		echo number_format($listaprod->preco*$qtent,2,",","."); 
+					                   endif;	                   
+					                   ?>
+					                </td>
+					            </tr>
+			        			<?php 
+			        		endif;		        	
+			        	endforeach;
+		        	endforeach;
+		        	endif;
+		        	
+					$erro = 0;
+				    if(!empty($this->objProdutos)):
+				     	$prodsv	= $prodsv2 = "";
+				     	foreach ($this->objImp as $listimp):
+					   		foreach($listimp->produto as $lp):
+					   			$prodsv .= $lp->idprod.";";		   		
+					   		endforeach;   		
+					   	endforeach;	
+					   	
+					   	foreach ($this->objProdutos as $prods):
+							$prodsv2 .= $prods->ID_PRODUTO.";";
+				   		endforeach;
+				   		
+				   		$prodsv = explode(";", $prodsv);
+				   		for($i=0;$i<count($prodsv);$i++):
+				   			if((strrpos($prodsv2,$prodsv[$i])===false) and $prodsv[$i]!=""):
+					   			foreach ($this->objImp as $listimp):
+							   		foreach($listimp->produto as $lp):
+							   			if($lp->idprod == $prodsv[$i]):
+								   			?>	
+								   			<tr >
+												<td  class="<?=$class?>" style="text-align: center;" style="color: #FF0000" >
+								                   <?=$lp->cod?>
+								                </td>
+								                <td  class="<?=$class?>" style="text-align: center;" >
+								                   
+								                </td>
+								                <td  class="<?=$class?>" style="text-align: center;" style="color: #FF0000" >
+								                   <?=$lp->qt?>
+								                </td>
+								                <td  class="<?=$class?>" style="text-align: center;" style="font-weight: bold;">
+								                
+								                </td>
+								                <td  class="<?=$class?>" style="text-align: right;" >
+								                             
+								                </td>
+								               
+								                <td  class="<?=$class?>" style="text-align: right;" style="color: #FF0000" >
+								                   <?=number_format(floatval($lp->preco),2,",",".");?>                    
+								                </td>
+								                <td  class="<?=$class?>" style="text-align: right;" style="color: #FF0000" >
+								                   <?=number_format($lp->preco*$lp->qt,2,",",".");?>
+								                </td>
+								                               
+								            </tr>
+					   					<?php
+					   					endif; 
+					   				endforeach;   		
+							   	endforeach;
+				   			endif;
+				   		endfor;
+				   	endif;
+				    
+		        ?>           
+		       
+		     </table>
+		     
+			<input type="hidden" name="arrId" id="arrId" value="<?=$idprodutos?>" >
+			<?php 
+			 endif;
+			?>
+			
+			</td>
+			</tr>
+			<?php 
+			$erro = 0;
+		     if(!empty($this->objProdutos)):
+		     	$prodsv	= $prodsv2 = "";
+		     	foreach ($this->objImp as $listimp):
+			   		foreach($listimp->produto as $lp):
+			   			$prodsv .= $lp->idprod.";";		   		
+			   		endforeach;   		
+			   	endforeach;	
+			   	
+			   	foreach ($this->objProdutos as $prods):
+					$prodsv2 .= $prods->ID_PRODUTO.";";
+		   		endforeach;
+		   		
+		   		$prodsv = explode(";", $prodsv);
+		   		for($i=0;$i<count($prodsv);$i++):
+		   			if((strrpos($prodsv2,$prodsv[$i])===false) and $prodsv[$i]!=""):
+		   				$erro = 1;
+		   			endif;
+		   		endfor;
+		    ?>
+			<tr>
+				<td align="left" style="color: #FF0000">
+					<?php if($erro==1): ?>
+					<br />Produto sem pedido. Favor verificar.<br />
+					<?php endif; ?>
+					<input <?php if($erro==1): ?> disabled="disabled" <?php endif;?> type="submit" value="Próximo" style="margin-top: 5px" >	     	
+		     	</td>	     	
+			</tr>
+			<?php 
+			 endif;
+			?>
+			</table>
+			</form>
+		</div>
+		<div>
+			<?php if($this->objVer==1): ?>
+			<br />Produtos sem pedido. Favor verificar.<br />
+			<?php endif; ?>				     	
+    	</div>
+	</div>
+</div>

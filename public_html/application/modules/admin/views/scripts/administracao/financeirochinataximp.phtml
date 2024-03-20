@@ -1,0 +1,289 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>ZTL Brasil - www.ztlbrasil.com.br </title>
+<link href="<?=$this->baseUrl()?>/public/sistema/imagens/ztl.ico" rel="shortcut icon" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/css/pedidos_imp.css" />
+<style>
+<!--
+.mytable {
+	padding: 0;
+	border-collapse: collapse;
+	font: bold 12px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #000;
+}
+
+
+.borda_titulo{                
+	background-color:#ebebeb;
+	border-bottom:1px solid #d4d4d4;
+	border-top:1px solid #d4d4d4;
+	font: bold 13px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	
+}
+
+.th_canto_min {
+	border-left:1px solid #d4d4d4;
+	border-right: 1px solid #d4d4d4;
+	border-bottom: 1px solid #d4d4d4;
+	border-top: 1px solid #d4d4d4;	
+	background: #ebebeb;
+	font: bold 9px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+}
+
+.th_orc_min {
+	
+	color: #4f6b72;
+	border-left: 1px solid #d4d4d4;
+	border-right: 1px solid #d4d4d4;
+	border-bottom: 1px solid #d4d4d4;
+	border-top: 1px solid #d4d4d4;
+	text-transform: uppercase;
+	text-align: center;
+	padding: 2px 2px 2px 2px;
+	background: #ebebeb;
+	font: bold 9px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+}
+
+.td_orc_min {
+	border-left: 1px solid #d4d4d4;
+	border-right: 1px solid #d4d4d4;
+	border-bottom: 1px solid #d4d4d4;
+	border-top: 1px solid #d4d4d4;
+	background: #fff;
+	padding: 2px 2px 2px 2px;
+	color: #797268;
+	
+}
+
+-->
+</style>
+</head>
+<body onLoad="window.2print();">
+
+
+
+	    <?php
+		if($this->objT == "reg"):
+			?>
+			<table width="800" class="borda_titulo" style="margin-bottom: 6px" align="center">
+				<tr>
+			    	<td width="left">
+			    	<? 
+			    	echo $this->translate->_("FINANCEIRO")." - ".$this->translate->_("RETORNOS CADASTRADOS");
+			    	?>
+			    	
+			    	</td>
+			    </tr>
+			</table>	
+			<?php 
+		
+			foreach ($this->objRet as $listar):
+				
+				if(($listar->st_conc==0) || (empty($listar->id_fin_contasareceber))):
+				?>
+				
+
+				<table class="table" cellpadding="2" cellspacing="" width="800" align="center" style="border: 1px solid; margin-top: 5px" >
+					<tr  >
+						<td align="left" width="17%">
+	                    <?=$this->translate->_("Fatura")?>:<br>
+						<b><?=$listar->invoice?></b></td>
+	                    <td align="left" width="15%"><?=$this->translate->_("Emissão")?>:<br><b><?=$listar->dtcad?></b></td>
+	                    <td align="left" width="15%"><?=$this->translate->_("Valor")?>:<br><b>RMB <?=number_format($listar->valor,2,",",".")?></b></td>
+	                    <?php if(!empty($listar->id_fin_contasareceber)):?>
+	                    <td align="left" width="15%"><?=$this->translate->_("Recebimento")?>:<br />
+	                    R<?=$listar->idrec?></b>
+	                    </td>
+	                    <?php endif;?>
+	                    <td align="left">
+	                    
+	                    </td>	 
+	                                     
+	                </tr>
+					<tr>
+						<td colspan="5" align="right">
+							<table class="table" cellpadding="2" cellspacing="" width="90%"  >
+							<?php
+							$class =''; 
+							foreach ($this->objLista as $lista):
+								if($lista->id_taxreturn == $listar->idtax):
+									if ($class=='class="tableLinhapar"'): 
+					            		$class ='';
+					                else: 
+					                	$class = 'class="tableLinhapar"';
+					                endif;
+									?>
+									<tr >
+					                    <td class="tableLinhapar" align="left" width="20%">P<?=$lista->idcont?></td>
+					                    <td class="tableLinhapar" align="left" width="20%">RMB <?=number_format($lista->valor_pago,2,",",".")?></td>
+					                    <td class=""  align="center">&nbsp;</td>
+					                </tr>
+									<?php 
+								endif;
+							endforeach;
+							?></table>
+						</td>
+					</tr>
+					
+				</table>
+				 
+				<?php 
+				endif;
+			endforeach;
+			
+			elseif($this->objT == "fin"):
+			
+			foreach ($this->objRet as $listar):
+				?>
+				<table width="800" class="borda_titulo" style="margin-bottom: 6px" align="center">
+					<tr>
+				    	<td width="left">
+				    	<? 
+				    	echo $this->translate->_("FINANCEIRO")." - ".$this->translate->_("RETORNOS FINALIZADOS");
+				    	?>
+				    	
+				    	</td>
+				    </tr>
+				</table>
+				<table class="table" align="center" cellpadding="2" cellspacing="0" width="800" style="border: 1px solid; margin-top: 5px" >
+					<tr  >
+						<td align="left" width="17%">
+	                    <?=$this->translate->_("Fatura")?>:<br>
+						<b><?=$listar->invoice?></b></td>
+	                    <td align="left" width="15%"><?=$this->translate->_("Dt Emissão")?>:<br><b><?=$listar->dtcad?></b></td>
+	                    <td align="left" width="15%"><?=$this->translate->_("Valor")?>:<br><b>RMB <?=number_format($listar->valor,2,",",".")?></b></td>
+	                    <td align="left" width="15%"><?=$this->translate->_("Recebimento")?>:<br>
+	                    <b>R<?=$listar->idrec?></b>
+	                    
+	                    </td>
+	                    <td align="left">
+	                    
+	                   
+	                    </td>	 	                                     
+	                </tr>
+					<tr>
+						<td colspan="5" align="right">
+							<table class="table" cellpadding="2" cellspacing="" width="90%"  >
+							<?php
+							$class =''; 
+							foreach ($this->objLista as $lista):
+								if($lista->id_taxreturn == $listar->idtax):
+									if ($class=='class="tableLinhapar"'): 
+					            		$class ='';
+					                else: 
+					                	$class = 'class="tableLinhapar"';
+					                endif;
+									?>
+									<tr >
+					                    <td class="tableLinhapar" align="left" width="20%">P<?=$lista->idcont?></td>
+					                    <td class="tableLinhapar" align="left" width="20%">RMB <?=number_format($lista->valor_pago,2,",",".")?></td>
+					                    <td class=""  align="center">&nbsp;</td>
+					                </tr>
+									<?php 
+								endif;
+							endforeach;
+							?></table>
+						</td>
+					</tr>
+					<tr>
+						<td align="left" colspan="5">
+							<table class="table" cellpadding="2" cellspacing="" width="100%"  >
+								<tr>
+									<td align="left">
+										<?=$this->translate->_("Valor retorno")?>: <b><?=number_format($listar->valoreturn,2,",",".")?></b> &nbsp; 
+										<?=$this->translate->_("Dt Pedido")?>: <b><?=$listar->dtaplic?></b> &nbsp;
+										<?=$this->translate->_("Dt Recebimento")?>: <b><?=$listar->dtrec?></b>
+									</td>
+								</tr>
+							</table>
+						</td>	
+					</tr>
+				</table>
+				
+				<?php 
+			endforeach;
+	    else:
+	    	$cont=0;
+	    	?><table width="800" class="borda_titulo" style="margin-bottom: 6px" align="center">
+					<tr>
+				    	<td width="left">
+				    	<? 
+				    	echo $this->translate->_("FINANCEIRO")." - ".$this->translate->_("PAGAMENTOS PENDENTES");
+				    	?>
+				    	
+				    	</td>
+				    </tr>
+				</table>	<?php 
+		    foreach ($this->objForn as $listaf):
+		    $cont++;
+		    if($listaf->out_fornecedor == ""): 
+		    	$fornecedor = $listaf->FORNECEDOR;
+		    else: 
+		    	$fornecedor = $listaf->out_fornecedor;
+		    endif;
+		    ?>
+		    	    
+		    <table class="mytable" align="center"  width="800" cellspacing="0" cellpadding="0" style="margin-top: 5px; margin-bottom: 5px">
+		        <tr >
+	                <td class="th_canto_min" align="left" colspan="6" >
+	                    <?=strtoupper($fornecedor);
+	                    
+	                    if(!empty($listaf->nome)):
+	                    	echo " (".$listaf->nome.")";
+	                    endif;
+	                    ?>
+		            </td>		                
+				</tr>
+	            <tr >
+	                <td class="th_canto_min"  align="center" width="25%">
+	                    <?=$this->translate->_("ID")?>
+	                </td>
+	                <td class="th_orc_min" align="center"  width="25%">
+	                    <?=$this->translate->_("Emissão")?>
+	                </td>
+	                <td class="th_orc_min" align="center"  width="25%">
+	                    <?=$this->translate->_("Vencimento")?>
+	                </td>
+	                <td class="th_orc_min" align="center"  width="25%">
+	                    <?=$this->translate->_("Valor")?>
+	                </td>
+		                		               
+	             </tr>
+		            <?	           
+		           
+		            $idfor = "";
+		            foreach ($this->objContas as $lista):
+		            	if($lista->out_fornecedor == ""): 
+					    	$fornecedorver = $lista->FORNECEDOR;
+					    else: 
+					    	$fornecedorver = $lista->out_fornecedor;
+					    endif;
+		                if($fornecedor == $fornecedorver):
+		               		
+			                ?>
+			                <tr  >
+			                    <td class="td_orc_min" align="center"><?='P'.$lista->id?></td>
+			                    <td class="td_orc_min" align="center"><?=$lista->dtcad?></td>
+			                    <td class="td_orc_min" align="center"><?=$lista->dtven?></td>
+			                    <td class="td_orc_min" align="right" style="padding-right: 5px"><?=number_format($lista->valor_apagar,2,",",".");?></td>
+			                </tr>
+			                <?
+		                
+		                endif;
+		            endforeach;
+		            ?>  
+	             	
+		        </table >
+		        
+		       
+		    	<?php 
+		    	endforeach;
+		    endif;
+	    	?>
+
+
+</body>
+</html>

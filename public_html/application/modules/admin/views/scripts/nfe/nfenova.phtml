@@ -1,0 +1,341 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/cadastroBuscauf.js"></script>
+<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/nfeAvulsas.js"></script>
+
+<?php 
+	$valida = "";
+	if(!empty($this->objEnd)):
+		foreach ($this->objEnd as $listEnd);
+		if(empty($listEnd->npais)||empty($listEnd->nuf)||empty($listEnd->ncidade)||empty($listEnd->numero)||empty($listEnd->CEP)):
+			$valida = "- Endereço do cliente incompleto;<br />";
+		elseif(empty($listEnd->codcidade)):
+			$valida = "- Cidade do cliente sem código;<br />";
+		endif;	
+	endif;
+	if(!empty($this->objParc)):
+		foreach ($this->objParc as $listPed);
+	endif;
+	
+	if(!empty($this->objTrib)):
+		foreach ($this->objTrib as $listTri);
+	endif;
+	
+	if(!empty($this->objEmail)):
+		foreach ($this->objEmail as $listEmail);
+	endif;
+?>
+
+<!-- Content -->
+    <div class="content">  
+
+    <!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoquegrupo/fil/comp">Estoque</a></li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/nfe/nfe">NF-e</a></li>
+                	<li ><a href="<?=$this->baseUrl()?>/admin/nfe/nfeavulsas">NF-e Avulsas</a></li>         
+                	<li class="lastB">Gerar NF-e</li>
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5>Nova NF-e</h5></div>
+
+        <div>
+			Cliente:
+			<div class="styled-select" style="width: 180px">
+			<select name="fornecedor" style="width: 202px" id="fornecedor">
+                	<option value="0">Selecione</option>
+                	<?php 
+                	foreach ($this->objClientes as $clientes):
+                	?>
+                	<option value="<?=$clientes->ID?>" <?php if($this->objTipo == $clientes->ID) echo 'selected="selected"';?>><?=$clientes->EMPRESA?></option>
+                	<?php 
+                	endforeach;
+                	?>
+                </select>
+        	</div>
+		</div>
+        
+        <form name="prepedido" id="prepedido" action="" method="post" class="mainForm">
+        <?php 
+		if($this->objTipo=='outro'):
+		?>
+			<div class="widget first" >
+            	<div class="head" style="margin-top: -10px"><h5 class="iUser">Informações do cliente</h5></div>
+            	<div class="body">
+	            	<table class="borda" style="width: 100%; border-spacing: 7px ">
+					<tr>
+		                <td width="12%">Tipo:</td>
+		                <td colspan="3">
+		                	<input type="radio" name="movimento" value="0" checked="checked"><label>Entrada</label> 
+							<input type="radio" name="movimento" value="1"><label>Saida</label>
+		                </td>                
+		            </tr>
+		            <tr>
+		            	<td>Raz&atilde;o Social:</td>
+		                <td colspan="3"><input type="text" name="empresa" size="30" style="width: 250px"></td>	                
+		            </tr>
+		            <tr>
+		                <td>CPF/CNPJ:</td>
+		                <td width="35%"><input type="text" name="cnpj" size="30" style="width: 150px" class="inteiro"></td>
+		                <td width="12%">RG/INSC:</td>
+		                <td ><input type="text" name="inscricao" size="20"  style="width: 150px" class="inteiro"></td>
+		            </tr>
+		            <tr>
+		            	<td style="vertical-align: top;">Nat Op:</td>
+		                <td colspan="3">
+		                	<div class="styled-select" style="width: 250px">
+			                <select name="cfop" style="width: 272px">
+				     			<?php foreach ($this->objCfop as $cfop):?>
+				     			<option value="<?=$cfop->id?>" <?php if($cfop->id == 445) echo 'selected="selected"';?> ><?=$cfop->cfop." - ".$cfop->descricao?></option>
+				     			<?php endforeach; ?>
+			     			</select>	                
+			     			</div>
+		                </td>                
+		            </tr>
+		            <tr>
+		                <td>Email NFe:</td>
+		                <td><input type="text" name="email" value="<?=$listEmail->EMAIL?>" size="25" style="width: 170px" > 
+		                </td>
+		                <td>Contato NFe:</td>
+		                <td><input type="text" name="contatoemail" value="<?=$listEmail->NOME_CONTATO?>" size="25" style="width: 170px"> </td>
+		            </tr>
+		            <tr>
+		                <td>Telefone:</td>
+		                <td colspan="3">
+		                	<input type="text" name="ddd" size="5" maxlength="2" style="width: 50px" class="inteiro">
+		                	<input type="text" name="telefone" size="15" maxlength="9" style="width: 150px" class="inteiro">
+		                </td>	                
+		            </tr>
+		        	</table>
+			  	</div>
+			 </div>
+		
+		
+		<div class="widget first" >
+            <div class="head" style="margin-top: -10px"><h5 class="iSignPost">Endereço</h5></div>
+            <div class="body">
+            	<table style="width: 100%; ">
+					<tr>
+			     		<td >
+			     			 Pais:<br>
+			     			 <div class="styled-select" style="width: 160px">
+								<select style="width: 182px" name="pais" onchange="buscaEstados(this.value,'1','estado');">
+									<option value='0'>Selecione</option>
+									<?php 
+									foreach ($this->objPaises as $listpaises):
+										?>
+										<option value="<?=$listpaises->id?>"><?=$listpaises->nome?></option>
+										<?php 
+									endforeach;
+									?>
+								</select>  		    
+							</div> 			 
+			     		</td>					     		
+			     		<td style="padding-left: 5px">
+			     			 Estado:<br>
+			     			 <div id="estado">
+			     			 	<div class="styled-select" style="width: 180px">
+								<select id="uf" name="uf" onchange="buscaEstados(this.value,'2','cidade');" style="width: 202px">
+									<option value="0">Selecione</option>									
+								</select>
+							</div>
+							</div>		     			 
+			     		</td>
+			     		<td colspan="2" style="padding-left: 5px">
+			     			 Cidade:<br>
+			     			 <div id="cidade">
+			     			 	<div class="styled-select" style="width: 260px">
+									<select id="cidade" name="cidade" style="width: 282px">
+										<option value="0">Selecione</option>										
+									</select>
+								</div>
+							</div>				     			 
+			     		</td>					     		
+			     	</tr>
+					
+					
+					<tr>
+						<td  align="left" colspan="2">
+							Logradouro:<br>
+							<input type="text" name="logradouro"  style="width: 250px"> 
+						</td>
+						<td  align="left" >
+							Nº:<br>
+							<input type="text" name="n"  style="width: 50px"> 
+						</td>														
+					</tr>							
+					<tr>
+						<td  align="left">
+							Bairro:<br>
+							<input type="text" name="bairro" style="width: 150px">  
+						</td>
+						<td  align="left">
+							CEP:<br>
+							<input type="text" name="cep" size="10" maxlength="8" style="width: 100px" class="cep">  
+						</td>
+						<td  align="left" >
+							Complemento: <br> 
+							<input type="text" name="complemento"  style="width: 200px">  
+						</td>
+					</tr>
+				</table> 
+			</div>
+		</div>
+		
+		
+		<div class="widget first" >
+            <div class="head" style="margin-top: -10px"><h5 class="iTruck">Transportadora</h5></div>
+            <div class="body">	
+				<table style="width: 100%; ">
+					<tr>
+						<td  align="left" width="20%">
+							Nome/Razão Social:<br>
+							<input type="text" name="transnome" size="35" style="width: 250px">  
+						</td>							
+						<td  align="left"  width="20%">
+							CNPJ:<br><input type="text" name="transcnpj" size="15" style="width: 130px" class="cnpj">
+						</td>									 
+						<td  align="left" >
+							INSC/RG:<br /><input type="text" name="transinscricao" size="15" class="inteiro" style="width: 130px">
+						</td>										 
+					</tr>
+					<tr>
+						<td  align="left" >
+							Logradouro:<br>
+							<input type="text" name="translogradouro"  style="width: 300px"> 
+						</td>
+						<td  align="left" >
+							Cidade:<br>
+							<input type="text" name="transcidade"  size="15" style="width: 150px"> 
+						</td>	
+						<td  align="left"  width="20%">
+							UF:<br>		
+							<div class="styled-select" style="width: 70px">								
+							<select name="transuf" style="width: 92px">
+								<?php foreach ($this->objUf as $ufs): ?>
+								<option value="<?=$ufs->uf?>"><?=$ufs->uf?></option>
+								<?php endforeach;?>
+							</select>
+							</div>
+						</td>														
+					</tr>							
+					
+				</table> 
+			</div>
+		</div>
+			
+				
+        <div style="margin-top: 10px">
+			<input type="button" name="salvar" value="Próximo" class="greenBtn" id="salvarNfe">		
+		</div>
+		<?php 
+		elseif(!empty($this->objTipo)):
+		?>
+		
+		<div class="widget first" >
+        	<div class="head" style="margin-top: -10px"><h5 class="iUser">Informações do cliente</h5></div>
+            <div class="body">
+				<table class="borda" style="width: 100%; border-spacing: 7px ">
+				<tr>
+	                <td width="20%">Tipo:</td>
+	                <td colspan="3">
+	                	<input type="radio" name="movimento" value="0" checked="checked"><label>Entrada</label> 
+						<input type="radio" name="movimento" value="1"><label>Saida</label>
+	                </td>                
+	            </tr>
+	            <tr>
+	                <td >Movimentar estoque?</td>
+	                <td colspan="3">
+	                	<input type="radio" name="estoque" value="1" checked="checked"><label>Não</label> 
+						<input type="radio" name="estoque" value="2"><label>Sim</label>
+	                </td>                
+	            </tr>
+	            <tr>
+	                <td >Cliente:</td>
+	                <td colspan="3">
+	                	<b><?=$listPed->EMPRESA?></b>
+	                	<input type="hidden" name="parceiro" value="<?=$listPed->ID?>">
+	                </td>                
+	            </tr>
+	            <tr>
+	                <td>Raz&atilde;o Social:</td>
+	                <td><b><?=$listPed->RAZAO_SOCIAL?></b></td>
+	                <td>Perfil Fiscal:</td>
+	                <td><b><?=$listTri->descperfil?></b></td>
+	            </tr>
+	            <tr>
+	                <td>CPF/CNPJ:</td>
+	                <td width="35%"><b><?=$listPed->CPF_CNPJ?></b></td>
+	                <td width="12%">RG/INSC:</td>
+	                <td ><b><?=$listPed->RG_INSC?></b></td>
+	            </tr>
+	            <tr>
+	                <td>Cidade:</td>
+	                <td><b><?=$listEnd->ncidade?></b></td>
+	                <td>Estado:</td>
+	                <td ><b><?=$listEnd->nestado?></b></td>
+	            </tr>
+	            <tr>
+	            	<td>Pais:</td>
+	                <td ><b><?=$listEnd->npais?></b></td>
+	                <td>Transportadora:</td>
+	                <td ><b>
+	                <? 
+	                if($listPed->tptransp == 0):
+		                if(!empty($this->objTransp)): 
+		                	foreach ($this->objTransp as $transp);
+		                	echo $transp->EMPRESA;
+		                else:
+		                	$valida .= "- Cadastre uma transportadora para o cliente;<br />";
+		                endif;
+		                ?>
+		                <input type="hidden" name="transportadora" value="<?=$transp->ID?>">
+		                <?php
+		            else:
+		            	echo "Nosso carro";
+		            	?>
+            		    <input type="hidden" name="transportadora" value="nossocarro">
+            		    <?php
+		            endif;
+	                ?>
+	                </b>
+	                </td>
+	            </tr>
+	            <tr>
+	            	<td style="vertical-align: top;">Nat Op:</td>
+	                <td colspan="3">
+	                	<div class="styled-select" style="width: 250px">	
+		                <select name="cfop" style="width: 272px">
+			     			<?php foreach ($this->objCfop as $cfop):?>
+			     			<option value="<?=$cfop->id?>" <?php if($cfop->id == 445) echo 'selected="selected"';?> ><?=$cfop->cfop." - ".$cfop->descricao?></option>
+			     			<?php endforeach; ?>
+		     			</select>	                
+		     			</div>
+	                </td>                
+	            </tr>
+	            <tr>
+	                <td>Email NFe:</td>
+	                <td><input type="text" name="email" value="<?=$listEmail->EMAIL?>" size="25" style="width: 170px" > 
+	                <?php if($listEmail->EMAIL=="") $valida .= "- O Email da NFe não pode ficar em branco;<br />";?>
+	                </td>
+	                <td>Contato NFe:</td>
+	                <td><input type="text" name="contatoemail" value="<?=$listEmail->NOME_CONTATO?>" size="25" style="width: 130px"> </td>
+	            </tr>
+	        </table>
+	        <div style="margin-top: 10px">
+				<input <?php if($valida!=""): ?> disabled="disabled"  class="greenBtn itemDisabled"<?php endif; ?> class="greenBtn" type="button" name="janelamodal" value="Próximo" onclick="gravaDados();">				            
+	            <br />
+	            <div id="textovalida" style="color: red; font-style: italic; margin-top: 10px"><?=$valida?></div>		
+			</div>
+		</div>
+	</div>
+	<?php 
+	endif;
+	?>
+	</form>
+		
+</div>

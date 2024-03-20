@@ -1,0 +1,57 @@
+<?php foreach ($this->objList as $list); ?>
+
+<!-- Content -->
+	<div class="content">   
+
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl()?>/admin">Home</a> </li>
+                	<li class=""><a href="<?php echo $this->baseUrl()?>/admin/cadastro/produtos/fil/comp">Produtos</a></li>
+                	<li class=""><a href="<?php echo $this->baseUrl()?>/admin/cadastro/produtoshscode">HS Code</a></li>
+                	<li class="lastB">Cadastro</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Cadastro HS Code</h5></div>
+		
+		<form action="/admin/cadastro/gravaprodutoshscode" method="post" name="grava" id="grava" class="mainForm">
+		
+		<div style="border: 1px solid #d4d4d4; padding: 10px; margin-top: 10px">
+    		<table style="margin-top: 5px; width: 100%">
+    		    <tr>
+    		    	<td align="left" width="20%">
+    		    		Classificação Fiscal: <br>
+    		    		<input value="<?=$list->ncm?>" type="text" name="ncm" style="width: 80%;">
+    		            <input value="<?=$list->id?>" type="hidden" name="idncm" id="idncm" >
+    		    	</td>
+    		    	<td>
+    		    	Descrição:<br />
+    		    	<input type="text" size="50" name="descricao" value="<?=$list->descricao?>" style="width: 80%;">
+    		    	</td>
+    		    </tr>
+    		    <tr>
+    			 	<td align="left">
+    		    		Retorno(%): <br>
+    		    		<input value="<?=number_format($list->retorno,2,",",".")?>" type="text" name="retorno" class="moeda" style="width: 80px;">
+    		    	</td>
+    		    	<td>
+    		    	Descrição Chinês:<br />
+    		    	<input type="text" size="50" name="descricaochines" value="<?=$list->descricaochines?>" style="width: 80%;">
+    		    	</td>		    	
+    			</tr>
+    			<tr>
+    		    	<td align="left" colspan="3">
+    		    		<br />
+    		    		<input type="submit" value="Salvar" class="greenBtn">
+    		    	</td>
+    			</tr>
+    		</table>
+		</div>
+		
+		</form>
+	</div>
+		
+	

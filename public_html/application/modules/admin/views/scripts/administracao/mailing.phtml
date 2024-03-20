@@ -1,0 +1,105 @@
+<?php 
+if($this->obj == 1) echo "Enviado com Sucesso!";
+?>    
+
+	<div class="content">
+       <!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li class="lastB">Email Marketing</li>         
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5>Email Marketing</h5></div>
+        
+        <div class="widgets" >
+        	<div class="left" style="margin-top: 5px; margin-bottom: 5px" >
+        		<input type="button" value="Novo Email" class="basicBtn" onclick="window.location='<?php echo $this->baseUrl(); ?>/admin/correio/mailingnovo'" >
+        	</div>
+	        <div class="right" style="font-weight: bold; text-align: right; padding-top: 7px; width: 40%">
+				<a href="<?php echo $this->baseUrl(); ?>/admin/correio/mailingdescadastrados">EMAIL DESCADASTRADOS</a> | 
+	        	<a href="<?php echo $this->baseUrl(); ?>/admin/marketing/mailcorrige">CORRIGIR EMAILS</a>
+	        </div>
+	    </div>    
+	        
+		<?php
+		if (count($this->objList) > 0):			
+		?>       
+        <div class="widget first">
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="">Data do envio</td>
+                        <td width="40%">Assunto</td>
+                        <td width="20%">Enviado para</td>
+                        <td width="20%">Enviados/Lidos</td>
+                        <td width="10%">Opções</td>
+                    </tr>
+                </thead>
+                <tbody>
+	        	<?php 
+				foreach($this->objList as $lista):
+				?>
+			
+				<tr >
+	                <td  style="text-align: center;">
+	                   <?php echo substr($lista->data_envio,8,2).'/'.substr($lista->data_envio,5,2).'/'.substr($lista->data_envio,0,4); ?>
+	                </td>
+	                <td  align="left" style="text-transform: uppercase;">
+	                   <?php echo ($lista->assunto)?>
+	                </td>
+	                <td  align="left" >
+	                   <?php 
+	                   if($lista->clientes!=0) echo "Clientes<br>";
+	                   if($lista->alvos!=0) echo "Contatos/Alvos<br>";
+	                   if($lista->newsletter!=0) echo "Newsletter<br>";
+	                   if($lista->funcionarios!=0) echo "Funcionários<br>";
+	                   if($lista->forcavenda!=0) echo "Força de vendas<br>";
+	                   ?>
+	                </td> 
+	                <td  style="text-align: center;"style="text-transform: uppercase;">
+	                   <?
+	                   if(empty($lista->qt_envio)): 
+	                   		echo 0; 
+	                   else:
+	                   		echo $lista->qt_envio;
+	                   endif;
+	                   
+	                   echo " / ";
+	                   
+	                   if(empty($lista->leitura)): 
+	                   		echo 0; 
+	                   else:
+	                   		echo $lista->leitura;
+	                   endif;
+	                   ?>
+	                </td>
+	                <td  style="text-align: center;">
+	                  <a href="<?=$this->baseUrl()?>/admin/mailing/promocoes/id/<?=$lista->id?>"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" border="0" title="Visualizar"></a>	                  
+	                </td>                  
+            	</tr>
+            	<?php  endforeach; ?>
+                </tbody>
+            </table>            
+        </div>
+        <div style="margin-top: 20px">
+			<?php 
+			if ( count($this->objList) > 0) :
+				echo $this->objList;
+			endif;
+		    ?>
+		</div>
+		<?php 
+		else :
+		?>
+		<div class="widget first">
+ 			Nenhum mailing Encontrado
+		</div>	
+		<?php 
+		endif;
+		?>
+	</div>

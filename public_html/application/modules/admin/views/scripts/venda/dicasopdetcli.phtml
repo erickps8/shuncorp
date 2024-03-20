@@ -1,0 +1,82 @@
+         
+    
+	 
+         <table width="100%" class="borda_titulo">
+            <tr>
+                <td width="left">DIAGNÓSTICOS DE ANÁLISE</td>
+            </tr>
+        </table>
+		<br>
+		<?php
+
+		if(!empty($this->objAnalises)):
+			foreach ($this->objAnalises as $lista);
+		endif;
+		
+		?>
+           <table  width="100%" style="border: 1px solid #000; margin-bottom: 10px; padding: 5px" cellspacing="5" cellpadding="10">
+				<tr>
+					<td width="10%" align="left" >
+						Situação:<br>
+						<b><?php if ($lista->tipo==1) echo "Procede"; else echo "Não Procede"?></b>
+						
+					</td>
+					<td  align="left" width="40%">
+					Diagnóstico:<br>
+					<b><?php echo $lista->descricao?></b>
+					</td>
+				</tr>
+				<tr>
+					<td  align="left" colspan="2">
+					Descrição do Diagnóstico:<br>
+					<b><?php echo $lista->detalhadesc?></b>
+					</td>
+				</tr>
+				<tr>
+					<td  align="left" colspan="2">
+					Informações técnicas:<br>
+					<?php echo urldecode($lista->infotecnica);
+					?>
+					</td>
+				</tr>
+				
+        	</table>
+        	
+        
+		<script>
+			function editaAnalise(id,desc,tipo){
+				document.cad.diag.value=desc;
+				document.cad.tipo.value=tipo;
+				document.cad.id_analise.value=id;
+
+			}
+					
+			function validaCampos(){
+				if(document.cad.diag.value==""){
+					alertaPadrao('Erro!', 'O campo DIAGNÓSTICO não pode ficar em branco!', 'erro', 110, 300);
+					return false;
+				}
+			}
+
+			var alertaPadrao = function(titulo, msg, tipo, altura, largura) {
+					$('body').append('<a href="#" id="alerta-padrao"></a>');
+					$('#alerta-padrao').m2brDialog({
+							draggable: true,
+							texto: msg,
+							tipo: tipo,
+							titulo: titulo,
+							altura: altura,
+							largura: largura,
+							botoes: {
+								1: {
+									label: 'Fechar',
+									tipo: 'fechar'
+								}
+							}									   
+					});
+					$('#alerta-padrao')
+						.click()
+						.remove();
+			}; // fim alertaPadrao
+		</script>
+	

@@ -1,0 +1,217 @@
+	<div class="content">   
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/pedidoscompra">Pedidos de compra</a></li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/entradaest">Entrada de produtos</a></li>
+                	<li class="lastB">Nova entrada</li>          
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Entrada de produtos</h5></div>
+
+        <div class="widgets" >	
+        	<div class="widget" style="border-top: 1px solid #d5d5d5; padding: 10px">
+			<form action="<?=$this->baseUrl()?>/admin/compras/importaped" enctype="multipart/form-data" method="post" class="mainForm">
+				<div class="rowElem" >
+                        <label style="width: 45px">Anexo:</label> 
+                        <div class="formRight" >
+                        	<input type="file" class="fileInput" id="fileInput" name="arquivo" onchange="addArchive(this)"/>
+                        	 <input type="submit" value="Enviar" class="greenBtn" style="margin-left: 110px">
+                        </div>
+                        <div class="fix"></div>
+                    </div>
+                    
+					<script type="text/javascript">
+		        		function addArchive(anexo) {
+			        		document.getElementById(anexo.name).value = $(anexo).val();
+			        	}
+		        	</script> 
+			       	<div class="fix"></div>										
+			</form>
+			</div>
+			
+			<div class="fix" ></div>
+			
+		    <form action="<?=$this->baseUrl()?>/admin/compras/entradaestoqreg" method="post" class="mainForm">
+		    	<?php 
+				if(!empty($this->objProdutos)):        	 
+				?>
+				<div class="widget first">
+	 			<table style="width: 100%" class="tableStatic">
+	            	<thead>
+	                	<tr>
+	                        <td width="">Ord</td>
+	                        <td width="">Código</td>
+	                        <td width="50%">Ped</td>
+	                        <td width="15%">Qt ent</td>
+	                        <td width="15%">NCM</td>
+	                        <td width="15%">Preço</td>
+	                        <td width="15%">Total</td>
+	                    </tr>
+	                </thead>
+	                <tbody>
+				        <?php 
+				        $cont=0;
+			        	foreach ($this->objProdutos as $listaprod):
+			        		$cont++;
+			        		?>
+							<tr >
+								<td  style="text-align: center;"  >
+				                   <?php echo $cont; ?>
+				                </td>
+								<td  style="text-align: center;"  >
+				                   <?php echo $listaprod->CODIGO; ?>
+				                </td>
+				                <td  style="text-align: center;" >
+				                   <a target="_blank" href="<?=$this->baseUrl()?>/admin/compras/pedidoscompraprod/ped/<?=md5($listaprod->ID_PEDIDO_COMPRA)?>" >
+				                   	<?=$listaprod->ID_PEDIDO_COMPRA?>
+				                	</a>
+				                </td>
+				                <td  style="text-align: center;" >
+				                   <?=$listaprod->qt?>
+				                </td>
+				                <td  style="text-align: right;"  >
+				                	<?php 
+				                	$color = "";
+				                	if(($listaprod->icms == "")||($listaprod->ii=="")||($listaprod->ipi=="")||($listaprod->pis=="")||($listaprod->cofins=="")):
+				                		$color = "#FF0000";
+				                	endif;
+				                	?>
+				                   <a href="#" class="dcontexto"  ><font color="<?=$color?>" ><?=$listaprod->ncm." ".$listaprod->ncmex;?></font>
+				                   <span style="width: 250px; left: -10px; top: 20px" >	 
+				                      	<table width="100%" class="tableStatic">
+											<tr>
+												<td class="th_orc_min">ICMS</td>
+												<td class="th_orc_min">II</td>
+												<td class="th_orc_min">IPI</td>
+												<td class="th_orc_min">PIS</td>
+												<td class="th_orc_min">COFINS</td>
+											</tr>
+											<tr>
+												<td class="td_orc_par_min" style="text-align: center;"> <?=$listaprod->icms?>%</td>
+												<td class="td_orc_par_min" style="text-align: center;"> <?=$listaprod->ii?>%</td>
+												<td class="td_orc_par_min" style="text-align: center;"><?=$listaprod->ipi?>%</td>
+												<td class="td_orc_par_min" style="text-align: center;"><?=$listaprod->pis?>%</td>
+												<td class="td_orc_par_min" style="text-align: center;"><?=$listaprod->cofins?>%</td>
+											</tr>								
+										</table>
+					               </span>
+					               </a>                  
+				                </td>
+				               
+				                <td  style="text-align: right;" >
+				                   <?=number_format($listaprod->preco,2,",",".");?>                    
+				                </td>
+				                <td  style="text-align: right;" >
+				                   <?php 
+				                   echo number_format($listaprod->preco*$listaprod->qt,2,",","."); 
+				                   ?>
+				                </td>				                               
+				            </tr>
+				        	<?php 
+				        	
+			        	endforeach;
+				        	
+						$erro = 0;
+					    if(!empty($this->objProdutos)):
+					     	$prodsv	= $prodsv2 = "";
+					     	foreach ($this->objImp as $listimp):
+						   		foreach($listimp->produto as $lp):
+						   			$prodsv .= $lp->idprod.";";		   		
+						   		endforeach;   		
+						   	endforeach;	
+						   	
+						   	
+						   	foreach ($this->objProdutos as $prods):
+								$prodsv2 .= $prods->ID_PRODUTO.";";
+					   		endforeach;
+					   		
+					   		$prodsv = explode(";", $prodsv);
+					   		for($i=0;$i<count($prodsv);$i++):
+					   			if((strrpos($prodsv2,$prodsv[$i])===false) and $prodsv[$i]!=""):
+						   			foreach ($this->objImp as $listimp):
+								   		foreach($listimp->produto as $lp):
+								   			if($lp->idprod == $prodsv[$i]):
+									   			?>	
+									   			<tr >
+													<td  style="text-align: center; color: #FF0000" >
+									                   <?=$lp->cod?>
+									                </td>
+									                <td  style="text-align: center;" >
+									                   
+									                </td>
+									                <td  style="text-align: center; color: #FF0000" >
+									                   <?=$lp->qt?>
+									                </td>
+									                <td  style="text-align: center; font-weight: bold;">
+									                
+									                </td>
+									                
+									                <td  style="text-align: right; color: #FF0000" >
+									                   <?=number_format(floatval($lp->preco),2,",",".");?>                    
+									                </td>
+									                <td  style="text-align: right; color: #FF0000" >
+									                   <?=number_format($lp->preco*$lp->qt,2,",",".");?>
+									                </td>									                               
+									            </tr>
+						   					<?php
+						   					endif; 
+						   				endforeach;   		
+								   	endforeach;
+					   			endif;
+					   		endfor;
+					   	endif;						    
+				        ?>    
+				       	</tbody>
+				    </table>
+				</div>     
+				
+				<input type="hidden" name="arrId" id="arrId" value="<?=$idprodutos?>" >
+				<?php 
+				 endif;
+				?>
+				
+				<?php 
+				$erro = 0;
+			     if(!empty($this->objProdutos)):
+			     	$prodsv	= $prodsv2 = "";
+			     	foreach ($this->objImp as $listimp):
+				   		foreach($listimp->produto as $lp):
+				   			$prodsv .= $lp->idprod.";";		   		
+				   		endforeach;   		
+				   	endforeach;	
+				   	
+				   	foreach ($this->objProdutos as $prods):
+						$prodsv2 .= $prods->ID_PRODUTO.";";
+			   		endforeach;
+			   		
+			   		$prodsv = explode(";", $prodsv);
+			   		for($i=0;$i<count($prodsv);$i++):
+			   			if((strrpos($prodsv2,$prodsv[$i])===false) and $prodsv[$i]!=""):
+			   				$erro = 1;
+			   			endif;
+			   		endfor;
+			    ?>
+				    
+				<div class="widget" style="border-top: 1px solid #d5d5d5; padding: 10px">
+					<?php if($erro==1): ?>
+					<br />Produto sem pedido. Favor verificar.<br />
+					<?php endif; ?>
+					<input <?php if($erro==1): ?> disabled="disabled" <?php endif;?> class="greenBtn" type="submit" value="Próximo" style="margin-top: 5px" >	     	
+				</div>
+			<?php 
+			 endif;
+			?>					
+			</form>
+		</div>
+		
+		<div >
+			<?php if($this->objVer==1): ?>
+			<br />Produtos sem pedido. Favor verificar.<br />
+			<?php endif; ?>				     	
+    	</div>
+	</div>

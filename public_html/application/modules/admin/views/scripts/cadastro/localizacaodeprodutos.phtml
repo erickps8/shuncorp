@@ -1,0 +1,108 @@
+	<div class="content">
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="#">Home</a> </li>
+                	<li><a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/localizacaodeprodutos">Localização de produtos</a></li>
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5>Localização de produtos</h5></div>
+          
+        <?php 
+        
+        $idprod = "";
+        if(count($this->objLocalizacao)>0){
+			foreach ($this->objLocalizacao as $localizacao);
+			$idprod = $localizacao->id_prod;
+		}elseif(!empty($this->busca)){
+			$erro = "Produto sem cadastro de localização";
+			$idprod = $this->busca;
+		}
+		
+        ?>
+          
+        <div class="widgets" >
+        	<!-- Busca -->
+        	<div  style="margin: 10px 0px 5px 0px; " >
+        		<div style="border: 1px solid #d5d5d5; padding: 10px;">
+        		<form name="pesquisa" action="<?=$this->baseUrl()?>/admin/cadastro/localizacaodeprodutos" method="post" class="mainForm" >
+        			<input type="hidden" value="" name="gravar">
+				    <table>
+        				<tr>
+        					<td>Código:<br>  
+	        					<div class="styled-select" style="width: 150px"> 	
+									<select name="busca" onchange="submit();" style="width: 170px">
+										<option value="0">Selecione</option>
+										<?php foreach ($this->objProdutos as $list): ?>
+											<option <?php if($idprod == $list->ID) echo 'selected="selected"';?> value="<?=$list->ID?>"><?=$list->CODIGO?></option>
+										<?php endforeach; ?>
+									</select>
+								</div>
+							</td>
+							<td>Localização:<br><input type="text" name="loca1" style="width: 50px" ></td>
+							
+							<td><br><input type="button" value="Adcionar" class="greenBtn" onclick="document.pesquisa.gravar.value = '1'; submit();"/></td>
+						</tr>
+					</table>					  
+				</form> 
+				</div>
+            </div>
+           
+           
+           <?php 		
+        if ( count($this->objLocalizacao) > 0) {
+		?>
+		<div class="widget" style="width: 30%">
+ 			<table style="width: 100%" class="tableStatic">
+            	<tbody>
+               <?php 
+				$cor=0;
+		    	foreach($this->objLocalizacao as $localizacao){
+			    	?>				
+					<tr >
+		                <td style="text-align: center;" >
+		                   <?php echo $localizacao->loca1?>
+		                </td>
+		                <td style="text-align: center;" >
+		                	<a href="javascript:void(0)" onclick="confirmRemove('<?=$localizacao->id?>');"><img src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/close.png"  width="16" border="0" title="Editar"></a>			                
+		                </td>		                
+		            </tr>
+            	<?php  } ?>
+            	</tbody>        
+			</table>
+			
+		</div>
+        
+        <?php 
+		}
+        ?>
+        </div>  
+        
+        <div style="color: #f00">
+        <?=$erro?>
+        </div>
+       
+	</div>
+	
+	<script>
+	<?php 
+	if(!empty($this->gravar)){
+		if($this->objRes == 0){
+			?>jAlert('Erro ao gravar localização do produto!','Erro');<?php 
+		}
+	}
+	
+	?>
+
+	function confirmRemove(id){
+		jConfirm('Você deseja remover este endereço?', 'Confirme', function(r) {
+			if(r==true){
+				window.location='<?=$this->baseUrl(); ?>/admin/cadastro/localizacaoremovea/prod/<?=$idprod?>/idlocalizacao/'+id;
+			}
+		});
+	}
+	</script>

@@ -1,0 +1,87 @@
+
+		<table width="100%" border="0">
+                <tr>
+                    <td align="right">
+                        <input type="button" value="Voltar" onclick="window.location='../../acessoRestrito/pendencias.php';" >
+                    
+                    </td>
+                </tr>
+            </table>
+		<table width="100%" class="borda_titulo">
+            <tr>
+                <td width="left">PEND&Ecirc;NCIAS DETALHADAS</td>
+               
+            </tr>
+       
+        
+        <?php 
+        	
+        	$emp = "";
+	    	foreach($this->objPend as $lista):
+	    	
+            if(($cor%2)==0) $class = 'td_orc_par';
+            else $class = 'td_orc';
+            
+            
+            if($emp != $lista->id_cliente):
+            	$emp = $lista->id_cliente;
+            	?>
+            	</table>
+        		<div style="margin: 10px">&nbsp;</div>
+            	<table width="100%" style="border: 1px solid #000;">
+                <tr>
+                    <td width="25%">Empresa: </td><td><b><?php echo htmlentities($lista->EMPRESA)?> </b></td>
+                </tr>
+                <tr>
+                    <td>Raz&atilde;o Social: </td><td><b><?php echo htmlentities($lista->RAZAO_SOCIAL)?> </b></td>
+                </tr>
+                <tr>
+                    <td>CNPJ: </td><td><b><?php echo $lista->CPF_CNPJ?> </b></td>
+                </tr>
+            	</table>
+            	<br>
+            	
+		        <table align="left" class="mytable" width="100%" cellspacing="0">
+		        <tr>
+		            <th  class="th_canto_orc" align="center" width="20%">
+		                ID PEDIDO
+		            </th>
+		            <th  class="th_orc" align="center" width="20%" >
+		                DATA
+		            </th>
+		            <th  class="th_orc" align="center" width="20%">
+		            	C&Oacute;DIGO             
+		            </th>
+		            <th  class="th_orc" align="center" width="17%">
+		            	 QUANTIDADE
+		            </th>
+		            
+		        </tr>
+            	<?php 
+            	
+            endif;
+			?>
+						
+			<tr >
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo $lista->id_ped?>
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo $lista->dt_pend?>                  
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo $lista->CODIGO?>                  
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo $lista->qt?>
+                </td>
+                
+            </tr>
+            
+			<?php  endforeach;
+			
+		?>
+		              
+        </table>
+        <br><br>
+	

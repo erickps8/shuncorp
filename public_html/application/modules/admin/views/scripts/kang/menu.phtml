@@ -1,0 +1,23 @@
+<?php
+foreach($this->objMenu as $lista){
+	
+	?>
+	<tr class='menuC'>
+            <td><b><a href='#' style='color:#006699; font-weight:bold;' onclick='mostarMenu(<?php echo $lista->id?>); return false;'><?php echo htmlentities(strtoupper($lista->item))?></a></b></td>
+    </tr>
+    <tr><td><table style='display:block;' id='<?php echo $lista->id?>' border='0' width='100%' cellpading='0' cellspacing='0'>
+	<?php 
+	foreach($this->objSubmenu as $listasub){
+		if($lista->id==$listasub->id_menu){
+			?>
+			<tr>
+                <td>&nbsp;&nbsp;&nbsp;<a target='<?php echo $listasub->target?>' href='<?php echo $listasub->src?>'><?php echo htmlentities($listasub->item)?></a></td>
+			</tr>
+			<?php
+		}
+	}
+	?></td></tr></table><?php 
+	
+}
+
+?>

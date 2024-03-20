@@ -1,0 +1,98 @@
+	<div class="content">
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li class="lastB">Lista de preço resumida</li>         
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title">
+        	<h5>Lista de preço resumida</h5>
+        	<div style="text-align: right; padding: 7px">
+        	<a href="<?=$this->baseUrl()?>/admin/venda/listadeprecoresumidaimp" target="_blank"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/printerwhite.png" border="0" title="Imprimir"></a>&nbsp;&nbsp;
+        	</div>
+        </div>
+		
+		<div style="text-align: right; padding-top: 7px">
+			<a href="<?php echo $this->baseUrl(); ?>/admin/venda/listadepreco">Lista de preço completa</a>
+		</div>
+		
+		<?php 
+		$count = 0;
+		$coluna1 = "";
+		$coluna2 = "";
+		$coluna3 = "";
+		foreach ($this->objProdutos as $produtos){
+			if($produtos->situacao == 0){
+				$count++;
+			
+				if(empty($produtos->PRECO_UNITARIO)) $preco = 0;
+				else $preco = $produtos->PRECO_UNITARIO;
+		
+				if($count == 1):
+					$coluna1 .= "<tr><td>".$produtos->CODIGO."</td><td style='text-align: right;'>".number_format($preco,2,",",".")."</td></tr>";
+				elseif($count == 2):
+					$coluna2 .= "<tr><td>".$produtos->CODIGO."</td><td style='text-align: right;'>".number_format($preco,2,",",".")."</td></tr>";
+				elseif($count == 3):
+					$coluna3 .= "<tr><td>".$produtos->CODIGO."</td><td style='text-align: right;'>".number_format($preco,2,",",".")."</td></tr>";
+					$count = 0;
+				endif;
+			}
+		}
+		?>
+				
+		<div class="widgets">
+		<div style="width: 30%; margin-right: 5%" class="left">
+			<div class="widget first">
+	 			<table style="width: 100%" class="tableStatic">
+	            	<thead>
+	                	<tr>
+	                        <td width="">Código</td>
+	                        <td width="">Valor (R$)</td>
+	                    </tr>
+	                </thead>
+	                <tbody>
+	                	<?=$coluna1?>
+	                </tbody>
+	          	</table>
+			</div>
+		</div>
+		
+		<div style="width: 30%;" class="left" >
+			<div class="widget first">
+	 			<table style="width: 100%" class="tableStatic">
+	            	<thead>
+	                	<tr>
+	                        <td width="" >Código</td>
+	                        <td width="">Valor (R$)</td>
+	                    </tr>
+	                </thead>
+	                <tbody>
+	                	<?=$coluna2?>
+	                </tbody>
+	          	</table>
+			</div>
+		</div>
+				
+		<div style="width: 30%;" class="right">
+			<div class="widget first">
+	 			<table style="width: 100%" class="tableStatic">
+	            	<thead>
+	                	<tr>
+	                        <td width="">Código</td>
+	                        <td width="">Valor (R$)</td>
+	                    </tr>
+	                </thead>
+	                <tbody>
+	                	<?=$coluna3?>
+	                </tbody>
+	          	</table>
+			</div>
+		</div>   
+		
+		</div>      
+	</div>

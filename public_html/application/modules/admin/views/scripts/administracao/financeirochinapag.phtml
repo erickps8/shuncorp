@@ -1,0 +1,205 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/administracaoFincontaschina.js" type="text/javascript" ></script>
+
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li><a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeirochina">Financeiro Shunkang</a> </li>
+                	<li class="lastB">Contas a pagar</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Contas a pagar</h5>
+	        <div style="float: right; padding: 10px">
+				<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeirochinaexp/texp/2<?=$this->objLink?>"><img title="MS Excel" src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/excelDocwhite.png" border="0" width="18" /> </a>
+	    		<a target="_blank" href="<?=$this->baseUrl(); ?>/admin/administracao/financeirochinaimp<?=$this->objLink?>"><img title="Imprimir" src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/printerwhite.png" border="0" width="18" /> </a>
+			</div>
+        </div>
+
+        <div class="widgets" >
+        	<!-- Busca -->
+        	<div class="left" style="margin-top: 5px; margin-bottom: 5px" >    
+				<?php if($this->objIns==1):?>
+				<input onclick="window.location='<?=$this->baseUrl()?>/admin/administracao/financeirochinapagcad'" class="basicBtn" type="button" value="Novo pagamento" > 
+				<?php endif;?>
+			</div>
+            <div class="right" style="font-weight: bold; text-align: right; padding-top: 7px; width: 40%">
+				<b>
+                    <a href="<?=$this->baseUrl(); ?>/admin/administracao/financeirochinarec"><?=$this->translate->_("Receber")?></a> |
+                    <a href="<?php echo $this->baseUrl(); ?>/admin/financeiro/relatorios"><?php echo $this->translate->_("Relatórios")?></a> |
+                    <a href="<?=$this->baseUrl(); ?>/admin/administracao/financeirochinaconc"><?=$this->translate->_("Conciliação")?></a> |
+                    <a href="<?=$this->baseUrl(); ?>/admin/administracao/financeirochinabancos"><?=$this->translate->_("Adm")?></a>
+                </b>
+			</div>
+		</div>
+    
+		<div class="widgets" >
+			<div class="first" style="margin-top: 5px; margin-bottom: 5px; " >
+			<form action="<?php echo $this->baseUrl(); ?>/admin/administracao/financeirochinapag" method="post" name="busca" id="busca" class="mainForm">
+				<table style="margin-bottom: 8px; border: 1px solid #d5d5d5; width: 100%" id="tabela">
+				    <tr>
+				    	<td style="padding: 10px; width: 20%">
+				    		<?=$this->translate->_("Busca por")?>:<br>
+				    		<div class="styled-select" style="width: 170px">
+						    	<select name="tipo" onchange="tipoPesquisa(this.value);" style="width: 192px">
+									<option value="1"><?=$this->translate->_("Por ID")?></option>
+									<option value="2"><?=$this->translate->_("Por Fornecedor")?></option>
+									<option value="3"><?=$this->translate->_("Por Valor")?></option>
+									<option value="4"><?=$this->translate->_("Por Compra")?></option>
+									<option value="5"><?=$this->translate->_("Por Pl Contas")?></option>
+								</select>										 
+							</div>
+				    	</td>							    	
+				    	<td align="left" valign="top">
+				    		<div style="display: none;" id="buscplcontas">
+					    		Plano de contas:<br>
+					    		<div class="styled-select" style="width: 140px">
+						    	<select name="buscaplcontas" id="buscaplcontas" style="width: 162px">
+									<option value="0">Todos</option>
+									<?php foreach ($this->objPlcontas as $list): ?>
+										<option value="<?=$list->id_conta_plano?>"><?php echo substr($list->no_conta_plano,0,20)?></option>
+									<?php endforeach; ?>
+								</select>
+								</div>
+							</div>
+				    		<div style="display: none;" id="buscfor">
+					    		Fornecedor:<br>
+					    		<div class="styled-select" style="width: 220px">
+						    	<select name="buscafor" id="buscafor" onchange='if(this.value=="out"){document.getElementById("buscaoutfor1").style.display = "block";}' style="width: 242px">
+									<option value="0">Todos</option>
+									
+									<optgroup label="Funcionários">
+										<?php foreach ($this->objUsuarios as $list): ?>
+											<option value="<?=$list->iduser?>|1">&nbsp;<?php echo substr($list->nomeusuario,0,50)?></option>
+										<?php endforeach; ?>
+									</optgroup>
+									
+									<optgroup label="Fornecedores">
+										<?php foreach ($this->objFornec as $list): ?>
+											<option value="<?php echo $list->ID?>"><?php echo substr($list->EMPRESA,0,20)?></option>
+										<?php endforeach; ?>
+									</optgroup>
+									
+									<option value="out">Outros</option>
+								</select>
+								</div>
+							</div>
+							<div style="display: none; margin-top: 2px" id="buscaoutfor1">
+								<input type="text" name="buscaoutfor" style="width: 200px">
+							</div>	
+							<div style="display: block;" id="buscid">								
+								<?=$this->translate->_("ID")?>:<br>
+								<input type="text" style="text-transform: uppercase; width: 70px" name="buscaid" id="buscaid" >
+							</div>
+							<div style="display: none;" id="buscvalor">
+								<?=$this->translate->_("Valor")?>:<br>
+								<input type="text" style="width: 70px" name="buscavalor" id="buscavalor"  class="moeda">
+							</div>
+							<div style="display: none;" id="buscpurchase">
+								<?=$this->translate->_("Compra")?>:<br>
+								<input type="text" style="width: 70px" name="buscapurc" id="buscapurc" style="text-transform: uppercase;" >
+							</div>
+						</td>
+						<td valign="top">										 
+							<table style="width: 150px">
+					    		<tr>
+						    		<td>
+										<?=$this->translate->_("Dt inicio")?>:<br>
+										<input type="text" style="margin-right: 3px; width: 70px" size="8" name="dtini" id="dtini" maxlength="10" class="data datepicker">
+									</td>
+									<td>
+										<?=$this->translate->_("Dt fim")?>:<br>
+										<input type="text" style="margin-right: 3px; width: 70px" size="8" name="dtfim" id="dtfim" maxlength="10" class="data datepicker">
+									</td>
+									<td valign="bottom"><br>
+										<input type="submit" class="blueBtn" value="<?=$this->translate->_("Pesquisar")?>">										
+									</td>
+								</tr>
+							</table>										
+				    	</td>
+					</tr>
+				</table>  
+			</form>
+			</div>
+		</div>
+		
+		<?php 
+		if(!empty($this->objContaspagar)):
+		?>
+		
+			<div class="widget">
+	 			<table style="width: 100%" class="tableStatic">
+	            	<thead>
+	                	<tr>
+	                        <td ><?=$this->translate->_("Id")?></td>
+	                        <td ><?=$this->translate->_("Fornecedor")?></td>
+	                        <td ><?=$this->translate->_("Plano de contas")?></td>
+	                        <td ><?=$this->translate->_("Emissão")?></td>
+	                        <td ><?=$this->translate->_("Vencimento")?></td>
+	                        <td ><?=$this->translate->_("Valor")?></td>
+	                        <td ><?=$this->translate->_("Situação")?></td>
+	                        <td width="10%"><?=$this->translate->_("Opções")?></td>
+	                    </tr>
+	                </thead>
+	                <tbody>
+					<?php 
+					foreach ($this->objContaspagar as $listpagar):
+					?>
+					<tr >
+						<td style="text-align: center;" >
+							P<?=substr("000000".$listpagar->idfin,-6)?>
+						</td>
+						<td align="left">
+							<?php 
+							if($listpagar->id_fornecedor!=NULL) echo $listpagar->EMPRESA;
+							if($listpagar->id_usuarios!=NULL) echo $listpagar->nomeusuario;							
+							else echo $listpagar->out_fornecedor?>
+						</td>
+						<td style="text-align: center;">
+							<img src='<?=$this->baseUrl()?>/public/sistema/imagens/icons/dark/files.png'  title='<?=$listpagar->no_conta_plano?>'>
+						</td>
+						<td style="text-align: center;">
+							<?=$listpagar->dtcad?>
+						</td>
+						<td style="text-align: center;">
+							<?=$listpagar->dtvenc?>
+						</td>
+						<td align="right">
+							<?=$listpagar->moedacont." ".number_format(($listpagar->valor_apagar),3,",",".")?></td>
+						<td style="text-align: center;">
+							<?php 
+							if($listpagar->exclusao == 1) echo '<font color="#FF0000">Excluded</font>';
+							elseif(!empty($listpagar->st_conc)) echo '<font color="#ff8600">Validated</font>';
+							elseif($listpagar->bloq == 1) echo '<font color="#2a9cec">Blocked</font>';
+			                elseif($listpagar->baixa == 1) echo '<font color="#FF0000">Closed</font>';
+			                elseif($listpagar->baixa == 2) echo '<font color="#009900">Released</font>';
+			                else echo '<font color="#ff8600">Review</font>';
+							?>
+						</td>
+						<td style="text-align: center;">
+							<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeirochinapagcad/pay/<?=md5($listpagar->idfin)?>" ><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" border="0" title="Visualizar"></a>
+						</td>
+					</tr>
+					<?php								
+				endforeach;
+			
+			?>
+			 	</tbody>
+            </table>            
+        </div>
+       
+		<?php 
+		else :
+		?>
+		<div class="widget" style="border-top: 1px solid #d5d5d5; padding: 10px; text-align: center">
+ 			Nenhuma conta encontrada!
+		</div>	
+		<?php 
+		endif;
+		?>
+	</div>

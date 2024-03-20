@@ -1,0 +1,99 @@
+<?php
+if($this->objVer=="true"):	?>
+	<script>
+	$(document).ready(function(){				
+		alertaPadrao('Success!', 'Regras alteradas com sucesso!', 'alerta', 110, 300);	
+	});
+	</script>
+	<?php 
+endif;
+
+foreach ($this->objPed as $ped);
+?>
+
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl()?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<?php 
+		if($this->objTp==2):
+		?>
+		<a href="<?=$this->baseUrl()?>/admin/kang/pedidoscompra"><?=$this->translate->_("PEDIDOS DE COMPRA")?></a>&nbsp;
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/kang/gerarpedidocompra/ped/<?=md5($ped->id_ped)?>">PK<?=substr("000000".$ped->id_kang_compra,-6,6)?></a>&nbsp;
+		<?php 
+		else:
+		?>
+		<a href="<?=$this->baseUrl()?>/admin/kang/pedidoscompra"><?=$this->translate->_("PEDIDOS DE COMPRA")?></a>&nbsp;
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/kang/pedidoscompraped/ped/<?=md5($ped->id_kang_compra)?>">PK<?=substr("000000".$ped->id_kang_compra,-6,6)?></a>&nbsp;
+		<?php 
+		endif;
+		?>
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<b><a href="<?=$this->baseUrl()?>/admin/kang/pedidosobs/ped/<?=md5($ped->id_kang_compra)?>"><?=$this->translate->_("REGRAS DE COMPRA")?></a></b>
+	</div>
+	<div id="sistitulo"><?=$this->translate->_("REGRAS DE COMPRA")?></div>
+	
+	<div>
+		<form action="<?php echo $this->baseUrl(); ?>/admin/kang/gravarobs" method="post" name="prepedido">
+			<input name="pedido" value="<?=$ped->id_kang_compra?>" type="hidden">
+			
+			<table 	width="100%" class="mytable" style="margin-top: 6px">			
+		    <tr>
+	            <th  class="th_canto" style="text-align: center;" width="15%">
+	                <?=$this->translate->_("ID")?>
+	            </th>
+	            <th  class="th_pedido" align="center" width="80%">
+	                <?=$this->translate->_("DESCRIÇÂO")?>
+	            </th>
+	             <th  class="th_pedido" align="center" width="10%">
+	                &nbsp;
+	            </th>	            
+	        </tr>
+			
+			<?php 
+	    	$cor=0;
+	    		    	
+			foreach($this->objObs as $lista):
+	    	
+			$cor++;
+            if(($cor%2)==0) $class = 'td_orc_par';
+            else $class = 'td_orc';
+			?>
+			
+			<tr >
+                <td  class="<?=$class?>" style="text-align: center;">
+                   <?php echo $cor?>                  
+                </td>
+                <td  class="<?=$class?>" align="left" >
+                   <?php 
+                   	echo $lista->desc_ing."<br>";
+                   	echo $lista->desc_chines;
+                   ?>                  
+                </td>
+                <td  class="<?=$class?>" style="text-align: center;" >
+                	<input type="checkbox" name="<?=$lista->id?>"  
+                	<?php 
+                		foreach ($this->objObsgravados as $listg):
+                			if($listg->id_obs == $lista->id): ?>checked="checked"<?php endif;
+                		endforeach;                 			
+                	?> value="1">
+                </td>
+            </tr>
+            
+			<?php  endforeach;
+			?></table>
+			<p align="left">
+			<input type="submit" value="<?=$this->translate->_("Salvar")?>" >
+			</p>
+			</form>
+			
+	</div>
+</div>		
+<div style="display: none">
+<!-- Essa caixa quarda textos para ser traduzidos. 
+Isso devido ao Gettext nao buscar dentro das tags javascript
+ --> 
+<?=$this->translate->_("Regras alteradas com sucesso!")?>
+</div>

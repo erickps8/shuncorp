@@ -1,0 +1,148 @@
+<!-- Calendarios -->
+<link type="text/css" rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.css?random=20051112" media="screen"></LINK>
+<SCRIPT type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.js?random=20060118"></script>
+
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl(); ?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/venda/garantiascli">GARANTIAS</a>&nbsp;
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<b><a href="<?=$this->baseUrl()?>/admin/venda/garantiascli">NOVA GARANTIAS</a></b>&nbsp;
+		<div style="float: right; font-weight: bold;">
+			<a href="<?php echo $this->baseUrl(); ?>/admin/venda/garantiasrelcli">RELATÓRIOS</a>
+		</div>
+	</div>
+	<div id="sistitulo"><?=$this->translate->_("NOVA GARANTIA")?></div>
+    <div id="sisconteudo">	
+
+<?php 
+
+if(!empty($this->objGarantia)):
+	foreach ($this->objGarantia as $viewGarantia);
+endif;
+
+?>
+<form action="<?php echo $this->baseUrl(); ?>/admin/venda/gravagarantiacli" name="novogar" enctype="multipart/form-data" method="post" onsubmit="return validaform();">
+<input type="hidden" name="idgarantia" value="<?php echo $viewGarantia->id?>">
+<table width="100%" style="border: 1px solid #000; margin-top: 10px; " cellspacing="8px" >
+
+<tr>
+	<td align="left" width="22%" colspan="2">
+		Nota Fiscal:<br>
+		<input type="text" size="20" name="ntfiscal" value="<?php echo $viewGarantia->nota_fiscal?>">	
+	</td>
+	<td align="left" width="11%" >
+		<b><font style="color: #FF0000">
+		<?php
+		if(empty($this->objGarantia)):
+			echo "CFOP:<br><b>";  
+			if($this->objUf=="DF") echo "5915"; else echo "6915";
+		endif;
+		?></font>
+		</b>	
+	</td>
+	<td align="left" >
+		Data emiss&atilde;o:<br>
+		<input type="text" size="10" name="dt_exp" id="dt_exp" onclick="displayCalendar(document.novogar.dt_exp,'dd/mm/yyyy',this)" 
+		 value="<?php if(!empty($this->objGarantia)) echo substr($viewGarantia->data_nf,8,2)."/".substr($viewGarantia->data_nf,5,2)."/".substr($viewGarantia->data_nf,0,4)?>">	
+	</td>
+	
+</tr>
+<tr>
+	<td align="left" width="15%" >
+		Peso:<br>
+		<input type="text" size="13" name="peso"  onkeydown="Mascara(this,Kilo);" onkeypress="Mascara(this,Kilo);" onkeyup="Mascara(this,Kilo);"  value="<?php echo $viewGarantia->peso_nf?>">
+		Kg
+	</td>
+	<td align="left" colspan="3" width="85%">
+		Volumes:<br>
+		<input type="text" size="5" name="volumes" onKeyDown="Mascara(this,Integer);" onKeyPress="Mascara(this,Integer);" onKeyUp="Mascara(this,Integer);" value="<?php echo $viewGarantia->volumes?>">	
+	</td>
+</tr>
+<tr>
+	<td align="left" width="15%" colspan="4" >
+		<?php if(!empty($viewGarantia->anexo)): ?>
+		<div id="anexo" >
+		<a target="_black" href="<?php echo $this->baseUrl()."/nfgarantias/".$viewGarantia->idcli.".".$viewGarantia->anexo?>">
+		<img alt="Anexo" src="<?php echo $this->baseUrl()."/images/anexo.png"?>" border="0" width="20" height="20">
+		<b>Anexo</b></a>
+		<a href="#" onclick="if(confirm('Remover anexo?')){mostrarAnexo();}"><img alt="Remover anexo" src="<?php echo $this->baseUrl()."/images/delete.png"; ?>" border="0"></a>
+		</div>
+		<div id="xml" style="display: none;">
+			Anexar nota fiscal <i>(No formato PDF)</i>:<br>
+			<input type="file" name="xml" style="border: 1px solid #444;">
+		</div>
+		<?php else: ?>
+		Anexar nota fiscal <i>(No formato PDF)</i>:<br>
+		<input type="file" name="xml" style="border: 1px solid #444;">
+		<?php endif;?>
+	</td>
+</tr>
+<tr>
+	<td align="left" width="15%" colspan="4">
+		Observa&ccedil;&atilde;o:<br>
+		<textarea rows="2" cols="50" name="obs"><?php echo $viewGarantia->obs?></textarea>
+	</td>
+	
+</tr>
+</table>
+
+<p align="left">
+	<input type="button" onclick="window.location='<?php echo $this->baseUrl(); ?>/admin/venda/garantiascli'" value="Cancelar">
+	<input type="submit" value="Salvar" >
+</p>
+
+</form>
+
+<script type="text/javascript">
+	function mostrarAnexo() {
+		document.getElementById("xml").style.display='block';
+		document.getElementById("anexo").style.display='none';
+	}
+
+
+	function validaform(){
+		if(document.novogar.ntfiscal.value==""){
+			alertaPadrao('Erro!', 'Preencha a Nota Fiscal!', 'erro', 110, 200);
+			return false;
+		}else if(document.novogar.dt_exp.value==""){
+			alertaPadrao('Erro!', 'Preencha a data de expedição da Nota Fiscal!', 'erro', 110, 300);
+			return false;
+		}else if(document.novogar.peso.value==""){
+			alertaPadrao('Erro!', 'Preencha o peso!', 'erro', 110, 300);
+			return false;
+		}else if(document.novogar.volumes.value==""){
+			alertaPadrao('Erro!', 'Preencha o número de volumes!', 'erro', 110, 300);
+			return false;
+		}else{
+			return true;
+		}
+		return false;	
+	}
+	
+	var alertaPadrao = function(titulo, msg, tipo, altura, largura) {
+			$('body').append('<a href="#" id="alerta-padrao"></a>');
+			$('#alerta-padrao').m2brDialog({
+					draggable: true,
+					texto: msg,
+					tipo: tipo,
+					titulo: titulo,
+					altura: altura,
+					largura: largura,
+					botoes: {
+						1: {
+							label: 'Fechar',
+							tipo: 'fechar'
+						}
+					}									   
+			});
+			$('#alerta-padrao')
+				.click()
+				.remove();
+	}; // fim alertaPadrao
+
+</script>
+	</div>
+</div>
+	

@@ -1,0 +1,345 @@
+
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/cadastroSubgrupo.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/comprasRelatoriovendas.js"></script>
+ 
+<style type="text/css">
+	<!--	  
+	  a.dcontexto1{
+		  position:relative; 
+		  font:12px arial, verdana, helvetica, sans-serif; 
+		  padding:0;
+		  color:#039;
+		  text-decoration:none;
+		  z-index:24;	  	  
+	  }
+	  a.dcontexto1:hover{
+		  background:transparent;
+		  z-index:25;
+	  }
+	  a.dcontexto1 span{display: none}
+	  a.dcontexto1:hover span{ 
+		  display:block;
+		  position:absolute;
+		  top:15px;
+		  text-align:justify;
+		  left:-200px;
+		  font: 11px arial, verdana, helvetica, sans-serif; 
+		  border: 1px solid #d5d5d5;
+		  color:#000;
+	  	  background-color: #fff;
+	  }
+	  
+	  a.dcontexto2{	
+		  position:relative; 
+		  font:12px arial, verdana, helvetica, sans-serif; 
+		  padding:0;
+		  color:#039;
+		  text-decoration:none;
+		  z-index:24;
+	  }
+	  a.dcontexto2:hover{
+		  background:transparent;
+		  z-index:25; 
+	  }
+	  a.dcontexto2 span{display: none}
+	  a.dcontexto2:hover span{ 
+		  display:block;
+		  position:absolute;
+		  width:280px; 
+		  top:15px;
+		  text-align:justify;
+		  left:-10;
+		  font: 11px arial, verdana, helvetica, sans-serif; 
+		  border: 1px solid #d5d5d5;
+		  color:#000;
+	  	  background-color: #fff;
+	  }
+	  -->
+</style>
+
+<!-- Content -->
+    <div class="content">   
+
+    <!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/pedidoscompra">Pedidos de compra</a> </li>
+                	<li class="lastB">Relatório de vendas</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Relatório de vendas</h5></div>
+        
+		<div class="widgets" >
+			<div class="widget" style="border-top: 1px solid #d5d5d5;">
+			<form method="post" name="busca" id="busca" class="mainForm">
+        		<table style="width: 100%" >
+			    <tr>
+			    	<td align="left" style="padding: 10px">
+				    	Fornecedor:<br>
+				    	<div class="styled-select" style="width: 200px">
+						<select name="buscafor" id="buscafor" style="width: 222px" onchange="Buscagruposfornecedor(this.value);">
+							<option value="0"><?=$this->translate->_("Todos")?></option>
+							<?php foreach ($this->objFor as $listfor): ?>
+								<option <?php if($this->objFsel==$listfor->ID) echo 'selected="selected"'?>  value="<?=$listfor->ID?>"><?=$listfor->EMPRESA?></option>
+							<?php endforeach; ?>
+						</select>		
+						</div>						
+			    	</td>   
+			    	<td align="left" style="padding: 10px">
+						Ordenar por:<br />
+						<input type="radio" name="ord" value="0" <?php if($this->objOrd != 1): ?>checked="checked" <?php endif; ?>> <label>Código</label> &nbsp; 
+						<input type="radio" name="ord" value="1" <?php if($this->objOrd == 1): ?>checked="checked" <?php endif; ?>> <label>Vendas</label>
+					</td>
+			    	<td align="right" style="padding: 10px">
+			    		<a href="<?=$this->baseUrl()?>/admin/compras/relatoriovendas/sug/compra">Sugestão de compra</a>
+			    	</td>	
+				</tr>
+				<tr>
+			    	<td align="left" width="200" style="padding: 10px">
+						Grupos de Venda:<br>
+						<div class="styled-select" style="width: 180px">
+						<select name="grupovenda" id="grupovenda" onchange="Mostrasubgrupos(this.value,3);" style="width: 202px; text-transform: uppercase;">
+							<option value="0">Selecione</option>
+							<?php foreach ($this->objGrupov as $listG): ?>
+							<option value="<?=$listG->id?>" <?php if($this->objGvend == $listG->id) echo 'selected="selected"';?> ><?php echo $listG->descricao?></option>
+							<?php endforeach;?>					
+						</select>
+						</div>									
+					</td>
+					<td align="left" style="padding: 10px" colspan="2">
+						<div id="subgrupo" align="left" >
+						<?php if(count($this->objGruposub)>0): ?>
+							Subgrupo: <br>
+							<div class="styled-select" style="width: 130px">
+							<select name="buscagruposub" id="buscagruposub" style="width: 152px">
+								<option value="0">Selecione</option>
+								<?php foreach ($this->objGruposub as $list): ?>
+									<option value="<?=$list->id?>"  <?php if($this->objSgrupo == $list->id) echo 'selected="selected"';?>><?=$list->descricao?></option>
+								<?php endforeach; ?>
+							</select>
+							</div>
+						<?php endif; ?>
+						</div>
+					</td>
+				</tr>		
+				<tr>
+			    	<td align="left"  style="padding: 10px">
+			    		Grupos de Compra<br>
+			    		<div class="styled-select" style="width: 180px">
+						<select name="buscagrupo" id="buscagrupo" style="width: 202px; text-transform: uppercase;">
+							<option value="0"><?=$this->translate->_("SELECIONE")?></option>
+							<?php foreach ($this->objGrupo as $list): ?>
+								<option value="<?php echo $list->id?>" 
+								<?php if($this->objGselec==$list->id) echo 'selected="selected"';?>  ><?php echo substr($list->purchasing,0,20)?></option>
+							<?php endforeach; ?>
+						</select>
+						</div>
+					</td>
+					<td align="left" style="padding: 10px">
+			    		Período<br>
+			    		<div class="styled-select" style="width: 130px">
+			    		<select name="periodo" id="periodo" style="width: 152px">
+			    			<?php 
+			    			$sel1 = $sel2 = $sel3 = $sel4 = $sel12 = "";
+			    			if((empty($this->objQtmes))|| ($this->objQtmes==6)) $sel6 = 'selected="selected"';
+			    			elseif($this->objQtmes==1) $sel1 = 'selected="selected"';
+			    			elseif($this->objQtmes==2) $sel2 = 'selected="selected"';
+			    			elseif($this->objQtmes==3) $sel3 = 'selected="selected"';
+			    			elseif($this->objQtmes==4) $sel4 = 'selected="selected"';
+			    			elseif($this->objQtmes==12) $sel12 = 'selected="selected"';
+			    			?>
+			    		
+							<option value="1" <?=$sel1?>>1 Mês</option>
+							<option value="2" <?=$sel2?>>2 Meses</option>
+							<option value="3" <?=$sel3?>>3 Meses</option>
+							<option value="4" <?=$sel4?>>4 Meses</option>
+							<option value="6" <?=$sel6?>>6 Meses</option>
+							<option value="12" <?=$sel12?>>12 Meses</option>
+						</select>
+						</div>
+						
+			    	</td>
+			    	 <td style="text-align: left; vertical-align: bottom; padding: 10px">
+			    	 	<input type="submit"  value="<?=$this->translate->_("Pesquisar")?>" class="blueBtn">
+					</td>  	
+				</tr>			    		
+				</table> 
+			</form>
+		</div>
+	</div>
+	
+	<?php 
+	if ( count($this->objList) > 0) :
+	?>
+	<form action="<?=$this->baseUrl()?>/admin/compras/relatoriovendasfor" name="pedido" method="post" class="mainForm">
+	<input type="hidden" name="fornecedor" value="<?=$this->objFsel?>">
+	<input type="hidden" name="grupocompra" value="<?=$this->objGselec?>">
+	<input type="hidden" name="grupovenda" value="<?=$this->objGvend?>">
+	<input type="hidden" name="subgrupo" value="<?=$this->objSgrupo?>">
+		<div class="widget first">
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="">Código</td>
+                        <td width="">Vendas</td>
+                        <td width="">Físico</td>
+                        <td width="">Virtual</td>
+                        <td width="12%">Sugestão</td>
+                        <td width="10%">Qt</td>
+                    </tr>
+                </thead>
+                <tbody>
+			
+				<?php 
+				if($this->objSug==1):
+					$cor=0;
+			    	foreach($this->objList as $lista):
+			    		if ((($lista->qtvenda/$this->objQtmes)*6)-($lista->qt_atual+($lista->qtcomp - $lista->qtent)) >= 0):
+		    		    	$cor++;
+				            if(($cor%2)==0) $class = 'td_orc_par';
+				            else $class = 'td_orc';
+				            
+					            if(($lista->qtvenda > 0) || ($this->objSug == 0)):
+									?>
+									
+									<tr >
+						                <td   style="text-align: center;" >
+						                   <a href="<?=$this->baseUrl();?>/admin/cadastro/produtoscad/produto/<?=md5($lista->idproduto)?>" target="_blank">
+											<?php echo $lista->CODIGO?>
+											</a>
+						                </td>
+						                <td   style="text-align: center;" >
+						                   <?php if(!empty($lista->qtvenda)): ?>
+						                   <a href="#" class="dcontexto1" onmouseover="Mostravendas(<?=$lista->idproduto?>,<?=$this->objQtmes?>);">
+							                   <?php  echo $lista->qtvenda; ?>
+							                   <span id="m_<?=$lista->idproduto?>">	 
+							                   <img alt="Carregando..." src="<?=$this->baseUrl(); ?>/images/loading.gif">        
+								               </span>
+								           </a>
+								           <?php else: echo 0; endif;?>				               
+						                </td>
+						                <td   style="text-align: center;" >
+						                  <?php if(!empty($lista->qt_atual)) echo $lista->qt_atual; else echo 0;?>
+						                </td>
+						                <td   style="text-align: center;" >             
+						                   <?php if(!empty($lista->qtcomp)): ?>
+							                   <a href="#" class="dcontexto2" onmouseover="Mostracompra(<?=$lista->idproduto?>);">
+							                   <?php echo $lista->qtcomp - $lista->qtent; ?>
+							                   <span id="c_<?=$lista->idproduto?>">	 
+							                   <img alt="Carregando..." src="<?=$this->baseUrl()?>/images/loading.gif">      
+								               </span>
+								               </a>
+							               <?php else: echo 0; endif;?>
+						                </td>
+						                <td   style="text-align: center;" >
+						                	<?=round((($lista->qtvenda/$this->objQtmes)*6)-($lista->qt_atual+($lista->qtcomp - $lista->qtent)))?>
+						                </td>
+						                <td   style="text-align: center;" >
+						                	<input type="text" name="prod_<?=$lista->idproduto?>" class="inteiro" style="width: 50px">
+						                </td>
+						            </tr>
+				           		<?php
+			           		endif;
+		            	endif;  
+					endforeach;
+				else:				
+					$cor=0;
+			    	foreach($this->objList as $lista):
+			    		
+			    	$cor++;
+		            if(($cor%2)==0) $class = 'td_orc_par';
+		            else $class = 'td_orc';
+					?>
+					
+					<tr >
+		                <td   style="text-align: center;" >
+		                   <a href="<?=$this->baseUrl();?>/admin/cadastro/produtoscad/produto/<?=md5($lista->idproduto)?>" target="_blank">
+								<?php echo $lista->CODIGO?>
+							</a>
+		                </td>
+		                <td   style="text-align: center;" >
+		                   <?php if(!empty($lista->qtvenda)): ?>
+		                   <a href="#" class="dcontexto1" onmouseover="Mostravendas(<?=$lista->idproduto?>,<?=$this->objQtmes?>);">
+			                   <?php  echo $lista->qtvenda; ?>
+			                   <span id="m_<?=$lista->idproduto?>">	 
+			                   <img alt="Carregando..." src="<?=$this->baseUrl(); ?>/images/loading.gif">        
+				               </span>
+				               <?php else: echo 0; endif;?>
+			               </a>
+		                </td>
+		                <td   style="text-align: center;" >
+		                  <?php if(!empty($lista->qt_atual)) echo $lista->qt_atual; else echo 0;?>
+		                </td>
+		                <td   style="text-align: center;" >        
+		                   <?php if(!empty($lista->qtcomp)): ?>
+			                   <a href="#" class="dcontexto2" onmouseover="Mostracompra(<?=$lista->idproduto?>);">
+			                   <?php echo $lista->qtcomp - $lista->qtent; ?>
+			                   <span id="c_<?=$lista->idproduto?>">	 
+			                   <img alt="Carregando..." src="<?=$this->baseUrl()?>/images/loading.gif">      
+				               </span>
+				               </a>
+			               <?php else: echo 0; endif;?>
+		                </td>
+		                <td   style="text-align: center;" >
+		                	<?=round((($lista->qtvenda/$this->objQtmes)*6)-($lista->qt_atual+($lista->qtcomp - $lista->qtent)))?>
+		                </td>
+		                <td   style="text-align: center;" >
+		                	<input type="text" name="prod_<?=$lista->idproduto?>" class="inteiro" style="width: 50px">
+		                </td>
+		            </tr>
+		            
+					<?php  
+					endforeach;
+				endif;
+				?>
+				</tbody>
+			</table>
+			
+		</div>
+		
+		<div style="margin-top: 10px">
+		<input  type="button"  value="Gerar Pedido" class="greenBtn" onclick="verificaFormgerar();"/>
+		</div>
+	</form>
+         	<?php 
+			else:
+				if(!empty($this->objFsel)):
+				?>
+				<div style="border: 1px solid #d5d5d5; padding: 10px">
+					Nenhum produto encontrado!
+				</div>
+				<?php 
+				endif;
+         	endif;
+
+         	if(!empty($this->objList)):
+			?>
+			<script type="text/javascript">
+			function verificaFormgerar(){
+				var verific = 0;
+				<?php 
+				foreach($this->objList as $lista):
+					?>
+					if(document.pedido.prod_<?=$lista->idproduto?>.value!=""){
+						verific = 1;							
+					}
+					<?php 
+					//endif;
+				endforeach;
+				?>
+
+				if(verific==0){
+					alert('Selecione um produto!');
+					return false;
+				}else{
+					document.pedido.submit();
+				}
+				return false;
+			}
+			</script>
+			<?php endif; ?>
+	</div>

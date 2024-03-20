@@ -1,0 +1,61 @@
+<?php 
+if(count($this->objInvoice)>0):
+	?>
+	<form action="<?php echo $this->baseUrl(); ?>/admin/administracao/regconcilia" method="post" name="contas" id="contas"  class="mainForm">
+	<div class="widget" style="width: 95%">	
+	<table class="tableStatic" style="width: 100%">
+	<thead>	
+		<tr>
+			<td style="text-align: center;"><?=$this->translate->_("ID")?></td>
+			<td ><?=$this->translate->_("COMPRA")?></td>
+			<td >&nbsp;</td>
+		</tr>
+	</thead>
+	<tbody>
+	<?php
+	$cont=0; 
+	foreach ($this->objInvoice as $lista):
+		$cont++;
+		?>
+		<tr style="font: 11px Arial, Helvetica, sans-serif;">
+			<td class="td_orc_min" style="text-align: center;">
+				<?=$cont?>
+			</td>
+			<td class="td_orc_min" style="text-align: center;">
+				<a href="<?=$this->baseUrl()?>/admin/kang/vendasdet/ped/<?=md5($lista->idped)?>" target="_blank">
+				<?="S".substr("000000".$lista->idped,-6,6)?></a>
+			</td>
+			<td class="td_orc_min" style="text-align: center;" >
+				<?php 
+				$check = "";
+				if(count($this->objInvfin)>0):
+					foreach ($this->objInvfin as $invoice):
+						if($invoice->id_kang_cominvoice == $lista->idped):
+							$check = 'checked="checked"';
+						endif;
+					endforeach;
+				endif;
+				?>
+				<input type="checkbox" name="<?=$lista->idped?>" id="<?=md5($lista->idped)?>" value="<?="S".substr("000000".$lista->idped,-6,6)?>" <?=$check?>>
+			</td>
+		</tr>
+	<?php								
+	endforeach;
+
+	?>
+	</tbody>
+	</table>
+	</div>
+		
+	<div style="padding-top: 10px; text-align: left;">
+		<input type="button" name="salvar" value="Inserir" onclick="addInvoice(<?=$this->objPurch?>); " class="basicBtn">
+	</div>
+	
+	</form>
+	<?php 	
+else:
+	?>
+	<p>Nenhuma Invoice encontrada para este fornecedor!</p>
+	<?php 
+endif;
+?>

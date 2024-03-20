@@ -1,0 +1,98 @@
+<?
+if($this->tp == 2):
+//--- Lista filiais --------------------------------------
+if(!empty($this->objFil)):
+	?>
+	<td colspan="3" >
+	<table style="margin-top: 3px; width: 95%; border: 1px solid #d5d5d5;" class="tableStatic"  >
+	<?php 	
+	foreach ($this->objFil as $listfil):
+		?>
+			<tr >
+                <td style="padding: 0; padding-left: 3px; text-align: center;" >
+                   F<?=$listfil->idfilial?>
+                </td>
+                <td  style="padding: 0; padding-left: 3px;">
+                	<span style="text-transform: uppercase; <?php if($listfil->verificado == 0): ?> color: #f00; <?php endif; ?> "> <?=($listfil->empresa)?></span>
+                   	<?php if($listfil->vercontato == 0): ?>
+                   	<br> <span style="font-size: 75%">
+                   	<a href="javascript:void(0);" onclick="buscaContatosfiliais('<?=$listfil->idfilial?>')" style="color: #f00;">Contatos</a></span>   
+                   	<?php endif;?>
+                </td>
+                <td  style="padding: 0; text-align: center;"  >
+                	<a href="javascript:void(0)" onclick="buscaFilial('<?=$listfil->idfilial?>','<?php echo $listfil->id_matriz?>');"> 
+                <img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" title="Editar"></a>
+                <a href="#" onclick="confirmeExcluirfilial('<?=md5($listfil->idfilial)?>')" ><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/close.png" width="15" border="0" title="Remover"></a>
+				</td>                
+            </tr>
+            <tr style="display: none;" id="F<?=$listfil->idfilial?>" ></tr>
+            <?php 								
+	endforeach;							
+	?></table>
+	</td>
+	<?php 
+endif;
+
+elseif($this->tp == 1):
+	//--- Lista contatos filial --------------------------------------
+	if(!empty($this->objCof)):
+	?>
+	<td colspan="3" >
+	<table style="margin-top: 3px;  text-align: center; width: 95%; border: 1px solid #d5d5d5;" class="tableStatic">
+	<?php 																
+	foreach ($this->objCof as $listcof):
+		?>
+		<tr >
+        	<td style="padding: 0; padding-left: 3px; text-align: center;"  >
+            	C<?=$listcof->idcontato?>
+            </td>
+            <td  style="padding: 0; padding-left: 3px"  align="left" style="text-transform: uppercase;">
+            	<?=($listcof->contato)?>
+            </td>
+            <td  style="padding: 0; text-align: center; padding: 3px"   >
+            	<a href="javascript:void(0)" onclick="buscaContatoemp('<?=$listcof->idcontato?>','1','<?php echo $listcof->ID_EMP?>');"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" title="Visualizar"></a> &nbsp;
+                <?php if($this->objEdi == 1): ?>
+                <a href="#" onclick="confirmeExcluircontato('<?=md5($listcof->idcontato)?>')" ><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/close.png" width="15" border="0" title="Remover"></a>
+                <?php endif; ?>
+	        </td>              
+      	</tr>
+        <?php
+	endforeach;
+	?>
+	</table>
+	</td>
+	<?php 
+	endif;
+elseif($this->tp == 0):
+//--- Lista contatos --------------------------------------
+if(!empty($this->objCom)):
+?>
+<td colspan="3" > 
+<table style="margin-top: 3px; text-align: center; width: 95%; border: 1px solid #d5d5d5;" class="tableStatic" >
+	<tbody>
+	<?php 													
+	foreach ($this->objCom as $listcom):
+		?>
+		<tr >
+        	<td style="padding: 0; padding-left: 3px; text-align: center;" >
+        		C<?=$listcom->idcontato?>
+			</td>
+            <td  style="padding: 0; padding-left: 3px; text-transform: uppercase;"  align="left" >
+                <?=($listcom->contato)?>
+            </td>
+            <td  style="padding: 0; text-align: center; padding: 3px"  >
+            	<a href="javascript:void(0)" onclick="buscaContatoemp('<?=$listcom->idcontato?>','0','<?=$listcom->idmatriz?>');"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" title="Visualizar"></a> &nbsp;
+                <a href="javascript:void(0)" onclick="confirmeExcluircontato('<?=md5($listcom->idcontato)?>')" ><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/close.png" width="15" border="0" title="Remover"></a>	                									                
+            </td>
+     	</tr>
+        <?php
+	endforeach;
+	?>
+	</tbody>
+</table>
+</td>
+<?php 
+endif;	
+
+endif;
+?>

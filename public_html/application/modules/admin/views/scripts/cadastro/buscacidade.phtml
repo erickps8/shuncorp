@@ -1,0 +1,9 @@
+<select id="cidade" name="cidade" >
+<?php 
+foreach ($this->objCidades as $list):		
+	?>
+	<option value='<?=$list->id?>'><?=$list->nome?></option>
+	<?php 
+endforeach;
+?>
+</select>

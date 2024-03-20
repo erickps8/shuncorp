@@ -1,0 +1,2341 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: ZTL ZH\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-12-05 13:28-0300\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Cleiton Silva Barbosa <cleiton@ztlbrasil.com.br>\n"
+"Language-Team: Cleiton Silva Barbosa <cleiton@ztlbrasil.com.br>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: zh\n"
+"X-Poedit-Country: CHINA\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: /media/Dados/Server/homologacao/application/\n"
+"X-Poedit-SearchPath-0: modules/admin/views/scripts\n"
+"X-Poedit-SearchPath-1: modules/default/views/scripts\n"
+"X-Poedit-SearchPath-2: layouts\n"
+
+#: layouts/traducaomenu.php:3
+msgid "Administração"
+msgstr "收到"
+
+#: layouts/traducaomenu.php:4
+msgid "Cadastro"
+msgstr "接收"
+
+#: layouts/traducaomenu.php:5
+msgid "Venda"
+msgstr "销售额"
+
+#: layouts/traducaomenu.php:6
+msgid "ZTL Compra"
+msgstr "ZTL 采购"
+
+#: layouts/traducaomenu.php:7
+msgid "Outros"
+msgstr "其他的"
+
+#: layouts/traducaomenu.php:8
+msgid "Área do Cliente"
+msgstr "客户专区"
+
+#: layouts/traducaomenu.php:9
+msgid "Shunkang"
+msgstr "顺康"
+
+#: layouts/traducaomenu.php:10
+msgid "Shuntai"
+msgstr "顺泰"
+
+#: layouts/traducaomenu.php:13
+msgid "Registro de Acesso"
+msgstr "访问日志"
+
+#: layouts/traducaomenu.php:14
+msgid "Registro de Mensagens"
+msgstr "消息日志"
+
+#: layouts/traducaomenu.php:15
+msgid "Funcionários"
+msgstr "员工"
+
+#: layouts/traducaomenu.php:16
+msgid "Extrato de Estoque"
+msgstr "库存提取"
+
+#: layouts/traducaomenu.php:17
+msgid "Novo Pedido"
+msgstr "新订单"
+
+#: layouts/traducaomenu.php:18
+msgid "Listar Pedidos"
+msgstr "订单列表"
+
+#: layouts/traducaomenu.php:19
+msgid "Referência Cruzada"
+msgstr "互相对照"
+
+#: layouts/traducaomenu.php:20
+msgid "IRV"
+msgstr "IRV"
+
+#: layouts/traducaomenu.php:21
+msgid "Contatos"
+msgstr "联系人"
+
+#: layouts/traducaomenu.php:22
+msgid "Parceiros"
+msgstr "合伙人"
+
+#: layouts/traducaomenu.php:23
+msgid "Produtos"
+msgstr "产品"
+
+#: layouts/traducaomenu.php:24
+msgid "Relatório de Produtos"
+msgstr "产品报告"
+
+#: layouts/traducaomenu.php:25
+msgid "Lista de Produtos"
+msgstr "产品列表"
+
+#: layouts/traducaomenu.php:26
+msgid "Fabricantes"
+msgstr "供应商"
+
+#: layouts/traducaomenu.php:27
+msgid "Pedidos"
+msgstr "订单"
+
+#: layouts/traducaomenu.php:28
+msgid "Relatório de Vendas"
+msgstr "销售报告"
+
+#: layouts/traducaomenu.php:29
+msgid "Metas de Compra"
+msgstr "采购目标"
+
+#: layouts/traducaomenu.php:30
+msgid "Controle de Visitas"
+msgstr "访问控制"
+
+#: layouts/traducaomenu.php:31
+msgid "Correio Eletrônico"
+msgstr "网页邮件"
+
+#: layouts/traducaomenu.php:32
+msgid "Hoteis"
+msgstr "旅馆"
+
+#: layouts/traducaomenu.php:33
+msgid "Mailing"
+msgstr "邮政"
+
+#: layouts/traducaomenu.php:34
+msgid "Etiquetas"
+msgstr "标签"
+
+#: layouts/traducaomenu.php:35
+msgid "Lista de Preços"
+msgstr "价格表"
+
+#: layouts/traducaomenu.php:36
+msgid "Lançamentos"
+msgstr "新版本"
+
+#: layouts/traducaomenu.php:37
+msgid "Pendências"
+msgstr "待定的"
+
+#: layouts/traducaomenu.php:38
+msgid "Alterar Senha"
+msgstr "改变密码"
+
+#: layouts/traducaomenu.php:39
+msgid "Garantias"
+msgstr "担保书"
+
+#: layouts/traducaomenu.php:40
+msgid "Comparativo"
+msgstr "比较的"
+
+#: layouts/traducaomenu.php:41
+msgid "Veiculos"
+msgstr "交通工具"
+
+#: layouts/traducaomenu.php:42
+msgid "Análise"
+msgstr "分析"
+
+#: layouts/traducaomenu.php:43
+msgid "Catálogo"
+msgstr "目录"
+
+#: layouts/traducaomenu.php:44
+msgid "Catálogo Completo"
+msgstr "全部目录"
+
+#: layouts/traducaomenu.php:45
+msgid "Lista de Faixa de Códigos"
+msgstr "跟踪代码"
+
+#: layouts/traducaomenu.php:46
+msgid "Vendas"
+msgstr "卖出"
+
+#: layouts/traducaomenu.php:47
+msgid "Lista de preço resumida"
+msgstr "价格表摘要"
+
+#: layouts/traducaomenu.php:48
+msgid "Novos Contatos"
+msgstr "新的联系人"
+
+#: layouts/traducaomenu.php:49
+msgid "ZTL Inventário"
+msgstr "ZTL库存清单"
+
+#: layouts/traducaomenu.php:50
+msgid "Kang Inventário"
+msgstr "顺康库存清单"
+
+#: layouts/traducaomenu.php:51
+msgid "Migração de Contatos"
+msgstr "联系人迁移"
+
+#: layouts/traducaomenu.php:52
+msgid "Pré Pedidos"
+msgstr "准备订单"
+
+#: layouts/traducaomenu.php:53
+msgid "Localizar Produtos"
+msgstr "搜索产品"
+
+#: layouts/traducaomenu.php:54
+msgid "Compras"
+msgstr "采购"
+
+#: layouts/traducaomenu.php:55
+msgid "Transportadoras"
+msgstr "运输者"
+
+#: layouts/traducaomenu.php:56
+msgid "Relatório de Pendências"
+msgstr "待报告"
+
+#: layouts/traducaomenu.php:57
+msgid "Rascunhos"
+msgstr "汇款"
+
+#: layouts/traducaomenu.php:58
+msgid "Contêiners"
+msgstr "容积"
+
+#: layouts/traducaomenu.php:59
+msgid "Atividades"
+msgstr "任务"
+
+#: layouts/traducaomenu.php:60
+#: layouts/traducaomenu.php:62
+msgid "Financeiro"
+msgstr "财政"
+
+#: layouts/traducaomenu.php:61
+msgid "Perfis"
+msgstr "利润"
+
+#: modules/admin/views/scripts/administracao/financeiroztlconcimp.phtml:69
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:14
+msgid "FINANCEIRO"
+msgstr "财政"
+
+#: modules/admin/views/scripts/administracao/financeiroztlconcimp.phtml:69
+msgid "CONCILIAÇÃO BANCÁRIA"
+msgstr "支票"
+
+#: modules/admin/views/scripts/administracao/financeiroztlconcimp.phtml:108
+msgid "ORD"
+msgstr "单子"
+
+#: modules/admin/views/scripts/administracao/financeiroztlconcimp.phtml:109
+msgid "DATA"
+msgstr "日期"
+
+#: modules/admin/views/scripts/administracao/financeiroztlconcimp.phtml:110
+msgid "VALOR"
+msgstr "价值"
+
+#: modules/admin/views/scripts/administracao/financeiroztlconcimp.phtml:111
+msgid "CONCILIAÇAO"
+msgstr "检查"
+
+#: modules/admin/views/scripts/administracao/financeiroztlconcimp.phtml:112
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:158
+msgid "OPÇÕES"
+msgstr "选择"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:11
+#: modules/admin/views/scripts/administracao/logacesso.phtml:11
+msgid "HOME"
+msgstr "首页"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:17
+msgid "RETORNO IMPOSTOS"
+msgstr "退税"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:24
+msgid "PAGAR"
+msgstr "付现金"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:25
+msgid "RECEBER"
+msgstr "接收"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:27
+msgid "ADM"
+msgstr ""
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:29
+msgid "CONCILIAÇÃO"
+msgstr "复查"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:43
+msgid "RETORNO DE IMPOSTOS"
+msgstr "退税"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:53
+msgid "RETORNOS CADASTRADOS"
+msgstr "折扣登记"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:146
+msgid "ID"
+msgstr "身份证"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:149
+msgid "DATA VENDA "
+msgstr "销售日期"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:152
+msgid "CLIENTE "
+msgstr "客户"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:155
+msgid "SITUAÇÃO"
+msgstr "形势"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:182
+msgid "ABERTO"
+msgstr "打开"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:183
+msgid "PENDENTE"
+msgstr "待定"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:184
+msgid "CONCLUIDO"
+msgstr "完成"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:211
+msgid "Nenhum Invoice Encontrada"
+msgstr "无发票"
+
+#: modules/admin/views/scripts/administracao/logacesso.phtml:14
+msgid "REGISTRO DE NAVEGAÇÃO"
+msgstr ""
+
+#: modules/admin/views/scripts/administracao/logacesso.phtml:22
+msgid "REGISTRO DE ACESSO"
+msgstr ""
+
+#: modules/admin/views/scripts/administracao/logacesso.phtml:59
+msgid "Insira sua busca"
+msgstr ""
+
+#: modules/admin/views/scripts/administracao/logacesso.phtml:66
+msgid "Dt inicio"
+msgstr "开始的"
+
+#: modules/admin/views/scripts/administracao/logacesso.phtml:70
+msgid "Dt fim"
+msgstr "最后的"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpag.phtml:20
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:28
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:37
+msgid "CONTAS À PAGAR"
+msgstr "账户支付"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpag.phtml:43
+msgid "PAGAMENTOS DE CONTAS"
+msgstr "账户支付"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpag.phtml:72
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:76
+msgid "Busca por"
+msgstr "寻找"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpag.phtml:74
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:78
+msgid "Por ID"
+msgstr "凭身份证"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpag.phtml:75
+msgid "Por Parceiro"
+msgstr ""
+
+#: modules/admin/views/scripts/administracao/financeiroztlpag.phtml:76
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:80
+msgid "Por Valor"
+msgstr "有价值的"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpag.phtml:77
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:81
+msgid "Por Plano de conta"
+msgstr ""
+
+#: modules/admin/views/scripts/administracao/financeiroztlpag.phtml:99
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:78
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:128
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:228
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:104
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:136
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:128
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:226
+msgid "Valor"
+msgstr "价值"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpag.phtml:103
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:141
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:244
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:108
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:82
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:141
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:242
+msgid "Plano de conta"
+msgstr "会计计划"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpag.phtml:143
+#: modules/admin/views/scripts/administracao/financeirochinaexp.phtml:14
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:146
+msgid "FORNECEDOR"
+msgstr "供应商"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpag.phtml:144
+#: modules/admin/views/scripts/administracao/financeirochinaexp.phtml:16
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:147
+msgid "EMISSÃO"
+msgstr "发布日期"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpag.phtml:146
+#: modules/admin/views/scripts/administracao/financeirochinaexp.phtml:20
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:149
+msgid "SIT"
+msgstr "情况"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:43
+msgid "PAINEL DE ATIVIDADES"
+msgstr "任务管理器"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:54
+msgid "ATIVIDADES"
+msgstr "任务"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:61
+msgid "Nova Atividade"
+msgstr "新任务"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:62
+msgid "Atualizar"
+msgstr "更新"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:63
+msgid "Finalizar"
+msgstr "结束任务"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:64
+msgid "Responder"
+msgstr "回复"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:65
+msgid "Enviar"
+msgstr "发送"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:76
+msgid "MINHAS ATIVIDADES"
+msgstr "任务"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:90
+msgid "Para"
+msgstr "为"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:120
+msgid "Descrição da atividade"
+msgstr "任务描述"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:126
+msgid "Data conclusão"
+msgstr "完成日期"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:128
+msgid "Privado"
+msgstr "私人"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:142
+msgid "EXECUTOR"
+msgstr "执行人"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:145
+msgid "PENDENTES"
+msgstr "未决"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:148
+msgid "AGUARDANDO"
+msgstr "等待中"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:151
+msgid "FINALIZADAS"
+msgstr "结束任务"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:328
+msgid "LISTA DE ATIVIDADES"
+msgstr "任务清单"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:442
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:636
+msgid "ID Atividade"
+msgstr "新任务"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:449
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:642
+msgid "Executor"
+msgstr "执行者"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:470
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:662
+msgid "Data Solicitação"
+msgstr "申请截止日期"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:473
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:665
+msgid "Data Limite"
+msgstr "期限"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:524
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:715
+msgid "Descrição"
+msgstr "说明"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:41
+msgid "FINALIZADOS"
+msgstr "完成"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:43
+msgid "CADASTRADOS"
+msgstr "已经注册的"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:63
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:96
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:152
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:96
+msgid "Fatura"
+msgstr "发票"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:65
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:92
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:74
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:92
+msgid "Emissão"
+msgstr "发布日期"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:68
+msgid "Anexo"
+msgstr "附件文件"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:76
+msgid "Conta"
+msgstr "会计"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:77
+msgid "Dt Cad"
+msgstr "登记日期"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:79
+msgid "Dt Pag"
+msgstr "付款日期"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:80
+msgid "Valor pag"
+msgstr "支付价值"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:108
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:118
+msgid "Valor Retorno"
+msgstr "返利价值"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:110
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:120
+msgid "Dt Pedido"
+msgstr "订单"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:112
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:121
+msgid "Dt Prevista"
+msgstr "预计日期"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:114
+msgid "Conta de recebimento:"
+msgstr "收到账户"
+
+#: modules/admin/views/scripts/administracao/financeirochinaexp.phtml:15
+msgid "PLANO CONTA"
+msgstr "会计计划"
+
+#: modules/admin/views/scripts/administracao/financeirochinaexp.phtml:17
+msgid "VENCIMENTO"
+msgstr "预订日期"
+
+#: modules/admin/views/scripts/administracao/financeirochinaexp.phtml:18
+msgid "MOEDA"
+msgstr "货币"
+
+#: modules/admin/views/scripts/administracao/buscaatividades.phtml:4
+msgid "SOLICITANTE"
+msgstr "申请人"
+
+#: modules/admin/views/scripts/administracao/buscaatividades.phtml:7
+msgid "PEND"
+msgstr "未决"
+
+#: modules/admin/views/scripts/administracao/buscaatividades.phtml:10
+msgid "AGU"
+msgstr "等待中"
+
+#: modules/admin/views/scripts/administracao/buscaatividades.phtml:13
+msgid "FIN"
+msgstr "完成"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:44
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:53
+msgid "NOVO PAGAMENTO"
+msgstr "新的付款"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:65
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:96
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:65
+msgid "Fornecedor"
+msgstr "供应商"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:67
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:290
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:98
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:300
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:67
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:288
+msgid "Selecione"
+msgstr "挑选"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:76
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:107
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:76
+msgid "Outro Fornecedor"
+msgstr "其他的供应商"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:100
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:118
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:219
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:126
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:100
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:118
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:217
+msgid "Moeda"
+msgstr "货币"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:109
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:109
+msgid "Valor Total"
+msgstr ""
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:132
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:232
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:78
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:132
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:230
+msgid "Vencimento"
+msgstr "到款日期"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:253
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:251
+msgid "Sub Pl conta"
+msgstr ""
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:276
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:304
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:274
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:274
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:302
+msgid "Dt pagamento"
+msgstr "付款日期"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:280
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:308
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:278
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:278
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:306
+msgid "Valor pago"
+msgstr "有价值的支付"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:284
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:313
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:282
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:311
+msgid "Tx câmbio"
+msgstr ""
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:288
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:318
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:282
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:286
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:316
+msgid "Conta origem"
+msgstr "付款类型"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:451
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:167
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:449
+msgid "Anexar arquivos"
+msgstr "添加文件"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:498
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:318
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:496
+msgid "Observação"
+msgstr "观察报告"
+
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:20
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:28
+msgid "CONTAS À RECEBER"
+msgstr "收到"
+
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:43
+msgid "RECEBIMENTO DE CONTAS"
+msgstr "收到账单"
+
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:79
+msgid "Por Cliente"
+msgstr ""
+
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:86
+msgid "Cliente"
+msgstr ""
+
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:88
+msgid "Todos"
+msgstr "全部的"
+
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:156
+msgid "Parc"
+msgstr "合伙人"
+
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:215
+msgid "Adicionar Pedidos"
+msgstr "订单列表"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpsubcontas.phtml:19
+msgid "CAT PL DE CONTAS"
+msgstr ""
+
+#: modules/admin/views/scripts/administracao/financeiroztlpsubcontas.phtml:52
+msgid "Plano de Conta"
+msgstr ""
+
+#: modules/admin/views/scripts/administracao/financeiroztlpsubcontas.phtml:68
+msgid "PLANO DE CONTA"
+msgstr "账户规划"
+
+#: modules/admin/views/scripts/administracao/financeirochinaconcexp.phtml:57
+msgid "CONCILIACAO"
+msgstr "检查"
+
+#: modules/admin/views/scripts/administracao/financeirochinaconcexp.phtml:58
+msgid "OPCOES"
+msgstr "可选项"
+
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:44
+msgid "NOVO RECEBIMENTO"
+msgstr "新的收入"
+
+#: modules/admin/views/scripts/administracao/financeirochinapcontas.phtml:28
+#: modules/admin/views/scripts/administracao/financeirochinarec.phtml:33
+#: modules/admin/views/scripts/administracao/financeirochinapag.phtml:32
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:28
+msgid "RET IMPOSTOS"
+msgstr "税率折扣"
+
+#: modules/admin/views/scripts/administracao/financeirochinapcontas.phtml:42
+#: modules/admin/views/scripts/administracao/financeiroztlpcontas.phtml:41
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:53
+msgid "PLANO DE CONTAS"
+msgstr ""
+
+#: modules/admin/views/scripts/administracao/financeirochinapcontas.phtml:52
+#: modules/admin/views/scripts/administracao/financeiroztlpcontas.phtml:51
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:43
+msgid "CONTAS BANCÁRIAS"
+msgstr "银行账户"
+
+#: modules/admin/views/scripts/administracao/financeirochinarec.phtml:81
+#: modules/admin/views/scripts/administracao/financeirochinapag.phtml:79
+msgid "Por Fornecedor"
+msgstr "供应商"
+
+#: modules/admin/views/scripts/administracao/financeirochinarec.phtml:83
+#: modules/admin/views/scripts/administracao/financeirochinapag.phtml:82
+msgid "Por Pl Contas"
+msgstr ""
+
+#: modules/admin/views/scripts/administracao/financeirochinaimp.phtml:69
+#: modules/admin/views/scripts/administracao/financeiroztlimp.phtml:69
+msgid "CONTAS A RECEBER"
+msgstr "应收货款"
+
+#: modules/admin/views/scripts/administracao/financeirochinaimp.phtml:71
+#: modules/admin/views/scripts/administracao/financeiroztlimp.phtml:71
+msgid "CONTAS A PAGAR"
+msgstr "应付货款"
+
+#: modules/admin/views/scripts/administracao/logacessoent.phtml:52
+msgid "Nome do Usuário"
+msgstr ""
+
+#: modules/admin/views/scripts/administracao/financeirochinapag.phtml:81
+msgid "Por Compra"
+msgstr "采购"
+
+#: modules/admin/views/scripts/administracao/financeirochinapag.phtml:117
+msgid "Compra"
+msgstr "采购"
+
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:64
+msgid "Nome da conta"
+msgstr "会计的名字"
+
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:68
+msgid "Banco"
+msgstr "银行"
+
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:72
+msgid "Agência"
+msgstr "分行"
+
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:84
+msgid "RMB"
+msgstr "RMB"
+
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:85
+msgid "USD"
+msgstr "USD"
+
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:86
+msgid "BRL"
+msgstr "BRL"
+
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:87
+msgid "EUR"
+msgstr "EUR"
+
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:102
+msgid "NOME"
+msgstr "名字"
+
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:103
+msgid "BANCO"
+msgstr "银行"
+
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:104
+msgid "AGÊNCIA"
+msgstr "分支"
+
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:105
+msgid "CONTA"
+msgstr "会计"
+
+#: modules/admin/views/scripts/administracao/financeirochinareccad.phtml:221
+msgid "Valor recebido"
+msgstr "收入价值"
+
+#: modules/admin/views/scripts/administracao/financeirochinareccad.phtml:269
+msgid "Baixar"
+msgstr "向下"
+
+#: modules/admin/views/scripts/administracao/financeirochinaconc.phtml:81
+msgid "Selecione uma conta"
+msgstr "选择一个账户"
+
+#: modules/admin/views/scripts/administracao/financeirochinaconc.phtml:114
+msgid "Nova transação"
+msgstr "新的事务"
+
+#: modules/admin/views/scripts/administracao/financeirochinaconc.phtml:123
+msgid "Data"
+msgstr "日期"
+
+#: modules/admin/views/scripts/administracao/financeirochinaconc.phtml:148
+msgid "TX Câmbio"
+msgstr "兑换日期"
+
+#: modules/admin/views/scripts/administracao/financeirochinaconc.phtml:186
+msgid "Valor Ini"
+msgstr "初始值"
+
+#: modules/admin/views/scripts/administracao/financeirochinaconc.phtml:190
+msgid "Valor Fim"
+msgstr "最终值"
+
+#: modules/admin/views/scripts/administracao/financeirochinaconc.phtml:222
+msgid "Saldo"
+msgstr "结算"
+
+#: modules/admin/views/scripts/administracao/buscacontasfin.phtml:110
+msgid "TAX CÂMBIO"
+msgstr "兑换日"
+
+#: modules/admin/views/scripts/administracao/financeirochinataximp.phtml:97
+#: modules/admin/views/scripts/administracao/financeirochinataximp.phtml:158
+msgid "Recebimento"
+msgstr "到款日期"
+
+#: modules/admin/views/scripts/administracao/financeirochinataximp.phtml:145
+msgid "RETORNOS FINALIZADOS"
+msgstr "结束任务"
+
+#: modules/admin/views/scripts/administracao/financeirochinataximp.phtml:156
+msgid "Dt Emissão"
+msgstr "发布日期"
+
+#: modules/admin/views/scripts/administracao/financeirochinataximp.phtml:196
+msgid "Valor retorno"
+msgstr "退税回扣"
+
+#: modules/admin/views/scripts/administracao/financeirochinataximp.phtml:198
+msgid "Dt Recebimento"
+msgstr "到款日期"
+
+#: modules/admin/views/scripts/administracao/financeirochinataximp.phtml:214
+msgid "PAGAMENTOS PENDENTES"
+msgstr "未决"
+
+#: modules/admin/views/scripts/administracao/buscacontasfinped.phtml:21
+msgid "COMPRA"
+msgstr "采购"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:80
+msgid "CÓDIGO"
+msgstr "编码"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:83
+msgid "HS CODE"
+msgstr "HS 编码"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:86
+msgid "PESO LIQ"
+msgstr "净重"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:89
+msgid "PESO BRUTO"
+msgstr "毛重"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:92
+msgid "QUANTIDADE"
+msgstr "数量"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:98
+msgid "TOTAL"
+msgstr "全部的"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:147
+msgid "Total"
+msgstr "全部的"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:184
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:302
+msgid "PAGAMENTOS"
+msgstr "付款"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:189
+msgid "Id"
+msgstr "身份"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:219
+msgid "Não pago"
+msgstr "未付"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:236
+msgid "ID Tax Return"
+msgstr "身份纳税申请表"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:307
+msgid "Não existe pagamentos relacionados com essa compra"
+msgstr "与此相联系付款购买"
+
+#: modules/admin/views/scripts/compras/ajusteprod.phtml:9
+#: modules/admin/views/scripts/compras/fabricaprod.phtml:9
+#: modules/admin/views/scripts/compras/extratoprod.phtml:13
+#: modules/admin/views/scripts/compras/entradaestoqncmnac.phtml:70
+#: modules/admin/views/scripts/compras/estoquegrupo.phtml:12
+msgid "ESTOQUE"
+msgstr ""
+
+#: modules/admin/views/scripts/compras/ajusteprod.phtml:11
+msgid "AJUSTES"
+msgstr ""
+
+#: modules/admin/views/scripts/compras/fabricaprod.phtml:11
+#: modules/admin/views/scripts/compras/estoquegrupo.phtml:21
+msgid "FABRICA"
+msgstr ""
+
+#: modules/admin/views/scripts/compras/extratoprod.phtml:15
+msgid "MOVIMENTAÇÃO"
+msgstr ""
+
+#: modules/admin/views/scripts/compras/entradaestoqncmnac.phtml:72
+msgid "ENTRADA DE PRODUTOS"
+msgstr ""
+
+#: modules/admin/views/scripts/compras/entradaestoqncmnac.phtml:74
+msgid "NOVA ENTRADA"
+msgstr ""
+
+#: modules/admin/views/scripts/compras/estoquegrupo.phtml:19
+msgid "AJUSTE"
+msgstr ""
+
+#: modules/admin/views/scripts/compras/estoquegrupo.phtml:20
+msgid "GARANTIA"
+msgstr ""
+
+#: modules/admin/views/scripts/compras/estoquegrupo.phtml:22
+msgid "ENTRADA"
+msgstr ""
+
+#: modules/admin/views/scripts/compras/estoquegrupo.phtml:83
+msgid "SELECIONE"
+msgstr "挑选"
+
+#: modules/admin/views/scripts/compras/fabricanovo.phtml:27
+msgid "NOVA FABRICAÇÃO"
+msgstr ""
+
+#: modules/admin/views/scripts/compras/relatoriovendasfor.phtml:13
+msgid "PEDIDOS DE COMPRA"
+msgstr "采购订单"
+
+#: modules/admin/views/scripts/compras/relatoriovendasfor.phtml:15
+#: modules/admin/views/scripts/compras/relatoriovendasfor.phtml:25
+msgid "NOVO PEDIDO"
+msgstr "新的订单"
+
+#: modules/admin/views/scripts/compras/relatoriovendas.phtml:175
+msgid "VENDAS"
+msgstr "销售"
+
+#: modules/admin/views/scripts/compras/relatoriovendas.phtml:178
+msgid "FÍSICO"
+msgstr "实际的"
+
+#: modules/admin/views/scripts/compras/relatoriovendas.phtml:181
+msgid "VIRTUAL"
+msgstr "总共的"
+
+#: modules/admin/views/scripts/compras/relatoriovendas.phtml:184
+msgid "SUGESTÃO"
+msgstr "你的建议"
+
+#: modules/admin/views/scripts/compras/relatoriovendas.phtml:187
+msgid "QT"
+msgstr "数量"
+
+#: modules/admin/views/scripts/compras/ajustenovo.phtml:26
+msgid "NOVO AJUSTE"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/contatosemp.phtml:12
+msgid "EMPRESAS"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/referenciacruzadarel.phtml:9
+#: modules/admin/views/scripts/cadastro/referenciacruzadarel.phtml:24
+#: modules/admin/views/scripts/cadastro/referenciacruzada.phtml:11
+#: modules/admin/views/scripts/cadastro/referenciacruzada.phtml:28
+msgid "REFERÊNCIA CRUZADA"
+msgstr "互相对照"
+
+#: modules/admin/views/scripts/cadastro/referenciacruzadarel.phtml:10
+#: modules/admin/views/scripts/cadastro/referenciacruzadarel.phtml:14
+#: modules/admin/views/scripts/cadastro/referenciacruzada.phtml:14
+msgid "CÓDIGOS"
+msgstr "标志"
+
+#: modules/admin/views/scripts/cadastro/referenciacruzadarel.phtml:13
+msgid "REFERÊNCIAS"
+msgstr "参照"
+
+#: modules/admin/views/scripts/cadastro/referenciacruzadarelxls.phtml:18
+msgid "REFER&Ecirc;NCIA CRUZADA"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/referenciacruzada.phtml:17
+msgid "RELATÓRIOS"
+msgstr "报告"
+
+#: modules/admin/views/scripts/cadastro/referenciacruzada.phtml:130
+#: modules/admin/views/scripts/cadastro/referenciacruzada.phtml:186
+msgid "FABRICANTE"
+msgstr "制造商"
+
+#: modules/admin/views/scripts/cadastro/referenciacruzada.phtml:179
+msgid "HISTÓRICO DE BUSCA"
+msgstr "历史收索"
+
+#: modules/admin/views/scripts/cadastro/contatoscad.phtml:34
+msgid "CONTATOS"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/contatoscad.phtml:36
+msgid "CADASTRO CONTATOS"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/buscacomposicao.phtml:6
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:167
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:264
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:657
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:743
+msgid "PRODUTO"
+msgstr "产品"
+
+#: modules/admin/views/scripts/cadastro/buscacomposicao.phtml:8
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:168
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:658
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:744
+msgid "Sit"
+msgstr "坐 "
+
+#: modules/admin/views/scripts/cadastro/buscacomposicao.phtml:9
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:169
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:659
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:745
+msgid "For"
+msgstr "少量"
+
+#: modules/admin/views/scripts/cadastro/buscacomposicao.phtml:10
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:170
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:266
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:660
+msgid "Qt"
+msgstr "数量"
+
+#: modules/admin/views/scripts/cadastro/buscacomposicao.phtml:11
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:172
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:662
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:747
+msgid "Custo"
+msgstr "成本"
+
+#: modules/admin/views/scripts/cadastro/buscacomposicao.phtml:38
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:697
+msgid "Adicionar Componente"
+msgstr "增加组件"
+
+#: modules/admin/views/scripts/cadastro/buscacomposicao.phtml:39
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:698
+msgid "Copiar Composição"
+msgstr "复制组成"
+
+#: modules/admin/views/scripts/cadastro/produtoschina.phtml:7
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:7
+msgid "PRODUTOS CHINA"
+msgstr "中国产品"
+
+#: modules/admin/views/scripts/cadastro/produtoschina.phtml:110
+#: modules/admin/views/scripts/cadastro/produtos.phtml:142
+msgid "Por Código"
+msgstr "通过代码"
+
+#: modules/admin/views/scripts/cadastro/produtoschina.phtml:111
+#: modules/admin/views/scripts/cadastro/produtos.phtml:143
+msgid "Por Grupo"
+msgstr "通过小组"
+
+#: modules/admin/views/scripts/cadastro/produtoschina.phtml:112
+#: modules/admin/views/scripts/cadastro/produtos.phtml:144
+msgid "Por Descrição"
+msgstr "通过描述"
+
+#: modules/admin/views/scripts/cadastro/produtoschina.phtml:162
+#: modules/admin/views/scripts/cadastro/produtos.phtml:337
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:265
+msgid "DESCRIÇÃO"
+msgstr "产品描述"
+
+#: modules/admin/views/scripts/cadastro/produtoschina.phtml:165
+#: modules/admin/views/scripts/cadastro/produtos.phtml:340
+msgid "GRUPO"
+msgstr "集团"
+
+#: modules/admin/views/scripts/cadastro/produtoschina.phtml:168
+#: modules/admin/views/scripts/cadastro/produtos.phtml:343
+msgid "Situa&ccedil;&atilde;o"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtoschina.phtml:171
+#: modules/admin/views/scripts/cadastro/produtos.phtml:347
+msgid "Op&ccedil;&otilde;es"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtoschina.phtml:241
+#: modules/admin/views/scripts/cadastro/produtos.phtml:464
+msgid "Nenhum Produto encontrado"
+msgstr "商品不存在"
+
+#: modules/admin/views/scripts/cadastro/produtos.phtml:7
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:18
+msgid "PRODUTOS"
+msgstr "产品"
+
+#: modules/admin/views/scripts/cadastro/produtos.phtml:24
+msgid "GRUPOS DE PRODUTOS"
+msgstr "产品项目"
+
+#: modules/admin/views/scripts/cadastro/produtos.phtml:28
+msgid "TRIBUTOS"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtos.phtml:145
+msgid "Por Medidas"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtos.phtml:293
+#: modules/admin/views/scripts/cadastro/produtos.phtml:310
+#: modules/admin/views/scripts/cadastro/produtos.phtml:323
+msgid "INTERNO"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtos.phtml:296
+#: modules/admin/views/scripts/cadastro/produtos.phtml:313
+msgid "EXTERNO"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtos.phtml:299
+#: modules/admin/views/scripts/cadastro/produtos.phtml:316
+#: modules/admin/views/scripts/cadastro/produtos.phtml:326
+msgid "ALTURA"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtos.phtml:303
+msgid "ESTRIADO MACHO"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtos.phtml:306
+msgid "ESTRIADO FÊMEO"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtos.phtml:319
+#: modules/admin/views/scripts/cadastro/produtos.phtml:329
+msgid "DENTES"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:8
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:19
+msgid "CADASTRO"
+msgstr "登记"
+
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:49
+msgid "CADASTRO DE PRODUTOS "
+msgstr "产品登记"
+
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:61
+msgid "SHUNKANG"
+msgstr "顺康"
+
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:78
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:130
+msgid "Código"
+msgstr "编码"
+
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:82
+msgid "HS Code"
+msgstr "HS 编码"
+
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:100
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:147
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:418
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:624
+msgid "Preço"
+msgstr "价格"
+
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:115
+msgid "SHUNTAI"
+msgstr "顺泰"
+
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:160
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:257
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:650
+msgid "COMPOSIÇÃO"
+msgstr "组合物"
+
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:232
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:786
+msgid "HISTÓRICO DE FORNECEDOR"
+msgstr "历史供应商"
+
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:244
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:798
+msgid "ESF/ROL"
+msgstr "钢球/滚珠"
+
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:291
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:845
+msgid "Esf/Rol"
+msgstr "钢球 /滚子"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:64
+msgid "CADASTRO DE PRODUTOS"
+msgstr "产品注册"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:75
+msgid "PRINCIPAL"
+msgstr "主要的"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:80
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:530
+msgid "VENDA"
+msgstr "卖出"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:90
+msgid "TÉCNICO"
+msgstr "技术的"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:105
+msgid "Código do produto"
+msgstr "产品编号"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:110
+msgid "Máscara"
+msgstr "面具"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:115
+msgid "Código EAN"
+msgstr "EAN 代码"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:121
+msgid "Cl Fiscal"
+msgstr "NCM代码"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:132
+msgid "Peso"
+msgstr "重量"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:148
+msgid "Grupo"
+msgstr "组"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:161
+msgid "Subgrupo"
+msgstr "下属组成"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:183
+msgid "Produto"
+msgstr "产品"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:184
+msgid "Componente"
+msgstr "组成"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:185
+msgid "Molde"
+msgstr "模具"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:186
+msgid "Caixa"
+msgstr "盒子"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:187
+msgid "Etiqueta"
+msgstr "标签"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:202
+msgid "Detalhes do produto"
+msgstr "产品规格"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:215
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:246
+msgid "Imagem"
+msgstr "图片"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:226
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:238
+msgid "Remover imagem"
+msgstr "删除照片"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:294
+msgid "APLICAÇÃO"
+msgstr "应用"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:301
+msgid "MONTADORA"
+msgstr "装配工"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:302
+msgid "VEICULO"
+msgstr "工具"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:303
+msgid "ANO"
+msgstr "年份"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:342
+msgid "Adicionar Veículo"
+msgstr "增加车辆"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:343
+msgid "Copiar Aplicação"
+msgstr "申请截止日期"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:347
+msgid "Montadora"
+msgstr "经销商"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:358
+msgid "Ano Ini"
+msgstr "年初"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:361
+msgid "Ano Fim"
+msgstr "年终"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:394
+msgid "PREÇOS DE VENDA"
+msgstr "销售价格"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:416
+msgid "Promoção"
+msgstr "提升"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:420
+msgid "Desconto"
+msgstr "折扣"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:466
+msgid "Ajuste de preço"
+msgstr "价格调整"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:482
+msgid "Percentual"
+msgstr "百分比"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:493
+msgid "HISTÓRICO DE PREÇOS"
+msgstr "历史价格"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:522
+msgid "HISTÓRICO DE VENDA"
+msgstr "销售记录"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:532
+msgid "CLIENTE"
+msgstr "顾客"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:533
+msgid "QUANT"
+msgstr "数量"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:562
+msgid "FORNECEDORES"
+msgstr "供应商"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:570
+msgid "Grupo de Compra"
+msgstr "采购集团"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:580
+msgid "Situação"
+msgstr "形势"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:589
+msgid "Pronto"
+msgstr "准备的"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:590
+msgid "Em Desenvolvimento"
+msgstr "发展中"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:591
+msgid "Inativo"
+msgstr "不活动的"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:607
+msgid "Previsão"
+msgstr "预测"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:634
+msgid "Descrição PL"
+msgstr "说明"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:640
+msgid "Detalhes da compra"
+msgstr "购买细节"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:736
+msgid "RELACIONAMENTOS"
+msgstr "关联"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:866
+msgid "HISTÓRICO DE COMPRA"
+msgstr "采购记录"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:874
+msgid "PED"
+msgstr "购买"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:878
+msgid "SITUACAO"
+msgstr "情况"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:907
+msgid "HISTÓRICO DE LOTE"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:915
+msgid "LOTE"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1012
+msgid "PADRÃO"
+msgstr "标准"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1020
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1090
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1120
+msgid "Interno"
+msgstr "内径"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1024
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1094
+msgid "Externo"
+msgstr "外径"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1028
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1098
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1124
+msgid "Altura"
+msgstr "高度"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1032
+msgid "BL/ROLLERS"
+msgstr "轴承提单"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1042
+msgid "HOMOCINÉTICA"
+msgstr "球笼"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1050
+msgid "Estriado macho"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1054
+msgid "Diâmetro"
+msgstr "直径"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1058
+msgid "Raio da porca"
+msgstr "螺母半径"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1062
+msgid "Aperto"
+msgstr "紧密"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1068
+msgid "Estriado Femêo"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1072
+msgid "Instruções de aperto"
+msgstr "气密性指令"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1082
+msgid "SLIDING JOINTS"
+msgstr "滑动关节轴承"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1102
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1128
+msgid "Dentes"
+msgstr "牙"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1112
+msgid "CRUZETAS"
+msgstr "十字轴"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1112
+msgid "TRIZETAS"
+msgstr "十字轴"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1138
+msgid "ARQUIVOS"
+msgstr "文件"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1166
+msgid "Adicionar arquivo"
+msgstr "添加文件"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1194
+msgid "Observações"
+msgstr "观察报告"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1218
+msgid "Tem certeza que deseja remover a imagem 1?"
+msgstr "确定要删除的照片1？"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1219
+msgid "Tem certeza que deseja remover a imagem 2?"
+msgstr "确定要删除的照片2？"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1220
+msgid "sim"
+msgstr "是"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1221
+msgid "Salvar"
+msgstr "保存"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1222
+msgid "n&atilde;o"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1223
+msgid "Cancelar"
+msgstr "删除"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1224
+msgid "Novo produto"
+msgstr "新产品"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1225
+msgid "Pesquisar"
+msgstr "搜索"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1226
+msgid "Voltar"
+msgstr "回来"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1227
+msgid "Editar"
+msgstr "编辑"
+
+#: modules/admin/views/scripts/cadastro/referenciacruzadacad.phtml:102
+msgid "FÁBRICA"
+msgstr "工厂"
+
+#: modules/admin/views/scripts/cadastro/contatosfilialcad.phtml:27
+msgid "CONTATOS/EMPRESAS"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/contatosfilialcad.phtml:31
+msgid "CADASTRO FILIAIS"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/buscatipoparceiro.phtml:3
+msgid "EMPRESA"
+msgstr "公司"
+
+#: modules/admin/views/scripts/cadastro/buscatipoparceiro.phtml:4
+msgid "CONTATO"
+msgstr "联系人"
+
+#: modules/admin/views/scripts/cadastro/buscatipoparceiro.phtml:5
+msgid "EMAIL"
+msgstr "邮箱"
+
+#: modules/admin/views/scripts/cadastro/contatosempcad.phtml:37
+msgid "CADASTRO EMPRESAS"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/despesasfiscais.phtml:21
+msgid "NCM"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/despesasfiscais.phtml:22
+msgid "CFOP"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/despesasfiscais.phtml:23
+msgid "CST"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtosvis.phtml:19
+msgid "VISUALIZAR"
+msgstr "查看"
+
+#: modules/admin/views/scripts/cadastro/produtosvis.phtml:65
+msgid "VISUALIZAR PRODUTOS"
+msgstr "查看产品"
+
+#: modules/admin/views/scripts/cadastro/produtosvis.phtml:176
+msgid "Tipo"
+msgstr "类型"
+
+#: modules/admin/views/scripts/venda/garantias.phtml:17
+#: modules/admin/views/scripts/venda/garantiasanalise.phtml:33
+msgid "GARANTIAS"
+msgstr ""
+
+#: modules/admin/views/scripts/venda/garantiasanalise.phtml:227
+msgid "Mudar análise"
+msgstr "分析改变"
+
+#: modules/admin/views/scripts/venda/garantiasanalise.phtml:229
+msgid "Adicionar análise"
+msgstr "添加分析"
+
+#: modules/admin/views/scripts/venda/dicasopdet.phtml:20
+msgid "DICAS"
+msgstr ""
+
+#: modules/admin/views/scripts/venda/dicasopdet.phtml:22
+msgid "DETALHA DICA"
+msgstr ""
+
+#: modules/admin/views/scripts/venda/ajusteprecos.phtml:7
+msgid "AJUSTE DE PREÇOS"
+msgstr "价格调整"
+
+#: modules/admin/views/scripts/venda/ajusteprecos.phtml:35
+msgid "TODOS"
+msgstr "全部的"
+
+#: modules/admin/views/scripts/venda/ajusteprecos.phtml:120
+msgid "PREÇO ATUAL"
+msgstr "行情"
+
+#: modules/admin/views/scripts/venda/ajusteprecos.phtml:123
+msgid "NOVO PREÇO"
+msgstr "新的价格"
+
+#: modules/admin/views/scripts/venda/ajusteprecos.phtml:126
+msgid "PERCENTUAL"
+msgstr "百分比"
+
+#: modules/admin/views/scripts/venda/ajusteprecos.phtml:129
+msgid "DT AJUSTE"
+msgstr "调整日期"
+
+#: modules/admin/views/scripts/venda/ajusteprecos.phtml:132
+msgid "DT CADASTRO"
+msgstr "上架日期"
+
+#: modules/admin/views/scripts/venda/ajusteprecos.phtml:135
+msgid "USUÁRIO"
+msgstr "用户"
+
+#: modules/admin/views/scripts/venda/analiseopcad.phtml:14
+msgid "ANÁLISES"
+msgstr ""
+
+#: modules/admin/views/scripts/venda/analiseopcad.phtml:16
+msgid "NOVA ANÁLISE"
+msgstr ""
+
+#: modules/admin/views/scripts/venda/dicasopcad.phtml:109
+msgid "NOVA DICA"
+msgstr ""
+
+#: modules/admin/views/scripts/venda/ajusteprecosprod.phtml:9
+msgid "ENVIADOS"
+msgstr "发送"
+
+#: modules/admin/views/scripts/venda/garantiasnovo.phtml:17
+msgid "NOVA GARANTIA"
+msgstr ""
+
+#: modules/admin/views/scripts/venda/ajusteprecosenviados.phtml:31
+msgid "FUNC"
+msgstr "工人"
+
+#: modules/admin/views/scripts/venda/ajusteprecosenviados.phtml:34
+msgid "GER"
+msgstr "经理"
+
+#: modules/admin/views/scripts/venda/ajusteprecosenviados.phtml:37
+msgid "REP"
+msgstr "销售员"
+
+#: modules/admin/views/scripts/venda/ajusteprecosenviados.phtml:40
+msgid "CLI"
+msgstr "客户"
+
+#: modules/admin/views/scripts/outros/cartoesgrupos.phtml:18
+#: modules/admin/views/scripts/outros/cartoesgrupos.phtml:29
+#: modules/admin/views/scripts/outros/cartoesgrupos.phtml:64
+msgid "GRUPOS"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatovis.phtml:12
+msgid "VISUALIZAR CONTATOS"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatovis.phtml:43
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:45
+msgid "Empresa"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatovis.phtml:47
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:49
+msgid "Nome Contato"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatovis.phtml:54
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:56
+msgid "Pais"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatovis.phtml:71
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:82
+msgid "Cidade"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatovis.phtml:90
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:103
+msgid "E-mail"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatovis.phtml:94
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:107
+msgid "Sítio"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatovis.phtml:107
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:120
+msgid "TELEFONES"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatovis.phtml:131
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:166
+msgid "Número"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:14
+msgid "CONTATOS NOVO"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:24
+msgid "NOVO CONTATO"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:132
+msgid "Adcionar telefones"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:159
+msgid "Comercial"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:160
+msgid "Pessoal"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:161
+msgid "Celular"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:162
+msgid "Fax"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontato.phtml:91
+msgid "Por Contato"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontato.phtml:92
+msgid "Por Empresa"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontato.phtml:93
+msgid "Por Cidade"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontato.phtml:208
+msgid "Nenhum contato encontrado!"
+msgstr ""
+
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:17
+msgid "PRODUTOS PEDIDOS"
+msgstr ""
+
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:18
+msgid "REGRAS DE PEDIDOS"
+msgstr ""
+
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:66
+msgid "Por Situação"
+msgstr ""
+
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:82
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:157
+msgid "PEDIDO"
+msgstr ""
+
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:83
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:163
+msgid "FINALIZADO"
+msgstr ""
+
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:84
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:159
+msgid "CANCELADO"
+msgstr ""
+
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:90
+msgid "&agrave;"
+msgstr ""
+
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:119
+msgid "DATA VENDA"
+msgstr ""
+
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:128
+msgid "OP&Ccedil;&Otilde;ES"
+msgstr ""
+
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:161
+msgid "REGISTERED"
+msgstr ""
+
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:201
+msgid "Nenhum Pedido Encontrado"
+msgstr ""
+
+#: modules/default/views/scripts/multimidia/noticias.phtml:4
+msgid "NOTÍCIAS"
+msgstr ""
+
+#: modules/default/views/scripts/multimidia/noticias.phtml:54
+msgid "Mais notícias"
+msgstr ""
+
+#: modules/default/views/scripts/multimidia/videos.phtml:4
+msgid "VIDEOS"
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:13
+msgid "Rolamento"
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:18
+msgid "Dicas de montagem"
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:25
+msgid "Cubo de roda"
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:43
+msgid "Ponta de eixo"
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:54
+msgid "Trasmissão"
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:55
+msgid "A linha de transmissão ZTL é composta por junta homocinética fixas e kits de reparos de juntas"
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:56
+msgid "Produto de fácil instalação e de fabricação robusta e que respeita o meio ambiente sendo armazenado "
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:44
+msgid "Fabricada em aço forjado as pontas de eixo ZTL garante qualidade e as especificações exigidas para uma perfeita "
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:31
+msgid "O Cubo de roda é a peça responsável por ser o alojamento do rolamento de roda e transição de torque é considerada "
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:29
+msgid "Com departamento de engenharia no Brasil e na China a ZTL dispõem de uma grande facilidade no desenvolvimento de produtos, "
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:26
+msgid "A ZTL Brasil disponibiliza para o mercado brasileiro uma vasta linha de cubos de roda de primeira, "
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:16
+msgid "Fabricado em linhas de produção extremamente modernas e totalmente automatizadas garantem produtos de altíssima "
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:14
+msgid "ZTL Brasil depõem de uma grande linha de rolamentos automotivos. Esta variedade de itens aplicados em veículos leves "
+msgstr ""
+
+#: modules/default/views/scripts/catalogo/index.phtml:6
+msgid "ZTL Brasil - Catálogo Completo"
+msgstr ""
+
+#: modules/default/views/scripts/catalogo/index.phtml:69
+msgid "Código ZTL"
+msgstr ""
+
+#: modules/default/views/scripts/catalogo/index.phtml:93
+msgid "Grupos"
+msgstr ""
+
+#: modules/default/views/scripts/catalogo/index.phtml:172
+msgid "Modelo"
+msgstr ""
+
+#: modules/default/views/scripts/catalogo/index.phtml:175
+msgid "Ano"
+msgstr ""
+
+#: modules/default/views/scripts/catalogo/index.phtml:217
+#: modules/default/views/scripts/catalogo/index.phtml:218
+#: modules/default/views/scripts/catalogo/index.phtml:219
+#: modules/default/views/scripts/catalogo/index.phtml:224
+#: modules/default/views/scripts/catalogo/index.phtml:225
+#: modules/default/views/scripts/catalogo/index.phtml:226
+#: modules/default/views/scripts/catalogo/index.phtml:231
+#: modules/default/views/scripts/catalogo/index.phtml:232
+#: modules/default/views/scripts/catalogo/index.phtml:233
+msgid "mm"
+msgstr ""
+
+#: modules/default/views/scripts/catalogo/index.phtml:234
+msgid "Furos"
+msgstr ""
+
+#: modules/default/views/scripts/index/index.phtml:96
+msgid "Receba novidades e lançamentos"
+msgstr ""
+
+#: modules/default/views/scripts/index/index.phtml:112
+msgid "E-mail já cadastrado em nossa base de dados!"
+msgstr ""
+
+#: modules/default/views/scripts/index/index.phtml:113
+msgid "E-mail atualizado com sucesso!"
+msgstr ""
+
+#: modules/default/views/scripts/index/index.phtml:114
+msgid "E-mail cadastrado com sucesso!"
+msgstr ""
+
+#: modules/default/views/scripts/montagem/index.phtml:4
+msgid "DICAS DE MONTAGEM"
+msgstr ""
+
+#: modules/default/views/scripts/montagem/index.phtml:11
+msgid "ORIENTAÇÃO DE MONTAGEM DE ROLAMENTO DO SEMI EIXO LINHA FIAT - 110165"
+msgstr ""
+
+#: modules/default/views/scripts/contato/representantes.phtml:12
+msgid "REPRESENTANTES"
+msgstr ""
+
+#: modules/default/views/scripts/contato/representantes.phtml:61
+msgid "Para visualizar os representantes, clique no estado desejado"
+msgstr ""
+
+#: modules/default/views/scripts/contato/localizacao.phtml:4
+msgid "LOCALIZAÇÃO"
+msgstr ""
+
+#: modules/default/views/scripts/contato/buscarepresentantes.phtml:25
+msgid "Telefone"
+msgstr ""
+
+#: modules/default/views/scripts/contato/buscarepresentantes.phtml:31
+msgid "Nextel"
+msgstr ""
+
+#: modules/default/views/scripts/contato/buscarepresentantes.phtml:42
+msgid "Sem representantes neste estado"
+msgstr ""
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:7
+msgid "ATENDIMENTOS ON-LINE"
+msgstr ""
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:16
+msgid "Atendimento"
+msgstr ""
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:24
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:48
+msgid "Faturamento"
+msgstr ""
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:32
+msgid "Engenharia"
+msgstr ""
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:36
+msgid "Informática"
+msgstr ""
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:70
+#: modules/default/views/scripts/contato/faleconosco.phtml:79
+#: modules/default/views/scripts/contato/faleconosco.phtml:111
+msgid "Fone"
+msgstr ""
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:74
+msgid "mapa"
+msgstr ""
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:86
+msgid "Assistência Técnica"
+msgstr ""
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:92
+msgid "Envie-nos uma mensagem"
+msgstr ""
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:101
+msgid "Nome"
+msgstr ""
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:117
+msgid "Mensagem"
+msgstr ""
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:119
+msgid "Campos obrigatórios"
+msgstr ""
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:129
+msgid "Caracters digitados não confere!"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:4
+msgid "EQUIPE ZTL"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:32
+msgid "Diretor Geral"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:38
+msgid "Gerente Operacional"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:42
+msgid "Supervisor Nacional de Vendas"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:52
+msgid "Vendedor"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:58
+msgid "Vendedora"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:62
+msgid "Engenheiro"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:68
+msgid "Promotora"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:72
+msgid "Secretária"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:78
+msgid "Marketing"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:82
+msgid "Gerente Regional SP"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:16
+msgid "Por trás de toda grande empresa sempre existirá uma grande equipe que faz a diferença. "
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/oquefazemos.phtml:4
+msgid "NOSSA HISTÓRIA"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/oquefazemos.phtml:12
+msgid "A ZTL Brasil, como o nome sugere, é uma empresa de capital BRASILEIRO, com atuação em diversos países. Apesar de iniciarmos nossas atividades em 1995, no ano de 2005 que a divisão rolamentos começou a operar. Em 2005 nosso portfólio, possuía apenas 08 itens; hoje são mais de 500 itens, com diversas características técnicas"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/oquefazemos.phtml:17
+msgid "O QUE FAZEMOS"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/oquefazemos.phtml:23
+msgid "A ZTL Brasil se especializou inicialmente em rolamentos, devido à demanda e para satisfazer ainda mais as necessidades do mercado de reposição, começamos então a trabalhar com a linha de Cubo de Roda, hoje além dessas linhas trabalhamos com Atuadores Hidráulicos de Embreagem, Tensionadores e Polias e Juntas Homocinéticas. Para saber detalhes de cada ítem, consulte toda linha de produtos ZTL clicando"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/oquefazemos.phtml:23
+msgid "aqui"
+msgstr ""
+
+#: layouts/sitetopo.phtml:20
+msgid "acesso restrito"
+msgstr ""
+
+#: layouts/sitetopo.phtml:24
+msgid "Acesso Restrito"
+msgstr ""
+
+#: layouts/sitetopo.phtml:30
+msgid "Esqueci minha senha"
+msgstr ""
+
+#: layouts/sitetopo.phtml:31
+msgid "Entrar"
+msgstr ""
+
+#: layouts/sitetopo.phtml:35
+msgid "Recuperar senha"
+msgstr ""
+
+#: layouts/sitetopo.phtml:40
+msgid "Enviar senha"
+msgstr ""
+
+#: layouts/sitetopo.phtml:98
+msgid "MULTIMÍDIA"
+msgstr ""
+
+#: layouts/sitetopo.phtml:116
+msgid "DOWNLOAD"
+msgstr ""
+
+#: layouts/sitetopo.phtml:156
+msgid "QUEM SOMOS"
+msgstr ""
+
+#: layouts/siterodape.phtml:9
+msgid "Sobre a Ztl"
+msgstr ""
+
+#: layouts/siterodape.phtml:12
+msgid "O que Fazemos"
+msgstr ""
+
+#: layouts/siterodape.phtml:15
+msgid "Como nos encontrar"
+msgstr ""
+
+#: layouts/siterodape.phtml:18
+msgid "Representantes"
+msgstr ""
+
+#: layouts/siterodape.phtml:21
+msgid "Fale Conosco"
+msgstr ""
+
+#: layouts/siterodape.phtml:24
+msgid "Equipe ZTL"
+msgstr ""
+
+#: layouts/siterodape.phtml:35
+msgid "Catálogo online"
+msgstr ""
+
+#: layouts/siterodape.phtml:38
+msgid "Linha de produtos"
+msgstr ""
+
+#: layouts/siterodape.phtml:55
+msgid "Multimídia"
+msgstr ""
+
+#: layouts/siterodape.phtml:58
+msgid "Vídeos"
+msgstr ""
+
+#: layouts/siterodape.phtml:61
+msgid "Notícias"
+msgstr ""
+
+#: layouts/siterodape.phtml:79
+msgid "Downloads"
+msgstr ""
+
+#: layouts/siterodape.phtml:82
+msgid "Catálogo (pdf)"
+msgstr ""
+
+#: layouts/siterodape.phtml:85
+msgid "Manual da Logo"
+msgstr ""
+
+#: layouts/siterodape.phtml:102
+msgid "Todos os direitos reservados - ZTL do Brasil Importação Exportação &amp; Comércio Ltda"
+msgstr ""
+
+#~ msgid "BANCOS"
+#~ msgstr "银行"
+
+#~ msgid "Pagar"
+#~ msgstr "付款"
+
+#~ msgid "Receber"
+#~ msgstr "收到的"
+
+#~ msgid "Contas bancárias"
+#~ msgstr "银行账户"
+
+#~ msgid "Retorno"
+#~ msgstr "折扣"
+
+#~ msgid "Validação"
+#~ msgstr "生效"
+
+#~ msgid "Pagamentos pendentes"
+#~ msgstr "等待付款"
+
+#~ msgid "Retornos Cadastrados"
+#~ msgstr "退税-注册"
+
+#~ msgid "Retornos finalizados"
+#~ msgstr "退税-完成"
+
+#~ msgid "Invoice"
+#~ msgstr "发票"
+
+#~ msgid "Sel"
+#~ msgstr "系统事件日志"
+
+#~ msgid "Opções"
+#~ msgstr "选项"
+
+#~ msgid "REF CRUZADA"
+#~ msgstr "相互对照"
+
+#~ msgid "Projeto fonte"
+#~ msgstr "原来的项目"
+
+#~ msgid "Projeto"
+#~ msgstr "项目"
+
+#~ msgid "Remover Projeto"
+#~ msgstr "移除项目"
+
+#~ msgid "Projeto leitura"
+#~ msgstr "阅读计划"
+
+#~ msgid "Projeto em PDF"
+#~ msgstr "PDF项目"
+
+#~ msgid "não"
+#~ msgstr "不是"

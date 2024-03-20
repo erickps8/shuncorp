@@ -1,0 +1,76 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/kangCompras.js"></script>
+
+<?php 
+if($this->flashMessages()){ 
+	$mes = explode("|", $this->flashMessages());
+	?><script>jAlert("<?php echo $mes[1]?>","<?php echo $mes[0]?>");</script><?php
+}?>
+
+
+	<div class="content">
+       <!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/kang/pedidoscompra">Compras</a> </li>
+                	<li class="lastB">Regras de compra</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Grupos de regras</h5></div>
+        
+        <div class="widgets" >
+        	
+    		<div class="widget " style="padding: 10px; border: 1px solid #d5d5d5;" >
+    			<form method="post" class="mainForm">
+    				<input type="hidden" name="id" >
+    				<input type="text" name="grupo" style="width: 200px" placeholder="Novo grupo">
+    				<input type="submit" value="Salvar" class="greenBtn" >    				  
+    			</form>
+    		</div>
+		
+		
+    		<?php 
+    		if ( count($this->objList) > 0) {
+    		?>
+    		<div class="widget">
+    	 		<table style="width: 100%" class="tableStatic">
+    	        	<thead>
+    	            	<tr>
+    	                	<td width="10%"><?=$this->translate->_("Id")?></td>
+    	                    <td ><?=$this->translate->_("Descrição")?></td>
+    	                    <td width="10%"><?=$this->translate->_("Opções")?></td>
+    	                </tr>
+    	          	</thead>
+    	      		<tbody>
+    			
+    				<?php 
+    				$cont = 0;
+    				foreach($this->objList as $lista):
+    				    $cont++;
+    					?>					
+    					<tr >
+    		                <td  style="text-align: center;" >
+    		                   <?php echo $cont?>
+    		                </td>
+    		                <td  align="left" >
+    		                	<?php echo $lista->desc_ingles?>
+    		                </td>
+    		                <td  style="text-align: center;" >
+    		                    <a href="javascript:void(0)" rel="<?php echo $lista->id?>" class="exibeRegras"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/magnify.png" title="View" border="0" width="14"></a>&nbsp;
+        		                <a href="javascript:void(0)" rel="<?php echo $lista->id."|".$lista->desc_ingles?>" class="editarGrupo"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/pencil.png" title="Edit" border="0" width="14"></a>&nbsp;
+        		                <a href="javascript:void(0)" rel="<?php echo $lista->id?>" class="removeGrupo" ><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" title="Remove" border="0" width="14"></a>
+    				        </td>		                
+    		            </tr>		            
+    				<?php  endforeach; ?>
+                	</tbody>        
+    			</table>
+    			
+    			</div>
+    	   <?php } ?>
+		</div>
+	    
+	</div>
+	

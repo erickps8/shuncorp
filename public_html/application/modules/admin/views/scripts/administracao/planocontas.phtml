@@ -1,0 +1,125 @@
+
+<table width="100%">
+     <tr>
+     	<td align="left" width=""><b><a href="financeiropagar">A PAGAR</a></b></td>
+        <td align="center" width=""><b>|</b></td>
+        <td align="center" width=""><b><a href="financeirorec">A RECEBER</a></b></td>
+        <td align="center" width=""><b>|</b></td>
+        <td align="center" width="">PLANO DE CONTAS</td>
+        <td align="center" width=""><b>|</b></td>
+        <td align="center" width=""><b><a href="financeirocontas">CONTAS</a></b></td>
+        <td align="center" width=""><b>|</b></td>
+        <td align="center" width=""><b><a href="financeirorel">CONCILIA&Ccedil;&Atilde;O</a></b></td>
+        <td align="center" width=""><b>|</b></td>
+        <td align="center" width=""><b><a href="financeirorel">RELAT&Oacute;RIOS</a></b></td>
+        
+     </tr>
+</table>
+<br>
+<table width="100%" class="borda_titulo">
+            <tr>
+                <td width="left">PLANO DE CONTAS</td>
+            </tr>
+        </table>
+        <p align="left">
+        <input type="button" value="Novo" onclick="mostrar();">
+        <script type="text/javascript">
+        function mostrar() {
+        	if(document.getElementById("inserir").style.display=='none'){
+        		document.getElementById("inserir").style.display='block';
+        	}else{
+            	document.getElementById("inserir").style.display='none';
+        	}
+        }
+
+        function editar(id,nome,desc) {
+        	document.getElementById("inserir").style.display='block';
+        	document.getElementById("plconta").value=nome;
+        	document.getElementById("desc").value=desc;
+        	document.getElementById("id").value=id;	
+        }
+
+		function limpar(){
+			document.getElementById("plconta").value='';
+        	document.getElementById("desc").value='';
+        	document.getElementById("id").value='';	
+		}
+        
+        </script>
+        </p>
+        <form method="post" action="gravapc">
+        <input type="hidden" name="id" id="id">
+		<table width="100%" id="inserir" style="border:1px solid #000; padding: 5px; display: none; margin-bottom: 10px">
+            <tr>
+                <td align="left">
+                Digite o plano de conta:<br>
+                <input type="text" size="30" name="plconta" id="plconta" style="margin-bottom: 4px" ><br>
+                Descri&ccedil;&atilde;o:<br>
+                <textarea rows="3" name="desc" id="desc" cols="50"></textarea><br><br>
+                <input type="button" onclick="limpar()" value="Cancelar">&nbsp;<input type="submit" value="Salvar">
+                </td>
+            </tr>
+        </table>
+        </form>
+        
+        
+        <?php 
+        
+			if ( count($this->objList) > 0) :
+			
+			?>
+			<table align="left" class="mytable" width="100%" cellspacing="0">
+		        <tr>
+		            <th  class="th_canto_orc" align="center" width="10%">
+		                ID
+		            </th>
+		            <th  class="th_orc" align="center" width="70%" >
+		                PLANO DE CONTA 
+		            </th>
+		            
+		            <th  class="th_orc" align="center" width="20%">
+		                OP&Ccedil;&Otilde;ES
+		            </th>
+		            
+		        </tr>
+			
+			
+			<?php 
+	    	foreach($this->objList as $lista):
+	    
+			$cor++;
+            if(($cor%2)==0) $class = 'td_orc_par';
+            else $class = 'td_orc';
+			?>
+			
+			<tr >
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo $cor?>
+                </td>
+                <td  class="<?=$class?>" align="left" title="<?php echo $lista->descricao?>" >
+                   <?php echo $lista->nome?>                  
+                </td>
+                               
+                <td  class="<?=$class?>" align="center" >
+                	<a href="#" onclick="editar('<?php echo $lista->id?>','<?php echo $lista->nome?>','<?php echo $lista->descricao?>')" ><img src="<?php echo $this->baseUrl(); ?>/images/edit_orc.gif" width="19" height="19" border="0" title="Visualizar"></a> &nbsp; &nbsp; 
+                    <?php if ($lista->sit == 1) { ?>
+	                <a href="#" onclick="if(confirm('Remover Plano de Conta?')){ window.location='<?php echo $this->baseUrl(); ?>/admin/administracao/removepc/rem/<?=md5($lista->id)?>';};" ><img src="<?php echo $this->baseUrl(); ?>/images/window-close.png" width="17" height="17" border="0" title="Remover plano conta"></a>
+	                <?php } ?>
+                </td>
+                
+            </tr>
+            
+			<?php  endforeach;
+			else :
+			?>
+			
+			<br>
+			<center>Nenhum plano de contas cadastrado</center>
+			
+			<?php 
+			endif;
+		?>
+		              
+        </table>
+        <br><br>
+	

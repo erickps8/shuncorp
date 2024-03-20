@@ -1,0 +1,206 @@
+<?php
+
+
+if(!empty($this->objGarantia)):
+	foreach ($this->objGarantia as $viewGarantia);
+endif;
+
+if(!empty($this->objCliente)):
+	foreach ($this->objCliente as $viewCli);
+endif;
+
+if(!empty($this->objCliend)):
+	foreach ($this->objCliend as $viewEnd);
+endif;
+
+if(!empty($this->objEmail)):
+	foreach ($this->objEmail as $viewEmail);
+endif;
+
+?>
+ <table border="0"  width="100%" >
+	<tr>
+		<td align="center" width="12%" class="menu">GARANTIAS</td>
+        <td align="center" width="2%" class="menu1">|</td>
+        <td align="center" width="13%" class="menu2"><a href="<?php echo $this->baseUrl(); ?>/admin/venda/garantiasrelcli">RELATÓRIOS</a></td>
+        <td align="center" width="">&nbsp;</td>
+	</tr>
+</table>
+<br /> 
+<table width="100%" class="borda_titulo">
+	<tr>
+		<td width="left">GARANTIA N&ordm; G<?php echo substr("000000".$viewGarantia->idcli,-6,6)?></td>
+	</tr>
+</table>
+
+<table width="100%" style="border: 1px solid #000; margin-top: 10px; " cellspacing="8px" >
+<tr>
+	<td align="left" width="22%" colspan="3">
+		Empresa:<br>
+		<b><?php echo $viewCli->EMPRESA?></b>	
+	</td>
+	
+	<td align="left" >
+			
+	</td>
+	
+</tr>
+<tr>
+	<td align="left" width="22%" colspan="2">
+		Logradouro:<br>
+		<b><?php echo $viewEnd->LOGRADOURO?></b>	
+	</td>
+	<td align="left" >
+		Bairro:<br>
+		<b><?php echo $viewEnd->BAIRRO?></b>
+	</td>
+	<td align="left" >
+		Cidade:<br>
+		<b><?php echo $viewEnd->CIDADE?></b>
+	</td>
+</tr>
+<tr>
+	<td align="left" width="22%" >
+		UF:<br>
+		<b><?php echo $viewEnd->ESTADO?></b>	
+	</td>
+	<td align="left" >
+		CEP:<br>
+		<b><?php echo $viewEnd->CEP?></b>
+	</td>
+	<td align="left" colspan="2">
+		E-mail:<br>
+		<b><?php echo $viewEmail->EMAIL?></b>
+	</td>
+</tr>
+<tr>
+	<td align="left" width="40%" colspan="2">
+		Nota Fiscal:<br>
+		<b><?php echo $viewGarantia->nota_fiscal?></b>	
+	</td>
+	
+	<td align="left" colspan="2" >
+		Data emiss&atilde;o:<br>
+		<b><?php echo substr($viewGarantia->data_nf,8,2)."/".substr($viewGarantia->data_nf,5,2)."/".substr($viewGarantia->data_nf,0,4)?></b>	
+	</td>
+	
+</tr>
+<tr>
+	<td align="left" width="25%" >
+		Peso:<br>
+		<b><?php echo $viewGarantia->peso_nf?></b> 
+		Kg
+	</td>
+	<td align="left" colspan="3" width="85%">
+		Volumes:<br>
+		<b><?php echo $viewGarantia->volumes?></b>	
+	</td>
+</tr>
+<tr>
+	<td align="left" width="15%" colspan="4" valign="middle" >
+		<?php if(!empty($viewGarantia->anexo)): ?>
+		<a target="_black" href="<?php echo $this->baseUrl()."/nfgarantias/".$viewGarantia->idcli.".".$viewGarantia->anexo?>">
+		<img alt="Anexo" src="<?php echo $this->baseUrl()."/images/anexo.png"?>" border="0" width="20" height="20">
+		<b>Anexo</b></a>
+		<?php endif;?>
+	</td>
+</tr>
+<tr>
+	<td align="left" colspan="4">
+		Observa&ccedil;&atilde;o:<br>
+		<b><?php echo htmlentities($viewGarantia->obs)?></b>
+	</td>
+</tr>
+
+<?php if(strripos($viewGarantia->status, "ENVIO")!==0): ?>
+<tr>
+	<td align="left" colspan="2" >
+	
+			Tipo de envio: <br>
+			<?php if($viewGarantia->tipoenvio==1): ?>
+				<b>Correios/PAC</b>
+			<?php else: ?>
+				<b>Transportadora</b>
+			<?php endif;?>
+			
+	</td>
+	<td colspan="2">
+			<?php if($viewGarantia->tipoenvio==1): ?>
+				N&ordm; PAC:<br>
+				<b><?php echo $viewGarantia->valorenvio?></b>
+			<?php else: ?>
+				Transportadora:<br>
+				<b><?php echo htmlentities($viewGarantia->valorenvio)?></b>
+			<?php endif;?>
+	</td>
+</tr>
+
+<?php else: ?>
+<tr>
+	<td align="left" colspan="4" >
+		Motivo Recusa: <br>
+		<div style="background-color: #e5e5e5; margin: 5px; padding: 5px">
+		<b><?php echo $viewGarantia->motivorec?></b>
+		</div>
+			
+	</td>
+</tr>
+<?php endif; ?>
+</table>
+
+<br>Data da chegada: 
+	<b><?php echo $viewGarantia->chegada?></b>
+<br>
+    
+<table align="left" class="mytable" width="100%" cellspacing="0" id="txtHint" style="margin-top: 10px">
+	<tr>
+    		<th  class="th_canto" align="center" width="15%" >
+                C&Oacute;DIGO
+            </th>
+            <th  class="th_orc" align="center" width="5%">
+                QT
+            </th>
+            <th  class="th_orc" align="center" width="5%">
+                Pre&ccedil;o
+            </th>
+            <th  class="th_orc" align="center" width="5%">
+                IPI
+            </th>
+            <th  class="th_orc" align="center" width="5%">
+                ICMS
+            </th>
+            <th  class="th_orc" align="center" width="">
+                Descri&ccedil;&atilde;o
+            </th>
+            <th  class="th_orc" align="center" width="15%">
+                Pre&ccedil;o total
+            </th>
+            
+        </tr>       
+       <?php
+       
+       if(!empty($this->objProdutos)):
+       		foreach ($this->objProdutos as $listProd):
+		       ?> 
+		       <tr>
+		       		<td class="td_orc" align="center"><?php echo $listProd->CODIGO?></td>
+		       		<td class="td_orc" align="center"><?php echo $listProd->qt?><input name="<?php echo $listProd->id_prod?>" value="<?php echo $listProd->qt?>" type="hidden"></td>
+		       		<td class="td_orc" align="left"><?php echo number_format($listProd->preco_nf,3,",",".")?><input name="valor_<?php echo $listProd->id_prod?>" value="<?php echo $listProd->preco_nf?>" type="hidden"></td>
+		       		<td class="td_orc" align="right"><?php echo number_format($listProd->ipi,1,",",".")?><input name="ipi_<?php echo $listProd->id_prod?>" value="<?php echo $listProd->ipi?>" type="hidden"></td>
+		       		<td class="td_orc" align="right"><?php echo number_format($listProd->icms,1,",",".")?><input name="icms_<?php echo $listProd->id_prod?>" value="<?php echo $listProd->icms?>" type="hidden"></td>
+		       		<td class="td_orc" align="left"><?php echo htmlentities($listProd->DESCRICAO)?></td>
+		       		<td class="td_orc" align="right"><?php echo number_format($listProd->qt*$listProd->preco_nf,2,",",".")?></td>
+		       		
+		       <?php
+		       $id_s .= $listProd->id_prod.";";
+		    endforeach;
+		endif; 
+       ?>
+       
+     </table>
+     <p>&nbsp;</p>
+     <p align="left">
+		<input type="button" onclick="window.location='<?php echo $this->baseUrl(); ?>/admin/venda/garantiascli'" value="Voltar">
+	 </p>
+
+	

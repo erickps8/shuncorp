@@ -1,0 +1,1016 @@
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/financeiro.js"></script>
+<script src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/administracaoFinanceiro.js" type="text/javascript"></script>
+
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztl">Financeiro</a></li>
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlrec">Contas à receber</a></li>
+                	<li class="lastB"><?php 
+					if(is_object($this->objRec)):
+						foreach ($this->objRec as $lisrecebimento);
+						echo '<a href="'.$this->baseUrl().'/admin/administracao/financeiroztlreccad/rec/'.md5($lisrecebimento->id).'">';
+						echo "R".substr("000000".$lisrecebimento->id,-6,6);
+						echo '</a>';
+					else: 
+						echo $this->translate->_("NOVO RECEBIMENTO"); 
+					endif;						
+					?>
+					</li>           
+                </ul>
+            </div>
+        </div>       
+
+		<div class="title"><h5>
+		<?php 
+		
+			if(is_object($this->objRec)):
+				foreach ($this->objRec as $lisrecebimento);	
+				echo "R".substr("000000".$lisrecebimento->id,-6,6);
+				
+				if($lisrecebimento->sit == 0):
+					echo ' (Cancelado)';
+				elseif($lisrecebimento->bloq == 1):
+					echo ' (Finalizado)';
+				elseif($lisrecebimento->baixa == 1):
+					echo ' (Pago)';
+				else: echo ' (Em Aberto)'; endif;
+			else: 
+				echo $this->translate->_("NOVO RECEBIMENTO"); 
+			endif;						
+		?>
+		</h5></div>
+		
+		<form action="<?=$this->baseUrl()?>/admin/administracao/gravacontaztlrec" method="post" name="formrecebimento" id="formrecebimento" enctype="multipart/form-data" class="mainForm">
+		<input type="hidden" name="idcontarec" value="<?php if(isset($lisrecebimento)) echo $lisrecebimento->id?>">
+		
+		<div class="widget first" >
+            <div class="head" style="margin-top: -10px"><h5 class="iUser">Informações do conta</h5></div>
+            <div class="body">
+		
+			<?php 
+			//--- Usuario sem permissao para editar ou a conta jah foi baixada ---------------------------------
+			if(($this->objEdi==0)||(isset($lisrecebimento) and $lisrecebimento->baixa==1)):
+			
+			?>
+			<table style="padding: 0px; border: 0; width:100%">
+				<tr>
+					<td colspan="2" align="left" width="40%">
+						Cliente/Funcionário:<br>
+						<span class="h3" style="font-weight: bold;">
+						<?php
+							
+							if(($lisrecebimento->id_fornecedor!=0) and ($lisrecebimento->id_fornecedor!=NULL)):
+    							foreach ($this->objFornec as $list){
+    								if($lisrecebimento->id_fornecedor==$list->ID) echo $list->EMPRESA;
+    							}	
+
+    							foreach ($this->objClientes as $list){
+    								if($lisrecebimento->id_fornecedor==$list->ID) echo $list->EMPRESA;
+    							}
+    							
+							elseif(($lisrecebimento->id_usuarios!=NULL) and ($lisrecebimento->id_usuarios!="")):
+                                foreach ($this->objUsuarios as $list){
+    								if($lisrecebimento->id_usuarios==$list->iduser) echo $list->nomeusuario;
+    							}
+							else:
+							     if($lisrecebimento->out_fornecedor!="") echo "Outros";
+							endif;
+							
+						?>
+						</span>
+					</td>
+					<td align="left" colspan="2">
+						<div id="divoutfornrec" <?php if($lisrecebimento->out_fornecedor==""):?>style="display: none"<?php endif;?>>
+						Outro Fornecedor:<br>
+						<span class="h3"><b><?=$lisrecebimento->out_fornecedor?></b></span>
+						</div>
+						<script type="text/javascript">
+							function exibeOutfornpag(valor){
+								if(valor=="out"){
+									document.getElementById("divoutfornrec").style.display = "block";
+								}else{
+									document.getElementById("divoutfornrec").style.display = "none";
+								}												
+							}
+						</script>
+					</td>	
+					<td style="text-align: right;" width="5%">
+						<?php 
+						if(($this->objLib==1) and ($lisrecebimento->baixa==1)): 
+							foreach ($this->objParc as $listaparc):
+								if(empty($listaparc->st_conc) and $listaparc->parc == 1):
+									?>
+									<a href="javascript:void(0);" onclick="confirmLbrecebimento();"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/locked2.png" width="25" border="0" alt="Liberar conta para edição"> </a>
+									<?php 
+								endif;
+							endforeach;
+						endif;
+						?>
+					</td>								
+				</tr>
+				<tr>
+					<td width="15%" align="left">
+						Emissão:<br>
+						<span class="h3"><b><?php if(!empty($lisrecebimento->emissao)) echo substr($lisrecebimento->emissao,8,2)."/".substr($lisrecebimento->emissao,5,2)."/".substr($lisrecebimento->emissao,0,4)?></b></span>
+					</td>
+					<td width="10%" align="left">
+						Fatura:<br>
+						<span class="h3"><b><?=$lisrecebimento->n_documento?></b></span>
+					</td>
+					<td align="left" width="10%">
+						Moeda:<br>
+						<span class="h3"><b><?=$lisrecebimento->moeda;?></b></span>
+					</td>
+					<td align="left">
+						Valor Total:<br>
+						<span class="h3"><b><?=number_format($lisrecebimento->valor,2,",",".")?></b></span>
+					</td>
+					<td align="left">
+						&nbsp;
+					</td>
+				</tr>	
+			</table>
+			<?php 
+			else:
+			//-- Liberado para edicao ----------------------------------------
+			?>
+			<table style="padding: 0px; border: 0; ">
+				<tr>
+					<td colspan="2" align="left">
+					Cliente/Funcionário:<br>
+					<div class="styled-select" style="width: 270px">
+						<select name="fornrec" id="fornrec" onchange="exibeOutfornrec(this.value)" style="width: 292px">
+							<option value="0">Selecione</option>
+							<optgroup label="Funcionários"></optgroup>
+							<?php foreach ($this->objUsuarios as $list): ?>
+								<option <?php if(isset($lisrecebimento) and $lisrecebimento->id_usuarios==$list->iduser) echo 'selected="selected"'?> value="<?=$list->iduser?>|1">&nbsp;<?php echo substr($list->nomeusuario,0,50)?></option>
+							<?php endforeach; ?>
+							
+							<optgroup label="Clientes"></optgroup>
+							<?php foreach ($this->objFornec as $list): ?>
+								<option <?php if(isset($lisrecebimento) and $lisrecebimento->id_fornecedor==$list->ID) echo 'selected="selected"'?> value="<?=$list->ID?>|0">&nbsp;<?php echo substr($list->EMPRESA,0,50)?></option>
+							<?php endforeach; ?>								
+								
+							<option <?php if(isset($lisrecebimento) and $lisrecebimento->out_fornecedor!="") echo 'selected="selected"'?> value="out">Outros</option>
+						</select>
+					</div>
+					
+					</td>
+					<td align="left" colspan="2">
+						<div id="divoutfornrec" <?php if(!isset($lisrecebimento) || $lisrecebimento->out_fornecedor==""):?>style="display: none"<?php endif;?>>
+						Outro Fornecedor:<br>
+						<input type="text" name="outfornrec" size="20" style="width: 250px" value="<?php if(isset($lisrecebimento)) echo $lisrecebimento->out_fornecedor?>">
+						</div>
+						<script type="text/javascript">
+							function exibeOutfornrec(valor){
+								if(valor=="out"){
+									document.getElementById("divoutfornrec").style.display = "block";
+								}else{
+									document.getElementById("divoutfornrec").style.display = "none";
+								}												
+							}
+						</script>
+					</td>									
+				</tr>
+				<tr>
+					<td width="5%" align="left">
+						Emissão:<br>
+						<input type="text" name="emissaorec" value="<?php if(!empty($lisrecebimento->emissao)) echo substr($lisrecebimento->emissao,8,2)."/".substr($lisrecebimento->emissao,5,2)."/".substr($lisrecebimento->emissao,0,4)?>" style="width: 70px" class="data datepicker">
+					</td>
+					<td width="5%" align="left">
+						Fatura:<br>
+						<input type="text" name="faturarec"  value="<?php if(isset($lisrecebimento)) echo $lisrecebimento->n_documento?>"  style="width: 100px" >
+					</td>
+					<td align="left" width="5%">
+						Moeda:<br>
+						<div class="styled-select" style="width: 65px">
+						<select name="moedarecconta" style="width: 85px">
+							<option <?php if(isset($lisrecebimento) and $lisrecebimento->moeda == 'BRL') echo 'selected="selected"'; ?> value="BRL">BRL</option>
+							<option <?php if(isset($lisrecebimento) and $lisrecebimento->moeda == 'RMB') echo 'selected="selected"'; ?> value="RMB">RMB</option>
+							<option <?php if(isset($lisrecebimento) and $lisrecebimento->moeda == 'USD') echo 'selected="selected"'; ?> value="USD">USD</option>
+							<option <?php if(isset($lisrecebimento) and $lisrecebimento->moeda == 'EUR') echo 'selected="selected"'; ?> value="EUR">EUR</option>
+						</select>
+						</div>
+					</td>
+					<td align="left">
+					Valor Total:<br>
+					<input type="text" size="8" name="valortotalrec" value="<?php if(isset($lisrecebimento)) echo number_format($lisrecebimento->valor,2,",",".")?>"  style="width: 100px" class="moeda" >
+					</td>
+				</tr>	
+			</table>
+			<?php 
+			endif;
+			?>
+			</div>
+		</div>
+		
+		<div class="widget" >
+            <div class="head" style="margin-top: -10px"><h5 class="iUser">Parcelas</h5></div>
+            <div class="body">
+            
+			<div id="formparcela" >
+				<table style="width: 100%; padding-left: 5px" >				
+					<tr>
+						<td align="left" width="10px">
+							Moeda:<br>
+							<div class="styled-select" style="width: 65px">
+							<select name="moedarec" style="width: 85px">
+								<option value="BRL">BRL</option>
+								<option value="RMB">RMB</option>
+								<option value="USD">USD</option>
+								<option value="EUR">EUR</option>
+							</select>							
+							</div>
+						</td>
+						<td align="left" width="20px">
+							Valor:<br>
+							<input type="text" name="valorrec"  style="width: 100px" class="moeda">
+						</td>
+						<td width="20px" align="left" >
+							Vencimento:<br>
+							<input type="text" name="vencimentorec" style="width: 70px" class="data datepicker">
+						</td>
+						<td align="left" width="25%" >
+							Plano de conta:<br>
+							<div class="styled-select" style="width: 270px">
+							<select name="planocontarec" style="width: 292px">
+								<option value="0">Selecione</option>
+								<?php 
+								foreach ($this->objPlanocontas as $listaplano):
+									$nbsp = "";
+									for($i=0;$i<$listaplano->nivel;$i++):
+										$nbsp .= " &nbsp; ";
+									endfor;
+								
+									$tipo = substr($listaplano->cod,0,1);
+									if($tipo == 1):									
+										if($listaplano->utilizavel == false): 
+											?><optgroup label="<?=$nbsp.$listaplano->cod." (".$listaplano->navegacao.") - ".$listaplano->nome?>"></optgroup><?php 
+										else: 
+											?><option value="<?=$listaplano->id."|".$listaplano->cod." - ".$listaplano->nome?>" ><?=$nbsp.$listaplano->cod." (".$listaplano->navegacao.") - ".$listaplano->nome?></option><?php 
+										endif;
+									endif;
+								endforeach;?>
+							</select>
+							</div>
+						</td>
+						<td align="left" style="vertical-align: bottom;">
+							<input type="button" value="Inserir" onclick="addParcela();" style="margin-left: 10px" class="basicBtn">
+						</td>
+					</tr>					
+				</table>
+			</div>
+			<div style="padding: 2px">					
+				<table id="parcelas"  style="border: 1px solid #ccc; margin-top: 2px; width: 96%" >
+				<?php 
+				$idan=0;
+				$backg = '';
+				$totalpago = 0;
+				$totalbrl = $totalusd = $totalrmb = $totaleur = 0;
+				
+				if(!empty($this->objParc)):
+				$verconc = $verbaixa = 0;
+				$qtparc = count($this->objParc);
+				$bloqueio	= 0;
+				foreach ($this->objParc as $listaparc):
+					if($listaparc->baixa == 1):
+						$verconc = 1;
+					endif;
+						
+					if($listaparc->baixa == 0):
+						$verbaixa = 1;
+					endif;
+										
+					$idan++;
+					
+					$verrel = $verrelpag = $verrelex = $verrelpagex = 0;
+					if(count($this->objRelrec)>0){
+						foreach ($this->objRelrec as $relac){
+							if($listaparc->idparc == $relac->id_parcrelacionada){ 
+								if($relac->st_conc != NULL and !empty($relac->st_conc)){
+									$verrel = 1;
+								}
+								$verrelex = 1;
+							} 
+						}
+					}
+					
+					if(count($this->objRel)>0){
+						foreach ($this->objRel as $relac){
+							if(($listaparc->idparc == $relac->id_financeirorecparc)){
+								if($relac->st_conc != NULL and !empty($relac->st_conc)){
+									$verrelpag = 1;
+								}
+								$verrelpagex = 1;
+							}
+						}
+					}
+																			
+					?>
+					<tr>
+						<td align="center" >
+							<table style="background-color: #ccc; width: 100%" >
+								<tr>
+									<td class="tdbusca" align="center" width="10%" rowspan="5" valign="top" style="padding: 4px" >
+										<font size="2"><b><?=$idan."/".$qtparc?></b></font>
+									</td>
+									<td class="tdbusca">
+										<table id='conta_<?=$listaparc->idparc?>' style="width: 100%">											
+											<tr>
+												<td align="left" width="15%" style="padding: 1px">
+													Moeda:<br />
+													<b><?=$listaparc->moeda?></b>
+												</td>
+												<td align="left" width="15%" >
+													Valor:<br />
+													<b><?=number_format($listaparc->valor_apagar,2,",",".")?></b>
+												</td>
+												<td width="20%" align="left" >
+													Vencimento:<br />
+													<b><?=substr($listaparc->vencimento,8,2)."/".substr($listaparc->vencimento,5,2)."/".substr($listaparc->vencimento,0,4);?></b>
+												</td>
+												<td align="left" width="" >
+													PL Contas<br />
+													<span style="text-transform: uppercase;">
+													<b><?=$listaparc->navegacao." - ".($listaparc->nomepc)?></b>
+													</span>
+												</td>
+												<td align="right" style="padding-right: 2px; text-align: right;">
+													<?php 
+													if($listaparc->st_conc == NULL || empty($listaparc->st_conc)){
+														if(($listaparc->baixa==0) and ($this->objEdi==1)): ?>
+														<a href="javascript:void(0);" onclick="editarParc('<?=$listaparc->idparc?>')"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/pencil.png" width="15" border="0"> </a>
+														<a href="javascript:void(0);" onclick="confirmRmparcela('<?=md5($listaparc->idparc)?>');"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" width="15" border="0"> </a>
+														<?php elseif(($this->objLib==1) and ($listaparc->baixa==1) and ($verrel == 0) and ($verrelpag == 0)): ?>
+														<a href="javascript:void(0);" onclick="confirmLbparcela('<?=md5($listaparc->idparc)?>');"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/dark/locked2.png" width="15" border="0"> </a>
+														<?php endif;
+													}
+													?>
+												</td>
+											</tr>											
+										</table>
+										<table id='editaconta_<?=$listaparc->idparc?>' style="display: none; width: 100%" >		
+											<tr>
+												<td align="left" width="5%">
+													Moeda:<br>
+													<div class="styled-select" style="width: 65px">
+													<select name="moedarec_<?=$listaparc->idparc?>" onchange="selecionaMoeda(this.value,<?=$listaparc->idparc?>);" style="width: 85px">
+														<option <?php if($listaparc->moeda == 'BRL') echo 'selected="selected"'; ?> value="BRL">BRL</option>
+														<option <?php if($listaparc->moeda == 'RMB') echo 'selected="selected"'; ?> value="RMB">RMB</option>
+														<option <?php if($listaparc->moeda == 'USD') echo 'selected="selected"'; ?> value="USD">USD</option>
+														<option <?php if($listaparc->moeda == 'EUR') echo 'selected="selected"'; ?> value="EUR">EUR</option>
+													</select>
+													</div>																					
+												</td>
+												<td align="left" width="5%">
+													Valor:<br>
+													<input type="text" name="valorrec_<?=$listaparc->idparc?>" value="<?=number_format($listaparc->valor_apagar,2,",",".")?>"  style="width: 100px" class="moeda" >
+												</td>
+												<td width="5%" align="left">
+													Vencimento:<br>
+													<input type="text" name="vencimentorec_<?=$listaparc->idparc?>" value="<?=substr($listaparc->vencimento,8,2)."/".substr($listaparc->vencimento,5,2)."/".substr($listaparc->vencimento,0,4);?>"  style="width: 70px" class="data datepicker">
+												</td>
+												<td align="left" width="50%">
+													Plano de conta:<br>
+													<div class="styled-select" style="width: 270px">
+													<select name="planocontarec_<?=$listaparc->idparc?>" style="width: 292px">
+														<?php 
+														foreach ($this->objPlanocontas as $listaplano):
+															$nbsp = "";
+															for($i=0;$i<$listaplano->nivel;$i++):
+																$nbsp .= " &nbsp; ";
+															endfor;
+															
+															$tipo = substr($listaplano->cod,0,1);
+															if($tipo == 1):
+																if($listaplano->utilizavel == false): 
+																	?>
+																	<optgroup label="<?=$nbsp.$listaplano->cod." (".$listaplano->navegacao.") - ".$listaplano->nome?>"></optgroup>
+																	<?php 
+																else: 
+																	?>
+																	<option <?php if($listaplano->id == $listaparc->idplc) echo 'selected="selected"';?> value="<?=$listaplano->id."|".$listaplano->cod." - ".$listaplano->nome?>" ><?=$nbsp.$listaplano->cod." (".$listaplano->navegacao.") - ".$listaplano->nome?></option>
+																	<?php 
+																endif;
+															endif;
+														endforeach;?>
+													</select>
+													</div>
+												</td>
+												<td align="left" width="30%">
+												<?php if(empty($listaparc->idplc)): ?>
+													Pl OLD:<br>
+													<select  style="width: 200px">
+														<?php foreach ($this->objPlold as $listaplano):?>
+														<option <?php if($listaplano->id == $listaparc->idpc) echo 'selected="selected"';?> ><?=$listaplano->cod." (".$listaplano->navegacao.") - ".$listaplano->nome?></option>
+														<?php endforeach;?>
+													</select>
+												<?php endif; ?>
+												</td>
+											</tr>																																								
+										</table>
+									</td>
+								</tr>
+								<tr>
+									<td class="tdbusca">
+										<table id='editpag_<?=$listaparc->idparc?>' style="display: <?php echo $listaparc->baixa==1 || $listaparc->descontodup==1? 'block' : 'none'?>" >												
+											<tr>
+												<?php if($listaparc->descontodup==1){ ?>
+												<td width="120px" align="left">
+													Dt desconto dup:<br>
+													<b><?=substr($listaparc->dt_descontodup,8,2)."/".substr($listaparc->dt_descontodup,5,2)."/".substr($listaparc->dt_descontodup,0,4)?></b>
+												</td>
+												<?php }
+												
+												if($listaparc->baixa == 1 and $listaparc->extornado != 1){ ?>
+												<td width="80px" align="left">
+													Data Liq:<br>
+													<b><?=substr($listaparc->dt_pagamento,8,2)."/".substr($listaparc->dt_pagamento,5,2)."/".substr($listaparc->dt_pagamento,0,4)?></b>
+												</td>
+												<?php } ?>
+												<td width="90px" align="left">
+													Valor rec:<br>
+													<b><?=number_format($listaparc->valor_pago,2,",",".")?></b>
+												</td>					
+												<?php  if($listaparc->moeda!='BRL'): ?>							
+												<td width="80px" id="tdcambio" align="left" <?php if($lisrecebimento->id=="BRL"): ?> style="display: none" <?php endif;?>>
+													Tx câmbio:<br>
+													<b><?=number_format($listaparc->txcambio,3,",",".")?></b>
+												</td>
+												<?php  endif; ?>
+												<td align="left"  >
+												Conta origem:<br>
+													<b><?php 
+													foreach ($this->objContasbanc as $listconta):
+														if($listaparc->id_financeirocontas==$listconta->id):
+															echo $listconta->nome;
+														endif;														
+													endforeach;
+													?></b>																					
+												</td>											
+											</tr>
+										</table>
+									
+										<table id='cadpag_<?=$listaparc->idparc?>'  style="display: <?php if($listaparc->baixa==0 and $listaparc->descontodup!=1) echo 'block'; else echo 'none'?>" >											
+											<tr>
+												<td width="80px" align="left" >
+													Data rec:<br>
+													<input type="text" name="datarecebimentorec_<?=$listaparc->idparc?>" value="<?php if(!empty($listaparc->dt_pagamento)) echo substr($listaparc->dt_pagamento,8,2)."/".substr($listaparc->dt_pagamento,5,2)."/".substr($listaparc->dt_pagamento,0,4)?>" class="data datepicker" >
+												</td>
+												<td width="100px" align="left">
+													Valor rec:<br>
+													<input type="text" name="valorrecebimentorec_<?=$listaparc->idparc?>" value="<?php if(!empty($listaparc->valor_pago)) echo number_format($listaparc->valor_pago,2,",",".")?>"  style="width: 80px" class="moeda">
+												</td>
+												<td id="tdcambio_<?=$listaparc->idparc?>" align="left" <?php if($listaparc->moeda=="BRL"): ?> style="display: none" <?php endif;?>>
+													Tx câmbio:<br>
+													<input type="text" name="txcambio_<?=$listaparc->idparc?>" value="<?php if(!empty($listaparc->txcambio)) echo number_format($listaparc->txcambio,3,",",".")?>"  style="width: 100px" class="moeda" >
+												</td>
+												<td align="left" width="220px" >
+													Conta origem:<br>
+													<div class="styled-select" style="width: 200px">
+														<select name="bancorecebimentorec_<?=$listaparc->idparc?>" style="text-transform: uppercase; width: 222px">
+															<option value="0">Selecione</option>
+															<?php 
+															foreach ($this->objContasbanc as $listconta):
+																?>
+																<option value="<?=$listconta->id?>" <?php if($listaparc->id_financeirocontas==$listconta->id) echo 'selected="selected"';?>  ><?=$listconta->nome?></option>
+																<?php														
+															endforeach;?>
+														</select>
+													</div>
+												</td>
+												<td style="vertical-align: bottom;">
+													<?php if($listaparc->idplc == 120){ ?>
+													<input type="checkbox" name="descontardup_<?=$listaparc->idparc?>"><label>Descontar duplicata</label>
+													<?php } ?>													
+												</td>											
+											</tr>
+										</table>  
+										
+									</td>																		
+								</tr>
+								
+								<?php 
+								//--- Se jah foi extornado, exibe as parcelas a pagar gerada pelo mesmo ---------------------------------------------
+								if($listaparc->extornado == 1){
+									if(count($this->objRel)>0 and $verrelpagex == 1){
+									?><tr>
+									<td class="tdbusca">
+										<div style="float: left; width: 80%">
+										<table>	<?php 
+										foreach ($this->objRel as $relac){
+											if($relac->id_financeirorecparc == $listaparc->idparc){
+								    		?>
+											<tr>
+												<td width="120px" align="left">
+													<?php if($relac->id_financeiroplcontas == 221){ ?>
+													Dt estorno:<br>
+													<b><?=substr($relac->dt_pagamento,8,2)."/".substr($relac->dt_pagamento,5,2)."/".substr($relac->dt_pagamento,0,4)?></b>
+													<?php } ?>
+												</td>
+												<td width="120px" align="left">
+													Conta:<br>
+													<a target="_blank" href="<?=$this->baseUrl()?>/admin/administracao/financeiroztlpagcad/pay/<?=md5($relac->id_financeiropag)?>"><b><?php echo "P".substr("000000".$relac->id_financeiropag,-6,6); ?>/<?php echo $relac->parc?></b></a>													
+												</td>
+												<td width="90px" align="left">
+													<?php if($relac->id_financeiroplcontas == 221){ ?> Valor ext: <?php }else{ ?>Valor tarifa<?php }?><br>
+													<b><?=number_format($relac->valor_pago,2,",",".")?></b>
+												</td>					
+												<td align="left"  >
+													PL Contas<br />
+													<span style="text-transform: uppercase;">
+														<b><?=$relac->navegacao." - ".($relac->nomepc)?></b>
+													</span>																						
+												</td>
+											</tr>										
+											<?php
+											} 
+										} ?>
+										</table>
+										</div>
+										<?php if($verrelpag == 0 and $listaparc->baixa==0){ ?>
+										<div style="float: right; width: 15%; text-align: right; padding: 3px 3px 0px 0px">
+											<a href="javascript:void(0);" onclick="confirmRmextorno('<?=md5($relac->id_financeiropag)?>');"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" width="15" border="0"> </a>
+										</div>
+										<?php } ?>
+									</td>
+									</tr>
+									<?php  
+									}
+								}
+
+								//--- Se eh parcela descontada, permite o pagamento ou o extorno da mesma -------------------------------------------
+								if($listaparc->descontodup == 1){
+									if($listaparc->baixa == 0){   //-- escondo caso baixado ----------------------------------------------------
+									?>
+									<tr>
+										<td class="tdbusca">
+											<div id="editrecparc_<?=$listaparc->idparc?>" style="float: left; width: 600px; display: <?php echo $listaparc->baixa== 0 ? 'block' : 'none'?>">
+												<div style="float: left; width: 100px">
+													Data Liq:<br>
+													<input type="text" name="databaixaparc_<?=$listaparc->idparc?>" value="<?php if(!empty($listaparc->dt_pagamento)) echo substr($listaparc->dt_pagamento,8,2)."/".substr($listaparc->dt_pagamento,5,2)."/".substr($listaparc->dt_pagamento,0,4)?>" class="data datepicker" >
+												</div>
+												<?php if($listaparc->extornado == 1){ ?>
+												<div style="float: left; width: 90px">
+													Desconto:<br>
+													<input type="text" name="descontoparc_<?=$listaparc->idparc?>" style="width: 70px" class="moeda">
+												</div>
+												<div style="float: left; width: 90px">
+													Multa/juros:<br>
+													<input type="text" name="multaparc_<?=$listaparc->idparc?>" style="width: 70px" class="moeda">
+												</div>
+												<div style="float: left; width: 220px">
+													Conta origem:<br>
+													<div class="styled-select" style="width: 200px">
+														<select name="bancoparc_<?=$listaparc->idparc?>" style="text-transform: uppercase; width: 222px">
+															<option value="0">Selecione</option>
+															<?php 
+															foreach ($this->objContasbanc as $listconta):
+																?>
+																<option value="<?=$listconta->id?>" <?php if($listaparc->id_financeirocontas==$listconta->id) echo 'selected="selected"';?>  ><?=$listconta->nome?></option>
+																<?php														
+															endforeach;?>
+														</select>
+													</div>
+												</div>
+												<?php } ?>
+											</div>
+										
+											<div id="recparc_<?=$listaparc->idparc?>" style="float: left; width: 600px; display: <?php echo $listaparc->baixa==0 ? 'none' : 'block'?>">
+												<div style="float: left; width: 100px">
+													Data Liq:<br>
+													<b><?php if(!empty($listaparc->dt_pagamento)) echo substr($listaparc->dt_pagamento,8,2)."/".substr($listaparc->dt_pagamento,5,2)."/".substr($listaparc->dt_pagamento,0,4)?></b>
+												</div>
+												<?php if($listaparc->extornado == 1){ ?>
+												<div style="float: left; width: 100px">
+													Valor rec:<br>
+													<b><?=number_format($listaparc->valor_pago,2,",",".")?></b>
+												</div>			
+												<div style="float: left; width: 100px">
+												Conta origem:<br>
+													<b><?php 
+													foreach ($this->objContasbanc as $listconta):
+														if($listaparc->id_financeirocontasdup==$listconta->id):
+															echo $listconta->nome;
+														endif;														
+													endforeach;
+													?></b>																					
+												</div>
+												<?php } ?>
+											</div>
+											
+											
+											<div style="float: left; display: none" id="extparc_<?=$listaparc->idparc?>">
+												<div style="float: left; width: 80px">
+													Data ext:<br>
+													<input type="text" name="dataextornoparc_<?=$listaparc->idparc?>" class="data datepicker" >
+												</div>
+												<div style="float: left; width: 120px">
+													Tarifa:<br>
+													<input type="text" name="tarifaextornoparc_<?=$listaparc->idparc?>" style="width: 80px" class="moeda">
+												</div>
+											</div>
+											<?php if($listaparc->extornado != 1 and $listaparc->baixa == 0){ ?>
+											<div style="float: right; width: 100px"><br />
+												<input type="button" id="btnextorno_<?=$listaparc->idparc?>" class="blueBtn" value="Extornar" onclick="extornoDuplicata('<?=$listaparc->idparc?>');">
+												<input type="button" id="btnreceber_<?=$listaparc->idparc?>" class="blueBtn" value="Receber" onclick="receberDuplicata('<?=$listaparc->idparc?>');" style="display: none">
+												<script>
+												function extornoDuplicata(id){
+													$('input[name=databaixaparc_'+id+']').val("");
+													$('#editrecparc_'+id).hide();
+													$('#extparc_'+id).show();
+													$('#btnextorno_'+id).hide();
+													$('#btnreceber_'+id).show();												
+												}
+	
+												function receberDuplicata(id){
+													$('input[name=tarifaextornoparc_'+id+']').val("");
+													$('input[name=dataextornoparc_'+id+']').val("");
+													$('#editrecparc_'+id).show();
+													$('#extparc_'+id).hide();
+													$('#btnreceber_'+id).hide();	
+													$('#btnextorno_'+id).show();											
+												}
+												</script>
+											</div>
+											<?php } ?>
+										</td>
+									</tr>
+								<?php 
+								}
+								
+								// -- Caso tenha sido extornado pelo banco, pago posteriormente e gerado algum juros ou multa -------------------
+								if($listaparc->extornado == 1){ 
+									if(count($this->objRelrec)>0 and $verrelex == 1){
+									//-- verifico se existe na lista de objetos alguma parcela relacionada ---------------
+									
+									?><tr>
+									<td class="tdbusca">
+										<table style="width: 100%"><?php 
+										foreach ($this->objRelrec as $relac){
+											if($relac->id_parcrelacionada == $listaparc->idparc){	
+								    		?>
+											<tr>
+												<td width="120px" align="left">
+													<?php if($relac->id_financeiroplcontas == 205){ ?>
+													Data liq:<br>
+													<b><?=substr($relac->dt_pagamento,8,2)."/".substr($relac->dt_pagamento,5,2)."/".substr($relac->dt_pagamento,0,4)?></b>
+													<?php } ?>
+												</td>
+												<td width="120px" align="left">
+													Conta:<br>
+													<b><?php echo "R".substr("000000".$relac->id_financeirorec,-6,6); ?>/<?php echo $relac->parc?></b>													
+												</td>
+												<td width="90px" align="left">
+													<?php if($relac->id_financeiroplcontas == 205){ ?>Valor pago<?php }else{ ?>Multa/Juros<?php } ?>
+													<b><?=number_format($relac->valor_pago,2,",",".")?></b>
+												</td>					
+												<td align="left"  >
+													PL Contas<br />
+													<span style="text-transform: uppercase;">
+														<b><?=$relac->navegacao." - ".($relac->nomepc)?></b>
+													</span>																						
+												</td>
+												<td style="text-align: right;">
+													<?php 
+													if($relac->st_conc == NULL || empty($relac->st_conc) and $listaparc->baixa==0){
+														?>
+														<a href="javascript:void(0);" onclick="confirmRmparcela('<?=md5($relac->idparc)?>');"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" width="15" border="0"> </a>
+														<?php  
+													} 
+													?>
+												</td>																							
+											</tr>										
+											<?php 
+											
+											$totalpago += $relac->valor_pago;
+											$totalbrl  += $relac->valor_pago;
+											
+											}
+										} ?>
+										</table>
+									</td>
+									</tr>
+									<?php  
+									}
+								}
+								
+								} ?>
+							</table>
+						</td>															
+					</tr>
+				<?php 
+					if($listaparc->moeda=='USD'):
+						$totalpago += $listaparc->valor_pago*$listaparc->txcambio;
+						$totalusd  += $listaparc->valor_pago;
+					elseif($listaparc->moeda=='RMB'):
+						$totalpago += $listaparc->valor_pago*$listaparc->txcambio;
+						$totalrmb  += $listaparc->valor_pago;
+					elseif($listaparc->moeda=='EUR'):
+						$totalpago += $listaparc->valor_pago*$listaparc->txcambio;
+						$totaleur  += $listaparc->valor_pago;
+					else:
+						$totalpago += $listaparc->valor_pago;
+						$totalbrl  += $listaparc->valor_pago;
+					endif;				
+				endforeach; 
+				endif;
+				?>
+				</table>													
+			</div>
+			<div style="padding: 5px">
+			
+			<?php if(isset($lisrecebimento) and ($lisrecebimento->baixa!=1)){ ?>
+				<a href="javascript:void(0)" class="btnIconLeft" onclick="buscaCreditos($('#fornrec option:selected').val());"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/dark/add.png" alt="" class="icon" /><span>Adcionar crédito</span></a>
+			<?php } ?>
+				<div>
+            		<table id="tpurch" class="tableStatic" style="border: 1px solid #d5d5d5; margin-top: 10px; width: 20%">
+            			<?php 
+            			if(count($this->objCredito) > 0){
+							foreach ($this->objCredito as $listcreditos){
+							?>
+							<tr  >
+								<td style="text-align: center;" >
+									<a href="/admin/administracao/financeiroztlcreditos/cliente/<?php echo $listcreditos->id_clientes?>" target="_blank" >C<?php echo substr("000000".$listcreditos->idcredito,-6)?></a>									
+								</td>
+								<td style="text-align: right;">
+									<?=number_format($listcreditos->valorcredito,2,",",".")?>
+								</td>
+								<td  style="text-align: center;" >
+					                <a href="#" onclick="deleteRow(this.parentNode.parentNode.rowIndex,'<?php echo $listcreditos->idcredito?>')"><img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" width="12" border="0"></a>
+					            </td>  
+							</tr>
+							<?php
+							$idpurch .= $listcreditos->idcredito.",";
+							} 
+            			}
+            			?>
+					</table>
+					<input type="hidden" name="idpurch" id="idpurch" value="<?php echo $idpurch?>">					
+            	</div>
+			
+				<table>
+					<tr>			
+						<td align="center" colspan="5" style="padding-top: 10px">
+						<?php if(!empty($totalusd)): ?>
+						<font size="2">Total USD: <b><?=number_format($totalusd,2,",",".")?></b></font> &nbsp;  &nbsp;  &nbsp;
+						<?php endif; ?>  
+						<?php if(!empty($totalrmb)): ?>
+						<font size="2">Total RMB: <b><?=number_format($totalrmb,2,",",".")?></b></font> &nbsp;  &nbsp;  &nbsp;
+						<?php endif; ?>
+						<?php if(!empty($totaleur)): ?>
+						<font size="2">Total EUR: <b><?=number_format($totaleur,2,",",".")?></b></font> &nbsp;  &nbsp;  &nbsp;
+						<?php endif; ?>
+						<?php if(!empty($totalbrl)): ?>
+						<font size="2">Total BRL: <b><?=number_format($totalbrl,2,",",".")?></b></font> &nbsp;  &nbsp;  &nbsp;
+						<?php endif; ?>
+						<font size="2">Total Geral: <b><? if(!empty($totalpago)) echo number_format($totalpago,2,",",".")?></b></font></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+		
+		<input type="hidden" name="intparcela" id="intparcela" >
+		<input type="hidden" name="intpar" id="intpar" value="<?=$idan?>">
+        	<script type="text/javascript">
+		        	function editarParc(id){
+			        	$('#recparc_'+id).hide();
+						$('#editrecparc_'+id).show();
+						$('#editpag_'+id).hide();
+						$('#cadpag_'+id).show();
+						$('#conta_'+id).hide();
+						$('#editaconta_'+id).show();
+		        	}
+	        	
+	        		var intarc = 0;
+	        		var backg  = "";
+		        	function addParcela() {
+			        	moeda 		= document.formrecebimento.moedarec.value;
+			        	valor 		= document.formrecebimento.valorrec.value;
+			        	venc  		= document.formrecebimento.vencimentorec.value;
+			        	conta 		= document.formrecebimento.planocontarec.value;
+			        										        	
+						if(valor==''){
+							alert('O valor não pode ficar em branco!');
+						}else if(conta==0){
+							alert('Selecione um plano de conta!');
+						}else{
+							conta = conta.split("|");
+						
+				        	intarc = intarc + 1;
+				        	document.getElementById("intparcela").value = intarc;
+				        	
+			        		var tbCod = document.getElementById("parcelas").insertRow(-1);
+			        		var a = tbCod.insertCell(0);
+
+			        		var numOfRows = document.getElementById("parcelas").rows.length;
+
+			        		numOfRows = numOfRows-1;
+        			        		
+			        		var txcambio = "";
+							if(moeda!='BRL'){
+								txcambio = '<td width="" align="left">TX Câmbio:<br><input type="text" size="5" name="txcambiopago_'+intarc+'" onKeyDown="Mascara(this,Valor);" onKeyPress="Mascara(this,Valor);" onKeyUp="Mascara(this,Valor);" ></td>';
+							}
+			        		
+							a.innerHTML = '<table style="background-color: #ccc" align="center" width="100%"  cellspacing="0" cellpadding="0" >'+
+							'<tr><td align="center" width="10%" rowspan="2" valign="top" style="padding-top: 4px" ><font size="2"><b></b></font></td>'+
+							'<td><table id="" width="100%"><tr>'+
+									'<td align="left" width="15%" style="padding: 1px">Moeda:<br /><b>'+moeda+'</b><input type="hidden" name="moedapar_'+intarc+'" value="'+moeda+'" /></td>'+
+									'<td align="left" width="15%" >Valor:<br /><b>'+valor+'</b><input type="hidden" name="valorpar_'+intarc+'" value="'+valor+'" /></td>'+
+									'<td width="20%" align="left" >Vencimento:<br /><b>'+venc+'</b><input type="hidden" name="vencpar_'+intarc+'" value="'+venc+'" /></td>'+
+									'<td align="left" width=""  > PL Contas<br /><span style="text-transform: uppercase;"><b>'+conta[1]+'</b></span><input type="hidden" name="contapar_'+intarc+'" value="'+conta[0]+'" /></td>'+
+									'<td align="right" style="padding-right: 2px">'+
+									'<a href="javascript:void(0);" onclick="document.getElementById(\'parcelas\').deleteRow('+numOfRows+');"><img src="/public/sistema/imagens/icons/middlenav/close.png" width="15" border="0"> </a></td></tr></table>'+														
+							'</td></tr><tr><td >'+
+								'<table id=""  width="100%"><tr>'+
+										'<td width="110px" align="left" > Dt recebimento:<br><input type="text" name="datapar_'+intarc+'" value="" style="width: 70px" class="data datepicker">'+
+										'</td><td width="130px">Valor pago<br><input type="text" name="valorpago_'+intarc+'" value="" style="width: 120px" class="moeda"></td>'+
+										txcambio+
+										'<td align="left"  >Conta origem:<br>'+
+										'<div class="styled-select" style="width: 150px"><select name="bancopar_'+intarc+'" style="text-transform: uppercase; width: 172px">'+
+											'<option value="0">Selecione</option>'+
+											<?php 
+									foreach ($this->objContasbanc as $listconta):
+										?>
+										'<option value="<?=$listconta->id?>" ><?=$listconta->nome?></option>'+
+										<?php														
+									endforeach;?>
+									'</select></div></td></tr></table></td></tr></table>';								        		
+					}
+	        		
+	        	}
+	        	
+        </script> 
+			
+		
+		<div class="widget" >
+            <div class="head" style="margin-top: -10px"><h5 class="iPaperclip">Anexos</h5></div>
+            <div class="body">	
+            
+            <table id="archive" style="width: 100%; " >
+            	<?php 
+				$idan=0;
+				if(!empty($this->objAnepag)):
+					foreach ($this->objAnepag as $listanexo): 
+					$idan++;
+					?>
+					<tr>
+						<td style="padding-left: 7px">						
+							<a href="<?=$this->baseUrl()?>/public/sistema/upload/financeiro/receber/<?=$listanexo->nome?>" target="_blank"><b>Anexo <?=$idan?></b></a> &nbsp; 
+							<a href="javascript:void(0);" onclick="confirmRemoveanexo('<?php echo $listanexo->id?>');" > <img id="anp<?=$idan?>" src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" width="13"> </a>
+						</td>
+					</tr>
+				<?php 
+					endforeach; 
+				endif;	
+				?>
+				
+				<?php if(isset($lisrecebimento) and ($lisrecebimento->baixa!=1)): ?>
+				<tr>
+					<td>
+						<div class="rowElem"><label style="width: 45px">Anexo:</label> 
+	                        <div class="formRight" ><input type="file" class="fileInput" id="fileInput" name="arquivo1" onchange="addArchive(this)"/></div>
+	                        <div class="fix"></div>
+	                    </div>	                   
+					</td>
+				</tr>
+				
+				<?php 
+	        	endif;
+	        	?> 
+			</table>
+			<input type="hidden" name="intarchive" id="intarchive" >
+			<script type="text/javascript">
+	        		var intarc = 1;
+		        	function addArchive(anexo) {
+		        		document.getElementById(anexo.name).value = $(anexo).val();
+			        	
+			        	intarc = intarc + 1;
+		        		var tbCod = document.getElementById("archive").insertRow(-1);
+		        		var y = tbCod.insertCell(0);
+
+		        		y.innerHTML='<div class="rowElem"><label style="width: 45px;">Anexo:</label><div class="formRight">'+
+                            '<input id="arquivo'+intarc+'" style="display: inline; width: 300px;" class="file fileInput"><div style="display: inline; position: absolute; overflow: hidden;" class="feat"><input style="position: relative; height: 26px; width: 300px; display: inline; cursor: pointer; opacity: 0; margin-left: -168px;" class="fileInput" id="fileInput" name="arquivo'+intarc+'" onchange="addArchive(this)" type="file"></div>'+
+                        	'</div><div class="fix"></div></div>';
+		        		
+		        		document.getElementById("intarchive").value = intarc;
+		        		
+		        	}
+	        	</script> 
+			    <div class="fix"></div>
+            
+			<input type="hidden" name="intanex" id="intanex" value="<?=$idan?>">
+        	
+        	</div>
+     	</div>
+        
+		<div>
+			Observação:<br>
+			<?php 
+			//--- Usuario sem permissao para editar ou a conta jah foi baixada ---------------------------------
+			if(isset($lisrecebimento) and ($this->objEdi==0)||$lisrecebimento->baixa==1):
+			?>
+			<span class="h3"><?=$lisrecebimento->obs?></span>
+			<?php else: ?>
+			<textarea rows="3" cols="50" name="obsrec" style="width: 500px"><?php if(isset($lisrecebimento)) echo $lisrecebimento->obs?></textarea>
+			<?php endif; ?>
+			<br /><br />		
+			<?php 
+						
+			//if(($verbaixa==1)||(empty($lisrecebimento->id))):
+				if(($this->objEdi==0) || (!isset($lisrecebimento)) || (isset($lisrecebimento) and $lisrecebimento->baixa==0)):
+				?>
+				<input type="submit" value="Salvar" class="greenBtn"/>
+				<?php elseif(($this->objEdi==1) and (isset($lisrecebimento) and $lisrecebimento->baixa==0)): ?>
+				<input type="button" value="Salvar" onclick="validaformrec();"  class="greenBtn"/>
+				<?php 
+				endif;
+				if(!empty($lisrecebimento->id) and ($verconc==0) and ($this->objEdi==1)): ?>
+				<input type="button" value="Excluir" class="basicBtn" onclick="confirmRemoverecebimento();" />
+				<?php endif; 
+			//endif;
+			?>
+		</div>
+		<?php 
+		if(($this->objEdi==0)|| (isset($lisrecebimento) and $lisrecebimento->baixa==1)):
+		?>
+		<script type="text/javascript">
+		desabilitaContabaixa(1);
+		</script>							
+		<?php
+		endif;
+		?>
+		</form>
+	</div>
+	
+	
+<script type="text/javascript">
+
+function confirmRmextorno(idpag){
+	jConfirm('Você deseja remover este extorno?', 'Confirme', function(r) {
+		if(r==true){
+			window.location='<?=$this->baseUrl()?>/admin/administracao/remextorno/rec/<?=md5($lisrecebimento->id)?>/pag/'+idpag;			
+		}
+	});
+}
+		
+function confirmRemoveanexo(idanexo){
+	jConfirm('Você deseja remover este anexo?', 'Confirme', function(r) {
+		if(r==true){
+			window.location='<?=$this->baseUrl()?>/admin/administracao/remanexofinztl/idanex/'+idanexo+'/rec/<?=md5($lisrecebimento->id)?>';			
+		}
+	});
+}
+
+function confirmRemoverecebimento(){
+	jConfirm('Você deseja remover este recebimento?', 'Confirme', function(r) {
+		if(r==true){
+			window.location='<?=$this->baseUrl()?>/admin/administracao/removerecebimento/rec/<?=md5($lisrecebimento->id)?>';	
+		}
+	});
+}
+
+function confirmRmparcela(parc){
+	jConfirm('Você deseja remover esta parcela?', 'Confirme', function(r) {
+		if(r==true){
+			window.location='<?=$this->baseUrl()?>/admin/administracao/removeparcelarec/parc/'+parc+'/rec/<?=md5($lisrecebimento->id)?>';
+		}
+	});
+}
+
+function confirmLbparcela(parc){
+	jConfirm('Você deseja liberar esta parcela para edição?', 'Confirme', function(r) {
+		if(r==true){
+			window.location='<?=$this->baseUrl()?>/admin/administracao/liberaparcelarec/parc/'+parc+'/rec/<?=md5($lisrecebimento->id)?>';
+		}
+	});
+}
+
+function confirmLbrecebimento(){
+	jConfirm('Você deseja liberar esta conta para edição?', 'Confirme', function(r) {
+		if(r==true){
+			window.location='<?=$this->baseUrl()?>/admin/administracao/liberacontarec/rec/<?=md5($lisrecebimento->id)?>';
+		}
+	});
+}
+
+
+<?php 
+if($this->objRes == 'sucesso'){
+?>
+jAlert('Lançamento salvo com sucesso!','Sucesso!', function(){
+	window.location='<?=$this->baseUrl()?>/admin/administracao/financeiroztlrec';
+});
+<?php 
+}
+?>
+
+//-->
+</script>	

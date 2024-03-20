@@ -1,0 +1,154 @@
+<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxsubgrupo.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxtipoparceiro.js"></script>
+<table width="100%" style="margin-bottom: 7px" cellpadding="0" cellspacing="0" >
+	<tr>
+		<td align="left">
+			<a href="<?php echo $this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+			<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+			<b><a href="<?php echo $this->baseUrl(); ?>/admin/venda/ajusteprecos"><?=$this->translate->_("AJUSTE DE PREÇOS")?></a></b> 
+		</td>
+	</tr>
+</table>
+
+
+<table width="100%" class="borda_titulo">
+	<tr>
+		<td width="left">TABELA DE AJUSTE DE PREÇOS</td>
+	</tr>
+</table>
+<table cellpadding="0" cellspacing="0" style="margin-top: 0px">
+<tr>
+	<td>        
+           <?php 
+			foreach($this->objGrupos as $listGrupos):
+				$verg = 0; 
+				foreach($this->objList as $lista):
+					if($lista->id_gruposprodsub==$listGrupos->idsub):
+						$verg 		= 1;
+						$grupo		= $listGrupos->grupo;
+						$subgrupo	= $listGrupos->subgrupo;
+					endif;
+				endforeach;
+				
+	        	if ($verg==1) :
+	        					
+				?>
+				
+				<table width="100%" cellpadding="0" cellspacing="0" >
+					<tr>
+              			<td class="borda_tcadastro">
+              			<br>
+						<b><?=utf8_encode($grupo." / ".$subgrupo)?></b>
+              			</td>
+              		</tr>
+	            </table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<table align="left" class="mytable"  width="554" cellspacing="0" style="margin-top: 5px;  ">
+			         <tr>
+			            <th  class="th_canto_orc" align="center" width="30%">
+			                <?=$this->translate->_("CÓDIGO")?>
+			            </th>
+			            <th  class="th_orc" align="center" width="20%">
+			                <?=$this->translate->_("PREÇO ATUAL")?>
+			            </th>
+			            <th  class="th_orc" align="center" width="20%">
+			                <?=$this->translate->_("NOVO PREÇO")?>
+			            </th>
+			            <th  class="th_orc" align="center" width="10%">
+			                <?=$this->translate->_("PERCENTUAL")?>
+			            </th>
+			             <th  class="th_orc" align="center" width="30%">
+			                <?=$this->translate->_("DT AJUSTE")?>
+			            </th>
+			        </tr>
+			       
+				<?php 
+				$cor=0;
+		    	foreach($this->objList as $lista):
+		    	if($lista->id_gruposprodsub==$listGrupos->idsub):
+		    		$cor++;
+		            if(($cor%2)==0) $class = 'td_orc_par';
+		            else $class = 'td_orc';
+		            
+		            if(!empty($lista->precoajuste)):
+		            	$novopreco 	= number_format($lista->precoajuste,"2",",",".");
+		            	$percent	= $lista->precoajuste - $lista->PRECO_UNITARIO;
+		            	if($lista->PRECO_UNITARIO!=0):
+		            		$percent	= number_format(($percent*100)/$lista->PRECO_UNITARIO,"2",",",".");
+		            	else:
+		            		$percent = "";
+		            	endif;
+		            elseif(!empty($lista->percentajuste)):
+		            	$novopreco 	= number_format($lista->PRECO_UNITARIO+($lista->PRECO_UNITARIO*($lista->percentajuste/100)),"2",",",".");
+		            	$percent	= number_format($lista->percentajuste,"2",",",".");
+		            endif;
+					?>					
+					<tr >
+		                <td  class="<?=$class?>" align="center" >
+		                   <?php echo $lista->CODIGO?>
+		                </td>
+		                <td  class="<?=$class?>" align="right" style="text-transform: uppercase;">
+		                   <?php if(!empty($lista->PRECO_UNITARIO)) echo number_format($lista->PRECO_UNITARIO,"2",",",".")?>
+		                </td>
+		                <td  class="<?=$class?>" align="right" >
+		                   <?php echo $novopreco?>
+		                </td>                
+		                <td  class="<?=$class?>" align="right" >
+		                   <?php echo $percent?>%
+		                </td>
+		                <td  class="<?=$class?>" align="center" >
+		                   <?=substr($lista->dt_ajuste,8,2)."/".substr($lista->dt_ajuste,5,2)."/".substr($lista->dt_ajuste,0,4)?>
+		                </td>
+		            </tr>
+		            
+					<?php  
+					endif;
+				endforeach;
+				?>        
+				</table>
+			
+	         	 <?php 
+				
+				endif;
+			
+				if(empty($this->objList)):
+					?><center> <?=$this->translate->_("Nenhum Produto encontrado")?></center>
+					<?php 
+				endif;
+				
+			endforeach;
+		?>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<table width="100%" cellpadding="0" cellspacing="0">
+			<tr>
+			<td align="left" valign="top" width="30%" >
+				<div style="border: 1px solid; margin-top: 10px; padding: 5px; ">
+				<b>Enviar para:</b><br>
+				<form action="disparaemailajuste" method="post" >
+					<input type="hidden" name="produtos" value="<?=$this->objProds?>">
+				    <input type="checkbox" value="1" name="rep" ><a href="javascript:void(0);" onclick="MostraParceiros(1);">Representantes</a><br>
+				    <input type="checkbox" value="1" name="ger" ><a href="javascript:void(0);" onclick="MostraParceiros(2);">Gerentes</a><br>
+				    <input type="checkbox" value="1" name="func"><a href="javascript:void(0);" onclick="MostraParceiros(3);">Funcion&aacute;rios</a><br>
+				    <input type="checkbox" value="1" name="cli" ><a href="javascript:void(0);" onclick="MostraParceiros(4);">Clientes</a><br><br>
+			     	<input type="submit" value="Enviar">
+	     		</form>
+	     		</div>
+			</td>
+			<td align="left" valign="top">
+				<div style=" margin-top: 5px; padding: 5px; " id="divparc" >
+	     		</div>
+			</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+		
+	

@@ -1,0 +1,283 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxmediavendas.js"></script>
+<style type="text/css">
+	<!--
+	  
+	  a.dcontexto1{
+	  position:relative; 
+	  font:12px arial, verdana, helvetica, sans-serif; 
+	  padding:0;
+	  color:#039;
+	  text-decoration:none;
+	  z-index:24;
+	  }
+	  a.dcontexto1:hover{
+	  background:transparent;
+	  z-index:25; 
+	  }
+	  a.dcontexto1 span{display: none}
+	  a.dcontexto1:hover span{ 
+	  display:block;
+	  position:absolute;
+	  width:470px; 
+	  top:1em;
+	  text-align:justify;
+	  left:0;
+	  font: 12px arial, verdana, helvetica, sans-serif; 
+	  padding:5px 10px;
+	  background-color: #FFF;
+	  border: 1px solid #000;
+	  color:#000;
+	  }
+	  
+	  a.dcontexto2{	
+	  position:relative; 
+	  font:12px arial, verdana, helvetica, sans-serif; 
+	  padding:0;
+	  color:#039;
+	  text-decoration:none;
+	  z-index:24;
+	  }
+	  a.dcontexto2:hover{
+	  background:transparent;
+	  z-index:25; 
+	  }
+	  a.dcontexto2 span{display: none}
+	  a.dcontexto2:hover span{ 
+	  display:block;
+	  position:absolute;
+	  width:280px; 
+	  top:1em;
+	  text-align:justify;
+	  left:0;
+	  font: 12px arial, verdana, helvetica, sans-serif; 
+	  padding:5px 10px;
+	  background-color: #FFF;
+	  border: 1px solid #000;
+	  color:#000;
+	  }
+	  -->
+</style>
+<table width="100%" style="margin-bottom: 4px" cellpadding="0" cellspacing="0" >
+	<tr>
+		<td align="left">
+			<a href="<?php echo $this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+			<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+			<b><a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/produtos"><?=$this->translate->_("NOVO PEDIDO")?></a></b> 
+		</td>
+	</tr>
+</table>
+
+<table width="100%" class="borda_titulo">
+	<tr>
+		<td width="left">NOVO PEDIDO</td>
+	</tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0" style="margin-top: 5px">
+	<tr><td>
+<script>
+<?php if(empty($this->objCod)): ?>
+$(document).ready(function() {
+	document.getElementById("buscacod").focus();
+});
+<?php endif; ?>
+function mostrarPesquisa(){
+    nTr = document.getElementById("tabela");
+    if(nTr.style.display == "none"){
+        nTr.style.display = "block"
+    }else{
+        nTr.style.display = "none";
+    }
+}
+
+function tipoPesquisa(valor){
+
+	if(valor==1){
+		document.getElementById("buscgrupo").style.display = "block";
+		document.getElementById("busccod").style.display = "none";
+		document.getElementById("buscdesc").style.display = "none";
+		document.getElementById("buscacod").value = "";
+		document.getElementById("buscadesc").value = "";
+	}else if(valor==2){
+		document.getElementById("busccod").style.display = "block";
+		document.getElementById("buscgrupo").style.display = "none";
+		document.getElementById("buscdesc").style.display = "none";
+		document.getElementById("buscacod").value = "";
+		document.getElementById("buscadesc").value = "";
+	}
+	else if(valor==3){
+		document.getElementById("busccod").style.display = "none";
+		document.getElementById("buscgrupo").style.display = "none";
+		document.getElementById("buscdesc").style.display = "block";
+		document.getElementById("buscacod").value = "";
+		document.getElementById("buscadesc").value = "";
+	}
+}
+
+var alertaPadrao = function(titulo, msg, tipo, altura, largura) {
+	$('body').append('<a href="#" id="alerta-padrao"></a>');
+	$('#alerta-padrao').m2brDialog({
+			draggable: true,
+			texto: msg,
+			tipo: tipo,
+			titulo: titulo,
+			altura: altura,
+			largura: largura,
+			botoes: {
+				1: {
+					label: '<?=$this->translate->_("Fechar")?>',
+					tipo: 'fechar'
+				}
+			}									   
+	});
+	$('#alerta-padrao')
+		.click()
+		.remove();
+}; // fim alertaPadrao
+</script>
+	<form action="<?php echo $this->baseUrl(); ?>/admin/compras/relatoriovendas" method="post" name="busca" id="busca">
+		<table width="100%" border="0" style="margin-bottom: 8px; display: block; border: 1px solid #000; padding: 8px; " id="tabela">
+	    <tr>
+	    	<td align="left">
+		    	<select name="tipo" onchange="tipoPesquisa(this.value);" style="border: 1px solid #999">
+				<option value="1" <?php if($this->objTipo==1) echo 'selected="selected"';?> ><?=$this->translate->_("Por Grupo")?></option>
+				<option value="2" <?php if($this->objTipo==2) echo 'selected="selected"';?> ><?=$this->translate->_("Por Código")?></option>
+				</select>				 
+	    	</td>
+	    	<td align="left" >
+		    	<table width="" border="0" cellpadding="0" cellspacing="0" style="display: block;" id="buscgrupo">
+		    		<tr>
+			    		<td align="right">
+							<select name="buscagrupo" id="buscagrupo" style="width: 110px">
+								<option value="0">Todos</option>
+								<?php foreach ($this->objGrupo as $list): ?>
+									<option value="<?php echo $list->id?>" 
+									<?php if($this->objGselec==$list->id) echo 'selected="selected"';?>  ><?php echo substr($list->purchasing,0,20)?></option>
+								<?php endforeach; ?>
+							</select>
+						</td>
+					</tr>
+				</table>
+				<div style="display: none; " id="busccod">
+					<input type="text" value="<?=$this->objCodigo?>" style="text-transform: uppercase;" size="15" name="buscacod" id="buscacod">
+				</div>
+	    	</td>
+	    	<td align="left" >
+	    		<script type="text/javascript">
+	    		 <?php if($this->objTipo==2):?>
+	    		 	document.getElementById('buscgrupo').style.display = 'none';
+	    		 	document.getElementById('busccod').style.display = 'block';
+	    		 <?php endif;?>
+	    		 </script>
+	    		<select name="periodo" id="periodo" >
+	    			<?php 
+	    			if((empty($this->objQtmes))|| ($this->objQtmes==6)) $sel6 = 'selected="selected"';
+	    			elseif($this->objQtmes==1) $sel1 = 'selected="selected"';
+	    			elseif($this->objQtmes==2) $sel2 = 'selected="selected"';
+	    			elseif($this->objQtmes==3) $sel3 = 'selected="selected"';
+	    			elseif($this->objQtmes==4) $sel4 = 'selected="selected"';
+	    			elseif($this->objQtmes==12) $sel12 = 'selected="selected"';
+	    			?>
+	    		
+					<option value="1" <?=$sel1?>>1 Mês</option>
+					<option value="2" <?=$sel2?>>2 Meses</option>
+					<option value="3" <?=$sel3?>>3 Meses</option>
+					<option value="4" <?=$sel4?>>4 Meses</option>
+					<option value="6" <?=$sel6?>>6 Meses</option>
+					<option value="12" <?=$sel12?>>12 Meses</option>
+				</select>
+				<input type="submit" value="<?=$this->translate->_("Pesquisar")?>" >
+				
+	    	</td>	    	
+		</tr>
+		
+		</table> 
+	
+	 
+	</form>
+	</td>
+</tr>
+<tr>
+	<td>        
+           <?php 
+			
+        	if (count($this->objList) > 0) :
+			
+			?>
+			<table align="left" class="mytable"  width="554" cellspacing="0">
+		         <tr>
+		            <th  class="th_canto_orc" align="center" width="15%">
+		                <?=$this->translate->_("CÓDIGO")?>
+		            </th>
+		            <th  class="th_orc" align="center" width="10%">
+		                <?=$this->translate->_("VENDAS")?>
+		            </th>
+		            <th  class="th_orc" align="center" width="10%">
+		                <?=$this->translate->_("FÍSICO")?>
+		            </th>
+		            <th  class="th_orc" align="center" width="10%">
+		                <?=$this->translate->_("VIRTUAL")?>
+		            </th>
+		            <th  class="th_orc" align="center" width="12%">
+		                <?=$this->translate->_("SUGESTÃO")?>
+		            </th>
+		            <th  class="th_orc" align="center" width="12%">
+		                <?=$this->translate->_("QT")?>
+		            </th>
+		        </tr>
+		       
+			<?php 
+			$cor=0;
+	    	foreach($this->objList as $lista):
+	    	$cor++;
+            if(($cor%2)==0) $class = 'td_orc_par';
+            else $class = 'td_orc';
+			?>
+			
+			<tr >
+                <td  class="<?=$class?>" align="center" >
+                   <a href="<?=$this->baseUrl();?>/admin/cadastro/produtoscad/produto/<?=md5($lista->idproduto)?>" target="_blank">
+					<?php echo $lista->CODIGO?>
+					</a>
+                </td>
+                <td  class="<?=$class?>" align="center" style="text-transform: uppercase;">
+                   <?php if(!empty($lista->qtvenda)): ?>
+                   <a href="#" class="dcontexto1" onmouseover="Mostravendas(<?=$lista->idproduto?>,<?=$this->objQtmes?>);">
+                   <?php  echo $lista->qtvenda; ?>
+                   <span id="m_<?=$lista->idproduto?>">	 
+                    <img alt="Carregando..." src="<?=$this->baseUrl(); ?>/images/loading.gif">        
+	                </span>
+	                <?php else: echo 0; endif;?>
+	                </a>
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                  <?php if(!empty($lista->qt_atual)) echo $lista->qt_atual; else echo 0;?>
+                </td>
+                <td  class="<?=$class?>" align="center" >                  
+                   <?php if(!empty($lista->qtcomp)): ?>
+                   <a href="#" class="dcontexto2" onmouseover="Mostracompra(<?=$lista->idproduto?>);">
+                   <?php echo $lista->qtcomp; ?>
+                   <span id="c_<?=$lista->idproduto?>">	 
+                    <img alt="Carregando..." src="<?=$this->baseUrl(); ?>/images/loading.gif">      
+	                </span>
+	                </a>
+	                <?php else: echo 0; endif;?>
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                	<?=round((($lista->qtvenda/$this->objQtmes)*4)-($lista->qtvenda+$lista->qt_atual))?>
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                	<input type="text" size="5" name="<?=$lista->idproduto?>" >
+                </td>
+            </tr>
+            
+			<?php  endforeach;
+			?>
+			</table>
+			
+         	<?php 
+			endif;
+		?>
+		</td></tr>
+         </table>
+		
+	

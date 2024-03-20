@@ -1,0 +1,84 @@
+<?php 
+if($this->objTipoe==1):
+	header("Content-type: application/vnd.oasis.opendocument.spreadsheet");
+	header("Content-Disposition: attachment; filename=Curvaprodutos.ods");
+else:
+	header("Content-type: application/msexcel");
+	header("Content-Disposition: attachment; filename=Curvaprodutos.xls");
+endif;
+?>
+
+<table width="100%" class="borda_titulo">
+	<tr>
+		<td align="left">CURVA DE PRODUTOS</td>
+	</tr>
+</table>
+	
+<?php           
+if (count($this->objList) > 0) :
+?>
+	<table align="left" class="mytable"  width="554" cellspacing="0">
+    	<tr>
+            <th  class="th_canto_orc" align="center" width="15%">
+                <?=$this->translate->_("CÓDIGO")?>
+            </th>
+            <?php 
+            for($i=$this->objQtmes;$i>0;$i--):
+            ?>
+            <th  class="th_orc" align="center" width="10%">
+                <?=date('m/Y', mktime(0, 0, 0, date("m") - $i, 1, date("Y")));?>
+            </th>
+            <?php endfor; ?>
+            <th  class="th_orc" align="center" width="10%">
+                <?=$this->translate->_("TOTAL")?>
+            </th>
+        </tr>		       
+	<?php 
+			
+		$cor=0;
+		$idprod = "";
+    	foreach($this->objProd as $lista):		    		
+	    	$cor++;
+            if(($cor%2)==0) $class = 'td_orc_par';
+            else $class = 'td_orc';
+            ?>
+			<tr >
+                <td  class="<?=$class?>" align="center" >
+                   <a href="<?=$this->baseUrl();?>/admin/cadastro/produtoscad/produto/<?=md5($lista->idproduto)?>" target="_blank">
+			<?=$lista->CODIGO?>
+					</a>
+                </td>
+	            <?php
+            $totalqtprod = 0;
+            for($i=$this->objQtmes;$i>0;$i--):
+            ?>
+            <td  class="<?=$class?>"  style="text-align: center;">
+                   	<?php
+                   	$qtvenda = 0;
+					foreach ($this->objList as $vendas):
+                   	   	$mes = date('m', mktime(0, 0, 0, date("m") - $i, 1, date("Y")));
+                   	   	if($lista->ID == $vendas->idproduto):
+							if($mes==$vendas->mes):
+						   		$qtvenda = $vendas->qtvenda; 
+						   	endif;
+					   	endif;
+					endforeach;						
+					echo $qtvenda;
+					$totalqtprod += $qtvenda;
+				   	?>		               
+                </td>
+	            <?php 
+	            endfor; 	            
+            ?>
+            	<td  class="<?=$class?>" style="text-align: center;">
+                	<?=$totalqtprod?>
+                </td>
+            </tr>	            
+			<?php  
+	endforeach;
+	?>
+	</table>
+<?php 
+endif;
+?>
+		

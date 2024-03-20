@@ -1,0 +1,129 @@
+<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxsubgrupo.js"></script>
+<table width="100%" style="margin-bottom: 5px"  cellpadding="0" cellspacing="0" >
+	<tr>
+		<td align="left">
+			<a href="<?php echo $this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+			<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+			<a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/produtos">PRODUTOS</a>&nbsp; 
+			<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+			<b><a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/produtosgrupos">GRUPOS</a></b>
+		</td>
+	</tr>
+</table>
+<table width="100%" class="borda_titulo">
+	<tr>
+		<td width="left">GRUPOS DE PRODUTOS</td>
+	</tr>
+</table>
+<table width="100%" style="margin: 8px 0px" cellpadding="0" cellspacing="0" >
+    <tr>
+    	<td align="left">
+    	<?php  if($this->objIns==true):?>
+    	<input type="button" class="button" onclick="javascript:mostrarPesquisa();" value="Novo grupo"></input>
+    	<?php endif;?>
+    	</td>
+    	<td align="right" width="210px">
+    	<a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/produtosubgrupos"><b>SUBGRUPOS</b>&nbsp;</a>
+    	</td>
+    	<td align="center" width="2%" >|</td>
+    	<td align="right" width="120px">
+    	<a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/produtosgpcompra"><b>GRUPOS DE COMPRA</b></a>
+    	</td>
+	</tr>
+</table>  
+
+<table cellpadding="0" cellspacing="0">
+	<tr><td>
+<script>
+	function mostrarPesquisa(){
+	    nTr = document.getElementById("tabela");
+	    if(nTr.style.display == "none"){
+	        nTr.style.display = "block";
+	    }else{
+	        nTr.style.display = "none";
+	    }
+	}
+	
+	function editarGrup(id,grupo){
+		document.grava.grupo.value=grupo;
+		document.grava.idgrupo.value=id;
+		document.getElementById("tabela").style.display = "block";
+	}
+
+</script>
+	<form action="<?php echo $this->baseUrl(); ?>/admin/cadastro/produtosgrupos" method="post" name="grava" id="grava">
+	<table width="70%" border="0" style="margin-bottom: 8px; display: none; border: 1px solid #000; padding: 8px; " id="tabela">
+	    <tr>
+	    	<td align="left">
+	    		Nome do Grupo:<br>
+	    		<input type="text" size="25" name="grupo" id="grupo" style="text-transform: uppercase;">
+	    		<input type="hidden" name="idgrupo" id="idgrupo">
+				<input type="submit" value="Gravar">
+	    	</td>
+		</tr>
+	</table>  
+	</form>
+	</td>
+</tr>
+<tr>
+	<td>        
+           <?php 
+			
+        	if (count($this->objList) > 0) :
+			
+			?>
+			<table align="left" class="mytable"  width="554" cellspacing="0" cellpadding="0">
+		         <tr>
+		            <th  class="th_canto_orc" align="center" width="10%">
+		                ID
+		            </th>
+		            <th  class="th_orc" align="center" width="45%">
+		                DESCRIÇÃO
+		            </th>
+		            <?php if ($this->objEdi==true){  ?>
+		            <th  class="th_orc" align="center" width="12%">
+		                Op&ccedil;&otilde;es
+		            </th>
+		            <?php } ?>
+		        </tr>
+		       
+			<?php 
+			$cor=0;
+	    	foreach($this->objList as $lista):
+	    	$cor++;
+            if(($cor%2)==0) $class = 'td_orc_par';
+            else $class = 'td_orc';
+			?>
+			
+			<tr >
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo $lista->id?>
+                </td>
+                <td  class="<?=$class?>" align="left" style="text-transform: uppercase;">
+                   <?php echo (($lista->descricao))?>
+                </td>
+                <?php if ($this->objEdi==true){  ?>
+                <td  class="<?=$class?>" align="center" >
+                	<img src="<?php echo $this->baseUrl(); ?>/images/edit_orc.gif" width="15" height="15" border="0" title="Editar" onclick="editarGrup('<?=$lista->id?>','<?=$lista->descricao?>');" style="cursor: pointer; cursor: hand;">
+                </td>
+                <?php  }  ?>
+            </tr>
+            
+			<?php  endforeach;
+			?>        </table>
+			<table width="100%">
+			
+         </table>
+         	 <?php 
+			else :
+			?>
+			<br>
+			<center>Nenhum Grupo Cadastrado</center>
+			
+			<?php 
+			endif;
+		?>
+		</td></tr>
+         </table>
+		
+	

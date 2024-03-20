@@ -1,0 +1,70 @@
+        
+        <table width="100%" >
+            <tr>
+                <td align="right"><input type="button" class="button" onclick="window.location='transportadoras'" value="Voltar"></input></td>
+            </tr>
+        </table>
+        <br>
+        <table width="100%" class="borda_titulo">
+            <tr>
+                <td width="left"> NOVA TRANSPORTADORA</td>
+            </tr>
+        </table>
+			<br>
+			<form action="cadtransp" method="post" name="cad">
+			<table class="borda" width="100%" cellspacing="5">
+				<tr>
+					<td colspan="3">
+					Empresa:<br>
+					<input type="text" size="40" name="emp" class="borda_input">
+					</td>
+				</tr>
+				<tr>
+					<td>
+					Endere&ccedil;o:<br>
+					<input type="text" size="37" name="end" class="borda_input">
+					</td>
+					<td>
+					Cidade:<br>
+					<input type="text" size="20" name="cid" class="borda_input">
+					</td>
+					<td>
+					Estado:<br>
+					<select class="borda_input" name="uf">
+					<option>Selecione</option>
+					<?php foreach ($this->objUf as $lista){ ?>
+						<option value="<?php echo $lista->uf?>" ><?php echo $lista->uf?></option>
+					<?php } ?>
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					CEP:<br>
+					<input type="text" size="14" name="cep" class="borda_input"  maxlength="9" onKeyDown="Mascara(this,Cep);" onKeyPress="Mascara(this,Cep);" onKeyUp="Mascara(this,Cep);"></td>
+					</td>
+				
+				</tr>
+				<tr>
+					<td>
+					Contato:<br>
+					<input type="text" size="35" name="contato" class="borda_input">
+					</td>
+					<td>
+					Telefone:<br>
+					<input type="text" size="15" name="tel" class="borda_input"  maxlength="14" onKeyDown="Mascara(this,Telefone);" onKeyPress="Mascara(this,elefone);" onKeyUp="Mascara(this,Telefone);"></td>
+					</td>
+					<td>
+					Fax:<br>
+					<input type="text" size="15" name="fax" class="borda_input"  maxlength="14" onKeyDown="Mascara(this,Telefone);" onKeyPress="Mascara(this,Telefone);" onKeyUp="Mascara(this,Telefone);"></td>
+					</td>
+				</tr>
+			</table>
+			<br>
+			 <table width="100%" >
+	            <tr>
+	                <td align="left"><input type="submit" class="button" value="Salvar"></td>
+	            </tr>
+        	</table>
+			</form>
+

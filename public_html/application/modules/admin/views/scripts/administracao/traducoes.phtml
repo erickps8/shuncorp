@@ -1,0 +1,52 @@
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?php echo $this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<b><a href="<?php echo $this->baseUrl(); ?>/admin/administracao/traducoes">INTERNACIONALIZAÇÃO</a></b> 
+	</div>
+	<div id="sistitulo">INTERNACIONALIZAÇÃO</div>
+    <div id="sisconteudo" style="padding: 0px">            
+        <form method="post" name="cadastro" id="cadastro" >
+        <table>
+        <tr>
+      		<td align="center" ><b>PORTUGUÊS</b><br><br></td>
+      		<td align="center" ><b>ENGLISH</b><br><br></td>
+      		<td align="center" ><b>中文</b><br><br></td>
+      		<td align="center" ><b>ESPANÕL</b><br><br></td>
+      	</tr>
+             
+      	<?php       	
+      	$cont = 0;      	
+      	foreach ($this->objList as $lista):
+      		$cont++;
+      		?>
+      		<tr>
+      		<td><?=$lista->portugues?><input value="<?=$lista->portugues?>" type="hidden" name="<?=$lista->id?>" ></td>
+      		<td><input value="<?=$lista->ingles?>" type="text" name="<?=$lista->id."_en"?>" ></td>
+      		<td><input value="<?=$lista->chines?>" type="text" name="<?=$lista->id."_zh"?>" ></td>
+      		<td><input value="<?=$lista->espanhol?>" type="text" name="<?=$lista->id."_es"?>" ></td>
+      		</tr>
+      		<?php       		
+      	endforeach;      
+      	
+      	if($this->objPage=="") $page = 1;
+      	else $page = $this->objPage;
+      	
+      	?>
+      	</table>
+      	<input type="hidden" name="pagina" value="">
+      	<div style="margin-top: 10px">
+      		<input type="button" value="Salvar" onclick="document.cadastro.pagina.value='<?=$page?>'; document.cadastro.submit();">
+      	</div>
+      	<?php if($page > 1): ?>      	
+	 	<div style="float: left; margin-top: 15px">
+			<img style="cursor: pointer; cursor: hand" onclick="document.cadastro.pagina.value='<?=$page-1?>'; document.cadastro.submit();" alt="Anterior" src="<?=$this->baseUrl()?>/imagens/sistema/diversos/voltar.png">
+		</div>
+		<?php endif; if($cont > 15): ?>
+		<div style="float: right; margin-top: 15px">
+			<img style="cursor: pointer; cursor: hand" onclick="document.cadastro.pagina.value='<?=$page+1?>'; document.cadastro.submit();" alt="Anterior" src="<?=$this->baseUrl()?>/imagens/sistema/diversos/avancar.png">
+		</div>
+		<?php endif; ?>
+	</form>
+    </div>
+</div>

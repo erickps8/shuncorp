@@ -1,0 +1,854 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/cadastroBuscauf.js"></script>
+<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/cadastroParceiros.js"></script>
+
+
+<?php if(count($this->objParceiro)>0) foreach ($this->objParceiro as $parc); ?>
+
+<!-- Content -->
+    <div class="content">   
+    	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="#">Home</a> </li>
+                	<li><a href="<?=$this->baseUrl()?>/admin/cadastro/parceiroslista/filt/all">Parceiros</a></li>
+                	<li class="lastB">Cadastro</li>          
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5><?php if(count($this->objParceiro)>0)  echo $parc->ID." ".$parc->EMPRESA; else echo "Cadastro de parceiros"; ?></h5></div>
+        
+        <!-- Form begins -->
+        <form action="<?php echo $this->baseUrl(); ?>/admin/cadastro/parceiros" method="post" name="cad_cliente" id="cad_cliente" onsubmit="return validaformparceiro();"  class="mainForm" enctype="multipart/form-data">
+        <input type="hidden" value="<?php echo $parc->ID?>" name="id_cliente">
+        <div class="widget">       
+        	<ul class="tabs">
+            	<li><a href="#tab1">Principal</a></li>
+                <li><a href="#tab2">Administrativo</a></li>
+                <li><a href="#tab3">Entrega/cobrança</a></li>
+                <li><a href="#tab4">Outros</a></li>
+                <li><a href="#tab5">Arquivos</a></li>                
+            </ul>
+                    
+            <div class="tab_container">
+            	<div id="tab1" class="tab_content">
+            		<!-- Input text fields -->
+	                <div class="rowElem" style=" margin-top: -10px; padding: 5px">
+	                	<table style="width: 100%">
+							<tr>
+								<td style="width: 20%">
+									<b> CPF / CNPJ: </b><br>
+									<input type="text" name='cpf_cnpj' id="cpf_cnpj" style="width: 150px" value='<?php echo $parc->CPF_CNPJ;?>' onblur="buscaCnpj(this.value);" class="inteiro">
+									<div id="rescnpj" style="color: #f00"></div>
+								</td>
+								<td  >
+									RG / INSC:<br>
+									<input type="text" style="width: 150px" name='rg_insc' value='<?php echo $parc->RG_INSC?>'  class="inteiro"> 
+								</td>
+							</tr>
+	                        <tr>
+								<td  colspan="2">
+									Nome Fantasia: <br>
+									<input type="text" style="width: 350px" name='empresa'  value='<?php echo $parc->EMPRESA?>'>
+								</td>
+							</tr>	
+							<tr>
+								<td  colspan="2">
+									Razao Social: <br>
+									<input type="text" size="40" style="width: 400px" name='razao_social'  value='<?php echo $parc->RAZAO_SOCIAL?>'>	                                
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div class="rowElem" style="padding: 5px; margin-top: 5px">	
+						<table style="width: 100%">
+							<tr>
+	                            <td >
+								Track Code:<br/>
+	                                <input type="text" style='width:45px;' maxlength="3" style="width: 10px" name='txtTrackCode' value='<?php echo $parc->track_code?>'>
+	                            </td>
+	                            <td rowspan="3" style="width: 40%">
+	                            	<table style="border: 1px solid #ccc; width: 100%">
+		                              <tr>
+		                                <td align="right" width="60%">Agentes Supervisor: </td>
+		                                <td><input name='agente_1' type="text" style="width: 50px" value='<?php echo $parc->nu_agente_1?>' size="4"  class="inteiro" /></td>
+		                              </tr>
+		                              <tr>
+		                                <td align="right">Agente Externo: </td>
+		                                <td><input name='agente_2' type="text" style="width: 50px" value='<?php echo $parc->nu_agente_2?>' size="4" class="inteiro" /></td>
+		                              </tr>
+		                              <tr>
+		                                <td align="right">Agente Televendas: </td>
+		                                <td><input name='agente_3' type="text" style="width: 50px" value='<?php echo $parc->nu_agente_3?>' size="4" class="inteiro" /></td>
+		                              </tr>		                             
+		                            </table>
+	                            </td>
+	                        </tr>
+	                        <tr>
+	                            <td  >
+	                                Site:<br/>
+	                                <input type="text" size="40" value='<?php echo $parc->site?>' name="txtSite" style="width: 250px" />
+	                            </td>	                           
+	                        </tr>
+	                        <tr>
+	                            <td >
+	                                Nome chin&ecirc;s:<br/>
+	                                <?php if(!empty($this->objChina)) foreach ($this->objChina as $China)?>
+	                                <input type="text" size="40" value="<?php echo $China->nome?>" name="nomechines" style="width: 280px"/>
+	                            </td>
+	                        </tr>
+						</table>		     
+	                		
+	                	<div class="fix"></div>
+	                </div>              
+		    	</div>
+                <div id="tab2" class="tab_content">
+                	<div class="rowElem" style=" padding: 5px">
+	                	 <table style="width: 100%">
+							<tr>
+								<td width="40%" style="vertical-align: top;">
+								<?php $tipo = explode(",",$parc->TIPO)?>
+									Despesas fiscais: <br >
+									<div id="despesasfiscais">
+										<div class="styled-select" style="width: 200px">										
+										<select name="despesasfiscais" style="text-transform: uppercase; width: 222px">
+											<option value='0'>SELECIONE</option>
+										  	<?php 
+										  	if(!empty($this->objTributos)):
+											  	foreach ($this->objTributos as $listTributos): ?>
+												<option value='<?=$listTributos->id?>' <?php if($parc->id_despesasfiscais==$listTributos->id){ echo 'selected=selected'; }?>  ><?=$listTributos->descricao?></option>
+												<?php 
+												endforeach;
+										    endif; ?>
+										</select>
+										</div>
+									</div>
+								</td>
+								<td style="vertical-align: bottom;">
+									<input type="radio" name="tipo" value="ativo" <?php if(!in_array('inativo',$tipo)){ ?>checked<?php } ?> ><label>Ativo</label> 
+									<input type="radio" name="tipo" value="inativo" <?php if(in_array('inativo',$tipo)){ ?>checked<?php } ?> ><label>Inativo</label>																		
+								</td>
+							</tr>
+							<tr >
+								<td  align="left">
+									Perfil:<br>
+									<div class="styled-select" style="width: 220px">	
+									<select name="perfil" style="width: 242px;" >
+										<option value="0">Selecione</option>
+										<?php foreach ($this->objPerfil as $listP){ ?>
+											<option value='<?=$listP->id?>' <?php if($parc->id_perfil==$listP->id){ echo 'selected=selected'; }?>    ><?php echo strtoupper($listP->descricao)?></option>
+										<?php } ?>
+									</select>
+									</div>			
+								</td>
+								<td align="left">
+									<div id="reglocal" style="display: block">
+										Regi&atilde;o:	<br >	
+										<div class="styled-select" style="width: 270px">						
+									  	<select name="id_regioes" style="width: 292px">
+									  	<option value='0'>Selecione</option>
+									  	<?php foreach ($this->objRegioes as $listR){ ?>
+											<option value='<?php echo $listR->idreg?>' <?php if($parc->ID_REGIOES==$listR->idreg){ echo 'selected=selected'; }?>  ><?php echo ($listR->NOME." - ".$listR->EMPRESA)?></option>
+										<?php } ?>
+										</select>
+										</div>
+									</div>										
+									<div id="reglocal" style="display: block; margin-top: 5px" >
+										Regi&atilde;o Televenda:	<br >	
+										<div class="styled-select" style="width: 270px">						
+										  	<select name="regioestelevendas" style="width: 292px">
+										  	<option value='0'>Selecione</option>
+										  	<?php foreach ($this->objRegtelvend as $listT){ ?>
+												<option value='<?php echo $listT->idreg?>' <?php if($parc->id_regioestelevendas==$listT->idreg){ echo 'selected=selected'; }?>  ><?php echo ($listT->regiao." - ".$listT->usuario)?></option>
+											<?php } ?>
+											</select>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div class="rowElem" style=" padding: 5px">
+	                	 Dt Abertura:<br /><input type="text" name="dtabertura" value="<?php if(!empty($parc->data_abertura)) echo substr($parc->data_abertura,8,2)."/".substr($parc->data_abertura,5,2)."/".substr($parc->data_abertura,0,4)?>"  class="botDir data datepicker" title="Data de abertura da empresa" style="width: 80px" />
+					</div>					
+					
+					<div class="fix"></div>
+                    
+                    <div class="rowElem" style=" padding: 5px">
+                    	Trabalha com:<br />
+                    	<div class="styled-select" style="width: 270px">						
+						  	<select name="ginteresse" style="width: 292px">
+						  	<option value='0'>Selecione</option>
+						  	<?php foreach ($this->objGinteresse as $listInterrse){ ?>
+								<option value='<?php echo $listInterrse->id?>' <?php if($parc->id_clientesgrupos==$listInterrse->id){ echo 'selected=selected'; }?>  ><?php echo ($listInterrse->nome)?></option>
+							<?php } ?>
+							</select>
+						</div>
+                    </div>
+                    
+                    <div class="rowElem" style=" padding: 5px">
+                    	<div style="width: 55%; float: left;" >
+	                    	Observa&ccedil;&atilde;o:<br>
+							<textarea cols="70" rows="5" name='observacao' style="width: 450px"><?php echo $parc->OBSERVACAO?></textarea>							
+							<br />Observa&ccedil;&atilde;o NFe:<br>
+							<textarea cols="70" rows="3" name='obsnfe' style="width: 450px"><?php echo $parc->obsnfe?></textarea>
+							<div class="fix"></div>
+						</div>
+						<div style="width: 40%; float: right">
+							
+						</div>
+	            	</div>
+                
+                </div>
+                <div id="tab3" class="tab_content">
+                	<div class="rowElem" style="padding: 5px">
+                		<?php 
+						if(!empty($this->objTelefones)){
+							$cont=0;
+							foreach ($this->objTelefones as $telCon):
+								$tel[$cont][tel] 	= $telCon->NUMERO;
+								$tel[$cont][ddi] 	= $telCon->DDI;
+								$tel[$cont][ddd] 	= $telCon->DDD;
+								$tel[$cont][next] 	= $telCon->NEXTEL;
+								$cont++;
+							endforeach;
+							
+						}
+						
+						if(!empty($this->objEmail)){
+							foreach ($this->objEmail as $email):
+								if($email->tipo==1):
+									$emailv[0][email] 		= $email->EMAIL;
+									$emailv[0][contato] 	= $email->NOME_CONTATO;
+								endif;
+								if($email->tipo==3):
+									$emailv[2][email] 		= $email->EMAIL;
+									$emailv[2][contato] 	= $email->NOME_CONTATO;
+								endif;
+								if($email->tipo==4):
+									$emailv[3][email] 		= $email->EMAIL;
+									$emailv[3][contato] 	= $email->NOME_CONTATO;
+								endif;
+								
+							endforeach;
+							
+						}
+						?>						
+						
+	               		<table style="width: 100%" >
+					     	<tr>
+					     		<td style="width: 5%"> 
+					     			DDI:<br /><input type="text" name="ddi1" class="botDir" title="DDI" style="width: 25px" value='<?php if($tel[0][ddi]=='') echo "+55"; else echo $tel[0][ddi];?>'/>		     			 
+					     		</td>		
+					     		<td style="width: 5%">
+								    DDD:<br /><input type="text" name='ddd1' style="width: 25px"  maxlength="4" value='<?php echo $tel[0][ddd];?>' size="2"  class="inteiro">
+								</td>			     		
+								<td style="width: 23%">
+								    Telefone:<br /><input type="text" name='numero1' style="width: 100px" value='<?php echo $tel[0][tel];?>' size="10" class="inteiro">
+								</td>
+								<td style="width: 5%">
+					     			DDI:<br /><input type="text" name='ddi2' style="width: 25px"  maxlength="4" value='<?php if($tel[1][ddi]=='') echo "+55"; else echo $tel[1][ddi];?>'  size="2">		     			 
+					     		</td>		
+					     		<td style="width: 5%">
+								    DDD:<br /><input type="text" name='ddd2' style="width: 25px" maxlength="4" value='<?php echo $tel[1][ddd];?>'  size="2" class="inteiro">
+								</td>			     		
+								<td  style="width: 23%">
+								    Telefone:<br /><input type="text"  name='numero2' style="width: 100px" value='<?php echo $tel[1][tel];?>' size="10" class="inteiro">
+								</td>
+								<td style="width: 5%">
+					     			DDI:<br /><input type="text" name='ddi3' style="width: 25px" maxlength="4" value='<?php if($tel[2][ddi]=='') echo "+55"; else echo $tel[2][ddi];?>'  size="2">		     			 
+					     		</td>		
+					     		<td style="width: 5%">
+								    DDD:<br /><input type="text" name='ddd3' style="width: 25px" maxlength="4" value='<?php echo $tel[2][ddd];?>'  size="2" class="inteiro">
+								</td>			     		
+								<td  >
+								    Fax:<br /><input type="text" name='numero3' style="width: 100px" value='<?php echo $tel[2][tel];?>'  size="10" class="inteiro">
+								</td>
+					     	</tr>
+					     	<tr>
+					     		<td colspan="3"> 
+					     			Nextel:<br /><input type="text" name="nextel1" value='<?php echo $tel[0][next];?>' class="botDir" title="Rádio nextel" style="width: 150px" />		     			 
+					     		</td>	
+					     		<td colspan="6"> 
+					     			Nextel:<br /><input type="text" name="nextel2" value='<?php echo $tel[1][next];?>' class="botDir" title="Rádio nextel" style="width: 150px" />		     			 
+					     		</td>
+					     	</tr>							     	
+					     	<tr>
+					     		<td colspan="5"> 
+					     			Email institucional:<br /><input type="text" name="email1" value="<?php echo $emailv[0][email]?>" class="botDir" title="Email" style="width: 300px" />		     			 
+					     		</td>
+					     		<td colspan="4">
+									Contato:<br>
+									<input type="text" name="contato1" value='<?php echo $emailv[0][contato]?>' style="width: 150px">
+								</td>				     		
+					     	</tr>	
+					     	<tr>
+					     		<td colspan="5"> 
+					     			Email garantias:<br /><input type="text" name="email4" value="<?php echo $emailv[3][email]?>" class="botDir" title="Email" style="width: 300px" />		     			 
+					     		</td>
+					     		<td colspan="4">
+									Contato:<br>
+									<input type="text" name="contato4" value='<?php echo $emailv[3][contato]?>' style="width: 150px">
+								</td>				     		
+					     	</tr>
+					     	<tr>
+					     		<td colspan="5"> 
+					     			Email NF-e:<br /><input type="text" name="email3" value='<?php echo $emailv[2][email]?>' class="botDir" title="Email" style="width: 300px" />		     			 
+					     		</td>
+					     		<td colspan="4">
+									Contato:<br>
+									<input type="text" name="contato3" value='<?php echo $emailv[2][contato]?>' style="width: 150px">
+								</td>				     		
+					     	</tr>
+					     </table>			     
+	                		
+	                	<div class="fix"></div>
+	            	</div>
+                	<div class="fix"></div>
+                	
+                	<div  style="padding: 5px">
+                		<div class="head"><h5 class="iAlert">Endereço de entrega</h5></div>
+                		<?php 
+						if(!empty($this->objEnd)){
+							$cont=0;
+							foreach ($this->objEnd as $endereco):
+								$end[$cont][log] 		= $endereco->LOGRADOURO;
+								$end[$cont][bairro] 	= $endereco->BAIRRO;
+								$end[$cont][cid] 		= $endereco->CIDADE;
+								$end[$cont][est] 		= $endereco->ESTADO;
+								$end[$cont][pais] 		= $endereco->PAIS;
+								$end[$cont][cep] 		= $endereco->CEP;
+								$end[$cont][idcidade] 	= $endereco->id_cidades;
+								$end[$cont][numero] 	= $endereco->numero;
+								$end[$cont][complemento]= $endereco->complemento;
+								$cont++;
+							endforeach;								
+						 }
+						 
+						?>
+	                	<table style="width: 100%" >
+					     	<tr>
+					     		<td style="width: 40%" colspan="2"> 
+					     			 Logradouro:<br /><input type="text" name="logradouro1" value='<?php echo $end[0][log]?>' class="botDir" title="Endereço. Ex.: Rua, quadra, avenida..." style="width: 300px" />		     			 
+					     		</td>					     		
+					     		<td style="width: 10%"> 
+					     			 Nº:<br /><input type="text" name="n1" value='<?=$end[0][numero]?>' class="botDir" title="Número" style="width: 40px" />		     			 
+					     		</td>
+					     		<td > 
+					     			 Bairro:<br /><input type="text" name="bairro1" value='<?php echo $end[0][bairro]?>' class="botDir" title="Bairro" style="width: 150px" />		     			 
+					     		</td>
+					     	</tr>
+					     	<tr>
+					     		<td >
+					     			 Pais:<br>
+					     			 <div class="styled-select" style="width: 160px">
+										<select style="width: 182px" name="pais" onchange="buscaEstados(this.value,'1','estado');">
+											<option value='0'>Selecione</option>
+											<?php 
+											foreach ($this->objPaises as $listpaises):
+												?>
+												<option value="<?=$listpaises->id?>" <?php if($end[0][pais] == $listpaises->id): ?> selected="selected" <?php endif; ?>><?=$listpaises->nome?></option>
+												<?php 
+											endforeach;
+											?>
+										</select>  		    
+									</div> 			 
+					     		</td>
+					     		<td style="padding-left: 5px">
+					     			 Estado:<br>
+					     			 <div id="estado">
+					     			 	<div class="styled-select" style="width: 180px">
+										<select id="uf" name="uf" onchange="buscaEstados(this.value,'2','cidade');" style="width: 202px">
+											<option value="0">Selecione</option>
+											<?php 
+											foreach ($this->objUf as $list):		
+												?>
+												<option value='<?php echo $list->id?>' <?php if($end[0][est] == $list->id): ?> selected="selected" <?php endif; ?>><?=$list->nome?></option>
+												<?php 
+											endforeach;
+											?>
+										</select>
+									</div>
+									</div>		     			 
+					     		</td>
+					     		<td colspan="2" style="padding-left: 5px">
+					     			 Cidade:<br>
+					     			 <div id="cidade">
+					     			 	<div class="styled-select" style="width: 260px">
+											<select id="cidade" name="cidade" style="width: 282px">
+												<option value="0">Selecione</option>
+												<?php 
+												foreach ($this->objCidades as $list):		
+													?>
+													<option value='<?php echo $list->id?>' <?php if($end[0][idcidade] == $list->id): ?> selected="selected" <?php endif; ?>><?=$list->nome?></option>
+													<?php 
+												endforeach;
+												?>
+											</select>
+										</div>
+									</div>				     			 
+					     		</td>					     		
+					     	</tr>					     	
+					     	<tr>
+					     		<td colspan="2">
+					     			Complemento:<br /><input type="text" name="complemento1" value='<?php echo $end[0][complemento]?>' class="botDir" title="Complemento" style="width: 250px" />
+					     		</td>
+					     		<td colspan="2">
+					     			Cep:<br /><input type="text" name="cep1" class="botDir" title="Cep" style="width: 90px" value='<?php echo $end[0][cep]?>' size="10" class="inteiro">
+					     		</td>
+					     	</tr>
+					     	
+					     </table>			     
+	                	
+	                </div>
+	            	<div class="fix"></div>
+	            	
+	            	<div  style="padding: 5px">
+                		<div class="head"><h5 class="iAlert">Endereço de cobrança</h5></div>
+                		
+	                	<table style="width: 100%" >
+	                		<tr >
+								<td colspan="4" align="left" >
+								<input type="checkbox" name="cpendereco" value="1"><label>O mesmo da entrega</label>
+								</td>
+							</tr>
+	                	
+					     	<tr>
+					     		<td style="width: 40%" colspan="2"> 
+					     			 Logradouro:<br /><input type="text" name="logradouro2" value="<?php echo $end[1][log]?>" class="botDir" title="Endereço. Ex.: Rua, quadra, avenida..." style="width: 300px" />		     			 
+					     		</td>					     		
+					     		<td style="width: 10%"> 
+					     			 Nº:<br /><input type="text" name="n2" value="<?=$end[1][numero]?>" class="botDir" title="Número" style="width: 40px" />		     			 
+					     		</td>
+					     		<td > 
+					     			 Bairro:<br /><input type="text" name="bairro2" value="<?php echo $end[1][bairro]?>" class="botDir" title="Bairro" style="width: 150px" />		     			 
+					     		</td>
+					     	</tr>			     	
+					     	
+					     	<tr>
+					     		<td >
+					     			 Pais:<br>
+					     			 <div class="styled-select" style="width: 160px">
+										<select style="width: 182px" name="pais2" onchange="buscaEstados(this.value,'1','estado2','cidade2','ufcob');">
+											<option value='0'>Selecione</option>
+											<?php 
+											foreach ($this->objPaises as $listpaises):
+												?>
+												<option value="<?=$listpaises->id?>" <?php if($end[1][pais] == $listpaises->id): ?> selected="selected" <?php endif; ?>><?=$listpaises->nome?></option>
+												<?php 
+											endforeach;
+											?>
+										</select>  		    
+									</div> 			 
+					     		</td>					     		
+					     		<td style="padding-left: 5px">
+					     			 Estado:<br>
+					     			 <div id="estado2">
+					     			 	<div class="styled-select" style="width: 180px">
+										<select id="ufcob" name="ufcob" onchange="buscaEstados(this.value,'2','cidade2');" style="width: 202px">
+											<option value="0">Selecione</option>
+											<?php 
+											foreach ($this->objUf2 as $list):		
+												?>
+												<option value='<?php echo $list->id?>' <?php if($end[1][est] == $list->id): ?> selected="selected" <?php endif; ?>><?=$list->nome?></option>
+												<?php 
+											endforeach;
+											?>
+										</select>
+									</div>
+									</div>		     			 
+					     		</td>
+					     		<td colspan="2" style="padding-left: 5px">
+					     			 Cidade:<br>
+					     			 <div id="cidade2">
+					     			 	<div class="styled-select" style="width: 260px">
+											<select id="cidade2" name="cidade2" style="width: 282px">
+												<option value="0">Selecione</option>
+												<?php 
+												foreach ($this->objCidades2 as $list):		
+													?>
+													<option value='<?php echo $list->id?>' <?php if($end[1][idcidade] == $list->id): ?> selected="selected" <?php endif; ?>><?=$list->nome?></option>
+													<?php 
+												endforeach;
+												?>
+											</select>
+										</div>
+									</div>				     			 
+					     		</td>					     		
+					     	</tr>					     	
+					     	<tr>
+					     		<td colspan="2">
+					     			Complemento:<br /><input type="text" name="complemento2" value="<?php echo $end[1][complemento]?>" class="botDir" title="Complemento" style="width: 250px" />
+					     		</td>
+					     		<td colspan="2">
+					     			Cep:<br /><input type="text" name="cep2" class="botDir" title="Cep" style="width: 90px" value='<?php echo $end[1][cep]?>' size="10" class="inteiro" /> 
+					     		</td>
+					     	</tr>
+					     	
+					     </table>			     
+	                	
+	                </div>
+	            	<div class="fix"></div>	   	                
+	            	
+	            	<div  style="padding: 5px">
+                		<div class="head"><h5 class="iAlert">Endereço chinês</h5></div>
+                		<?php if(!empty($this->objEndchi)) foreach ($this->objEndchi as $endchi);?>
+	                	<table style="width: 100%" >
+					     	<tr>
+					     		<td style="width: 40%" colspan="2"> 
+					     			 Logradouro:<br /><input type="text" name="logradourochi" value='<?php echo ($endchi->LOGRADOURO);?>' class="botDir" title="Endereço redigido em chinês" style="width: 400px" />		     			 
+					     		</td>					     		
+					     		<td style="width: 10%"> 
+					     			Estado:<br>
+					     			<div class="styled-select" style="width: 200px">
+										<select style="width: 222px" name="ufchi">
+										<option value=''>Selecione</option>
+										<?php foreach ($this->objUfChina as $listU){ ?>
+											<option value='<?php echo $listU->id?>' <?php if($endchi->ESTADO==$listU->id) echo 'selected=selected'; ?> ><?php echo ($listU->nome)?></option>
+										<?php } ?>
+										</select> 	 	
+									</div>	     			 
+					     		</td>
+					     		<td colspan="2">
+					     			Cep:<br /><input type="text" class="botDir" title="Cep em chinês" style="width: 90px" name="cepchi" value='<?php echo $endchi->CEP?>' size="10" class="inteiro" />
+					     		</td>
+					     	</tr>
+					     	
+					     </table>			     
+	                	
+	                </div>
+	            	<div class="fix"></div>
+		    	</div>
+                	
+                <div id="tab4" class="tab_content">
+                	<div class="rowElem" style=" margin-top: -10px; padding: 5px"> 
+	              
+	              	<?php if(!empty($this->objDesc)) foreach ($this->objDesc as $desc); ?>
+	                <div>
+	                	Transportadora:<br/>
+                       	<div class="styled-select" style="width: 250px">
+                       	<select name="trans" style="width: 272px">
+                       		<option value="0">Selecione</option>
+                        	<option value="nc" <?php if($parc->tptransp=="1") echo 'selected="selected"'; ?>>Nosso carro</option>
+                            <option value="cr" <?php if($parc->tptransp=="2") echo 'selected="selected"'; ?>>Cliente Retira</option>
+                            <?php foreach ($this->objTransport as $transport): ?>
+                            <option value="<?=$transport->ID?>" <?php if(($transport->ID==$parc->id_transportadoras) and ($parc->tptransp=="0")) echo 'selected="selected"'; ?> ><?=$transport->EMPRESA?></option>
+                            <?php endforeach;?>
+                        </select>
+                        </div>
+                 	</div>
+                 	
+                 	<div class="fix"></div>
+                 	
+                    <div>    
+                    	Moeda de compra: <br>
+						<div class="styled-select" style="width: 150px">
+						<select name="moeda" style="width: 172px;">
+							<?php $moeda = $parc->moeda?> 
+							<option value="0"> Selecione</option>
+							<option value="BRL"<?php if($moeda=="BRL") echo 'selected="selected"';	?> > BRL</option>
+							<option value="USD"<?php if($moeda=="USD") echo 'selected="selected"';	?>> USD</option>
+							<option value="RMB"<?php if($moeda=="RMB") echo 'selected="selected"';	?>> RMB</option>
+							<option value="EUR"<?php if($moeda=="EUR") echo 'selected="selected"';	?>> EUR</option>
+						</select>
+						</div>
+					</div>                    
+					
+					<div class="fix"></div>
+					
+					<div class="head" style="margin: 10px 0px 10px 0px; border-bottom: 0px"><h5 class="iAlert">Descontos(%)</h5></div>
+					
+					<div>
+						1 <input type="text" style="width: 35px" name='desc1'  value='<?=number_format($desc->desc1,2,",",".")?>' class="moeda">
+						2 <input type="text" style="width: 35px" name='desc2' value='<?=number_format($desc->desc2,2,",",".")?>' class="moeda"">
+						3 <input type="text" style="width: 35px" name='desc3' value='<?=number_format($desc->desc3,2,",",".")?>' class="moeda""> 
+						4 <input type="text" style="width: 35px" name='desc4' value='<?=number_format($desc->desc4,2,",",".")?>' class="moeda""> 
+						5 <input type="text" style="width: 35px" name='desc5' value='<?=number_format($desc->desc5,2,",",".")?>' class="moeda""> 
+					</div>
+					
+					<div class="fix"></div>
+						
+					<div class="head" style="margin: 10px 0px 10px 0px; border-bottom: 0px"><h5 class="iAlert">Prazos</h5></div>
+					
+						1 <input type="text" style="width: 25px" name='prazo1'  value='<?php echo $desc->prazo1?>' class="inteiro">
+						2 <input type="text" style="width: 25px" name='prazo2' value='<?php echo $desc->prazo2?>' class="inteiro"> 
+						3 <input type="text" style="width: 25px"name='prazo3' value='<?php echo $desc->prazo3?>' class="inteiro"> 
+						4 <input type="text" style="width: 25px" name='prazo4' value='<?php echo $desc->prazo4?>' class="inteiro"> 
+						5 <input type="text" style="width: 25px" name='prazo5' value='<?php echo $desc->prazo5?>' class="inteiro"> 
+						
+					<div class="fix"></div>
+					
+					<div class="head" style="margin: 10px 0px 10px 0px; border-bottom: 0px"><h5 class="iAlert">Instrução da proforma</h5></div>
+					
+					<div>
+					  	<?php if(!empty($this->objinfkang)) foreach ($this->objinfkang as $info); ?>
+				       	<table style="border: 1px solid #ccc; width: 100%; " > 
+				             <tr>
+					            <td align="left" style="padding: 5px; width: 40%">
+					            From: <br /><input type="text" style="width: 200px" value='<?php echo $info->from_c?>' name="defrom" > 
+					            </td>
+				                <td style="padding: 5px">
+					            To: <br /><input type="text"  style="width: 200px" name="to"  value='<?php echo $info->to_c?>' > 
+					            </td>
+				            </tr>
+				             <tr>
+					            <td align="left" style="padding: 5px" colspan="2">
+					            Freight Terms: <br /><input type="text"  style="width: 600px" value='<?php echo $info->freight?>' name="freight" > 
+					            </td>				                
+				            </tr>
+				            <tr>
+					            <td align="left"  style="padding: 5px" colspan="2">
+					            Payment Terms: <br /> <input type="text"  style="width: 600px" value='<?php echo $info->payment?>' name="terms" > 
+					            </td>
+				                
+				            </tr>
+				            <tr>
+					            <td align="left"  style="padding: 5px">
+					            	Shipment Agent: <br /><input type="text"  style="width: 350px" name="agent" value='<?php echo $info->agente_shipment?>' > 
+					            </td>
+				                <td align="left"  style="padding: 5px">
+					                Partial shipment accepted? &nbsp;
+					                <div class="styled-select" style="width: 100px">
+						            <select name="acc" style="width: 122px">
+							            <option <?php if($info->partial_shipment=="YES") echo 'selected="selected"';	?> >YES</option>
+										<option <?php if($info->partial_shipment=="NO") echo 'selected="selected"';	?> >NO</option>	            
+									</select> 
+									</div>
+					            </td>
+				            </tr>
+				            
+				        </table>
+							
+					</div>		
+					
+					
+					<div class="fix"></div>
+                	
+                	<div  style="padding: 15px 5px 5px 5px">
+                		<div class="head"><h5 class="iAlert">Consignee</h5></div>
+                					
+                		<input type="hidden" name="idconsignee" value="<?php echo $this->objConsignee->id?>">
+                								
+	                	<table style="width: 100%" >
+					     	<tr>
+					     		<td style="width: 40%" colspan="2"> 
+					     			 Empresa:<br /><input type="text" name="consigneeempresa" value="<?php echo $this->objConsignee->empresa?>" style="width: 300px" />		     			 
+					     		</td>					     		
+					     		<td colspan="2" > 
+					     			 CNPJ: <br /><input type="text" name="consigneecnpj" value="<?php echo $this->objConsignee->cnpj?>" style="width: 120px" />		     			 
+					     		</td>
+					     		<td style="width: 350px"> 
+					     			 Insc: <br /><input type="text" name="consigneeie" value="<?php echo $this->objConsignee->ie?>" style="width: 90px" />		     			 
+					     		</td>
+					     	</tr>
+					     	<tr>
+					     		<td style="width: 40%" colspan="2"> 
+					     			 Logradouro/Número:<br /><input type="text" name="consigneelogradouro" value="<?php echo $this->objConsignee->logradouro?>" style="width: 300px" />		     			 
+					     		</td>					     		
+					     		<td colspan="3"> 
+					     			 Bairro:<br /><input type="text" name="consigneebairro" style="width: 150px" value="<?php echo $this->objConsignee->bairro?>" />		     			 
+					     		</td>
+					     	</tr>
+					     	<tr>
+					     		<td >
+					     			 Pais:<br>
+					     			 <div class="styled-select" style="width: 160px">
+										<select style="width: 182px" name="consignepais" data-campo="consigneeuf" class="select-pais">
+											<option value='0'>Selecione</option>
+											<?php 
+											foreach ($this->objPaises as $listpaises):
+												?>
+												<option value="<?=$listpaises->id?>" <?php if($this->estadoconsignee->id_paises == $listpaises->id) echo 'selected="selected"'; ?> ><?=$listpaises->nome?></option>
+												<?php 
+											endforeach;
+											?>
+										</select>  		    
+									</div> 			 
+					     		</td>
+					     		<td style="padding-left: 5px">
+					     			 Estado:<br>
+					     			 
+				     			 	<div class="styled-select" style="width: 180px">
+									<select id="consigneeuf" name="consigneeuf" style="width: 202px" data-campo="consigneecidade" class="select-uf">
+										<option value="0">Selecione</option>
+										<?php 
+										foreach ($this->objEstadosconsignee as $list):		
+											?>
+											<option value='<?php echo $list->id?>' <?php if($this->estadoconsignee->id == $list->id) echo 'selected="selected"'; ?> ><?php echo $list->nome?></option>
+											<?php 
+										endforeach;
+										?>
+									</select>
+									</div>
+									     			 
+					     		</td>
+					     		<td colspan="3" style="padding-left: 5px">
+					     			 Cidade:<br>
+					     			 <div class="styled-select" style="width: 260px">
+										<select id="consigneecidade" name="consigneecidade" style="width: 282px">
+											<option value="0">Selecione</option>
+											<?php 
+											foreach ($this->objCidadesconsignee as $list):		
+												?>
+												<option value='<?php echo $list->id?>' <?php if($this->cidadeconsignee->id == $list->id) echo 'selected="selected"'; ?> ><?php echo $list->nome?></option>
+												<?php 
+											endforeach;
+											?>
+										</select>
+									</div>		     			 
+					     		</td>					     		
+					     	</tr>					     	
+					     	<tr>
+					     		<td >
+					     			Cep:<br /><input type="text" name="consigneecep" style="width: 120px" value='<?php echo $this->objConsignee->cep?>' >
+					     		</td>
+					     		<td colspan="4">
+					     			Telefone:<br /><input type="text" name="consigneefone" value="<?php echo $this->objConsignee->fone?>" style="width: 120px" />
+					     		</td>
+					     	</tr>
+					     	
+					     </table>			     
+	                	
+	                </div>
+					
+							
+	            	</div>                
+                </div>
+                                                
+                <div id="tab5" class="tab_content">
+                <!-- Arquivos -->
+	                <div class="widget first" style="width: 100%; border: 0px;">
+		 			<table style="width: 100%" class="tableStatic">
+		                <tbody>
+		                	<?php 
+		                	if(count($this->objArquser)>0):
+		                	foreach ($this->objArquser as $arquivos):
+		                	?>
+		                	<tr>
+		                        <td width="10%" style="text-align: center;">
+		                        	<a target="_blank" href="<?php echo $this->baseUrl()?>/public/sistema/upload/clientes/<?php echo $parc->ID?>/cadastro/<?php echo $arquivos->nome?>" >
+		                        		<img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/icons/middlenav/paperclip.png" border="0" >
+		                        	</a>
+		                        </td>
+		                        <td >
+		                        	<a target="_blank" href="<?php echo $this->baseUrl()?>/public/sistema/upload/clientes/<?php echo $parc->ID?>/cadastro/<?php echo $arquivos->nome?>" >
+			                        	<?php echo $arquivos->nomearquivo?>
+			                        </a>
+		                        </td>
+		                        <td width="10%" style="text-align: center;">
+		                        	<a href="#" onclick="confirmRemoveanexo('<?php echo md5($arquivos->id)?>');" ><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/close.png" width="15" border="0" title="Remover"></a>
+		                        </td>
+		                    </tr>
+		                    <?php 
+		                    endforeach;
+		                    endif;
+		                    ?>
+		                </tbody>
+		            </table>
+		            </div>                
+                	
+                	<div class="fix"></div>
+                	
+                	<table id="archive" style="width: 100%; " >
+						<tr>
+							<td>
+								
+								<div class="rowElem">
+			                        <label style="width: 45px">Anexo:</label> 
+			                        <div class="formRight" >
+			                        	<input type="text" name="nomearquivo1" style="width: 130px; margin-right: 5px" />
+			                            <input type="file" class="fileInput" id="fileInput" name="anexo1" onchange="addArchive(this)"/>
+			                        </div>
+			                        <div class="fix"></div>
+			                    </div>
+			                   
+							</td>
+						</tr>
+					</table>
+					<input type="hidden" name="intarchive" id="intarchive" >
+					<script type="text/javascript">
+		        		var intarc = 1;
+			        	function addArchive(anexo) {
+			        		document.getElementById(anexo.name).value = $(anexo).val();
+				        	
+				        	intarc = intarc + 1;
+			        		var tbCod = document.getElementById("archive").insertRow(-1);
+			        		var y = tbCod.insertCell(0);
+
+			        		y.innerHTML='<div class="rowElem"><label style="width: 45px">Anexo:</label><div class="formRight"><input type="text" name="nomearquivo'+intarc+'" style="width: 130px; margin-right: 5px" />'+
+	                            '<input id="anexo'+intarc+'" style="display: inline; width: 300px;" class="file fileInput"><div style="display: inline; position: absolute; overflow: hidden;" class="feat"><input style="position: relative; height: 26px; width: 300px; display: inline; cursor: pointer; opacity: 0; margin-left: -168px;" class="fileInput" id="fileInput" name="anexo'+intarc+'" onchange="addArchive(this)" type="file"></div>'+
+	                        	'</div><div class="fix"></div></div>';
+			        		
+			        		document.getElementById("intarchive").value = intarc;
+			        		
+			        	}
+		        	</script> 
+			       	<div class="fix"></div>
+                </div>
+                
+                <?php if(!empty($parc->ID)): ?>
+                <div id="tab5" class="tab_content">
+                	<div id="divreccomp">
+	                	Aguarde...
+	                </div>
+                </div>
+	            <?php endif;?>                
+            </div>	
+            <div class="fix"></div>
+            
+            <div style="">
+            	<input type="submit" value="Salvar" class="greenBtn" style="float: right; margin: 10px 0px 0px 0px"/>
+            </div>		 
+        </div>
+        </form>
+        
+    	<div class="fix"></div>
+    
+    </div>
+    
+    <script>
+	
+	function confirmRemoveanexo(idanexo){
+		jConfirm('Você deseja remover este anexo?', 'Confirme', function(r) {
+			if(r==true){
+				window.location='<?=$this->baseUrl()?>/admin/cadastro/parceirosremanexo/anexo/'+idanexo;
+			}
+		});
+    }
+
+	<?php 
+    if($this->objEdi != true):
+    ?>
+
+	$(function() {
+		var totalFields = document.cad_cliente.elements.length;
+		
+		for (i = 0; i < totalFields; i++) {
+            document.cad_cliente.elements[i].disabled = true;
+    	}
+	
+	});
+    
+	<?php 
+	endif;
+    ?>
+
+    <?php 
+    		
+    if($this->objRet['erro1'] == 1){
+		?>jAlert('Erro ao salvar o parceiro!', 'Erro');<?php
+	}elseif($this->objRet['erro2'] == 1){
+		?>jAlert('Erro ao salvar os endereços/telefones!', 'Erro');<?php
+	}elseif($this->objRet['erro3'] == 1){
+		?>jAlert('Erro ao salvar os arquivos!', 'Erro');<?php
+	}elseif($this->objRet['erro4'] == 1){
+		?>jAlert('Erro ao atualizar os contatos!', 'Erro');<?php
+	}elseif($this->objRet['idcliente'] != ""){
+		?>jAlert('Parceiro cadastrado com sucesso!', 'Sucesso');<?php
+	}	
+
+    ?>
+	    
+    </script>
+    

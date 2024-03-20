@@ -1,0 +1,22 @@
+<ul class="sub" >
+<?php 
+foreach($this->objSubmenu as $listasub):
+	?>
+    <li><a href="<?=$this->baseUrl().'/admin'.($listasub->item_new)?>" title="<?php echo $listasub->item?>"><?=$this->translate->_($listasub->item); ?></a></li>
+    <?php 
+endforeach;
+?>
+</ul>
+
+
+<?php 
+if($this->menuErro == 1):
+?>
+<script type="text/javascript">
+<!--
+jAlert('Você não está mais logado no sistema. Efetue um novo acesso!','Erro');
+//-->
+</script>
+<?php 
+endif;
+?>

@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>SisZTL 2.0 Alpha - ztlbrasil.com.br</title>
+	<link href="<?=$this->baseUrl()?>/public/sistema/imagens/ztl.ico" rel="shortcut icon" type="image/x-ico"/>
+	<link href="<?=$this->baseUrl()?>/public/sistema/css/mainprint.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	<div class="content" style="width: 1000px; margin: auto">
+    	<div class="widgets">
+    		<div class="left">SisZTL 2.0 Alpha</div>
+    		<div class="right" style="text-align: right;"><?php echo date('d/m/Y H:i')?></div>
+    		<div class="clear"></div>	
+    	</div>   
+    	
+    	<div class="title"><h5>Produtos em promoção</h5></div>
+    
+		<?php
+        if(count($this->objList) > 0) :			
+		?>			
+		<div class="widget first">
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="10%">Ord</td>
+                        <td width="">Código</td>
+                        <td >Valor de tabela</td>
+                        <td >Descrição</td>
+                    </tr>
+                </thead>
+                <tbody>
+               
+				<?php 
+				$cor=0;
+				foreach($this->objList as $lista):
+					$cor++;
+			    	?>
+					<tr >
+		                <td   style="text-align: center;" ><?php echo $cor?></td>
+		                <td   align="left" ><?php echo $lista->CODIGO?></td>
+		                <td   style="text-align: right;" ><?php echo number_format($lista->PRECO_UNITARIO,2,",",".")?></td>
+		                <td align="left" ><?php echo $lista->descpromo?></td>
+		            </tr>  
+		         <?php 
+		         endforeach;
+		         ?>
+		      	</tbody>       
+			</table>
+		</div>
+		
+        <?php 
+		else :
+			?>
+			<div class="fix"></div>
+			<div style="text-align: center; margin-top: 30px">Nenhum produto está em promoção</div>
+			<?php 
+		endif;
+		?>
+	</div>	
+</body>
+</html>
+	

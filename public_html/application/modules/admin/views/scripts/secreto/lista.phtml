@@ -1,0 +1,102 @@
+<style>
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	color: #666666;
+	font: 11px Arial, Helvetica, sans-serif;
+	background:url(../images/bg_principal.jpg)
+}
+.text{
+	color: #666666;
+	font: bold 11px Arial, Helvetica, sans-serif;
+}
+
+button{
+	color:#666666;
+	font: bold 10px Arial, Helvetica, sans-serif;
+	background-color:#E0E0E0;
+	border:1px solid #333;
+	padding:0px;
+	padding-left:5px;
+	padding-right:5px;
+	text-decoration:none;
+}
+
+input,textarea,select{
+	font: 11px Arial, Helvetica, sans-serif;
+	border: 1px solid #444;
+}
+
+input:focus {
+	border: 1px solid #444;
+	background: #f1f1f1;
+	font: 11px Arial, Helvetica, sans-serif;
+}
+
+
+
+</style>
+<body>
+<?php if($this->objlista):?>
+<form method="post" action="lista" name="seleciona" id="seleciona">
+<input type="hidden" name="iduser" value="<?php echo $this->objUs?>">
+<table align="center" style="margin-top: 0px; background:url(<?php echo $this->baseUrl()?>/public/images/Amigo_online.jpg); width: 1024; height: 641 "  cellpadding="" cellspacing="10px" >
+	<tr>
+		<td align="center" width="60%"></td>
+		<td>
+			<table align="center" style="margin-top: 20px; " cellpadding="" cellspacing="10px"><tr><td>
+			Selecione um numero:<br>
+			<select name="sel" style="width: 150px" onchange="enviar(<?php echo $this->objUs;?>);">
+			<option value="0">Selecione</option>
+			<?php 
+				foreach ($this->objlista as $list):
+					?>
+					<option value="<?php echo $list->id?>"><?php echo $list->id?></option>
+					<?php
+				endforeach;
+				
+			?>
+			</select>
+			
+			
+			</td></tr>
+			</table>
+		</td>
+	</tr>
+</table>
+</form>
+<?php elseif($this->objUser):?>
+<table align="center" style="margin-top: 0px; background:url(<?php echo $this->baseUrl()?>/public/images/Amigo_online.jpg); width: 1024; height: 641 "  cellpadding="" cellspacing="10px" >
+	<tr>
+		<td align="center" width="60%"></td>
+		<td>
+			<table align="center" style="margin-top: 20px; " cellpadding="" cellspacing="10px"><tr><td>
+			Teu amigo secreto &eacute;:<br>
+			<?php 
+			
+			foreach ($this->objUser as $list);
+			echo "<b>".strtoupper($list->login)."</b>";
+			?>
+			<br /><br />Sugest&atilde;o de presente: <br /> <b><?php echo $list->presente?></b>
+			<br><br><br>
+			Grave esse nome, n&atilde;o ser&aacute; poss&iacute;vel gerar um novo!
+			</td></tr>
+			</table>
+		</td>
+	</tr>
+</table>
+<?php endif;?>
+<script type="text/javascript">
+
+function enviar(id){
+	if(document.seleciona.sel.value==id){
+	 	alert("Larga de ser bizonho! Vc escolheu vc mesmo! Escolhe denovo...");	
+	}else{
+		document.seleciona.submit();
+	}
+}
+
+</script>
+</body>

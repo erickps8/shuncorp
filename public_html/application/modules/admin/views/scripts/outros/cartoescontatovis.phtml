@@ -1,0 +1,179 @@
+<table width="100%" cellpadding="0" cellspacing="0" >
+	<tr>
+		<td align="left">				
+		<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 5px" >
+			<tr>
+				<td align="left">
+					<a href="<?php echo $this->baseUrl(); ?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+					<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+					<a href="<?=$this->baseUrl()?>/admin/outros/cartoescontato">
+					<?=$this->translate->_("CONTATOS")?>&nbsp;</a>
+					<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+					<b><?=$this->translate->_("VISUALIZAR CONTATOS")?>&nbsp;</b>
+				</td>
+			</tr>
+		</table>
+ 		</td>
+	</tr>
+	<tr>
+		<td>
+			<table width="100%" class="borda_titulo" >
+				<tr>
+			    	<td width="left"><?=$this->translate->_("CONTATO")?></td>
+			    </tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<?php 
+			foreach ($this->objContato as $listacont);
+			?>
+			<form action="<?=$this->baseUrl()?>/admin/outros/cadcartoescontato" method="post" name="cadcont" id="cadcont" enctype="multipart/form-data" onsubmit="return validaformprodutochina();"  >
+				<input type="hidden" name="idcontato" value="<?=$listacont->id?>">
+				<table border="0" width="100%" cellpadding="0" cellspacing="4">
+				<tr>
+              		<td colspan="4" class="borda_tcadastro" align="left">
+					<br />
+					<b><?=$this->translate->_("CONTATO")." ".$this->translate->_("ID")." ".substr("000".$listacont->id,-3,3)?>  </b>
+              		</td>
+              	</tr>
+              	<tr>
+              		<td align="left" width="45%" colspan="2">
+						<?=$this->translate->_("Empresa")?>:<br />
+						<b><?=$listacont->empresa?></b>
+					</td>
+					<td   align="left" colspan="2">
+						<?=$this->translate->_("Nome Contato")?>:<br />
+						<b><?=$listacont->contato?></b>
+					</td>
+					
+              	</tr>
+              	<tr>
+              		<td align="left" ><b>
+						<?=$this->translate->_("Pais")?>:<br />
+						<?php 
+						foreach ($this->objPaises as $listpaises):
+							if($listacont->id_paises==$listpaises->id) echo $listpaises->nome;
+						endforeach;
+						?></b>
+					</td>
+              		<td align="left">
+						Estado:<br><b>
+						<?php 
+						foreach ($this->objUf as $listuf):
+							if($listacont->id_estado==$listuf->id) echo $listuf->nome; 
+						endforeach;
+						?></b>
+						
+					</td>
+					<td align="left" colspan="2">
+						<?=$this->translate->_("Cidade")?>:<br />
+						<b><?=$listacont->cidade?></b>
+					</td>
+					
+              	</tr>
+              	<tr>
+              		<td align="left" colspan="4">
+						<?=$this->translate->_("Grupo")?>:<br />
+						<b>
+						<?php 
+						foreach ($this->objGrupos as $grupos):
+							if($listacont->id_cartoesgrupos == $grupos->id) echo $grupos->nome;
+						endforeach;
+						?></b>					
+						
+					</td>
+              	</tr>
+              	<tr>
+              		<td colspan="2"  align="left">
+						<?=$this->translate->_("E-mail")?>:<br />
+						<b><?=$listacont->email?></b>
+					</td>
+					<td colspan="2"  align="left">
+						<?=$this->translate->_("Sítio")?>:<br />
+						<b><?=$listacont->site?></b>
+					</td>
+              	</tr>
+              	<tr>
+              		<td colspan="4"  align="left">
+						<?=$this->translate->_("Observação")?>:<br />
+						<b><?=$listacont->obs?></b>
+					</td>
+              	</tr>
+              	<tr>
+              		<td colspan="4" class="borda_tcadastro" align="left">
+					<br />
+					<b><?=$this->translate->_("TELEFONES")?></b>
+              		</td>
+              	</tr>
+              	
+              	<tr>
+              		<td align="left" colspan="4">
+              			<table width="100%" cellpadding="0" cellspacing="0" id="archive">
+              				<tr>
+              					<td align="left" width="20%">
+								</td>
+			              		<td align="left">
+								</td>
+							</tr>
+							<?php 
+							$conttel=0;
+							foreach ($this->objFones as $listafones):
+							$conttel++;
+							?>
+							<tr>
+              					<td align="left" valign="middle">
+              						<?=$this->translate->_("Tipo")?>:<br />
+              						<b><?=$listafones->tipo?></b>
+								</td>
+			              		<td align="left" valign="middle">
+								<?=$this->translate->_("Número")?>:<br />
+								<b><?=$listafones->ddi." ".$listafones->ddd." ".$listafones->telefone?></b>
+								</td>
+							</tr>
+							<?php endforeach;?>
+						</table>
+										
+					</td>
+              	</tr>
+              	<tr>
+              		<td colspan="4" class="borda_tcadastro" align="left">
+					<br />
+					<b><?=$this->translate->_("ARQUIVOS")?></b>
+              		</td>
+              	</tr>
+              	<tr>
+					<td colspan="4" align="left" valign="middle" >
+						<table id="archive2">
+							<?php 
+							$contan = 0;
+							foreach ($this->objAnexos as $listaanexos):
+							$contan ++;
+							?>
+							<tr>
+              					<td align="left" valign="middle">
+              						<a target="_blank" href="<?=$this->baseUrl()?>/contatoscartoes/<?=$listaanexos->nome?>" >Anexo <?=$contan?></a>
+								</td>			              		
+							</tr>
+							<?php endforeach;?>
+						</table>
+					</td>
+				</tr>
+              	<tr>
+              		<td colspan="4"  align="left">
+					<br />
+              		</td>
+              	</tr>
+              	<tr>
+              		<td align="left"  colspan="4" style="border-top: 1px solid #999;">
+              		<br />
+              		<input type="button" value="<?=$this->translate->_("Editar")?>" onclick="window.location='<?=$this->baseUrl()?>/admin/outros/cartoescontatonovo/contato/<?=md5($listacont->id)?>'" >
+              		</td>
+              	</tr>
+              	</table>
+			</form>		
+ 		</td>
+	</tr>
+ </table>
+		

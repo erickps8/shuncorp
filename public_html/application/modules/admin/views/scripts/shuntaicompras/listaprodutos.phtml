@@ -1,0 +1,84 @@
+<script src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/taiCompras.js"></script>
+
+<div class="content">
+       <!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/shuntaicompras/pedidos">Compras</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/shuntaicompras/novopedido">Novo pedido</a> </li>
+                	<li class="lastB">Lista de produtos</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5><?php foreach ($this->objNfor as $nomefor);?>
+		<?php echo $nomefor->EMPRESA?></h5></div>
+
+        <div class="widgets">
+
+            <form action="<?=$this->baseUrl()?>/admin/shuntaicompras/gravacompra" method="post" name="prepedido" class="mainForm">
+	        <input name="fornecedor" value="<?php echo $this->objFor;?>" type="hidden">
+			
+			<?php 
+        	if ( count($this->objProdutos) > 0) :
+			?>
+			<div class="widget">
+     			<div class="head" style="border-bottom: 0px">
+     			    <div style="float: left; width: 80%">
+         			    <h5 class="iFrames">Produtos</h5>
+    			    </div>		        
+     			</div>
+            	<table class="tableStatic" style="width: 100%">
+                	<thead>
+                    	<tr>
+                            <td width="">Id</td>
+                            <td width="">Código</td>
+                            <td width="">Descrição</td>
+                            <td width="">Preço</td>
+                            <td width="">QT</td>                                                    
+                        </tr>
+                    </thead>
+                    <tbody>
+			
+        			<?php 
+        			$cor=0;
+        	    	foreach($this->objProdutos as $lista):
+        	    	$cor++;
+	    	        ?>
+            			<tr >
+            			    <td align="center" style="width: 5%">
+                               <?php echo $cor?>                  
+                            </td>
+                            <td align="left" style="width: 20%">
+                               <?php echo $lista->CODIGO?>                  
+                            </td>
+                            <td align="left" style="width: 45%">
+                               <?php echo htmlentities($lista->DESCRICAO)?>                  
+                            </td>
+                            <td align="right" >
+                               <?php echo number_format($lista->custo_shuntai,5,",",".")?>                  
+                            </td>
+                            <td align="center" style="width: 10%">
+                                <input type="text" name="<?php echo $lista->id_prod?>" id="<?php echo $lista->id_prod?>" class="inteiro" style="width: 80%">
+                            </td>
+                        </tr>
+            
+			         <?php  endforeach; ?>
+			       </tbody>
+			   </table>
+			</div>   
+			   
+			<div style="padding-top: 10px">   
+			    <input type="button" value="Gerar compra" id="validaCompra" class="greenBtn">
+			</div>
+			
+			</form>
+    	    <?php 
+    		else :
+    		 ?><div style="padding: 20px; border: 1px solid #d5d5d5; margin-top: 10px">Nenhum produto para este fornecedor</div><?php 
+    	    endif;
+			?>
+		</div>
+	</div>	

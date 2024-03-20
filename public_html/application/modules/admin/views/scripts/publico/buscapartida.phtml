@@ -1,0 +1,26 @@
+<?php 
+if(!empty($this->objPart)):
+	foreach ($this->objPart as $listpart);
+endif;
+?>
+<table width="100%" align="center">
+<tr>
+	<td width="33%" align="center">
+		<?php if($listpart->id_jogador1!=""): ?>
+		<a href="javascript:void(0);" <?php if($listpart->id_jogador2!=""): ?> onclick="if(confirm('Venceu a partida?')){atualizaPartida(<?=$listpart->id_jogador1?>);}" <?php endif;?>>	
+			<img style="border: 1px solid;" src="<?=$this->baseUrl()?>/images/pingpong/jogador/<?=$listpart->id_jogador1?>.jpg" alt="<?=$listpart->id_jogador1?>" height="165" /> &nbsp;
+		</a>
+		<?php endif;?>
+	</td>
+	<td width="34%" align="center">
+	<img src="<?=$this->baseUrl()?>/images/pingpong/vesus.jpg" alt="vs" />
+	</td>
+	<td width="33%" align="center">
+		<?php if($listpart->id_jogador2!=""): ?>
+		<a href="javascript:void(0);" onclick="if(confirm('Venceu a partida?')){atualizaPartida(<?=$listpart->id_jogador2?>);}">
+			<img style="border: 1px solid;" src="<?=$this->baseUrl()?>/images/pingpong/jogador/<?=$listpart->id_jogador2?>.jpg" alt="<?=$listpart->id_jogador2?>" height="165" /> &nbsp;
+		</a>
+		<?php endif;?>
+	</td>
+</tr>
+</table>

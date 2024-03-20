@@ -1,0 +1,65 @@
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztl">Financeiro</a></li>
+                	<li >Administração</li>
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlpcontas">Plano de contas</a></li>
+                	<li class="lastB">Lista do plano de contas</li>					         
+                </ul>
+            </div>
+        </div> 
+        
+        <div class="title"><h5>Lista do plano de contas</h5></div>
+
+        <?php
+		if(count($this->objPlanocontas)>0){
+		?>
+		<div class="widget">
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td >Código</td>
+                        <td >Plano de conta</td>
+                        <td >Util</td>                        
+                    </tr>
+                </thead>
+                <tbody>	
+					
+				<?php 	
+				$verexc = 0;
+				foreach ($this->objPlanocontas as $listplan){
+					$neg = "";
+					if($listplan->utilizavel == 0) $neg = "font-weight: bold;";
+					?>
+					<tr>
+						<td style="text-align: left; padding-left: 30px; <?=$neg?>">
+							<?=$listplan->navegacao?>
+						</td>
+						<td style="<?=$neg?> padding-left: 10px;">
+							<?=$listplan->nome?>
+						</td>
+						<td style="text-align: center; <?=$neg?>">
+							<? if($listplan->utilizavel == 1) echo "SIM"; else echo "NÃO";?>
+						</td>
+					</tr>
+					<?php
+				}
+				?>
+			</tbody>
+            </table>            
+        </div>
+		<?php 
+		}else{
+		?>
+		<div class="widget" style="border-top: 1px solid #d5d5d5; padding: 10px; text-align: center">
+ 			Nenhuma conta encontrada!
+		</div>	
+		<?php 
+		}
+		?>
+	</div>

@@ -1,0 +1,36 @@
+<script src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/buscaGenerica.js"></script>
+
+<!-- Content -->
+    <div class="content">   
+    
+    	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li class="lastB">Ajuste de preços</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Ajuste de preços</h5>
+        	<div style="float: right; padding: 10px">
+				<a target="_blank" href="<?=$this->baseUrl()?>/admin/cadastro/buscaprodutosajustepreco/tp/imp" ><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/printerwhite.png" title="Imprimir" border="0" width="18"></a>
+			</div>
+        </div>
+        
+		<div id="resultado" style="margin-top: 5px;">
+			<div style="padding: 10px; border: 1px solid #d5d5d5;">
+				<img src="<?php echo $this->baseUrl?>/public/sistema/imagens/loaders/loader6.gif"> <i>Aguarde...</i>
+			</div>
+		</div>	
+	</div>
+	
+	<script type="text/javascript">
+	<!--
+	$(function(){
+		buscaGenerica('<?php echo $this->baseUrl(); ?>/admin/cadastro/buscaprodutosajustepreco', 'resultado');
+	});	
+	//-->
+	</script>
+	

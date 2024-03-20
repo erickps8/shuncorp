@@ -1,0 +1,204 @@
+	
+	<div class="content">
+	
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/venda/garantias">Garantias</a></li>         
+                	<li class="lastB">Nova garantia</li>         
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5>Nova Garantia</h5></div>
+
+		<div class="widget" >
+			<div class="body" style="border-top: 1px solid #d5d5d5;">
+			<form action="gravagarantia" name="novogar" method="post"  class="mainForm" enctype="multipart/form-data">
+			<table >
+			<?php if($this->objNivel != 0): ?>
+			<tr>
+				<td align="left" colspan="4">
+					Empresa:<br>
+					<div class="styled-select" style="width: 220px">
+					<select name="cliente" style="width: 242px">
+					<option value="">Selecione</option>
+					<?php foreach ($this->objCli as $lista): ?>
+						<option value="<?php echo $lista->ID?>"><?php echo $lista->EMPRESA?></option>
+					<?php endforeach;?>
+					</select>	
+					</div>
+				</td>
+			</tr>
+			<?php endif; ?>
+			<tr>
+				<td align="left" width="22%" colspan="2">
+					Nota Fiscal:<br>
+					<input type="text" size="20" name="ntfiscal" style="width: 100px">	
+				</td>
+				<td align="left" width="19%">
+					Data expedi&ccedil;&atilde;o:<br>
+					<input type="text" size="10" name="dt_exp" id="dt_exp" style="width: 70px" class="data datepicker">	
+				</td>
+				<td align="left"  >
+					
+				</td>
+			</tr>
+			<tr>
+				<td align="left" width="20%" >
+					Peso:<br>
+					<input type="text" size="13" name="peso" style="width: 70px" class="moedacinco">
+					Kg
+				</td>
+				<td align="left" colspan="3" width="85%">
+					Volumes:<br>
+					<input type="text" size="5" name="volumes" style="width: 50px" class="inteiro">
+				</td>
+			</tr>
+			<tr>
+				<td align="left" colspan="4">
+					<div class="rowElem">
+                        <label style="width: 25px">Anexo:</label> 
+                        <div class="formRight" >
+                        	<input type="file" class="fileInput" id="fileInput" name="xml" onchange="addArchive(this)"/>
+                        </div>
+                        <div class="fix"></div>
+                    </div>
+                    
+					<script type="text/javascript">
+		        		function addArchive(anexo) {
+			        		document.getElementById(anexo.name).value = $(anexo).val();
+			        	}
+		        	</script> 
+			       	<div class="fix"></div>
+                    
+                </td>
+            </tr>
+			<tr>
+				<td align="left" width="15%" colspan="4">
+					Observa&ccedil;&atilde;o:<br>
+					<textarea rows="2" cols="50" name="obs" style="width: 350px"></textarea>
+				</td>
+				
+			</tr>
+			<?php if($this->objNivel == 2): ?>
+			<tr>
+				<td align="left"  colspan="4">
+				<input type="hidden" name="tipodecisao">
+				<div style="display: block; border: 1px solid #ccc; padding: 5px" id="aceita">
+				<table>
+					<tr>
+						<td align="left">
+						Tipo de envio:<br>
+						<div class="styled-select" style="width: 140px">
+						<select name="tipoenvio" onchange="monstraTransporte(this.value)" style="width: 162px">
+							<option value="">Selecione</option>
+							<option value="1">Correios/PAC</option>
+							<option value="2">Transportadora</option>
+						</select>
+						</div>
+						</td>
+						<td align="left">
+						<div style="display: none" id="pac">
+							<table><tr><td>
+								N&ordm; PAC<br>
+								<input type="text" name="pac" size="20" style="width: 100px">
+								</td><td>
+								Validade:<br>
+								<input type="text" size="10" name="dt_val" id="dt_val" style="width: 70px" class="data datepicker"> 
+					 		</td></tr></table>
+						</div>
+						<div style="display: none" id="trans">
+							Nome transportadora:<br>
+							<input type="text" name="transportadora" size="30" style="width: 220px" >
+						</div>
+						</td>
+					</tr>
+				</table>
+				</div>
+				<div style="display: none; border: 1px solid #999; padding: 5px" id="recusa">
+				<table>
+					<tr>
+						<td align="left">
+						Motivo da recusa:<br>
+						<textarea rows="2" cols="50" name="textrecusa" style="width: 350px"></textarea>
+						</td>
+					</tr>
+				</table>
+				</div>
+				</td>
+			</tr>
+			<?php endif; ?>
+			</table>
+			
+			<br>
+			     <p align="left">
+			       <input type="button" value="Salvar" class="greenBtn" <?php if($this->objNivel == 2): ?> onclick="validaform();" <?php else: ?> onclick="validaformcli();" <?php endif; ?>>
+				</p>
+				</form>
+			</div>
+		</div>
+	</div>
+
+<script type="text/javascript">
+	function monstraTransporte(tipo) {
+		if(tipo==1){
+			document.getElementById("pac").style.display="block";
+			document.getElementById("trans").style.display="none";
+		}else if(tipo==2){
+			document.getElementById("trans").style.display="block";
+			document.getElementById("pac").style.display="none";
+		}else{
+			document.getElementById("pac").style.display="none";
+			document.getElementById("trans").style.display="none";
+		};
+	}
+
+	function validaform(){
+		if(document.novogar.cliente.value==""){
+			jAlert('Selecione o cliente!', 'Campo obrigatório');
+			return false;	
+		}else if(document.novogar.ntfiscal.value==""){
+			jAlert('Preencha a Nota Fiscal!', 'Campo obrigatório');
+			return false;
+		}else if(document.novogar.dt_exp.value==""){
+			jAlert('Preencha a data de expedição da Nota Fiscal!', 'Campo obrigatório');
+			return false;
+		}else if(document.novogar.peso.value==""){
+			jAlert('Preencha o peso!', 'Campo obrigatório');
+			return false;
+		}else if(document.novogar.volumes.value==""){
+			jAlert('Preencha o número de volumes!', 'Campo obrigatório');
+			return false;
+		}else if((document.novogar.pac.value=="") && (document.novogar.transportadora.value=="")){
+			jAlert('Selecine um tipo de envio!', 'Campo obrigatório');
+			return false;
+		}else{
+			document.novogar.submit();
+		}
+		return false;	
+	}
+
+	function validaformcli(){
+		if(document.novogar.ntfiscal.value==""){
+			jAlert('Preencha a Nota Fiscal!', 'Campo obrigatório');
+			return false;
+		}else if(document.novogar.dt_exp.value==""){
+			jAlert('Preencha a data de expedição da Nota Fiscal!', 'Campo obrigatório');
+			return false;
+		}else if(document.novogar.peso.value==""){
+			jAlert('Preencha o peso!', 'Campo obrigatório');
+			return false;
+		}else if(document.novogar.volumes.value==""){
+			jAlert('Preencha o número de volumes!', 'Campo obrigatório');
+			return false;
+		}else{
+			document.novogar.submit();
+		}
+		return false;	
+	}
+
+</script>

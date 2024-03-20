@@ -1,0 +1,91 @@
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl()?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl(); ?>/admin/venda/garantias"><?=$this->translate->_("GARANTIAS")?></a>&nbsp;
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<b><a href="<?php echo $this->baseUrl(); ?>/admin/venda/analiseop"><?=$this->translate->_("ANÁLISES")?></a></b>
+	</div>
+	<div id="sistitulo">DIAGNÓSTICOS DE ANÁLISE</div>
+	<div id="sisconteudo">  
+	
+		<?php
+
+		if(!empty($this->objAnalises)):
+			foreach ($this->objAnalises as $lista);
+		endif;
+		
+		?>
+           <table  width="100%" style="border: 1px solid #000; margin: 6px 0px 6px; padding: 5px" cellspacing="5" cellpadding="10">
+				<tr>
+					<td width="10%" align="left" >
+						Situação:<br>
+						<b><?php if ($lista->tipo==1) echo "Procede"; else echo "Não Procede"?></b>
+						
+					</td>
+					<td  align="left" width="40%">
+					Diagnóstico:<br>
+					<b><?php echo $lista->descricao?></b>
+					</td>
+				</tr>
+				<tr>
+					<td  align="left" colspan="2">
+					Descrição do Diagnóstico:<br>
+					<b><?php echo $lista->detalhadesc?></b>
+					</td>
+				</tr>
+				<tr>
+					<td  align="left" colspan="2">
+					Informações técnicas:<br>
+					<?php echo urldecode($lista->infotecnica);
+					?>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" colspan="2"><br>
+					
+					<input type="hidden" name="id_analise"  >
+					<input type="button" onclick="window.location='<?php echo $this->baseUrl(); ?>/admin/venda/analiseopcad/analise/<?php echo md5($lista->id)?>'" name="salvar" value="Editar" >
+					</td>
+				</tr>
+        	</table>
+        	
+        
+		<script>
+			function editaAnalise(id,desc,tipo){
+				document.cad.diag.value=desc;
+				document.cad.tipo.value=tipo;
+				document.cad.id_analise.value=id;
+
+			}
+					
+			function validaCampos(){
+				if(document.cad.diag.value==""){
+					alertaPadrao('Erro!', 'O campo DIAGNÓSTICO não pode ficar em branco!', 'erro', 110, 300);
+					return false;
+				}
+			}
+
+			var alertaPadrao = function(titulo, msg, tipo, altura, largura) {
+					$('body').append('<a href="#" id="alerta-padrao"></a>');
+					$('#alerta-padrao').m2brDialog({
+							draggable: true,
+							texto: msg,
+							tipo: tipo,
+							titulo: titulo,
+							altura: altura,
+							largura: largura,
+							botoes: {
+								1: {
+									label: 'Fechar',
+									tipo: 'fechar'
+								}
+							}									   
+					});
+					$('#alerta-padrao')
+						.click()
+						.remove();
+			}; // fim alertaPadrao
+		</script>
+	</div>
+</div>

@@ -1,0 +1,36 @@
+Removendo senha do Windows XP e Vista utilizando um live CD
+1º passo
+
+Dê um boot com um live CD do Linux (Ubuntu, Kurumin, Fedora etc). Então abra o terminal e entre no modo de super usuário. Por exemplo, digite:
+
+$ sudo su
+
+Crie um diretório em /mnt:
+
+# mkdir /mnt/windows
+
+2º passo
+
+Monte o hd com o sistema windows:
+
+# mount -t ntfs-3g /dev/sd1 /mnt/windows -o force (para hd sata)
+
+# mount -t ntfs-3g /dev/hd1 /mnt/windows -o force (se seu hd for IDE)
+
+3º passo
+
+Após ter montado a partição com o sistema Windows, localize o seguinte arquivo: sethc.exe. Esse arquivo esta localizado em c:\windows\system32.
+
+Renomeie o arquivo sethc.exe (ex: sethc.old). Copie o arquivo cmd.exe e cole especial (ou algo do gênero com o nome sethc.exe). Reinicie o micro no Windows XP ou Vista.
+
+Na tela de logon pressione 5 vezes a tecla shift da esquerda. Aparecerá uma janela do DOS, digite: CONTROL USERPASSWORDS2. Agora é só digitar a senha nova ou deixar em branco do usuário que você desejar.
+
+Qualquer dúvida, sugestão ou reclamação, favor entrar em contato. Obrigado.
+
+Jeferson Roseira 
+
+
+
+
+2 -----------------
+

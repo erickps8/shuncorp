@@ -1,0 +1,22 @@
+<?php 
+if(count($this->objProdbusca)>0):
+?>
+<table >
+<?php
+	foreach ($this->objProdbusca as $prod):
+		?>
+		<tr style="cursor: hand; cursor: pointer;" onclick="selecionaCodigo('<?=$prod->CODIGO?>');">
+		    <td><?=$prod->CODIGO?></td>
+		    <td><?=$prod->DESCRICAO?></td>
+		</tr>
+	  <?php 	
+	endforeach;
+?>
+</table>
+<?php 
+else:
+?>
+	Nenhum produto encontrado!
+<?php  
+endif;
+?>  

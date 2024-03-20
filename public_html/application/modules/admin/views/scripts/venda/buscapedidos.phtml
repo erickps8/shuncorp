@@ -1,0 +1,110 @@
+		<!-- Static table -->
+        <?php
+		if (count($this->objList) > 0):			
+		?>       
+        <div class="widget first">
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="">Id</td>
+                        <td width="">NFe</td>
+                        <td width="15%">Dt Cadastro</td>
+                        <td width="15%">Dt Venda</td>
+                        <td width="">Parceiro</td>
+                        <td width="5%">Rep</td>
+                        <td width="5%">Tel</td>
+                        <td width="5%">Sit</td>
+                        <td width="10%">Opções</td>
+                    </tr>
+                </thead>
+                <tbody>
+                
+                <?php 
+				$cor=0;
+		    	foreach($this->objList as $lista):			    				    	
+			    	?>					
+					<tr >
+		                <td  style="text-align: center;" >
+		                   <?php echo $lista->idped?>
+		                </td>
+		                <td  style="text-align: center;" >
+		                   <?php if(!empty($lista->id_nfe)) echo "NFe".substr("000000".$lista->id_nfe,-6,6); ?>
+		                </td>
+		                <td style="text-align: center;" >
+		                	<?php echo $lista->dtcad?>
+		                </td>
+		                <td style="text-align: center;" >
+		                	<?=($lista->dtvenda)?>
+		                </td>                
+		                <td  align="left" >
+		                	<?=substr(($lista->parceiro),0,20)?>
+		                </td>
+		                <td  style="text-align: center;" >
+		                	<?php 
+		                	$repres = "Sem Representante Comercial";
+		                	$repres = $lista->representante;
+		                	?> 
+		                	<img alt="<?=($repres)?>" title="<?=($repres)?>" src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/adminUser.png" width="17">                	
+		                </td>
+		                <td  align="left" >
+		                	<?php 
+		                	if(!empty($lista->televendas)) $televenda = $lista->televendas; else $televenda = 'Sem televendas';
+		                	?> 
+		                   <img alt="<?=$televenda?>" title="<?=$televenda?>" src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/adminUser2.png" width="17">            
+		                </td>
+		                <td  style="text-align: center;" > 
+		                   <?php 
+		                   if($lista->sitped=='1'):
+		                   ?>
+		                   <span style="color: #F00">CAN</span>
+		                   
+		                   <?php 
+		                   elseif($lista->statusped=='ped'):
+		                   ?>
+		                   FAT
+		                   <?php
+		                   elseif($lista->statusped=='orc'):
+		                   ?>
+		                   <span style="color: #007b00">PED</span>
+		                   <?php
+		                   endif;
+		                   ?>               
+		                </td>
+		                <td  style="text-align: center;" >
+		                	<?php 
+		                	if (($lista->sitped==1)||($lista->statusped=='ped')||($this->objEdi!=true)):  ?>
+		                	<a href="<?=$this->baseUrl()?>/admin/venda/pedidosvenda/ped/<?=md5($lista->idped)?>" ><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" border="0" title="Visualizar"></a>&nbsp;&nbsp;
+		                	<?php  elseif($lista->statusped=='orc'):  ?>
+		                	<a href="<?=$this->baseUrl()?>/admin/venda/pedidosedit/ped/<?=md5($lista->idped)?>" ><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/pencil.png"  width="16" border="0" title="Ajustar"></a>&nbsp;&nbsp;
+		                	<?php  endif;  ?>		                	
+		                	<?php 
+		                	if (($this->objEdi==true)and($lista->sitped!=1)and($this->objNivel!=0)):  
+		                		if($lista->statusped != 'ped'):
+			                		?>
+				                    <a href="#" onclick="if(confirm('Cancelar o pedido?')){ window.location='<?=$this->baseUrl()?>/admin/venda/pedidosremover/pedido/<?=md5($lista->idped)?>';};" ><img src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/close.png" width="17" border="0" title="Remover"></a>
+				                	<?php  
+				                endif;
+				            endif;  
+				            ?>
+		                	</td>                
+		            	</tr>            
+					<?php  endforeach; ?>
+                </tbody>
+            </table>            
+        </div>
+        <div style="margin-top: 20px">
+			<?php 
+			if ( count($this->objList) > 0) :
+				echo $this->objList;
+			endif;
+		    ?>
+		</div>
+		<?php 
+		else :
+		?>
+		<div class="widget first" style="padding: 20px; border-top: 1px solid #d5d5d5;">
+ 			Nenhum Pedido Encontrado
+		</div>	
+		<?php 
+		endif;
+		?>

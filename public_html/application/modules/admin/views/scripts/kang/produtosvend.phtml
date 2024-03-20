@@ -1,0 +1,129 @@
+<table cellpadding="0" cellspacing="0" width="100%">
+ 	<tr>
+ 		<td>
+			<table width="100%" style="margin-bottom: 4px" cellpadding="0" cellspacing="0" >
+				<tr>
+					<td align="left">
+						<a href="<?php echo $this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+						<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+						<a href="<?php echo $this->baseUrl(); ?>/admin/kang/pedidos">PEDIDOS DE VENDA</a>&nbsp;  
+						<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+						<b><a href="<?php echo $this->baseUrl(); ?>/admin/kang/produtosvend">PRODUTOS PEDIDOS</a></b>
+					</td>					
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>     
+			<table width="100%" class="borda_titulo">
+	            <tr>
+	                <td width="left">PRODUCTOS PEDIDOS</td>
+	                <td align="right">
+		                <!--<a href="kangprodpedimp.php" target="_blank">
+		                <img src="<?php //echo $this->baseUrl(); ?>/images/imprimir_orc.gif" title="Print" height="17" width="17" border="0"></a> -->
+		            </td>
+	            </tr>
+	        </table>
+	      </td>
+	</tr>
+	<tr>
+		<td align="left"> 
+			<table width="100%" style="margin: 5px 0px" cellpadding="0" cellspacing="0" >
+			    <tr>
+			    	<td align="left">
+			    		<form method="post" action="produtosvend">
+				        	<input type="text" size="15" name="busca" value="Quick Search" onclick="this.value=''"; onblur="if(this.value==''){ this.value='Quick Search';} else {submit();}">
+				        </form>
+			    	</td>			    	
+			    	<td align="right" width="30px"><a href="<?=$this->baseUrl(); ?>/admin/kang/vendas"><b>VENDAS</b></a></td>
+				</tr>
+			</table>  
+        </td>
+	</tr>
+	<tr>
+		<td> 
+		
+        <?php 
+        if($this->objBusc!="") $busca = "/busca/".$this->objBusc;
+        if ( count($this->objList) > 0) :
+        ?>
+        <table align="left" class="mytable" width="100%" cellspacing="0">
+        <tr>
+            <th  class="th_canto_orc" align="center" width="8%">
+                ID
+            </th>
+            <th  class="th_orc" align="center" width="30%" >
+                <a href="<?php echo $this->baseUrl(); ?>/admin/kang/produtosvend/cat/customer<?php echo $busca?>">Customer</a> 
+            </th>
+            <th  class="th_orc" align="center" width="20%">
+            	<a href="<?php echo $this->baseUrl(); ?>/admin/kang/produtosvend/cat/code<?php echo $busca?>">Code</a>                 
+            </th>
+            <th  class="th_orc" align="center" width="17%">
+            	<a href="<?php echo $this->baseUrl(); ?>/admin/kang/produtosvend/cat/order<?php echo $busca?>">Order</a> 
+            </th>
+            <th  class="th_orc" align="center" width="10%">
+                Qt
+            </th>
+            
+        </tr>
+        <?php 
+        	if($this->objPag=="") $page = 1;
+        	else $page = $this->objPag; 
+        
+        	$cor = ($page*35)-35;
+			
+	    	foreach($this->objList as $lista):
+	    
+			$cor++;
+            if(($cor%2)==0) $class = 'td_orc_par';
+            else $class = 'td_orc';
+			?>
+			
+			<tr >
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo $cor;?>
+                </td>
+                <td  class="<?=$class?>" align="left" >
+                   <?php echo $lista->EMPRESA?>                  
+                </td>
+                <td  class="<?=$class?>" align="left" >
+                   <?php echo $lista->CODIGO?>                  
+                </td>
+                <td  class="<?=$class?>" align="center" >
+	                <a href="<?=$this->baseUrl()?>/admin/kang/pedidosprod/ped/<?=md5($lista->ID_PEDIDO)?>" >
+	                	<?php echo "OR".substr("000000".$lista->ID_PEDIDO,-6,6);?>
+	                </a>
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo $lista->QT?>
+                </td>
+                
+            </tr>
+            
+			<?php  endforeach;
+			?></table>
+			<?php 
+			else:
+			?><p align="center">No product found</p>
+			<?php 
+			endif; 
+		?>
+		              
+        
+        <br><br>
+		<table width="100%">
+			<tr><td align="center">
+				&nbsp;
+            </td></tr>
+			<tr><td align="center">
+				<?php 
+		            if ( count($this->objList) > 0) :
+		            	echo $this->objList;
+		            endif;
+            	?>
+            </td></tr>
+         </table>
+		</td>
+	</tr>
+</table>

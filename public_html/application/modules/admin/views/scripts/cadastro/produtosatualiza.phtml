@@ -1,0 +1,50 @@
+	<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/cadastroProdutosatualiza.js"></script>
+	
+	<!-- Content -->
+	<div class="content">
+
+	    <!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li class=""><a href="<?=$this->baseUrl(); ?>/admin/cadastro/produtos/fil/comp">Produtos</a></li>
+                	<li class="lastB">Produtos desatualizados</li>         
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5>Atualização dos Produtos</h5></div>
+        
+		<div class="clear"></div>
+		
+		<div id="resultado" style="margin-top: 10px">
+            
+			<div style="padding: 10px; border: 1px solid #d5d5d5;">
+			    <div style="float: left; width: 25%; text-align: center;">
+			         <button id="btnAtualizarproduto" class="basicBtn">Atualizar produtos</button>
+		        </div>
+			
+			    <div id="listaAtualizacao" >
+			
+        			<div class="tabela" id="tabFabricantes">Fabricantes</div><div class="loader" id="loaderFabricantes"><img src="<?php echo $this->baseUrl?>/public/sistema/imagens/loaders/loader6.gif"></div> <br>
+        			<div class="tabela" id="tabMontadoras">Montadoras</div><div class="loader" id="loaderMontadoras"><img src="<?php echo $this->baseUrl?>/public/sistema/imagens/loaders/loader6.gif"></div> <br>
+        		    <div class="tabela" id="tabVeiculos">Veículos</div><div class="loader" id="loaderVeiculos"><img src="<?php echo $this->baseUrl?>/public/sistema/imagens/loaders/loader6.gif"></div> <br>
+        		    <div class="tabela" id="tabGrupos">Grupos dos produtos</div><div class="loader" id="loaderGrupos"><img src="<?php echo $this->baseUrl?>/public/sistema/imagens/loaders/loader6.gif"></div> <br>
+        		    <div class="tabela" id="tabNcm">NCM</div><div class="loader" id="loaderNcm"><img src="<?php echo $this->baseUrl?>/public/sistema/imagens/loaders/loader6.gif"></div> <br>
+        		    <div class="tabela" id="tabProdutos">Produtos</div><div class="loader" id="loaderProdutos"><img src="<?php echo $this->baseUrl?>/public/sistema/imagens/loaders/loader6.gif"></div> <br>
+        		    <div class="tabela" id="tabRefcruzada">Referência cruzada</div><div class="loader" id="loaderRefcruzada"><img src="<?php echo $this->baseUrl?>/public/sistema/imagens/loaders/loader6.gif"></div> <br>
+        		    <div class="tabela" id="tabAplicacao">Aplicação</div><div class="loader" id="loaderAplicacao"><img src="<?php echo $this->baseUrl?>/public/sistema/imagens/loaders/loader6.gif"></div> <br>
+        		    <div class="tabela" id="tabMedidas">Medidas</div><div class="loader" id="loaderMedidas"><img src="<?php echo $this->baseUrl?>/public/sistema/imagens/loaders/loader6.gif"></div> <br>
+        		    <div class="tabela" id="tabComponentes">Componentes</div><div class="loader" id="loaderComponentes"><img src="<?php echo $this->baseUrl?>/public/sistema/imagens/loaders/loader6.gif"></div>
+			
+			        <div class="clear fix"></div>
+			        
+				</div>
+				
+				<div class="clear fix"></div>
+			</div>
+		</div>
+		
+	</div>
