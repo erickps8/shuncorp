@@ -1,0 +1,225 @@
+<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxsubgrupo.js"></script>
+<table width="100%" style="margin-bottom: 7px" cellpadding="0" cellspacing="0" >
+	<tr>
+		<td align="left">
+			<a href="<?php echo $this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+			<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+			<b><a href="<?php echo $this->baseUrl(); ?>/admin/venda/ajusteprecos"><?=$this->translate->_("AJUSTE DE PREÇOS")?></a></b> 
+		</td>
+	</tr>
+</table>
+
+<table width="100%" class="borda_titulo">
+	<tr>
+		<td align="center">TABELA DE AJUSTE DE PREÇOS</td>
+	</tr>
+</table>
+<table width="100%" style="margin: 5px 0px" cellpadding="0" cellspacing="0" >
+    <tr>
+    	<td align="left">
+    	<input type="button" class="button" value="Ajuste por grupo" onclick='javascript:mostrarPesquisa();'>
+    	</td>
+    	<td align="right">
+    	<a href="<?=$this->baseUrl(); ?>/admin/venda/ajusteprecosenviados">ENVIADOS</a>
+    	</td>
+	</tr>
+	<tr>
+    	<td align="left" >
+    		<form action="ajustegrupo" name="ajgrupo" method="post">
+    		<table id="tabela" style="margin-top:6px; border: 1px solid #000; display: none">
+    			<tr>
+		        	<td align="left" valign="bottom" width="100">
+		            	<?=$this->translate->_("Grupo")?>: <br>
+              			<select name="buscagrupo" id="buscagrupo" onchange="Mostrasubgrupos(this.value,3);">
+							<option value="0"><?=$this->translate->_("SELECIONE")?></option>
+							<option value="all"><?=$this->translate->_("TODOS")?></option>
+							<?php 
+							foreach ($this->objGrup as $list): ?>
+								<option value="<?php echo $list->id?>"><?php echo strtoupper($list->descricao)?></option>
+							<?php endforeach; ?>
+						</select>
+					</td>
+              		<td align="left" valign="bottom">
+						<div id="subgrupo" align="left">
+							
+						</div>
+					</td>
+					<td align="left" valign="bottom">
+						<?=$this->translate->_("Percentual")?>:<br /> <input type="text" value="<?php if(!empty($prod->percentajuste)) echo number_format($prod->percentajuste,2,",",".")?>" size="10" id="ajusteperc" name="ajusteperc"  onKeyDown="Mascara(this,Valorduascasas);" onKeyPress="Mascara(this,Valorduascasas);" onKeyUp="Mascara(this,Valorduascasas);"> <b>%</b> &nbsp; 
+					</td>
+					<td align="left" valign="bottom">
+						Data Ajuste:<br /> <input value="<?php if(!empty($prod->dt_ajuste) and ($prod->dt_ajuste != "0000-00-00")) echo substr($prod->dt_ajuste,8,2)."/".substr($prod->dt_ajuste,5,2)."/".substr($prod->dt_ajuste,0,4)?>" type="text" size="10" maxlength="10" id="dataajuste" name="dataajuste" onKeyDown="Mascara(this,Data);" onKeyPress="Mascara(this,Data);" onKeyUp="Mascara(this,Data);">
+					</td>
+					<td align="left" valign="bottom"><br>
+						<input value="Aplicar" type="button" onclick="verificaFor()">
+					</td>
+              	</tr>
+        	</table>
+        	</form>
+    	</td>
+	</tr>
+</table>  
+<script>
+function mostrarPesquisa(){
+    nTr = document.getElementById("tabela");
+    if(nTr.style.display == "none"){
+        nTr.style.display = "block"
+    }else{
+        nTr.style.display = "none"; 
+    }
+}
+
+function verificaFor(){
+	var grupo = document.getElementById("buscagrupo").value;
+	if(grupo==0){
+		alert('Selecione um grupo de produto!');	
+	}else{
+		document.ajgrupo.submit();	
+	}		 
+}
+</script>
+
+<form name="tabela" action="ajusteprecosenvio" method="post" />
+<table cellpadding="0" cellspacing="0" style="margin-top: 0px">
+<tr>
+	<td>        
+           <?php 
+			foreach($this->objGrupos as $listGrupos):
+				$verg = 0; 
+				foreach($this->objList as $lista):
+					if($lista->id_gruposprodsub==$listGrupos->idsub):
+						$verg 		= 1;
+						$grupo		= $listGrupos->grupo;
+						$subgrupo	= $listGrupos->subgrupo;
+					endif;
+				endforeach;
+				
+	        	if ($verg==1) :
+	        					
+				?>
+				
+				<table width="100%" cellpadding="0" cellspacing="0" >
+					<tr>
+              			<td class="borda_tcadastro">
+              			<br>
+						<b><?=utf8_encode($grupo." / ".$subgrupo)?></b>
+              			</td>
+              		</tr>
+	            </table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<table align="left" class="mytable"  width="554" cellspacing="0" style="margin-top: 5px">
+			         <tr>
+			            <th  class="th_canto_orc" align="center" width="30%">
+			                <?=$this->translate->_("CÓDIGO")?>
+			            </th>
+			            <th  class="th_orc" align="center" width="20%">
+			                <?=$this->translate->_("PREÇO ATUAL")?>
+			            </th>
+			            <th  class="th_orc" align="center" width="20%">
+			                <?=$this->translate->_("NOVO PREÇO")?>
+			            </th>
+			            <th  class="th_orc" align="center" width="10%">
+			                <?=$this->translate->_("PERCENTUAL")?>
+			            </th>
+			             <th  class="th_orc" align="center" width="30%">
+			                <?=$this->translate->_("DT AJUSTE")?>
+			            </th>
+			            <th  class="th_orc" align="center" width="30%">
+			                <?=$this->translate->_("DT CADASTRO")?>
+			            </th>
+			            <th  class="th_orc" align="center" width="30%">
+			                <?=$this->translate->_("USUÁRIO")?>
+			            </th>
+			            <th  class="th_orc" align="center" width="30%">
+			                &nbsp;
+			            </th>
+			        </tr>
+			       
+				<?php 
+				$cor=0;
+		    	foreach($this->objList as $lista):
+		    	if($lista->id_gruposprodsub==$listGrupos->idsub):
+		    		$cor++;
+		            if(($cor%2)==0) $class = 'td_orc_par';
+		            else $class = 'td_orc';
+		            
+		            if(!empty($lista->precoajuste)):
+		            	$novopreco 	= number_format($lista->precoajuste,"2",",",".");
+		            	$percent	= $lista->precoajuste - $lista->PRECO_UNITARIO;
+		            	if($lista->PRECO_UNITARIO==0) $percent = 0;
+		            	else $percent	= number_format(($percent*100)/$lista->PRECO_UNITARIO,"2",",",".");
+		            elseif(!empty($lista->percentajuste)):
+		            	$novopreco 	= number_format($lista->PRECO_UNITARIO+($lista->PRECO_UNITARIO*($lista->percentajuste/100)),"2",",",".");
+		            	$percent	= number_format($lista->percentajuste,"2",",",".");
+		            endif;
+					?>					
+					<tr >
+		                <td  class="<?=$class?>" align="center" >
+		                   <a target="_blank" href="<?=$this->baseUrl(); ?>/admin/cadastro/produtoscad/produto/<?=md5($lista->idprod)?>"><?php echo $lista->CODIGO?></a>
+		                </td>
+		                <td  class="<?=$class?>" align="right" style="text-transform: uppercase;">
+		                   <?php if(!empty($lista->PRECO_UNITARIO)) echo number_format($lista->PRECO_UNITARIO,"2",",",".")?>
+		                </td>
+		                <td  class="<?=$class?>" align="right" >
+		                   <?php echo $novopreco?>
+		                </td>                
+		                <td  class="<?=$class?>" align="right" >
+		                   <?php echo $percent?>%
+		                </td>
+		                <td  class="<?=$class?>" align="center" >
+		                   <?=substr($lista->dt_ajuste,8,2)."/".substr($lista->dt_ajuste,5,2)."/".substr($lista->dt_ajuste,0,4)?>
+		                </td>
+		                <td  class="<?=$class?>" align="center" >
+		                   <?=substr($lista->dt_cadajuste,8,2)."/".substr($lista->dt_cadajuste,5,2)."/".substr($lista->dt_cadajuste,0,4)?>
+		                </td>                
+		                <td  class="<?=$class?>" align="left" >
+		                   <?php $user = explode(" ",$lista->EMPRESA); echo utf8_encode($user[0])?>
+		                </td>
+		                <td  class="<?=$class?>" align="left" >
+		                   <input type="checkbox" checked="checked" name="<?=$lista->idprod?>">
+		                </td>
+		            </tr>
+		            
+					<?php  
+					endif;
+				endforeach;
+				?>        
+				</table>
+			
+	         	 <?php 
+				endif;
+				
+				
+			endforeach;
+			
+		?>
+		</td>
+	</tr>
+	<?php 
+	if(empty($this->objList)):
+		?>
+		<tr>
+		<td align="left">
+			<center> <?=$this->translate->_("Nenhum Produto encontrado")?></center>
+		</td>
+		</tr>
+			
+		<?php
+	else: 
+	
+	?>
+	<tr>
+		<td align="left">
+			<input type="submit" class="button" value="Montar Tabela"  style="margin-top: 10px">
+		</td>
+	</tr>
+	<?php 
+	endif;
+	?>
+</table>
+</form>	
+	

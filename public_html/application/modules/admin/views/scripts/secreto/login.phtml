@@ -1,0 +1,63 @@
+<style>
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	color: #666666;
+	font: 11px Arial, Helvetica, sans-serif;
+	background:url(../images/bg_principal.jpg)
+}
+.text{
+	color: #666666;
+	font: bold 11px Arial, Helvetica, sans-serif;
+}
+
+button{
+	color:#666666;
+	font: bold 10px Arial, Helvetica, sans-serif;
+	background-color:#E0E0E0;
+	border:1px solid #333;
+	padding:0px;
+	padding-left:5px;
+	padding-right:5px;
+	text-decoration:none;
+}
+
+input,textarea,select{
+	font: 11px Arial, Helvetica, sans-serif;
+	border: 1px solid #444;
+}
+
+input:focus {
+	border: 1px solid #444;
+	background: #f1f1f1;
+	font: 11px Arial, Helvetica, sans-serif;
+}
+
+</style>
+<body>
+
+<form method="post" action="lista">
+<table align="center" style="margin-top: 0px; background:url(<?php echo $this->baseUrl()?>/public/images/Amigo_online.jpg); width: 1024; height: 641 "  cellpadding="" cellspacing="10px" >
+	<tr>
+		<td align="center" width="60%"></td>
+		<td align="center">
+			<table align="center"   cellpadding="" cellspacing="10px" >
+			<tr><td align="left">
+			Digite o login:<br>
+			<input type="text" name="login" style="border: 1px solid #333;"><br>
+			</td></tr>
+			<tr><td align="left">
+			Digite a senha:<br>
+			<input type="password" name="senha"><br>
+			</td></tr>
+			<tr><td align="left">
+			<input type="submit" value="Entrar">
+			</td></tr></table> 
+		</td>
+	</tr>
+</table>
+</form>
+
+</body>

@@ -1,0 +1,8 @@
+Grupo<br>
+<select name="buscagrupo" id="buscagrupo" style="width: 110px">
+	<option value="0">Todos</option>
+	<?php foreach ($this->objGrupo as $list): ?>
+		<option value="<?=$list->idgrupo?>"><?=$list->grupo?></option>
+	<?php endforeach; ?>
+</select>
+			

@@ -1,0 +1,136 @@
+<head>
+<title>ZTL Brasil - www.ztlbrasil.com.br </title>
+<link href="<?=$this->baseUrl()?>/public/sistema/imagens/ztl.ico" rel="shortcut icon" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/css/pedidos_imp.css" />
+</head>
+<style>
+<!--
+.mytable {
+	padding: 0;
+	border-collapse: collapse;
+	font: bold 12px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #000;
+}
+
+
+.borda_titulo{                
+	background-color:#ebebeb;
+	border-bottom:1px solid #d4d4d4;
+	border-top:1px solid #d4d4d4;
+	font: bold 13px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	
+}
+
+.th_canto_min {
+	border-left:1px solid #d4d4d4;
+	border-right: 1px solid #d4d4d4;
+	border-bottom: 1px solid #d4d4d4;
+	border-top: 1px solid #d4d4d4;	
+	background: #ebebeb;
+	font: bold 9px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+}
+
+.th_orc_min {
+	
+	color: #4f6b72;
+	border-left: 1px solid #d4d4d4;
+	border-right: 1px solid #d4d4d4;
+	border-bottom: 1px solid #d4d4d4;
+	border-top: 1px solid #d4d4d4;
+	text-transform: uppercase;
+	text-align: center;
+	padding: 2px 2px 2px 2px;
+	background: #ebebeb;
+	font: bold 9px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+}
+
+.td_orc_min {
+	border-left: 1px solid #d4d4d4;
+	border-right: 1px solid #d4d4d4;
+	border-bottom: 1px solid #d4d4d4;
+	border-top: 1px solid #d4d4d4;
+	background: #fff;
+	padding: 2px 2px 2px 2px;
+	color: #797268;
+	
+}
+
+-->
+</style>
+<body onLoad="window.print();">
+<table width="800" class="borda_titulo" style="margin-bottom: 6px" align="center">
+	<tr>
+    	<td width="left">
+    	<? 
+    	echo $this->translate->_("FINANCEIRO")." - ";
+    	
+    	if($this->objAba==1): 
+    		echo $this->translate->_("CONTAS A RECEBER");
+    	else:
+    		echo $this->translate->_("CONTAS A PAGAR");
+    	endif;
+    	?>
+    	
+    	</td>
+    </tr>
+</table>
+<table class="mytable" width="800" cellspacing="0" cellpadding="0" align="center">	
+	<tr>
+		<th class="th_canto_min"><?=$this->translate->_("ID")?></th>
+		<th class="th_orc_min"><?=$this->translate->_("FORNECEDOR")?></th>
+		<th class="th_orc_min"><?=$this->translate->_("PLANO CONTA")?></th>
+		<th class="th_orc_min"><?=$this->translate->_("EMISSÃO")?></th>
+		<th class="th_orc_min"><?=$this->translate->_("VENCIMENTO")?></th>
+		<th class="th_orc_min"><?=$this->translate->_("MOEDA")?></th>
+		<th class="th_orc_min"><?=$this->translate->_("VALOR")?></th>
+		<th class="th_orc_min"><?=$this->translate->_("SIT")?></th>
+		
+	</tr>
+
+	<?php 
+		
+	if(!empty($this->objContaspagar)):
+	foreach ($this->objContaspagar as $listpagar):
+		?>
+		<tr>
+			<td class="td_orc_min" align="center">
+				<?php if($this->objAba==1): ?>
+				R<?=substr("000000".$listpagar->idfin,-6)?>
+				<?php else: ?>
+				P<?=substr("000000".$listpagar->idfin,-6)?>
+				<?php endif;?>
+			</td>
+			<td class="td_orc_min" align="left">
+				<? if($listpagar->id_fornecedor!=0) echo utf8_encode($listpagar->EMPRESA); else echo $listpagar->out_fornecedor?>
+			</td>
+			<td class="td_orc_min" align="left">
+				<?=$listpagar->nome?>
+			</td>
+			<td class="td_orc_min" align="center">
+				<?=$listpagar->dtcad?>
+			</td>
+			<td class="td_orc_min" align="center">
+				<?=$listpagar->dtvenc?>
+			</td>
+			<td class="td_orc_min" align="center">
+				<?=$listpagar->moedacont?>
+			</td>			
+			<td class="td_orc_min" align="right">
+				<?=number_format(($listpagar->valor_apagar),3,",",".")?></td>
+			<td class="td_orc_min" align="center">
+				<?php 
+				if($listpagar->bloq == 1) echo 'Block';
+                elseif($listpagar->baixa == 1) echo 'Close';
+                elseif($listpagar->baixa == 2) echo 'Open';
+                else echo 'Review';
+				?>
+			</td>
+			
+		</tr>
+		<?php								
+	endforeach;
+endif;
+?>
+</table>
+</body>

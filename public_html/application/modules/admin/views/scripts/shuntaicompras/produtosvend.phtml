@@ -1,0 +1,92 @@
+
+<table width="100%">
+     <tr>
+     	<td align="left" width="10%"><b><a href="http://www.ztlbrasil.com.br/public/legado/acessoRestrito/kangpedidos.php">ORDERS</a></b></td>
+        <td align="center" width=""><b>|</b></td>
+        <td align="center" width="25%">PRODUCTS ORDERED</td>
+        <td align="center" width=""><b>|</b></td>
+        <td align="center" width="10%"><b><a href="http://www.ztlbrasil.com.br/public/legado/acessoRestrito/kangven.php?list=all">SALES</a></b></td>
+        <td width="65%" align="right"><b></b></td>
+     </tr>
+</table><br>
+<table width="100%" class="borda_titulo">
+            <tr>
+                <td width="left">PRODUCTS ORDERED</td>
+                <td align="right">
+	                <a href="kangprodpedimp.php" target="_blank">
+	                <img src="images/imprimir_orc.gif" title="Print" height="17" width="17" border="0"></a>
+	            </td>
+            </tr>
+        </table>
+        <br>
+        <table align="left" class="mytable" width="100%" cellspacing="0">
+        <tr>
+            <th  class="th_canto_orc" align="center" width="8%">
+                ID
+            </th>
+            <th  class="th_orc" align="center" width="30%" >
+                <a href="<?php echo $this->baseUrl(); ?>/kang/produtosvend/cat/customer">Customer</a> 
+            </th>
+            <th  class="th_orc" align="center" width="20%">
+            	<a href="<?php echo $this->baseUrl(); ?>/kang/produtosvend/cat/code">Code</a>                 
+            </th>
+            <th  class="th_orc" align="center" width="17%">
+            	<a href="<?php echo $this->baseUrl(); ?>/kang/produtosvend/cat/order">Order</a> 
+            </th>
+            <th  class="th_orc" align="center" width="10%">
+                Qt
+            </th>
+            
+        </tr>
+        <?php 
+        	if($this->objPag=="") $page = 1;
+        	else $page = $this->objPag; 
+        
+        	$cor = ($page*35)-35;
+			if ( count($this->objList) > 0) :
+	    	foreach($this->objList as $lista):
+	    
+			$cor++;
+            if(($cor%2)==0) $class = 'td_orc_par';
+            else $class = 'td_orc';
+			?>
+			
+			<tr >
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo $cor;?>
+                </td>
+                <td  class="<?=$class?>" align="left" >
+                   <?php echo $lista->EMPRESA?>                  
+                </td>
+                <td  class="<?=$class?>" align="left" >
+                   <?php echo $lista->CODIGO?>                  
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                <a href="http://www.ztlbrasil.com.br/public/legado/acessoRestrito/kangpedidos.php?ped=<?php echo $lista->ID_PEDIDO;?>">
+                   <?php echo "OR".substr("000000".$lista->ID_PEDIDO,-6,6);?>
+                </a>
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo $lista->QT?>
+                </td>
+                
+            </tr>
+            
+			<?php  endforeach;
+			endif;   
+		?>
+		              
+        </table>
+        <br><br>
+		<table width="100%">
+			<tr><td align="center">
+				&nbsp;
+            </td></tr>
+			<tr><td align="center">
+				<?php 
+		            if ( count($this->objList) > 0) :
+		            	echo $this->objList;
+		            endif;
+            	?>
+            </td></tr>
+         </table>

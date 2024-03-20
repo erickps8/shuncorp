@@ -1,0 +1,84 @@
+
+<?php 
+
+$titulo = "Nova montadora";
+$nome = $ext = $id = "";
+if(count($this->objMontadora)>0){
+    foreach ($this->objMontadora as $montadora);
+    $titulo = (!empty($montadora->id)) ? $montadora->nome : "Nova montadora";
+    $nome 	= $montadora->nome;
+    $ext	= $montadora->logo;
+    $id		= $montadora->id;
+}
+
+?>
+
+<!-- Content -->
+    <div class="content">   
+    	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/montadoras">Montadoras</a> </li>
+                	<li class="lastB"><?php echo $titulo?></li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5><?php echo $titulo?></h5></div>
+        
+        <div class="widgets">
+	        <div class="widget" style="border: 1px solid #d5d5d5; padding: 10px">
+	        	<div class="left" style="width: 50%">
+		         	<form method="post" class="mainForm" enctype="multipart/form-data">
+		         	    <input type="hidden" name="idmontadora" value="<?php echo $id?>" >
+		         	
+		         		<div >
+		         		Nome: <br />
+		         		<input type="text" name="nome" style="width: 300px" value="<?php echo $nome?>">
+		         		</div>
+		         		
+		         		<div >
+			         		Logomarca: <br />
+			         		<input type="file" class="fileInput" id="fileInput" name="logomarca" >
+		                    <script type="text/javascript">
+								$('#fileInput').change(function(){
+									$('#'+this.name).val($(this).val());							
+								});							        		
+				        	</script>
+				        </div>
+				        
+				         
+				      	<div  style="padding-top: 10px">
+		         			<input type="submit" class="greenBtn" value="Salvar">
+		         		</div>
+		         	</form>
+		         </div>
+		         
+		         <div class="right" style="width: 40%">
+		         	<?php 
+		         	if($ext != ""){
+    		         	if(file_exists(basePublic."/sistema/upload/veiculos/montadoras/".$id.".".$ext)){		?>
+                  			<img style="padding: 2px; border: 1px solid #d5d5d5; width: 150px" src="<?=$this->baseUrl()?>/public/sistema/upload/veiculos/montadoras/<?php echo $id.".".$ext?>"><br />
+    	       				<a href="javascript:void(0)" id="remAnexo" ><img src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/close.png" width="13" border="0"> &nbsp;Remover</a>
+    			    	<?php }
+    			    }
+    			    ?>
+		         </div>
+		         
+		         <div class="fix"></div>
+	         </div>
+         </div>
+ 	</div>
+ 	
+ 	<script>
+    $('#remAnexo').click(function(){
+        jConfirm('Deseja remover esta imagem?', 'Confirme', function(r){
+            if(r == true){
+            	window.location = "<?php echo $this->baseUrl(); ?>/admin/cadastro/montadorasremanexo/anexo/<?php echo $id?>";
+            }
+        });        
+    });
+
+ 	</script>    

@@ -1,0 +1,471 @@
+<!-- Calendarios -->
+<link type="text/css" rel="stylesheet" href="<?=$this->baseUrl()?>/public/javascript/calendario/dhtmlgoodies_calendar.css?random=20051112" media="screen"></LINK>
+<SCRIPT type="text/javascript" src="<?=$this->baseUrl()?>/public/javascript/calendario/dhtmlgoodies_calendar.js?random=20060118"></script>
+<SCRIPT type="text/javascript" src="<?=$this->baseUrl()?>/public/javascript/contatos.js"></script>
+<script src="<?=$this->baseUrl()?>/public/javascript/buscaajax/buscaajaxuf.js"></script>
+
+<?php
+
+if($this->objConf=="sucesso"):
+	?>
+	<script>
+	$(document).ready(function(){
+		alertaPadrao('Sucesso!', 'Contato cadastrado com sucesso!', 'alerta', 110, 300);
+	});
+	</script>
+	<?php 
+endif;
+
+if(!empty($this->objEmpresa)):
+	foreach ($this->objEmpresa as $empresa);
+endif;						
+if(!empty($this->objContato)):
+	foreach ($this->objContato as $contato);
+endif;
+?>	
+<table width="100%" cellpadding="0" cellspacing="0" >
+	<tr>
+		<td align="left">				
+		<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 5px" >
+			<tr>
+				<td align="left">
+					<a href="<?php echo $this->baseUrl(); ?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+					<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+					<a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/contatosemp"><?=$this->translate->_("CONTATOS")?></a>&nbsp;
+					<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+					<a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/contatoscad/tp/<?=$this->objTipo?>/empresa/<?=md5($empresa->id)?>"><b><?=$this->translate->_("CADASTRO CONTATOS")?></b></a>&nbsp;
+				</td>
+			</tr>
+		</table>
+ 		</td>
+	</tr>
+	<tr>
+		<td>
+			<table width="100%" class="borda_titulo" >
+				<tr>
+			    	<td width="left">
+			    	CADASTRO CONTATO <?=$empresa->empresa?>
+					</td>
+			    </tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<table width="100%" cellspacing="0" cellpadding="0" style="margin-top: 6px" >
+				<tr>
+					<td>
+						<?php
+						if((($this->objEdi==true) and ($this->objEditar=="ver")) || (($this->objIns==true) and (count($this->objContato)==0))):
+						?>
+						<form name="gravaontatos" method="post" action="<?=$this->baseUrl()?>/admin/cadastro/gravacontatos" onsubmit="return validarCampos();">
+							<input type="hidden" name="idempresa" value="<?=$empresa->id?>">					
+							<input type="hidden" name="idcontato" value="<?=$contato->idcontato?>">
+							<input type="hidden" name="tipo" value="<?=$this->objTipo?>" />
+							<table border="0" width="100%" cellpadding="0" cellspacing="0">
+								<tr>
+									<td align="left" style="padding: 4px">
+										Nome<br/>
+										<input type="text" name="nome" size="35" value="<?=$contato->ncontato?>">
+									</td>
+									<td align="left">
+										E-mail<br/>
+										<input type="text" name="email" size="35" value="<?=$contato->EMAIL?>">
+									</td>
+								</tr>
+								<tr>
+									<td align="left" style="padding: 4px">
+										Msn:<br>
+										<input type="text" name="msn" id="msn" value="<?=$contato->MSN?>" size="25">
+									</td>
+									<td align="left">
+										Skype:<br>
+										<input type="text" name="skype" id="skype" size="20" value="<?=$contato->skype?>">
+									</td>
+								</tr>
+								<tr>										
+									<td align="left" style="padding: 4px" >
+										Grupo de interesse:<br>
+										<select name="grupo">
+											<option value="">SELECIONE</option>
+											<?php 
+											foreach ($this->objGinteresse as $listg):
+												?>
+												<option <?php if($contato->ID_GRUPO_INTERESSE == $listg->ID) echo 'selected="selected"'; ?> value="<?=$listg->ID?>"><?=$listg->NOME?></option>
+												<?php 
+											endforeach;
+											?>
+										</select>
+									</td>
+									<td align="left" >
+										Dt Nascimento:<br>
+										<input value="<? if(!empty($contato->DATA_NASCIMENTO)) echo substr($contato->DATA_NASCIMENTO,8,2)."/".substr($contato->DATA_NASCIMENTO,5,2)."/".substr($contato->DATA_NASCIMENTO,0,4)?>" type="text" id="dtnasc" name="dtnasc" size="10" maxlength="10" onKeyDown="Mascara(this,Data);" onKeyPress="Mascara(this,Data);" onKeyUp="Mascara(this,Data);" onclick="displayCalendar(this,'dd/mm/yyyy',this)">
+									</td>																	
+								</tr>
+								<tr>										
+									<td align="left" style="padding: 4px" >
+										Trabalha com:<br>
+										<select name="linha">
+											<option <?php if($contato->TRABALHA_COM == "Ambas") echo 'selected="selected"'; ?> value="Ambas">Linhas leve/pesada</option>
+											<option <?php if($contato->TRABALHA_COM == "Linha leve") echo 'selected="selected"'; ?> value="Linha leve">Linha leve</option>
+											<option <?php if($contato->TRABALHA_COM == "Linha pesada") echo 'selected="selected"'; ?> value="Linha pesada">Linha pesada</option>
+										</select>
+									</td>
+									<td align="left" >
+									Campanha:<br />
+									<input type="radio" name="campanha" value="0" <? if($contato->campanha == 0): ?> checked="checked" <?php endif;?>> Não participa
+									<input type="radio" name="campanha" value="1" <? if($contato->campanha == 1): ?> checked="checked" <?php endif;?>> Básica
+									<input type="radio" name="campanha" value="2" <? if($contato->campanha == 2): ?> checked="checked" <?php endif;?>> Completa
+									</td>																										
+								</tr>
+								<tr >
+									<td colspan="2" align="left" class="borda_tcadastro">
+									<br /><b>TELEFONES</b>
+									</td>
+								</tr>
+								<tr>
+									<td align="left" colspan="2">
+										
+										<table border="0" width="100%" cellpadding="0" cellspacing="4">
+											<tr>
+												<td align="left">									
+													Comercial: <br>
+													<input type="text" name='ddi1' maxlength="4" value='<?=$contato->DDI?>'  size="2">
+													<input type="text" name='ddd1'  maxlength="4" value='<?=$contato->DDD?>' size="2"  onKeyDown="Mascara(this,Integer);" onKeyPress="Mascara(this,Integer);" onKeyUp="Mascara(this,Integer);">
+													<input type="text" name='numero1'  value='<?=$contato->TELEFONE?>'  size="10" onKeyDown="Mascara(this,Integer);" onKeyPress="Mascara(this,Integer);" onKeyUp="Mascara(this,Integer);">										
+												</td>
+												<td align="left">	
+													Pessoal: <br>
+													<input type="text" name='ddi2' maxlength="4" value='<?=$contato->DDI_PESSOAL?>'  size="2">
+													<input type="text" name='ddd2' maxlength="4" value='<?=$contato->DDD_PESSOAL?>'  size="2" onKeyDown="Mascara(this,Integer);" onKeyPress="Mascara(this,Integer);" onKeyUp="Mascara(this,Integer);">
+													<input type="text"  name='numero2' value='<?=$contato->TELEFONE_PESSOAL?>' size="10" onKeyDown="Mascara(this,Integer);" onKeyPress="Mascara(this,Integer);" onKeyUp="Mascara(this,Integer);">
+																					
+												</td>
+												<td align="left">
+													Fax: <br>
+													<input type="text" name='ddi3' maxlength="4" value='<?=$contato->DDI_FAX?>'  size="2">
+													<input type="text" name='ddd3' maxlength="4" value='<?=$contato->DDD_FAX?>'  size="2" onKeyDown="Mascara(this,Integer);" onKeyPress="Mascara(this,Integer);" onKeyUp="Mascara(this,Integer);">
+													<input type="text" name='numero3' value='<?=$contato->FAX?>'  size="10" onKeyDown="Mascara(this,Integer);" onKeyPress="Mascara(this,Integer);" onKeyUp="Mascara(this,Integer);">
+																					
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+								<tr>
+								  <td align="left" colspan="2" style="padding: 4px">
+		                            Nextel: <br>
+		                            <input type="text" name="nextel"  style="width:70px;" value='<?=$contato->NEXTEL?>' />
+		                          </td>
+								</tr>
+								<tr >
+									<td colspan="2" align="left" class="borda_tcadastro">
+									<br><b>ENDERE&Ccedil;O</b>									
+									</td>
+								</tr>
+								<tr >
+									<td colspan="2" align="left" >
+									<?php 
+									if(($contato->ID_END==1)||(empty($this->objContatos))):
+										$end = 'checked="checked"';
+										$uf				= $empresa->uf;
+										$cidade			= $empresa->cidade;
+										$endereco		= $empresa->endereco;
+										$bairro			= $empresa->bairro;
+										$cep			= $empresa->cep;
+										$pais			= $empresa->pais;
+									elseif(!empty($this->objContatos)):
+										$uf				= $contato->UF;
+										$cidade			= $contato->CIDADE;
+										$endereco		= $contato->ENDERECO;
+										$bairro			= $contato->BAIRRO;
+										$cep			= $contato->CEP;
+										$pais			= $contato->PAIS;
+									endif;
+									?>
+									<input type="checkbox" name="endempresa" <?=$end?> onclick="apagaEndereco();"> O mesmo da empresa	
+									</td>
+								</tr>
+								<tr>
+								<td colspan="2">
+									<table border="0" width="100%" cellpadding="0" cellspacing="4">
+										<tr>
+											<td colspan="4">
+											 	CEP:<br>
+												<input disabled="disabled"  value="<?=$cep?>" type="text" id="cep" name="cep" value='' size="15" maxlength="8" onKeyDown="Mascara(this,Integer);" onKeyPress="Mascara(this,Integer);" onKeyUp="Mascara(this,Integer);">  
+												<input type="button" value="Buscar" onclick="getEndereco()">
+												<img id="carregar" alt="Aguarde..." style="display: none" src="<?=$this->baseUrl()?>/images/loading.gif" >
+											</td>											
+										</tr>	
+										<tr>
+											<td  align="left" colspan="2" width="40%">
+											Logradouro:<br>
+											<input disabled="disabled" value="<?=$endereco?>" type="text" id="rua" name="rua" value='' style="width: 95%"> 
+											</td>
+											<td  align="left">
+											Bairro:<br>
+											<input disabled="disabled" value="<?=$bairro?>" type="text" id="bairro" name="bairro" size="20">
+											</td>  
+											<td  align="left">
+											
+											</td>
+										</tr>
+										<tr>
+											<td align="left" colspan="4">
+											<table cellpadding="0" cellspacing="0" border="0" width="100%">
+											<tr>
+												<td  align="left" width="20%">										
+													Pais:<br>
+													<select disabled="disabled" style="width: 95%" name="pais" onchange="Mostramontauf(this.value);">
+													<?php 
+													foreach ($this->objPaises as $listpaises):
+														?>
+														<option <?php if($pais == $listpaises->id) echo 'selected="selected"'; ?> value="<?=$listpaises->id?>"><?=$listpaises->nome?></option>
+														<?php 
+													endforeach;
+													?>
+													</select>  
+												</td>										
+												<td  align="left"  width="35%">
+													<div id="divuf">
+													Estado:<br>
+													<select disabled="disabled" id="uf" name="uf" onchange="buscaCidades(this.value);">
+													<option value='0'>Selecione</option>
+													<?php 
+													if(!empty($pais)) $estpais = $empresa->pais;
+													else $estpais = 1;
+													foreach ($this->objUf as $listuf):
+														if($listuf->id_paises == $estpais):
+															?><option <?php if($uf == $listuf->uf) echo 'selected="selected"'; ?> value='<?=$listuf->uf?>' ><?php echo ($listuf->nome)?></option><?php 
+														endif;
+													endforeach;
+													?>
+													</select>
+													</div>
+												</td>									 
+												<td  align="left"> 
+													Cidade:<br>
+													<div id="divcid">
+														<select disabled="disabled" id="cidade" name="cidade" >
+														<option value='0'>Selecione</option>
+														<?php 
+														foreach ($this->objCidades as $listcid):
+															?><option <?php if($cidade == $listcid->id) echo 'selected="selected"'; ?> value="<?=$listcid->id?>" ><?=$listcid->nome?></option><?php 
+														endforeach;
+														?>
+														</select>
+													</div>
+												</td>
+												</tr>
+											</table>
+											</td>
+										</tr>
+									</table>
+									</td>
+								</tr>
+								<tr >
+									<td colspan="2" align="left" class="borda_tcadastro">
+									<br><b>OUTROS</b>									
+									</td>
+								</tr>
+								<tr >
+									<td colspan="2" align="left" style="padding-top: 4px">
+									Observação:<br>
+									<textarea rows="3" cols="60" name="obs"><?=$contato->OBSERVACAO?></textarea>	
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2" align="left" style="padding-top: 12px">
+									<input type="submit" value="Salvar">
+									</td>
+								</tr>
+							</table>
+						</form>
+						<?php 
+						else:
+						 	?>
+						 	<table border="0" width="100%" cellpadding="0" cellspacing="0">
+								<tr>
+									<td align="left" style="padding: 4px">
+										Nome<br/><b><?=$contato->ncontato?></b>
+									</td>
+									<td align="left">
+										E-mail<br/><b><?=$contato->EMAIL?></b>
+									</td>
+								</tr>
+								<tr>
+									<td align="left" style="padding: 4px">
+										Msn:<br><b><?=$contato->MSN?></b>
+									</td>
+									<td align="left">
+										Skype:<br><b><?=$contato->skype?></b>
+									</td>
+								</tr>
+								<tr>										
+									<td align="left" style="padding: 4px" >
+										Grupo de interesse:<br><b>
+											<?php 
+											foreach ($this->objGinteresse as $listg):
+												if($contato->ID_GRUPO_INTERESSE == $listg->ID) echo $listg->NOME;
+											endforeach;
+											?></b>
+									</td>
+									<td align="left" >
+										Dt Nascimento:<br><b><? if(!empty($contato->DATA_NASCIMENTO)) echo substr($contato->DATA_NASCIMENTO,8,2)."/".substr($contato->DATA_NASCIMENTO,5,2)."/".substr($contato->DATA_NASCIMENTO,0,4)?></b>
+									</td>																	
+								</tr>
+								<tr>										
+									<td align="left" style="padding: 4px" >
+										Trabalha com:<br><b><?=$contato->TRABALHA_COM?></b>
+									</td>			
+									<td align="left" >
+										Campanha:<br /><b>
+										<? 
+										if($contato->campanha == 0): echo "Não participa";
+										elseif($contato->campanha == 1): echo "Básica";
+										elseif($contato->campanha == 2): echo "Completa"; 
+	        							endif;
+										?></b>
+									</td>																							
+								</tr>
+								<tr >
+									<td colspan="2" align="left" class="borda_tcadastro">
+									<br /><b>TELEFONES</b>
+									</td>
+								</tr>
+								<tr>
+									<td align="left" colspan="2">
+										
+										<table border="0" width="100%" cellpadding="0" cellspacing="4">
+											<tr>
+												<td align="left">									
+													Comercial: <br><b><?=$contato->DDI?> (<?=$contato->DDD?>) <?=$contato->TELEFONE?></b>										
+												</td>
+												<td align="left">	
+													Pessoal: <br><b><?=$contato->DDI_PESSOAL?> (<?=$contato->DDD_PESSOAL?>) <?=$contato->TELEFONE_PESSOAL?></b>
+												</td>
+												<td align="left">
+													Fax: <br><b><?=$contato->DDI_FAX?> (<?=$contato->DDD_FAX?>) <?=$contato->FAX?></b>																					
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+								<tr>
+								  <td align="left" colspan="2" style="padding: 4px">
+		                            Nextel: <br><b><?=$contato->NEXTEL?></b>
+		                          </td>
+								</tr>
+								<tr >
+									<td colspan="2" align="left" class="borda_tcadastro">
+									<br><b>ENDERE&Ccedil;O</b>		
+									
+									<?php 
+									if(($contato->ID_END==1)||(empty($this->objContatos))):
+										$end = 'checked="checked"';
+										$uf				= $empresa->uf;
+										$cidade			= $empresa->cidade;
+										$endereco		= $empresa->endereco;
+										$bairro			= $empresa->bairro;
+										$cep			= $empresa->cep;
+										$pais			= $empresa->pais;
+									elseif(!empty($this->objContatos)):
+										$uf				= $contato->nuf;
+										$cidade			= $contato->CIDADE;
+										$endereco		= $contato->ENDERECO;
+										$bairro			= $contato->BAIRRO;
+										$cep			= $contato->CEP;
+										$pais			= $contato->npais;
+									endif;
+									?>
+																
+									</td>
+								</tr>
+								<tr>
+								<td colspan="2">
+									<table border="0" width="100%" cellpadding="0" cellspacing="4">
+										<tr>
+											<td colspan="4">
+											 	CEP:<br><b><?=$cep?></b>
+											</td>											
+										</tr>	
+										<tr>
+											<td  align="left" colspan="2" width="40%">
+											Logradouro:<br><b><?=$endereco?></b> 
+											</td>
+											<td  align="left">
+											Bairro:<br><b><?=$bairro?></b>
+											</td>  
+											<td  align="left">
+											
+											</td>
+										</tr>
+										<tr>
+											<td align="left" colspan="4">
+											<table cellpadding="0" cellspacing="0" border="0" width="100%">
+											<tr>
+												<td  align="left" width="20%">										
+													Pais:<br><b>
+													<?php 
+													foreach ($this->objPaises as $listpaises):
+														if($pais == $listpaises->id) echo $listpaises->nome;
+													endforeach;
+													?></b>  
+												</td>										
+												<td  align="left"  width="35%">
+													Estado:<br><b>
+													<?php 
+													foreach ($this->objUf as $listuf):
+														if($uf == $listuf->uf) echo $listuf->nome;
+													endforeach;
+													?></b>
+												</td>									 
+												<td  align="left"> 
+													Cidade:<br><b>
+													<?php 
+													foreach ($this->objCidades as $listcid):
+														if($cidade == $listcid->id) echo $listcid->nome;
+													endforeach;
+													?></b>
+												</td>
+												</tr>
+											</table>
+											</td>
+										</tr>
+									</table>
+									</td>
+								</tr>
+								<tr >
+									<td colspan="2" align="left" class="borda_tcadastro">
+									<br><b>OUTROS</b>									
+									</td>
+								</tr>
+								<tr >
+									<td colspan="2" align="left" style="padding-top: 4px">
+									Observação:<br><b><?=$contato->OBSERVACAO?></b>	
+									</td>
+								</tr>
+								<?php if($this->objEdi == true): ?>
+								<tr >
+									<td style="padding-top: 12px">
+									<input type="button" value="Editar" onclick="window.location='<?=$this->baseUrl()?>/admin/cadastro/contatoscad/tp/<?=$this->objTipo?>/empresa/<?=md5($empresa->id)?>/ed/ver/contato/<?=md5($contato->idcontato)?>'">
+									</td>
+									<td style="text-align: right;">
+										<?php if(($contato->contver != 1) and ($this->objInterno == 1)): ?> &nbsp;
+						                <a href="#" onclick="if(confirm('Validar cadastro?')){ window.location='<?=$this->baseUrl()?>/admin/cadastro/contatosvalida/tp/<?=$this->objTipo?>/empresa/<?=md5($empresa->id)?>/contato/<?=md5($contato->idcontato)?>/tipo/3'; }"><img alt="Validar" title="Validar" src="<?=$this->baseUrl()?>/images/checado.png"></a>
+						                <?php endif; ?>									
+									</td>
+								</tr>
+								<?php 
+								endif;
+								?>
+							</table>
+						 	<?php 
+						endif;
+						?>
+					</td>
+				</tr>
+			</table>				
+		</td>
+	</tr>
+</table>

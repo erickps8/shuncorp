@@ -1,0 +1,78 @@
+<script src="<?=$this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxtennis.js"></script>
+
+<table width="800px" align="center" border=1>
+<tr>
+	<td >
+		<div id="part">
+			<?php 
+			if(!empty($this->objPart)):
+				foreach ($this->objPart as $listpart);
+			endif;
+			?>
+			<table width="400px" align="center">
+			<tr>
+				<td>
+					<a href="javascript:void(0);" onclick="atualizaPartida(<?=$listpart->id_jogador1?>);">	
+					<?=$listpart->id_jogador1?>
+					</a>
+				</td>
+				<td>
+				</td>
+				<td>
+					<a href="javascript:void(0);" onclick="atualizaPartida(<?=$listpart->id_jogador2?>);">
+					<?=$listpart->id_jogador2?>
+					</a>
+				</td>
+			</tr>
+			</table>
+		</div>
+	</td>
+	
+	<td width="300px">
+		<div id="jog">
+		<table width="300px" align="center">
+		<?php 
+		foreach ($this->objTennis as $listajog):
+		?>
+			<tr>
+				<td><?php echo $listajog->id; ?>  
+					<?php if($listajog->sit==1): ?>
+						<a href="javascript:void(0);" onclick="Mostralistajogadores(<?=$listajog->id?>); ">
+						<?=$listajog->nome?> Fora
+						</a>
+					<?php elseif($listajog->sit==2): ?>
+						<a href="javascript:void(0);" onclick="if(confirm('Remover jogador da lista?')){removeJogadorlista(<?=$listajog->id?>);}">
+						<?=$listajog->nome?> 0
+						</a>
+					<?php endif; ?>
+				</td>
+			</tr>
+		<?php 
+		endforeach;
+		?>
+		</table>
+		</div>
+	</td>
+</tr>
+<tr>
+	<td colspan="2">
+		<div id="fila">
+		<?php if(!empty($this->objFila)): ?>
+			<table>
+				<tr>
+				<?php 
+				foreach ($this->objFila as $fila):
+				?>
+					<td>
+					<?=$fila->id_jogador?>
+					</td>
+				<?php 
+				endforeach;	
+				?>
+				</tr>
+			</table>
+		<?php endif;?>
+		</div>
+	</td>
+</tr>
+</table>

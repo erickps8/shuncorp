@@ -1,0 +1,126 @@
+<script src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/relatoriosRentabilidade.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/flot/jquery.flot.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/flot/jquery.flot.stack.js"></script>
+	
+	<!-- Content -->
+    <div class="content">   
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li class=""><a href="<?php echo $this->baseUrl(); ?>/admin/relatorios">Relatórios</a></li>
+                	<li class="lastB">Rentabilidade por linha</li>         
+                </ul>
+            </div>
+        </div>       
+
+        <div class="title"><h5>Rentabilidade por linha de produtos</h5>
+        	<div style="float: right; padding: 10px">
+        		<a target="_blank" href="<?php echo $this->baseUrl()?>/admin/relatorios/vendascurvaimp/tpdata/<?php echo $this->objParams['tpdata']?>/pend/<?php echo $this->objParams['pend']?>/representante/<?php echo $this->objParams['representante']?>/televenda/<?php echo $this->objParams['televenda']?>/dataini/<?php echo str_replace("/", "-", $this->objParams['dataini'])?>/datafim/<?php echo str_replace("/", "-", $this->objParams['datafim'])?>/grupovenda/<?php echo $this->objParams['grupovenda']?>/buscagruposub/<?php echo $this->objParams['buscagruposub']?>" >
+					<img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/printerwhite.png" title="Imprimir" border="0" width="18">
+				</a>
+			</div>
+        </div>
+        
+		<div class="widgets" >
+        	<!-- Busca -->
+        	<div class="" style="margin-top: 5px; margin-bottom: 5px; " >            
+	            <form method="post" name="busca" id="busca" class="mainForm" >
+	            	<table style="border: 1px solid #d5d5d5; width: 100%">
+	            	<tr>
+					    <td style="padding: 0px 0px 0px 10px; vertical-align: middle; " >
+				    		Busca em:<br />
+			    			<div class="styled-select" style="width: 150px">
+				    			<select name="tpbusca" id="tpbusca" style="width: 172px" onchange="if(this.value==1){$('#televendas').css({display:'none'}); $('#representantes').css({display:'block'})}else if(this.value==2){$('#representantes').css({display:'none'}); $('#televendas').css({display:'block'})}else{$('#representantes').css({display:'none'}); $('#televendas').css({display:'none'})};">
+				    			<option value="0">Todas as regiões</option>
+				    			<option value="1">Representantes</option>
+				    			<option value="2">Televendas</option>
+				    			</select>
+				    		</div>				    							    		
+					    </td>
+					    <td colspan="2">
+					    	<div id="representantes" style="display: none">
+			            		Regiões:<br />
+				    			<div class="styled-select" style="width: 300px">
+					    			<select name="representante" id="representante" style="width: 322px">
+					    			<option value="0">Selecione</option>
+					    			<?php foreach ($this->objRegioes as $listR){ ?>
+										<option <?php if($this->objParams['representante'] == $listR->idreg) echo 'selected="selected"'?>  value='<?php echo $listR->idreg?>'><?php echo ($listR->NOME." - ".$listR->EMPRESA)?></option>
+									<?php } ?>    				
+					    			</select>
+					    		</div>
+				    		</div>
+				    		<div id="televendas" style="display: none">
+				    			Teleregiões:<br />
+				    			<div class="styled-select" style="width: 300px">
+					    			<select name="televenda" id="televenda" style="width: 322px">
+						    			<option value='0'>Selecione</option>
+									  	<?php foreach ($this->objRegtelvend as $listT){ ?>
+											<option <?php if($this->objParams['representante'] == $listT->idreg) echo 'selected="selected"'?> value='<?php echo $listT->idreg?>'><?php echo ($listT->regiao." - ".$listT->usuario)?></option>
+										<?php } ?>
+									</select>
+					    		</div>
+				    		</div>
+					    </td>
+					</tr>
+	            	<tr>
+				    	<td align="left" width="200" style="padding: 0px 0px 10px 10px">
+							Grupos de Venda:<br>
+							<div class="styled-select" style="width: 180px">
+							<select name="grupovenda" id="grupovenda" style="width: 202px; text-transform: uppercase;">
+								<option value="0">SELECIONE</option>
+								<?php foreach ($this->objGrupov as $listG): ?>
+								<option <?php if($this->objParams['grupovenda'] == $listG->id) echo 'selected="selected"'?> value="<?php echo $listG->id?>" ><?php echo $listG->descricao?></option>
+								<?php endforeach;?>					
+							</select>								
+							</div>	
+						</td>
+						<td align="left" width="70" style="padding: 5px">
+					    	Dt ini:<br>
+					    	<input type="text" size="8" name="dataini" id="dataini" class="data datepicker" style="width: 70px" value="<?php echo $this->objParams['dataini']?>">
+						</td>
+						<td align="left" >
+							Dt fim:<br>
+							<input type="text" size="8" name="datafim" id="datafim" class="data datepicker" style="width: 70px" value="<?php echo $this->objParams['datafim']?>">
+						</td>
+						<td style="text-align: right; padding-right: 20px" colspan="3"><br />
+				    		<input type="button"  value="<?=$this->translate->_("Gerar relatório")?>" class="blueBtn" onclick="gerarRelatorio()">				
+				    	</td>	
+					</tr>		
+					    		
+					</table> 
+				</form>
+			</div>
+			
+			<div class="widgets" id="dadosRelatorio" style="display: none">
+				<div class="widget">
+		        	<div class="head">
+		        		<h5 class="iGraph">Rentabilidade no período</h5>
+		        		<div style="text-align: right; padding: 10px; display: none">
+		            		<a href="#" target="_blank" style="display: none" id="imprimeHistorico"><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/printer.png" width="16" border="0" title="Imprimir"></a>
+		            	</div>
+		        	</div>
+		        	<div class="body">
+		        		<div class="bars" style="height: 300px;"></div>
+		        	</div>
+		        </div>
+		     	
+		      	<div class="fix"></div>
+		      	
+		      	<div class="widget" id="tabela">
+		        	
+		    	</div>
+		    	<div class="fix"></div>	
+			</div>
+			
+		</div>
+		
+		<div class="widgets" id="aguarde" style="display: none">
+			<img src="<?php echo $this->baseUrl?>/public/sistema/imagens/loaders/loader6.gif"> <i>Aguarde, gerando relatório...</i>
+		</div>
+		
+   </div>
+  
+</head>

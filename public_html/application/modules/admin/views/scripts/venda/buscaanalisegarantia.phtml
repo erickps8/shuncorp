@@ -1,0 +1,67 @@
+<style>
+	.tableLinhapar{	
+		background-color: #fdfdfd;
+	}
+	 
+	.tableLinhaimpar{
+		background-color: #ccc;
+	}
+</style>
+<script type="text/javascript">
+<!--
+var idor		= document.getElementById('id_or').value;
+alert(idor);
+alert('11');
+//-->
+</script>
+
+
+<form action="" name="buscagar" class="mainForm">
+<?php if(!empty($this->objAnalise)):?>
+<table style="width: 98%; background-color: #EEE; position: relative; border: 1px solid #d5d5d5; margin: 2px; padding: 2px; color: #666666;	font: 11px Arial, Helvetica, sans-serif;">
+<tr  class="tableLinhaimpar">
+	<td width="20%" align="center" >
+		SELECIONE
+	</td>
+	<td  align="center">
+		ANÁLISE
+	</td>
+	
+</tr>
+<?php
+$cont=0;
+
+	foreach ($this->objAnalise as $lista):
+		$cont++;
+		if ($cont%2==0) $class ='';
+	    else $class = 'class="tableLinhapar"';
+		?>
+		<tr <?=$class?> >
+			<td align="center" >
+			<input type="checkbox" name="ch_<?php echo $lista->id?>" id="<?php echo $lista->id?>" value="<?php echo $lista->descricao?>">
+			</td>
+			<td align="left">
+				<?php echo $lista->id.' - '.$lista->descricao?>
+			</td>	
+		</tr>
+	<?php 
+	endforeach;
+
+?>
+<tr>
+	<td align="center" valign="top">
+		<input type="checkbox" name="ch_out" id="out">
+	</td>
+	<td>Outros:<br>
+		<textarea name="cout" id="cout" rows="2" cols="35" style="width: 350px" ></textarea>
+	</td>	
+</tr>
+</table>
+<input type="hidden" name="contan" id="contan" value="<?php echo $cont?>" />
+<p align="left">
+	<input type="button" value="Salvar" style="border: 1px solid #999" onclick="$('#mascara').hide(); $('.window').hide(); addQt();" >
+</p>
+<?php 
+endif;
+?>
+</form>	

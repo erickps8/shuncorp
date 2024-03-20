@@ -1,0 +1,55 @@
+<table width="80%" align="center">
+<?php
+
+$contpart = count($this->objHist);
+
+foreach ($this->objTennis as $listajog):
+
+		
+?>
+	<tr>
+		<?php if($listajog->sit==1): ?>
+		<td align="left"  style="color: red">
+			<a class="a" href="javascript:void(0);" onclick="Mostralistajogadores(<?=$listajog->idj?>); ">
+			<?=$listajog->nome?>
+			</a>
+		</td>
+		<td align="center" style="color: red">
+		Fora
+		</td>
+		<?php elseif($listajog->sit==2): ?>
+		<td align="left">
+			<a class="a" href="javascript:void(0);" onclick="if(confirm('Remover jogador da lista?')){removeJogadorlista(<?=$listajog->idj?>);}">
+			<?=$listajog->nome?>
+			</a>
+		</td>
+		<td align="center">
+		<?php 
+		$venc = 0;
+		if($listajog->venca!=0):
+			$venc = $listajog->venca;
+		else:
+			$venc = 0;
+		endif;
+		
+		if($contpart!=0):
+			$perc = ($venc*100)/$contpart;
+		endif;		
+		
+		?>
+		<?=$venc?> (<?=number_format($perc,2)?>%)
+		</td>
+		<?php endif; ?>
+		
+	</tr>
+<?php 
+endforeach;
+?>
+</table>
+<table width="80%" align="center">
+	<tr>				
+		<td align="left">				
+		Total partidas: <?=$contpart?>
+		</td>
+	</tr>
+</table>

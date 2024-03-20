@@ -1,0 +1,126 @@
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/financeiro.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/administracaoFinanceiro.js"></script>
+
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztl">Financeiro</a></li>
+                	<li class="lastB">Conciliação de contas</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Conciliação de contas</h5></div>
+
+        <div class="widgets" >
+        	<div class="right" style="text-align: right; padding: 5px 0px 5px 0px; width: 40%">
+				<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlpag">Pagar</a> | 					    		  
+	    		<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlrec">Receber</a> |  
+	    		<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlbancos">Administração</a> | 	    		
+	    		<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlimport">Importar extrato</a>
+			</div>
+		</div>
+		
+		<div class="widgets" >
+			<form name="formcontasval" method="post" class="mainForm">
+			<div class="first" style="margin-top: 5px; margin-bottom: 10px; " >
+				
+    	    	<table style="border: 1px solid #d5d5d5; width: 100%; border-collapse: collapse;">
+		    		<tr>
+		    			<td align="left" style="padding: 10px">
+		    				Selecione uma conta:<br>
+		    				<div class="styled-select" style="width: 170px">
+		    				<select name="contasval" id="contasval" onchange="buscarExtrato();" style="width: 192px">
+		    					<option value="0">Selecione</option>
+		    					<?php foreach ($this->objContasbanc as $contasvalid): ?>
+		    					<option <?php if($this->objContaconc==$contasvalid->id) echo 'selected="selected"'?> value="<?=$contasvalid->id?>"><?=strtoupper($contasvalid->nome)?></option>
+		    					<?php endforeach;?>
+		    				</select>
+		    				</div>
+		    			</td>
+		    			<td style="text-align: right;">
+		    				<?php if($this->objIns==0): ?> 
+		    				<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlconcimp/contasval/<?=$this->objContaconc.$this->objLinkconc?>" target="_blank"><img title="Imprimir" src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/printer.png" border="0" width="18" /></a>
+		    				<?php endif;?>
+							<a href="javascript:void(0);" onclick="exportaExtrato();"><img title="MS Excel" src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/excelDoc.png" border="0" width="18" /> </a>				    		
+						</td>
+		    		</tr>
+		    	</table>
+		    	
+		    </div>
+		
+			<div class="left" style="width: 52%; border: 1px solid #d5d5d5; padding: 10px">
+				<!-- <input type="hidden" name="idconci"> -->
+		    	<input type="hidden" name="idcontaconcilha" value="<?=$this->objContaconc?>">
+		    	<table id="buscaconcilia" >
+		    		<tr> 
+				    	<td colspan="4" style="font-weight: bold;">
+				    	Busca:
+				    	</td>
+				    </tr> 
+	    		    <tr>
+				    	<td align="left" width="20%">
+	            			Valor Ini:<br>
+							<input type="text" size="8" name="buscavliniconc" id="buscavliniconc" style="width: 80px" class="moeda">
+						</td>
+						<td>
+							Valor Fim:<br>
+							<input type="text" size="8" name="buscavlfimconc" id="buscavlfimconc" style="width: 80px" class="moeda">
+						</td>
+						<td>										 
+							Dt inicio:<br>
+							<input type="text" name="dtiniconc" id="dtiniconc" maxlength="10" class="data datepicker">
+						</td>
+						<td>
+							Dt fim:<br>
+							<input type="text"  size="8" name="dtfimconc" id="dtfimconc" maxlength="10" class="data datepicker">
+							<input type="button" value="Pesquisar" class="blueBtn" onclick="buscarExtrato();">
+						</td>
+					</tr>
+					
+				</table>  
+		    </div>
+		   	</form>
+		   	
+			<?php if($this->objIns==1){ ?>
+			<div class="right" style="width: 38%; border: 1px solid #d5d5d5; padding: 10px">
+				<form name="formnovaconc" method="post" class="mainForm">
+					<input type="hidden" name="idconci">
+			    	<input type="hidden" name="idcontaconcilha" value="<?=$this->objContaconc?>">
+			    	<table id="novaconcilia" >
+			    		<tr>
+			    			<td colspan="3" style="font-weight: bold;">
+			    				Nova transação:				    				  
+			    			</td>
+			    		</tr>			    		
+			    		<tr>
+			    			<td >
+    							Data:<br>
+			    				<input type="text" maxlength="10" name="dataconc" class="data datepicker">
+	    					</td>
+	    					<td>
+	    						Valor:<br>
+			    				<input onkeyup="moedaNegativo(this,event,'###.###.###,##',true);" type="text" name="valorconc" style="width: 80px">
+			    				<input type="button" value="Inserir" class="greenBtn" onclick="gravaTransacao();"> 
+	    					</td>
+			    		</tr>
+			    	</table>
+				</form>
+			</div>
+			<?php } ?>
+		
+			<div class="clear"></div>
+		
+			<div style="display: none; margin-top: 10px" id="resultado">
+				
+			</div>
+			
+			
+		
+	</div>		
+</div>

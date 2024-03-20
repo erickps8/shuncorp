@@ -1,0 +1,139 @@
+<!-- Content -->
+    <div class="content">   
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoqueresumo">Estoque</a></li>
+                	<li class="lastB">Fábrica</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Fábrica</h5></div>
+        
+        <div class="widgets" >
+        	<!-- Busca -->
+        	<div style="margin-top: 5px; margin-bottom: 5px">
+        	<?php if($this->objIns==true):?>
+	    	<input type="button" class="basicBtn" onclick="window.location='<?php echo $this->baseUrl(); ?>/admin/compras/fabricanovo'" value="Nova montagem">
+	    	<?php endif;?>
+	    	</div>
+        	
+        	<div >    
+        	<form action="fabrica" method="post" name="busca" id="busca" class="mainForm" >
+				<table style="border: 1px solid #d5d5d5; " id="tabela">
+				    <tr>
+				    	<td align="left" width="30%" style="padding: 10px">
+				    		<div class="styled-select" style="width: 130px">
+						    	<select name="tipo" onchange="tipoPesquisa(this.value);" style="width: 152px">
+								<option value="2">Por per&iacute;odo</option>
+								<option value="1">Por ID</option>
+								</select>
+							</div>    
+				    	</td>
+				    	
+				    	<td align="left">
+					    	
+							<div style="display: none;" id="buscid">
+								<input type="text" size="10" name="buscaid" id="buscaid" style="width: 150px">
+								<input type="submit" value="Pesquisar" class="blueBtn">
+							</div>
+							<div style="display: block" id="data">
+								<input type="text" size="10" name="dataini" id="dataini" style="width: 70px" class="data datepicker">
+								&agrave; <input type="text" size="10" name="datafin" id="datafin" style="width: 70px" class="data datepicker">
+								<input type="submit" value="Pesquisar" class="blueBtn">
+							</div>
+							
+				    	</td>
+					</tr>
+				</table>  
+			</form>        	
+		</div>
+
+	<script>
+	function mostrarPesquisa(){
+	    nTr = document.getElementById("tabela");
+	    if(nTr.style.display == "none"){
+	        nTr.style.display = "block"
+	    }else{
+	        nTr.style.display = "none";
+	    }
+	}
+	
+	function tipoPesquisa(valor){
+	
+		if(valor==1){
+			document.getElementById("buscid").style.display = "block";
+			document.getElementById("data").style.display = "none";
+			document.getElementById("dataini").value = "";
+			document.getElementById("datafin").value = "";
+		}else{
+			document.getElementById("data").style.display = "block";
+			document.getElementById("buscid").style.display = "none";
+			document.getElementById("baucaid").value = "";
+		}
+	    
+	}
+	</script>
+	 
+	 <?php 
+        if ( count($this->objList) > 0) :
+		?>
+		<div class="widget">
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                		<td width="15%">Id</td>
+                        <td width="15%">Data</td>
+                        <td width="30%%">Usuário</td>
+                        <td width="15%">Opções</td>
+                    </tr>
+                </thead>
+                <tbody>
+		  		<?php 
+		    	foreach($this->objList as $lista):
+		    
+				?>
+				
+				<tr >
+	                <td align="center" >
+	                   <?php echo "F".substr("000000".$lista->idfabrica,-6,6);?>
+	                </td>
+	                <td align="center" >
+	                   <?php echo $lista->data;?>                  
+	                </td>
+	                <td align="left" >
+	                   <?php echo ($lista->nome)?>                  
+	                </td>
+	                
+	                <td align="center" >
+	                	<a href="<?php echo $this->baseUrl(); ?>/admin/compras/fabricaprod/fab/<?=md5($lista->idfabrica)?>" ><img src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" border="0" title="Visualize"></a> &nbsp; &nbsp;
+	                	<a target="_blank" href="<?php echo $this->baseUrl(); ?>/admin/compras/fabricaprodimp/fab/<?php echo md5($lista->idfabrica)?>"><img src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/printer.png" width="16" border="0" title="Imprimir"></a> &nbsp; 
+	                </td>
+	                
+            	</tr>
+            	<?php  endforeach; ?>
+                </tbody>
+            </table>            
+        </div>
+        <div style="margin-top: 20px">
+			<?php 
+			if ( count($this->objList) > 0) :
+				echo $this->objList;
+			endif;
+		    ?>
+		</div>
+		<?php 
+		else :
+		?>
+		<div class="widget first">
+ 			Nenhum fabricação encontrada
+		</div>	
+		<?php 
+		endif;
+		?>
+	</div>
+</div>	
+	

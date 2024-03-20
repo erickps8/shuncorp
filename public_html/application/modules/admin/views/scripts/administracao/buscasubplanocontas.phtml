@@ -1,0 +1,17 @@
+<?php 
+if($this->objTp==0):
+?>
+	Sub conta: <br>
+	<select name="subpconta" id="subpconta" style="width: 130px" >
+		<?php foreach ($this->objList as $list): ?>
+			<option value="<?=$list->id?>|<?=$list->nome?>"><?=$list->nome?></option>
+		<?php endforeach; ?>
+	</select>
+<?php else: ?>
+	Sub conta: <br>
+	<select name="subpconta_<?=$this->objTp?>" id="subpconta_<?=$this->objTp?>" >
+		<?php foreach ($this->objList as $list): ?>
+			<option value="<?=$list->id?>|<?=$list->nome?>"><?=$list->nome?></option>
+		<?php endforeach; ?>
+	</select>
+<?php endif;?>

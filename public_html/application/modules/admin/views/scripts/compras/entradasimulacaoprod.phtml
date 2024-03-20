@@ -1,0 +1,355 @@
+<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/comprasSimulacaoentrada.js"></script>
+
+<?php 
+if(count($this->objSimulacao)>0){
+	foreach ($this->objSimulacao as $simulacao);
+}
+?>
+
+<div class="content">   
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoqueresumo">Estoque</a></li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/entradasimulacao">Simulação de entrada</a></li>
+                	<?php if(empty($simulacao->id)){ ?>
+                	<li class="lastB">Nova simulacao</li>
+                	<?php }else{ ?>
+                	<li class="lastB">S<?php echo str_pad($simulacao->id,6,'0',STR_PAD_LEFT)?></li>
+                	<?php } ?>
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>
+        	<?php if(empty($simulacao->id)){ ?>Nova simulacao<?php }else{ ?>Simulacao S<?php echo str_pad($simulacao->id,6,'0',STR_PAD_LEFT); } ?>
+        </h5></div>
+
+        <?php 
+        if($this->etapa == 3){
+		?>
+	    <div class="widgets">
+			<input type="hidden" name="simulacao" value="<?php echo md5($simulacao->id)?>">
+	    	<div class="widget first">
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="">Código</td>
+                        <td width="">Qt</td>
+                        <td width="">Preço</td>
+                        <td width="">Preço Total</td>                        
+                    </tr>
+                </thead>
+                <tbody>
+			    <?php
+			    if(!empty($this->objAdcoes)){	
+					$nadicoes = count($this->objAdcoes);
+					$count = $pesototal = $siscomex = 0;		
+
+					foreach ($this->objAdcoes as $lista){
+						$pesototal += $lista->peso;
+						$siscomex  += $lista->valor;
+					}					
+					
+					foreach ($this->objAdcoes as $lista){
+						$count++;
+						$vladicao = 0;
+						?>
+						<tr >
+							<td  style="text-align: left; font-weight: bold;" colspan="8">
+			                	Adição 00<?php echo $count?>: NCM <?php echo $lista->ncm; ?>
+			                </td>			                
+			            </tr>
+			        	<?php 
+						
+						foreach ($this->objProdutos as $produtos){
+							if((trim($produtos->ncm)) == (trim($lista->ncm))){
+								$vladicao += $produtos->preco*$produtos->qt;
+								?>
+								<tr >
+									<td  style=""><?php echo $produtos->CODIGO; ?></td>
+									<td  style="text-align: center;"><?php echo $produtos->qt?></td>
+									<td  style="text-align: right;"><?php echo number_format($produtos->preco,2,",",".")?></td>
+									<td  style="text-align: right;"><?php echo number_format($produtos->preco*$produtos->qt,2,",",".")?></td>
+									
+					            </tr>
+					        	<?php 	
+					        	
+					        	$ii += (($produtos->ii/100) * ($produtos->preco*$produtos->qt)) *  $simulacao->cambio;
+					        	
+							}
+						}					
+
+						?>
+						<tr >
+							<td  style="text-align: left; vertical-align: top;" >
+			                   Valor adição:<br />
+			                   Frete:<br />
+			                   Capatazia:<br />
+			                   Total dos produtos:
+			                </td>
+			                <td  style="text-align: right; vertical-align: top; font-weight: bold;">
+			                <?php 
+			                	$vladicao = ($vladicao * $simulacao->cambio);
+			                   	echo number_format($vladicao,2,",",".");
+			                   
+			                   	$frete = (($simulacao->frete/$pesototal) * $lista->peso) * $simulacao->cambio;
+			                   	echo "<br />".number_format($frete,2,",",".");
+			                   
+			                   	if($count == 1) $capatazia = ($simulacao->capatazia-$nadicoes) + 1; else $capatazia = 1;
+			                   	echo "<br />".number_format($capatazia,2,",",".");
+			                   
+			                   	$totaladicao = $vladicao+$frete+$capatazia;
+			                   	echo "<br />".number_format($totaladicao,2,",",".");
+			                ?>
+			                </td>
+			                <td>
+			                II (<?php echo number_format($lista->ii,2,",",".")?>)<br />
+			                IPI (<?php echo number_format($lista->ipi,2,",",".")?>)<br />
+			                PIS (<?php echo number_format($lista->pis,2,",",".")?>)<br />
+			                COFINS (<?php echo number_format($lista->cofins,2,",",".")?>)<br />
+			                SISCOMEX<br />
+			                ICMS
+			                 
+			                </td>			                
+			                <td style="text-align: right; vertical-align: top; font-weight: bold;">
+			                <?php 
+			                	$vlii = ($totaladicao * ($lista->ii/100));
+			                	echo number_format($vlii,2,",",".");
+			                	
+			                	$vlipi = (($totaladicao+$vlii) * ($lista->ipi/100));
+			                	echo "<br />".number_format($vlipi,2,",",".");
+			                	
+			                	$aicms 		= $simulacao->icms/100;
+			                	$aii 		= $lista->ii/100;
+			                	$aipi 		= $lista->ipi/100;
+			                	$apis 		= $lista->pis/100;
+			                	$acofins 	= $lista->cofins/100;
+			                				                	
+			                	$vlpis = $apis*($totaladicao*(1+$aicms*($aii+$aipi*(1+$aii))))/((1-$apis-$acofins)*(1-$aicms));
+			                	echo "<br />".number_format($vlpis,2,",",".");
+			                	
+			                	$vlcofins = $acofins*($totaladicao*(1+$aicms*($aii+$aipi*(1+$aii))))/((1-$apis-$acofins)*(1-$aicms));
+			                	echo "<br />".number_format($vlcofins,2,",",".");
+			                	
+			                	echo "<br />".number_format($lista->valor,2,",",".");
+			                	
+			                	$coeficms = 1 - $aicms;
+			                	$vlicms =  (($totaladicao + $vlii + $vlipi + $vlpis + $vlcofins + $lista->valor)/$coeficms)*$aicms;
+			                	echo "<br />".number_format($vlicms,2,",",".");
+			                ?>
+			                </td>
+			                <td colspan="4">
+			                </td>
+			            </tr>
+						<?php 
+						
+						$totalicms 		+= $vlicms;
+						$totalii		+= $vlii;
+						$totalipi		+= $vlipi;
+						$totalpis		+= $vlpis;
+						$totalcofins	+= $vlcofins;
+			        }
+				}
+				?>
+			    </tbody>
+            </table>
+			</div>
+	    </div>
+	    
+	    <div class="widget" style="border-top: 1px solid #d5d5d5; ">
+       		<table style="width: 200px">
+	    		<tr>
+	    			<td align="left" style="padding: 10px; width: 15%">
+		    			II<br />
+		                IPI<br />
+		                PIS<br />
+		                COFINS<br />
+		                ICMS		     			 
+	    			</td>
+	    			<td style="text-align: right; font-weight: bold;">
+	    				<?php 
+	    				echo number_format($totalii,2,",",".");
+	    				echo "<br />".number_format($totalipi,2,",",".");
+	    				echo "<br />".number_format($totalpis,2,",",".");
+	    				echo "<br />".number_format($totalcofins,2,",",".");
+	    				echo "<br />".number_format($totalicms,2,",",".");
+	    				?>
+	    			</td>
+	    			
+	    		</tr>	
+	    	</table>
+    	</div>  
+		    
+		<div style="padding-top: 10px">
+			<input class="greenBtn" type="button" value="Anterior" onclick="window.location='<?php echo $this->baseUrl()?>/admin/compras/entradasimulacaoprod/simulacao/<?php echo md5($simulacao->id)?>/etapa/2'">
+		</div>	
+	    
+    	<?php 
+    	}elseif($this->etapa == 2){
+		?>
+			<div class="widgets">
+			<form action="<?php echo $this->baseUrl()?>/admin/compras/gravasimulacaoadcao" method="post" class="mainForm">
+		    	<input type="hidden" name="simulacao" value="<?php echo md5($simulacao->id)?>">
+		    	<div class="widget first">
+	 			<table style="width: 100%" class="tableStatic">
+	            	<thead>
+	                	<tr>
+	                        <td>Adição</td>
+	                        <td>Valor</td>
+	                        <td>Peso</td>
+	                        <td>II</td>
+	                        <td>IPI</td>
+	                        <td>PIS</td>
+	                        <td>COFINS</td>
+	                    </tr>
+	                </thead>
+	                <tbody>
+				    <?php
+				    if(!empty($this->objAdcoes)){	
+						$count = 0;			        
+						foreach ($this->objAdcoes as $lista){
+							$count++;
+			        		?>
+							<tr >
+								<td  style="text-align: center;">
+				                   <?php echo $lista->ncm?>
+				                </td>
+				                <td  style="text-align: center;" >
+				                   <input type="text" class="moeda" style="width: 50px" name="ncm_<?php echo $lista->id?>" value="<?php echo ($count==1) ? "214,50" : "29,50"; ?>">                   
+				                </td>				                
+				                <td  style="text-align: center;" >
+				                   <input type="text" class="moedacinco" style="width: 70px" name="peso_<?php echo $lista->id?>" value="<?php if($lista->peso != NULL) echo number_format($lista->peso,5,",",".")?>">                   
+				                </td>
+				                <td  style="text-align: left;" >
+				                   <input type="text" value="<?php echo number_format($lista->ii,2,",","."); ?>" name="ii_<?php echo $lista->id?>" style="width: 30px" class="moeda">
+				                </td>
+				                <td  style="text-align: left;" >
+				                   <input type="text" value="<?php echo number_format($lista->ipi,2,",","."); ?>" name="ipi_<?php echo $lista->id?>" style="width: 30px" class="moeda">
+				                </td>
+				                <td  style="text-align: left;" >
+				                   <input type="text" value="<?php echo number_format($lista->pis,2,",","."); ?>" name="pis_<?php echo $lista->id?>" style="width: 30px" class="moeda">
+				                </td>
+				                <td  style="text-align: left;" >
+				                   <input type="text" value="<?php echo number_format($lista->cofins,2,",","."); ?>" name="cofins_<?php echo $lista->id?>" style="width: 30px" class="moeda">
+				                </td>
+				            </tr>
+				        	<?php 
+				        }
+					}
+					?>
+				    </tbody>
+	            </table>
+				       
+				</div>     
+				  
+				<div class="widget" style="border-top: 1px solid #d5d5d5; ">
+	       		<table style="width: 100%">
+		    		<tr>
+		    			<td align="left"style="padding: 10px; width: 15%">
+			    			Frete (USD):		     			 
+		    			</td>
+		    			<td align="left" style="width: 15%">
+		    				<input type="text" name="frete" size="8" class="moeda"  style="width: 70px" value="<?php if($simulacao->frete != NULL) echo number_format($simulacao->frete,2,",",".")?>">
+		    			</td>
+		    			<td align="left" style="width: 15%">
+			    			Capatazia (BRL):
+		    			</td>
+		    			<td align="left" >	    			
+			     			<input type="text" name="capatazia" size="8"  style="width: 70px" class="moeda" value="<?php if($simulacao->capatazia != NULL) echo number_format($simulacao->capatazia,2,",",".")?>">
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td align="left" style="padding: 10px">
+			    			Tx câmbio:
+		    			</td>
+		    			<td align="left" >	    			
+			     			<input type="text" name="cambio" size="8"  style="width: 70px" class="moedacinco" value="<?php if($simulacao->cambio != NULL) echo number_format($simulacao->cambio,5,",",".")?>">
+		    			</td>
+		    			<td align="left">
+			    			Aliquota ICMS:
+		    			</td>
+		    			<td align="left" >	    			
+			     			<input type="text" name="icms" size="8"  style="width: 70px" class="moedacinco" value="<?php if($simulacao->icms != NULL) echo number_format($simulacao->icms,5,",",".")?>"> %
+		    			</td>
+		    			
+		    		</tr>
+		    			
+		    	</table>
+		    	</div>  
+				    
+				<div style="padding-top: 10px">
+					<input class="greenBtn" type="button" value="Anterior" onclick="window.location='<?php echo $this->baseUrl()?>/admin/compras/entradasimulacaoprod/simulacao/<?php echo md5($simulacao->id)?>'">
+					<input class="greenBtn" type="submit" value="Próximo" >	     	
+				</div>			
+			</form>
+		</div>
+		<?php 
+		}else{
+        ?>
+        <div class="widgets">	
+            <form action="<?=$this->baseUrl()?>/admin/compras/entradasimulacaoprod" method="post" class="mainForm">
+		    	<input type="hidden" name="idsimulacao" value="<?php echo $simulacao->id?>">
+		    	<div class="widget first">
+	 			<table style="width: 100%" class="tableStatic">
+	            	<thead>
+	                	<tr>
+	                        <td>Código</td>
+	                        <td>Qt</td>
+	                        <td>Preço</td>
+	                        <td>Total</td>
+	                        <td>NCM</td>	                        
+	                    </tr>
+	                </thead>
+	                <tbody>
+				    <?php
+				    if(!empty($this->objProdutos)){				        
+						foreach ($this->objProdutos as $listaprod){
+			        		?>
+							<tr >
+								<td  style="text-align: center;">
+				                   <?php echo $listaprod->CODIGO; ?>
+				                </td>
+				                <td  style="text-align: center;" >
+				                	<?php echo $listaprod->qt?>				                   
+				                </td>
+				                <td  style="text-align: right;" >
+				                   <?=number_format($listaprod->preco,2,",",".");?>                    
+				                </td>
+				                <td  style="text-align: right;" >
+				                   <?php echo number_format($listaprod->preco*$listaprod->qt,2,",","."); ?>
+				                </td>
+				                <td  style="text-align: center;">
+				                	<input type="text" value="<?php echo $listaprod->ncm." ".$listaprod->ncmex;?>" name="ncm_<?php echo $listaprod->id?>" style="width: 55px">             
+				                </td>				                
+				            </tr>
+				        	<?php 
+				        }
+					}
+					?>
+				        
+			        <tr>
+	                    <td  class="td" align="left" colspan="2" >
+	                    	<input style=" width: 80px" type="text" name="codigo" id="codigo" onblur="buscaProduto();" onclick='$("#resultado").html("")'>		                
+			            	<input type="text" style="width: 50px" size="5" name="qt" id="qt" >		                
+			            	<input type="text" style="width: 65px" size="5" name="preco" id="preco" onblur="submit();" class="moeda">
+			            </td>
+			            <td  class="td" style="text-align: left;" colspan="3" >
+			            	<div id="resultado" style="text-align: left;"></div>
+			            </td>		            
+			        </tr>
+			        </tbody>
+	            </table>
+				       
+				</div>     
+				    
+				<div style="padding-top: 10px">
+					<input class="greenBtn" type="button" value="Próximo" onclick="window.location='<?php echo $this->baseUrl()?>/admin/compras/entradasimulacaoprod/simulacao/<?php echo md5($simulacao->id)?>/etapa/2'">	     	
+				</div>			
+			</form>
+		</div>	
+			<?php }?>
+		
+	</div>

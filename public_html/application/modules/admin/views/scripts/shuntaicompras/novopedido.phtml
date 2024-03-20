@@ -1,0 +1,43 @@
+<script src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/taiCompras.js"></script>
+
+<div class="content">
+       <!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/shuntaicompras/pedidos">Compras</a> </li>
+                	<li class="lastB">Novo pedido</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Novo pedido</h5></div>
+
+        <div class="widgets">
+            <div class="widget" style="padding: 10px; border: 1px solid #d5d5d5;">
+             	<form method="post"  name="prepedido" class="mainForm">
+             
+                <div class="styled-select" style="width: 300px; margin-bottom: 10px">
+					<select name="fornecedor" id="fornecedor" style="width: 322px">
+						<option value="0"><?=$this->translate->_("Fornecedor")?></option>
+						<?php foreach($this->objFor as $lista){ ?>
+					    <option value="<?php echo $lista->ID?>"><?php echo $lista->EMPRESA?></option>
+					    <?php } ?>
+					</select>
+				</div>
+                
+                <div class="styled-select" style="width: 150px">
+					<select name="buscasit" id="gerarCompra" style="width: 172px">
+						<option value="0"><?=$this->translate->_("Tipo de busca")?></option>
+						<option value="1"><?=$this->translate->_("Busca de produto")?></option>
+						<option value="2"><?=$this->translate->_("Lista de produto")?></option>
+					</select>
+				</div>
+				
+			    </form>
+			</div>
+        
+			
+	   </div>
+</div>

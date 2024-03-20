@@ -1,0 +1,181 @@
+	<?php 
+    if(isset($this->tp)):
+		if($this->tp == 'enviadas'):
+	        $tp = "Enviadas";
+	    elseif($this->tp == 'rascunhos'):
+	        $tp = "Rascunhos";
+	    elseif($this->tp == 'lixeira'):
+	        $tp = "Lixeira";
+	    else:
+			$tp = "Entrada";
+	    endif;
+    endif;
+    ?>
+
+	<!-- Content -->
+    <div class="content">   
+    	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="#">Home</a> </li>
+                	<li><a href="<?php echo $this->baseUrl()?>/admin/correio/caixa">Correio eletrônico</a></li>
+                	
+                    <li class="lastB"><?php echo $tp?></li>         
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5><?php echo $tp?></h5></div>
+        
+         <div class="widgets" >
+        	<!-- Busca -->
+        	<div class="left" style="margin-top: 5px; margin-bottom: 5px" >            
+                <!-- Search -->
+                <div class="searchWidget" style="display: none">
+                	<form action="">
+                    	<input type="text" name="search" placeholder="Insiva o valor da busca..." />
+                        <input type="submit" name="find" value="" />
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Static table -->
+        <div class="widgets" >
+        	     
+        	<?php
+        	
+        	if (count($this->objEmails) > 0):
+        	foreach($this->objEmails as $lista);
+        	if($lista != 'cannot login, user or password wrong'):
+        	?>
+            <div class="left" style="width: 85%; margin-right: 0px">
+		        <div class="widget first" >
+		        	<table  class="tableStatic" style="margin-top: -10px; width: 100%">
+		            	<thead>
+		                	<tr>
+		                    	<td width="">Remetente</td>
+		                        <td width="">Assunto</td>
+		                        <td width="15%">Data</td>
+		                        <td width="5%">+</td>                       
+		                    </tr>
+		                </thead>
+		                <tbody>
+		                <?php 
+		                
+		                $cor=$this->objCont - ($this->page*10) + 11;
+				    	foreach($this->objEmails as $lista):
+				    	
+				    		$cor--;
+				    	
+				    		$bold = "";
+				    		if($lista->hasFlag(Zend_Mail_Storage::FLAG_SEEN)):
+				    			$bold = "";
+				    		else:
+				    			$bold = "bold";
+				    		endif; 
+					    	
+					    	?>
+							
+							<tr >
+				                <td style="cursor: pointer; cursor: hand; font-weight: <?php echo $bold?>" onclick="window.location='<?php echo $this->baseUrl()?>/admin/correio/visualizar/email/<?php echo $cor?>';" >
+				                   <?php 
+				                   
+				                   if($this->tp == 'enviadas'):
+					                   $remetente = str_replace("<", "", $lista->to);
+					                   $remetente = str_replace(">", "", $remetente);
+				                    
+				                   else:
+					                   $remetente = str_replace("<", "", $lista->from);
+					                   $remetente = str_replace(">", "", $remetente);
+				                   endif;
+				                   
+				                   echo utf8_encode(str_replace('"', '', $remetente))?>
+				                </td>
+				                <td style="cursor: pointer; cursor: hand; font-weight: <?php echo $bold?>" onclick="window.location='<?php echo $this->baseUrl()?>/admin/correio/visualizar/email/<?php echo $cor?>';" >
+				                	<?php echo utf8_encode(quoted_printable_decode($lista->subject))?>
+				                </td>
+				                <td style="cursor: pointer; cursor: hand; text-align: center; font-weight: <?php echo $bold?>" onclick="window.location='<?php echo $this->baseUrl()?>/admin/correio/visualizar/email/<?php echo $cor?>';" >
+				                	<?php 
+				                	if(date("d/m/Y" ,strtotime($lista->date)) == date("d/m/Y")):
+				                		echo date("H:i" ,strtotime($lista->date));
+				                	else:
+				                		echo date("d/m/Y" ,strtotime($lista->date));
+				                	endif;
+				                	?>
+				                </td>
+				                <td style="text-align: center;">
+				                                
+				                	<a onclick="alertaExlui(<?php echo $cor?>)" href="#">
+				                		<img src="<?=$this->baseUrl()?>/sistema/imagens/window-close.png" width="16" border="0" title="Visualizar">
+				                	</a>
+				                	
+				                	<!--  href="<?php echo $this->baseUrl()?>/admin/correio/removeemail/tp/1/email/<?php echo $cor?>"  
+				                	 onclick="window.location='<?php echo $this->baseUrl()?>/admin/correio/visualizar/email/<?php echo $cor?>';" style="cursor: pointer; cursor: hand"  --> 
+				                </td>		                                
+				            </tr>            
+							<?php  endforeach; ?>
+		                </tbody>
+		            </table>
+		        	
+		    </div>
+	    </div>
+	    <?php 
+	    else:
+	    $usuario = Zend_Auth::getInstance()->getIdentity();
+	   	?>
+	    <div class="widgets" >
+        	<div class="widget" style="border: 1px solid #d5d5d5; text-align: center; padding: 15px">            
+        		Suas credenciais de <b>email</b> estão incorretas
+        		<div style="text-align: left; width: 250px; margin: 0 auto;">
+        		<form action="<?php echo $this->baseUrl()?>/admin/configuracao/credenciaisemail" method="post" class="mainForm">
+                    <input type="text" value="<?php echo $usuario->email?>" name="email" style="width: 200px; margin: 5px"> <br />
+                    <input type="password" name="senhamail" style="width: 200px;  margin: 5px"> <br />
+                    <input type="submit" class="greenBtn" value="Atualizar" style="margin-left: 6px"/>
+                </form>
+                </div>                
+            </div>
+        </div>
+	    <?php 
+		endif;
+		else:
+		?><div class="left" style="border: 1px solid #d5d5d5; width: 80%; padding: 10px; margin-top: 10px" >Caixa vazia</div><?php
+		endif;
+		?>
+		
+		<div class="right" style="padding-top: 12px; text-align: right; border: 0px solid; width: 13%">
+		    <input type="button" value="Novo email" class="basicBtn" style="width: 110px" onclick="window.location='<?php echo $this->baseUrl()?>/admin/correio/novocorreio';"/> <br />
+		    <input type="button" value="Entrada" class="basicBtn" style="margin-top: 3px; width: 110px" onclick="window.location='<?php echo $this->baseUrl()?>/admin/correio/caixa/tp/entrada';"/> <br />
+		    <input type="button" value="Enviadas" class="basicBtn" style="margin-top: 3px; width: 110px" onclick="window.location='<?php echo $this->baseUrl()?>/admin/correio/caixa/tp/enviadas';"/> <br />
+		    <input type="button" value="Lixeira" class="basicBtn" style="margin-top: 3px; width: 110px" onclick="window.location='<?php echo $this->baseUrl()?>/admin/correio/caixa/tp/lixeira';"/> <br />
+		    <input type="button" value="Rascunhos" class="basicBtn" style="margin-top: 3px; width: 110px" onclick="window.location='<?php echo $this->baseUrl()?>/admin/correio/caixa/tp/rascunhos';"/>
+	    </div>
+		
+    </div>
+    
+    <div class="fix"></div>
+    
+    <div style="margin-top: 20px">
+	<?php 
+    	if ( count($this->objEmails) > 0) :
+        	echo $this->objEmails;
+        endif;
+    ?>
+    </div>    
+    
+    <div class="fix"></div>
+    
+    </div>
+    
+    <script>
+    function alertaExlui(idmail){
+		jConfirm('Can you confirm this?', 'Confirmation Dialog', function(r) {
+			if(r==true){
+				window.location='<?php echo $this->baseUrl()?>/admin/correio/removeemail/tp/1/email/'+idmail;
+			}
+		});
+    }
+    
+    </script>

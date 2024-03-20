@@ -1,0 +1,604 @@
+<script src="<?=$this->baseUrl()?>/public/sistema/js/jquery.md5.min.js"></script>
+<script src="<?=$this->baseUrl()?>/public/javascript/nfe/nfegarantia.js"></script>
+
+<?php 
+	$valida = "";
+	if(count($this->objEnd)>0):
+		foreach ($this->objEnd as $listEnd);
+		if(empty($listEnd->npais)||empty($listEnd->nuf)||empty($listEnd->ncidade)||empty($listEnd->numero)||empty($listEnd->CEP)):
+			$valida = "- Endereço do cliente incompleto;<br />";
+		elseif(empty($listEnd->codcidade)):
+			$valida = "- Cidade do cliente sem código;<br />";
+		endif;	
+	endif;
+	if(count($this->objCli)>0):
+		foreach ($this->objCli as $listPed);
+	endif;
+	if(!empty($this->objTrib)):
+		foreach ($this->objTrib as $listTri);
+	endif;
+	if(count($this->objEmail)>0):
+		foreach ($this->objEmail as $listEmail);
+	endif;
+	if(count($this->objTrans)>0):
+		foreach ($this->objTrans as $listTransp);
+	endif;
+?>
+
+
+<div class="content">
+	
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/venda/garantias">Garantias</a></li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/venda/garantiasnfe">Garantias Pagas</a></li>
+                	<li class="lastB">Novo pagamento de garantia</li>         
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5>Novo pagamento de garantia</h5></div>
+
+		<div class="widgets" >
+        	<div  style="margin-bottom: 5px; margin-top: 5px; border: 1px solid #d5d5d5; padding: 10px" >    
+				<form action="" method="post" name="dadosgarantia" id="dadosgarantia" class="mainForm" >
+					Selecione um cliente:<br>
+					<div class="styled-select" style="width: 250px;" >
+					<select name="selparceiro" onchange="submit();" style="width: 272px">
+						<option value="0">Selecione</option> 
+						<?php foreach ($this->objCliente as $lista): ?>
+						<option value="<?=$lista->ID?>" <?php if($listPed->ID == $lista->ID) echo 'selected="selected"'?> ><?=$lista->EMPRESA?></option>
+						<?php endforeach;?>
+					</select>
+					</div>
+				</form>
+			</div>
+            
+        </div>
+
+
+		<?php 
+		if(count($this->objCli)>0):
+		?>
+			<div class="widget first" >
+	            <div class="head" style="margin-top: -10px"><h5 class="iUser">Informações do cliente</h5></div>
+	            <div class="body">
+	                <table class="borda" style="width: 100%; border-spacing: 7px ">
+			            <tr>
+			                <td width="12%">Cliente:</td>
+			                <td ><b><?=$listPed->EMPRESA?></b></td>
+			                <td>Raz&atilde;o Social:</td>
+			                <td><b><?=$listPed->RAZAO_SOCIAL?></b></td>
+			            </tr>
+			            <tr>
+			                <td>CPF/CNPJ:</td>
+			                <td width="35%"><b><?=$listPed->CPF_CNPJ?></b></td>
+			                <td width="15%">RG/INSC:</td>
+			                <td ><b><?=$listPed->RG_INSC?></b></td>
+			            </tr>
+			            <tr>
+			                <td>Cidade:</td>
+			                <td width="35%"><b><?=$listEnd->ncidade?></b></td>
+			                <td width="15%">Estado:</td>
+			                <td ><b><?=$listEnd->nestado?></b></td>
+			            </tr>
+			            <tr>
+			            	<td>Pais:</td>
+			                <td ><b><?=$listEnd->npais?></b></td>
+			                <td>Transportadora:</td>
+			                <td ><b><? 
+			                if($listPed->tptransp == 1):
+			                	echo "Nosso Carro";
+			                elseif($listPed->tptransp == 2):
+			                	echo "Cliente Retira";
+			                elseif(!empty($listTransp->ID)): 
+			                	echo $listTransp->EMPRESA;
+			                else:
+			                	$valida .= "- Cadastre uma transportadora para o cliente;<br />";
+			                endif;
+			                ?></b></td>
+			            </tr>
+			            <tr>
+			            	<td style="vertical-align: top;">Nat Op:</td>
+			                <td colspan="3"><b><?
+				               	if($listEnd->nuf!="DF"):
+				               	?>6916 - Retorno de mercadoria ou bem recebido para conserto ou reparo <?php 
+				               	else:
+				               	?>5916 - Retorno de mercadoria ou bem recebido para conserto ou reparo <?php
+				               	endif;
+				                ?></b>
+			                </td>                
+			            </tr>
+			            <tr>
+		                	<td>Email NFe:</td>
+			                <td><b><?=$listEmail->EMAIL?></b>
+			                <!--  <input type="text" name="email" value="<?=$listEmail->EMAIL?>" size="25" onblur="validaDados()" >  --> 
+			                <?php if($listEmail->EMAIL=="") $valida .= "- O Email da NFe não pode ficar em branco;<br />";?>
+			                </td>
+			                <td>Contato NFe:</td>
+			                <td>
+			                	<b><?=$listEmail->NOME_CONTATO?></b>
+			                	<!--  <input type="text" name="contatoemail" value="<?=$listEmail->NOME_CONTATO?>" size="25"> --> 
+			                </td>
+				            </tr>
+			        </table>
+	                
+	            </div>
+	        </div>
+			
+	        <?php 
+	        endif;
+	        ?>
+	        
+	        
+	        <?php
+	        
+	        $v_estoque = 0;
+	        if(count($this->objProd)>0): 
+			$qtprods = count($this->objProd);
+			?>
+		
+			<form name="prepedido" id="prepedido" action="" method="post" class="mainForm">
+			<input type="hidden" name="clientegar" value="<?=$listPed->ID?>">
+												
+			<div class="widget">
+ 			<div class="head" style="border-bottom: 0px"><h5 class="iFrames">Produtos</h5></div>
+        	<table class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="3%">Id</td>
+                        <td width="">Código</td>
+                        <td width="35%">Descrição</td>
+                        <td width="5%">QT</td>
+                        <td width="">Substituir</td>
+                        <td width="">Preço</td>
+                        <td width="10%">Qt enviar</td>                        
+                    </tr>
+                </thead>
+                <tbody>
+			
+		        <?php 
+		        $cor = 0;
+		        $total_pedido = $total_prod = 0;
+		        
+		        foreach ($this->objProd as $produtos):
+		        	$cor++;
+			        ?>
+					<tr >
+		                <td style="text-align: center;" >
+		                   <?=$cor?>
+		                </td>
+		                <td style="text-align: center;" >
+		                	<a href="javascript:void(0);" class="dcontexto" >
+		                		<?=$produtos->CODIGO?>
+		                		<span style="width: 220px">
+		                		<?
+		                		foreach ($this->objProddet as $proddet):
+		                			if($produtos->id_prod == $proddet->id_prod):
+										echo "G".substr("00000".$proddet->id_garantiaztl, -6,6);
+		                				echo " &nbsp; | &nbsp; ";
+		                				echo $proddet->datanf;
+		                				echo " &nbsp; | &nbsp; ";
+		                				echo $proddet->nota_fiscal;	                				
+		                				echo "<br />";
+		                			endif;
+		                		endforeach;	
+		                		?>
+		                		</span>	
+		                	</a>
+		                </td>
+		                <td style="text-align: left;" >
+		                	<?=$produtos->DESCRICAO?>
+		                </td>                
+		                <td style="text-align: center;" >
+		                	<? if($produtos->substituir == true): ?>
+		                	<a href="javascript:void(0);" class="dcontexto"
+		                		<?php 
+		                		if($produtos->qt_atual < $produtos->qtent): 
+			                		echo 'style="color: red;"';
+		                		endif;?>>
+		                		<?=$produtos->qtent?>
+		                    	<span style="width: 30px"><?=$produtos->qt_atual?></span>		                    
+		                	</a>
+		                	<?php else: echo $produtos->qtent; endif; ?>
+		                </td>
+		                <td style="text-align: center;" >
+		                	<? if($produtos->substituir == true): ?>
+		                	SIM
+		                	<?php else: ?>
+		                	<span style="color: #F00">NÃO</span>
+		                	<?php endif; ?>
+		                </td>
+		                <td style="text-align: right;" >
+		                	<?=number_format($produtos->preco_nf,2,",",".")?>
+		                </td>
+		                <td style="text-align: center;" >
+		                	<? if($produtos->substituir == true): ?>
+		                		<?php if($produtos->qt_atual >= $produtos->qtent): ?>
+									<input type="text" size="5" style="width: 35px" name="qtenviar_<?=$produtos->ID?>" onblur="calculaGarantia()">	
+									<input type="hidden" name="peso_<?=$produtos->ID?>" id="peso_<?=$produtos->ID?>" value="<?=str_replace(",", ".", $produtos->PESO)?>">
+									<input type="hidden" name="preco_<?=$produtos->ID?>" id="preco_<?=$produtos->ID?>" value="<?=$produtos->preco_nf?>">
+									<input type="hidden" name="qtent_<?=$produtos->ID?>" id="qtent_<?=$produtos->ID?>" value="<?=$produtos->qtent?>">
+									
+								<?php endif; ?>
+		                	<?php else: ?>
+		                		<input type="text"  style="width: 35px" size="5" name="qtpagar_<?=$produtos->ID?>" onblur="calculaGarantia()">	
+								<input type="hidden" name="pesop_<?=$produtos->ID?>" id="pesop_<?=$produtos->ID?>" value="<?=str_replace(",", ".", $produtos->PESO)?>">
+								<input type="hidden" name="precop_<?=$produtos->ID?>" id="precop_<?=$produtos->ID?>" value="<?=$produtos->preco_nf?>">
+								<input type="hidden" name="qtentp_<?=$produtos->ID?>" id="qtentp_<?=$produtos->ID?>" value="<?=$produtos->qtent?>">	                		
+		                	
+	                		<?php endif; ?>	                		
+		                </td>                  
+		            </tr>  
+	        	<?php
+		        
+	        endforeach;?>
+	        
+	        	</tbody>
+	        </table>
+	    </div>
+	        
+	    <div class="widget">
+ 			<div class="head" ><h5 class="iView">Informações adicionais</h5></div>
+        	<div class="body">
+        		<input type="hidden" name="prodsel" id="prodsel" value="">
+		    	<input type="hidden" name="prodselneg" id="prodselneg" value="">
+		    	<div>
+		        <table style="width: 100%">
+            	<tr>
+		            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" colspan="4">
+			              Frete:<br>
+                    	  <input type="text" name="frete" style="width: 100px" class="moeda" onblur="calculaGarantia()"> 
+		            </td>
+		    	</tr>
+	            <tr>
+		            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               Base do calculo ICMS:<br>
+                    	   <span style="font-size:14px; font-weight:bold;">
+                    	   	<?=number_format(0,2,',','.')?>				                    
+                    	   </span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               	Base do calculo ICMS S.T.:<br>
+                    	   	<span style="font-size:14px; font-weight:bold;">
+                    	   		<?=number_format(0,2,',','.')?>
+                    	   	</span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               Valor total do IPI:<br>
+                    	   <span style="font-size:14px; font-weight:bold;">
+                    	        <?=number_format(0,2,',','.')?>     
+                    	   </span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			              Valor Total dos produtos:<br>
+                    	  <span style="font-size:14px; font-weight:bold;" id="spantotal">0,00</span>
+		            </td>
+		    	</tr>
+				    <tr >
+			    		<td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               Valor ICMS:<br>
+                    	   <span style="font-size:14px; font-weight:bold;">
+                    	   		<?=number_format(0,2,',','.')?>
+                    	   </span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               Valor ICMS S.T.:<br>
+                    	   <span style="font-size:14px; font-weight:bold;">
+                    	   	<?=number_format(0,2,',','.')?>
+                    	   </span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               Outras despesas:<br>
+                    	   <span style="font-size:14px; font-weight:bold;"><?=number_format("0",2,',','.')?></span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			              Valor Total da nota:<br>
+                    	  <span style="font-size:14px; font-weight:bold; color:#0010e1;" id="spantotalliquido">0,00</span>
+                    	  <input type="hidden" name="totalnota" id="totalnota" value="0">		                    	  
+			            </td>
+		            </tr>
+	       		</table>  
+	       		</div>
+	       		<div>
+	            <table  style="width: 100%" >
+		            <tr>
+			            <td style="width: 450px; padding-top: 20px">
+			            	<span style="font-weight: bold;">Transporte:</span>
+			            	<table>
+			            		<tr>
+			            		<td >Qt pacotes:</td>
+			            			<td style="width: 10px; ">
+				            			<input type="text"  style="width: 30px;" name="qtpacote" size="2" onblur="validaDados()" class="inteiro">
+				            		</td>
+				            		<td >
+				            			<div class="styled-select" style="width: 80px; ">
+					            			<select name="especie" id="especie" style="width: 142px">
+							            		<option >CAIXAS</option>
+							            		<option >PALLETS</option>
+							            	</select>
+							            </div>						            	
+			            			</td>
+			            		</tr>
+			            		<tr>
+			            			<td>Por conta:</td>
+			            			<td colspan="2">
+			            				<div class="styled-select" style="width: 150px;" >
+			            				<select name="tipofrete" id="tipofrete" style="width: 172px">
+						            		<option value="0" >EMITENTE</option>
+						            		<option value="1" >DESTINATÁRIO</option>
+						            	</select>
+						            	</div>
+						            </td>
+			            		</tr>
+			            		<tr>
+			            			<td>Peso Bruto:</td>
+			            			<td colspan="2"><input type="text" value="" onblur="validaDados()" name="pesobruto" size="6" style="width: 70px" class="moedacinco"></td>
+			            		</tr>
+			            		<tr>
+			            			<td>Peso Líquido:</td>
+			            			<td colspan="2">
+			            				<b><span id="spanpeso">0,00</span></b>
+			            				<input type="hidden" name="pesoliquido" id="pesoliquido" value="0">
+			            			</td>
+			            		</tr>
+			            		<tr>
+			            			<td>Placa/UF:</td>
+			            			<td>
+			            				<input type="text"  style="width: 60px" name="placa" value="<?=strtoupper($listPed->placa)?>" size="6" maxlength="7">
+			            			</td>
+			            			<td>
+			            				<div class="styled-select" style="width: 52px; ">
+				            				<select name="ufplaca" id="ufplaca" style="width: 74px">
+				            				<?php foreach ($this->objUf as $uf): ?>
+							            		<option ><?=$uf->uf?></option>
+							            	<?php endforeach;?>
+							            	</select>
+							            </div>
+			            			</td>
+			            			
+			            		
+			            		</tr>
+			            		<tr>
+			            			<td>ANTT:</td>
+			            			<td colspan="2"><input type="text" value="" style="width: 60px" name="antt" size="6" ></td>
+			            		</tr>
+			            	</table>					            	
+			            </td>
+			            <td style="vertical-align: top;">
+			            	<span >Total de pe&ccedil;as:</span><br>
+		                    <span style="font-size:14px; font-weight:bold; text-align:right;" id="spanqt">0,00</span><br>	
+			            </td>	
+			    	</tr>
+				    <tr >
+			    		<td  align="left" valign="top" colspan="2" >
+			                <br />Observa&ccedil;&otilde;es da NFe<br>
+			                <textarea name="obsnfe" id="obsnfe" style="width: 350px"  onblur="document.prepedido.gerarGarantia.focus();"><?=$listPed->obsnfe;?></textarea>
+			            </td>
+		            </tr>
+	       		</table>  
+		     </div>
+		  </div>
+		</div>
+		 
+		<div id="divnfe" class="widget" style="border: 1px solid #d5d5d5; padding: 10px; display: none">
+	      	<div id="divbarra" >
+			   <div id="barraprogresso"></div>
+			</div>
+			
+			<div class="widgets">
+	            <div id="resultadoprogresso" style="font-style: italic; width: 45%" class="left">
+					Salvando dados...
+				</div>
+				<div id="etapaprogresso" class="right" style="width: 45%; text-align: right;">
+					1/10
+				</div>			
+			</div>
+			<div class="fix"></div>
+      	</div>
+		
+		
+		<div> 
+        <?php
+        if($v_estoque==1) $valida .= "- Produtos sem estoque disponível. Favor ajustar;<br />";
+        ?>
+        	<br>
+        		<input <?php if($valida!=""): ?> disabled="disabled" <?php endif; ?> id="gerarGarantia" name="gerarGarantia" type="button" value="Gerar Garantia" class="greenBtn" >        				            
+            <br />
+            <input type="hidden" name="validacalculo" value="0">
+            <input type="hidden" name="validacli" value="<?=$valida?>">
+            <div id="textovalida" style="color: red; font-style: italic; margin-top: 10px">
+            <?=$valida?>
+            - Digite a quantidade de pacotes; <br />
+            </div>
+		</div>		
+		
+		</form>
+		<?php endif;?>	   
+	</div>
+
+<script>
+
+
+
+	$(document).ready(function(){
+		$("#gerarGarantia").live('click', function(){ confirmaFaturamento(); });
+
+	});
+	    
+	function confirmaFaturamento(){
+		
+		jConfirm('Não será possivel edição após a garantia gerada.', 'Confirme', function(r) {
+			if(r==true){
+				document.getElementById('divnfe').style.display = "block";
+				$("#resultadoprogresso").css({color:'#000'}).html("Salvando dados da garantia...");
+				gravarDadosnfegarantia();
+			}
+		});
+	}
+
+        
+	function calculaGarantia(){
+		var vazio 	= 0;
+		var formObj = document.prepedido;
+		var total	= 0;
+		var qt      = 0;
+		var peso    = 0;
+		var idprod  = "";
+		var qtsup 	= 0;
+		var prodsel = "";
+		var prodselneg = "";
+		var qtsup = 0;
+		
+		if(document.prepedido.frete.value!=""){
+			var frete 	= document.prepedido.frete.value.replace(".", "");
+			frete 		= parseFloat(frete.replace(",", "."));
+		}else{
+			frete = 0;
+		}
+		
+		for (i=0; i<formObj.elements.length; i++) {
+			//--- produtos a pagar ----------------------------------------------------------------------------
+			if(formObj.elements[i].name.indexOf("qtenviar_")!=-1){  
+		        var fieldValue = formObj.elements[i].value;
+				if(fieldValue!=""){
+
+					idprod = formObj.elements[i].name.substr(9);
+					vazio = 1;
+					
+					if(parseInt(document.getElementById("qtent_"+idprod).value) >= parseInt(fieldValue)){
+						qt = qt+ parseInt(fieldValue);
+						total = total + (parseInt(fieldValue) * parseFloat(document.getElementById("preco_"+idprod).value));
+						peso = peso + (parseInt(fieldValue) * parseFloat(document.getElementById("peso_"+idprod).value));
+
+						prodsel = prodsel + idprod + ":" + fieldValue + "|";
+						
+					}else{
+						jAlert("Qt a enviar superior a qt a substituir!","Erro!");
+						formObj.elements[i].value = "";
+						qtsup = 1;
+					}
+
+					
+				}
+			}else if(formObj.elements[i].name.indexOf("qtpagar_")!=-1){
+				//--- produtos a devolver ----------------------------------------------------------------------------
+				  
+		        var fieldValue = formObj.elements[i].value;
+				if(fieldValue!=""){
+
+					idprod = formObj.elements[i].name.substr(8);
+					vazio = 1;
+					
+					if(parseInt(document.getElementById("qtentp_"+idprod).value) >= parseInt(fieldValue)){
+						qt = qt+ parseInt(fieldValue);
+						total = total + (parseInt(fieldValue) * parseFloat(document.getElementById("precop_"+idprod).value));
+						peso = peso + (parseInt(fieldValue) * parseFloat(document.getElementById("pesop_"+idprod).value));
+
+						prodselneg = prodselneg + idprod + ":" + fieldValue + "|";
+					
+					}else{
+						jAlert("Qt a enviar superior a qt a substituir!","Erro!");
+						formObj.elements[i].value = "";
+						qtsup = 1;
+					}
+				}
+			}
+	    }
+		
+		if(qtsup==1){
+			document.prepedido.validacalculo.value = 0;
+	    }else if(vazio==0){
+			jAlert("Selecione ao menos um produto!","Erro!");
+			document.prepedido.validacalculo.value = 0;
+			document.getElementById('spantotal').innerHTML = 0;
+			document.getElementById('spantotalliquido').innerHTML = 0;
+			document.getElementById('spanqt').innerHTML = 0;  
+			document.getElementById('spanpeso').innerHTML = 0;
+			document.getElementById('totalnota').value = 0;
+			document.getElementById('pesoliquido').value = 0;
+			document.getElementById('prodsel').value = "";
+			document.getElementById('prodselneg').value = "";
+	    }else{
+
+	    	document.getElementById('spantotal').innerHTML = float2moeda(total);
+			document.getElementById('spantotalliquido').innerHTML = float2moeda(frete + total);
+			document.getElementById('totalnota').value = total;
+			document.getElementById('spanqt').innerHTML = qt;  
+			document.getElementById('spanpeso').innerHTML = float2moeda(peso);
+			document.getElementById('pesoliquido').value = peso;
+			document.getElementById('prodsel').value = prodsel;
+			document.getElementById('prodselneg').value = prodselneg;
+			document.prepedido.validacalculo.value = 1;			
+	    }			    	
+		validaDados();
+	}
+
+	function float2moeda(num) {
+	   x = 0;
+	   if(num<0) {
+	      num = Math.abs(num);
+	      x = 1;
+	   }
+
+	   if(isNaN(num)) num = "0";
+	      cents = Math.floor((num*100+0.5)%100);
+
+	   num = Math.floor((num*100+0.5)/100).toString();
+
+	   if(cents < 10) cents = "0" + cents;
+	      for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+	         num = num.substring(0,num.length-(4*i+3))+'.'
+	               +num.substring(num.length-(4*i+3));
+	      ret = num + ',' + cents;
+
+	      if (x == 1) ret = ' - ' + ret;return ret;
+
+	}
+
+	function validaDados(){
+		var texto 		= "";
+		var pesobruto 	= 0;
+		var pesoliquido = 0;
+		var estoque 	= <?=$v_estoque?>;
+				
+		if(<?=$v_estoque?> == 1){
+			texto = "- Produtos sem estoque disponível. Favor ajustar;<br />";
+		}
+
+		
+		if(document.prepedido.pesobruto.value!=""){
+			var pesobruto 	= parseFloat(document.prepedido.pesobruto.value.replace(",", "."));
+		}
+
+		var pesoliquido = parseFloat(document.prepedido.pesoliquido.value.replace(",", "."));	
+			
+		if((document.prepedido.qtpacote.value=="")||(document.prepedido.qtpacote.value==0)){
+			texto = texto + "- Quantidade de pacotes deve ser maior que zero;<br />";
+		}
+
+		if(pesobruto <= pesoliquido){	
+			texto = texto + "- Peso bruto tem que ser maior que peso líquido;<br />";			
+		}
+
+		
+		if(texto==""){
+			if(document.prepedido.validacalculo.value == 0){
+				texto += "- Selecione ao menos um produto;<br />";
+				document.prepedido.gerarGarantia.disabled = true;
+			}else{
+				document.prepedido.gerarGarantia.disabled = false;
+			}
+		}else{
+			document.prepedido.gerarGarantia.disabled = true;
+		}
+		texto = texto + document.prepedido.validacli.value;
+		
+		document.getElementById('textovalida').innerHTML = texto;	
+
+	}
+</script>

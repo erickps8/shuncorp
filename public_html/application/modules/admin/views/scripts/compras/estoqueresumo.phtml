@@ -1,0 +1,64 @@
+
+	<!-- Content -->
+    <div class="content">   
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li class="lastB"><a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoqueresumo">Estoque</a></li>         
+                </ul>
+            </div>
+        </div>       
+
+        <div class="title"><h5>Estoque de produtos</h5></div>
+        
+        <div class="widgets" >
+        	<div class="left" style="margin-top: 5px; margin-bottom: 10px; width: 50%">
+        		<form action="<?php echo $this->baseUrl(); ?>/admin/compras/extratoprod" method="post" name="busca" id="busca" class="mainForm" >
+				Código: <br />
+				<input type="text" size="25" name="codproduto" style="width: 150px">&nbsp; <input type="submit"  value="<?=$this->translate->_("Pesquisar")?>" class="blueBtn" >
+				</form>
+			</div>
+        	<div class="right" style="text-align: right; padding-top: 7px; width: 40%">
+        		
+	        </div>
+	        
+	        <div class="widget" style="border-top: 1px solid #d5d5d5;">
+				<div class="left" style="width: 50%">
+					<div style="margin: 10px 30px 10px 30px; width: 100%">
+						<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;<b>PRODUTOS</b><br>
+						&nbsp; &nbsp; <a href="<?=$this->baseUrl(); ?>/admin/compras/estoquegrupo/fil/todos"><?=$this->translate->_("Extrato de produtos")?></a><br />
+						&nbsp; &nbsp; <a href="<?=$this->baseUrl(); ?>/admin/compras/ajustestoque"><?=$this->translate->_("Ajuste de estoque")?></a><br />
+						&nbsp; &nbsp; <a href="<?=$this->baseUrl(); ?>/admin/compras/fabrica"><?=$this->translate->_("Fabrica de produtos")?></a><br />
+						&nbsp; &nbsp; <a href="<?=$this->baseUrl(); ?>/admin/nfe/nfe"><?=$this->translate->_("Nota Fiscal Eletrônica")?></a>
+					</div>				
+					<div style="margin: 10px 30px 10px 30px; width: 100%">
+						<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;<b>RELATÓRIOS</b><br>
+						&nbsp; &nbsp; 
+						<a href="<?php echo $this->baseUrl(); ?>/admin/relatorios/vendascurva" target="_blank">
+						Curva de produtos
+						</a><br>
+						&nbsp; &nbsp; 
+						<a href="<?php echo $this->baseUrl(); ?>/admin/relatorios/vendasrentabilidade" target="_blank">
+						Rentabilidade dos produtos
+						</a><br>
+						&nbsp; &nbsp; 
+						<a href="<?php echo $this->baseUrl(); ?>/admin/relatorios/produtosestoque" target="_blank" >
+						Situação do estoque
+						</a><br>
+						&nbsp; &nbsp; 
+						<a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoquevalor" target="_blank" >
+						Valor do estoque
+						</a><br>
+					</div>
+				</div>
+				
+				<div class="clear"></div>
+			</div>
+	        
+		</div>
+		
+   </div>
+   
+   

@@ -1,0 +1,518 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxanalisegarantia.js"></script>
+<script src="<?php echo $this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxanalisegarantiaprod.js"></script>
+
+<script src="<?=$this->baseUrl()?>/public/sistema/js/janelamodal.js"></script>
+<link type="text/css" rel="stylesheet" href="<?=$this->baseUrl()?>/public/sistema/css/modalestilo.css" ></link>
+
+<?php 
+
+if(!empty($this->objGarantia)) foreach ($this->objGarantia as $viewGarantia);
+if(!empty($this->objCliente)) foreach ($this->objCliente as $viewCli);
+
+?>
+
+<div class="content">
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/venda/garantias">Garantias</a></li>         
+                	<li class="lastB">G<?=str_pad($viewGarantia->idcli, 6, "0", STR_PAD_LEFT)?></li>         
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5>Análise da garantia N&ordm; G<?=str_pad($viewGarantia->idcli, 6, "0", STR_PAD_LEFT)?></h5></div>
+        
+        <div class="widget first" >
+            <div class="head" style="margin-top: -10px"><h5 class="iUser">Informações do cliente</h5></div>
+            <div class="body">
+				<table >
+				<tr>
+					<td align="left" width="22%" colspan="3">
+						Empresa:<br>
+						<b><?php echo $viewCli->EMPRESA?></b>
+					</td>
+				</tr>			
+				<tr>
+					<td align="left" width="40%" colspan="2">
+						Nota Fiscal:<br>
+						<b><?php echo $viewGarantia->nota_fiscal?></b>	
+					</td>
+					
+					<td align="left" colspan="2" >
+						Data emiss&atilde;o:<br>
+						<b><?php echo substr($viewGarantia->data_nf,8,2)."/".substr($viewGarantia->data_nf,5,2)."/".substr($viewGarantia->data_nf,0,4)?></b>	
+					</td>
+					
+				</tr>
+				<tr>
+					<td align="left" width="25%" >
+						Peso:<br>
+						<b><?php echo $viewGarantia->peso_nf?></b> 
+						Kg
+					</td>
+					<td align="left" colspan="3" width="85%">
+						Volumes:<br>
+						<b><?php echo $viewGarantia->volumes?></b>	
+					</td>
+				</tr>
+				<tr>
+					<td align="left" width="15%" colspan="4" valign="middle" >
+						<?php if(!empty($viewGarantia->anexo)){ ?>
+						<a target="_black" href="<?=$this->baseUrl()."/public/sistema/upload/clientes/".$viewGarantia->id_clientes."/garantias/".$viewGarantia->idcli.".".$viewGarantia->anexo?>">
+						<img alt="Anexo" src="<?php echo $this->baseUrl()."/public/sistema/imagens/icons/middlenav/paperclip.png"?>" border="0" >
+						<b>Anexo</b></a>
+						<?php } ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" colspan="4">
+						Observa&ccedil;&atilde;o:<br>
+						<b><?php echo $viewGarantia->obs?></b>
+					</td>
+				</tr>
+				<?php if(strripos($viewGarantia->status, "ENVIO")!==0): ?>
+				<tr>
+					<td align="left" colspan="2" >
+					
+							Tipo de envio: <br>
+							<?php if($viewGarantia->tipoenvio==1): ?>
+								<b>Correios/PAC</b>
+							<?php else: ?>
+								<b>Transportadora</b>
+							<?php endif;?>
+							
+					</td>
+					<td colspan="1">
+							<?php if($viewGarantia->tipoenvio==1): ?>
+								N&ordm; PAC:<br>
+								<b><?php echo $viewGarantia->valorenvio?></b>
+							<?php else: ?>
+								Transportadora:<br>
+								<b><?php echo htmlentities($viewGarantia->valorenvio)?></b>
+							<?php endif;?>
+					</td>
+					<td colspan="1">
+							<?php if($viewGarantia->tipoenvio==1): ?>
+								Validade PAC:<br>
+								<b><?php echo $viewGarantia->data_validadepac?></b>
+							<?php endif?>
+					</td>
+				</tr>
+				<?php endif; ?>
+				</table>
+			</div>
+		</div>
+		
+		
+		
+		
+		<form action="<?=$this->baseUrl(); ?>/admin/venda/gravaanalisegarantia" name="novogar" id="novogar" method="post" onsubmit="return validaform();"  enctype="multipart/form-data" class="mainForm">
+		<input type="hidden" name="idgarantia" value="<?php echo $viewGarantia->idcli?>">
+		<input type="hidden" name="id_or" id="id_or">
+			
+			<!-- Janelas modal -->
+			<div class="window" id="jconfirma" style="width: 620px; height: 410px" >
+			    <div>
+			    	<div style="float: left; width: 60%">
+					    <span class="titulojanela" >Selecione</span><br />
+					    <span class="subtitulojanela">Escolha uma situação de análise do produto</span>
+					</div>
+					<div style="float: right; width: 10%; text-align: right;">
+						<a href="javascript:void(0)" onclick="$('#mascara').hide(); $('.window').hide();"><img src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/close.png" border="0" width="15"></a>
+					</div>
+			    </div>
+			    <div style="margin-top: 40px">
+				    Substituir:
+				    <div class="styled-select" style="width: 90px; ">
+					<select style="width: 112px" name="procede" id="procede" onchange="MostraOpcao(this.value);">
+		       			<option value="0">Selecione</option>
+		       			<option value="1">SIM</option>
+		       			<option value="2">N&Atilde;O</option>
+		       		</select>
+		       		</div>
+				    
+				    <div id="recHint" style="overflow: auto; width: 605px; height: 300px; margin-top: 5px">
+					</div>
+				    
+			    </div> 
+			</div>
+			
+		<div style="padding: 10px; border: 1px solid #d5d5d5; margin-top: 10px">
+			Data da chegada: <b><?php echo $viewGarantia->chegada?></b>
+			<div class="fix"></div>
+		</div>
+			
+			
+		<div class="widget" >
+            <div class="head" style="margin-top: -10px"><h5 class="iPaperclip">NFe mão de obra</h5></div>
+            <div class="body">	
+            
+            <table id="archive" style="width: 100%; " >
+            	<?php 
+            	$contan = 0;
+				if(!empty($this->objAnexos)):
+					foreach ($this->objAnexos as $listanexo): 
+					$contan++;
+					?>
+					<tr>
+						<td style="padding-left: 7px">	
+							<a target="_black" href="<?=$this->baseUrl()?>/public/sistema/upload/clientes/<?=$viewGarantia->id_clientes?>/garantias/<?=$viewGarantia->idcli?>_mo_<?php echo $listanexo->id.$listanexo->nome?>">
+								<img alt="Anexo" src="<?php echo $this->baseUrl()."/public/sistema/imagens/icons/middlenav/paperclip.png"?>" width="12px" border="0" >
+								<b>NFe da mão de obra <?php echo $contan?></b>
+							</a>
+						</td>
+					</tr>
+				<?php 
+				endforeach; 
+				endif;	
+				?>
+			</table>
+			</div>
+		</div>	
+			    
+			    
+		<div class="widget">
+ 			<div class="head" style="border-bottom: 0px"><h5 class="iFrames">Produtos</h5></div>
+        	<table class="tableStatic" id="txtHint" style="width: 100%">
+            	<thead>
+                	<tr>
+                		<td width="5%">Id</td>
+                        <td width="">Código</td>
+                        <td width="55%">Análise</td>
+                        <td width="" colspan="2">Substituir?</td>
+                    </tr>
+                </thead>
+                <tbody>		    
+			       <?php
+			       $tipo = "";
+			       if(!empty($this->objProdutos)):
+			       		$cont = 0;
+			       		foreach ($this->objProdutos as $listProd):
+			       			for($i = 0; $i<$listProd->qt; $i++):
+			       				$cont++;
+			       				$analises = "";	
+			       				$idanal = "";
+			       				
+						       ?> 
+						       <tr>
+						       		<td align="center">
+							       		<?php echo substr("000".$cont,-3,3)?>
+							       		<input type="hidden" name="id_prod_<?php echo $cont?>" value="<?php echo $listProd->ID?>">
+							       	</td>
+						       		<td align="center"><?php echo $listProd->CODIGO?></td>
+						       		<td align="left"  >
+						       			<div id="td_analise_<?php echo $cont?>"  >
+						       			<?php 
+						       			if(!empty($this->objAnalise)):	
+						       				$tipo = 2;
+						       				foreach ($this->objAnalise as $listana):
+						       					if($listana->n_ord==$cont):
+						       						if($listana->id_analisegar==""):
+														$analises .= "- ".$listana->desc_outros."<br>";
+														$idanal	.= "out;";
+														?>
+														<input name="out_<?=$cont?>" value="<?=$listana->desc_outros?>" type="hidden">
+														<?php 
+													else:
+														$analises .= "- ".$listana->descricao."<br>";
+														$idanal	.= $listana->id_analisegar.";";
+													endif;
+													$tipo 	= 	$listana->substituir;
+													$n_ord 	= 	$listana->n_ord;
+													$iddet	=	$listana->idt;
+													?>
+													<script type="text/javascript">
+													document.getElementById("td_analise_<?=$cont?>").style.border = "solid 1px #d5d5d5";
+													document.getElementById("td_analise_<?=$cont?>").style.padding = "2px";
+													</script>
+													<?php 
+						       					endif;
+						       				endforeach;
+						       			endif;
+						       			echo utf8_encode($analises);
+						       			?>
+						       			
+						       			</div>
+						       			<input type="hidden"  name="analises_<?=$cont?>" id="analises_<?=$cont?>" value="<?=$idanal?>" />
+						       			
+						       			<?php 
+						       			
+						       			if($this->objAng==true): ?>
+						       			<a id="add" name="janelamodal" janela="#jconfirma" href="javascript:void(0);"  onclick="document.novogar.id_or.value=<?php echo $cont?>;"><b>
+										<?php if(!empty($analises)):?>
+										<span id=s_<?php echo $cont?>><?=$this->translate->_("Mudar análise")?></span><br />
+										<?php else:?>
+										<span id=s_<?php echo $cont?>><?=$this->translate->_("Adicionar análise")?></span><br />
+										<?php endif;?>
+										</b></a>
+						       			<?php 						       			
+						       			else:?>
+						       			Aguardando análise
+						       			<?php endif;?>
+						       			
+								        <table id="archive_<?php echo $cont?>">
+									       <tr>
+								       		<td>
+								       		<a href="#" onclick="addArchive_<?php echo $cont?>();">Adicionar arquivo</a><br>
+								        	<?php 
+								        		foreach ($this->objImg as $listimg):
+									       			if($listimg->n_ord==$cont):
+									       				?>
+									       				<a href="<?php echo $this->baseUrl()?>/imganalises/<?php echo $listimg->nome?>" title="">
+									       					<img width="30" border="0" height="30" src="<?php echo $this->baseUrl()?>/imganalises/<?php echo $listimg->nome?>"> &nbsp;
+									       				</a> 
+									       				<?php 
+									       			endif;
+									       		endforeach;
+								       		?>
+								        	<input type="hidden" name="intarchive_<?php echo $cont?>" id="intarchive_<?php echo $cont?>">
+								        	<script type="text/javascript">
+								        		var intarc = 0;
+									        	function addArchive_<?php echo $cont?>() {
+										        	intarc = intarc + 1;
+									        		var tbCod = document.getElementById("archive_<?php echo $cont?>").insertRow(-1);
+									        		var y = tbCod.insertCell(0);
+				
+									        		y.align = "left";
+									        		y.innerHTML="<input type='file' name='arquivo_<?php echo $cont?>_"+intarc+"' />";
+				
+									        		document.getElementById("intarchive_<?php echo $cont?>").value = intarc;							        		
+									        	}
+								        	</script> 
+								        	
+								        	</td>
+								        </tr>						        	
+							        </table>
+								        
+						       		</td>
+						       		<td style="text-align: center;" colspan="2"  id="td_sub_<?php echo $cont?>">
+						       		<?php 
+						       		if($tipo==1){ 
+						       			echo "SIM";
+						       			?><input name="sub_<?=$cont?>" value="1" type="hidden"><?php 
+						       		}else if($tipo==0){ 
+						       		 	echo "NÃO";
+						       		 	?><input name="sub_<?=$cont?>" value="0" type="hidden"><?php
+						       		}
+						       		?>
+						       		
+						       		</td>
+						       </tr>
+						       <?php
+						   endfor;
+					    endforeach;
+					endif; 
+			       
+			        if($this->objAng==true): ?>
+			        <tr>
+			            <td  class="td" align="center"  >
+			                
+			            </td>
+			            <td  class="td" align="center" >
+			            	<input type="hidden" name="produtos" id="produtos" value="">
+			            	<input type="hidden" name="cont" id="cont" value="<?php echo $cont+1?>">
+			            	<input type="hidden" name="tcont" id="tcont" value="<?php echo $cont?>">
+				            <input type="text" size="7" name="codigo" id="codigo" 
+			                onkeydown="if (event.keyCode == '13'){ return false; }; document.getElementById('resultado').innerHTML = '';" 
+			                onblur="buscaprod();" >
+			            </td>
+			           
+			            <td  class="td" align="left" colspan="3" >
+			            	 <div id="resultado" style="color:#FF0000; font-weight: bold;"></div>
+			            </td>
+			            
+			        </tr>
+			     <?php endif;?>
+			     	<tr>
+			            <td  class="td" align="left" colspan="5" >
+			            Observação:<br><textarea rows="2" cols="50" name="obs" style="width: 350px"></textarea>    
+			            </td>            
+			        </tr>
+			        </tbody>
+			     </table>
+			  </div>
+			     
+			     <?php if(!empty($this->objProdutos)): ?>
+			     <input type="hidden" name="edicao" value="1">
+			     <?php endif;?>
+			  	 <p>&nbsp;</p>
+			  	 <?php //if($this->objAng==true): ?>
+			     <p align="left">
+			        <a href="<?php echo $this->baseUrl(); ?>/admin/venda/garantiasaceit/garantia/<?php echo md5($viewGarantia->idcli)?>"><img src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/locked2.png" style="border: #fff" title="Editar produtos cadastrados"></a>  &nbsp; 
+			        <input type="button" onclick="cancelamento()" class="redBtn" value="Cancelar garantia">
+			        <input type="button" value="Salvar" class="basicBtn" onclick="document.novogar.action = '<?=$this->baseUrl(); ?>/admin/venda/salvaanalisegarantia'; document.novogar.submit();">
+			        <input type="submit" value="Concluir análise" class="greenBtn">					
+				 </p>
+				 <div id="cancelamento" style="display: none">
+				 	<textarea name="obscancela" rows="2" cols="50" style="width: 350px"></textarea><br />
+				 	<input type="file" name="anexocancela"><br /><br />
+				 	<input type="button" onclick="confirmacancela()" value="Confirmar cancelamento" class="redBtn">				 
+				 </div>
+				
+			</form>
+		</div>
+
+			<script type="text/javascript">
+				function cancelamento(){
+					if(document.getElementById('cancelamento').style.display == 'block'){
+						document.getElementById('cancelamento').style.display = 'none';
+					}else{
+						document.getElementById('cancelamento').style.display = 'block';
+					}
+				}
+
+				function confirmacancela(){
+					document.novogar.action = "<?=$this->baseUrl()?>/admin/venda/cancelagarantia";
+					document.novogar.submit();
+				}
+				
+				function validaform(){
+					var form 		= document.novogar;
+				 	for (i=0;i<form.length;i++){
+				     	if(form[i].name.indexOf('anali')!=-1){
+				     		if(form[i].value==""){
+								alert("A análise não pode ficar em branco!");
+								return false;
+				     		}	     		
+				        }                       				      						
+				     }
+			
+				     return true;	
+				}
+			
+			                     
+				function abreOut(valor,id){
+					if(valor=='out'){
+						document.getElementById(id).style.display="block";
+					}
+				}
+			
+				
+				function buscaprod(){
+				   	  var cod = document.getElementById('codigo').value;
+				   	  
+				   	  if(cod!=''){
+				       	  MostraOpcaoprod(cod);
+				   		  document.getElementById('codigo').value = "";
+				   	  }
+				 }
+			
+				function deleteRow(i){
+				    //document.getElementById('txtHint').deleteRow(i);
+				    var cont = parseInt(document.getElementById("cont").value);
+					var dif = cont-i;
+					
+					for(int=0;int<dif;int++){
+						document.getElementById('txtHint').deleteRow(i);
+					}
+			
+					var prod = document.getElementById("produtos").value;
+			
+					document.getElementById("produtos").value = "";
+					
+					prod = prod.split(";");
+			
+					var int = 0;
+					var pr = "";
+					while(prod[int]!=""){
+						pr = prod[int].split(":");
+			
+						if(pr[1]<i){
+							document.getElementById("produtos").value=document.getElementById("produtos").value+pr[0]+":"+pr[1]+";";
+						}
+						
+						if(pr[1]>i){
+							
+							var tbCod = document.getElementById("txtHint").insertRow(i);
+							var y= tbCod.insertCell(0);
+							var z= tbCod.insertCell(1);
+							var b= tbCod.insertCell(2);
+							var c= tbCod.insertCell(3);
+							var d= tbCod.insertCell(4);
+							
+							y.align = "center";
+							y.setAttribute("class","td_orc");
+							y.innerHTML=i+'<input  type="hidden" name="'+i+'" id="'+i+'" value="'+i+'"  >';
+							z.align = "center";
+							z.setAttribute("class","td_orc");
+							z.innerHTML=pr[0]+'<input type="hidden" name="'+pr[0]+'" value="'+pr[0]+'">';
+							b.align = "center";
+							b.setAttribute("class","td_orc");			
+							b.innerHTML="NAO";
+							c.align = "left";
+							c.setAttribute("class","td_orc");
+							c.innerHTML="Produto sem nota";
+							d.align = "center";
+							d.setAttribute("class","td_orc");
+							d.innerHTML='<a href="#" onclick="deleteRow(this.parentNode.parentNode.rowIndex)"><img src="/homologacao/admin/images/window-close.png" width="15" heigth="15" border="0"></a>';
+							
+							document.getElementById("produtos").value=document.getElementById("produtos").value+pr[0]+":"+i+";";
+							i++;
+							
+						}
+						
+						int++;
+					}
+						    
+				    document.getElementById("cont").value=i;
+				}
+			
+				
+				function addQt(){
+					
+					var form 		= document.buscagar;
+					var cont		= document.getElementById('contan').value;
+					var id_or		= document.novogar.id_or.value;
+					var procede		= document.getElementById('procede').value;
+					var anali		= "";
+					var ganali		= "";
+					
+					$("form[name=novogar]").find(":input, select").each(function () {
+						
+						if((this.checked==true) && (this.name.indexOf('ch_')!=-1)){
+							ganali 	= ganali+this.id+";";
+							if(this.name.indexOf('ch_out')!=-1){
+								anali 	= anali+"- "+document.getElementById('cout').value+"<input type='hidden' name='out_"+id_or+"' value='"+document.getElementById('cout').value+"'><br>";
+							}else{
+			            		anali 	= anali+"- "+this.value+"<br>";
+			            		
+							}
+			            	  
+			            }  
+				       
+				    });
+					
+					/*
+			        for (i=0;i<document.buscagar.length;i++){
+			        	if((form[i].checked==true) && (form[i].name.indexOf('ch_')!=-1)){
+							ganali 	= ganali+form[i].id+";";
+							if(form[i].name.indexOf('ch_out')!=-1){
+								anali 	= anali+"- "+document.getElementById('cout').value+"<input type='hidden' name='out_"+id_or+"' value='"+document.getElementById('cout').value+"'><br>";
+							}else{
+			            		anali 	= anali+"- "+form[i].value+"<br>";
+			            		
+							}
+			            	  
+			            }                       				      						
+			        } */
+					    	
+			        document.getElementById('td_analise_'+id_or).innerHTML=anali;
+			        document.getElementById('analises_'+id_or).value=ganali;
+			        document.getElementById('s_'+id_or).innerHTML="Mudar analise";
+			        if(procede==1){
+			        	document.getElementById('td_sub_'+id_or).innerHTML = "SIM<input type='hidden' name='sub_"+id_or+"' value='1'>";
+			        }else if(procede==2){
+			        	document.getElementById('td_sub_'+id_or).innerHTML = "NÃO<input type='hidden' name='sub_"+id_or+"' value='0'>";
+			        }
+			
+					document.getElementById('recHint').innerHTML = "";
+					document.getElementById('procede').value="0";
+				}
+			
+			
+			</script>
+	

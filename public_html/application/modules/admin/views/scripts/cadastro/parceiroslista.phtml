@@ -1,0 +1,155 @@
+	<div class="content">   
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="#">Home</a> </li>
+                	<li class="lastB"><a href="<?=$this->baseUrl()?>/admin/cadastro/parceiroslista/filt/all">Parceiros</a></li>         
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5>Parceiros</h5></div>
+        
+        <div class="widgets" >
+        	<!-- Busca -->
+        	<div class="left" style="margin-top: 5px; margin-bottom: 5px" >   
+	        	<input type="button" class="basicBtn" value="Busca" onclick='javascript:mostrarPesquisa();'></input>
+		    	<?php 
+		    	if($this->objIns==true):?>
+		    	<input type="button" class="basicBtn" onclick="window.location='<?php echo $this->baseUrl(); ?>/admin/cadastro/parceiros'" value="Novo parceiro"></input>
+		    	<?php 
+		    	endif;
+		    	?>              
+            </div>
+            <div class="right" style="text-align: right; padding-top: 7px; width: 40%">
+            	<?php if($this->objNivel==2): ?>
+		    		<a href="<?=$this->baseUrl()?>/admin/cadastro/regioes">Regiões</a>  
+		    		| <a href="<?=$this->baseUrl()?>/admin/cadastro/regioestelevendas">Regiões televendas</a>
+		    		| <a href="<?=$this->baseUrl()?>/admin/cadastro/parceirosgrupos">Grupos</a>
+		    		| <a href="<?=$this->baseUrl()?>/admin/cadastro/precadastro">Pré-cadastro</a> &nbsp;
+		    	<?php endif; ?> 
+	        	<a href="<?=$this->baseUrl()?>/admin/cadastro/parceiroslistaexp/tipo/2">
+	    		<img title="MS Excel" src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/excelDoc.png" border="0" width="16" /></a>	    		
+	        </div>
+	        
+        </div>
+		
+		<div class="widgets" >
+        	<!-- Busca -->
+        	<div class="left" style="margin-top: 5px; margin-bottom: 5px; display: none; border: 1px solid #d5d5d5; padding: 10px" id="tabela">
+        		<form name="pesquisa" action="<?php echo $this->baseUrl(); ?>/admin/cadastro/parceiroslista" method="post" class="mainForm" >
+				    Nome, Razão Social, CNPJ/CPF ou ID.<br>	    	
+					<input type="text" name="busca" size="30" style="width: 350px" ><br />
+					<?php if($this->objNivel==2): ?>
+					Regi&atilde;o:	<br >	
+					<div class="styled-select" style="width: 270px">
+					<select name="buscaregioes" style="width: 302px">
+				  	<option value='0'>Selecione</option>
+				  	<?php foreach ($this->objRegioes as $listR): ?>
+						<option value='<?=$listR->idreg?>'><?php echo ($listR->NOME." ".$listR->EMPRESA)?></option>
+					<?php endforeach; ?>
+					</select>	
+					</div>
+					Teleregiões:	<br >	
+					<div class="styled-select" style="width: 270px">
+						<select name="buscateleregioes" style="width: 302px">
+					  	<option value='0'>Selecione</option>
+					  	<?php foreach ($this->objRegtelvend as $listR): ?>
+							<option value='<?=$listR->idreg?>'><?php echo ($listR->regiao." ".$listR->usuario)?></option>
+						<?php endforeach; ?>
+						</select>	
+					</div>				
+					<?php endif; ?>
+		    		<br /><input type="submit" value="Buscar" class="blueBtn"/>
+				</form> 
+            </div>
+        </div> 
+		
+		<?php 		
+        if ( count($this->objList) > 0) :
+		?>
+		<div class="widget" >
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="7%">Id</td>
+                        <td width="27%">Nome</td>
+                        <td >Razão Social</td>
+                        <td width="18%">CNPJ</td>
+                        <td width="10%">Situação</td>
+                        <td width="12%">Opções</td>
+                    </tr>
+                </thead>
+                <tbody>
+               
+				<?php 
+				$cor=0;
+		    	foreach($this->objList as $lista):
+			    	?>				
+					<tr >
+		                <td style="text-align: center;" >
+		                   <?php echo $lista->ID?>
+		                </td>
+		                <td align="left" style="text-transform: uppercase;">
+		                   <?php echo ($lista->EMPRESA)?>                  
+		                </td>
+		                <td align="left" >
+		                   <?php echo $lista->RAZAO_SOCIAL?>
+		                </td>
+		                <td style="text-align: center;" >
+		                   <?php echo $lista->CPF_CNPJ?>
+		                </td>
+		                <td style="text-align: center;" >
+		                   <?php if(stripos($lista->TIPO,"inativo")!==false):?>
+		                   		INATIVO
+		                   <?php else: ?>
+		                   		ATIVO
+		                   	<?php endif;?>		                   	
+		                </td>
+		                <td style="text-align: center;" >
+		                	<a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/parceirosvisualizar/idparceiro/<?=md5($lista->ID)?>/page/<?=$this->page?>"><img src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" border="0" title="Visualizar"></a>
+		                   	<?php 
+		                    if ($this->objEdi==true){  ?>
+			                <a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/parceiros/idparceiro/<?=md5($lista->ID)?>/page/<?=$this->page?>"><img src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/pencil.png"  width="16" border="0" title="Editar"></a>
+			                <?php  }  ?>
+		                </td>
+		                
+		            </tr>
+            	<?php  endforeach; ?>
+            	</tbody>        
+			</table>
+			
+		</div>
+		<div style="margin-top: 20px">
+			<?php 
+			if ( count($this->objList) > 0) :
+				echo $this->objList;
+			endif;
+		    ?>
+		</div>
+		<?php 
+		else :
+		?>
+		<div class="widget" style="border-top: 1px solid #d5d5d5; padding: 10px">
+ 			Nenhum Parceiro Encontrado
+		</div>	
+		<?php 
+		endif;
+		?>
+	</div>
+
+<script>
+function mostrarPesquisa(){
+	
+    nTr = document.getElementById("tabela");
+    if(nTr.style.display == "none"){
+        nTr.style.display = "block";
+        document.pesquisa.busca.focus();
+    }else{
+        nTr.style.display = "none";
+    }
+}
+
+</script>

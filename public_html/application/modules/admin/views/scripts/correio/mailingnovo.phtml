@@ -1,0 +1,166 @@
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/correioBoletimeletronico.js"></script>
+
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/wysiwyg/jquery.wysiwyg.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/wysiwyg/wysiwyg.image.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/wysiwyg/wysiwyg.link.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/wysiwyg/wysiwyg.table.js"></script>
+
+<!-- Content -->
+    <div class="content">   
+    	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li><a href="<?php echo $this->baseUrl()?>/admin/correio/mailing">Boletim eletrônico</a></li>
+                	<li class="lastB">Novo boletim</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Novo boletim eletrônico</h5></div>
+        
+        <div id="divform">
+	        <!-- Form begins -->
+	        <form class="mainForm" name="formcorreio" method="post" id="formcorreio">
+	        <!-- Input text fields -->
+            <fieldset >
+                <div class="widget first" >
+                	<input type="hidden" name="teste" value="sass">
+	                <div class="rowElem" style="border-top: 1px solid #d5d5d5; margin-top: -10px">
+	                	<label style="width: 10%">Para:</label>
+	                	<div class="formRight" style="width: 85%">
+	                	<table style="width: 100%;" id="divcampos">
+	                		<tr>
+	                			<td style="width: 200px; height: 10px; vertical-align: top;" >
+	                				<table style="width: 100%;">
+	                					<tr>
+				                			<td >
+				                				<input type="checkbox" class="checktodos" name="todos" id="todos"> <label>Todos</label>
+				                			</td>
+				                		</tr>
+	                					<tr>
+				                			<td >
+				                				<input type="checkbox" class="checktodos funcionarios" id="func" name="funcionarios" > <label>Funcionários</label>
+				                			</td>
+				                		</tr>
+				                		<tr>
+				                			<td >
+				                				<input type="checkbox" class="checktodos contatos" id="contatos" name="contatos" > <label>Contatos</label>
+				                			</td>
+				                		</tr>
+				                		<tr>
+				                			<td >
+				                				<input type="checkbox" class="checktodos boletim" name="boletim" > <label>Boletim informativo</label>
+				                			</td>
+				                		</tr>
+				                		<tr>
+				                			<td >
+				                				<input type="checkbox"  name="teste" > <label>Envio de teste</label>
+				                			</td>
+				                		</tr>
+				                	</table>
+	                				
+	                			</td>
+	                			<td >
+	                				<div class="widget" style="margin-top: 0px; margin-bottom: 10px" id="divfuncionarios">
+	                					<div class="head"><h5 class="iAdminUser">Perfil</h5></div>
+			                			<table style="display: block">
+				                			<tbody>
+						                		<?php 
+						                		$cont = 0;
+						                		foreach ($this->objPerfil as $perfil): 
+						                			if($cont == 0){ ?><tr><?php }
+								                	?><td style="padding-left: 10px"><input type="checkbox" class="funcionarios" name="func_<?=$perfil->id?>" > <label><?=$perfil->descricao?></label></td><?php 
+								                	$cont++;
+								                	if($cont == 3){ ?></tr><?php $cont = 0; }							                	
+								                endforeach; ?>
+				                			</tbody>
+				                		</table>
+				                	</div>
+			                		<div class="widget" style="margin-top: 0px" id="divginteresse">
+				                		<div class="head"><h5 class="iStar">Grupo de interesse</h5></div>
+				                		<table style="display: block">
+				                			<tbody>
+						                		<?php 
+						                		$cont = 1;
+						                		//Primeira coluna com checkbox fixo -------------------------
+						                		?><tr><td style="padding-left: 10px"><input type="checkbox" class="ginteresse" name="cont_semgrupo" > <label>Sem grupo</label></td><?php 
+						                		
+						                		foreach ($this->objGclientes as $gclientes): 
+													if($cont == 0){ ?><tr><?php }
+								                	?><td style="padding-left: 10px"><input type="checkbox" class="ginteresse" name="cont_<?=$gclientes->id?>" > <label><?=$gclientes->nome?></label></td><?php 
+								                	$cont++;
+													if($cont == 3){ ?></tr><?php $cont = 0; }
+								                endforeach; ?>
+				                			</tbody>
+				                		</table>
+			                		</div>
+			                		<div class="widget" id="divagentes">
+				                		<div class="head"><h5 class="iAdminUser">Perfil contato</h5></div>
+				                		<table style="display: block;">
+				                			<tbody>
+						                		<?php 
+						                		$cont = 1;
+						                		
+						                		?><tr><td style="padding-left: 10px"><input type="checkbox" class="agentes" name="agent_semgrupo" > <label>Sem perfil</label></td><?php
+						                		
+						                		foreach ($this->objGinteresse as $ginteresse): 
+													if($cont == 0){ ?><tr><?php }
+								                	?><td style="padding-left: 10px"><input type="checkbox" class="agentes" name="agent_<?=$ginteresse->id?>" > <label><?=$ginteresse->nome?></label></td><?php 
+								                	$cont++;
+													if($cont == 3){ ?></tr><?php $cont = 0; }							                	
+								                endforeach; ?>
+				                			</tbody>
+				                		</table>
+				                	</div>
+	                			</td>
+	                		</tr>
+	                	</table>
+	                		
+	                	</div>
+	                	<div class="fix"></div>
+	                </div>
+	                <div class="rowElem" >
+	                	<label style="width: 10%">Assunto:</label><div class="formRight" style="width: 85%"><input type="text" name="assunto" class="rightDir" title="Assunto do e-mail" style="width: 350px"/></div><div class="fix"></div>	                	 
+	                </div>
+	                <div class="rowElem iFolder" >
+	                	<div style="padding-left: 30px"><a href="<?=$this->baseUrl()?>/admin/correio/navegadordearquivos" target="_blank">Navegardor de arquivos</a></div>	                	 
+	                </div>
+	                <div class="rowElem" >
+	                	<label style="width: 10%; padding-bottom: 0px">Mensagem:</label>
+	                	<div class="formRight" style="width: 97%; margin-top: -15px">
+			                <div class="widget" style="border-top: 1px solid #d5d5d5;">    
+		                    	<textarea class="wysiwyg" rows="5" cols="" name="mensagem" id="mensagem"></textarea>                
+		                	</div>
+	                	</div>
+	                	<div class="fix"></div>
+	                </div>
+	                    
+	                <div class="rowElem" >
+	                	<input type="button" id="btnenviar" value="Enviar" class="greyishBtn submitForm" />
+	                </div>
+		                	                
+	                <div class="fix"></div>
+	                
+                </div>
+           	<div class="fix"></div>
+            </fieldset>
+            
+	    	</form>
+	    	
+	    	<div class="rowElem" style="display: none">
+            	<div class="formRight">
+                	<div id="progress2">
+                    	<div class="percent"></div>
+                        <div class="pbar"></div>
+                        <div class="elapsed"></div>
+                   	</div>
+             	</div>
+           	</div>  
+	    	
+	   	</div>
+   		<div id="loading" style="display: none; margin-top: 10px; border: 1px solid #d5d5d5; padding: 10px"></div>
+   		<div class="fix"></div>    
+    </div>
+    

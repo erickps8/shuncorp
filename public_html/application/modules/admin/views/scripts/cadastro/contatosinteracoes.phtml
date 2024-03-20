@@ -1,0 +1,84 @@
+	<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/cadastroContatosemp.js"></script>
+
+	<div class="content">
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li><a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/contatos">Contatos</a></li>
+                	<li class="lastB">Interações</li>
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Interações</h5></div>
+		
+		<div class="widget" style="border-top: 1px solid #d5d5d5;padding: 10px">
+ 			<form name="pesquisa" action="" method="post" class="mainForm" >
+ 			<div >
+			<table style="width: 100%">
+			    <tr>
+			    	<td class="tdbusca" >
+			    		<input type="text" name="empresa" style="margin-bottom: 4px; width: 220px" placeholder="Empresa">
+			    	</td>
+			    	<td class="tdbusca" colspan="2">
+				    	<input type="text" name="dataini" id="dataini" class="data datepicker" style="width: 80px" placeholder="DT Inicial">
+						à <input type="text" name="datafim" id="datafim" class="data datepicker" style="width: 80px" placeholder="DT Final">
+					</td>
+			    </tr>
+			    <tr>
+			    	<td class="tdbusca" >
+					    <div class="styled-select" style="width: 250px">	
+							<select name="buscaregioes"  style="width: 272px">
+						  	<option value='0'>Representante</option>
+						  	<?php foreach ($this->objRegioes as $listR): ?>
+								<option value='<?=$listR->idreg?>'><?php echo ($listR->NOME." ".$listR->EMPRESA)?></option>
+							<?php endforeach; ?>
+							</select>
+						</div>
+					</td>
+					<td class="tdbusca" colspan="2">
+						<input type="checkbox" value="1" name="todos" <?php if($this->pend){ ?> checked="checked" <?php } ?>>
+						<label>Incluir interações lidas</label>
+						<input type="checkbox" value="1" name="pendentes" <?php if($this->pend){ ?> checked="checked" <?php } ?>>
+						<label>Interações pendentes</label>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" class="tdbusca" >
+						<div class="styled-select" style="width: 250px">						
+						  	<select name="regioestelevendas" style="width: 272px">
+						  	<option value='0'>Televendas</option>
+						  	<?php foreach ($this->objRegtelvend as $listT){ ?>
+								<option value='<?php echo $listT->idreg?>' <?php if($empresa->id_regioestelevendas==$listT->idreg){ echo 'selected=selected'; }?>  ><?php echo ($listT->regiao." - ".$listT->usuario)?></option>
+							<?php } ?>
+							</select>
+						</div>
+					</td>
+					<td style="text-align: right; vertical-align: bottom;" class="tdbusca" >
+			    		<input type="button" value="Buscar" class="blueBtn" id="buscaInteracao"/>
+			    	</td>
+				</tr>
+			</table>  
+			</div>
+			</form>
+		</div>			
+		
+		<div class="clear"></div>
+		
+		<div id="resultado" ></div>
+		       
+	</div>
+	
+	<?php 	
+	if($this->pend){ 
+		?>
+		<script>
+		$(function(){
+			buscaInteracoes();
+		});			
+		</script>
+		<?php
+	}?>
+	

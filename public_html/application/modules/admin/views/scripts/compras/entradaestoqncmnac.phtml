@@ -1,0 +1,349 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxverproduto.js"></script>    
+<!-- Calendarios -->
+<link type="text/css" rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.css?random=20051112" media="screen"></LINK>
+<SCRIPT type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.js?random=20060118"></script>
+<style type="text/css">
+	<!--	  
+	  a.dcontexto1{
+	  position:relative; 
+	  font:12px arial, verdana, helvetica, sans-serif; 
+	  padding:0;
+	  color:#039;
+	  text-decoration:none;
+	  z-index:24;
+	  }
+	  a.dcontexto1:hover{
+	  background:transparent;
+	  z-index:25; 
+	  }
+	  a.dcontexto1 span{display: none}
+	  a.dcontexto1:hover span{ 
+	  display:block;
+	  position:absolute;
+	  width:150px; 
+	  top:1em;
+	  text-align:justify;
+	  left:0;
+	  font: 12px arial, verdana, helvetica, sans-serif; 
+	  padding:5px 10px;
+	  background-color: #FFF;
+	  border: 1px solid #000;
+	  color:#000;
+	  }
+	  
+	  a.dcontexto2{	
+	  position:relative; 
+	  font:12px arial, verdana, helvetica, sans-serif; 
+	  padding:0;
+	  color:#039;
+	  text-decoration:none;
+	  z-index:24;
+	  }
+	  a.dcontexto2:hover{
+	  background:transparent;
+	  z-index:25; 
+	  }
+	  a.dcontexto2 span{display: none}
+	  a.dcontexto2:hover span{ 
+	  display:block;
+	  position:absolute;
+	  width:280px; 
+	  top:1em;
+	  text-align:justify;
+	  left:0;
+	  font: 12px arial, verdana, helvetica, sans-serif; 
+	  padding:5px 10px;
+	  background-color: #FFF;
+	  border: 1px solid #000;
+	  color:#000;
+	  }
+	  -->
+</style>
+<table width="100%" cellpadding="0" cellspacing="0" >
+<tr>
+	<td align="left">
+		<table width="100%" style="margin-bottom: 4px" cellpadding="0" cellspacing="0" >
+			<tr>
+				<td align="left">
+					<a href="<?=$this->baseUrl(); ?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+					<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+					<a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoquegrupo"><?=$this->translate->_("ESTOQUE")?></a>&nbsp;
+					<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp; 
+					<a href="<?=$this->baseUrl(); ?>/admin/compras/entradaest"><?=$this->translate->_("ENTRADA DE PRODUTOS")?></a>&nbsp;
+					<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp; 
+					<b><a href="<?=$this->baseUrl(); ?>/admin/compras/entradaestoq"><?=$this->translate->_("NOVA ENTRADA")?></a></b>
+				</td>
+			</tr>
+		</table> 
+	</td>
+</tr>
+<tr>
+	<td align="left">
+		<table border="0"  width="100%" class="borda_titulo">
+			<tr>
+				<td align="left" >ENTRADA DE PRODUTO</td>
+			</tr>
+		</table>
+    </td>
+</tr>
+<tr>
+	<td align="left">
+	<form action="<?=$this->baseUrl()?>/admin/compras/gerarentradaestoquenac" method="post">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+	<td align="left">
+    
+    <table align="left" class="mytable" width="100%" cellspacing="0" id="txtHint" style="margin-top: 6px">
+        <tr>
+            <th  class="th_canto" align="center" width="" >
+                CODIGO
+            </th>
+            <th  class="th_canto" align="center" width="" >
+                QT
+            </th>                      
+            <th  class="th_canto" align="center" width="" >
+                NCM
+            </th>
+            <th  class="th_canto" align="center" width="" >
+                CST
+            </th>
+            <th  class="th_canto" align="center" width="" >
+                CFOP
+            </th>
+            <th  class="th_canto" align="center" width="" >
+                VALOR
+            </th>
+            <th  class="th_canto" align="center" width="" >
+                TOTAL
+            </th>
+            
+            <th  class="th_canto" align="center" width="" >
+                ICMS
+            </th>
+            <th  class="th_canto" align="center" width="" >
+                IPI
+            </th>
+            
+        </tr>  
+        <?php 
+        $ptotal = 0;
+		$class = "";
+          /*if(!empty($this->objProd)):        	                	
+        	$cor=0;
+        	foreach ($this->objProd as $listaprod):*/
+        	
+		foreach ($this->objTributos as $listtrib);
+	           
+         foreach ($this->objImp as $listnfe):
+		 foreach ($listnfe->infNFe as $listinfo):         
+         foreach ($listinfo->det as $listprod):
+         	if($class=='td_orc') $class = 'td_orc_par';
+	        else $class = 'td_orc';
+	        
+         	foreach ($listprod->prod as $produtos);
+         	
+				//foreach (ProdutosBO::buscaProdutoscodigo($produtos->cProd) as $produtosbusc);
+				//if($produtosbusc->ID == $listaprod->ID):
+						
+				?>
+				<tr >
+					<td  class="<?=$class?>" align="center" valign="top" >
+	                	<?=$produtos->cProd?>
+	                </td>
+	                <td  class="<?=$class?>" align="center" >
+	                	<?=number_format(floatval($produtos->qCom))?>
+	                </td>
+	                <td  class="<?=$class?>" align="center" >
+	                	<?=$produtos->NCM?>
+	                </td>
+	               	<td  class="<?=$class?>" align="center" >
+	                	<?
+	                	foreach ($listprod->imposto as $produtosimp):
+	                		foreach ($produtosimp->ICMS as $icms):
+	                			foreach ($icms->ICMS10 as $icms00):	
+	                				echo $icms00->orig.$icms00->CST;
+	                			endforeach;
+	                		endforeach;
+	                	endforeach;
+	                	?>	
+	                </td>
+	                <td  class="<?=$class?>" align="center" >
+	                	<?=$produtos->CFOP?>
+	                </td>
+	                <td  class="<?=$class?>" align="center" >
+	                	<?=number_format(floatval($produtos->vUnCom),2,",",".")?>
+	                </td>
+	                <td  class="<?=$class?>" align="center" >
+	                	<?=number_format(floatval($produtos->vUnCom)*$produtos->qCom,2,",",".")?>
+	                	<?php $total += floatval($produtos->vUnCom)*$produtos->qCom?>
+	                </td>
+	                <td  class="<?=$class?>" align="center" >
+	                	<?
+	                	foreach ($listprod->imposto as $produtosimp):
+	                		foreach ($produtosimp->ICMS as $icms):
+	                			foreach ($icms->ICMS10 as $icms00):	
+	                				echo $icms00->vICMS;
+	                				$aliqicms = $icms00->pICMS; 
+	                			endforeach;
+	                		endforeach;
+	                	endforeach;
+	                	?>
+	                </td>  
+	                <td  class="<?=$class?>" align="center" >
+	                	<?
+	                	foreach ($listprod->imposto as $produtosimp):
+	                		foreach ($produtosimp->IPI as $ipi):
+	                			foreach ($ipi->IPITrib as $ipitrib):	
+	                				echo $ipitrib->vIPI;
+	                				$aliqipi = $ipitrib->pIPI; 
+	                			endforeach;
+	                		endforeach;
+	                	endforeach;
+	                	?>
+	                </td>                            
+	            </tr>
+	        	<?php	 
+		endforeach;
+		
+		foreach($listinfo->total as $listimp);
+		foreach ($listimp->ICMSTot as $listtotal);
+		$baseicms	= floatval($listtotal->vBC);
+		$vlicms		= floatval($listtotal->vICMS);
+		$bicmsst	= floatval($listtotal->vBCST);
+		$vicmsst	= floatval($listtotal->vST);
+		$vtoral		= floatval($listtotal->vProd);
+		$frete		= floatval($listtotal->vFrete);
+		$seguro		= floatval($listtotal->vSeg);
+		$desconto	= floatval($listtotal->vDes);
+		$ipi		= floatval($listtotal->vIPI);
+		$pis		= floatval($listtotal->vPIS);
+		$cofins		= floatval($listtotal->vCOFINS);
+		$vnota		= floatval($listtotal->vNF);
+		$outros		= floatval($listtotal->vOutro);
+				
+		foreach($listinfo->ide as $listide);
+		$data	= $listide->dEmi;
+		$nota	= $listide->nNF;	
+		
+		foreach($listinfo->infAdic as $listobs);
+		$obs	= $listobs->infCpl;
+		
+		endforeach;
+		endforeach;
+	            
+        ?>           
+       
+     </table>
+     
+	</td>
+	</tr>
+	<tr>
+    	<td style="padding: 7px 0 5px">
+    		<table width="100%" cellpadding="3" cellspacing="0" border="0" style="border: 1px solid;">
+	    		<tr>
+	    			<td align="left" width="18%">
+		    			Nota:		     			
+	    			</td>
+	    			<td align="left"  width="25%">
+	    				<b><?=$nota?></b>
+	    				<input type="hidden" name="documento" value="<?=$nota?>">
+	    			</td>
+	    			<td align="right" width="15%">
+		    			Data:		     			
+	    			</td>
+	    			<td align="left"  width="55%">
+	    				<b><?=substr($data,8,2)."/".substr($data,5,2)."/".substr($data,0,4)?></b>
+	    				<input type="hidden" name="datadoc" value="<?=substr($data,8,2)."/".substr($data,5,2)."/".substr($data,0,4)?>">
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td align="left" width="18%">
+		    			Frete:		     			 
+	    			</td>
+	    			<td align="left" >
+	    				<b><?=number_format($frete,"2",",",".")?></b>
+	    				<input type="hidden" name="frete" value="<?=$frete?>">
+	    			</td>
+	    			<td align="right" width="10%">
+		    			Seguro:		     			 
+	    			</td>
+	    			<td align="left" >
+	    				<b><?=number_format($seguro,"2",",",".")?></b>
+	    				<input type="hidden" name="seguro" value="<?=$seguro?>">
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td align="left">
+		    			Base ICMS:
+	    			</td>
+	    			<td align="left" >	    			
+		     			<b><?=number_format($baseicms,"2",",",".")?></b>
+	    			</td>
+	    			<td align="right" width="10%">
+		    			VL ICMS:		     			 
+	    			</td>
+	    			<td align="left" >
+	    				<b><?=number_format($vlicms,"2",",",".")?></b>
+	    			</td>	    			
+	    			
+	    		</tr>	    		
+	    		<tr>
+	    			<td align="left">
+		    			Base ICMS ST:
+	    			</td>
+	    			<td align="left" >	    			
+		     			<b><?=number_format($bicmsst,"2",",",".")?></b>
+	    			</td>
+	    			<td align="right">
+		    			VL ICMS ST:
+	    			</td>
+	    			<td align="left" >	    			
+		     			<b><?=number_format($vicmsst,"2",",",".")?></b>
+	    			</td>
+	    		</tr>	  
+	    		<tr>
+	    			<td align="left">
+		    			Desconto:
+	    			</td>
+	    			<td align="left"  >	    			
+		     			<b><?=number_format($desconto,"2",",",".")?></b>
+		     			<input type="hidden" name="desconto" value="<?=$desconto?>">
+	    			</td>
+	    			<td align="left">
+		    			Out Despesas:
+	    			</td>
+	    			<td align="left"  >	    			
+		     			<b><?=number_format($outros,"2",",",".")?></b>
+		     			<input type="hidden" name="outros" value="<?=$outros?>">
+	    			</td>
+	    			
+	    		</tr>		
+	    		<tr>
+	    			<td align="left">
+		    			Vl IPI:
+	    			</td>
+	    			<td align="left" colspan="3" >	    			
+		     			<b><?=number_format($ipi,"2",",",".")?></b>
+	    			</td>
+	    			
+	    		</tr>		    		
+	    		<tr>
+	    			<td align="left" colspan="4"><br />
+		    			Observa&ccedil;&atilde;o:<br>
+				        <b><?=$obs?></b>
+				        <input type="hidden" name="obs" value="<?=$obs?>">
+	    			</td>
+	    		</tr>
+	    	</table>	
+	     		
+	     	<input type="submit" value="Próximo" style="margin-top: 5px" >
+	     	
+     	</td>	     	
+	</tr>
+	</table>
+	</form>
+	</td>
+	</tr>
+	
+</table>    
+     

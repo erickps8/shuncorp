@@ -1,0 +1,19 @@
+#bannerRotator { 
+	width:924px; 
+	height:377px; 
+	padding:0px; 
+	margin:0px auto; 
+	background::#EEE;   
+}
+#bannerRotator ul li img{ max-width:924px; }
+
+#bannerRotator { position:relative; }
+#bannerRotator ul { list-style:none; padding:0; position:relative; margin:0; }
+#bannerRotator ul li { display:none; position:absolute; }
+#bannerRotator ul li a { text-decoration:none; }
+
+#bannerNav { position:absolute; right:0px; bottom:15px;  padding:5px 5px 5px 10px; -moz-border-radius:5px; -webkit-border-radius:5px; }
+
+#bannerNav a { margin:3px 10px 0 0; height:10px; width:10px; display:block; background:url(img/dotDark.png) no-repeat 0 0; float:left; }
+#bannerNav a.active { background-image:url(img/dotLight.png); }
+

@@ -1,0 +1,113 @@
+<!-- Content -->
+    <div class="content">
+
+    <!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li class="lastB">Registro de navegação</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Registro de navegação</h5></div>
+        
+        <?php if($this->objNivel == 2): ?>
+        <div class="widgets" >
+        	<div class="right" style="font-weight: bold; text-align: right; padding: 4px; width: 40%">
+	        	<a href="<?=$this->baseUrl(); ?>/admin/administracao/logacessoent"><?=$this->translate->_("REGISTRO DE ACESSO")?></a>
+	        </div>
+	    </div>
+	    <?php endif; ?>
+	    <div class="widgets" >
+        	<!-- Busca -->
+        	<div class="first" >  	    
+			<form action="" method="post" name="busca" id="busca" class="mainForm">
+				<table style="border: 1px solid #ccc; width: 50%; " >
+				    <tr>
+				    	<td style="padding: 5px">
+				    		<?=$this->translate->_("Insira sua busca")?>:<br>
+							<input type="text" style="text-transform: uppercase; width: 150px" name="busca" id="busca" >
+						</td>
+						<td valign="top">										 
+							<?=$this->translate->_("Dt inicio")?>:<br>
+							<input type="text" style="width: 70px" name="dtini" id="dtini" class="data datepicker" >
+						</td>
+						<td>
+							<?=$this->translate->_("Dt fim")?>:<br>
+							<input type="text" style="width: 70px" name="dtfim" id="dtfim" class="data datepicker">
+						</td>
+						<td style="vertical-align: bottom; padding: 5px">
+							<input type="submit" value="<?=$this->translate->_("Pesquisar")?>" class="basicBtn">
+						</td>						
+					</tr>
+				</table>  
+			</form>
+			</div>
+		</div>
+		
+		<!-- Static table -->
+        <?php
+		if (count($this->objList) > 0):			
+		?>       
+        <div class="widget">
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="25%">Usuário</td>
+                        <td width="">Módulo</td>
+                        <td width="15%">Ação</td>
+                        <td width="15%">Identificador</td>
+                        <td width="15%">Data</td>
+                    </tr>
+                </thead>
+                <tbody>
+				<?php 
+				foreach($this->objList as $lista):
+		    		?>
+					<tr >
+		                <td align="left" >
+		                   <?php echo ($lista->nomeusuario)?>
+		                </td>
+		                <td align="left" style="text-transform: uppercase;">
+		                   <?php echo utf8_encode($lista->modulo)?>
+		                  
+		                </td>
+		                <td align="center" >
+		                   <?php 
+		                   if($lista->acao==1) echo "Visualizar";
+		                   if($lista->acao==2) echo "Inclus&atilde;o";
+		                   if($lista->acao==3) echo "Exclus&atilde;o";
+		                   if($lista->acao==4) echo "Edi&ccedil;&atilde;o";
+		                   ?>
+		                </td>
+		                <td align="center" >
+		                   <?php echo $lista->ident_desc?>
+		                </td>
+		                <td align="center" >
+		                   <?php echo substr($lista->data,8,2)."/".substr($lista->data,5,2)."/".substr($lista->data,0,4)." ".substr($lista->data,11,5)?>
+		                </td>
+		            </tr>
+            
+			<?php  endforeach; ?>
+                </tbody>
+            </table>            
+        </div>
+        <div style="margin-top: 20px">
+			<?php 
+			if ( count($this->objList) > 0) :
+				echo $this->objList;
+			endif;
+		    ?>
+		</div>
+		<?php 
+		else :
+		?>
+		<div class="widget first">
+ 			Nenhum Pedido Encontrado
+		</div>	
+		<?php 
+		endif;
+		?>
+	</div>

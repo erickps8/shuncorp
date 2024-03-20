@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>ZTL Brasil - www.ztlbrasil.com.br </title>
+	<link href="<?=$this->baseUrl()?>/public/images/ztl_favicon1.ico" rel="shortcut icon" type="image/x-ico"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="description" content="<?=$this->translate->_("ZTL do Brasil importação, exportação e comercio")?>" />
+	<meta name="keywords" content="rolamentos, cubo de roda, rolamento, embreagem, embreagens, ponta de eixo, pontas de eixo, bomba dagua, bombas dagua, roda, scania, homocinetica, homocineticas, transmissoes" />
+	
+	<link href="<?=$this->baseUrl()?>/public/css/estiloimpressao.css" rel="stylesheet" type="text/css" />
+</head>
+
+<?php 
+	foreach ($this->objCli as $listCli);
+	foreach ($this->objEnd as $listEnd);
+	foreach ($this->objDes as $listDes);
+	foreach ($this->objPed as $listPed);
+?>
+<body onload="window.print()">
+<div style="width: 800px; margin: 0 auto;">
+	<div id="sistopo">VENDA Nº <?=$listPed->id?>
+		<div style="float: right;"><?=substr($listPed->data_cad,8,2)."/".substr($listPed->data_cad,5,2)."/".substr($listPed->data_cad,0,4)." ".substr($listPed->data_cad,9)?></div>
+	</div>
+	<div id="sistitulo">INFORMAÇÕES DO CLIENTE</div>
+    <div id="sisconteudo">
+		<div> 
+		<table width="100%" style="border: 1px solid;"  cellspacing="7">
+            <tr>
+                <td width="20%">Cliente:</td>
+                <td colspan="3"><b><?=$listCli->EMPRESA?></b></td>
+            </tr>
+            <tr>
+                <td>Raz&atilde;o Social:</td>
+                <td colspan="3"><b><?=$listCli->RAZAO_SOCIAL?></b></td>
+            </tr>
+            <tr>
+                <td>CPF/CNPJ:</td>
+                <td width="35%"><b><?=$listCli->CPF_CNPJ?></b></td>
+                <td width="15%">RG/INSC:</td>
+                <td ><b><?=$listCli->RG_INSC?></b></td>
+            </tr>
+            <?php /* ?>
+            <tr>
+                <td>Cidade:</td>
+                <td width="35%"><b><?=$listEnd->CIDADE?></b></td>
+                <td width="15%">Estado:</td>
+                <td ><b><?=$listEnd->ESTADO?></b></td>
+            </tr>
+            <tr>
+                <td>Transportadora:</td>
+                <td width="35%" colspan="3"><b><?=$listDes->trans?></b></td>
+            </tr>
+            <? */ ?>
+            
+        </table>
+        </div>
+        <div>
+     		<table align="left" class="mytable" width="100%" cellspacing="0">
+		        <tr>
+		        	<th  class="th_orc" align="center" width="4%">
+		                ID
+		            </th>
+		            <th  class="th_orc" align="center" width="15%">
+		                Codigo
+		            </th>
+		            <th  class="th_orc" align="center" width="5%">
+		                QT
+		            </th>
+		            <th  class="th_orc" align="center" width="">
+		                Descri&ccedil;&atilde;o
+		            </th>
+		             <th  class="th_orc" align="center" width="10%">
+		               	Peso líquido
+		            </th>
+		            <th  class="th_orc" align="center" width="10%">
+		                Locação
+		            </th>
+		        </tr>
+		        <?php 
+		        $cor=0;
+		        
+		        foreach ($this->objList as $listaProd):
+		        	$cor++;
+		            if(($cor%2)==0) $class = 'td_orc_par';
+		            else $class = 'td_orc';
+			        ?>
+			        <tr >
+			        	<td  class="<?=$class?>" align="center" >
+		                    <?=$cor?>
+		                </td>
+		                <td  class="<?=$class?>" align="center" >
+		                    <?=$listaProd->CODIGO?>
+		                </td>
+		                <td  class="<?=$class?>" align="center" >
+		                	<?=$listaProd->qt?>		                    
+		                </td>
+		                <td  class="<?=$class?>" align="left">
+		                   <?=($listaProd->DESCRICAO)?> 
+		                </td>
+		                <td  class="<?=$class?>" align="center">
+		                    <?=number_format($listaProd->qt*(str_replace(",",".", $listaProd->PESO)),4,",",".")?>
+		                </td>
+		                <td  class="<?=$class?>" align="center">
+			                <?php 
+			                
+			                if(count($this->objLoc)>0){
+								foreach($this->objLoc as $local){
+									if($local->id_prod == $listaProd->id_prod){
+										echo $local->loca1." ";
+									}									
+								}
+							}
+			                ?>
+		                </td>
+		            </tr>
+			        <?php
+
+			        $total_prod += $listaProd->qt;
+			        $pesototal  += $listaProd->qt*(str_replace(",",".", $listaProd->PESO));
+		        endforeach;
+		        ?>
+		       	<tr>
+	                <td align="right" colspan="2" class="th_orc" style="padding: 10px">
+	                    TOTAL DE PEÇAS:
+	                </td>
+                	<td align="center" class="th_orc"><?=$total_prod?></td>                	
+	                <td class="th_orc" style="text-align: right;">PESO LÍQUIDO PREVISTO:</td>
+                	<td align="center" class="th_orc"><?=number_format($pesototal,4,",",".")?></td>
+	                <td align="center" class="th_orc">&nbsp;</td>                
+            	</tr>
+        </table>&nbsp;
+        </div>
+        <div style="padding: 10px; ">
+        	PESO BRUTO TOTAL:____________  &nbsp;  &nbsp; 
+	        Nº DE VOLUMES:____________
+        </div>
+        <div style="margin-top: 20px">
+	        <table align="center" width="900">
+	            <tr>
+		            <td align="center" width="30%">______________________________________<br/>SEPARADOR</td>
+		            <td align="center" width="30%">______________________________________<br/>CONFERENTE</td>
+	            </tr>
+	        </table>		
+		</div>
+	</div>
+</div>	
+		  
+</body>
+</html>

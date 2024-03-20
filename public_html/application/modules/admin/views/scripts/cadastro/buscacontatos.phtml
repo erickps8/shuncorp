@@ -1,0 +1,55 @@
+<?php 
+
+foreach ($this->objContatos as $contatos):
+?>
+<table style="border: 1px solid; margin: 5px; cursor: pointer; cursor: hand;" cellpadding="3" cellspacing="3" width="260px" onclick="window.open('<?=$this->baseUrl()?>/admin/cadastro/contatoscad/tp/<?=$contatos->TIPO?>/empresa/<?=md5($contatos->ID_EMP)?>/contato/<?=md5($contatos->ID)?>')"> 
+  <tr>
+    <td colspan="2" align="left"><?=utf8_encode($contatos->nome)?></td>
+  </tr>
+  <tr>
+    <td><?=$contatos->DDI?> (<?=$contatos->DDD?>) <?=$contatos->TELEFONE?></td>
+    <td><?=$contatos->NEXTEL?></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="left">E-mail: <?=utf8_encode($contatos->EMAIL)?></td>
+  </tr>
+  <tr>
+    <td>Msn: <?=$contatos->MSN?></td>
+    <td>Skype: <?=$contatos->skype?></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="left">
+    <?=utf8_encode($contatos->empmatriz)?>
+    </td>
+  </tr>
+</table>
+
+<?php 
+endforeach;
+foreach ($this->objContatosfil as $contatos):
+?>
+<table style="border: 1px solid; margin: 5px; cursor: pointer; cursor: hand;" cellpadding="3" cellspacing="3" width="260px" onclick="window.open('<?=$this->baseUrl()?>/admin/cadastro/contatoscad/tp/<?=$contatos->TIPO?>/empresa/<?=md5($contatos->ID_EMP)?>/contato/<?=md5($contatos->ID)?>')"> 
+  <tr>
+    <td colspan="2" align="left"><?=utf8_encode($contatos->nome)?></td>
+  </tr>
+  <tr>
+    <td><?=$contatos->DDI?> (<?=$contatos->DDD?>) <?=$contatos->TELEFONE?></td>
+    <td><?=$contatos->NEXTEL?></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="left">E-mail: <?=utf8_encode($contatos->EMAIL)?></td>
+  </tr>
+  <tr>
+    <td>Msn: <?=$contatos->MSN?></td>
+    <td>Skype: <?=$contatos->skype?></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="left">
+    <?=utf8_encode($contatos->empfilial)?>
+    </td>
+  </tr>
+</table>
+
+<?php 
+endforeach;
+?>

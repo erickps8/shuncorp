@@ -1,0 +1,154 @@
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/javascript/buscaajax/buscaajaxsubgrupo.js"></script>
+	
+	<!-- Content -->
+    <div class="content">   
+    
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li class="lastB"><a href="<?=$this->baseUrl(); ?>/admin/venda/pendenciasprod/fil/comp">Pendências</a></li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Pedidos</h5></div>
+        
+        <div class="widgets" >
+        	<?php if($this->objNivel!=0):?>
+	    	<div style="font-weight: bold; text-align: right;">
+				<?php if($this->objNivel==2):?>
+		    	<a href="<?=$this->baseUrl()?>/admin/venda/pendenciasestoque">COM ESTOQUE</a> | 
+		    	<?php endif; ?>
+		    	<a href="<?=$this->baseUrl()?>/admin/venda/pendenciasempresa">EMPRESAS</a>		    	
+		    </div>
+	    	<?php endif; ?>
+        	<!-- Busca -->
+        	<div class="first" >            
+                <form action="<?=$this->baseUrl()?>/admin/venda/pendenciasprod" method="post" class="mainForm" >
+    			<table style="border: 1px solid #ccc; width: 100%; " >
+			    <tr>
+			    	<td style="padding: 5px; width: 20%">
+			    		Busca por:<br />
+			    		<div class="styled-select" style="width: 150px">
+				    	<select name="tipo" onchange="tipoPesquisa(this.value);" style="width: 172px">
+						<option value="2"><?=$this->translate->_("Código")?></option>
+						<option value="1"><?=$this->translate->_("Grupo")?></option>
+						</select>	
+						</div>			 
+			    	</td>
+			    	<td align="left">
+				    	<table style="display: none;" id="buscgrupo" >
+				    		<tr>
+				    		<td align="left" >
+				    			Grupo:<br />
+				    			<div class="styled-select" style="width: 180px">
+								<select name="buscagrupo" id="buscagrupo" onchange="Mostrasubgrupos(this.value,1);" style="width: 202px">
+									<option value="0">Todos</option>
+									<?php foreach ($this->objGrupo as $list): ?>
+										<option value="<?php echo $list->id?>"><?php echo substr($list->descricao,0,20)?></option>
+									<?php endforeach; ?>
+								</select>
+								</div> 
+							</td>
+							<td align="left">
+								<div id="subgrupo">&nbsp;</div>
+							</td>
+							<td align="right" style="padding-left: 5px" >
+								<br />
+								<input type="submit" class="blueBtn" value="<?=$this->translate->_("Pesquisar")?>" style="margin-top: 3px">
+							</td>
+							</tr>
+						</table>
+						<div style="display: block;" id="busccod">
+							Código:<br />
+							<input type="text" style="text-transform: uppercase; width: 120px" size="15" name="buscacod" id="buscacod" >
+							<input type="submit" value="<?=$this->translate->_("Pesquisar")?>" class="blueBtn">
+						</div>				
+			    	</td>
+				</tr>		
+				</table>  
+				</form>
+			</div>
+		</div>
+		
+		<!-- Static table -->
+        <?php
+		if (count($this->objList) > 0):			
+		?>       
+        <div class="widget first">
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="15%">Código</td>
+                        <td width="">Descrição</td>
+                        <td width="35%">Grupo/Subgrupo</td>
+                        <td width="10%">Qt</td>
+                        <?php if($this->objNivel!=0):?>
+                        <td width="10%">Opções</td>
+                        <?php endif; ?>
+                    </tr>
+                </thead>
+                <tbody>
+					<?php 
+					$cor=0;
+			    	foreach($this->objList as $lista):
+			    	$cor++;
+		            if(($cor%2)==0) $class = 'td_orc_par';
+		            else $class = 'td_orc';
+					?>
+					
+					<tr >
+		                <td  style="text-align: center;" >
+		                   	<a href="<?=$this->baseUrl();?>/admin/cadastro/produtosvis/produto/<?=md5($lista->id_prod)?>" target="_blank">
+						 	<?=$lista->CODIGO?></a>  
+		                </td>
+		                <td align="left" >
+		                	<?=$lista->DESCRICAO?>
+		                </td>
+		                <td style="text-align: left;" >
+		                	<?=$lista->grupo.">>".$lista->subgrupo?>
+		                </td>
+		                <td  style="text-align: center;" >
+		                	<?=$lista->qtprod?>               	
+		                </td>
+		                <?php if($this->objNivel!=0):?>
+		                <td  style="text-align: center;" >
+		                	<a href="<?=$this->baseUrl()?>/admin/venda/pendenciasdet/produto/<?=md5($lista->id_prod)?>/cod/<?=$lista->CODIGO?>" ><img src="<?=$this->baseUrl()?>/images/visualizar_orc.gif" width="16" border="0" title="Visualizar"></a>&nbsp;&nbsp;
+		                	</td>                
+		            	</tr>            
+		            	<?php endif; ?>
+					<?php  endforeach; ?>
+				</tbody>
+			</table>
+		</div>	
+		<div style="margin-top: 20px">
+			<?php 
+			if ( count($this->objList) > 0) :
+				echo $this->objList;
+			endif;
+		    ?>
+		</div>
+		<?php 
+		else :
+		?>
+		<div class="widget first">
+ 			Nenhuma pendência encontrada
+		</div>	
+		<?php 
+		endif;
+		?>
+	</div>
+	
+	<script>		
+		function tipoPesquisa(valor){
+			if(valor==1){
+				document.getElementById("buscgrupo").style.display = "block";
+				document.getElementById("busccod").style.display = "none";								
+			}else if(valor==2){
+				document.getElementById("busccod").style.display = "block";
+				document.getElementById("buscgrupo").style.display = "none";;
+			}		    
+		}
+		</script>

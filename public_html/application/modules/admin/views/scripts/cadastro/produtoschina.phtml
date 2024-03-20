@@ -1,0 +1,253 @@
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/cadastroSubgrupo.js"></script>
+
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li class="lastB"><a href="<?=$this->baseUrl(); ?>/admin/cadastro/produtoschina/fil/comp">Produtos China</a></li>         
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5>Produtos China</h5>
+        	<div style="float: right; padding: 10px">
+        		<a target="_blank" href="<?php echo $this->baseUrl()?>/admin/cadastro/produtoschinaimp" ><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/printerwhite.png" title="Imprimir" border="0" width="18"></a>
+			</div>
+        </div>
+
+        <div class="widgets" >
+<!-- Busca -->
+        	<div class="left" style="margin-top: 5px; margin-bottom: 5px" >   
+	        	<?php 
+				if($this->objIns==true):
+					?>
+				    <input type="button" class="basicBtn" onclick="window.location='<?=$this->baseUrl()?>/admin/cadastro/produtoscad'" value="<?=$this->translate->_("Novo produto")?>"></input>
+		    		<?php		    	
+			    endif; 
+			    ?>              
+            </div>
+            <div class="right" style="text-align: right; padding-top: 7px; width: 40%">
+	        	<a href="<?=$this->baseUrl(); ?>/admin/cadastro/produtoshscode">Hs code</a> | 
+				<a href="<?=$this->baseUrl(); ?>/admin/cadastro/produtosmaterial">Material</a>
+	        </div>	        
+        </div>
+        
+        <div class="widgets" >
+        	<!-- Busca -->
+        	<div class="first" style="margin-top: 5px; margin-bottom: 5px; " >            
+                <form action="<?=$this->baseUrl(); ?>/admin/cadastro/produtoschina" method="post" name="busca" id="busca" class="mainForm" >
+					<table style="margin-bottom: 5px; border: 1px solid #d5d5d5; width: 100%" >
+					    <tr>
+					    	<td width="25%" style="padding: 10px" >
+					    		<div class="styled-select" style="width: 180px">
+						    	<select name="tipo" onchange="tipoPesquisa(this.value);" style="width: 202px">
+								<option value="2"><?=$this->translate->_("Por Código")?></option>
+								<option value="1"><?=$this->translate->_("Por Grupo")?></option>
+								<option value="3"><?=$this->translate->_("Por Descrição")?></option>
+								</select>				 
+								</div>
+					    	</td>
+					    </tr>
+					    <tr>
+					    	<td align="left" style="padding: 10px">
+						    	<table style="display: none;" id="buscgrupo">
+						    		<tr>
+						    		<td align="left" >
+						    			Grupos de venda<br />
+						    			<div class="styled-select" style="width: 220px">
+										<select name="buscagrupo" id="buscagrupo" onchange="Mostrasubgrupos(this.value,2);" style="width: 242px">
+											<option value="0">Todos</option>
+											<?php foreach ($this->objGrupo as $list): ?>
+												<option value="<?=$list->id?>"><?php echo substr($list->descricao,0,20)?></option>
+											<?php endforeach; ?>
+										</select></div> 
+									</td>
+									<td align="left">
+										<div id="subgrupo">&nbsp;</div>
+									</td>
+									<td style="vertical-align: bottom;">
+										<input type="submit" value="<?=$this->translate->_("Pesquisar")?>" class="blueBtn">
+									</td>
+									</tr>
+								</table>
+								<div style="display: none;" id="buscmedia">
+									<div class="styled-select" style="width: 180px">
+									<select name="buscamedia" id="buscamedia" onchange="tipoPesquisamedida(this.value);" style="width: 202px">
+										<option value="0">Selecione</option>
+										<option value="1">Rolamentos</option>
+										<option value="2">Homocinéticas</option>
+										<option value="3">Slinding Joints</option>
+										<option value="4">Cruzetas</option>
+									</select>
+									</div>
+								</div>
+								<div style="display: block;" id="busccod" >
+									<input type="text" style="text-transform: uppercase; width: 150px"  name="buscacod" id="buscacod">
+									<input type="submit" value="<?=$this->translate->_("Pesquisar")?>" class="blueBtn">
+								</div>
+								<div style="display: none;" id="buscdesc">
+									<input type="text" name="buscadesc" id="buscadesc" style="width: 250px">
+									<input type="submit" value="<?=$this->translate->_("Pesquisar")?>" class="blueBtn">
+								</div>
+					    	</td>
+						</tr>
+						
+					</table>  
+					</form>
+				</div>
+			</div>  
+	        <?php 
+			if (count($this->objList) > 0) :
+				?>
+				<div class="widget first">
+	 			<table style="width: 100%" class="tableStatic">
+	            	<thead>
+	                	<tr>
+	                        <td width=""><?=$this->translate->_("CÓDIGO")?></td>
+	                        <td width=""><?=$this->translate->_("DESCRIÇÃO")?></td>
+	                        <td width="15%"><?=$this->translate->_("GRUPO")?></td>
+	                        <td width="15%"><?=$this->translate->_("Situa&ccedil;&atilde;o")?></td>
+	                        <td width="10%"><?=$this->translate->_("Op&ccedil;&otilde;es")?></td>
+	                    </tr>
+	                </thead>
+	                <tbody>
+				
+					<?php 
+					foreach($this->objList as $lista):
+			    		?>
+						<tr >
+			                <td align="center" >
+			                   <?=$lista->CODIGO?>
+			                </td>
+			                <td align="left" style="text-transform: uppercase;">
+			                   <?=stripcslashes(($lista->DESCRICAO))?>
+			                </td>
+			                <td align="left" >
+			                   <?php echo ($lista->NOME)?>
+			                </td>
+			                <td align="center" >
+			                   <?php if($lista->situacao == 0):?>
+			                   		ATIVO
+			                   <?php elseif($lista->situacao == 1): ?>
+			                   		DESEN
+			                   <?php elseif($lista->situacao == 2): ?>
+			                   		INATIVO
+			                   <?php endif;?>
+			                   	
+			                </td>
+			                <td align="center" >
+			                	
+			                	<?php 
+			                    if ($this->objEdi==true){  ?>
+				                <a  id='<?=$lista->CODIGO?>'  href="<?=$this->baseUrl(); ?>/admin/cadastro/produtoschinacad/produto/<?php echo md5($lista->ID)?>/page/<?=$this->page?>"><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/pencil.png"  width="16" border="0" title="Ajustar"></a>
+				                <?php  }  ?>
+				                <?php 
+			                	if($lista->CODIGO==strtoupper($this->objCod)):
+									?>
+									<script type="text/javascript">
+										document.getElementById('<?=$lista->CODIGO?>').focus();
+									</script>
+									<?php 
+			                	endif;
+			                	?>
+			                </td>			                
+			            </tr>
+			<?php  endforeach; ?>
+                </tbody>
+            </table>            
+        </div>
+        <div style="margin-top: 20px">
+			<?php 
+			if ( count($this->objList) > 0) :
+				echo $this->objList;
+			endif;
+		    ?>
+		</div>
+		<?php 
+		else :
+		?>
+		<div class="widget first">
+ 			Nenhum Produto Encontrado
+		</div>	
+		<?php 
+		endif;
+		?>
+	</div>
+		
+		<script>
+		<?php if(empty($this->objCod)): ?>
+		$(document).ready(function() {
+			document.getElementById("buscacod").focus();
+		});
+		<?php endif; ?>
+		
+		
+		function tipoPesquisa(valor){
+		
+			if(valor==1){
+				document.getElementById("buscgrupo").style.display = "block";
+				document.getElementById("busccod").style.display = "none";
+				document.getElementById("buscdesc").style.display = "none";
+				document.getElementById("buscmedia").style.display = "none";
+				document.getElementById("buscacod").value = "";
+				document.getElementById("buscadesc").value = "";
+			}else if(valor==2){
+				document.getElementById("busccod").style.display = "block";
+				document.getElementById("buscgrupo").style.display = "none";
+				document.getElementById("buscdesc").style.display = "none";
+				document.getElementById("buscmedia").style.display = "none";
+				document.getElementById("buscacod").value = "";
+				document.getElementById("buscadesc").value = "";
+			}else if(valor==3){
+				document.getElementById("busccod").style.display = "none";
+				document.getElementById("buscgrupo").style.display = "none";
+				document.getElementById("buscdesc").style.display = "block";
+				document.getElementById("buscmedia").style.display = "none";
+				document.getElementById("buscacod").value = "";
+				document.getElementById("buscadesc").value = "";
+			}else if(valor==4){
+				document.getElementById("busccod").style.display = "none";
+				document.getElementById("buscgrupo").style.display = "none";
+				document.getElementById("buscdesc").style.display = "none";
+				document.getElementById("buscmedia").style.display = "block";
+				document.getElementById("buscacod").value = "";
+				document.getElementById("buscadesc").value = "";
+			}
+		    
+		}
+		
+		function tipoPesquisamedida(valor){
+		
+			if(valor==1){
+				document.getElementById("buscrol").style.display = "block";
+				document.getElementById("buschom").style.display = "none";
+				document.getElementById("buscsli").style.display = "none";
+				document.getElementById("busccru").style.display = "none";
+			}else if(valor==2){
+				document.getElementById("buscrol").style.display = "none";
+				document.getElementById("buschom").style.display = "block";
+				document.getElementById("buscsli").style.display = "none";
+				document.getElementById("busccru").style.display = "none";
+			}
+			else if(valor==3){
+				document.getElementById("buscrol").style.display = "none";
+				document.getElementById("buschom").style.display = "none";
+				document.getElementById("buscsli").style.display = "block";
+				document.getElementById("busccru").style.display = "none";
+			}
+			else if(valor==4){
+				document.getElementById("buscrol").style.display = "none";
+				document.getElementById("buschom").style.display = "none";
+				document.getElementById("buscsli").style.display = "none";
+				document.getElementById("busccru").style.display = "block";
+			}
+		    
+		}
+		
+	
+		</script>

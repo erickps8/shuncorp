@@ -1,0 +1,83 @@
+
+        
+        <table width="100%" >
+            <tr>
+                <td align="right"><input type="button" class="button" onclick="window.location='<?php echo $this->baseUrl(); ?>/admin/cadastro/parceiros'" value="Voltar"></input></td>
+            </tr>
+        </table>
+        <br>
+        <table width="100%" class="borda_titulo">
+            <tr>
+                <td width="left">PESQUISA PARCEIROS</td>
+            </tr>
+        </table>
+		<br>
+		<?php 
+		
+		if($this->objList!=""): ?>
+        <table align="left" class="mytable" width="100%" cellspacing="0">
+        <tr>
+            <th  class="th_canto_orc" align="center" width="7%">
+                ID
+            </th>
+            <th  class="th_orc" align="center" width="35%">
+                Nome
+            </th>
+            <th  class="th_orc" align="center" width="35%">
+                Raz&atilde;o Social
+            </th>
+            <th  class="th_orc" align="center" width="20%">
+                CNPJ/CPF
+            </th>
+            <th  class="th_orc" align="center" width="20%">
+                Situa&ccedil;&atilde;o
+            </th>
+            <th  class="th_orc" align="center" width="7%">
+                Op&ccedil;&otilde;es
+            </th>
+        </tr>
+		<?php 
+			$cor =0;
+			foreach ($this->objList as $lista){
+			$cor++;
+            if(($cor%2)==0) $class = 'td_orc_par';
+            else $class = 'td_orc';
+			?>
+			
+			<tr >
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo $lista->ID?>
+                </td>
+                <td  class="<?=$class?>" align="left" style="text-transform: uppercase;">
+                   <?php echo ($lista->EMPRESA)?>
+                  
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo $lista->RAZAO_SOCIAL?>
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo $lista->CPF_CNPJ?>
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                   <?php if(stripos($lista->TIPO,"inativo")!==false):?>
+                   		INATIVO
+                   <?php else: ?>
+                   		ATIVO
+                   	<?php endif;?>
+                   	
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                   <a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/parceiros/idparceiro/<?php echo md5($lista->ID)?>"><img src="<?php echo $this->baseUrl(); ?>/images/edit_orc.gif" width="19" height="19" border="0" title="Editar"></a>
+                </td>
+            </tr>
+            
+			
+			<?php 
+			}
+		?>
+		
+		</table>
+		<?php else: ?>
+		Nenhum parceiro encontrado!
+		<?php endif;?>
+

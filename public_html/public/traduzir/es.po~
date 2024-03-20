@@ -1,0 +1,1109 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: ZTL ES\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-02-23 13:59-0300\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Cleiton Silva Barbosa <cleiton@ztlbrasil.com.br>\n"
+"Language-Team: Cleiton Silva Barbosa <cleiton@ztlbrasil.com.br>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: es\n"
+"X-Poedit-Country: ESPANHA\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: /media/Dados/Server/homologacao/application/\n"
+"X-Poedit-SearchPath-0: modules/admin/views/scripts\n"
+"X-Poedit-SearchPath-1: modules/default/views/scripts\n"
+"X-Poedit-SearchPath-2: layouts\n"
+
+msgid "Administração"
+msgstr "Administracion"
+
+msgid "Cadastro"
+msgstr ""
+
+msgid "Venda"
+msgstr ""
+
+msgid "ZTL Compra"
+msgstr ""
+
+msgid "Outros"
+msgstr ""
+
+msgid "Área do Cliente"
+msgstr ""
+
+msgid "Shunkang"
+msgstr ""
+
+msgid "Shuntai"
+msgstr ""
+
+msgid "Registro de Acesso"
+msgstr ""
+
+msgid "Registro de Mensagens"
+msgstr ""
+
+msgid "Funcionários"
+msgstr ""
+
+msgid "Extrato de Estoque"
+msgstr ""
+
+msgid "Novo Pedido"
+msgstr ""
+
+msgid "Listar Pedidos"
+msgstr ""
+
+msgid "Referência Cruzada"
+msgstr ""
+
+msgid "IRV"
+msgstr ""
+
+msgid "Contatos"
+msgstr ""
+
+msgid "Parceiros"
+msgstr ""
+
+msgid "Produtos"
+msgstr ""
+
+msgid "Relatório de Produtos"
+msgstr ""
+
+msgid "Lista de Produtos"
+msgstr ""
+
+msgid "Fabricantes"
+msgstr ""
+
+msgid "Pedidos"
+msgstr ""
+
+msgid "Relatório de Vendas"
+msgstr ""
+
+msgid "Metas de Compra"
+msgstr ""
+
+msgid "Controle de Visitas"
+msgstr ""
+
+msgid "Correio Eletrônico"
+msgstr ""
+
+msgid "Hoteis"
+msgstr ""
+
+msgid "Mailing"
+msgstr ""
+
+msgid "Etiquetas"
+msgstr ""
+
+msgid "Lista de Preços"
+msgstr ""
+
+msgid "Lançamentos"
+msgstr ""
+
+msgid "Pendências"
+msgstr ""
+
+msgid "Alterar Senha"
+msgstr ""
+
+msgid "Garantias"
+msgstr ""
+
+msgid "Comparativo"
+msgstr ""
+
+msgid "Veiculos"
+msgstr ""
+
+msgid "Análise"
+msgstr ""
+
+msgid "Catálogo"
+msgstr ""
+
+msgid "Catálogo Completo"
+msgstr ""
+
+msgid "Lista de Faixa de Códigos"
+msgstr ""
+
+msgid "Vendas"
+msgstr ""
+
+msgid "Lista de preço resumida"
+msgstr ""
+
+msgid "Novos Contatos"
+msgstr ""
+
+msgid "ZTL Inventário"
+msgstr ""
+
+msgid "Kang Inventário"
+msgstr ""
+
+msgid "Migração de Contatos"
+msgstr ""
+
+msgid "Pré Pedidos"
+msgstr ""
+
+msgid "Localizar Produtos"
+msgstr ""
+
+msgid "Compras"
+msgstr ""
+
+msgid "Transportadoras"
+msgstr ""
+
+msgid "Relatório de Pendências"
+msgstr ""
+
+msgid "Rascunhos"
+msgstr ""
+
+msgid "Contêiners"
+msgstr ""
+
+msgid "Atividades"
+msgstr ""
+
+msgid "Financeiro"
+msgstr ""
+
+msgid "Perfis"
+msgstr ""
+
+msgid "NOVO PEDIDO"
+msgstr ""
+
+msgid "Por Grupo"
+msgstr ""
+
+msgid "Por Código"
+msgstr ""
+
+msgid "CÓDIGO"
+msgstr ""
+
+msgid "VENDAS"
+msgstr ""
+
+msgid "FÍSICO"
+msgstr ""
+
+msgid "VIRTUAL"
+msgstr ""
+
+msgid "SUGESTÃO"
+msgstr ""
+
+msgid "QT"
+msgstr ""
+
+msgid "AJUSTE DE PREÇOS"
+msgstr ""
+
+msgid "Grupo"
+msgstr ""
+
+msgid "SELECIONE"
+msgstr ""
+
+msgid "TODOS"
+msgstr ""
+
+msgid "Percentual"
+msgstr ""
+
+msgid "PREÇO ATUAL"
+msgstr ""
+
+msgid "NOVO PREÇO"
+msgstr ""
+
+msgid "PERCENTUAL"
+msgstr ""
+
+msgid "DT AJUSTE"
+msgstr ""
+
+msgid "DT CADASTRO"
+msgstr ""
+
+msgid "USUÁRIO"
+msgstr ""
+
+msgid "Nenhum Produto encontrado"
+msgstr ""
+
+msgid "Mudar análise"
+msgstr ""
+
+msgid "Adicionar análise"
+msgstr ""
+
+msgid "ENVIADOS"
+msgstr ""
+
+msgid "DATA"
+msgstr ""
+
+msgid "FUNC"
+msgstr ""
+
+msgid "GER"
+msgstr ""
+
+msgid "REP"
+msgstr ""
+
+msgid "CLI"
+msgstr ""
+
+msgid "HOME"
+msgstr ""
+
+msgid "PEDIDOS DE COMPRA"
+msgstr ""
+
+msgid "Todos"
+msgstr ""
+
+msgid "ID"
+msgstr ""
+
+msgid "FORNECEDOR"
+msgstr ""
+
+msgid "EMISSÃO"
+msgstr ""
+
+msgid "VENCIMENTO"
+msgstr ""
+
+msgid "VALOR"
+msgstr ""
+
+msgid "Selecione"
+msgstr ""
+
+msgid "TAX CÂMBIO"
+msgstr ""
+
+msgid "FINANCEIRO"
+msgstr ""
+
+msgid "CONTAS À RECEBER"
+msgstr ""
+
+msgid "NOVO RECEBIMENTO"
+msgstr ""
+
+msgid "Emissão"
+msgstr ""
+
+msgid "Vencimento"
+msgstr "Actualizar"
+
+msgid "Plano de conta"
+msgstr ""
+
+msgid "Fornecedor"
+msgstr ""
+
+msgid "Outro Fornecedor"
+msgstr ""
+
+msgid "Moeda"
+msgstr ""
+
+msgid "RMB"
+msgstr ""
+
+msgid "USD"
+msgstr ""
+
+msgid "BRL"
+msgstr ""
+
+msgid "EUR"
+msgstr ""
+
+msgid "Valor"
+msgstr ""
+
+msgid "Fatura"
+msgstr ""
+
+msgid "Parc"
+msgstr ""
+
+msgid "Anexar arquivos"
+msgstr ""
+
+msgid "Dt pagamento"
+msgstr ""
+
+msgid "Valor recebido"
+msgstr ""
+
+msgid "Conta origem"
+msgstr ""
+
+msgid "Baixar"
+msgstr ""
+
+msgid "CONCILIAÇÃO BANCÁRIA"
+msgstr ""
+
+msgid "ORD"
+msgstr ""
+
+msgid "CONCILIAÇAO"
+msgstr ""
+
+msgid "OPÇÕES"
+msgstr ""
+
+msgid "RETORNO IMPOSTOS"
+msgstr ""
+
+msgid "PAGAR"
+msgstr ""
+
+msgid "RECEBER"
+msgstr ""
+
+msgid "BANCOS"
+msgstr ""
+
+msgid "CONCILIAÇÃO"
+msgstr ""
+
+msgid "RETORNO DE IMPOSTOS"
+msgstr ""
+
+msgid "RETORNOS CADASTRADOS"
+msgstr ""
+
+msgid "DATA VENDA "
+msgstr ""
+
+msgid "CLIENTE "
+msgstr ""
+
+msgid "SITUAÇÃO"
+msgstr ""
+
+msgid "ABERTO"
+msgstr ""
+
+msgid "PENDENTE"
+msgstr ""
+
+msgid "CONCLUIDO"
+msgstr ""
+
+msgid "Nenhum Invoice Encontrada"
+msgstr ""
+
+msgid "CONTAS À PAGAR"
+msgstr ""
+
+msgid "RET IMPOSTOS"
+msgstr ""
+
+msgid "PAGAMENTOS DE CONTAS"
+msgstr "Nueva Actividade"
+
+msgid "PLANO DE CONTAS"
+msgstr ""
+
+msgid "Busca por"
+msgstr ""
+
+msgid "Por ID"
+msgstr ""
+
+msgid "Por Fornecedor"
+msgstr ""
+
+msgid "Por Valor"
+msgstr ""
+
+msgid "Por Compra"
+msgstr ""
+
+msgid "Compra"
+msgstr ""
+
+msgid "Dt inicio"
+msgstr ""
+
+msgid "Dt fim"
+msgstr ""
+
+msgid "SIT"
+msgstr ""
+
+msgid "PLANO CONTAS"
+msgstr ""
+
+msgid "PLANO DE CONTA"
+msgstr ""
+
+msgid "NOVO PAGAMENTO"
+msgstr ""
+
+msgid "Adicionar Pedidos"
+msgstr ""
+
+msgid "Valor pago"
+msgstr ""
+
+msgid "Observação"
+msgstr ""
+
+msgid "Selecione uma conta"
+msgstr ""
+
+msgid "Nova transação"
+msgstr ""
+
+msgid "Data"
+msgstr ""
+
+msgid "Conta"
+msgstr ""
+
+msgid "TX Câmbio"
+msgstr ""
+
+msgid "Valor Ini"
+msgstr ""
+
+msgid "Valor Fim"
+msgstr ""
+
+msgid "Saldo"
+msgstr ""
+
+msgid "CONCILIACAO"
+msgstr ""
+
+msgid "OPCOES"
+msgstr ""
+
+msgid "PLANO CONTA"
+msgstr ""
+
+msgid "MOEDA"
+msgstr ""
+
+msgid "FINALIZADOS"
+msgstr ""
+
+msgid "CADASTRADOS"
+msgstr ""
+
+msgid "Anexo"
+msgstr "Descripción"
+
+msgid "Dt Cad"
+msgstr ""
+
+msgid "Dt Pag"
+msgstr ""
+
+msgid "Valor pag"
+msgstr ""
+
+msgid "Valor Retorno"
+msgstr ""
+
+msgid "Dt Pedido"
+msgstr "PANEL DE ACTIVIDADES"
+
+msgid "Dt Prevista"
+msgstr "PANEL DE ACTIVIDADES"
+
+msgid "Conta de recebimento:"
+msgstr "ACTIVIDADES"
+
+msgid "Recebimento"
+msgstr ""
+
+msgid "RETORNOS FINALIZADOS"
+msgstr ""
+
+msgid "Dt Emissão"
+msgstr ""
+
+msgid "Valor retorno"
+msgstr ""
+
+msgid "Dt Recebimento"
+msgstr "ACTIVIDADES"
+
+msgid "PAGAMENTOS PENDENTES"
+msgstr "Nueva Actividade"
+
+msgid "CONTAS BANCÁRIAS"
+msgstr ""
+
+msgid "Nome da conta"
+msgstr ""
+
+msgid "Banco"
+msgstr ""
+
+msgid "Agência"
+msgstr ""
+
+msgid "NOME"
+msgstr ""
+
+msgid "BANCO"
+msgstr ""
+
+msgid "AGÊNCIA"
+msgstr ""
+
+msgid "CONTA"
+msgstr ""
+
+msgid "HS CODE"
+msgstr ""
+
+msgid "PESO LIQ"
+msgstr ""
+
+msgid "PESO BRUTO"
+msgstr ""
+
+msgid "QUANTIDADE"
+msgstr ""
+
+msgid "TOTAL"
+msgstr ""
+
+msgid "Total"
+msgstr ""
+
+msgid "PAGAMENTOS"
+msgstr "Nueva Actividade"
+
+msgid "Id"
+msgstr ""
+
+msgid "Não pago"
+msgstr ""
+
+msgid "ID Tax Return"
+msgstr ""
+
+msgid "Não existe pagamentos relacionados com essa compra"
+msgstr ""
+
+msgid "COMPRA"
+msgstr ""
+
+msgid "CONTAS A RECEBER"
+msgstr ""
+
+msgid "CONTAS A PAGAR"
+msgstr ""
+
+msgid "PAINEL DE ATIVIDADES"
+msgstr ""
+
+msgid "ATIVIDADES"
+msgstr ""
+
+msgid "Nova Atividade"
+msgstr ""
+
+msgid "Atualizar"
+msgstr ""
+
+msgid "Finalizar"
+msgstr ""
+
+msgid "Responder"
+msgstr ""
+
+msgid "Enviar"
+msgstr ""
+
+msgid "MINHAS ATIVIDADES"
+msgstr ""
+
+msgid "Para"
+msgstr ""
+
+msgid "Descrição da atividade"
+msgstr ""
+
+msgid "Data conclusão"
+msgstr ""
+
+msgid "Privado"
+msgstr ""
+
+msgid "EXECUTOR"
+msgstr ""
+
+msgid "PENDENTES"
+msgstr ""
+
+msgid "AGUARDANDO"
+msgstr "Descripción"
+
+msgid "FINALIZADAS"
+msgstr ""
+
+msgid "LISTA DE ATIVIDADES"
+msgstr ""
+
+msgid "ID Atividade"
+msgstr ""
+
+msgid "Executor"
+msgstr ""
+
+msgid "Data Solicitação"
+msgstr ""
+
+msgid "Data Limite"
+msgstr ""
+
+msgid "Descrição"
+msgstr ""
+
+msgid "SOLICITANTE"
+msgstr ""
+
+msgid "PEND"
+msgstr ""
+
+msgid "AGU"
+msgstr ""
+
+msgid "FIN"
+msgstr ""
+
+msgid "RECEBIMENTO DE CONTAS"
+msgstr ""
+
+msgid "Pagar"
+msgstr ""
+
+msgid "Receber"
+msgstr ""
+
+msgid "Contas bancárias"
+msgstr ""
+
+msgid "Retorno"
+msgstr ""
+
+msgid "Validação"
+msgstr ""
+
+msgid "Pagamentos pendentes"
+msgstr ""
+
+msgid "Retornos Cadastrados"
+msgstr ""
+
+msgid "Retornos finalizados"
+msgstr ""
+
+msgid "Invoice"
+msgstr ""
+
+msgid "Sel"
+msgstr ""
+
+msgid "PRODUTOS CHINA"
+msgstr ""
+
+msgid "Por Descrição"
+msgstr ""
+
+msgid "DESCRIÇÃO"
+msgstr ""
+
+msgid "GRUPO"
+msgstr ""
+
+msgid "Situação"
+msgstr ""
+
+msgid "Opções"
+msgstr ""
+
+msgid "REFERÊNCIA CRUZADA"
+msgstr ""
+
+msgid "PRODUTOS"
+msgstr ""
+
+msgid "CADASTRO"
+msgstr ""
+
+msgid "CADASTRO DE PRODUTOS"
+msgstr ""
+
+msgid "PRINCIPAL"
+msgstr ""
+
+msgid "VENDA"
+msgstr ""
+
+msgid "TÉCNICO"
+msgstr ""
+
+msgid "REF CRUZADA"
+msgstr ""
+
+msgid "Código do produto"
+msgstr ""
+
+msgid "Máscara"
+msgstr ""
+
+msgid "Código EAN"
+msgstr ""
+
+msgid "Cl Fiscal"
+msgstr ""
+
+msgid "Peso"
+msgstr ""
+
+msgid "Subgrupo"
+msgstr ""
+
+msgid "Produto"
+msgstr ""
+
+msgid "Componente"
+msgstr ""
+
+msgid "Molde"
+msgstr ""
+
+msgid "Caixa"
+msgstr ""
+
+msgid "Etiqueta"
+msgstr ""
+
+msgid "Detalhes do produto"
+msgstr ""
+
+msgid "Imagem"
+msgstr ""
+
+msgid "Remover imagem"
+msgstr ""
+
+msgid "COMPOSIÇÃO"
+msgstr ""
+
+msgid "PRODUTO"
+msgstr ""
+
+msgid "Qt"
+msgstr ""
+
+msgid "APLICAÇÃO"
+msgstr ""
+
+msgid "MONTADORA"
+msgstr ""
+
+msgid "VEICULO"
+msgstr ""
+
+msgid "ANO"
+msgstr ""
+
+msgid "Adicionar Veículo"
+msgstr ""
+
+msgid "Copiar Aplicação"
+msgstr ""
+
+msgid "Montadora"
+msgstr ""
+
+msgid "Ano Ini"
+msgstr ""
+
+msgid "Ano Fim"
+msgstr ""
+
+msgid "PREÇOS DE VENDA"
+msgstr ""
+
+msgid "Promoção"
+msgstr ""
+
+msgid "Preço"
+msgstr ""
+
+msgid "Desconto"
+msgstr ""
+
+msgid "Ajuste de preço"
+msgstr ""
+
+msgid "HISTÓRICO DE PREÇOS"
+msgstr ""
+
+msgid "HISTÓRICO DE VENDA"
+msgstr ""
+
+msgid "CLIENTE"
+msgstr ""
+
+msgid "QUANT"
+msgstr ""
+
+msgid "FORNECEDORES"
+msgstr "Descripción"
+
+msgid "Grupo de Compra"
+msgstr ""
+
+msgid "Pronto"
+msgstr ""
+
+msgid "Em Desenvolvimento"
+msgstr ""
+
+msgid "Inativo"
+msgstr ""
+
+msgid "Previsão"
+msgstr ""
+
+msgid "Descrição PL"
+msgstr ""
+
+msgid "Detalhes da compra"
+msgstr ""
+
+msgid "Sit"
+msgstr ""
+
+msgid "For"
+msgstr ""
+
+msgid "Custo"
+msgstr ""
+
+msgid "Adicionar Componente"
+msgstr ""
+
+msgid "Copiar Composição"
+msgstr ""
+
+msgid "RELACIONAMENTOS"
+msgstr ""
+
+msgid "HISTÓRICO DE FORNECEDOR"
+msgstr ""
+
+msgid "ESF/ROL"
+msgstr ""
+
+msgid "Esf/Rol"
+msgstr ""
+
+msgid "HISTÓRICO DE COMPRA"
+msgstr ""
+
+msgid "PED"
+msgstr ""
+
+msgid "SITUACAO"
+msgstr ""
+
+msgid "PADRÃO"
+msgstr ""
+
+msgid "Interno"
+msgstr ""
+
+msgid "Externo"
+msgstr ""
+
+msgid "Altura"
+msgstr ""
+
+msgid "BL/ROLLERS"
+msgstr ""
+
+msgid "HOMOCINÉTICA"
+msgstr ""
+
+msgid "Estriado macho"
+msgstr ""
+
+msgid "Diâmetro"
+msgstr ""
+
+msgid "Raio da porca"
+msgstr ""
+
+msgid "Aperto"
+msgstr ""
+
+msgid "Estriado Femêo"
+msgstr ""
+
+msgid "Instruções de aperto"
+msgstr ""
+
+msgid "SLIDING JOINTS"
+msgstr ""
+
+msgid "Dentes"
+msgstr ""
+
+msgid "CRUZETAS"
+msgstr ""
+
+msgid "TRIZETAS"
+msgstr ""
+
+msgid "ARQUIVOS"
+msgstr ""
+
+msgid "Adicionar arquivo"
+msgstr ""
+
+msgid "Projeto fonte"
+msgstr ""
+
+msgid "Projeto"
+msgstr ""
+
+msgid "Remover Projeto"
+msgstr ""
+
+msgid "Projeto leitura"
+msgstr ""
+
+msgid "Projeto em PDF"
+msgstr ""
+
+msgid "Observações"
+msgstr ""
+
+msgid "Tem certeza que deseja remover a imagem 1?"
+msgstr ""
+
+msgid "Tem certeza que deseja remover a imagem 2?"
+msgstr ""
+
+msgid "sim"
+msgstr ""
+
+msgid "Salvar"
+msgstr ""
+
+msgid "não"
+msgstr ""
+
+msgid "Cancelar"
+msgstr ""
+
+msgid "Novo produto"
+msgstr ""
+
+msgid "Pesquisar"
+msgstr ""
+
+msgid "Voltar"
+msgstr ""
+
+msgid "Editar"
+msgstr ""
+
+msgid "CADASTRO DE PRODUTOS "
+msgstr ""
+
+msgid "SHUNKANG"
+msgstr ""
+
+msgid "Código"
+msgstr ""
+
+msgid "HS Code"
+msgstr ""
+
+msgid "SHUNTAI"
+msgstr ""
+
+msgid "VISUALIZAR"
+msgstr ""
+
+msgid "VISUALIZAR PRODUTOS"
+msgstr ""
+
+msgid "Tipo"
+msgstr ""
+
+msgid "EMPRESA"
+msgstr ""
+
+msgid "CONTATO"
+msgstr ""
+
+msgid "EMAIL"
+msgstr ""
+
+msgid "REFERÊNCIA CRUZADA"
+msgstr ""
+
+msgid "CÓDIGOS"
+msgstr ""
+
+msgid "REFERÊNCIAS"
+msgstr ""
+
+msgid "RELATÓRIOS"
+msgstr ""
+
+msgid "FÁBRICA"
+msgstr ""
+
+msgid "FABRICANTE"
+msgstr ""
+
+msgid "HISTÓRICO DE BUSCA"
+msgstr ""
+
+msgid "GRUPOS DE PRODUTOS"
+msgstr ""
+

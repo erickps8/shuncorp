@@ -1,0 +1,77 @@
+<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/administracaoAtividades.js"></script>
+
+<?php 
+$check1 = 'checked="checked"';
+if($this->flashMessages()){ 
+	$tipo = explode("|", $this->flashMessages());
+	
+	if($tipo[1] == 1){ 
+		$check1 = 'checked="checked"';
+		$check2 = '';
+	}else{ 
+		$check1 = '';
+		$check2 = 'checked="checked"';		
+	}
+}?>
+
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/administracao/painelatividades">Atividades</a> </li>
+                	<li class="lastB">Lista atividades</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Atividades</h5></div>
+		
+		<div class="widgets" >
+        	
+			<div class="widgets" >
+				<div class="first" style="margin-top: 5px; margin-bottom: 5px; border: 1px solid #d5d5d5; padding: 10px" >  
+					<form method="post" name="busca" id="busca" class="mainForm">
+						<table style="width: 100%">
+						    <tr>								
+				    			<td style="vertical-align: bottom; width: 35%; text-align: center;" class="tdbusca" >
+				    				<input type="radio" name="tppesq" id="tppesq1" value="1" <?php echo $check1?>><label >Minhas atividades</label>
+					    			<input type="radio" name="tppesq" id="tppesq2" value="0" <?php echo $check2?>><label>Minhas solicitações</label>									
+								</td>
+								<td style="vertical-align: bottom; text-align: center;" class="tdbusca" >
+									<input placeholder="Data inicio" type="text" style="margin-right: 3px; width: 80px" name="dtini" id="dtini" class="data datepicker">
+									<input placeholder="Data fim" type="text" style="margin-right: 3px; width: 80px"  name="dtfim" id="dtfim" class="data datepicker">
+								</td>
+								<td class="tdbusca" style="text-align: center;">
+									<div class="styled-select" style="width: 120px">
+									<select name="buscasit" id="buscasit" style="width: 140px">
+										<option value="0">Situação</option>
+										<option value="1">Cadastrado</option>
+										<option value="2">Em execução</option>
+										<option value="3">Concluído</option>
+										<option value="4">Fechado</option>
+									</select>
+									</div>
+								</td>
+								<td class="tdbusca">
+									<input type="button" class="blueBtn btnpesq" value="Pesquisar" id="btnBusca">
+								</td>
+							</tr>								
+						</table>
+					</form>
+				</div>
+			</div>
+			
+			<div id="resultado"></div>	
+			
+		</div>
+	</div>
+	
+	<script>
+	$(function(){
+		$("#btnBusca").trigger('click');   
+	});
+	</script>

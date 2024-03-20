@@ -1,0 +1,175 @@
+
+<?php
+if($this->objTipo!=3){
+
+    ?>
+    <div style="text-align: left;">
+		<input type="radio" name="tipoexibe" checked="checked" onclick="buscaContasconcilia(<?=$this->objTipo?>,<?=$this->objIdc?>,<?=$this->objConta?>,0);"> Contas &nbsp; 
+		<input type="radio" name="tipoexibe" onclick="buscaContasconcilia(3,<?=$this->objIdc?>,<?=$this->objConta?>,<?=$this->objTipo?>);"> Transferências
+	</div>
+    <?php
+    
+	if(!empty($this->objContaspagar)){
+	?>
+	
+	<form name="concilia" action="<?php echo $this->baseUrl(); ?>/admin/administracao/regconcilia" method="post" class="mainForm">
+	<input type="hidden" name="idc" value="<?=$this->objIdc?>" ><input type="hidden" name="tipo" value="<?=$this->objTipo?>" ><input type="hidden" name="conta" value="<?=$this->objConta?>" ><div class="fix"></div>
+	<div class="widget" style="overflow: auto; width: 605px; height: 350px;">
+	<table class="tableStatic" style="width: 100%">
+			<thead>	
+				<tr>
+					<td style="text-align: center;"><?=$this->translate->_("ID")?></td>
+					<td><?=$this->translate->_("Fornecedor")?></td>
+					<td><?=$this->translate->_("Emissão")?></td>
+					<td><?=$this->translate->_("Vencimento")?></td>
+					<td><?=$this->translate->_("Valor")?></td>
+					<td>&nbsp;</td>
+				</tr>
+			</thead>
+			<tbody>
+				<?php 
+				
+				foreach ($this->objContaspagar as $listpagar){
+					?>
+					<tr style="font: 11px Arial, Helvetica, sans-serif;">
+						<td align="center">
+							<?php if($this->objTipo==1):?>
+							P<?=substr("000000".$listpagar->idfin,-6)?>
+							<?php else: ?>
+							R<?=substr("000000".$listpagar->idfin,-6)?>
+							<?php endif;?>
+						</td>
+						<td align="left">
+							<?php 
+							if(!empty($listpagar->userfornecedor)) echo $listpagar->userfornecedor;
+							elseif($listpagar->id_fornecedor!=0) echo $listpagar->EMPRESA; 
+							else echo $listpagar->out_fornecedor?>
+						</td>
+						<td align="center">
+							<?=$listpagar->dtcad?>
+						</td>
+						<td align="center">
+							<?=$listpagar->dtvenc?>
+						</td>
+						<td align="right">
+							<?=$listpagar->moedacont." ".number_format(($listpagar->valor_apagar),3,",",".")?></td>
+						<td align="center">
+							<input type="checkbox" value="1" name="<?=$listpagar->idfin?>" <?php if($this->objIdc==$listpagar->st_conc) echo 'checked="checked"';?> >
+						</td>
+					</tr>
+					<?php								
+				}
+				?>
+			</tbody>
+			</table>
+		</div>	
+		<div class="fix"></div>
+		
+		<div style="text-align: left; margin-top: 10px">
+			<input type="button" name="salvar" value="Salvar" onclick="document.concilia.submit(); " class="basicBtn">
+		</div>
+	
+	</form>
+	<?php 
+	}else{
+		echo "Nenhuma conta para concilhar!";
+	}
+	
+}else{
+?>
+
+	<div style="text-align: left;">
+		<input type="radio" name="tipoexibe" onclick="buscaContasconcilia(<?=$this->objTpant?>,<?=$this->objIdc?>,<?=$this->objConta?>,3,'0');" > Contas &nbsp; 
+		<input type="radio" name="tipoexibe" checked="checked" onclick="buscaContasconcilia(3,<?=$this->objIdc?>,<?=$this->objConta?>,<?=$this->objTpant?>,'0');"> Transferências
+	</div>
+	
+	<div style="text-align: left;">
+	Selecione um banco:<br />
+	<div class="styled-select" style="width: 170px">
+	<select name="bancobusca" onchange="buscaContasconcilia(3,<?=$this->objIdc?>,<?=$this->objConta?>,<?=$this->objTpant?>,this.value);" style="width: 192px">
+		<option value="0"><?=$this->translate->_("Selecione")?></option>
+		<?php 
+		foreach ($this->objContasbanc as $listconta):
+			if($listconta->id!=$this->objConta): 
+			?>
+			<option value="<?=$listconta->id?>" <?php if($this->objBancobusca==$listconta->id) echo 'selected="selected"';?>  ><?=$listconta->nome?></option>
+			<?php
+			endif;
+		endforeach;?>
+	</select>
+	</div>
+	</div>
+	
+	<?php
+	if(!empty($this->objContaspagar)){
+	?>
+	
+	<form action="<?php echo $this->baseUrl(); ?>/admin/administracao/regconcilia" method="post" name="concilia" id="concilia" class="mainForm">
+	<input type="hidden" name="idc" value="<?=$this->objIdc?>" >
+	<input type="hidden" name="tipo" value="<?=$this->objTipo?>" >
+	<input type="hidden" name="conta" value="<?=$this->objConta?>" >
+	<input type="hidden" name="buscconta" value="<?=$this->objBancobusca?>" >
+	
+	<div class="widget" style="overflow: auto; width: 605px; height: 350px;">
+	<table class="tableStatic" style="width: 100%">
+		<thead>	
+			<tr>
+				<td style="text-align: center;"><?=$this->translate->_("ID")?></td>
+				<td><?=$this->translate->_("Data")?></td>
+				<td><?=$this->translate->_("Valor")?></td>
+				<?php // if($this->objBancobusca==9): ?>
+				<td><?=$this->translate->_("Tax Câmbio")?></td>
+				<?php // endif;?>
+				<td>&nbsp;</td>
+			</tr>
+		</thead>
+		<tbody>
+		<?php 
+		
+		foreach ($this->objContaspagar as $listpagar):
+			//if(($this->objBancobusca!=9)||((round($listpagar->valor*$listpagar->tax_cambio,2))==($this->objVlbusca*(-1)))):
+			
+			?>
+			<tr >
+				<td align="center">
+					<?=$listpagar->idconc?>
+				</td>
+				<td align="center">
+					<?=$listpagar->dtcad?>
+				</td>
+				<td align="right">
+					<?=number_format(($listpagar->valor),3,",",".")?> &nbsp; 
+				</td>
+				<?php if($this->objBancobusca==9): ?>
+				<td align="right">
+					<?=number_format($listpagar->tax_cambio,5,",",".")?> &nbsp;
+				</td>
+				<?php endif;?>
+				<td align="center">
+					<input type="radio" name="radiovalida" value="<?=$listpagar->idconc?>" >
+				</td>
+			</tr>
+			<?php
+			//endif;								
+		endforeach;
+	?>
+	</tbody>
+	</table>
+	
+	</div>	
+		<div class="fix"></div>
+		
+		<div style="text-align: left; margin-top: 10px">
+			<input type="button" name="salvar" value="Salvar" onclick="document.concilia.submit(); " class="basicBtn">
+		</div>
+	
+	</form>
+	
+	<?php 
+	}else{
+		echo "<br><br>Nenhuma conta para concilhar!";
+    }
+
+}
+
+?>

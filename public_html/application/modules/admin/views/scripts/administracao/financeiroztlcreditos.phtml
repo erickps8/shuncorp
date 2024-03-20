@@ -1,0 +1,129 @@
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/financeiro.js"></script>
+
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztl">Financeiro</a></li>
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlrec">Contas à receber</a></li>
+                	<li class="lastB">Créditos</li>           
+                </ul>
+            </div>
+        </div>       
+
+		<div class="title"><h5>Créditos</h5></div>
+		
+		<div class="widgets" >
+        		<div class="first" style="margin-top: 5px; margin-bottom: 5px; " >  
+					<form action="<?php echo $this->baseUrl(); ?>/admin/administracao/financeiroztlcreditos" method="post" name="busca" id="busca" class="mainForm">
+			 			<div style="border: 1px solid #d5d5d5; padding: 10px">
+			    			Cliente:<br>
+				    		<div class="styled-select" style="width: 250px">
+					    	<select name="cliente" id="cliente" onchange="submit();">
+								<option value="0">Todos</option>
+								<?php foreach ($this->objClientes as $list): ?>
+									<option value="<?php echo $list->ID?>">&nbsp;<?php echo (substr($list->EMPRESA,0,50))?></option>
+								<?php endforeach; ?>
+							</select>
+							</div>
+						</div>						
+					</form>
+				</div>
+			
+			<?php
+			if(count($this->objCreditos)>0):
+			?>       
+	        <div class="widget">
+	 			<table style="width: 100%" class="tableStatic">
+	            	<thead>
+	                	<tr>
+	                        <td >Id</td>
+	                        <td >Cliente</td>
+	                        <td >Emissão</td>
+	                        <td >Valor</td>
+	                        <td >Procedência</td>
+	                        <td >Financeiro</td>
+	                        <td width="10%">Opções</td>
+	                    </tr>
+	                </thead>
+	                <tbody>
+					<?php							
+					foreach ($this->objCreditos as $listcreditos):
+					?>
+					<tr  >
+						<td style="text-align: center;" >
+							C<?php echo substr("000000".$listcreditos->idcredito,-6)?>
+						</td>
+						<td align="left">
+							<?php echo $listcreditos->EMPRESA?>
+						</td>
+						<td style="text-align: center;">
+							<?=$listcreditos->dtcad?>
+						</td>
+						<td style="text-align: right;">
+							<?=number_format($listcreditos->valorcredito,2,",",".")?>
+						</td>
+						<td style="text-align: center;">
+							<?php if($listcreditos->id_garantia != NULL) { ?>
+								<a target="_blank" href="<?php echo $this->baseUrl()?>/admin/venda/garantiaspag/garantia/<?php echo md5($listcreditos->id_garantia)?>"><?php echo "G".substr("000000".$listcreditos->id_garantia,-6,6);?></a>
+							<?php }elseif($listcreditos->id_devolucao != NULL) { ?>
+							
+							<?php } ?>
+						</td>
+						<td style="text-align: center;">
+							<?php 
+							if($listcreditos->id_financeirorec != NULL){ 
+								?>
+								<a target="_blank" href="<?php echo $this->baseUrl()?>/admin/administracao/financeiroztlreccad/rec/<?php echo md5($listcreditos->id_financeirorec)?>">R<?php echo substr("000000".$listcreditos->id_financeirorec,-6,6)?></a>
+								<?php 
+							}elseif($listcreditos->id_financeiropag != NULL){ 
+								?>
+								<a target="_blank" href="<?php echo $this->baseUrl()?>/admin/administracao/financeiroztlpagcad/pay/<?php echo md5($listcreditos->id_financeiropag)?>">P<?php echo substr("000000".$listcreditos->id_financeiropag,-6,6)?></a>
+								<?php 
+							} 
+							?>
+						</td>
+						<td  style="text-align: center;" >
+							<?php if(($listcreditos->id_financeirorec == NULL) and ($listcreditos->id_financeiropag == NULL)){ ?>
+								<a href="javascript:void(0)" onclick="cancelarCredito('<?php echo $listcreditos->idcredito?>')" ><img src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/close.png" width="17" border="0" title="Remover"></a>
+			                <?php } ?>
+			            </td>  
+					</tr>
+					<?php  endforeach; ?>
+                </tbody>
+            </table>            
+        </div>
+       
+		<?php 
+		else :
+		?>
+		<div class="widget first" style="padding: 10px; text-align: center; border-top: 1px solid #d5d5d5;">
+ 			Nenhum credito encontrado!
+		</div>	
+		<?php 
+		endif;
+		?>
+	</div>
+</div>
+
+<script>
+function cancelarCredito(credito){
+	jConfirm('Você deseja cancelar este crédito? A procedência do crédito será anulada.', 'Confirme', function(r) {
+		if(r==true){
+			window.location='<?=$this->baseUrl()?>/admin/administracao/cancelarcredito/credito/'+credito;
+		}
+	});
+}
+
+function gerarPagamento(credito){
+	jConfirm('Você deseja gerar um pagamento com crédito?', 'Confirme', function(r) {
+		if(r==true){
+			window.location='<?=$this->baseUrl()?>/admin/administracao/gerarpagamentocredito/credito/'+credito;
+		}
+	});
+}
+</script>

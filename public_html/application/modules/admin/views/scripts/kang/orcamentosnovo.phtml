@@ -1,0 +1,41 @@
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li class=""><a href="<?php echo $this->baseUrl(); ?>/admin/kang/pedidos">Pedidos de venda</a> </li>
+                	<li class=""><a href="<?php echo $this->baseUrl(); ?>/admin/kang/orcamentos">Orçamentos</a> </li>
+                	<li class="lastB"><?=$this->translate->_("Novo orçamento")?></li>
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5><?=$this->translate->_("Novo orçamento")?></h5></div>
+
+        
+        <div class="widget first" style="border: 1px solid #d5d5d5; padding: 20px; text-align: left;">
+	        <div style="padding: 10px;">
+		    	<form action="<?=$this->baseUrl()?>/admin/kang/gravarorcamento" method="post">
+			    	Selecione um Cliente:<br />
+			    	<div class="styled-select" style="width: 250px">
+			    	<select name="buscacli" id="buscacli" onchange="javascript:submit();" style="width: 272px">
+						<?php foreach ($this->objFornec as $listcli): ?>
+							<option value="<?php echo $listcli->ID?>"><?php echo $listcli->EMPRESA?></option>
+						<?php endforeach; ?>
+					</select>
+					</div>
+				</form>
+			</div>
+			<div style="padding:  0px 0px 10px 10px;">
+				Importar XML:<br>
+				<form action="<?=$this->baseUrl()?>/admin/kang/importaped" enctype="multipart/form-data" method="post" >
+					<input type="file" name="arquivo" size="20" style="border: 1px solid;">
+					<input type="submit" value="Enviar" class="basicBtn">
+				</form>					
+			</div>
+        </div>
+	</div>    
+    

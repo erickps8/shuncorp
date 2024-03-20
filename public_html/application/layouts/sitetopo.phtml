@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>SisCorp 2.0 Alpha - Shuncorp.com</title>
+    <link href="<?=$this->baseUrl()?>/public/sistema/imagens/ico.ico" rel="shortcut icon" type="image/x-ico"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="description" content="<?=$this->translate->_("ZTL do Brasil importação, exportação e comercio")?>" />
+	<meta name="keywords" content="rolamentos, cubo de roda, rolamento, embreagem, embreagens, ponta de eixo, pontas de eixo, bomba dagua, bombas dagua, roda, scania, homocinetica, homocineticas, transmissoes" />
+	<script src="<?=$this->baseUrl()?>/public/sistema/js/jquery-1.4.4.js" type="text/javascript"></script>
+		
+	<link href="<?=$this->baseUrl()?>/public/site/css/sitemenu.css" rel="stylesheet" type="text/css" />
+	<link href="<?=$this->baseUrl()?>/public/site/css/siteestilo.css" rel="stylesheet" type="text/css" />	
+	<link href="<?=$this->baseUrl()?>/public/site/js/slides/slide.css" rel="stylesheet" type="text/css" />
+	<link href="<?=$this->baseUrl()?>/public/site/js/banner/style.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript">
+	  
+	  function GetXmlHttpObject(){
+	  	var xmlHttp=null;
+	  	try	{
+	  	// Firefox, Opera 8.0+, Safari
+	  	xmlHttp=new XMLHttpRequest();
+	  	}catch (e){
+	  	// Internet Explorer
+	  		try	{
+	  		xmlHttp=new ActiveXObject("Msxml2.XMLHTTP");
+	  		}catch (e)	{
+	  			xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
+	  		}
+	  	}
+	  	return xmlHttp;
+	  }
+	  
+	  </script>	  
+</head>
+
+<body>
+	<div id="topo" >
+		<div id="meiotopo">
+			<div id="login" >
+			<?=$this->translate->_("acesso restrito")?>
+			</div>
+			<div id="formlogin" >
+				<div id="acesso" style="display: block">
+				<span id="titulologin" style="font-size: 16px; color: #000; font-weight: bold;"><?=$this->translate->_("Acesso Restrito")?></span>				
+				<form name="autenticacao" id="formaut" action="<?=$this->baseUrl()?>/public/auth/login" method="post">
+					Usuário:<br />
+					<input type="text" id="cpf" name="cpf_cnpj" class="input" style="width: 100%"/><br />
+					Senha:<br />
+					<input type="password" id="senha" name="senha"  class="input" style="width: 100%"  onkeypress="if(event.keyCode==13){document.autenticacao.submit();}" onblur="document.getElementById('btlogin').focus();	"/><br />
+					<a id="linklogin" href="javascript:void(0)" onclick="recuperarSenha();" ><?=$this->translate->_("Esqueci minha senha")?></a>
+					<a style="margin-left: 140px; margin-top: -10px" class="botaologin" href="javascript:void(0)" id="btlogin" onclick="document.autenticacao.submit();"><?=$this->translate->_("Entrar")?></a>
+				</form>
+				</div>
+				<div id="recupera" style="display: none">
+					<span id="titulologin2" style="font-size: 16px; color: #000; font-weight: bold;"><?=$this->translate->_("Recuperar senha")?></span>
+					<form name="recuperasenha" id="formautrec" action="<?=$this->baseUrl()?>/index/recuperasenha" method="post">
+						E-mail:<br />
+						<input type="text" id="cpf_cnpj" name="cpf_cnpj" class="input" style="width: 100%"/><br />
+						<a id="linkloginacesso" href="javascript:void(0)" onclick="acessoLogin();" ><?=$this->translate->_("Voltar")?></a>
+						<a style="width:100px; margin-left: 100px; margin-top: -10px" class="botaologin" href="javascript:void(0)" onclick="validaformRecupera();"><?=$this->translate->_("Enviar senha")?></a>
+					</form>				
+				</div> 				
+			</div>
+			<script type="text/javascript">
+				// <![CDATA[
+				document.onclick=evento;  
+	    		function evento(e){   
+					var target = (e && e.target) || (event && event.srcElement);
+					if((target.id=="login")){
+	    				if(document.getElementById('formlogin').style.display == 'block'){
+							document.getElementById('formlogin').style.display = 'none';
+						}else{
+							document.getElementById('formlogin').style.display = 'block';
+							document.autenticacao.cpf_cnpj.focus();
+						}
+					}else if((target.id=="formaut")||(target.id=="formautrec")||(target.id=="linklogin")||(target.id=="linkloginacesso")||(target.id=="titulologin")||(target.id=="titulologin2")||(target.id=="cpf")||(target.id=="cpf_cnpj")||(target.id=="senha")||(target.id=="recupera")||(target.id=="acesso")||(target.id=="formlogin")){
+						document.getElementById('formlogin').style.display = 'block';
+					}else{
+						document.getElementById('formlogin').style.display = 'none';
+					}
+	    		}   
+	
+				function recuperarSenha(){
+					document.getElementById('acesso').style.display = 'none';
+					document.getElementById('recupera').style.display = 'block';
+					document.recuperasenha.cpf_cnpj.focus();										
+				}
+
+				function acessoLogin(){
+					document.getElementById('recupera').style.display = 'none';
+					document.getElementById('acesso').style.display = 'block';					
+				}
+
+				function validaformRecupera(){
+					if(document.recuperasenha.cpf_cnpj.value==""){
+						alert("<?=$this->translate->_("Digite o E-mail!")?>");
+					}else{
+						document.recuperasenha.submit();
+					}
+				}
+				// ]]>
+			</script>
+			
+			<div id="logo">
+				<a href="<?=$this->baseUrl()?>/" >
+				<img src="<?=$this->baseUrl()?>/public/imagens/site/menu/logo.png" alt="LogoZtl" border="0"/>
+				</a>
+			</div>
+			<div id="menu">
+				<ul id="qm0" class="qmmc">
+					<li >
+						<img style="left: 10px" class="setamenu" src="<?=$this->baseUrl()?>/public/imagens/site/menu/marcador_topo2.png" alt="seta" />
+						<a style="width: 120px;" class="menuprincipal" href="<?=$this->baseUrl()?>/produtos" ><?=$this->translate->_("PRODUTOS")?></a>
+					</li>
+					
+					<li><span class="qmdivider qmdividery" ></span></li>
+					<li id="menuprincipal"
+					onmouseover="document.setamulti.src='<?=$this->baseUrl()?>/public/imagens/site/menu/marcador_topo.png'; document.getElementById('menumultimidia').className = 'menuprincipalaction'; "  
+					onmouseout="document.setamulti.src='<?=$this->baseUrl()?>/public/imagens/site/menu/marcador_topo2.png'; document.getElementById('menumultimidia').className = 'menuprincipal'; " >
+					
+						<img style="left: 10px" class="setamenu" name="setamulti" src="<?=$this->baseUrl()?>/public/imagens/site/menu/marcador_topo2.png" alt="seta" />
+						<a class="menuprincipal" id="menumultimidia" style="width: 125px;" href="javascript:void(0)"><?=$this->translate->_("MULTIMÍDIA")?></a>
+						<ul>
+							<li><a href="<?=$this->baseUrl()?>/multimidia/noticias"><img src="<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/noticias.png" border="0" alt="Noticias"  
+								onmouseover="this.src='<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/noticias2.png'; "  
+								onmouseout="this.src='<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/noticias.png';  "  />
+							</a></li>
+							<li><a href="<?=$this->baseUrl()?>/multimidia/videos"><img src="<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/videos.png" border="0"  alt="Videos"
+								onmouseover="this.src='<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/videos2.png'; "  
+								onmouseout="this.src='<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/videos.png'; "  />
+							</a></li>
+							<li><a target="_blank" href="<?=$this->baseUrl()?>/admin/hotsites/garantias"><img src="<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/garantias.png" border="0" alt="Hotsite"  
+								onmouseover="this.src='<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/garantias2.png'; "  
+								onmouseout="this.src='<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/garantias.png'; "  />
+							</a></li>
+						</ul>
+					</li>
+				
+					<li><span class="qmdivider qmdividery" ></span></li>
+					<li onmouseover="document.setadown.src='<?=$this->baseUrl()?>/public/imagens/site/menu/marcador_topo.png'; document.getElementById('menudown').className = 'menuprincipalaction'; "  
+					onmouseout="document.setadown.src='<?=$this->baseUrl()?>/public/imagens/site/menu/marcador_topo2.png'; document.getElementById('menudown').className = 'menuprincipal'; " >
+					
+						<img style="left: 10px" class="setamenu" name="setadown" src="<?=$this->baseUrl()?>/public/imagens/site/menu/marcador_topo2.png" alt="seta" />
+						<a class="menuprincipal" id="menudown" style="width: 126px;" href="javascript:void(0)"><?=$this->translate->_("DOWNLOAD")?></a>
+					
+						<ul>
+							<li><a href="<?=$this->baseUrl()?>/downloads/catalogos">
+								<img src="<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/catalogo.png" border="0" alt="Downloads" 
+								onmouseover="this.src='<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/catalogo2.png'; "  
+								onmouseout="this.src='<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/catalogo.png';  "  />
+							</a></li>
+							<li><a href="<?=$this->baseUrl()?>/public/downloads/logo.zip"><img src="<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/manual_da_logo.png" border="0" alt="Manual"  
+								onmouseover="this.src='<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/manual_da_logo2.png'; "  
+								onmouseout="this.src='<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/manual_da_logo.png';  "  />
+							</a></li>
+							<li><a href="<?=$this->baseUrl()?>/downloads/dicas"><img src="<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/dica1.png" border="0" alt="Dicas"  
+								onmouseover="this.src='<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/dica2.png'; "  
+								onmouseout="this.src='<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/dica1.png';  "  />
+							</a></li>
+						</ul>
+					</li>
+					<li><span class="qmdivider qmdividery" ></span></li>
+					<li onmouseover="document.setacont.src='<?=$this->baseUrl()?>/public/imagens/site/menu/marcador_topo.png'; document.getElementById('menucont').className = 'menuprincipalaction'; "  
+					onmouseout="document.setacont.src='<?=$this->baseUrl()?>/public/imagens/site/menu/marcador_topo2.png'; document.getElementById('menucont').className = 'menuprincipal'; " >					
+						<img style="left: 18px" class="setamenu" name="setacont" src="<?=$this->baseUrl()?>/public/imagens/site/menu/marcador_topo2.png" alt="seta" />
+						<a class="menuprincipal" id="menucont" style="width: 123px;" href="javascript:void(0)"><?=$this->translate->_("CONTATO")?></a><ul >
+						
+						<li><a href="<?=$this->baseUrl()?>/contato/representantes"><img src="<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/representantes.png" border="0" alt="Representantes" 
+							onmouseover="this.src='<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/representantes2.png'; "  
+							onmouseout="this.src='<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/representantes.png';  "  />
+						</a></li>
+						<li><a href="<?=$this->baseUrl()?>/contato/faleconosco"><img src="<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/fale_conosco.png" border="0" alt="Fale conosco" 
+							onmouseover="this.src='<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/fale_conosco2.png'; "  
+							onmouseout="this.src='<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/fale_conosco.png'; "  />
+						</a></li>						
+						<li><a href="<?=$this->baseUrl()?>/contato/localizacao"><img src="<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/como_nos_encontrar.png" border="0" alt="Localizacao" 
+							onmouseover="this.src='<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/como_nos_encontrar2.png'; "  
+							onmouseout="this.src='<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/como_nos_encontrar.png';  "  />
+						</a></li>
+						</ul>
+					</li>
+				
+					<li><span class="qmdivider qmdividery" ></span></li>
+					<li onmouseover="document.setaquem.src='<?=$this->baseUrl()?>/public/imagens/site/menu/marcador_topo.png'; document.getElementById('menuquem').className = 'menuprincipalaction'; "  
+					onmouseout="document.setaquem.src='<?=$this->baseUrl()?>/public/imagens/site/menu/marcador_topo2.png'; document.getElementById('menuquem').className = 'menuprincipal'; " >
+					
+						<img style="left: 3px" class="setamenu" name="setaquem" src="<?=$this->baseUrl()?>/public/imagens/site/menu/marcador_topo2.png" alt="seta" />
+						<a class="menuprincipal" id="menuquem" style="width: 127px;" href="javascript:void(0)"><?=$this->translate->_("QUEM SOMOS")?></a>
+						
+						<ul >						
+							<li><a href="<?=$this->baseUrl()?>/quemsomos/oquefazemos"><img src="<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/o_que_fazemos.png" border="0" alt="O que fazemos" 
+								onmouseover="this.src='<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/o_que_fazemos2.png'; "  
+								onmouseout="this.src='<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/o_que_fazemos.png';  "  />
+							</a></li>
+							<li><a href="<?=$this->baseUrl()?>/quemsomos/equipeztl"><img src="<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/equipeztl.png" border="0" alt="Equipe" 
+								onmouseover="this.src='<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/equipeztl2.png'; "  
+								onmouseout="this.src='<?=$this->baseUrl()?>/public/imagens/site/menu/submenu/equipeztl.png'; " />
+							</a></li>						
+						</ul>
+					</li>
+				</ul>
+				<div id="idiomas">
+					<a  href="?idioma=pt_BR" ><img src="<?=$this->baseUrl()?>/public/imagens/site/menu/brasil.png" border="0" alt="Portugues" /></a>
+					<a  href="?idioma=en" >	<img src="<?=$this->baseUrl()?>/public/imagens/site/menu/usa.png" border="0" alt="English" /></a>
+					<a  href="?idioma=zh" >	<img src="<?=$this->baseUrl()?>/public/imagens/site/menu/china.png" border="0" alt="中国的" /></a>
+				</div>
+			</div>
+		</div>
+	</div>	

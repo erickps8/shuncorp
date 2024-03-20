@@ -1,0 +1,330 @@
+			 <div class="left" >    
+                <!-- Search -->
+                <div class="searchWidget" style="display: none">
+                	<form action="">
+                    	<input type="text" name="search" placeholder="Insiva o valor da busca..." />
+                        <input type="submit" name="find" value="" />
+                    </form>
+                </div>
+            </div>
+               
+               
+            <div class="widgets"> 
+            <?php 
+            $classlado = "right";
+            
+            
+            $objVendas = $this->objVendas['objeto'];
+            if(count($objVendas)>0){
+				if($classlado == "right") $classlado = "left"; else $classlado = "right";
+				?>
+				<div class="<?=$classlado?>" >
+					<div class="widget" style="margin-top: 0px; margin-bottom: 10px">
+                    <div class="head" ><h5 class="iDocs">Pedidos</h5></div><?php 
+                	foreach ($objVendas as $vendas){ 
+                        ?>
+	             	    <div class="supTicket nobg">
+	                    	<div class="issueType">
+	                        	<span class="issueInfo"><a href="<?php echo $this->baseUrl()?>/admin/cadastro/parceirosvisualizar/idparceiro/<?php echo md5($vendas->idparceiro)?>" title=""><?php echo $vendas->EMPRESA?></a></span>
+	                            <span class="issueNum">
+	                               <a href="<?php echo $this->baseUrl()?>/admin/kang/pedidosprod/ped/<?php echo md5($vendas->idped)?>" >[ <?php echo $vendas->idped?> ]</a>		                            
+	                            </span>
+	                            <div class="fix"></div>
+	                        </div>
+	                        
+	                        <div class="issueSummary">
+	                       		<a href="#" title="" class="floatleft"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/user.png" alt="" /></a>	
+	                            <div class="ticketInfo">
+	                            	<ul>
+	                                	<li>Situação atual:</li>
+	                                    <li class="even">
+    	                                    <?php 
+            	                            if($vendas->situacao == false) echo '<strong class="red">[ Cancelado ]</strong>';
+                                            elseif($vendas->STATUS=="ORDERED") echo '<strong class="green">[ Pedido ]</strong>'; 
+                                            elseif($vendas->STATUS=="FINISHED") echo "Finalizado";
+                                            elseif($vendas->STATUS=="RECEIVED") echo '<strong class="green">[ Recebido ]</strong>';
+            	                            ?> 
+	                                    </li>
+	                                    
+		                                </ul>
+		                                <div class="fix"></div>
+		                            </div>
+		                            <div class="fix"></div>
+		                        </div> 
+		                    </div>
+		                <?php 
+                    	}
+                    ?>
+                   </div>
+              	</div>
+            <?php
+			}
+            ?>
+            
+			<?php 	
+			
+			
+			$usuario = Zend_Auth::getInstance()->getIdentity();
+			/*
+			if($usuario->id_perfil == 3 || $usuario->id_perfil == 31){
+
+				if($usuario->id_perfil == 3){
+					$rep = $usuario->id_cliente;
+					$tp  = 1;
+				}else{
+					$rep = $usuario->id;
+					$tp  = 2;
+				}
+
+				if($classlado == "right") $classlado = "left"; else $classlado = "right";
+				?>
+				<div class="<?=$classlado?>" >
+					<div class="widget" style="margin-top: 0px; margin-bottom: 10px">
+                    <div class="head" style="border-bottom: 0px"><h5 class="iDocs">Comissões</h5></div>
+                   
+                    <div style="border-top: 1px solid #d5d5d5;">
+	                	<div style="float: left; width: 25%; padding: 20px; font-size: 20px" class="">
+                    		Mês atual
+                    		<a href="/admin/relatorios/financeirocomissoesdet/rep/<?php echo $rep?>/tp/<?php echo $tp?>/periodo/<?php echo date("Y-m")?>">
+                                <?php echo date("m/Y")?>
+                           	</a>
+                    	</div>
+                    	<div style="float: right; width: 40%; padding: 30px; font-size: 34px; text-align: right;">
+                    		<span class="green">R$ <?php echo number_format($this->objComissoes[date("m/Y")],2,",",".")?></span>
+                    	</div>
+                    </div>
+	                    
+	                <div class="fix"></div>
+	                    
+                    <table class="tableStatic" style="width: 100%;">
+                        <thead>
+                            <tr>
+                              <td>Período</td>
+                              <td width="30%">Valor</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php 
+                        foreach ($this->objComissoes as $periodo => $valor){
+							if($periodo != date("m/Y")){
+								$data = $rep = $tp = "";
+								$data = substr($periodo, 3,4)."-".substr($periodo, 0,2);							
+		                    	?>
+	                            <tr>
+	                                <td align="center">
+		                                <a href="/admin/relatorios/financeirocomissoesdet/rep/<?php echo $rep?>/tp/<?php echo $tp?>/periodo/<?php echo $data?>">
+		                                	<?php echo $periodo?>
+		                                </a>				                	 
+				                	</td>
+				                	<td style="text-align: right;"><span class="green"><?php echo number_format($valor,2,",",".")?></span></td>
+	                            </tr>
+	                            <?php
+	                     	}
+                        }
+	                    ?> 
+                        </tbody>
+                    </table> 
+                   </div>
+              	</div>
+            <?php
+			} */
+            ?>
+				
+				
+            <?php  /* 
+            if(count($this->objMes)>0):
+            	foreach ($this->objMes as $fatmensal);
+            	if($classlado == "right") $classlado = "left"; else $classlado = "right";
+				?>
+				<div class="<?=$classlado?>" >
+                	<!-- User widget -->
+	                <div class="widget" style="margin-top: 0px">
+	                    <div class="head" style="border-bottom: 0px"><h5 class="iMoney"><a href="<?php echo $this->baseUrl()?>/admin/relatorios/faturamento">Faturamento <?php echo date('M')?></a></h5></div>
+	                    <table class="tableStatic" style="width: 100%">
+	                        <tbody>
+	                            <tr class="noborder">
+	                                <td width="50%">Vendas:</td>
+	                                <td align="right"><strong class="red">
+	                                <?php 
+						            if(count($this->objDesc)>0):
+						            	$vldesc = 0;
+						            	foreach ($this->objDesc as $descontos):
+						            		if(($descontos->mes == $fatmensal->mes) and ($descontos->ano == $fatmensal->ano)):
+						            			$vldesc = $descontos->descvendas;
+						            		endif;
+						            	endforeach;
+						           	endif;
+						            ?>
+	                                <?=number_format($fatmensal->precototal-$vldesc,2,",",".")?>	                                
+	                                </strong></td>
+	                            </tr>
+	                            <tr>
+	                                <td>Pedidos:</td>
+	                                <td align="right">
+	                                <?php 
+	                                if(count($this->objPend)>0):
+		                                $vlpend = 0;
+		                                foreach ($this->objPend as $pendencias):
+			                                if(($pendencias->mes == $fatmensal->mes) and ($pendencias->ano == $fatmensal->ano)):
+			                                	$vlpend = $pendencias->precopend;
+			                                endif;
+		                                endforeach;
+	                                endif;
+	                                 
+	                                echo number_format($fatmensal->precototal+$vlpend,2,",",".");
+	                                ?>	                                
+	                                </td>
+	                            </tr>
+	                            <tr>
+	                                <td>Pedidos Abertos:</td>
+	                                <td align="right">
+	                               	<?php 
+	                               	if(count($this->objVendab)>0):
+	                               		foreach ($this->objVendab as $vendaabertas);
+	                               		echo number_format($vendaabertas->precototal,2,",",".");
+	                               	endif;
+	                               	?>
+	                               	</td>
+	                            </tr>
+	                            <tr>
+	                                <td>Descontos:</td>
+	                                <td align="right"><?=number_format($vldesc,2,",",".")?></td>
+	                            </tr>
+	                        </tbody>
+	                    </table> 
+	                                       
+	                </div>
+	            </div>
+            <?php endif; */ ?>
+            
+            <!-- Garantias ----------------------------------------------- -->    
+            
+            <?php /*
+            if(count($this->objGarantias)>0):
+            	if($classlado == "right") $classlado = "left"; else $classlado = "right";
+            	?>
+            	<div class="<?=$classlado?>" >
+                <!-- Statistics -->
+                <div class="widget" style="margin-top: 0px">
+                    <div class="head" style="border-bottom: 0px"><h5 class="iChart8">Garantias</h5></div>
+                    <table class="tableStatic" style="width: 100%;">
+                        <thead>
+                            <tr>
+                              <td width="21%">Garantia</td>
+                              <td>Situação</td>
+                              <td width="21%">Data</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php 
+                        foreach ($this->objGarantias as $garantias):
+	                    	?>
+                            <tr>
+                                <td align="center">
+	                                <?php if(strripos($garantias->status, "CANCELADO")!==false): ?>
+				                	<a href="<?=$this->baseUrl(); ?>/admin/venda/garantiascancel/garantia/<?=md5($garantias->id)?>" class="red">G<?php echo substr("000000".$garantias->id,-6,6)?></a>
+				                	<?php elseif(strripos($garantias->status, "EM ")!==false): ?>
+				                	<a href="<?=$this->baseUrl(); ?>/admin/venda/garantiasanalise/garantia/<?=md5($garantias->id)?>" class="red">G<?php echo substr("000000".$garantias->id,-6,6)?></a>
+				                	<?php elseif((strripos($garantias->status, "LISE")!==false) || (strripos($garantias->status, "FINALIZA")!==false)):?>
+				                	<a href="<?=$this->baseUrl(); ?>/admin/venda/garantiaspag/garantia/<?=md5($garantias->id)?>" class="red">G<?php echo substr("000000".$garantias->id,-6,6)?></a>
+				                	<?php elseif(strripos($garantias->status, "AGUARDANDO")!==false): ?>
+				                	<a href="<?=$this->baseUrl(); ?>/admin/venda/garantiasview/garantia/<?=md5($garantias->id)?>" class="red">G<?php echo substr("000000".$garantias->id,-6,6)?></a>
+				                	<?php else: ?>
+				                	<a href="<?=$this->baseUrl(); ?>/admin/venda/garantiasaceit/garantia/<?=md5($garantias->id)?>" class="red">G<?php echo substr("000000".$garantias->id,-6,6)?></a>
+				                	<?php endif; ?> 
+			                	</td>
+			                	<td><?php echo $garantias->status?></td>
+                                <td><span class="green"><?php echo $garantias->data?></span></td>
+                            </tr>
+                            <?php
+                        endforeach;
+	                    ?> 
+                        </tbody>
+                    </table>                    
+                </div>
+            	</div>            
+			<?php endif; */ ?>
+                
+                
+                <!---- Logs ------------------------------------------------------------------ -->
+                <?php 
+            	if(count($this->objLogs)>0):
+            	if($classlado == "right") $classlado = "left"; else $classlado = "right";
+            	?>
+            	<div class="<?=$classlado?>" >
+            	<!-- Statistics -->
+                <div class="widget" style="margin-top: 0px" >
+                    <div class="head" style="border-bottom: 0px"><h5 class="iChart8"><a href="<?php echo $this->baseUrl()?>/admin/administracao/logacesso">Registro de navegação</a></h5></div>
+                    <table class="tableStatic" style="width: 100%; ">
+                        <thead>
+                            <tr>
+                              <td >Módulo</td>
+                              <td>Ação</td>
+                              <td>Identificador</td>
+                              <td width="15%">Data</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php 
+                        foreach ($this->objLogs as $logs):
+	                    	?>
+                            <tr>
+                                <td align="center"><?php echo $logs->modulo?></td>
+			                	<td>
+			                	<?php 
+				                   if($logs->acao==1) echo "Vis";
+				                   if($logs->acao==2) echo "Inc";
+				                   if($logs->acao==3) echo "Exc";
+				                   if($logs->acao==4) echo "Edi";
+				                ?>
+			                	</td>
+			                	<td align="center"><?php echo $logs->ident_desc?></td>
+                                <td align="center"><span class="green"><?php echo substr($logs->data,8,2)."/".substr($logs->data,5,2)?></span></td>
+                            </tr>
+                            <?php
+                        endforeach;
+	                    ?> 
+                        </tbody>
+                    </table>                    
+                </div>  
+               	</div>          
+                <?php endif; ?>
+                
+                <div class="fix"></div>                 
+            
+            
+                
+            <?php /* if(count($this->objCompras)>0): 
+            	if($classlado == "right") $classlado = "left"; else $classlado = "rigth";
+				?>
+				<div class="<?=$classlado?>" >
+                <!-- Statistics -->
+                <div class="widget">
+                    <div class="head" ><h5 class="iChart8">Pedidos de compra</h5></div>
+                    <table class="tableStatic" style="width: 100%;">
+                        <thead>
+                            <tr>
+                              <td width="21%">Pedido</td>
+                              <td>Fornecedor</td>
+                              <td width="21%">Data entrega</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php 
+                        foreach ($this->objCompras as $compras):
+                        	?>
+                            <tr>
+                                <td align="center"><a href="<?=$this->baseUrl(); ?>/admin/compras/pedidoscompraprod/ped/<?=md5($compras->idped)?>" title="" class="red"><?php echo $compras->idped?></a></td>
+                                <td><?php echo $compras->EMPRESA?></td>
+                                <td><span <?php if($lista->data_entrega>date("Y-m-d")): ?> class="green" <?php else: ?> class="red" <?php endif; ?>><?php echo substr($compras->data_entrega,8,2).'/'.substr($compras->data_entrega,5,2).'/'.substr($compras->data_entrega,0,4)?></span></td>
+                            </tr>
+                           <?php
+                       	endforeach; 
+                       	?> 
+                        </tbody>
+                    </table>                    
+                </div>
+              	</div>
+         	<?php endif; */ ?>
+                
+        </div>

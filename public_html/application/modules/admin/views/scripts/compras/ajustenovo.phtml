@@ -1,0 +1,175 @@
+<body  onload="document.prepedido.codigo.focus();">
+<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/comprasBuscaestoque.js"></script>    
+<script type="text/javascript">
+
+function deleteRow(i,id){
+    document.getElementById('txtHint').deleteRow(i);
+    var arrId = document.getElementById('arrId').value;
+	document.getElementById('arrId').value = arrId.replace(id+";","");
+
+}
+
+</script>        
+
+
+<!-- Content -->
+    <div class="content">   
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoqueresumo">Estoque</a></li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/ajustestoque">Ajustes</a></li>
+                	<li class="lastB">Novo Ajuste</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5><?php 
+		if(!empty($this->objEntrada)):
+			foreach ($this->objEntrada as $entrada);	
+			?>
+			AJUSTE E<?=substr("000000".$entrada->id, -6,6);?>
+			<?php 	
+		else: 
+			?>
+			NOVO AJUSTE
+			<?php 
+		endif; ?></h5></div>
+        
+        <div class="widgets" >
+        
+        
+
+    
+    <?php 
+    if(empty($this->objProdutos)):
+    ?>
+    
+    <form action="<?=$this->baseUrl()?>/admin/compras/gravaajuste" method="post" name="prepedido" id="prepedido" class="mainForm">
+    <input type="hidden" name="permissao" id="permissao" value="<?php echo $this->objNeg?>">
+    <input type="hidden" name="arrId" id="arrId">
+    
+		<div class="widget">
+ 			<table style="width: 100%" class="tableStatic" id="txtHint">
+            	<thead>
+                	<tr>
+                        <td width="15%">Código</td>
+                        <td width="15%">Qt</td>
+                        <td width="">Descrição</td>
+                        <td width="15%">&nbsp;</td>
+                    </tr>
+                </thead>
+                <tbody>
+			        <tr>
+			        	<td  class="td" style="text-align: center;"  >
+			                <input type="text" size="7" name="codigo" style="width: 70px" id="codigo" onkeydown="if (event.keyCode == '13'){ return false; }; document.getElementById('resultado').innerHTML = '';">
+			            </td>
+			            <td  class="td" style="text-align: center;" >
+			            <?php if($this->objNeg==1):?>
+			                <input type="text" size="5" style="width: 50px" name="qt" id="qt" onclick="document.getElementById('resultado').innerHTML = '';" 
+			                       onkeydown="if (event.keyCode == '13'){ return false; };"  onblur="buscaprod();" >
+			            <?php else: ?>
+			                <input type="text" size="5" style="width: 50px" name="qt" id="qt"  onkeydown="if (event.keyCode == '13'){ return false; }; Mascara(this,Integer);" 
+			                onclick="document.getElementById('resultado').innerHTML = '';"  onblur="buscaprod();">
+			            <?php endif;?>
+			            </td>
+			            <td  class="td" align="left" colspan="3" >
+			            	 <div id="resultado" style="color:#FF0000; font-weight: bold;"></div>
+			            </td>
+			            
+			        </tr>
+			   	</tbody>
+     		</table>
+     </div>
+     
+     <div style="margin-top: 10px">
+     	&nbsp;<br />
+        Motivo do ajuste:<br>
+        <textarea rows="3" cols="50" style="width: 350px" name="obs"></textarea><br>        
+        <input type="checkbox" value="1" name="nivelamento"> <label>Sincronização do estoque</label> <br><br>        
+     	<input type="submit" value="Salvar" class="greenBtn">
+	 </div>
+	 </form>
+     <script>
+                  
+		function buscaprod(){
+        	var cod = document.getElementById('codigo').value;
+            var qt  = document.getElementById('qt').value;
+                	  
+			if(cod==''){
+            	document.getElementById('resultado').innerHTML = 'Digite o c&oacute;digo!';
+                    	  
+            }else if((qt=='') || (qt=='-')){
+            	document.getElementById('resultado').innerHTML = 'Digite a quantidade!';
+                		  
+            }else{
+            	MostraOpcao(cod,qt,1);
+                document.getElementById('codigo').value = "";
+                document.getElementById('qt').value = "";                
+            }
+        }
+				 
+		</script>
+     
+     <?php 
+     else:     
+     ?>
+     <form action="<?=$this->baseUrl()?>/admin/compras/gravaajusteent" method="post" name="prepedido" id="prepedido">
+     <input type="hidden" name="entrada" value="<?=md5($entrada->id)?>">
+     <input type="hidden" name="identrada" value="<?=($entrada->id)?>">
+    
+       <table align="left" class="mytable" width="100%" id="txtHint"  cellpadding="0" cellspacing="0" >
+        <tr>
+            <th  class="th_canto" align="center" width="15%" >
+                CÓDIGO
+            </th>
+            <th  class="th_orc" align="center" width="">
+                DESCRIÇÃO
+            </th>
+            <th  class="th_orc" align="center" width="8%">
+                QT
+            </th>
+            <th  class="th_orc" align="center" width="10%">
+                QT Ajuste
+            </th>
+        </tr>        
+        <?php 
+        foreach ($this->objProdutos as $listaprod):
+        ?>      
+        <tr>
+            <td  class="td" align="center"  >
+                <a href="<?=$this->baseUrl();?>/cadastro/produtosvis/produto/<?=md5($listaprod->ID_PRODUTO)?>" target="_blank">
+				<?=$listaprod->CODIGO?>
+				</a>  
+            </td>
+            <td  class="td" align="left"  >
+            	<?=($listaprod->DESCRICAO)?>	 
+            </td>
+            <td  class="td" align="center" >
+            	<?=$listaprod->qta?>
+            </td>
+            <td  class="td" align="left">
+            	<input type="text" name="qt_<?=$listaprod->ID_PRODUTO?>" size="7" onkeyup="mascara_num(this);">
+            </td>            
+        </tr>
+        <?php 
+        endforeach;
+        ?>
+     </table>  
+     <p align="left">
+	     &nbsp;<br />
+	     Motivo do ajuste:<br>
+	     <textarea rows="3" cols="50" style="margin-bottom: 10px" name="obs"></textarea><br>        
+	     <input type="checkbox" value="1" name="nivelamento"> Sincronização do estoque<br><br>        
+	     <input type="submit" value="Salvar" >
+	 </p>
+	 </form> 
+     <?php 
+     endif; 
+     ?>
+    
+	</div>
+</div>
+ 

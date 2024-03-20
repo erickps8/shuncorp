@@ -1,0 +1,212 @@
+<script src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/nfeBuscaprodutos.js"></script>
+
+<?php 
+	if(!empty($this->objCliente)):
+		foreach ($this->objCliente as $parceiro);
+	endif;
+?>
+
+<!-- Content -->
+    <div class="content">  
+
+    <!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoquegrupo/fil/comp">Estoque</a></li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/nfe/nfe">NF-e</a></li>
+                	<li ><a href="<?=$this->baseUrl()?>/admin/nfe/nfeavulsas">NF-e Avulsas</a></li>         
+                	<li class="lastB">Produtos da NF-e Avulsa</li>
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Nova NF-e</h5></div>
+        
+        <form name="prepedido" id="prepedido" action="" method="post" class="mainForm">
+        <input type="hidden" name="nfetmp" value="<?=$parceiro->id?>">
+	        <div class="widget first" >
+	        	<div class="head" style="margin-top: -10px"><h5 class="iUser">Informações do cliente</h5></div>
+	        	<div class="body">
+        			<table class="borda" style="width: 100%; border-spacing: 7px ">
+			            <tr>
+			                <td width="12%">Cliente:</td>
+			                <td colspan="3"><b><?=$parceiro->empresa?></b></td>                
+			            </tr>
+			            <tr>
+			                <td>CPF/CNPJ:</td>
+			                <td width="35%"><b><?=$parceiro->cnpj?></b></td>
+			                <td width="12%">RG/INSC:</td>
+			                <td ><b><?=$parceiro->inscricao?></b></td>
+			            </tr>
+			            <tr>
+			                <td>Cidade:</td>
+			                <td><b><?=$parceiro->cidade?></b></td>
+			                <td>Estado:</td>
+			                <td ><b><?=$parceiro->uf?></b></td>
+			            </tr>
+			            <tr>
+			            	<td>Pais:</td>
+			                <td ><b>Brasil</b></td>
+			                <td>Transportadora:</td>
+			                <td ><b>
+			                <?=$parceiro->transportadora?>
+			                </b></td>
+			            </tr>
+			            <tr>
+			            	<td style="vertical-align: top;">Nat Op:</td>
+			                <td colspan="3"><b><?=$parceiro->cfop." - ".substr($parceiro->naturezaop,0,60)?></b></td>                
+			            </tr>
+			            <tr>
+			                <td>Email NFe:</td>
+			                <td><b><?=$parceiro->email?></b></td>
+			                <td>Contato NFe:</td>
+			                <td><b><?=$parceiro->contato?></b></td>
+			            </tr>
+			        </table>
+			   	</div>
+			</div>
+
+			<div class="widget" >
+				<div class="head" style="border-bottom: 0px"><h5 class="iFrames">Produtos</h5></div>
+	        	<table class="tableStatic">
+	            	<thead>
+	                	<tr>
+	                        <td width="3%">Ord</td>
+	                        <td width="15%">Código</td>
+	                        <td >QT</td>
+	                        <td >Preço</td>
+	                        <td >Preço Total</td>
+	                        <td >Unidade</td>
+	                        <td >NCM</td>
+	                        <td >EAN</td>
+	                        <td >Descrição</td>
+	                        <td >&nbsp;</td>
+	                    </tr>
+	                </thead>
+	                <tbody>			
+			
+			        <?php 
+			       		        
+			        $cor=0;
+			        foreach ($this->objList as $listaProd):
+			        	$cor++;
+			        	?>
+				        <tr >
+				        	<td  style="text-align: center;" >
+			                    <?=$cor?>
+			                </td>
+			                <td  style="text-align: center;" >
+			                    <?=$listaProd->codigo?>
+			                </td>		                
+			                <td  style="text-align: center;" >
+			                	<?=$listaProd->qt?>
+			                </td>		               
+			                <td  style="text-align: right;">
+			                    <?=number_format($listaProd->preco,2,',','.')?>
+			                </td>
+			                <td  style="text-align: right;">
+			                    <b><?=number_format(($listaProd->qt*$listaProd->preco),2,',','.')?></b>
+			                </td>
+			                <td  style="text-align: center;">
+			                    <?=$listaProd->unidade?>
+			                </td>
+			                <td  style="text-align: center;">
+			                    <?=$listaProd->ncm." ".$listaProd->ncmex?>
+			                </td>
+			                <td  style="text-align: center;">
+			                    <?=$listaProd->codean?>
+			                </td>
+			                <td  style="text-align: left;" >
+			                    <span style="color: #999"><?=$listaProd->descricao?></span>
+			                </td>
+			                <td  style="text-align: center;" >
+			                    <a href="#" onclick="if(confirm('Remover produto código <?=$listaProd->codigo?>?')){window.location='<?=$this->baseUrl()?>/admin/nfe/removeprodnfetmp/nfe/<?=md5($parceiro->id);?>/prod/<?=md5($listaProd->idnfeprod)?>';}"><img src="<?=$this->baseUrl()?>/images/window-close.png" width="15" border="0"></a>
+			                </td>		                
+			            </tr>
+				        <?php			        
+			        endforeach;
+			        
+			        ?>
+			         <tr>
+	                    <td style="text-align: center;" colspan="2" >
+	                    	<input  type="text" size="8" name="codigo" id="codigo" 
+			                onkeydown="if(event.keyCode == '13'){ document.prepedido.qt.focus(); return false;};" onblur="buscaprod(this.value);" >
+			                
+			            </td>
+			            <td style="text-align: center;" >
+			            	<input type="text" size="3" name="qt" id="qt" onkeydown="if(event.keyCode == '13'){  return false;};"  >
+			            </td>
+			            <td style="text-align: center;">
+			            	<input type="text" name="preco" id="preco" class="moeda" style="width: 100">
+			            </td>
+			            <td style="text-align: center;">
+			            	&nbsp;
+			            </td>
+			            <td style="text-align: center;" >
+			            	<div class="styled-select" style="width: 60px">
+			            	<select name="unidade" id="unidade" style="width: 82px">
+								<option value="UNI" selected="selected">UNI</option>
+								<option value="MT2">MT2</option>
+								<option value="CNT">CNT</option>
+								<option value="MIL">MIL</option>
+								<option value="KGS">KGS</option>
+								<option value="GRS">GRS</option>
+								<option value="KIT">KIT</option>												
+							</select>
+							</div>
+			            </td>
+			            <td class="td" style="text-align: center;" >
+			            	<div class="styled-select" style="width: 100px">
+			            	<select name="ncm" id="ncm" style="width: 112px">
+								<?php foreach ($this->objNcm as $ncm): ?>
+								<option value="<?=$ncm->id?>"><?=$ncm->ncm." ".$ncm->ncmex?></option>
+								<?php endforeach; ?>												
+							</select>
+							</div>
+			            </td>
+			            <td class="td" style="text-align: left;">
+			            	<input type="text" size="10" name="codean" id="codean" >
+			            </td>
+			            <td colspan="2" class="td" style="text-align: left;">
+			            	<input type="text" size="35" name="descricao" id="descricao" >
+			            </td>		           
+			            <td class="td" style="text-align: center;" >
+			            	&nbsp; 
+			            </td>
+			        </tr>
+			        </tbody>			
+			    </table>
+			</div>
+			
+			<div style="margin-top: 10px" >
+				<input type="button" value="Próximo" class="basicBtn" onclick="window.location='<?=$this->baseUrl()?>/admin/nfe/nfenovaprodet/nfe/<?=md5($parceiro->id)?>'">
+			</div>
+			
+	 	</form>
+	</div>	
+
+ <script type="text/javascript">
+
+	$('#descricao').blur(function(){
+		if($('input[name=codigo]').val()==""){
+			jAlert('O campo CÓDIGO não pode ficar em branco!','Erro!');
+		}else if($('input[name=qt]').val()==""){
+			jAlert('O campo QT não pode ficar em branco!','Erro!');
+		}else if($('input[name=descricao').val()==""){
+			jAlert('O campo DESCRIÇÃO não pode ficar em branco!','Erro!');
+		}else if($('input[name=preco').val()==""){
+			jAlert('O campo PREÇO não pode ficar em branco!','Erro!');
+		}else{
+			document.prepedido.submit();
+		}
+	});
+ 
+	function buscaprod(cod){
+		if(cod!=''){
+		   	buscaProduto(cod);
+	   	}
+	 }
+	
+</script>

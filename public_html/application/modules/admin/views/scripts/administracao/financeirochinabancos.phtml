@@ -1,0 +1,152 @@
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li><a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeirochina">Financeiro Shunkang</a> </li>
+                	<li class="lastB">Bancos</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Bancos</h5></div>
+
+        <div class="widgets" >
+        	<div class="left" style="font-weight: bold; padding: 5px 0px 5px 0px; ">
+				<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeirochinapcontas"><?=$this->translate->_("Plano de contas")?></a>
+			</div>
+        	<div class="right" style="font-weight: bold; text-align: right; padding: 5px 0px 5px 0px; width: 40%">
+				<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeirochinapag"><?=$this->translate->_("Pagar")?></a> |
+				<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeirochinarec"><?=$this->translate->_("Receber")?></a> | 
+	    		<a href="<?php echo $this->baseUrl(); ?>/admin/financeiro/relatorios"><?php echo $this->translate->_("Relatórios")?></a> |
+                <a href="<?=$this->baseUrl(); ?>/admin/administracao/financeirochinaconc"><?=$this->translate->_("Conciliação")?></a>
+			</div>
+		</div>
+
+		<div class="widgets" >
+			<div class="first" style="margin-top: 5px; margin-bottom: 5px; " >
+				<?php if($this->objIns==1):?>
+				<form action="<?php echo $this->baseUrl(); ?>/admin/administracao/cadbancos" method="post" name="bancos" id="bancos"  class="mainForm">
+					<input type="hidden" name="idbanco" >
+					<table style="margin-bottom: 8px; border: 1px solid #d5d5d5; width: 100%">
+					    <tr>
+					    	<td align="left" style="padding: 10px; width: 25%">
+					    		<?=$this->translate->_("Nome da conta")?>:<br>							 
+					    		<input type="text" style="text-transform: uppercase; width: 170px" name="nome" id="nome" >
+					    	</td>
+					    	<td align="left"  style="width: 20%">
+					    		<?=$this->translate->_("Banco")?>:<br>							 
+					    		<input type="text" style="text-transform: uppercase; width: 120px" size="15" name="banco" id="banco" >
+					    	</td>
+					    	<td align="left" >
+					    		<?=$this->translate->_("Agência")?>:<br>							 
+					    		<input type="text" style="text-transform: uppercase; width: 150px" size="10" name="agencia" id="agencia" >
+					    	</td>							    	
+						</tr>
+						<tr>
+							<td align="left" style="padding: 0px 0px 10px 10px; ">
+					    		<?=$this->translate->_("Conta")?>:<br>							 
+					    		<input type="text" style="text-transform: uppercase; width: 150px" size="18" name="conta" id="conta" >
+					    	</td>
+					    	<td align="left" >
+					    		<?=$this->translate->_("Moeda")?>:<br>
+					    		<div class="styled-select" style="width: 80px">							 
+					    		<select name="moeda" style="width: 102px">
+					    			<option value="RMB"><?=$this->translate->_("RMB")?></option>
+					    			<option value="USD"><?=$this->translate->_("USD")?></option>
+					    			<option value="BRL"><?=$this->translate->_("BRL")?></option>
+					    			<option value="EUR"><?=$this->translate->_("EUR")?></option>
+					    		</select>
+					    		</div>					    		
+					    	</td>
+					    	<td><br /><input type="submit" value="<?=$this->translate->_("Salvar")?>" class="greenBtn"></td>
+					    </tr>
+					</table>  
+				</form>
+				<?php endif;?>
+			</div>	
+		</div>			
+					
+		<?php if(!empty($this->objContasbanc)): ?>		
+			<div class="widget">
+	 			<table style="width: 100%" class="tableStatic">
+	            	<thead>
+	                	<tr>
+	                        <td ><?=$this->translate->_("Id")?></td>
+	                        <td ><?=$this->translate->_("Nome")?></td>
+	                        <td ><?=$this->translate->_("Banco")?></td>
+	                        <td ><?=$this->translate->_("Agência")?></td>
+	                        <td ><?=$this->translate->_("Conta")?></td>
+	                        <td ><?=$this->translate->_("Moeda")?></td>
+	                        <?php if($this->objIns==1){?>
+	                        <td width="10%"><?=$this->translate->_("Opções")?></td>
+	                        <?php } ?>
+	                    </tr>
+	                </thead>
+	                <tbody>	
+					<?php 
+					
+					$cont=0;
+					foreach ($this->objContasbanc as $listconta):
+						$cont++;
+						?>
+						<tr>
+							<td align="center">
+								<?=$cont?>
+							</td>
+							<td align="left">
+								<?=$listconta->nome?>
+							</td>
+							<td align="left">
+								<?=$listconta->banco?>
+							</td>
+							<td align="left">
+								<?=$listconta->agencia?>
+							</td>
+							<td align="left">
+								<?=$listconta->conta?>
+							</td>
+							<td align="left">
+								<?=$listconta->moeda?>
+							</td>
+							<?php if($this->objIns==1):?>
+							<td align="center">
+								<a href="javascript:void(0);" onclick="editaContabanco('<?=$listconta->nome?>','<?=$listconta->banco?>','<?=$listconta->agencia?>','<?=$listconta->conta?>','<?=$listconta->moeda?>','<?=$listconta->id?>');"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/pencil.png" width="13" border="0" title="Editar"></a> &nbsp; 
+								<?php if($this->objEdi==1):?>
+								<a href="<?=$this->baseUrl(); ?>/admin/administracao/rembancos/idbanco/<?=md5($listconta->id)?>"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" width="13" border="0" title="Remover"></a>
+								<?php endif; ?>
+							</td>
+							<?php endif;?>
+						</tr>
+					<?php								
+				endforeach;			
+				?>
+			 	</tbody>
+            </table>            
+        </div>
+       
+		<?php 
+		else :
+		?>
+		<div class="widget" style="border-top: 1px solid #d5d5d5; padding: 10px; text-align: center">
+ 			Nenhuma conta encontrada!
+		</div>	
+		<?php 
+		endif;
+		?>
+	</div>
+		
+			
+	<script type="text/javascript">
+	function editaContabanco(nome,banco,agencia,conta,moeda,id){
+		document.bancos.nome.value=nome;
+		document.bancos.banco.value=banco;
+		document.bancos.agencia.value=agencia;
+		document.bancos.conta.value=conta;
+		document.bancos.moeda.value=moeda;
+		document.bancos.idbanco.value=id;
+	}
+	</script>

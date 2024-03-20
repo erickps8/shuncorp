@@ -1,0 +1,98 @@
+	<div class="content">   
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="#">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl()?>/admin/cadastro/parceiroslista">Parceiros</a></li>
+                	<li class="lastB">Pré-cadastro</li>         
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5>Pré-cadastro</h5></div>
+      
+		<?php 		
+        if ( count($this->objList) > 0) :
+		?>
+		<div class="widget" >
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="7%">Id</td>
+                        <td width="27%">Nome</td>
+                        <td >Razão Social</td>
+                        <td width="18%">CNPJ</td>
+                        <td width="15%">Situação</td>
+                        <td width="12%">Opções</td>
+                    </tr>
+                </thead>
+                <tbody>
+               
+				<?php 
+				$cor=$count=0;
+				foreach($this->objList as $lista):
+					$count++;
+			    	?>				
+					<tr >
+		                <td style="text-align: center;" >
+		                   <?php echo $lista->idcadastro?>
+		                </td>
+		                <td align="left" style="text-transform: uppercase;">
+		                   <?php echo ($lista->fantasia)?>                  
+		                </td>
+		                <td align="left" >
+		                   <?php echo $lista->razaosocial?>
+		                </td>
+		                <td style="text-align: center;" >
+		                   <?php echo $lista->cnpj?>
+		                </td>
+		                <td style="text-align: center;" >
+		                   <?php if($lista->sit == 2) echo "Utilizado"; else echo "Não utilizado"?>
+		                </td>
+		                <td style="text-align: center;" >
+		                	<a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/precadastrovis/cadastro/<?=md5($lista->idcadastro)?>"><img src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" border="0" title="Visualizar"></a>
+		                   	<?php 
+		                    if ($this->objEdi==true){  ?>
+			                <a href="#" onclick="removeCadastro('<?=md5($lista->idcadastro)?>');" ><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/close.png" width="17" border="0" title="Remover"></a>
+			                <?php  }  ?>
+		                </td>		                
+		            </tr>
+            	<?php  endforeach; ?>
+            	</tbody>        
+			</table>
+			
+		</div>
+		<div style="margin-top: 20px">
+			<?php 
+			if ( count($this->objList) > 0) :
+				echo $this->objList;
+			endif;
+		    ?>
+		</div>
+		<?php 
+		else :
+		?>
+		<div class="widget" style="border-top: 1px solid #d5d5d5; padding: 10px; text-align: center;">
+ 			Nenhum cadastro encontrado
+		</div>	
+		<?php 
+		endif;
+		?>
+	</div>
+<script>
+
+function removeCadastro(id){	
+	jConfirm('Tem certeza que deseja remover este cadastro?', 'Confirme', function(r) {
+		if(r==true){
+			window.location='<?=$this->baseUrl()?>/admin/cadastro/removeprecadastro/cadastro/'+id;
+		}
+	});
+}
+
+<?php if($this->tp == 'erro'){ ?>
+jAlert('Erro ao cadastrar parceiro. Entre em contato com o administrador!','Erro!');
+<?php } ?>
+
+</script>

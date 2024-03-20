@@ -1,0 +1,85 @@
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/cadastro/despesasfiscais">Despesas fiscais</a></li>
+                	<li class="lastB">NCM de Compra</li>         
+                </ul>
+            </div>
+        </div>       
+
+        <div class="title"><h5>NCM de Compra</h5></div>  
+        
+        <div class="widgets">
+        	<div class="left" style="width: 40%; padding-top: 5px">
+	        	<?php  if($this->objIns==true){ ?>
+				<input type="button" class="basicBtn" onclick="window.location='<?=$this->baseUrl()?>/admin/cadastro/produtosncmcad'" value="Novo NCM"></input>
+		    	<?php } ?>
+        	</div>
+            <div class="right" style="text-align: right; padding: 10px 0px 10px 0px; width: 50%">
+				<a href="<?=$this->baseUrl()?>/admin/cadastro/tributocst">CST ICMS</a> |
+	    		<a href="<?=$this->baseUrl()?>/admin/cadastro/tributocstipi">CST IPI</a> |
+	    		<a href="<?=$this->baseUrl()?>/admin/cadastro/tributocstpis">CST PIS/PASEP</a> |
+	    		<a href="<?=$this->baseUrl()?>/admin/cadastro/tributocstcofins">CST COFINS</a>
+			</div>
+        
+	        <?php 
+			if (count($this->objList) > 0) {
+			?>
+        	<div class="widget first">
+	 			<table style="width: 100%" class="tableStatic">
+	            	<thead>
+	                	<tr>
+	                        <td>Id</td>
+        					<td>NCM</td>
+        					<?php if ($this->objEdi==true){  ?>
+        					<td>Opções</td>
+        					<?php } ?>
+        				</tr>
+        			</thead>
+        			<tbody>
+	       
+					<?php 
+					$cor=0;
+			    	foreach($this->objList as $lista){
+			    		$cor++;
+		    	        ?>
+						<tr >
+			                <td  style="text-align: center;" >
+			                   <?php echo substr("000".$cor,-3,3)?>
+			                </td>
+			                <td  style="text-transform: uppercase; text-align: center;" >
+			                   <?=$lista->ncm." ".$lista->ncmex?>
+			                </td>
+			                <?php if ($this->objEdi==true){  ?>
+			                <td  style="text-align: center;" >
+			                	<a href="<?=$this->baseUrl()?>/admin/cadastro/produtosncmcad/ncm/<?=md5($lista->id)?>" >
+			                	<img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/pencil.png"  width="15" border="0" title="Editar"></a>
+			                </td>
+			                <?php  }  ?>
+			            </tr>
+            			<?php  
+            		}
+            		?>       
+					</tbody>
+				</table>
+			</div>
+
+         	<?php 
+			}else{
+			?>
+			<div class="widget first" style="border-top: 1px solid #d5d5d5; padding: 10px; text-align: center;">
+				Nenhum NCM cadastrado!
+			</div>
+			
+			<?php 
+			}
+			?>
+		</div>
+	</div>
+		
+	

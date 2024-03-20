@@ -1,0 +1,23 @@
+<?php
+if(!empty($this->objEstoqmedia)):
+	foreach ($this->objEstoqmedia as $listmed);
+	?>
+	&nbsp; &nbsp; <a href="#" onclick="if(document.getElementById('tb_estmed').style.display=='block'){document.getElementById('tb_estmed').style.display='none'}else{document.getElementById('tb_estmed').style.display='block'};" ><U>Produtos estoque baixo: <b><?php echo count($this->objEstoqmedia);	?></b></U></a><br>
+	<table width="80%" align="center" style="display: none" id="tb_estmed">
+	<?php 
+	foreach ($this->objEstoqmedia as $listmed):
+		?>
+		<tr>
+			<td>
+			<a href="<?php echo $this->baseUrl(); ?>/compras/extratoprod/codproduto/<?php echo $listmed->CODIGO; ?>" >Produto código <b><?php echo $listmed->CODIGO; ?></b></a>
+			</td>
+		</tr>
+		<?php 
+	endforeach;
+	
+	?>
+	</table>
+	<?php 
+endif;
+
+?>

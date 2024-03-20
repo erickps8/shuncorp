@@ -1,0 +1,429 @@
+<!-- <script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/financeirochina.js" type="text/javascript"></script>  -->
+<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/administracaoFincontaschina.js" type="text/javascript" ></script>
+
+
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li><a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeirochina">Financeiro Shunkang</a> </li>
+                	<li class="lastB">Conciliação de contas</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Conciliação de contas</h5></div>
+
+        <div class="widgets" >
+        	<div class="right" style="font-weight: bold; text-align: right; padding: 5px 0px 5px 0px; width: 40%">
+				<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeirochinapag"><?php echo $this->translate->_("Pagar")?></a> |
+				<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeirochinarec"><?php echo $this->translate->_("Receber")?></a> |
+                <a href="<?php echo $this->baseUrl(); ?>/admin/financeiro/relatorios"><?php echo $this->translate->_("Relatórios")?></a> |
+				<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeirochinabancos"><?php echo $this->translate->_("Adm")?></a> 
+	    		
+			</div>
+		</div>
+		
+		<div class="widgets" >
+			<div class="first" style="margin-top: 5px; margin-bottom: 5px; " >
+				<form action="<?php echo $this->baseUrl(); ?>/admin/administracao/financeirochinaconc" method="post" name="formcontasval" class="mainForm">
+    	    	<table style="border: 1px solid #d5d5d5; width: 100%; border-collapse: collapse;">
+		    		<tr>
+		    			<td align="left" style="padding: 10px">
+		    				<?php echo $this->translate->_("Selecione uma conta")?>:<br>
+		    				<div class="styled-select" style="width: 230px">
+		    				<select name="contasval" id="contasval" onchange="submit();" style="width: 252px">
+		    					<option value="0"><?php echo $this->translate->_("Selecione")?></option>
+		    					<?php foreach ($this->objContasbanc as $contasvalid): ?>
+		    					<option <?php if($this->objContaconc==$contasvalid->id) echo 'selected="selected"'?> value="<?php echo $contasvalid->id."|".$contasvalid->moeda?>"><?php echo strtoupper($contasvalid->nome)?></option>
+		    					<?php endforeach;?>
+		    				</select>
+		    				</div>
+		    			</td>
+		    			<td style="text-align: right;">
+		    				<?php if($this->objIns==1): ?> 
+		    				<a href="javascript:void(0);" onclick="buscaConc();"><img id="buscac" src="<?php echo $this->baseUrl()?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" border="0" title="Pesquisar"></a>
+		    				<?php endif;?>
+							<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeirochinaconcexp/texp/2/contasval/<?php echo $this->objContaconc.$this->objLinkconc?>"><img title="MS Excel" src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/excelDoc.png" border="0" width="18" /> </a>
+                            <a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeirochinaexpid<?php echo $this->objLinkconc?>"><img title="IDs conciliação" src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/excelDoc.png" width="18" /> </a>
+				    		<a target="_blank" href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeirochinaconcimp/contasval/<?php echo $this->objContaconc.$this->objLinkconc?>"><img title="Imprimir" src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/printer.png" border="0" width="18" /></a>
+						</td>
+		    		</tr>
+		    	</table>
+		    	</form>
+		    </div>
+		</div>
+		
+		<?php if($this->objIns==1){?>
+		<div class="widgets" >
+			<div class="first" style="margin-top: 5px; margin-bottom: 5px; " >
+			    	
+		    	<form name="formnovaconc" method="post" action="<?php echo $this->baseUrl()?>/admin/administracao/cadconciliacao" onsubmit="return validaformconcilia();"  class="mainForm">
+			    	<input type="hidden" name="idconci">
+			    	<input type="hidden" name="idcontaconcilha" value="<?php echo $this->objContaconc?>">
+			    	<table id="novaconcilia" style="border: 1px solid #d5d5d5; <?php if(!empty($this->objContaconc)) echo 'display: block'; else echo 'display: none'; ?> ">
+			    		<tr>
+			    			<td style="padding: 10px 10px 0px 10px">
+			    				<?php echo $this->translate->_("Nova transação")?>:<br>				    				  
+			    			</td>
+			    		</tr>			    		
+			    		<tr>
+			    			<td style="padding: 0px 0px 10px 10px">
+			    				<table id="novaconc" style="display: block" >
+			    					<tr>
+				    					<td>
+				    						<?php echo $this->translate->_("Data")?>:<br>
+						    				<input type="text" size="8" maxlength="10" name="dataconc" class="data datepicker"> &nbsp;
+				    					</td>
+				    					<td>
+				    						<?php echo $this->translate->_("Valor")?>:<br>
+						    				<input onkeyup="moedaNegativo(this,event,'###.###.###,##',true);" type="text" name="valorconc" style="width: 80px"> &nbsp; 
+				    					</td>
+				    					<td>
+							    			<table id="novaconcc" style="<?php // if($this->moeda=='USD'): display: block else: display: none <?php endif;?>">
+						    					<tr>
+							    					<td>
+									    				<?php echo $this->translate->_("Conta")?>:<br>
+									    				<div class="styled-select" style="width: 170px">
+									    				<select name="contasval" style="width: 192px">
+									    					<option value="0"><?php echo $this->translate->_("Selecione")?></option>
+									    					<?php 
+									    					foreach ($this->objContasbanc as $contasvalid){ 
+									    					    if($this->objContaconc != $contasvalid->id){
+										    					?>
+										    					<option value="<?php echo $contasvalid->id?>"><?php echo strtoupper($contasvalid->nome)?></option>
+										    					<?php 
+									    					    }
+									    					}
+									    					?>
+									    				</select>
+									    				</div>
+									    			</td>
+									    			<td>
+									    				<?php echo $this->translate->_("TX Câmbio")?>:<br>
+									    				<input type="text" size="8" name="taxcambio" class="moedacinco" style="width: 80px"> &nbsp; 
+									    			</td>
+						    					</tr>
+						    				</table>						    				
+						    			</td>
+						    			<td>
+						    				<br><input type="submit" value="<?php echo $this->translate->_("Salvar")?>" class="greenBtn">
+						    			</td>
+			    					</tr>
+			    				</table>				    				
+			    			</td>				    			
+			    		</tr>
+			    	</table>
+				</form>
+			</div>
+		</div>
+		<?php } ?>
+		
+		<div class="widgets" >
+			<div class="first" style="margin-top: 5px; margin-bottom: 5px; " >
+				<form name="formbuscaconc" method="post" action="<?php echo $this->baseUrl()?>/admin/administracao/financeirochinaconc" class="mainForm">
+			    	<input type="hidden" name="idconci">
+			    	<input type="hidden" name="idcontaconcilha" value="<?php echo $this->objContaconc?>">
+			    	<table id="buscaconcilia" style="border: 1px solid #d5d5d5;  <?php if($this->objIns!=1): ?> display: block; <?php else: ?> display: none; <?php endif;?>">
+		    		    <tr>
+					    	<td align="left" width="20%" style="padding: 10px">
+					    		<?php echo $this->translate->_("Busca por")?>:<br>
+					    		<div class="styled-select" style="width: 150px">
+							    	<select name="tipoconc" onchange="tipoPesquisaconc(this.value);" style="width: 172px">
+									<option value="1" > <?php echo $this->translate->_("Por ID")?></option>
+									<option value="2" > <?php echo $this->translate->_("Por Valor")?></option>
+									</select>										 
+								</div>
+					    	</td>							    	
+					    	<td align="left" width="20%">
+					        	<div style="display: block;" id="buscidconc">								
+									ID:<br>
+									<input type="text" style="text-transform: uppercase; width: 70px" size="10" name="buscaidconc" id="buscaidconc" value="<?php echo $this->params['buscaidconc'] ?>" >
+								</div>
+								<table style="display: none; margin-right: 2px" id="buscvalorconc">
+						    		<tr>
+							    		<td>
+							    			<?php echo $this->translate->_("Valor Ini")?>:<br>
+											<input type="text" size="8" name="buscavliniconc" id="buscavliniconc" value="<?php echo $this->params['buscavliniconc'] ?>" style="width: 80px" class="moeda">
+										</td>
+										<td>
+											<?php echo $this->translate->_("Valor Fim")?>:
+											<input type="text" size="8" name="buscavlfimconc" id="buscavlfimconc" value="<?php echo $this->params['buscavlfimconc'] ?>" style="width: 80px" class="moeda">
+										</td>
+									</tr>
+								</table>	
+							</td>
+							<td>										 
+								<table >
+						    		<tr>
+							    		<td>
+											<?php echo $this->translate->_("Dt inicio")?>:<br>
+											<input type="text" name="dtiniconc" id="dtiniconc" value="<?php echo $this->params['dtiniconc'] ?>" maxlength="10" class="data datepicker">
+										</td>
+										<td>
+											<?php echo $this->translate->_("Dt fim")?>:<br>
+											<input type="text"  size="8" name="dtfimconc" value="<?php echo $this->params['dtfimconc'] ?>" id="dtfimconc" maxlength="10" class="data datepicker">
+											<input type="submit" value="<?php echo $this->translate->_("Pesquisar")?>" class="blueBtn">
+										</td>
+									</tr>
+								</table>										
+					    	</td>
+						</tr>
+					</table>  
+			    </form>
+			</div>
+		</div>    
+			    
+		<div>
+	 		<?php if(!empty($this->objSaldoc)):?>
+	 		<table style="margin-top: 10px; margin-bottom: 10px; font-weight: bold; width: 40%; background-color: #ccc;"  >
+				<tr>
+					<td style="padding: 10px">
+						<?php echo $this->translate->_("Saldo")?>
+					</td>
+					<td style="text-align: center;">
+						<?php echo $this->dtFim?>
+					</td>
+					<td style="padding: 10px; text-align: right;">
+						<?php 
+						foreach($this->objSaldoc as $saldo);
+						echo number_format($saldo->total,2,",",".");
+						?>
+					</td>		
+				</tr>
+        	</table>
+        	<?php endif;?>
+        	
+	     </div>
+	     
+	     
+	     <?php if(!empty($this->objConciliac)): ?>		
+		<div class="widget">
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td ><?php echo $this->translate->_("Id")?></td>
+                        <td ><?php echo $this->translate->_("Data")?></td>
+                        <td ><?php echo $this->translate->_("Valor")?></td>
+                        <td ><?php echo $this->translate->_("Conciliação")?></td>
+                        <td width="10%"><?php echo $this->translate->_("Opções")?></td>
+                    </tr>
+                </thead>
+                <tbody>	
+				<?php 
+        		$idconc = 0;
+						
+				$idconc	= $dt = $vlconc	= $bancoconc = $txconc = $transac = $pconci	= $rconci = $conctransf = $validado	= "";
+							
+				foreach ($this->objConciliac as $listconc):
+				    
+					if($idconc != 0):
+						if($idconc != $listconc->idconc):
+							if($vlconc<0): 
+								$cor = "FF0000"; 
+								$tpc = 1;
+							else: 
+								$cor = "";
+								$tpc = 2;
+							endif; 
+							?>
+							<tr  >
+								<td  style="text-align: center;">
+									<font color="<?php echo $cor?>"><?php echo substr("000000".$idconc,-6)?></font>
+								</td>
+								<td style="text-align: center;">
+									<font color="<?php echo $cor?>"><?php echo $dt?></font>
+								</td>											
+								<td style="text-align: right;">
+									<font color="<?php echo $cor?>"><?php echo number_format($vlconc,2,",",".")?></font>
+								</td>
+								<td <?php if(($validado==0) and ($this->objIns==1)):?>  onclick="buscaContasconcilia('<?php echo $tpc?>','<?php echo $idconc?>','<?php echo $this->objContaconc?>',0,'');" style="cursor: hand; cursor: pointer; text-align: center;" <?php else: ?> style="text-align: center" <?php endif; ?>>
+									
+									<font color="<?php echo $cor?>"><?php
+									
+									if($vlconc<0):
+										echo '<a target="_blank" href="'.$this->baseUrl().'/admin/administracao/financeirochinapagcad/pay/'.md5($idpconci).'">';   
+									 	echo substr($pconci,0,-1);
+									 	echo '</a>';
+									elseif($vlconc>0):
+										echo '<a target="_blank" href="'.$this->baseUrl().'/admin/administracao/financeirochinareccad/rec/'.md5($idpconci).'">';
+										echo substr($rconci,0,-1);
+										echo '</a>';
+									endif;
+									if($bancoconc!=""):
+										foreach ($this->objContasbanc as $contasvalid): 
+										    if($bancoconc == $contasvalid->id) echo strtoupper($contasvalid->nome);
+										endforeach;
+										
+										if(!empty($txconc)):
+											echo " | ".$txconc;
+										endif;
+										
+										if(!empty($conctransf)):
+											echo " | ID ".$conctransf;
+										endif;
+										
+									endif;
+									?></font>
+								</td>
+								<td style="text-align: center;">
+									<?php if($this->objIns==1):?> 
+										<?php if($validado==0):?>
+										<a href="javascript:" onclick="editaConciliacao('<?php echo $dt?>','<?php echo number_format($vlconc,2,",",".")?>','<?php echo $bancoconc?>','<?php echo $txconc?>','<?php echo $idconc?>')" ><img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/icons/middlenav/pencil.png" width="14" border="0" title="Editar"></a>&nbsp;
+										<a href="javascript:" onclick="removeConcilia('<?php echo md5($idconc)?>');"><img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" width="14" border="0" title="Remover"></a>&nbsp;
+										<?php if((!empty($pconci)||!empty($rconci)) || ($bancoconc!="")): ?>
+										<a href="javascript:"
+										onclick="confirmConcilia('<?php echo md5($idconc)?>');">
+										<img src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/dark/record.png" width="14" border="0" title="Concilhar">
+										</a>
+										<?php endif;
+										else:
+											echo " &nbsp; Validado";
+										endif;
+									endif;
+									?>
+								</td>
+							</tr>
+						
+							<?php
+							$pconci	= "";
+							$rconci	= "";
+						endif;
+					endif;
+					
+					$idconc			= $listconc->idconc;
+					$dt				= $listconc->dtcad;
+					$vlconc			= $listconc->valor;
+					$bancoconc		= $listconc->id_fin_contas;
+					$txconc	       	= ($listconc->tax_cambio!=0) ? number_format($listconc->tax_cambio,5,",",".") : "";
+					$transac 		= $listconc->transacao;
+					$conctransf		= $listconc->conctransf;
+					$validado		= $listconc->valida;
+					
+					if(!empty($listconc->pconc)): 
+						$pconci .= "P".substr("000".$listconc->pconc,-6)."<br>";
+						$idpconci = $listconc->pconc;
+					endif;
+					if(!empty($listconc->rconc)): 
+						$rconci	.= "R".substr("000".$listconc->rconc,-6)."<br>";
+						$idpconci = $listconc->rconc;
+					endif;
+					
+				endforeach;							
+							 
+				if($vlconc<0): 
+					$cor = "FF0000"; 
+					$tpc = 1;
+				else: 
+					$cor = "";
+					$tpc = 2;
+				endif; 
+				?>
+				<tr  >
+					<td  style="text-align: center;">
+						<font color="<?php echo $cor?>"><?php echo substr("000000".$idconc,-6)?></font>
+					</td>
+					<td style="text-align: center;">
+						<font color="<?php echo $cor?>"><?php echo $dt?></font>
+					</td>											
+					<td style="text-align: right;">
+						<font color="<?php echo $cor?>"><?php echo number_format($vlconc,2,",",".")?></font>
+					</td>
+					<td <?php if(($validado==0) and ($this->objIns==1)):?> onclick="buscaContasconcilia('<?php echo $tpc?>','<?php echo $idconc?>','<?php echo $this->objContaconc?>',0,'');" style="cursor: hand; cursor: pointer; text-align: center;" <?php else: ?> style="text-align: center" <?php endif; ?>>
+						<font color="<?php echo $cor?>"><?php 
+						if($vlconc<0):
+							echo '<a target="_blank" href="'.$this->baseUrl().'/admin/administracao/financeirochinapagcad/pay/'.md5($idpconci).'">';
+							echo substr($pconci,0,-1);
+							echo '</a>';
+						elseif($vlconc>0):
+							echo '<a target="_blank" href="'.$this->baseUrl().'/admin/administracao/financeirochinareccad/rec/'.md5($idpconci).'">';
+							echo substr($rconci,0,-1);
+							echo '</a>';
+						endif;
+						
+						if($bancoconc!=""):
+							foreach ($this->objContasbanc as $contasvalid): 
+							    if($bancoconc == $contasvalid->id) echo strtoupper($contasvalid->nome);
+							endforeach;
+							
+							if(!empty($txconc)):
+								echo " | ".$txconc;
+							endif;
+							
+							if(!empty($conctransf)):
+								echo " | ID ".$conctransf;
+							endif;
+							
+						endif;
+						?></font>
+					</td>
+					<td style="text-align: center;"> 
+						<?php 
+						if($this->objEdi==1):
+							if($validado==0):?>
+							<a href="javascript:" onclick="editaConciliacao('<?php echo $dt?>','<?php echo number_format($vlconc,2,",",".")?>','<?php echo $bancoconc?>','<?php echo $txconc?>','<?php echo $idconc?>')" ><img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/icons/middlenav/pencil.png" width="14" border="0" title="Editar"></a>&nbsp;
+							<a href="javascript:" onclick="removeConcilia('<?php echo md5($idconc)?>');"><img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" width="14" border="0" title="Remover"></a>&nbsp;
+							<?php if((!empty($pconci)||!empty($rconci)) || ($bancoconc!="")): ?>
+							<a href="javascript:" onclick="confirmConcilia('<?php echo md5($idconc)?>');"><img src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/dark/record.png" width="14" border="0" title="Concilhar"></a>
+							<?php endif;
+							else:
+								echo " &nbsp; Validado";
+							endif;
+						endif;
+						?>
+					</td>
+				</tr>
+				
+				<?php
+				$pconci	= "";
+				?>
+				</tbody>
+			</table>
+		</div>
+		<?php endif;?>
+				 	
+		<script type="text/javascript">			        
+	        	
+			function buscaConc(){
+				if(document.getElementById('novaconcilia').style.display=='none'){
+					document.getElementById('novaconcilia').style.display='block';
+					document.getElementById('buscaconcilia').style.display='none';
+					document.getElementById('buscac').src='<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/magnify.png';
+				}else{
+					document.getElementById('novaconcilia').style.display='none';
+					document.getElementById('buscaconcilia').style.display='block';
+					document.getElementById('buscac').src='<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/add.png';
+				}	
+			}
+			
+			function novaConctrans(){
+				document.getElementById('novaconc').style.display='block';
+				document.getElementById('novaconcc').style.display='block';
+			}
+
+			function confirmConcilia(idconc){
+				jConfirm('Você deseja validar a conciliação?', 'Confirme', function(r) {
+					if(r==true){
+						window.location='<?php echo $this->baseUrl()?>/admin/administracao/conciliarcont/conc/'+idconc;
+						
+					}
+				});
+			}
+
+			function removeConcilia(idconc){
+				jConfirm('Você deseja remover a conciliação?', 'Confirme', function(r) {
+					if(r==true){
+						window.location='<?php echo $this->baseUrl()?>/admin/administracao/remconciliacao/conc/'+idconc;
+						
+					}
+				});
+			}
+			
+       </script> 
+		
+	</div>
+	

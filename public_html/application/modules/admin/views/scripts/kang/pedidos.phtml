@@ -1,0 +1,107 @@
+<script src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/kangPedidos.js"></script>
+
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li class="lastB"><?=$this->translate->_("Pedidos de venda")?></li>
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5><?=$this->translate->_("Pedidos de venda")?></h5></div>
+
+        <div class="widgets" >
+        	<!-- Busca -->
+        	<div class="left" style="margin-top: 5px; margin-bottom: 5px" >    
+				<?php if($this->objIns==true):?>
+				<input onclick="window.location='<?=$this->baseUrl()?>/admin/kang/orcamentos'" class="basicBtn" type="button" value="<?=$this->translate->_("Orçamentos")?>" >
+				<?php endif;?>
+			</div>
+            <div class="right" style="text-align: right; padding-top: 7px; width: 40%">
+				<a href="<?=$this->baseUrl(); ?>/admin/kang/vendas"><?=$this->translate->_("Vendas")?></a> | 
+				<a href="<?=$this->baseUrl(); ?>/admin/kang/produtosclasse"><?=$this->translate->_("Classes")?></a>
+			</div>
+		</div>
+    		 
+		<!-- Busca ------------------------------------------------------ -->
+		<div class="widgets" >
+			<div class="first" style="margin-top: 5px; margin-bottom: 5px; border: 1px solid #d5d5d5; padding: 10px" >  
+				<form method="post" name="busca" id="busca" class="mainForm">
+					<div >
+						<table style="width: 100%">
+							<tr>
+						    	<td class="tdbusca">
+					    			<input type="text" size="10" name="buscaid" id="buscaid"  placeholder="<?=$this->translate->_("Pedido")?>" style="width: 80px">					    			
+					    		</td>
+					    		<td class="tdbusca">
+					    			<input type="text" name="order" placeholder="<?=$this->translate->_("Pedido do cliente")?>" style="width: 100px"/>
+					    		</td>
+					    		<td class="tdbusca">
+					    			<input type="text" name="codigo" placeholder="<?=$this->translate->_("Código do produto")?>" style="width: 100px"/>
+					    		</td>
+							 	<td style="vertical-align: bottom;" class="tdbusca" >
+							 		<div class="styled-select" style="width: 120px">
+										<select name="buscasit" id="buscasit" style="width: 140px">
+											<option value="0"><?=$this->translate->_("Situação")?></option>
+											<option value="1"><?=$this->translate->_("Recebido")?></option>
+											<option value="2"><?=$this->translate->_("Pedido")?></option>
+											<option value="3"><?=$this->translate->_("Finalizado")?></option>
+											<option value="4"><?=$this->translate->_("Cancelado")?></option>
+										</select>
+									</div>
+								</td>
+							</tr>
+							<tr>
+						    	<td align="left" valign="top" class="tdbusca" colspan="2">
+					    			<div class="styled-select" style="width: 250px">
+						    			<select name="buscacli" id="buscacli" style="width: 272px">
+						    				<option value="0"><?=$this->translate->_("Cliente")?></option>
+											<?php foreach ($this->objFornec as $listcli): ?>
+												<option value="<?php echo $listcli->ID?>"><?php echo $listcli->EMPRESA ?></option>
+											<?php endforeach; ?>
+										</select>
+					    			</div>
+								</td>
+								<td style="vertical-align: bottom;" class="tdbusca" >
+				    				<div style="float: left; width: 45%"> 
+										<input placeholder="<?=$this->translate->_("Data inicial")?>" type="text" style="margin-right: 3px; width: 80px" name="dataini" id="dataini" class="data datepicker">
+									</div>
+									<div style="float: left;">
+										<input placeholder="<?=$this->translate->_("Data final")?>" type="text" style="margin-right: 3px; width: 80px" name="datafin" id="datafin" class="data datepicker">
+									</div>
+								</td>
+								<td class="tdbusca">
+									<input type="button" class="blueBtn btnpesq" value="<?=$this->translate->_("Pesquisar")?>" id="btnbusca">
+								</td>
+							</tr>								
+						</table>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+		<div class="clear"></div>
+		
+		<div style="display: none; " id="resultado">
+			<div style="padding: 10px; border: 1px solid #d5d5d5;">
+				<img src="<?php echo $this->baseUrl?>/public/sistema/imagens/loaders/loader6.gif"> <i>Aguarde...</i>
+			</div>
+		</div>	
+ 		
+	</div>
+	
+	<script>
+	function confirmRemove(id){
+		jConfirm('Você deseja remover este pedido?', 'Confirme', function(r) {
+			if(r==true){
+				
+			}
+		});
+	}
+
+	</script>

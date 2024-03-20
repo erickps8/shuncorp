@@ -1,0 +1,81 @@
+<?php 
+$this->layout()->setLayout('menuestoque');
+?>
+<br></br>
+            
+<table cellpadding="10" cellspacing="" width="100%" class="borda">
+	<tr>
+		<td >
+			<span style="font-size: 18px; color:black; "><b></>Estoque de produtos</b></span> 
+		</td>
+		</tr>
+		<tr>
+		<td  bgcolor="#FFFFFF">
+		<table width="100%" cellpadding="10">
+		<tr>	
+		<td align="left">
+		<form action="extratoprod" method="post">
+		<font >Por produto: </font><br />
+		<input type="text" size="25" name="codproduto">
+		</form>				     
+		</td>
+		<td>
+		&nbsp;
+		</td>
+		</tr>					
+		<? // Criacao do combo box Grupo de pecas ?>
+		
+		<tr>	
+		<td align="left">
+		<form action="<?=$this->baseUrl()?>/admin/compras/estoquegrupo" method="post">
+		<font >Grupo de Vendas: </font><br />
+		<select name="id_grupo" id="id_grupo" onChange="submit();" >
+		<option value=''>SELECIONE</option>	
+			<?	
+			foreach ($this->objGrupo as $listG){ 
+				?>
+				<option value='<?php echo $listG->ID?>'><?php echo $listG->NOME?></option>		
+				<?
+			}
+			?>
+		</select>
+		</form>				     
+		</td>
+		<td>
+		&nbsp;
+		</td>
+		</tr>					
+		<? // Criacao do combo box Purchasing Group ?>
+		<tr>
+		<td align="left">
+			<form action="<?=$this->baseUrl()?>/admin/compras/estoquegrupo" method="post">
+			<font> Grupo de compra: </font><br />
+			<select name="id_purchasing" id="id_purchasing" onChange="submit();" style="text-transform: uppercase;">
+			<option value=''>Selecione</option>	
+			<?	
+			foreach ($this->objGrupocompra as $listCompra){ 
+				?>
+				<option value='<?php echo $listCompra->id?>'><?php echo $listCompra->purchasing?></option>		
+				<?
+			}
+			?>
+			</select>
+			</form>
+		</td>
+		</tr>
+		</table>
+		
+		
+		</td>
+		</tr>
+		</table>
+		<script>
+			function verificaCompra(valor){
+				window.location='?id='+valor.value;			
+			}
+			
+			function verificaVenda(valor){
+				window.location='?idv='+valor.value;			
+			}
+		</script>
+		

@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>ZTL Brasil - www.ztlbrasil.com.br </title>
+<link href="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/ztl.ico" rel="shortcut icon" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/css/pedidos_imp.css" />
+<style>
+<!--
+.mytable {
+	padding: 0;
+	border-collapse: collapse;
+	font: bold 12px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #000;
+}
+
+
+.borda_titulo{                
+	background-color:#ebebeb;
+	border-bottom:1px solid #d4d4d4;
+	border-top:1px solid #d4d4d4;
+	font: bold 13px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	
+}
+
+.th_canto_min {
+	border-left:1px solid #d4d4d4;
+	border-right: 1px solid #d4d4d4;
+	border-bottom: 1px solid #d4d4d4;
+	border-top: 1px solid #d4d4d4;	
+	background: #ebebeb;
+	font: bold 9px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+}
+
+.th_orc_min {
+	
+	color: #4f6b72;
+	border-left: 1px solid #d4d4d4;
+	border-right: 1px solid #d4d4d4;
+	border-bottom: 1px solid #d4d4d4;
+	border-top: 1px solid #d4d4d4;
+	text-transform: uppercase;
+	text-align: center;
+	padding: 2px 2px 2px 2px;
+	background: #ebebeb;
+	font: bold 9px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+}
+
+.td_orc_min {
+	border-left: 1px solid #d4d4d4;
+	border-right: 1px solid #d4d4d4;
+	border-bottom: 1px solid #d4d4d4;
+	border-top: 1px solid #d4d4d4;
+	background: #fff;
+	padding: 2px 2px 2px 2px;
+	color: #797268;
+	
+}
+
+-->
+</style>
+</head>
+<body onLoad="window.print();">
+<table width="800" class="borda_titulo" style="margin-bottom: 6px" align="center">
+	<tr>
+    	<td width="left">
+    	<? 
+    	echo $this->translate->_("FINANCEIRO")." - ".$this->translate->_("CONCILIAÇÃO BANCÁRIA");
+    	?>
+    	
+    	</td>
+    </tr>
+</table>
+
+<table width="800" cellpadding="0" cellspacing="0" align="center">
+    <tr>
+    	<td>	    	
+			<table width="100%" style="border: 1px solid #000;">
+	    		<tr>
+	    			<td align="left" width="70%">
+	    				<?php 
+	    				foreach ($this->objContasbanc as $contasvalid): 
+	    					if($this->objContaconc==$contasvalid->id) echo strtoupper($contasvalid->nome);
+	    				endforeach;
+	    				?>
+	    				
+	    			</td>
+	    			<td class="tdpar" align="left" width="">
+					Saldo em <?=date("d/m/Y");?>:					
+					</td>
+					<td class="tdpar" align="right">
+						<?php 
+						foreach($this->objSaldoc as $saldo);
+						echo number_format($saldo->total,2,",",".");
+					?>
+					</td>
+			 </tr>
+			 </table>
+	    </td>
+	 </tr>
+ 			 	
+	 <tr>
+	 	<td>
+ 		<?php if(!empty($this->objConciliac)):?>
+ 		<table class="mytable" width="100%" cellspacing="0" cellpadding="0" style="margin-top: 5px">	
+			<tr>
+				<th class="th_canto_min"><?=$this->translate->_("ORD")?></th>
+				<th class="th_orc_min"><?=$this->translate->_("DATA")?></th>
+				<th class="th_orc_min"><?=$this->translate->_("VALOR")?></th>
+				<th class="th_orc_min"><?=$this->translate->_("CONCILIAÇAO")?></th>
+				<th class="th_orc_min" width="17%"><?=$this->translate->_("OPÇÕES")?></th>
+			</tr>
+		
+			<?php 
+			$idconc = 0;
+			
+			$idconc		= "";
+			$dt			= "";
+			$vlconc		= "";
+			$bancoconc	= "";
+			$txconc		= "";
+			$transac 	= "";
+			$pconci		= "";
+			$rconci		= "";
+			$conctransf = "";
+			$validado	= "";
+			foreach ($this->objConciliac as $listconc):
+			
+				if($idconc != 0):
+					if($idconc != $listconc->idconc):
+						 
+						?>
+						<tr  >
+							<td  class="td_orc_min" align="center">
+								<font color="<?=$cor?>"><?=substr("000000".$idconc,-6)?></font>
+							</td>
+							<td class="td_orc_min" align="center">
+								<font color="<?=$cor?>"><?=$dt?></font>
+							</td>											
+							<td class="td_orc_min" align="right">
+								<font color="<?=$cor?>"><?=number_format($vlconc,2,",",".")?></font>
+							</td>
+							<td class="td_orc_min" align="center" >
+								<? 
+								if($vlconc<0): 
+								 	echo substr($pconci,0,-1);
+								elseif($vlconc>0): 
+									echo substr($rconci,0,-1);
+								endif;
+								if(!empty($conctransf)):
+									echo "TRANSF ID ".substr("000000".$conctransf,-6);								
+								elseif($bancoconc!=""):
+									foreach ($this->objContasbanc as $contasvalid): 
+									    if($bancoconc == $contasvalid->id) echo strtoupper($contasvalid->nome)." (".($txconc).")";
+									endforeach;
+								endif;
+								?>
+							</td>
+							<td class="td_orc_min" align="left"> &nbsp;  &nbsp; 
+								<?php if($validado!=0):
+									echo " &nbsp; Validado";
+								endif;
+								?>
+							</td>
+						</tr>
+						<?php
+						$pconci	= "";
+						$rconci	= "";
+					endif;
+				endif;
+				$idconc		= $listconc->idconc;
+				$dt			= $listconc->dtcad;
+				$vlconc		= $listconc->valor;
+				$bancoconc	= $listconc->id_fin_contas;
+				if($listconc->tax_cambio!=0) $txconc		= number_format($listconc->tax_cambio,2,",",".");
+				$transac 	= $listconc->transacao;
+				$conctransf	= $listconc->conctransf;
+				$validado	= $listconc->valida;
+				if(!empty($listconc->pconc)) $pconci .= "P".substr("000".$listconc->pconc,-6)."<br>";
+				if(!empty($listconc->rconc)) $rconci	.= "R".substr("000".$listconc->rconc,-6)."<br>";
+				
+			endforeach;
+			
+			 
+			if($vlconc<0): 
+				$tpc = 1;
+			else: 
+				
+				$tpc = 2;
+			endif; 
+			?>
+			<tr  >
+				<td  class="td_orc_min" align="center">
+					<?=substr("000000".$idconc,-6)?>
+				</td>
+				<td class="td_orc_min" align="center">
+					<?=$dt?>
+				</td>											
+				<td class="td_orc_min" align="right">
+					<?=number_format($vlconc,2,",",".")?>
+				</td>
+				<td class="td_orc_min" align="center" >
+					<? 
+					if($vlconc<0): 
+					 	echo substr($pconci,0,-1);
+					elseif($vlconc>0): 
+						echo substr($rconci,0,-1);
+					endif;
+					if(!empty($conctransf)):
+						echo "TRANSF ID ".substr("000000".$conctransf,-6);								
+					elseif($bancoconc!=""):
+						foreach ($this->objContasbanc as $contasvalid): 
+						    if($bancoconc == $contasvalid->id) echo strtoupper($contasvalid->nome)." (".($txconc).")";
+						endforeach;
+					endif;
+					?>
+				</td>
+				<td class="td_orc_min" align="left"> &nbsp;  &nbsp; 
+					<?php if($validado!=0):
+						echo " &nbsp; Validado";
+					endif;
+					?>
+				</td>
+			</tr>
+			<?php
+			$pconci	= "";
+			?>
+		</table>
+		<?php endif;?>
+	 	</td>
+	 </tr>
+</table>
+</body>
+</html>

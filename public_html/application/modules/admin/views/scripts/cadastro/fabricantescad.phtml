@@ -1,0 +1,51 @@
+<?php 
+if(count($this->objList)>0):
+	foreach ($this->objList as $list); 
+endif;
+?>
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl(); ?>/admin/cadastro/veiculos">VEÍCULOS</a>&nbsp;
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp; 
+		<a href="<?=$this->baseUrl(); ?>/admin/cadastro/fabricantes">FABRICANTES</a>&nbsp;
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp; 
+		<b><a href="<?=$this->baseUrl(); ?>/admin/cadastro/fabricantescad/<?=md5($list->id)?>">CADASTRO DE FABRICANTES</a></b>
+	</div>
+	<div id="sistitulo">CADASTRO DE FABRICANTES</div>
+	<div id="sisconteudo">
+		
+		<form action="<?=$this->baseUrl(); ?>/admin/cadastro/fabricantesgrava" method="post" name="grava" id="grava">
+		
+		<table style="margin-top: 5px; width: 100%">
+		    <tr>
+		    	<td align="left" >
+		    		Nome do fabricante: <br>
+		    		<input value="<?=$list->no_fabricante?>" type="text" size="50" name="fabricante">
+		            <input value="<?=$list->id?>" type="hidden" name="idfabricante"  >
+		    	</td>
+			</tr>
+			<tr>
+		    	<td align="left" >
+		    	<?php echo $list->id_parceiro?>
+    				Parceiro:<br />
+    				<select name="parceiro">
+    					<option value="">Selecione</option>
+    					<?php foreach ($this->objParc as $parceiro): ?>
+    					<option value="<?=$parceiro->ID?>" <?php if($parceiro->ID == $list->id_parceiro) echo 'selected="selected"';?> ><?=$parceiro->EMPRESA?></option>
+    					<?php endforeach;?>
+    				</select>
+		    	</td>
+			</tr>
+			<tr>
+		    	<td align="left" >
+		    		<br />
+		    		<input type="submit" value="Salvar">
+		    	</td>
+			</tr>
+		</table>
+		</form>
+	</div>
+</div>
+		

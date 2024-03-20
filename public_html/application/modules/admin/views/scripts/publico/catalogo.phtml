@@ -1,0 +1,276 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="<?=$this->baseUrl()?>/public/sistema/imagens/ztl.ico" rel="shortcut icon" />
+<title>ZTL Brasil - Catálogo Completo</title>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/javascript/buscaajax/buscaajaxsubgrupopublico.js"></script>
+<style type="text/css">
+<!--
+body { background-image:url(<?=$this->baseUrl()?>/images/hotsites/catalogo/back.jpg);
+	margin-left: 0px;
+	margin-top: 20px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	
+	text-align:left;
+	font-family:"Arial", Arial, Helvetica, sans-serif; font-size:14px;
+}.produto{ font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;font-size:32px; font-style:italic; color:#FFF; font-weight:600;
+
+}
+
+
+.nome{ font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;font-size:16px;  color: #3F3F3F; 
+}
+
+.menu1{
+	  font-family: Tahoma, Geneva, sans-serif,; font-size: 15px; color: #53595E; line-height:25px;
+	  
+}
+
+.menu2{
+	  font-family: Tahoma, Geneva, sans-serif,; font-size: 15px; color: #53595E; text-align:center;
+	  
+}
+.text-padrao{ font-family: Tahoma, Geneva, sans-serif; font-size: 15px; 
+}
+
+.text-padrao2{ font-family: Tahoma,; font-size: 14px; font-size: 17px; color:#F00;
+}
+
+input,select {
+	border: 1px solid #6E6E6E;
+	font-family: Tahoma, Geneva, sans-serif; font-size: 12px;
+	background-color: #fff;
+	width: 100%;
+}
+
+-->
+</style>
+
+</head>
+
+<body>
+<table  align="center" width="1000" border="0" height="225" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="23"><img src="<?=$this->baseUrl()?>/images/hotsites/catalogo/banner_topo1.png" width="23" height="92" /></td>
+    <td width="454"><img src="<?=$this->baseUrl()?>/images/hotsites/catalogo/topo.jpg" width="454" height="92" /></td>
+    <td style="background-color:#00ACAE;" width="418"></td>
+    <td style="background-color:#00ACAE" width="80"><img src="<?=$this->baseUrl()?>/images/hotsites/catalogo/banner_topo2.jpg" width="80" height="92" /></td>
+    <td width="25"><img src="<?=$this->baseUrl()?>/images/hotsites/catalogo/banner_topo4.png" width="25" height="92" /></td>
+  </tr>
+  <tr>
+    <td height="140" style="background-image:url(<?=$this->baseUrl()?>/images/hotsites/catalogo/corpo_linha2.jpg); background-repeat:repeat-y; background-color:#EDEDED;">
+    </td>
+    <td style="background-color: #EDEDED;" colspan="3" align="left">
+    <form action="" method="post"> 
+	    <table style="margin-left:15px; margin-top: 10px" width="470" border="0" cellspacing="3" cellpadding="3">
+	      <tr>
+	        <td align="left"  width="200">Código ZTL</td>
+	        <td align="left" >
+				<input  type="text" size="20" name="codigo" />
+			</td>
+	      </tr>
+	      <tr>
+	        <td align="left"  width="91">Descrição</td>
+	        <td align="left" >
+	        	<input  type="text" size="30" name="descricao" />
+	        </td>
+	      </tr>
+	      
+	      <tr>
+	        <td align="left"  width="91">Montadora</td>
+	        <td align="left" >
+	        	 <select name="montadora" id="montadora"  >
+					<option value="0">Selecione</option>
+					<?php foreach ($this->objMontadora as $list): ?>
+						<option value="<?=$list->ID?>"><?=$list->NOME?></option>
+					<?php endforeach; ?>
+				</select>	        
+	        </td>
+	      </tr> 
+	      <tr>
+	        <td align="left"  width="91">Grupos</td>
+	        <td align="left" >
+	        <select name="buscagrupo" id="buscagrupo" onchange="Mostrasubgrupos(this.value);">
+				<option value="0">Todos</option>
+				<?php 
+				foreach ($this->objGrupo as $list): 
+					if($list->tipo==1):
+						?>
+						<option value="<?=$list->id?>"><?=$list->descricao?></option>
+						<?php
+					endif; 
+				endforeach; ?>
+			</select>
+	        </td>
+	      </tr>
+	      <tr>
+	        <td align="left">Subgrupos</td>
+	        <td align="left"><div id="subgrupo"><select name="buscagruposub"> <option value="0" > Selecione </option></select></div></td>
+	        
+	      </tr>
+	       <tr>
+	        <td align="left">&nbsp;</td>
+	        <td align="right">
+	       		<input type="image" style="border: 0; width: 86px" src="<?=$this->baseUrl()?>/images/hotsites/catalogo/pesquisar3.png"/>
+	        </td>	        
+	      </tr>
+	      
+	    </table>
+	    </td>
+    	<td style=" background-color:#EDEDED; padding-left:24px;" >
+    	<img src="<?=$this->baseUrl()?>/images/hotsites/catalogo/corpo_linha2.jpg" width="1" height="140" />
+    	</td>
+  </tr>
+  <?php 
+  if(!empty($this->objProdutos)):
+  foreach ($this->objProdgrup as $grupos):  
+	  ?>  
+	  <tr>
+	    <td class="produto" colspan="5" style="padding-left:44px; background-color:#6E6E6E; height:58px; text-transform: uppercase;">
+	    	<?=utf8_encode($grupos->descgrupo." - ".$grupos->descsubgrupo)?>
+	    </td>
+	  </tr>
+	  <?php 
+	  foreach ($this->objProdutos as $produtos):
+	  	if($produtos->id_gruposprodsub == $grupos->idsubg):
+		  	//if(file_exists(BaseImg.'imgprodutos/'.$produtos->idprod.'/imagem1.jpg')):
+		    ?>	  
+		  <tr>
+		    <td colspan="5" style="background-color:#e0e0e0; height:41px"><table width="950" height="40" border="0" cellspacing="0" cellpadding="0">
+		      <tr class="nome">
+		        <td style="padding-left:8px" width="204">
+		        <b><?=$produtos->CODIGO?></b></td>
+		        <td width="5"><img src="<?=$this->baseUrl()?>/images/hotsites/catalogo/marcador.jpg" width="2" height="31" /></td>
+		        <td width="736"><?=utf8_encode($produtos->DESCRICAO)?></td>
+		      </tr>
+		    </table></td>
+		  </tr>
+		  <tr>
+		    <td  colspan="5" style=" background-color: #FFF; " valign="top"> 
+		    <table width="800" border="0" cellspacing="0" cellpadding="0">
+		      <tr>
+		        <td  width="215" rowspan="2" align="center" valign="top"  style="background-color: #FFF; " >
+		        <?php 
+		        if(file_exists(BaseImg.'imgprodutos/'.$produtos->idprod.'/imagem1.jpg')):
+		        ?>
+		        	<img align="top" src="<?=$this->baseUrl()?>/images/imgprodutos/<?=$produtos->idprod?>/imagem1.jpg" width="150" border="0" />
+		        <?php else: ?>
+		        	<img align="top" src="<?=$this->baseUrl()?>/images/hotsites/catalogo/lancamento.jpg"  width="150" />
+		        <?php endif; ?>
+		        </td>
+		        <td valign="top">
+		        <?php 
+		        if(!empty($this->objProdveic)):
+		        ?>
+		        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+	        		<tr>
+	        			<td align="left" width="30%">
+	        				<b>Montadora</b>
+	        			</td>
+	        			<td align="left"  width="40%">
+	        				<b>Modelo</b>
+	        			</td>
+	        			<td align="left" width="30%">
+	        				<b>Ano</b>
+	        			</td>
+	        		</tr>
+	        		<?php 
+	        		foreach ($this->objProdveic as $veiculos):
+	        			if($veiculos->id_produto == $produtos->idprod):
+		        		?>
+		        		<tr>
+		        			<td align="left">
+		        				<?=utf8_encode($veiculos->NOME)?>
+		        			</td>
+		        			<td align="left">
+		        				<?=utf8_encode($veiculos->no_modelo)?>
+		        			</td>
+		        			<td align="left">
+		        				<?
+		        				if(!empty($veiculos->ano_ini) and empty($veiculos->ano_fim)):
+		        					echo $veiculos->ano_ini." > ";
+		        				elseif(empty($veiculos->ano_ini) and !empty($veiculos->ano_fim)):
+		        					echo "< ".$veiculos->ano_fim;
+		        				elseif(!empty($veiculos->ano_ini) and !empty($veiculos->ano_fim)):
+		        					echo $veiculos->ano_ini." > ".$veiculos->ano_fim;	        				
+		        				else:
+		        					echo "Todos";
+		        				endif;
+		        				?>
+		        			</td>
+		        		</tr>
+		        		<?php 
+		        		endif;
+	        		endforeach;
+	        		
+	        		?>
+	        	</table>
+	        	<?php endif; ?>
+	        	</td>
+		      <tr>
+		        <td height="25" colspan="3"><b>
+		        <?php 
+		        if(($produtos->grupoprod==8)):
+		        	//-- Cruzetas e trizetas 
+		        	?>
+		        	Interno: <?=$produtos->medida_inner_cru?> mm &nbsp; 
+					Altura: <?=$produtos->medida_high_cru?> mm &nbsp; 
+					Dentes:	<?=$produtos->medida_teeth_cru?> mm &nbsp; 				        	
+		        	<?php 
+		        elseif(($produtos->grupoprod==1)||($produtos->grupoprod==6)):
+		        	//--Restantes -----------------
+		        	?>
+		        	Interno: <?=$produtos->M_INNER?> mm &nbsp; 
+					Externo: <?=$produtos->M_OUTER?> mm &nbsp; 
+					Altura: <?=$produtos->M_HIGH?> mm 
+		        	<?php
+		        elseif(($produtos->grupoprod==2)):
+		        	//--Restantes -----------------
+		        	?>
+		        	Interno: <?=$produtos->M_INNER?> mm &nbsp; 
+					Externo: <?=$produtos->M_OUTER?> mm &nbsp; 
+					Altura: <?=$produtos->M_HIGH?> mm &nbsp; 
+					Furos: <?=$produtos->furos?> 
+		        	<?php
+		        	
+		        endif;
+		       		        
+		        ?>
+		        </b></td>
+		        </tr>
+		    </table>
+		    </td>    
+		    
+		  </tr>
+		  <?php 
+		   	//endif;
+		  endif;
+	  endforeach;
+  endforeach;
+  endif;
+  
+  if(empty($this->objProdutos)):
+  ?>
+  <tr>
+    <td style="background-image:url(<?=$this->baseUrl()?>/images/hotsites/catalogo/rodape.png); height:21px; background-color:#EDEDED;"></td>
+    <td style="background-color:#EDEDED;" colspan="3"></td>
+    <td style="background-image:url(<?=$this->baseUrl()?>/images/hotsites/catalogo/rodape2.png);background-color:#EDEDED;"></td>
+  </tr>
+  <?php else: ?>
+  <tr>
+    <td style="background-image:url(<?=$this->baseUrl()?>/images/hotsites/catalogo/rodape.png); height:21px; background-color:#FFF;"></td>
+    <td style="background-color:#FFF;" colspan="3"></td>
+    <td style="background-image:url(<?=$this->baseUrl()?>/images/hotsites/catalogo/rodape2.png);background-color:#FFF;"></td>
+  </tr>
+  <?php endif; ?>
+  <tr>
+    <td><img src="<?=$this->baseUrl()?>/images/hotsites/catalogo/rodape3.png" width="23" height="79" /></td>
+    <td style="background-image:url(<?=$this->baseUrl()?>/images/hotsites/catalogo/rodape5.jpg)"><img align="left"src="<?=$this->baseUrl()?>/images/hotsites/catalogo/rodape4.jpg" width="112" height="79" /></td>
+    <td style="background-image:url(<?=$this->baseUrl()?>/images/hotsites/catalogo/rodape5.jpg)" colspan="2"><img align="right" src="<?=$this->baseUrl()?>/images/hotsites/catalogo/rodape7.jpg" width="462" height="79" /></td>
+    <td><img src="<?=$this->baseUrl()?>/images/hotsites/catalogo/rodape8.png" width="25" height="79" /></td>
+  </tr>
+</table>
+</body>
+</html>

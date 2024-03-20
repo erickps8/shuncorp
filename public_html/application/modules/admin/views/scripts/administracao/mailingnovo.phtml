@@ -1,0 +1,141 @@
+<script src="<?=$this->baseUrl();?>/public/js/editor/ckeditor/ckeditor.js "></script>
+<script type="text/javascript" src="<?=$this->baseUrl(); ?>/public/js/buscaajax/buscaajaxtpclientes.js"></script>
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?php echo $this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/mailing">EMAIL MARKETING</a>&nbsp;
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<b><a href="<?php echo $this->baseUrl(); ?>/admin/administracao/mailingnovo">NOVO EMAIL</a></b>   
+	</div>
+	<div id="sistitulo">NOMO EMAIL MARKETING
+		<div style="float: right;">
+			<a href="#" class="dcontexto"><img src="<?php echo $this->baseUrl(); ?>/images/interrogacao2.png" width="18" height="18" border="0">
+            <span><b>Lançamentos</b><br>
+            Aqui é exibido os lançamentos prontos para a geração e envio em forma de email marketing. 
+            </span></a>
+		</div>
+	</div>
+    <div id="sisconteudo">
+		<form name="mensagem" method="post" action="<?php echo $this->baseUrl(); ?>/admin/administracao/enviarmailing">
+	    <table style="margin-top: 15px; width: 100%" >
+	       <tr>
+             <td align="left" >
+			     <b>Enviar para:</b><br>
+			     <table style="width: 300px" >
+			     	<tr>
+			     		<td>
+			     		<input type="checkbox" value="1" name="CheckTodos" id="todos" onClick="marcarCheck();" /> Todos
+			     		</td>
+			     		<td>
+			     		<input type="checkbox" value="1" name="alvos" id="Marcados" onClick="desmarcarCheck();"> Contatos
+			     		</td>
+			     	</tr>			     	
+			     	<tr>
+			     		<td>
+			     		<input type="checkbox" value="1" name="clientes" id="Marcados" onClick="desmarcarCheck();"> Clientes
+			     		</td>
+			     		<td>
+			     		<input type="checkbox" value="1" name="newsletter" id="Marcados" onClick="desmarcarCheck();"> Newsletter
+			     		</td>
+			     	</tr>
+			     	<tr>
+			     		<td>
+			     			<input type="checkbox" value="1" name="funcionarios" id="Marcados" onClick="desmarcarCheck();"> Funcionários			                
+			     		</td>
+			     		<td>
+			     		 	<input type="checkbox" value="1" name="vendedores" id="Marcados" onClick="desmarcarCheck();">
+			     		 	<a href="#" class="dcontexto" onmouseover="buscaClientesportipo('forcavenda');" style="width: 300px">
+			                   Força de vendas
+			                   <span id="divforcavenda" style="width: 500px" >	 
+			                   	<img alt="Carregando..." src="<?=$this->baseUrl(); ?>/images/loading.gif">        
+				               </span>
+				           	</a>
+			     		</td>
+			     	</tr>
+			     </table>
+			</td>
+        </tr>
+		<tr>
+        	<td align="left" >    
+			     <br /><br />
+			     <input type="checkbox" value="1" name="teste" >Envio de Teste
+			     <br>
+			     <br>
+			     <br>			
+             </td>
+          </tr>
+          <tr>
+          	<td align="left">
+          		<?php 
+          		if(count($this->objEmail)>0):
+          			foreach ($this->objEmail as $email);
+          		endif;
+          		?>
+			    Email de envio:<br>
+			    <select name="emailenvio">
+			    	<option value="0">ZTL Brasil - info@ztlbrasil.com.br</option>
+			     	<option value="1"><?=$email->NOME_CONTATO." - ".$email->EMAIL?></option>
+			    </select>
+			    <br>
+            </td>
+          </tr>
+	      <tr>
+          	<td align="left">
+			     Assunto:<br>
+			     <input type="text" name="assunto" id="assunto" size="60" maxlength="100">
+			     <br>
+            </td>
+          </tr>
+           <tr>
+          	<td align="left">
+			     <input type="radio" name="disparo" checked="checked" value="0"> Envio imediato<br />
+			     <input type="radio" name="disparo" value="1"> Agendar (Envio às 08:00hs do dia posterior)<br />
+            </td>
+          </tr>
+          <tr>
+          	<td align="left">
+				<p>
+                <label for="message">
+                Mensagem:</label><br/>
+                <textarea class="ckeditor" cols="80" id="mensagem" name='mensagem' rows="10">
+				</textarea>
+                </p>
+            </td>
+         </tr>
+		 <tr>
+         	<td align="left">
+            	<p><input type="submit" name="alterar" value="Enviar" /></p>
+            </td>
+         </tr>
+		</table>
+	</form>
+	
+	</div>
+</div>
+	
+	<script type="text/javascript">
+	    function marcarCheck() {  
+	    var contaForm = document.mensagem.elements.length;  
+	    var campo = document.mensagem;  
+	    var i;  
+	 
+	    for (i=0; i<contaForm; i++) {  
+		if (campo.elements[i].id == "Marcados") {  
+		    campo.elements[i].checked = campo.CheckTodos.checked;  
+		}  
+	    }  
+	 
+	    }
+	    
+	    function desmarcarCheck() {
+	     
+	       campoDes = document.getElementById("Marcados");
+	       
+	       document.getElementById('todos').checked=false;
+	       
+	    
+	   
+	    }  
+	    
+	</script>

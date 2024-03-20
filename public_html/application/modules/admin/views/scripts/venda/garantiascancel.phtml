@@ -1,0 +1,158 @@
+
+<?php 
+
+if(!empty($this->objGarantia)):
+	foreach ($this->objGarantia as $viewGarantia);
+endif;
+
+if(!empty($this->objCliente)):
+	foreach ($this->objCliente as $viewCli);
+endif;
+
+?>
+
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl()?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl(); ?>/admin/venda/garantias"><?=$this->translate->_("GARANTIAS")?></a>&nbsp;
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<b><a href="<?=$this->baseUrl(); ?>/admin/venda/garantiascancel/garantia/<?=md5($viewGarantia->idcli)?>">GARANTIA N&ordm; G<?=str_pad($viewGarantia->idcli, 6, "0", STR_PAD_LEFT)?></a></b>
+	</div>
+	<div id="sistitulo">GARANTIA N&ordm; G<?=str_pad($viewGarantia->idcli, 6, "0", STR_PAD_LEFT)?></div>
+	<div id="sisconteudo">  
+		<div>
+			<table style="border: 1px solid #000; margin-top: 10px; border-spacing: 8px; width: 100%" >
+			<tr>
+				<td align="left" width="22%" colspan="3">
+					Empresa:<br>
+					<b><?php echo $viewCli->EMPRESA?></b>
+				</td>
+			</tr>			
+			<tr>
+				<td align="left" width="40%" colspan="2">
+					Nota Fiscal:<br>
+					<b><?php echo $viewGarantia->nota_fiscal?></b>	
+				</td>
+				
+				<td align="left" colspan="2" >
+					Data emiss&atilde;o:<br>
+					<b><?php echo substr($viewGarantia->data_nf,8,2)."/".substr($viewGarantia->data_nf,5,2)."/".substr($viewGarantia->data_nf,0,4)?></b>	
+				</td>
+				
+			</tr>
+			<tr>
+				<td align="left" width="25%" >
+					Peso:<br>
+					<b><?php echo $viewGarantia->peso_nf?></b> 
+					Kg
+				</td>
+				<td align="left" colspan="3" width="85%">
+					Volumes:<br>
+					<b><?php echo $viewGarantia->volumes?></b>	
+				</td>
+			</tr>
+			<tr>
+				<td align="left" width="15%" colspan="4" valign="middle" >
+					<?php if(!empty($viewGarantia->anexo)): ?>
+					<a target="_black" href="<?php echo $this->baseUrl()."/public/nfgarantias/".$viewGarantia->idcli.".".$viewGarantia->anexo?>">
+					<img alt="Anexo" src="<?php echo $this->baseUrl()."/images/anexo.png"?>" border="0" width="20" height="20">
+					<b>Anexo</b></a>
+					<?php endif;?>
+				</td>
+			</tr>
+			<tr>
+				<td align="left" colspan="4">
+					Observa&ccedil;&atilde;o:<br>
+					<b><?php echo $viewGarantia->obs?></b>
+				</td>
+			</tr>
+			<?php if(strripos($viewGarantia->status, "ENVIO")!==0): ?>
+			<tr>
+				<td align="left" colspan="2" >
+				
+						Tipo de envio: <br>
+						<?php if($viewGarantia->tipoenvio==1): ?>
+							<b>Correios/PAC</b>
+						<?php else: ?>
+							<b>Transportadora</b>
+						<?php endif;?>
+						
+				</td>
+				<td colspan="1">
+						<?php if($viewGarantia->tipoenvio==1): ?>
+							N&ordm; PAC:<br>
+							<b><?php echo $viewGarantia->valorenvio?></b>
+						<?php else: ?>
+							Transportadora:<br>
+							<b><?php echo htmlentities($viewGarantia->valorenvio)?></b>
+						<?php endif;?>
+				</td>
+				<td colspan="1">
+						<?php if($viewGarantia->tipoenvio==1): ?>
+							Validade PAC:<br>
+							<b><?php echo $viewGarantia->data_validadepac?></b>
+						<?php endif?>
+				</td>
+			</tr>
+			<?php endif; ?>
+			</table>
+		</div>
+		<div>
+			<br>Data da chegada: 
+			<b><?php echo $viewGarantia->chegada?></b>
+			<br>
+			    
+			<table class="mytable" id="txtHint" style="margin-top: 10px">
+				<tr>
+			    		<th  class="th_canto" style="text-align: center;" width="15%" >
+			                ID
+			            </th>
+			            <th  class="th_orc" align="center" >
+			                C&Oacute;DIGO
+			            </th>
+			            <th  class="th_orc" align="center" width="55%">
+			            	DESCRIÇÃO
+			            </th>
+			        </tr>       
+			       <?php
+			       
+			       if(!empty($this->objProdutos)):
+			       		$cont = 0;
+			       		foreach ($this->objProdutos as $listProd):
+			       			for($i = 0; $i<$listProd->qt; $i++):
+			       				$cont++;
+			       				$analises = "";	
+			       				$idanal = "";
+			       				
+						       ?> 
+						       <tr>
+						       		<td class="td_orc" style="text-align: center;">
+							       		<?php echo substr("000".$cont,-3,3)?>
+							       	</td>
+						       		<td class="td_orc" style="text-align: center;"><?php echo $listProd->CODIGO?></td>
+						       		<td class="td_orc" align="left"  ><?php echo $listProd->DESCRICAO?></td>
+						       </tr>
+						       <?php
+						   endfor;
+					    endforeach;
+					endif; 
+			       
+			        ?>
+			     </table>	
+			</div>
+			<div style="padding: 10px 0px 10px 0px">
+			Observação da garantia:<br><b><?=$viewGarantia->obsanalise?></b>
+			</div>
+			<div style="padding: 10px 0px 10px 0px">
+			Observação do cancelamento:<br><b><?=$viewGarantia->obscancela?></b>
+			</div>
+			<?php if(!empty($viewGarantia->anexocancela)): ?>
+			<div style="padding: 10px 0px 10px 0px">
+			<a href="<?=$this->baseUrl()?>/public/garantias/cancelamentos/<?=$viewGarantia->idcli.".".$viewGarantia->anexocancela?>" >
+			<b>Anexo do cancelamento</b></a>
+			</div>
+			<?php endif;?>
+	</div>
+</div>
+	

@@ -1,0 +1,24 @@
+<?php 
+
+foreach ($this->objProd as $list);
+
+if(!empty($list)):
+echo $list->ID;
+echo "|";
+echo $list->CODIGO;
+echo "|";
+echo str_replace(",",".",$this->vl);
+echo "|";
+echo $list->DESCRICAO;
+echo "|";
+echo $list->id_cliente_shuntai;
+echo "|";
+echo (!empty($this->vl)) ? number_format(str_replace(",",".",$this->vl),5,',','.') : "";
+echo "|";
+echo (!empty($this->vl)) ? number_format(str_replace(",",".",$this->vl)*$this->qt,5,',','.') : "";
+else:
+
+echo "erro1";
+
+endif;
+?>

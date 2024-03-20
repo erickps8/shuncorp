@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Flot Examples: Stacking</title>
+	<link href="../examples.css" rel="stylesheet" type="text/css">
+	<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../../excanvas.min.js"></script><![endif]-->
+	<script language="javascript" type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/flot/jquery.js"></script>
+	<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/flot/jquery.flot.js"></script>
+	<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/flot/jquery.flot.stack.js"></script>
+	<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/flot/jquery.flot.resize.js"></script>
+	
+	<script type="text/javascript">
+
+	$(function() {
+
+		var d1 = [];
+		for (var i = 0; i <= 10; i += 1) {
+			d1.push([i, parseInt(Math.random() * 30)]);
+		}
+
+		var d2 = [];
+		for (var i = 0; i <= 10; i += 1) {
+			d2.push([i, parseInt(Math.random() * 30)]);
+		}
+
+		var d3 = [];
+		for (var i = 0; i <= 10; i += 1) {
+			d3.push([i, parseInt(Math.random() * 30)]);
+		}
+
+		var stack = 0,
+			bars = true,
+			lines = false,
+			steps = false;
+
+		function plotWithOptions() {
+			$.plot("#placeholder", [ d1, d2, d3 ], {
+				series: {
+					stack: stack,
+					lines: {
+						show: lines,
+						fill: true,
+						steps: steps
+					},
+					bars: {
+						show: bars,
+						barWidth: 0.6
+					}
+				}
+			});
+		}
+
+		plotWithOptions();
+
+		$(".stackControls button").click(function (e) {
+			e.preventDefault();
+			stack = $(this).text() == "With stacking" ? true : null;
+			plotWithOptions();
+		});
+
+		$(".graphControls button").click(function (e) {
+			e.preventDefault();
+			bars = $(this).text().indexOf("Bars") != -1;
+			lines = $(this).text().indexOf("Lines") != -1;
+			steps = $(this).text().indexOf("steps") != -1;
+			plotWithOptions();
+		});
+
+		// Add the Flot version string to the footer
+
+		$("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
+	});
+
+	</script>
+	
+	<style>
+
+
+.demo-container {
+	box-sizing: border-box;
+	width: 850px;
+	height: 450px;
+	padding: 20px 15px 15px 15px;
+	margin: 15px auto 30px auto;
+	border: 1px solid #ddd;
+	background: #fff;
+	background: linear-gradient(#f6f6f6 0, #fff 50px);
+	background: -o-linear-gradient(#f6f6f6 0, #fff 50px);
+	background: -ms-linear-gradient(#f6f6f6 0, #fff 50px);
+	background: -moz-linear-gradient(#f6f6f6 0, #fff 50px);
+	background: -webkit-linear-gradient(#f6f6f6 0, #fff 50px);
+	box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+	-o-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+	-ms-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+	-moz-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+	-webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.demo-placeholder {
+	width: 100%;
+	height: 100%;
+	font-size: 14px;
+	line-height: 1.2em;
+}
+
+	</style>
+</head>
+<body>
+
+	<div id="content">
+
+		<div class="demo-container">
+			<div id="placeholder" class="demo-placeholder"></div>
+		</div>
+
+
+	</div>
+
+
+</body>
+</html>

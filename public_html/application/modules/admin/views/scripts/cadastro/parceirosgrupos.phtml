@@ -1,0 +1,78 @@
+<div class="content">   
+	<!-- Navegacao --> 
+    <div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+    	<div class="breadCrumb module">
+        	<ul>
+	            <li class="firstB"><a href="#">Home</a> </li>
+	            <li><a href="<?=$this->baseUrl()?>/admin/cadastro/parceiroslista/filt/all">Parceiros</a></li>         
+	            <li class="lastB">Grupos</li>
+            </ul>
+        </div>
+	</div>       
+
+        
+    <div class="title"><h5>Grupos</h5></div>
+    
+    <div style="margin-top: 5px">
+    	<input type="button" class="basicBtn" value="Novo grupo" onclick="window.location='<?=$this->baseUrl()?>/admin/cadastro/parceirosgruposcad'">
+    </div>
+    
+    <?php 			
+    if(count($this->objList) > 0) :			
+	?>
+		<div class="widget" >
+ 		<table style="width: 100%" class="tableStatic">
+        	<thead>
+            	<tr>
+                	<td width="10%">Id</td>
+                    <td width="45%">Nome</td>
+                    <td width="12%">Opções</td>
+                </tr>
+          	</thead>
+       	<tbody>
+			
+		<?php 
+		$cor=0;
+    	foreach($this->objList as $lista):
+	    	$cor++;
+            ?>
+			<tr >
+                <td style="text-align: center;">
+                   <?php echo substr("000".$cor,-3,3)?>
+                </td>
+                <td >
+                   <?=$lista->nome?>
+                </td>
+                <td style="text-align: center;">
+                	<a href="<?=$this->baseUrl()?>/admin/cadastro/parceirosgruposcad/grupo/<?=md5($lista->id)?>"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/pencil.png"  width="16"  border="0" title="Editar" ></a> &nbsp; 
+                	<a href="javascript:void(0)" onclick="confirmRemovegrupo('<?php echo md5($lista->id)?>');" ><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" width="15" border="0" title="Remover"></a>
+		    	</td>
+		  	</tr>
+        	<?php  
+		endforeach;
+		?>        
+		</table>
+		</div>
+    <?php 
+	else :
+	?>
+	<div class="widget" style="text-align: center; border-top: 1px solid #d5d5d5; padding: 10px">Nenhum grupo encontrado</div>	
+	<?php 
+		endif;
+	?>
+				
+</div>
+	
+<script>
+
+function confirmRemovegrupo(id){
+	jConfirm('Você deseja remover este grupo de interesse?', 'Confirme', function(r) {
+		if(r==true){
+			window.location='<?=$this->baseUrl()?>/admin/cadastro/removergrupoparceiro/grupo/'+id;
+		}
+	});
+}
+
+
+
+</script>

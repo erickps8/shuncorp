@@ -1,0 +1,105 @@
+<?php foreach ($this->objCliente as $cli); ?>
+<!-- Content -->
+    <div class="content">   
+    
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/venda/pendenciasprod/fil/comp">Pendências</a></li>         
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/venda/pendenciasempresa">Empresas</a></li>
+                	<li class="lastB"><?php echo $cli->EMPRESA?></li>
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Pendências <?php echo $cli->EMPRESA?></h5></div>
+        
+        <div style="text-align: right; margin-top: 5px">
+        	<a href="<?php echo $this->baseUrl(); ?>/admin/venda/pendenciasbaixadas/empresa/<?=md5($cli->ID)?>">Pendências baixadas</a>
+        </div>
+        
+        <div class="widget first" >
+            <div class="head" style="margin-top: -10px"><h5 class="iUser">Informações do cliente</h5></div>
+            <div class="body">
+	    		<table> 
+					<tr>
+						<td width="16%">Empresa:</td>
+		    			<td><b><?=$cli->EMPRESA?></b></td>
+		    		</tr> 
+		    		<tr>
+						<td>Razão Social:</td>
+		    			<td><b><?=$cli->RAZAO_SOCIAL?></b></td>
+		    		</tr> 
+		    		<tr>
+						<td>CNPJ:</td>
+		    			<td><b><?=$cli->CPF_CNPJ?></b></td>
+		    		</tr>
+	    		</table> 
+	        </div>
+	    </div>
+	    
+	    <?php
+		if (count($this->objList) > 0){	
+		?>
+	    <form action="<?=$this->baseUrl()?>/admin/venda/baixapendempresa" method="post" name="pendendencias" class="mainForn">
+	    <input type="hidden" name="cliente" value="<?=$cli->ID?>">
+	    <div class="widget">
+ 			<div class="head" style="border-bottom: 0px"><h5 class="iFrames">Produtos</h5></div>
+        	<table class="tableStatic" style="width: 100%">
+            	<thead>
+                	<tr>
+                        <td width="20%">Código</td>
+                        <td width="40%">Descrição</td>
+                        <td width="13%">Pedido</td>
+                        <td width="13%">Dt pend</td>
+                        <td width="7%">Qt</td>
+                        <td width="7%" style="text-align: center;">&nbsp;</td>
+                    </tr>
+                </thead>
+                <tbody>
+        			<?php 
+					$cor=0;
+			    	foreach($this->objList as $lista):
+			    	?>
+					<tr >
+		                <td align="center" >
+		                   	<?=$lista->CODIGO?>  
+		                </td>
+		                <td align="left" >
+		                	<?=$lista->DESCRICAO?>
+		                </td>
+		                <td align="center" >
+		                	<a href="<?=$this->baseUrl();?>/admin/venda/pedidosvenda/ped/<?=md5($lista->id_ped)?>" target="_blank">
+		                	<?=$lista->id_ped?></a>
+		                </td>
+		                <td align="center" >
+		                	<?=$lista->dtpend?>
+		                </td>                
+		                <td align="center" >
+		                	<?=$lista->qt?>               	
+		                </td>
+		                <td align="center" >
+		                	<input type="checkbox" value="<?=$lista->idpend?>" name="pend_<?=$lista->idpend?>">
+		                </td>                
+		            </tr>            
+					<?php  endforeach; ?>
+					</tbody>
+				</table>
+			</div>	
+			<input style="margin-top: 10px" class="redBtn" type="submit" value="Cancelar selecionados">
+		</form>					
+					
+		<?php 
+		}else{
+		?>
+		<div style="border: 1px solid #d5d5d5; padding: 10px; text-align: center; margin-top: 10px">
+ 			Nenhuma pendência encontrada
+		</div>	
+		<?php 
+		}
+		?>
+	</div>
+		
+		

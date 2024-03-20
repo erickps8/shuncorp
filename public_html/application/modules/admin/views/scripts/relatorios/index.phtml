@@ -1,0 +1,96 @@
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li class="lastB">Relatórios</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Relatórios</h5></div>
+
+		<div class="widgets" >
+		<?php 
+		
+		foreach ($this->objPerf as $perfil);
+		?>
+			<div class="widget" style="border-top: 1px solid #d5d5d5;">
+				<div style="margin: 10px 30px 10px 30px; width: 100%">
+					<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;<b>Vendas</b><br>
+					 
+					<?php if($perfil->aba1 == 1): ?>
+					<?php if($this->objNivel == 2){ ?>
+					&nbsp; &nbsp; 
+					<a href="<?php echo $this->baseUrl(); ?>/admin/relatorios/faturamento" target="_blank">
+					Faturamento
+					</a><br>
+					&nbsp; &nbsp; 
+					<a href="<?php echo $this->baseUrl(); ?>/admin/relatorios/vendascurva" target="_blank">
+					Curva de produtos
+					</a><br>
+					&nbsp; &nbsp;
+					<a href="<?php echo $this->baseUrl(); ?>/admin/relatorios/vendasrentabilidade" target="_blank">
+					Rentabilidade dos produtos
+					</a><br>
+					&nbsp; &nbsp; 
+					<a href="<?php echo $this->baseUrl(); ?>/admin/venda/garantiasrel" target="_blank">
+					Garantias
+					</a><br>
+					&nbsp; &nbsp; 
+					<a href="<?php echo $this->baseUrl(); ?>/admin/relatorios/vendascusto" target="_blank">
+					Custo de venda
+					</a><br>
+					<?php 
+					}
+					?>
+					&nbsp; &nbsp; 
+					<a href="<?php echo $this->baseUrl(); ?>/admin/relatorios/vendascurvaclientes" target="_blank">
+					Curva de clientes
+					</a><br>
+					<?php 
+					endif; 
+					if($perfil->aba2 == 1): 
+					?>			
+					&nbsp; &nbsp; 
+					<a href="<?php echo $this->baseUrl(); ?>/admin/relatorios/impostos" target="_blank" >
+					Impostos
+					</a><br>
+					<?php endif; ?>	
+				</div>
+				
+				<?php if($this->objNivel == 2){ ?>
+				<div style="margin: 10px 30px 10px 30px; width: 100%">
+					<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;<b>Financeiro</b><br>
+					&nbsp; &nbsp; 
+					<a href="<?php echo $this->baseUrl(); ?>/admin/relatorios/financeirogerencial" target="_blank" >
+					Financeiro Gerencial
+					</a><br>
+					&nbsp; &nbsp; 
+					<a href="<?php echo $this->baseUrl(); ?>/admin/relatorios/financeirodre" target="_blank" >
+					Demostração do Resultado do Exercício
+					</a><br>
+					&nbsp; &nbsp;
+					<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeiroztlduplicatas">
+					Duplicatas descontadas
+					</a><br />
+				</div>	
+				
+				<div style="margin: 10px 30px 10px 30px; width: 100%">
+					<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;<b>Compras</b><br>
+					&nbsp; &nbsp; 
+					<a href="<?php echo $this->baseUrl(); ?>/admin/relatorios/produtosestoque" target="_blank" >
+					Situação do estoque
+					</a><br>
+				</div>		
+				
+				<?php 
+					}
+				?>
+			</div>
+		</div>
+	</div>
+	

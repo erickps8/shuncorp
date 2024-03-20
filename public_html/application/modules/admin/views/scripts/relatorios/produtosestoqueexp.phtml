@@ -1,0 +1,57 @@
+<?php 
+
+if($this->objTipo==1):
+	header("Content-type: application/vnd.oasis.opendocument.spreadsheet");
+	header("Content-Disposition: attachment; filename=Estoque.ods");
+else:
+	header("Content-type: application/msexcel");
+	header("Content-Disposition: attachment; filename=Estoque.xls");
+endif;
+?>
+<table width="100%" cellpadding="0" cellspacing="0" >
+<tr>
+	<td align="left" >ESTOQUE DE PRODUTOS</td>    
+</tr>
+<tr>
+	<td align="left">
+	<div style="margin: 5px 0px 8px">
+	<?php 
+	if(!empty($this->objFil)):
+		echo ($this->objFil);
+	endif;
+	?>	
+	</div>
+	</td>
+</tr>
+<tr>
+	<td align="left">	 			
+		<table >
+			<tr >		             	
+		    	<td width="">C&oacute;digo</td>
+                <td width="50%">Grupo</td>
+                <td width="10%">Estoque</td>
+                <td width="15%">Vendas (36 Meses)</td>
+                <td width="10%">Pend&ecirc;ncias (12 Meses)</td>
+                <td width="15%">Pre&ccedil;o</td>
+                <td width="10%">Custo</td>   		        	                
+		    </tr>
+	        <?php 	        
+		        foreach($this->objProdutos as $listProd):
+		        	if($listProd->tipo=="COMPRA") $tipo = "COMPRA N&ordm; ".$listProd->id_atualizacao;
+	            	?>
+        			<tr >
+		                <td align="left"><a href="<?=$this->baseUrl();?>/admin/cadastro/produtoscad/produto/<?php echo md5($listProd->idprod)?>" target="_blank"><?php echo $listProd->CODIGO?></a></td>
+		                <td align="left"><?php echo $listProd->descgrupo?></td>
+		                <td style="text-align: center;"><?php if(!empty($listProd->qt_atual)){ echo $listProd->qt_atual;}else echo 0;?></td>
+		                <td style="text-align: center;"><?php echo $listProd->venda?></td>
+		                <td style="text-align: center;"><?php if(!empty($listProd->pendencia)) echo $listProd->pendencia; else echo 0?></td>
+		                <td style="text-align: center;"><?php if(!empty($listProd->PRECO_UNITARIO)) echo number_format($listProd->PRECO_UNITARIO,2,",","."); else echo "0,00"?></td>
+		                <td style="text-align: center;"><?php if(!empty($listProd->custoproduto)) echo number_format($listProd->custoproduto,2,",","."); else echo "0,00"?></td>		                
+		            </tr>        				
+		        	<?php  
+		        endforeach;			
+			?>
+	    </table>
+	 </td>
+</tr>
+</table>

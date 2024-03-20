@@ -1,0 +1,78 @@
+<!-- Content -->
+    <div class="content">  
+
+    <!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoquegrupo/fil/comp">Estoque</a></li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/nfe/nfe">NF-e</a></li>
+                	<li class="lastB">Inutilizar NF-e</li>         
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5>Inutilizar NF-e</h5></div>
+
+        <div class="widgets" >
+        
+        <div class="widget first" style="border: 1px solid #d5d5d5; padding: 10px" >  
+		<form method="post" class="mainForm">
+		<div style="margin-top: 10px">
+			<table>
+				<tr>
+					<td>
+						Ano:
+					</td>
+					<td>
+						<input type="text" size="4" name="ano" style="width: 40px" class="inteiro"> (Ano com 2 dígitos)
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Nº inicial:
+					</td>
+					<td>
+						<input type="text" size="4" name="ini"  style="width: 70px" class="inteiro"> (de 1 à 9 dígitos)
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Nº final:
+					</td>
+					<td>
+						<input type="text" size="4" name="fim"  style="width: 70px" class="inteiro"> (de 1 à 9 dígitos)
+					</td>
+				</tr>
+				<tr>
+					<td style="vertical-align: top;">
+						Justivicativa:
+					</td>
+					<td>
+						<textarea rows="2" cols="50" name="justificativa"  style="width: 300px" ></textarea> <br /> (Mínimo de 15 caracteres e máximo de 255)
+					</td>
+				</tr>
+			</table>
+			
+			<input type="submit" value="Inutilizar" style="margin-top: 20px" class="greenBtn">
+		</div>
+		<?php if(!empty($this->objResultado)): ?>
+		<div style="border: 1px solid; margin-top: 20px; line-height: 20px; padding-left: 10px">
+		<? 
+		echo "Situação: ".$this->objResultado[xMotivo];
+		echo "<br />";
+		if($this->objResultado[cStat] == 100):
+			echo "Data: ".$this->objResultado[aProt][dhRecbto]; echo "<br />";
+			echo "Chave: ".$this->objResultado[aProt][chNFe]; echo "<br />";
+			echo "Protocolo: ".$this->objResultado[aProt][nProt]; echo "<br />";
+		endif;
+		
+		?>
+		</div>
+		<?php endif; ?>
+		</form>
+		</div>
+	</div>
+</div>

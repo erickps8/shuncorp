@@ -1,0 +1,750 @@
+<?php
+if($this->tp == 'int'):                	
+	foreach ($this->objInter as $interacoes):
+    	?>
+    	<div class="widget">    
+        	<div class="head interacao" style="cursor: hand; cursor: pointer" id="<?php echo $interacoes->idint?>">
+        		<h6 <?php if($interacoes->tipo == 1): ?> class="iMail" <?php else: ?> class="iWalkingMan" <?php endif; ?> style="padding: 9px 12px 9px 35px;">
+        			<?php echo $interacoes->titulo?> por <b><?php echo $interacoes->nome?></b> em <?php echo $interacoes->datahora?>
+        		</h6>
+        	</div>
+            <div id="inter_<?php echo $interacoes->idint?>" style="display: none">
+            	<img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/loaders/loader6.gif" alt="Carregando"> <i>Buscando interações...</i>
+            </div>	
+     	</div>
+		<?php 
+	endforeach;
+elseif($this->tp == 'com'): 
+	foreach ($this->objInter as $interacoes);
+	?>
+	<style>
+    	.comentuser{
+    		max-width: 80%;
+    		min-width: 50%;
+    		margin: 10px;
+    		padding: 10px;
+    		border: 1px solid #d5d5d5;
+    		-moz-box-shadow:    3px 3px 5px 0px #ccc;
+			-webkit-box-shadow: 3px 3px 5px 0px #ccc;
+			box-shadow:         3px 3px 5px 0px #ccc;
+			float: left;
+    	}
+    	
+    	.comentother{
+    		max-width: 80%;
+    	    min-width: 50%;
+    		margin: 10px;
+    		padding: 10px;
+    		border: 1px solid #efefef;
+    		background-color: #efefef;
+    		float: right;
+    	 	-moz-box-shadow:    3px 3px 5px 0px #ccc;
+			-webkit-box-shadow: 3px 3px 5px 0px #ccc;
+			box-shadow:         3px 3px 5px 0px #ccc;
+    		text-align: right;
+    	}
+    </style>
+	
+	<div class="comentuser">
+		<?php 
+		echo $interacoes->texto;
+		if(!empty($interacoes->dataalarme) and $interacoes->dataalarme != "00/00/0000") echo "<br />Lembrar em: <b>".substr($interacoes->dataalarme,8,2)."/".substr($interacoes->dataalarme,5,2)."/".substr($interacoes->dataalarme,0,4)."</b>";
+		?>
+    </div>
+    <div class="fix"></div>
+	<?php 
+	$cor = '';
+	foreach ($this->objComent as $comentarios):
+		$class = ($comentarios->id_usuarios == $interacoes->id_usuarios) ? 'comentuser' : 'comentother';	
+    	?>
+    	<div class="<?php echo $class?>">
+    		<?php echo $comentarios->texto?>
+    		<h6>Por <b><?php echo $comentarios->nome?></b> em <?php echo $comentarios->datahora?></h6>        	
+        </div>
+        <div class="fix"></div>                
+		<?php 
+	endforeach;
+	?>
+	<div class="rowElem" style="padding: 5px">
+		<input type="button" value="Comentar" class="basicBtn btncomentar" id="<?php echo $interacoes->id?>">
+		<div style="margin-top: 5px; display: none" id="divcomentar_<?php echo $interacoes->id?>" >
+			<form class="mainForm"> 
+				<textarea style="width: 500px; margin-bottom: 5px" id="novocomentario_<?php echo $interacoes->id?>"></textarea>
+				<br /><input style="margin-top: 5px" type="button" value="Enviar" class="greenBtn btnGcoment" id="<?php echo $interacoes->id?>">	
+			</form>
+		</div>
+    </div>
+<?php 
+elseif($this->tp == 'mov'):
+	if(count($this->objMovimentacao)>0){	
+	?>
+	
+		<table class="tableStatic" style="width: 100%">
+	    	<thead>
+	        	<tr>
+	            	<td width="15%">Tipo</td>
+	                <td width="15%">CFOP</td>
+	                <td width="15%">ID</td>
+	                <td width="">Data</td>
+	                <td width="15%">Valor</td>
+	        	</tr>
+	     	</thead>
+		  	<tbody>
+		    <?php  
+		    foreach ($this->objMovimentacao as $listaMov):
+			?>
+		    <tr >
+		    	<td  style="text-align: center;" >
+		        	<?php if($listaMov->tipo == 1) echo "Saída"; else echo "Entrada"?>
+		        </td>
+		       	<td  style="text-align: center;" >
+		        	<?php echo $listaMov->cfop?>
+		       	</td>
+		        <td  style="text-align: center;" >
+		        	NFe<?php echo $listaMov->id?>
+		       	</td>
+		        <td  style="text-align: center;" >
+		        	<?php echo substr($listaMov->data,8,2)."/".substr($listaMov->data,5,2)."/".substr($listaMov->data,0,4)?>
+		       	</td>
+		       	<td  style="text-align: right;" >
+		        	<?php echo number_format($listaMov->totalnota,2,",",".")?>
+				</td>
+			</tr>
+		    <?php 
+		    endforeach;
+		    ?>
+		    </tbody>
+		</table>
+	<?php
+	}else{
+	?><div style="text-align: center; padding: 20px; border-top: 1px solid #d5d5d5;">Nenhuma movimentação encontrada</div><?php 
+	}
+elseif($this->tp == 'fin'):
+	if(count($this->objContasreceber)>0):
+		?>
+		<table class="tableStatic" style="width: 100%">
+	    	<thead>
+	        	<tr>
+	            	<td width="15%">Referência</td>
+	                <td width="15%">Valor</td>
+	                <td width="15%">Vencimento</td>
+	                <td width="15%">Atraso (dias)</td>
+	                <td width="15%">Situação</td>
+	        	</tr>
+	     	</thead>
+		  	<tbody>
+		    <?php
+		    $nparc = 0;  
+		    $fat = '';
+		    foreach ($this->objContasreceber as $listaparc):
+			    ?>
+			    <tr >
+			    	<td  style="text-align: center;" >
+			        	<?php echo $listaparc->fat?>/<?php echo $listaparc->parc?>
+			       	</td>
+			        <td  style="text-align: center;" >
+			        	<?=number_format($listaparc->valor_apagar,2,",",".")?>
+			       	</td>
+			        <td  style="text-align: center;" >
+			        	<?=$listaparc->dtvencimento?>
+			       	</td>
+			       	<td  style="text-align: center; color: red" >
+			        	<?php 
+			        	$one = new DateTime(date('Y-m-d'));
+			        	$two = new DateTime($listaparc->vencimento);
+			        	  
+			        	$dateInterval = $one->diff($two);
+			        	
+			        	if((strtotime($listaparc->vencimento) < strtotime(date("Y-m-d"))) and (!empty($listaparc->dtvencimento))):
+			        		echo $dateInterval->days;
+			        	else:
+			        		?><span style="color: black">0</span><?php 
+			        	endif;
+			        	?>
+			       	</td>
+			       	<td  style="text-align: center;" >
+			        	<?php 		
+			        	if($listaparc->contaquitada == 1):
+			        		echo '<font color="#009900">Pago</font>';
+						elseif((strtotime($listaparc->vencimento) < strtotime(date("Y-m-d"))) and (!empty($listaparc->dtvencimento))):
+		                	echo '<font color="#F00">Em atraso</font>';
+		                else: echo 'Em Aberto'; endif;                
+						?>
+			       	</td>
+				</tr>
+			    <?php 
+		    endforeach;
+		    ?>
+		    </tbody>
+		</table>
+		<?php 
+	else:
+		?><div style="text-align: center; padding: 20px; border-top: 1px solid #d5d5d5;">Nenhum financeiro encontrado</div><?php		
+	endif;
+elseif($this->tp == 'contato'):
+	if(!empty($this->objContato)):
+		foreach ($this->objContato as $contato);
+	endif;
+	?>
+	
+	<style>
+	#tablecontato td, #tablecontatoedit td {
+		text-align: left;
+	}
+	</style>
+	<table id="tablecontato" style="width: 100%; ">
+		<tr>
+			<td style="width: 35%">Nome<br/><b><?=$contato->ncontato?></b></td>
+			<td align="left" style="padding: 4px" >Grupo de interesse:<br><b><?php echo $contato->ngrupointeresse?></b></td>
+			<td align="left" >Dt Nascimento:<br><b><? if(!empty($contato->DATA_NASCIMENTO)) echo substr($contato->DATA_NASCIMENTO,8,2)."/".substr($contato->DATA_NASCIMENTO,5,2)."/".substr($contato->DATA_NASCIMENTO,0,4)?></b></td>				
+		</tr>
+		<tr>
+			<td >E-mail<br/><b><?=$contato->EMAIL?></b></td>			
+			<td>Msn:<br><b><?=$contato->MSN?></b></td>
+			<td >Skype:<br><b><?=$contato->skype?></b></td>
+		</tr>
+		
+		<tr>
+			<td align="left" colspan="3">
+				<table style="width: 100%">
+					<tr>
+						<td style="width: 25%">Tel Comercial: <br><b><?=$contato->DDI?> (<?=$contato->DDD?>) <?=$contato->TELEFONE?></b></td>
+						<td style="width: 25%">Tel Pessoal: <br><b><?=$contato->DDI_PESSOAL?> (<?=$contato->DDD_PESSOAL?>) <?=$contato->TELEFONE_PESSOAL?></b></td>
+						<td style="width: 25%">Fax: <br><b><?=$contato->DDI_FAX?> (<?=$contato->DDD_FAX?>) <?=$contato->FAX?></b></td>
+						<td style="width: 25%">Nextel: <br><b><?=$contato->NEXTEL?></b></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+							
+							<?php 
+			if(($contato->ID_END==1)||(empty($this->objContato))):
+				if($contato->TIPO == 0){
+					$uf				= $contato->muf;
+					$cidade			= $contato->mcidade;
+					$endereco		= $contato->mend;
+					$bairro			= $contato->mbairro;
+					$cep			= $contato->mcep;
+				}else{
+					$uf				= $contato->fuf;
+					$cidade			= $contato->fcidade;
+					$endereco		= $contato->fend;
+					$bairro			= $contato->fbairro;
+					$cep			= $contato->fcep;
+				}
+			elseif(!empty($this->objContato)):
+				$uf				= $contato->nuf;
+				$cidade			= $contato->ncidade;
+				$endereco		= $contato->cend;
+				$bairro			= $contato->cbairro;
+				$cep			= $contato->ccep;
+			endif;
+			?>
+		<tr>
+		<td colspan="3">
+			<table style="width: 100%">
+				<tr>
+					<td >Endereço:<br><b><?=$endereco?></b></td>
+					<td >Bairro:<br><b><?=$bairro?></b></td>  
+					<td >CEP:<br><b><?=$cep?></b></td>
+				</tr>
+				<tr>
+					<td >Estado:<br><b><?php echo $uf?></b></td>										
+					<td >Cidade:<br><b><?php echo $cidade?></b></td>	
+					<td>&nbsp;</td>								 
+				</tr>
+			</table>
+			</td>
+		</tr>
+		<tr >
+			<td colspan="3" >
+			Observação:<br><b><?=$contato->OBSERVACAO?></b>	
+			</td>
+		</tr>
+		<?php if($this->objEdi == true): ?>
+		<tr >
+			<td style="padding-top: 12px">
+				<input type="button" value="Editar" class="basicBtn" onclick="$('#tablecontato').hide(); $('#tablecontatoedit').show();">
+			</td>
+			<td style="text-align: right;" colspan="2">
+				<?php if(($contato->contver != 1) and ($this->objInterno == 1)): ?> &nbsp;
+                <a href="#" onclick="validaContatos('<?=$contato->idcontato?>','3');"><img alt="Validar" title="Validar" src="<?=$this->baseUrl()?>/sistema/imagens/icons/middlenav/check.png"></a> 
+                <?php endif; ?>			
+			</td>
+		</tr>
+		<?php 
+		endif;
+		?>
+	</table>
+	
+	<?php if($this->objEdi == true): 
+	
+	?>
+	<form name="gravacontatos" class="mainForm">
+	<input type="hidden" name="idcontato" value="<?=$contato->idcontato?>" />
+	<input type="hidden" name="idempresa" value="<?=$this->objEmpresa?>" />
+	<input type="hidden" name="tipo" value="<?=$this->objTipo?>" />
+	
+	<table id="tablecontatoedit" style="width: 100%; display: none;">
+		<tr>
+			<td style="width: 35%">Nome<br/><input type="text" name="nome" style="width: 250px" value="<?=$contato->ncontato?>"></td>
+			<td >
+				Grupo de interesse:<br>
+				<div class="styled-select" style="width: 210px">
+				<select name="grupo" id="grupo" style="width: 232px">
+					<option value="">SELECIONE</option>
+					<?php 
+					foreach ($this->objGinteresse as $listg):
+						?>
+						<option <?php if($contato->ID_GRUPO_INTERESSE == $listg->ID) echo 'selected="selected"'; ?> value="<?=$listg->ID?>"><?=$listg->NOME?></option>
+						<?php 
+					endforeach;
+					?>
+				</select>
+				</div>
+			</td>
+			<td align="left" >Dt Nascimento:<br><input value="<? if(!empty($contato->DATA_NASCIMENTO)) echo substr($contato->DATA_NASCIMENTO,8,2)."/".substr($contato->DATA_NASCIMENTO,5,2)."/".substr($contato->DATA_NASCIMENTO,0,4)?>" type="text" name="dtnasc" class="data datepicker" style="width: 100px" ></td>				
+		</tr>
+		<tr>
+			<td >E-mail<br/><input type="text" name="email" value="<?=$contato->EMAIL?>" style="width: 200px"></td>			
+			<td>Msn:<br><input type="text" name="msn" value="<?=$contato->MSN?>" style="width: 200px"></td>
+			<td >Skype:<br><input type="text" name="skype" value="<?=$contato->skype?>" style="width: 150px"></td>
+		</tr>
+		
+		<tr>
+			<td align="left" colspan="3">
+				<table style="width: 100%;" >
+					<tr>
+						<td >Tel Comercial: <br>
+							<input type="text" name='ddi1' maxlength="4" value='<?=$contato->DDI?>' style="width: 20px" >
+							<input type="text" name='ddd1'  maxlength="4" value='<?=$contato->DDD?>'  style="width: 20px">
+							<input type="text" name='numero1'  value='<?=$contato->TELEFONE?>'  style="width: 80px" >
+						</td>
+						<td >Tel Pessoal: <br>
+							<input type="text" name='ddi2' maxlength="4" value='<?=$contato->DDI_PESSOAL?>' style="width: 20px" >
+							<input type="text" name='ddd2'  maxlength="4" value='<?=$contato->DDD_PESSOAL?>'  style="width: 20px">
+							<input type="text" name='numero2'  value='<?=$contato->TELEFONE_PESSOAL?>'  style="width: 80px" >
+						</td>
+						<td >Fax: <br>
+							<input type="text" name='ddi3' maxlength="4" value='<?=$contato->DDI_FAX?>' style="width: 20px" >
+							<input type="text" name='ddd3'  maxlength="4" value='<?=$contato->DDD_FAX?>'  style="width: 20px">
+							<input type="text" name='numero3'  value='<?=$contato->FAX?>'  style="width: 80px" >	
+						</td>
+						<td style="width: 15%">
+							Nextel: <br><input type="text" name="nextel"  style="width:60px;" value='<?=$contato->NEXTEL?>' >
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<?php 
+			if(($contato->ID_END==1)||(count($this->objContato)==0)):
+				$end = 'checked="checked"';
+				if($contato->TIPO == 0){
+					$uf				= $contato->muf;
+					$cidade			= $contato->mcidade;
+					$endereco		= $contato->mend;
+					$bairro			= $contato->mbairro;
+					$cep			= $contato->mcep;
+					$iduf			= $contato->miduf;
+					$idcid			= $contato->midcidade;
+				}else{
+					$uf				= $contato->fuf;
+					$cidade			= $contato->fcidade;
+					$endereco		= $contato->fend;
+					$bairro			= $contato->fbairro;
+					$cep			= $contato->fcep;
+					$iduf			= $contato->fiduf;
+					$idcid			= $contato->fidcidade;
+				}
+			elseif(!empty($this->objContato)):
+				$uf				= $contato->nuf;
+				$cidade			= $contato->ncidade;
+				$endereco		= $contato->cend;
+				$bairro			= $contato->cbairro;
+				$cep			= $contato->ccep;
+				$iduf			= $contato->ciduf;
+				$idcid			= $contato->cidcidade;
+			endif;
+		?>
+		<tr>
+			<td colspan="3" style="padding-top: 10px">
+				<input type="checkbox" name="endempresa" <?=$end?> onclick="apagaEndereco();"> O mesmo endereço da empresa
+			</td>
+		</tr>
+		<tr>
+		<td colspan="3">
+			<table style="width: 100%">
+				<tr>
+					<td >Endereço:<br>
+						<input value="<?=$endereco?>" type="text" name="rua" style="width: 250px">
+					</td>
+					<td >Bairro:<br>
+						<input value="<?=$bairro?>" type="text" name="bairro" style="width: 150px">
+					</td>  
+					<td >CEP:<br>
+						<input value="<?=$cep?>" type="text" name="cep" style="width: 100px" class="cep">
+					</td>
+				</tr>
+				<tr>
+					<td >Estado:<br>
+						<div class="styled-select" style="width: 180px">
+							<select id="uf" name="uf" onchange="buscaEstados(this.value,'2','cidade');" style="width: 202px">
+								<option value="0">Selecione</option>
+								<?php 
+								foreach ($this->objUf as $list):		
+									?>
+									<option value='<?php echo $list->id?>' <?php if($iduf == $list->id): ?> selected="selected" <?php endif; ?>><?=$list->nome?></option>
+									<?php 
+								endforeach;
+								?>
+							</select>
+						</div>						
+					</td>										
+					<td >
+						Cidade:<br><?php echo $this->objuf?>
+		     			<div id="cidade">
+		     				<div class="styled-select" style="width: 260px">
+								<select id="cidade" name="cidade" style="width: 282px">
+									<option value="0">Selecione</option>
+									<?php 
+									foreach ($this->objCidades as $list):		
+										?>
+										<option value='<?php echo $list->id?>' <?php if($idcid == $list->id): ?> selected="selected" <?php endif; ?>><?=$list->nome?></option>
+										<?php 
+									endforeach;
+									?>
+								</select>
+							</div>
+						</div>
+					</td>	
+					<td>&nbsp;</td>								 
+				</tr>
+			</table>
+			</td>
+		</tr>
+		<tr >
+			<td colspan="3" >
+			Observação:<br>
+			<textarea rows="3" cols="60" name="obs" id="obs"><?=$contato->OBSERVACAO?></textarea>			
+			</td>
+		</tr>
+		<tr >
+			<td style="padding-top: 12px;" colspan="3">
+				<input type="button" value="Salvar" class="greenBtn" onclick="gravarContato();">
+			</td>
+		</tr>		
+	</table>
+	<script>
+		
+	function apagaEndereco(){
+		
+		if(document.gravacontatos.endempresa.checked == true){
+			document.gravacontatos.cep.disabled = true;
+			document.gravacontatos.rua.disabled = true;
+			document.gravacontatos.bairro.disabled = true;
+			document.gravacontatos.uf.disabled = true;
+			document.gravacontatos.cidade.disabled = true;
+		}else{
+			document.gravacontatos.cep.disabled = false;
+			document.gravacontatos.rua.disabled = false;
+			document.gravacontatos.bairro.disabled = false;
+			document.gravacontatos.uf.disabled = false;
+			document.gravacontatos.cidade.disabled = false;
+		}
+	}
+
+	<?php if(($contato->ID_END==1)||(empty($this->objContato))): ?>
+		apagaEndereco();
+	<?php endif; ?>
+
+	<?php if(count($this->objContato) == 0): ?>
+		$('#tablecontato').hide(); $('#tablecontatoedit').show();
+	<?php endif; ?>
+	
+	</script>
+	</form>
+	<?php 
+	endif;
+elseif($this->tp == 'filial'):	
+	if(count($this->objEmpresa)>0):
+		foreach ($this->objEmpresa as $empresa);
+	endif;
+
+	?>
+	<style>
+	#tablefilial td, #tablefilialedit td, #tablefilialnovo td {
+		text-align: left;
+	}
+	</style>
+	<?php 	
+	if($this->objNovaemp != true):
+	
+	?>
+		
+	<table style="width: 100%; " id="tablefilial">
+		<tr>
+			<td colspan="2">
+				Empresa<br/>
+				<b><?=$empresa->empresa?></b>
+			</td>
+			<td >
+                Trabalha com:<br /><b>
+                <?php foreach ($this->objGinteresse as $listInterrse){ 
+					if($empresa->id_clientesgrupos==$listInterrse->id) echo ($listInterrse->nome);
+				 } ?></b>
+			</td>
+			<td >
+			 	CEP:<br>
+			 	<b><?=$empresa->cep?></b>
+			</td>
+		</tr>
+		<tr>
+			<td  align="left" colspan="2" width="40%">
+				Logradouro:<br>
+				<b><?=$empresa->endereco?></b> 
+			</td>
+			<td  align="left">
+				Bairro:<br>
+				<b><?=$empresa->bairro?></b>
+			</td>  
+			<td  align="left">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td align="left" colspan="4">
+				<table style="width: 100%; padding: 0px">
+				<tr>
+					<td  align="left"  width="35%">
+						Estado:<br>
+						<b><?=$empresa->nuf?></b> 
+					</td>									 
+					<td  align="left"> 
+						Cidade:<br>
+						<b><?=$empresa->ncidade?></b>
+					</td>
+					</tr>
+				</table>				
+			</td>
+		</tr>
+		
+		<?php 
+		
+		if(($this->objEdi==true) and ($empresa->id_clientes == "")):
+		?>
+		<tr >
+			<td colspan="3" style="padding-top: 20px">
+				<input type="button" value="Editar" class="basicBtn" onclick="$('#tablefilial').hide(); $('#tablefilialedit').show();">
+			</td>
+			<td style="text-align: right;">
+			   <?php if(($this->objInterno == 1)): ?> &nbsp;
+               <a href="#" onclick="validaContatos('<?=$empresa->idfilial?>','2');"><img alt="Validar" title="Validar" src="<?=$this->baseUrl()?>/sistema/imagens/icons/middlenav/check.png"></a> 
+               <?php endif; ?>									
+			</td>
+		</tr>
+		<?php 
+		endif;
+		?>										
+	</table>
+	
+	<form name="gravaempresa" class="mainForm">
+		<?php 
+		if((!empty($this->objEmpresa)) and ($this->objEdi == true)):
+			foreach ($this->objEmpresa as $empresa);
+			$matriz = $empresa->id_matriz;
+		else:
+			$matriz = $this->idMatriz;
+		endif;						
+		
+		
+		?>
+						
+		<input type="hidden" name="idempresa" value="<?=$empresa->idfilial?>" >
+		<input type="hidden" name="idmatriz" value="<?=$matriz?>" >
+		<table style="width: 100%; display: none" id="tablefilialedit" >
+			<tr>
+				<td style="vertical-align: top;" colspan="2">
+					<input type="button" onclick="$('#buscaempresa').show(); $(this).hide();" value="Buscar parceiros" class="basicBtn">
+					<div style="display: none;" id="buscaempresa">
+						Clientes<br/>
+						<div class="styled-select" style="width: 260px">
+							<select style="width: 282px" id="clientes" name="clientes" onchange="buscaFilial('<?=$empresa->idfilial?>','<?=$matriz?>',this.value);">
+							<option value='0'>Selecione</option>
+							<?php 
+							foreach ($this->objClientes as $listcli):
+								?><option value="<?=$listcli->ID?>" ><?=$listcli->EMPRESA?></option><?php 
+							endforeach;
+							?>
+							</select>
+						</div>
+					</div>
+				</td>				
+			</tr>
+			<tr>
+				<td >
+					Empresa<br/>
+					<input type="text" size="30" name="nomeempresa" value="<?=$empresa->empresa?>">
+				</td>
+				<td >
+                	Trabalha com:<br />
+                    <div class="styled-select" style="width: 270px">						
+					  	<select name="trabalhacom" style="width: 292px">
+					  	<option value='0'>Selecione</option>
+					  	<?php foreach ($this->objGinteresse as $listInterrse){ ?>
+							<option value='<?php echo $listInterrse->id?>' <?php if($empresa->id_clientesgrupos==$listInterrse->id){ echo 'selected=selected'; }?>  ><?php echo ($listInterrse->nome)?></option>
+						<?php } ?>
+						</select>
+					</div>
+                </td>	
+			</tr>
+			<tr>
+				<td colspan="2">
+					<table style="width: 100%">
+						<tr>
+							<td >Endereço:<br>
+								<input value="<?=$empresa->endereco?>" type="text" name="rua" style="width: 250px">
+							</td>
+							<td >Bairro:<br>
+								<input value="<?=$empresa->bairro?>" type="text" name="bairro" style="width: 180px">
+							</td>  
+							<td >CEP:<br>
+								<input value="<?=$empresa->cep?>" type="text" name="cep" style="width: 100px" class="cep">
+							</td>
+						</tr>
+						<tr>
+							<td >Estado:<br>
+								<div class="styled-select" style="width: 180px">
+									<select id="uf" name="uf" onchange="buscaEstados(this.value,'2','cidade');" style="width: 202px">
+										<option value="0">Selecione</option>
+										<?php 
+										foreach ($this->objUf as $list):		
+											?>
+											<option value='<?php echo $list->id?>' <?php if($empresa->ciduf == $list->id): ?> selected="selected" <?php endif; ?>><?=$list->nome?></option>
+											<?php 
+										endforeach;
+										?>
+									</select>
+								</div>						
+							</td>										
+							<td >
+								Cidade:<br>
+				     			<div id="cidade">
+				     				<div class="styled-select" style="width: 260px">
+										<select id="cidade" name="cidade" style="width: 282px">
+											<option value="0">Selecione</option>
+											<?php 
+											foreach ($this->objCidades as $list):		
+												?>
+												<option value='<?php echo $list->id?>' <?php if($empresa->cidcidade == $list->id): ?> selected="selected" <?php endif; ?>><?=$list->nome?></option>
+												<?php 
+											endforeach;
+											?>
+										</select>
+									</div>
+								</div>
+							</td>	
+							<td>&nbsp;</td>								 
+						</tr>
+					</table>
+				</td>
+			</tr>
+			
+			<?php 
+			if($this->objEdi==true):
+			?>
+			<tr >
+				<td colspan="3">
+					<input class="greenBtn" type="button" value="Salvar" onclick="gravarFilial();">
+				</td>
+				<td style="text-align: right;">
+					<?php if(($empresa->verificado != 1) and ($this->objInterno == 1)): ?> &nbsp;
+	                <!-- <a href="#" onclick="if(confirm('Validar cadastro?')){ window.location='<?=$this->baseUrl()?>/admin/cadastro/contatosvalida/matriz/<?=md5($matriz->id)?>/contato/<?=md5($empresa->id)?>/tipo/2'; }"><img alt="Validar" title="Validar" src="<?=$this->baseUrl()?>/images/checado.jpg"></a> -->
+	                <?php endif; ?>									
+				</td>
+			</tr>
+			<?php 
+			endif;
+			?>								
+		</table>
+		
+		<?php 
+		elseif($this->objNovaemp == true):
+			foreach ($this->objEndereco as $endereco); ?>
+		
+			<input type="hidden" value="<?=$this->idEmpresa?>" name="idempresa">
+			<input type="hidden" value="<?=$empresa->ID?>" name="novaempresa">
+			<input type="hidden" name="idmatriz" value="<?=$this->idMatriz?>" >
+			
+			<table style="width: 100%" id="tablefilialnovo">
+				<tr>
+					<td colspan="2">
+						Empresa<br/>
+						<b><?=$empresa->EMPRESA?></b>
+						<input type="hidden" size="30" name="nomeempresa" value="<?=$empresa->EMPRESA?>">
+					</td>
+					<td colspan="2">
+					 	CEP:<br>
+					 	<b><?=$endereco->CEP?></b>
+						<input  value="<?=$endereco->CEP?>" type="hidden" id="cep" name="cep" >
+					</td>
+				</tr>
+				<tr>
+					<td  align="left" colspan="2" width="40%">
+						Logradouro:<br>
+						<b><?=$endereco->LOGRADOURO." ".$endereco->complemento." ".$endereco->numero?></b>
+						<input value="<?=$endereco->LOGRADOURO." ".$endereco->complemento." ".$endereco->numero?>" type="hidden" id="rua" name="rua" > 
+					</td>
+					<td  align="left">
+						Bairro:<br>
+						<b><?=$endereco->BAIRRO?></b>
+						<input value="<?=$endereco->BAIRRO?>" type="hidden" id="bairro" name="bairro" >
+					</td>  
+					<td  align="left">
+						&nbsp;
+					</td>
+				</tr>
+				<tr>
+					<td align="left" colspan="4">
+						<table style="width: 100%; padding: 0px">
+						<tr>
+							<td  align="left"  width="35%">
+								Estado:<br>
+								<b><?=$endereco->nuf?></b>
+								<input value="<?=$endereco->nuf?>" type="hidden" id="uf" name="uf" > 
+							</td>									 
+							<td  align="left"> 
+								Cidade:<br>
+								<b>
+								<?=$endereco->ncidade?></b>
+								<input value="<?=$endereco->id_cidades?>" type="hidden" id="cidadefil" name="cidadefil" >
+							</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				<?php if($this->objEdi==true): ?>
+				<tr >
+					<td colspan="2" style="padding-top: 20px">
+						<input class="greenBtn" type="button" value="Salvar" onclick="gravarFilial();">
+					</td>
+				</tr>
+				<?php endif; ?>								
+			</table>		
+		<?php endif; ?>
+	</form>
+	
+	<script>
+	<?php if(count($this->objEmpresa) == 0): ?>
+		$('#tablefilial').hide(); $('#tablefilialedit').show();
+	<?php endif; ?>
+	</script>		
+<?php 
+endif;
+?>
+
+<script>
+$('.data').mask('11/11/1111');
+$('.cep').mask('11111-111');
+</script>

@@ -1,0 +1,406 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/kangOrcamentos.js"></script>
+
+<?php 
+foreach ($this->objPed as $ped);
+$vergeral = 0;
+?>
+
+<div class="content">
+<!-- Navegacao --> 
+	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+    	<div class="breadCrumb module">
+        	<ul>
+            	<li class="firstB"><a href="#">Home</a> </li>
+            	<li><a href="<?=$this->baseUrl(); ?>/admin/kang/pedidos">Pedidos de venda</a></li>
+            	<li><a href="<?=$this->baseUrl(); ?>/admin/kang/pedidosprod/ped/<?=md5($ped->idped)?>">OR<?=substr("000000".$ped->idped,-6,6)?></a></li>
+            	<li class="lastB"><b>Gerar compra</b></li>         
+            </ul>
+        </div>
+    </div>       
+    
+    <div class="title"><h5><?="OR".substr("000000".$ped->idped,-6,6)?></h5></div>
+
+    <div class="widgets" >
+		<form action="<?=$this->baseUrl()?>/admin/kang/gravarcompra" method="post" name="prepedido" class="mainForm">
+			<input name="pedido" value="<?=$ped->idped?>" type="hidden">	
+			<!-- Listar todos produtos sem pedidos de compra ------------------------------ -->  
+			<?php	
+			
+			if(!empty($this->objEmp)):
+				
+			    foreach ($this->objEmp as $empresas):
+				$total_valor = 0;
+			    
+				?>	
+				
+				<div class="widget">
+     			<div class="head" style="border-bottom: 0px">
+     			    <h5 class="iFrames">
+     			    <?php 
+     			    if($ped->STATUS != "FINISHED"){
+     			        if($empresas->idfor=="") echo "SEM FORNECEDOR"; else echo  strtoupper($empresas->EMPRESA)." (".strtoupper($empresas->nome).") Track Code: ".$empresas->track_code;
+                    }else echo "Produtos sem compra";   
+                    ?>
+                    </h5></div>
+            	<table class="tableStatic">
+                	<thead>
+                    	<tr>
+                            <td width="3%">Id</td>
+                            <td width="">Código</td>
+                            <td width="10%">HS Code</td>
+                            <td width="5%">QT</td>
+                            <td width="">Preço</td>
+                            <td width="">Preço Total</td>
+                            <?php if($ped->STATUS != "FINISHED"){ ?>
+                            <td width="">Impressão</td>
+                            <td width="">Data da entrega</td>
+                            <?php } ?>                        
+                        </tr>
+                    </thead>
+                    <tbody>
+					
+					<?php 
+			    	$cor=0;
+			    	$total_pecas = 0;    	
+					foreach($this->objProd as $lista):
+						$cor++;
+			            
+			            //-- Essa condicao verifica se produto ja foi comprado e se tem fornecedor --------------
+			            if((($empresas->idfor == $lista->id_cliente_fornecedor_shuntai) || ($empresas->idfor=="" and $lista->id_cliente_fornecedor_shuntai == 0)) and ($lista->comprado == false)):
+				            $total_pecas += $lista->QT;
+				            $total_valor += $lista->custo_valor_shuntai*$lista->QT;
+			            	?>
+							<tr >
+				                <td style="text-align: center;">
+				                   <?=$cor?>                  
+				                </td>
+				                <td align="left" >
+				                	<a id='<?=$lista->CODIGO?>' target="_blank" href="<?php echo $this->baseUrl(); ?>/admin/cadastro/produtoscad/produto/<?php echo md5($lista->ID)?>">
+				                   		<?=$lista->CODIGO?>                  
+				                   	</a>
+				                </td>
+				                <td style="text-align: center;" >
+				                    <?=$lista->hscode?>
+				                </td>
+				                <td style="text-align: center;" >
+				                    <?=$lista->QT?>
+				                </td>
+				                <td style="text-align: right;">
+				                   <?php echo (!empty($lista->custo_valor_shuntai)) ? number_format(($lista->custo_valor_shuntai),2,',','.') : ""?>                  
+				                </td>
+				                <td style="text-align: right;">
+				                	<?=number_format(($lista->custo_valor_shuntai*$lista->QT),2,',','.')?>
+				                </td>
+				                <?php if($ped->STATUS != "FINISHED"){ ?>
+				                <td style="text-align: center;" >
+				                   <input type="text" name="impressao_<?=$lista->ID_PRODUTO?>" <?php if($empresas->idfor=="") echo 'disabled="disabled"'; ?> style="width: 80%"> 
+				                </td>
+				                <td style="text-align: center;" >
+				                	<input type="text" name="data_<?=$lista->ID_PRODUTO?>" <?php if($empresas->idfor=="") echo 'disabled="disabled"'; ?>  style="width: 80px" class="datepicker">
+				                </td>                  
+				                <?php } ?>
+				            </tr>				            
+							<?php 
+						endif; 
+					endforeach;
+					?>
+					<tr >
+		                <td colspan="3" style="text-align: right;">
+		                   <?=$this->translate->_("Total de peças")?>: <b><?=$total_pecas?></b>                  
+		                </td>
+		                <td colspan="3" style="text-align: right;">
+		                   <?=$this->translate->_("Valor total")?>: <b><?=number_format(($total_valor),2,',','.')?></b>                  
+		                </td>
+		                <?php if($ped->STATUS != "FINISHED"){ ?>
+		                <td align="center" colspan="2">
+		                	&nbsp;
+		                </td>
+		                <?php } ?>
+		            </tr>
+					</table>
+				</div>					
+				<?php 
+				endforeach;
+			endif;
+			?>
+			
+			<!-- Listar todas as compras realizadas, finalizadas e com entregas ------------------------------ -->
+			
+			<?php 				
+			if(!empty($this->objPedcomp)):
+				$pedkang = "";
+				foreach ($this->objPedcomp as $pedidos):
+				$pedkang = 	$pedidos->id_kang_compra;
+				$total_valor = 0;
+				
+				if(($pedidos->sitped!=3)and($pedidos->sitped!=0)) $vergeral = 1;
+				
+				?>		
+				<div class="widget">
+     			<div class="head" style="border-bottom: 0px">
+     			    <div style="float: left; width: 80%">
+         			    <h5 class="iFrames">
+         			    <?php echo "PK".substr("000000".$pedidos->id_kang_compra,-6,6)." ".strtoupper($pedidos->EMPRESA)." (".strtoupper($pedidos->nome).") Track Code: ".$pedidos->track_code?>
+    			        </h5>
+    			    </div>
+			        <div style="float: right; width: 15%; text-align: right; padding: 10px 10px 0px 0px">
+			            <?php if($pedidos->sitped == 1){ ?>		  
+    					<a href="javascript:void(0);" class="regrasCompra" rel="<?php echo $pedidos->id_kang_compra?>"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/alert2.png" width="15" border="0" title="Observation"></a>&nbsp; 
+    		            <?php } ?>
+    		            <a href="<?php echo $this->baseUrl()?>/admin/kang/pedidoscompimp/tp/1/ped/<?=md5($pedidos->id_kang_compra)?>" target="_blank" ><img title="Print Kang" src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/printer.png" border="0" width="15" /> </a>&nbsp; 
+        				<!-- <a href="<?php echo $this->baseUrl()?>/admin/kang/pedidoscompimp/tp/2/ped/<?=md5($pedidos->id_kang_compra)?>" target="_blank" ><img title="Pring Tai" src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/printer.png" border="0" width="15" /> </a>&nbsp;  -->
+        				<a href="<?php echo $this->baseUrl()?>/admin/controlequalidade/relatorioinspencao/ped/<?php echo $pedidos->id_kang_compra?>" target="_blank" ><img title="QCR" src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/printer.png" border="0" width="15" /> </a>&nbsp;
+    		            <?php 
+    		            if(($pedidos->sitped!=3)and($pedidos->sitped!=0)):
+                    	   ?><a href="javascript:void(0);" class="removeCompra" rel="<?php echo $pedidos->id_kang_compra?>"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" width="16" border="0" title="Cancelar pedido"></a>&nbsp;&nbsp;<?php
+                    	endif;
+    		            ?>
+    		            
+		            </div>
+     			</div>
+            	<table class="tableStatic" style="width: 100%">
+                	<thead>
+                    	<tr>
+                            <td width="3%">Id</td>
+                            <td width="">Código</td>
+                            <td width="10%">HS Code</td>
+                            <td width="5%">QT</td>
+                            <td width="">Preço</td>
+                            <td width="">Preço Total</td>
+                            <td width="">Impressão</td>
+                            <td width="">Data da entrega</td>
+                            <?php if($pedidos->sitped == 1){ ?>
+    			            <td width="8%"><?=$this->translate->_("Entrega")?></td>
+    			            <?php } ?>     
+    			            <td>QCR</td>                 
+                        </tr>
+                    </thead>
+                    <tbody>
+							
+					<?php 					
+					
+			    	$cor=0;
+			    	$total_pecas = 0;    	
+					foreach($this->objProdped as $listaprod):
+			    	 	
+						$cor++;
+			            
+			            if($pedidos->id_kang_compra == $listaprod->id_kang_compra):
+
+    			            $total_pecas += $listaprod->qt;
+    			            $total_valor += $listaprod->preco*$listaprod->qt;
+			            
+			            	$qtent=0;
+				            if(!empty($this->objProdent)):
+				            	foreach($this->objProdent as $listaEntv):
+				            		if($listaEntv->id_prod==$listaprod->id_prod) $qtent += $listaEntv->quant;            		
+				            	endforeach;
+				            endif;
+			            
+				           	?>
+							<tr >
+				                <td style="text-align: center;">
+				                   <?=$cor?>                  
+				                </td>
+				                <td align="left" >
+				                   <?=$listaprod->CODIGO." (".$listaprod->codfor.")"?>                  
+				                </td>
+				                <td style="text-align: center;" >
+				                    <?=$listaprod->hscode?>
+				                </td>
+				                <td style="text-align: center;" >
+				                    <a href="#" <?php if($qtent!=$listaprod->qt){ echo "style='color:#FF0000;'";}?> class="dcontexto">
+				                    <?=$listaprod->qt?><span style="text-align: center;"><b>QT Entregue: </b><?=$qtent?></span>
+				                    </a>
+				                </td>
+				                <td style="text-align: right;">
+				                   <?=number_format(($listaprod->preco),2,',','.')?>                  
+				                </td>
+				                <td style="text-align: right;">
+				                	<?=number_format(($listaprod->preco*$listaprod->qt),2,',','.')?>
+				                </td>
+				                <td style="text-align: center;" >
+				                   <?=$listaprod->gravacao?> 
+				                </td>
+				                <td style="text-align: center;" >
+				                	<?=$listaprod->data?>
+				                </td>   
+				                <?php if($pedidos->sitped == 1){ ?>
+				                <td style="text-align: center;" >
+					                <input type="text" name="entrega_<?=$listaprod->id_prod?>" style="width: 80%">
+					            </td>
+					            <?php } ?>   
+					            <td style="text-align: center;" >
+                                    <?php if($listaprod->anexo != "" and $listaprod->anexo != null){ ?>
+                                    <a href="<?php echo $this->baseUrl()?>/public/sistema/upload/qcr/<?php echo $listaprod->idkangprod.".".$listaprod->anexo?>" target="_blank" ><img title="Upload QCR" src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/link2.png" width="17"></a>
+                                    <?php } ?>
+                                    
+                                    <?php if($pedidos->sitped == 1){ ?>	
+                                    <a href="javascript:" class="up-qcr" rel="<?php echo $listaprod->idkangprod?>"><img title="Upload QCR" src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/upload.png" width="17"></a>
+                                    <?php } ?>
+                                </td>            
+				            </tr>				            
+							<?php 
+						endif; 
+					endforeach;
+					?>
+					<tr >
+		                <td colspan="3" style="text-align: right;">
+		                   <?=$this->translate->_("Total de peças")?>: <b><?=$total_pecas?></b>                  
+		                </td>
+		                <td colspan="3" style="text-align: right;">
+		                   <?=$this->translate->_("Valor total")?>: <b><?=number_format(($total_valor),2,',','.')?></b>                  
+		                </td>
+		                <td align="center" colspan="3">
+		                	&nbsp;
+		                </td>
+		            </tr>
+		            </tbody>
+				</table>
+			</div>
+						
+			<!-- Essa div exibe produtos entregues e pagamentos -------------------------- -->
+			<?php
+			$verent = 0;
+			$verfin = 0; 
+			foreach($this->objProdent as $listaEnt):
+				if($listaEnt->id_kang_compra == $pedkang) $verent = 1;
+			endforeach;
+			foreach($this->objFin as $listafin):
+				if($listafin->id_kang_compra == $pedkang) $verfin = 1;
+			endforeach;
+
+			if(($verent==1)||($verfin==1)):
+				?>
+				<div class="widget" style="border: 0px; margin-bottom: 10px">
+			    	<?php 
+					if(!empty($this->objProdent) and ($verent==1)):
+						?>
+						<div class="left" style="width: 45%; border: 1px solid #d5d5d5; padding: 10px">
+							<table style="width: 100%">
+					         	<tr>
+					         		<td colspan="5" align="left">
+					         		<b><?=$this->translate->_("Produtos entregues")?></b>
+					           		</td>
+					       		</tr>								         	
+					         	<?php 
+					         	$total_p = $dt_ent= 0;
+					         	foreach($this->objProdent as $listaEnt):
+					         		if($listaEnt->id_ped == $pedkang):					         	
+					         	
+							         	if(($dt_ent != $listaEnt->data) and ($dt_ent != "")):
+							         		?>
+								         	<tr>
+								         		<td colspan="5" style="border-top: 1px solid #999; text-align: right; padding-right: 20px">
+							           			<b><?=number_format($total_p,2,",",".")?></b><br><br>
+							           			</td>
+								       		</tr>
+								       		<?php
+								       		$dt_ent ="";
+							         		$total_p = 0;
+							         	endif;
+							         		
+							         	$dt_ent = $listaEnt->data;
+							         	$total_p += $listaEnt->preco*$listaEnt->quant;
+							         	
+							         	?>
+							         	<tr>
+							         		<td width="25%" align="left">
+						           			<?=$listaEnt->data?>
+						           			</td>
+						           			<td width="30%" style="text-align: center;">
+						           			<?=$listaEnt->CODIGO?>
+						           			</td>				        
+						           			<td width="15%" style="text-align: center;">
+						           			<?=$listaEnt->quant?>
+						           			</td>
+						           			<td width="25%" style="text-align: right;">
+						           			<?=number_format($listaEnt->preco*$listaEnt->quant,2,",",".")?>
+						           			</td>
+						           			<td width="10%" style="text-align: right;">
+						           			<?php 
+								            if(($listaEnt->sit==1) and ($pedidos->sit!=3)):
+					                		 	?>
+    								            <a href="javascript:void(0);" class="removeEntrega" rel="<?php echo $pedidos->id_kang_compra."|".$listaEnt->id_ent?>" ><img src="<?=$this->baseUrl()?>/public/sistema/imagens/window-close.png" width="12" border="0" title="Remove purchase"></a>
+    								            <?php 
+					                		endif;
+								            ?>
+						           			</td>
+							       		</tr>
+							       		<?php 
+							       	endif;
+					         	endforeach;
+					         	?>
+					         	<tr>
+					         		<td colspan="5" style="border-top: 1px solid #999; text-align: right; padding-right: 20px">
+				           			<b><?=number_format($total_p,2,",",".")?></b><br><br>
+				           			</td>
+					       		</tr>
+				         	</table>
+				        </div>
+					<?php 
+					endif;
+					?>	
+					<?php 
+					if(!empty($this->objFin) and ($verfin==1)):
+						?>			
+						<div class="right" style="width: 45%; border: 1px solid #d5d5d5; padding: 10px">
+							<table style="width: 100%">
+				         	<tr>
+				         		<td colspan="4" align="left">
+				         		<b><?=$this->translate->_("Pagamentos")?></b>
+				           		</td>
+				       		</tr>
+			       			<?php   
+			       			$totalfin = 0;     			
+				         	foreach($this->objFin as $listafin):
+				         		if($listafin->id_kang_compra == $pedkang):				
+					         		$totalfin += $listafin->vlparc;
+						         	?>
+						         	<tr>
+						         		<td width="40%" align="left">
+					           			<?=$listafin->dtpag?>
+					           			</td>
+					           			<td width="30%" style="text-align: center;">
+					           				<a target="_blank" href="<?=$this->baseUrl()?>/admin/administracao/financeirochinapagcad/pay/<?=md5($listafin->idconta)?>" >P<?=substr("000000".$listafin->idconta,-6,6)?></a>
+					           			</td>				        
+					           			<td width="30%" style="text-align: right;">
+					           			<?=number_format($listafin->vlparc,3,",",".")?>
+					           			</td>
+						       		</tr>
+						       		<?php
+						       	endif; 
+				         	endforeach;
+				         	?>
+				         	<tr>
+				         		<td colspan="4" style="border-top: 1px solid #999; text-align: right;">
+			           			<b><?=number_format($totalfin,2,",",".")?></b><br><br>
+			           			</td>
+				       		</tr>
+				        </table>
+				    </div>
+					<?php 
+					endif;
+					?>
+					
+					<div class="fix"></div>
+				</div>	
+				<?php
+			endif;  					 
+			endforeach;
+		endif;
+		?>					
+		<div style="float: left; margin-top: 10px">
+			<?php if($ped->STATUS == "ORDERED"){ ?>
+				<input type="submit" value="Gerar/Atualizar Pedidos" class="greenBtn">
+				<input type="button" value="Fechar Pedidos" id="fecharPedido" class="basicBtn">
+				<input type="hidden" value="" name="fecharpedido">		
+			<?php } ?>
+			
+		</div>
+				
+		<input type="hidden" name="formqcr" >
+		
+		</form>
+	</div>
+</div>

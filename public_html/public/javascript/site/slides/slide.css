@@ -1,0 +1,40 @@
+
+#screen{
+	width:920px;
+	padding:0;
+	margin-left: 25px;
+}			
+#screen li{
+	float:left;
+	list-style:none;
+}
+#screen .jq-ss-crop{
+	margin:0px 0px;
+	border:0px solid #FFFFCC;
+	float:left;				
+}
+#left,#right{
+	font-weight:bolder;
+	font-size:16px;
+	margin-top:75px;
+	display:block;
+	text-decoration:none;
+	color:black;
+}
+#view{
+	margin:5px;
+	width:795px;
+	border:0px white solid;
+	height:160px;
+	overflow:hidden;
+	background-color:white;
+}
+#images{
+	width:3818px !important;
+	width:3822px;
+	padding:0;
+}
+#images li img{
+	border:0;
+}
+

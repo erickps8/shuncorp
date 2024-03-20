@@ -1,0 +1,82 @@
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/financeiro.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/administracaoFinanceiro.js"></script>
+
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztl">Financeiro</a></li>
+                	<li class="lastB">Importar extratos bancários</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Importar extratos bancários</h5></div>
+
+        <div class="widgets" >
+        	<div class="right" style="text-align: right; padding: 5px 0px 5px 0px; width: 40%">
+				<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlpag">Pagar</a> | 					    		  
+	    		<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlrec">Receber</a> |  
+	    		<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlbancos">Administração</a> | 	    		
+	    		<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlconc">Conciliação</a>
+			</div>
+		</div>
+		
+		<div class="widgets" >
+			<div class="first" style="margin-top: 5px; margin-bottom: 5px; border: 1px solid #d5d5d5; padding: 10px" >
+				<form name="formimport" method="post" class="mainForm" enctype="multipart/form-data" >
+    	    		<div style="width: 20%; float: left;">
+	    	    		Selecione uma conta:<br>
+			    		<div class="styled-select" style="width: 170px">
+	    				<select name="contasbanco" id="contasbanco" style="width: 192px">
+	    					<option value="0">Selecione</option>
+	    					<?php 
+	    					foreach ($this->objContasbanc as $contasvalid){
+	    						if($contasvalid->id == 1 || $contasvalid->id == 2){
+			    					?>
+			    					<option value="<?=$contasvalid->id?>"><?=strtoupper($contasvalid->nome)?></option>
+			    					<?php 
+		    					}
+							}?>
+	    				</select>
+	    				</div>
+    				</div>
+		    		<div style="float: left; width: 50%">		
+		    			Anexo:<br /> 
+	                    <input type="file" class="fileInput" id="fileInput" name="xml" onchange="addArchive(this)"/>
+                    </div>
+                    <div style="float: left;">		
+		    			<br /><input type="submit" value="Salvar" class="greenBtn">
+                    </div>
+					<script type="text/javascript">
+		        		function addArchive(anexo) {
+			        		document.getElementById(anexo.name).value = $(anexo).val();
+			        	}
+		        	</script> 
+		    			
+		    	</form>
+		    	<div class="clear"></div>
+		    </div>
+		    
+		    <div style="margin-top: 10px">
+		     - O arquivo para importação deve estar no formato TXT, CVS ou sem extensão;<br>
+		     - O extrato do Itaú-unibanco deverá ser gerado com o separador <span style="font-weight: bold;">";"</span>; <br />
+		     - O extrato do Banco do Brasil deverá ser gerado com o separador <span style="font-weight: bold;">"|"</span>; <br />
+		    </div>
+		    
+		    <?php if(!empty($this->arrayRet)){ ?>
+		    <div style="display: block; ">
+		    	<?php if($this->arrayRet[sit] == 0){ ?><div style="color: #f00;"><?php echo $this->arrayRet[msg]?></div> <?php } ?>
+		    	<?php if($this->arrayRet[sit] == 1){?><div style="color: #009900;"><?php echo $this->arrayRet[msg]?></div><?php } ?>
+		    </div>
+		    <?php } ?>
+		    
+		    
+		</div>
+			
+	</div>
+		

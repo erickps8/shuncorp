@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Shuncorp - www.shuncorp.com </title>
+	<link href="<?=$this->baseUrl()?>/public/sistema/imagens/ztl.ico" rel="shortcut icon" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="description" content="<?=$this->translate->_("ZTL do Brasil importação, exportação e comercio")?>" />
+	<meta name="keywords" content="rolamentos, cubo de roda, rolamento, embreagem, embreagens, ponta de eixo, pontas de eixo, bomba dagua, bombas dagua, roda, scania, homocinetica, homocineticas, transmissoes" />
+	<link href="<?=$this->baseUrl()?>/public/sistema/css/estiloinvoiceimp.css" rel="stylesheet" type="text/css" />		
+</head>
+
+<body onload="window.print();">
+<?php 
+foreach ($this->objDet as $listdet);
+foreach ($this->objEnd as $listend);
+foreach ($this->objTel as $listtel);
+foreach ($this->objFax as $listfax);
+
+?>
+<div id="siscorpo">	
+	<div id="sistopo">
+		<div id="titulo">
+			<span style="font-size: 16px">
+				順合進出口有限公司<br />
+				SHUNCORP IMP & EXP CO., LIMITED<br />
+			</span>
+			NO 300 LOCKHART ROAD - KIUFU COMMERCIAL BUILDING - ROOM 20A, HONG KONG, WAN CHAI, HONG KONG
+<br />
+			P.Code: 90000 PHONE: +852-25211836 FAX: +852-25211836
+		</div>
+		<div id="info">
+			<div id="cliente">
+				TO:<br />
+				<span style="font-size: 16px">
+				<?=$listdet->RAZAO_SOCIAL?>
+				</span><br />
+				<?=$listend->LOGRADOURO." ".$listend->NUMERO?> - <?=$listend->BAIRRO?><br />
+				<?=$listend->ncidade." - ".$listend->nestado." - ".$listend->npais?><br />
+				P. CODE: <?=$listend->CEP?><br />
+				CNPJ.: <?=$listdet->CPF_CNPJ?> INSC.: <?=$listdet->RG_INSC?><br />
+				PHONE: <?=$listtel->DDI." ".$listtel->DDD.$listtel->NUMERO?> FAX: <?=$listfax->DDI." ".$listfax->DDD.$listfax->NUMERO?> <br />	
+			</div>
+			<div id="detalhes">
+				发票号码:<br />
+				Proforma No.: <?="OR".substr("00000".$listdet->idped, -6,6)?><br /><br />				
+				Your Order No.: <?=$listdet->ordercli?><br /><br />				
+				发票日期:<br />
+				Proforma Date: <?=substr($listdet->DATA, 8,2)."/".substr($listdet->DATA, 5,2)."/".substr($listdet->DATA, 0,4)?>
+			</div>
+		</div>
+		<div id="subtitulo" style="text-align: center; border: 1px solid #fff;">
+			PROFORMA INVOICE<br />
+			商业发票
+		</div>	
+	</div>
+	<div id="sisconteudo" style="border-top: 1px solid;">
+		<div id="frete" style="text-transform: uppercase;">
+			FROM: <?=$listdet->defrom?><br />
+			Freight Terms: <?=$listdet->frete?><br />
+			Payment Terms: <?=$listdet->termospagamento?>
+			<div id="fretepara" >
+				TO: <?=$listdet->para?><br />
+				Freight Charge: <?php //$listdet->freight_charge?>
+			</div>
+		</div>
+		<div id="produtos">
+			<table border="0" cellpadding="0" cellspacing="0">
+				<tr>
+				    <td rowspan="2" style="border-top: 1px solid #000;" align="center">
+					    唛头号码<br />
+					    Marks   Numbers
+				    </td>
+				    <td style="border-top: 1px solid #000; border-left: 1px solid #000;" align="center" width="80">海关编码</td>
+				    <td colspan="4" style="border-top: 1px solid #000; border-left: 1px solid #000;" align="center">数量与货品名称</td>
+				    <td style="border-top: 1px solid #000;" align="center" width="110">总 值</td>
+				 </tr>
+				 <tr>
+				    <td style="border-top: 1px solid #000; border-left: 1px solid #000;" align="center"><span class="style2">HARMONIZED   <br />
+				    SYSTEM CODE</span></td>
+				    <td colspan="4" style="border-top: 1px solid #000; border-left: 1px solid #000;" align="center">Quantities  and  Descriptions</td>
+				    <td style="border-top: 1px solid #000;" align="center">Amount</td>
+				 </tr>
+				 <tr>
+				    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000;" width="20">ITEM</td>
+				    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-left: 1px solid #000; " width="10">H.S.CODE</td>
+				    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-left: 1px solid #000; " width="310" >COMMODITY</td>
+				    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000;" width="42">QUANT</td>
+				    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000;" width="30">TYPE</td>
+				    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000;" width="60">UNIT PRICE </td>
+				    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000;" >TOTAL PRICE </td>
+				 </tr>
+				 <?php 
+				 $totalprod = $totalvl = $cont = 0;
+				 foreach ($this->objProd as $produtos): 
+				 $cont++;
+				 ?>
+			  	 <tr>
+				    <td align="center"><?=$cont?></td>
+				    <td style="border-left: 1px solid #000;" >
+				 		<?php if($listdet->sit==3): echo $produtos->ncmg; else: echo $produtos->ncmg." ".$produtos->ncmex; endif; ?>
+				 	</td>
+				    <td style="border-left: 1px solid #000; text-align: left;" >
+				    	<?php if(!empty($produtos->COD_PRODCLI)): echo $produtos->COD_PRODCLI." (".$produtos->CODIGO.") ".$produtos->pl_prod_desc;
+				    	else:
+				    		echo "P".substr("000000".$produtos->idproduto, -6,6)." ".$produtos->pl_prod_desc;
+				    	endif;?>
+				    </td>
+				    <td align="center"><?=$produtos->QT?></td>
+				    <td align="center"><?php echo ($produtos->unidade != "") ? $produtos->unidade : "PCS"; ?></td>
+				    <td style="text-align: right; padding-right: 3px"><?=$produtos->moedaprod.number_format($produtos->PRECO,3,",",".")?></td>
+				    <td style="border-left: 1px solid #000; text-align: right; padding-right: 3px" ><?=$produtos->moedaprod.number_format($produtos->PRECO*$produtos->QT,3,",",".")?></td>
+				 </tr>
+				 <?php 
+				 $totalprod		 += $produtos->QT;
+				 $totalvl		 += $produtos->PRECO*$produtos->QT;
+				 endforeach;
+				 ?>
+			</table>
+		</div>
+		<div id="dadosbancarios">
+			<div id="totais">	
+				QT TOTAL: <?=$totalprod?> &nbsp; &nbsp; PCS<span style="word-spacing: 45px">&nbsp;</span>TOTAL: <?=$produtos->moedaprod.number_format($totalvl,3,",",".")?>&nbsp; 				
+			</div>
+			<div id="infobancarias">
+				SHIPMENT DATE: <?=substr($listdet->dt_entrega, 8,2)."/".substr($listdet->dt_entrega, 5,2)."/".substr($listdet->dt_entrega, 0,4)?><br />
+				PARTIAL SHIPMENT ACCEPTED? <?=$listdet->embarqueparcial?><br />
+				SHIPMENT AGENT: <?=$listdet->shipment_agent?>			
+				<span style="word-spacing: 330px">&nbsp;</span>PERSON'S NAME, STAMP & SIGNATURE<br /><br />
+				Bank Information:<br />
+				Name: CHINA MERCHANTS BANK H.O., SHENZHEN (OFF-SHORE  BANKING  DEPT)<br />
+				Address: N 7088, SHENNAN RD., SHENZHEN - CHINA<br />
+				Swift BIC:CMBCCNBS008<br />
+				A/C No: OSA571908785332802<br />
+				Account Name: Shuncorp Imp & Exp Co., Limited 
+			</div>
+		</div>
+	</div>
+</div>    			
+</body>
+</html>
+		    

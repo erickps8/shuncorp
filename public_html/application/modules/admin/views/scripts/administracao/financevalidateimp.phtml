@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>ZTL Brasil - www.ztlbrasil.com.br </title>
+<link href="<?=$this->baseUrl()?>/public/sistema/imagens/ztl.ico" rel="shortcut icon" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/css/pedidos_imp.css" />
+</head>
+<body onload="window.print(); ">
+<br></br>
+
+<table width="800" style="border: 1px solid #000; margin-top: 10px; " cellspacing="8px" align="center">
+<tr>
+	<td align="left" width="22%" colspan="3">
+		Account:
+		<br />
+		<b><?php
+       		if($this->objTipo==1) echo "BOC - Bruno";
+       		if($this->objTipo==2) echo "BOC - Shunkang";
+       		if($this->objTipo==3) echo "BOC - Shuntai";
+       		if($this->objTipo==7) echo "Cash Box";
+       		if($this->objTipo==8) echo "Bruno Forigner";
+		?></b>	
+	</td>
+	
+</tr>
+<tr>
+	<td align="left" width="22%" colspan="3">
+		Balance:<br />
+		<b><?php
+       if(!empty($this->objList)):
+       		$cont = 0;
+       		$idt = "";
+       		$vltotal = 0;
+       		foreach ($this->objList as $list):
+				$vltotal += $list->valor;
+		    endforeach;
+		    echo number_format($vltotal,2,",",".");
+		endif;    
+		?></b>	
+	</td>
+	
+</tr>
+</table>
+
+
+<table align="center" class="mytable" width="800" cellspacing="0" style="margin-top: 10px">
+	<tr>
+    		<th  class="th_canto_orc" align="center" width="15%" >
+                ID
+            </th>
+            <th  class="th_orc" align="center" width="15%">
+                DATE
+            </th>
+            <th  class="th_orc" align="center" width="15%">
+            	TRANSATION
+            </th>
+            <th  class="th_orc" align="center" >
+            	CURRENCY
+            </th>
+            <th  class="th_orc" align="center" >
+            	VALUE
+            </th>
+            <th  class="th_orc" align="center" >
+            	ID ACCOUNT
+            </th>
+            <th  class="th_orc" align="center" >
+            	SIT
+            </th>
+        </tr>       
+       <?php
+       if(!empty($this->objList)):
+       		$cont = 0;
+       		$idt = "";
+       		foreach ($this->objList as $list):
+				?>
+				   <tr>
+			       		<td class="td" align="center"><?php echo $list->id; ?></td>
+			       		<td class="td" align="center" ><?php echo substr($list->data,8,2).'/'.substr($list->data,5,2).'/'.substr($list->data,0,4); ?></td>
+			       		<td class="td" align="center"><?php echo $list->transacao; ?></td>
+			       		<td class="td" align="center"><?php echo $list->moeda; ?></td>
+			       		<td class="td" align="right"><?php echo number_format($list->valor,2,",","."); ?></td>
+			       		<td class="td" align="center"><?php echo $list->id_conta; ?></td>
+			       		<td class="td" align="center"><?php if($list->valida==1) echo "Validate"; ?></td>
+			       </tr>
+			      <?php 
+		    endforeach;
+		    
+		endif;    
+		?>
+     </table>
+   </body>
+</html>

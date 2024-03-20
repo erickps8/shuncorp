@@ -1,0 +1,19 @@
+<table align="left" class="mytable" width="100%" cellspacing="0"  >
+<tr>
+	<th class="th_canto_min"><?=$this->translate->_("EMPRESA")?></th>
+	<th class="th_orc_min"><?=$this->translate->_("CONTATO")?></th>
+	<th class="th_orc_min"><?=$this->translate->_("EMAIL")?></th>
+</tr>
+<?php 
+foreach ($this->objClientes as $list):
+	?>
+	<tr>
+		<td class="td_orc_min" align="left"><a href="<?=$this->baseUrl(); ?>/admin/cadastro/parceiros/idparceiro/<?=md5($list->idparc)?>" target="_blank"><?=utf8_encode($list->EMPRESA)?></a></td>
+		<td class="td_orc_min" align="left"><?=utf8_encode($list->NOME_CONTATO)?></td>
+		<td class="td_orc_min" align="left"><?=$list->EMAIL?></td>
+	</tr>
+	<?php
+endforeach;
+
+?>
+</table>

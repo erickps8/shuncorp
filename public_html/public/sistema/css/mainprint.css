@@ -1,0 +1,126 @@
+@import "dataTable.css";
+
+
+html { height: 100%; }
+* html body { height: 100%; }
+body { margin: 0; padding: 0; font-size: 14px; color: #424242; font-family: Arial, Helvetica, sans-serif; line-height: 20px; min-height: 100%; position: relative; }
+
+
+
+
+/* ==========  General styles ========== */
+
+.content { padding-bottom: 80px; overflow: hidden; }
+.content .title { margin-top: 10px; background-color: #ccc; height: 36px; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; box-shadow: 0 1px 0 #fff; }
+.content .title h5 { float: left; color: #000; font-weight: normal; display: block; padding: 7px 15px; margin-top: 0px }
+
+/* .wrapper { margin: 0 5%; clear: both; }
+.img { border: 1px solid #C1C1C1; } */
+
+.wrapper { margin: 0 auto; max-width: 1100px; clear: both; }
+.img { border: 1px solid #C1C1C1; }
+
+/* ==========  Typo  ========== */
+
+h1 { font-size: 24px; }
+h2 { font-size: 22px; }
+h3 { font-size: 20px; }
+h4 { font-size: 18px; }
+h5 { font-size: 16px; }
+h6 { font-size: 14px; }
+
+
+blockquote { border : 1px solid #C1C1C1; margin-top: 40px; padding: 15px 10px; quotes: "\201C" "\201D"; background: #fafafa; text-align: center; font-style: italic; font-size: 12px; border-left: 4px solid #C1C1C1; }
+blockquote:before { content: open-quote; font-weight: bold; }
+blockquote:after { content: close-quote; font-weight: bold; }
+
+/* ==========  Additional reset classes  ========== */
+
+.mt40 { margin-top: 40px; }
+.nomargin { margin: 0!important; }
+.nopadding { padding: 0!important; }
+.noborder { border: none!important; }
+.nobg { background: none!important; }
+.floatleft { display: block; float: left; }
+.floatright { display: block; float: right; }
+.aligncenter { text-align: center; }
+.fix { clear: both; }
+.first { margin-top: 22px!important; }
+.inactive { margin-top: 0px; color: #2B6893; }
+
+.ml122 { margin-left: 122px; }
+.w40 { width: 40%; }
+
+
+/* ===== Widgets ===== */
+
+.twoOne { width: 50%; }
+.widget, .content .title, .count, .widget .num a, a.count1, .table, .breadCrumb, .earnings, .leftNav ul li a, .listData .cNote, .pages li a, .errorPage, .btn14, .btn55, .loginPanel, .customfile { -moz-border-radius: 2px; -webkit-border-radius: 2px; -khtml-border-radius: 2px; border-radius: 2px; }
+.head { background: #efefef url(../imagens/leftNavBg.png) repeat-x; height: 38px; border-top: 1px solid #C1C1C1; border-bottom: 1px solid #C1C1C1; position: relative; }
+
+.widgets { clear: both; }
+.widgets .left { float: left; /*width: 344px;*/ width: 48%; margin-right: 4%;}
+.widgets .right { float: right; /*width: 344px;*/ width: 48%; }
+
+.tableStatic { margin-top: 0px;  border-collapse: collapse; }
+
+/* ===== Table ===== */
+
+td { padding: 2px; }
+
+.tableStatic thead td { padding: 5px 0 5px 0; text-align: center; border-left: 1px solid #C1C1C1; border-top: 1px solid #C1C1C1; background: #efefef url(../imagens/leftNavBg.png) repeat-x; border-bottom: 1px solid #C1C1C1; font-size: 11px; color: #878787; }
+.tableStatic thead td:first-child { border-left: none; }
+
+.tableStatic tbody tr { border-top: 1px solid #C1C1C1; }
+.tableStatic tbody tr:nth-child(even) { background-color:#f5f5f5; }
+
+.tableStatic tbody td { border-left: 1px solid #C1C1C1; padding: 8px 10px; vertical-align: middle; }
+.tableStatic tbody td:first-child { border-left: none; }
+
+.widget { /*width: 342px;*/ /*width: 100%;*/ margin-top: 15px; border: 1px solid #C1C1C1; display: block; background: #fafafa; clear: both; border-top: none; }
+.widget .head h5, .table h5 { font-weight: normal; padding: 9px 12px 9px 35px;}
+
+
+
+
+.painelleft{
+	float: left;
+	width: 48%;
+}
+
+.painelright{
+	float: right;
+	width: 48%;
+}
+
+.periodo{
+	border: 1px solid;
+	margin-top: 15px;
+	padding: 0px;
+	text-align: left;
+}
+
+#logo{
+	padding-bottom: 5px;
+}
+
+#logo img{
+	width: 100%;
+}
+
+#operacao{
+	text-align: right;
+	padding-top: 20px;
+}
+
+#operacao h1{
+	padding: 0px !important;
+	margin: 0px !important;
+	font-weight: bold;		
+}
+
+#operacao h2{
+	font-weight: bold;
+	font-size: 14px;	
+	padding: 0px 0px 10px 0px !important;
+}

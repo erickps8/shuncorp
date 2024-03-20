@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>Copa ZTL de Tenis de mesa</title>
+<style type="">
+a{
+	text-decoration:none;
+	color:#FFF;
+}
+
+a:hover{
+	color:#333;
+}
+
+.a{
+	text-decoration:none;
+	color:#999;
+}
+
+.a:hover{
+	color:#333;
+}
+
+</style>
+
+</head>
+
+<body style="font: 18px 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;">
+<table width="1000"  border="0" cellspacing="0" cellpadding="0" align="center">
+  <tr>
+    <td valign="top">
+    <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
+      <tr>
+        <td colspan="8"><img src="<?=$this->baseUrl()?>/images/pingpong/topo.jpg" width="1000" height="123" /></td>
+      </tr>
+      <tr>
+        <td style="background-image:url(<?=$this->baseUrl()?>/images/pingpong/lateral.jpg); background-repeat: repeat-y; background-color:#E6E6E6" colspan="7">&nbsp;</td>
+      <td style="background-image:url(<?=$this->baseUrl()?>/images/pingpong/lateral2.jpg); background-repeat:repeat-y;">&nbsp;</td></tr>
+      
+      <tr>
+        <td width="12" style="background-image:url(<?=$this->baseUrl()?>/images/pingpong/lateral.jpg); background-color:#E6E6E6; background-repeat:repeat-y">&nbsp;</td>
+        <td colspan="6" style="background-color:#E6E6E6;" align="center" >
+        	<table width="100%" border="0">
+        		<tr>
+        			<td align="center" colspan="2">
+        			Histórico de confrontos
+        			</td>
+        		</tr>
+        		<tr>
+        			<td align="right" width="68%">
+        			<form action="" method="post">
+        			<select name="jogador1" style="border: 1px solid; width: 150px">
+        			<?php foreach ($this->objTennis as $listajog): ?>
+					<option value="<?=$listajog->idj?>"><?=$listajog->nome?></option>
+					<?php endforeach; ?>
+					</select>
+					X
+					<select name="jogador2" style="border: 1px solid; width: 150px">
+        			<?php foreach ($this->objTennis as $listajog): ?>
+					<option value="<?=$listajog->idj?>"><?=$listajog->nome?></option>
+					<?php endforeach; ?>
+					</select>
+					
+        			</td>
+        			<td align="left">
+        			<input type="image" src="<?=$this->baseUrl()?>/images/visualizar_orc.gif"/>
+        			</form>
+        			</td>
+        		</tr>
+        		<?php 
+        		if(!empty($this->objHis)):
+        			/*$jog1 = $jog2 = 0;
+        			foreach ($this->objHis as $listahis);
+        			$jogador1 = $listahis->id_jogador1;
+        			$jogador2 = $listahis->id_jogador2;
+        			
+	        		foreach ($this->objHis as $listahis):
+	        			if($jogador1 == $listahis->venc):
+	        				$jog1++;
+	        			elseif($jogador2 == $listahis->venc):
+	        				$jog2++;
+		        		endif;	
+	        		endforeach;*/
+        			$i=0;
+        			foreach ($this->objHis as $listahis):
+        				$array[$i]['jog'] 	= $listahis->venc;
+	        			$array[$i]['total'] = $listahis->venct;
+	        			$i++;
+	        		endforeach;
+        		endif;
+        		
+        		//Zend_Debug::dump($array);
+        		?>
+        			<?php 
+        			
+        			if(!empty($this->objHis)):
+        			?>
+        			<tr>
+	        			<td align="center" colspan="2">
+	        			<table width="50%">
+	        				<tr>
+								<td align="center" >
+									<img style="border: 1px solid;" src="<?=$this->baseUrl()?>/images/pingpong/jogador/<?=$listahis->id_jogador1?>.jpg" alt="<?=$listahis->id_jogador1?>" height="120" /> &nbsp;
+	        					</td>
+	        					<td align="center" valign="middle" style="font-size: 50px">
+	        						X
+	        					</td>
+	        					<td align="center" valign="middle"> 
+	        						<img style="border: 1px solid;" src="<?=$this->baseUrl()?>/images/pingpong/jogador/<?=$listahis->id_jogador2?>.jpg" alt="<?=$listahis->id_jogador2?>" height="120" /> &nbsp;
+	        					</td>
+							</tr>
+							<tr>
+								<td align="center" >
+									<?
+									if($listahis->id_jogador1==$array[0]['jog']):
+										if(!empty($array[0]['total'])):
+											echo $array[0]['total'];
+										else:
+											echo "0";
+										endif;
+									elseif($listahis->id_jogador1==$array[1]['jog']):
+										if(!empty($array[1]['total'])):
+											echo $array[1]['total'];
+										else:
+											echo "0";	
+										endif;
+									endif;
+									?>
+	        					</td>
+	        					<td align="center" valign="middle">
+	        						
+	        					</td>
+	        					<td align="center" valign="middle"> 
+	        						<?
+	        						$vazio = 0;
+									if($listahis->id_jogador2==$array[0]['jog']):
+										if(!empty($array[0]['total'])):
+											$vazio = $array[0]['total'];
+										endif;
+									elseif($listahis->id_jogador2==$array[1]['jog']):
+										if(!empty($array[1]['total'])):
+											$vazio = $array[1]['total'];
+										endif;
+									endif;
+									
+									echo $vazio;
+									?>
+	        					</td>
+							</tr>
+	        			</table>
+	        			</td>
+	        		</tr>
+        			<?php endif;?>
+        	</table>
+        </td>
+        <td style="background-image:url(<?=$this->baseUrl()?>/images/pingpong/lateral2.jpg); background-repeat:repeat-y" width="16">&nbsp;</td>
+      </tr>
+    
+      <tr>
+        <td><img src="<?=$this->baseUrl()?>/images/pingpong/1.jpg" width="15" height="24" /></td>
+        <td style="background-color:#E6E6E6;">&nbsp;</td>
+        <td style="background-color:#E6E6E6;">&nbsp;</td>
+        <td style="background-color:#E6E6E6;">&nbsp;</td>
+        <td style="background-color:#E6E6E6;">&nbsp;</td>
+        <td style="background-color:#E6E6E6;">&nbsp;</td>
+        <td style="background-color:#E6E6E6;">&nbsp;</td>
+        <td><img src="<?=$this->baseUrl()?>/images/pingpong/2.jpg" width="15" height="24" /></td>
+      </tr>
+      <tr>
+        <td align="right" colspan="8" height="90px" style="background-image:url(<?=$this->baseUrl()?>/images/pingpong/rodape.jpg); background-repeat:repeat-y; font-size: 30px ; color: #FFF" >
+      		<a href="index" >PARTIDAS</a> | <a href="rank" >RANK</a> &nbsp; &nbsp; 
+        </td>
+      </tr>      
+    </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

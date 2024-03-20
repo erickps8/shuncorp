@@ -1,0 +1,122 @@
+
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl()?>/admin/kang/pedidos"><?=$this->translate->_("Pedidos de venda")?></a></li>
+                	<li ><a href="<?=$this->baseUrl()?>/admin/kang/vendas"><?=$this->translate->_("Venda")?></a></li>
+                	<li class="lastB"><?=$this->translate->_("Nova venda")?></li>
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5><?=$this->translate->_("Nova venda")?></h5></div>
+        
+        <div class="widgets">
+	
+		<form action="<?=$this->baseUrl()?>/admin/kang/gravarvendaemp" method="post" name="busca" id="busca" >
+			<input type="hidden" name="empresa" value="<?=$this->objEmp?>">
+			<?php				
+			if(!empty($this->objComp)):
+				$vergeral = 1;
+				foreach ($this->objComp as $compras):		
+				?>		
+				<div class="widget">
+     			<div class="head" style="border-bottom: 0px">
+     			    <div style="float: left; width: 80%">
+         			    <h5 class="iFrames"><?="PK".substr("000000".$compras->id_kang_compra,-6,6)." ".strtoupper($compras->cliente)." (".strtoupper($compras->nome).")";?></h5>
+    			    </div>	
+    			    <div style="float: right; width: 15%; text-align: right; padding: 10px 10px 0px 0px">
+			           <input type="checkbox" name="<?=$compras->id_kang_compra?>">
+		            </div>	        
+     			</div>
+            	<table class="tableStatic" style="width: 100%">
+                	<thead>
+                    	<tr>
+                            <td width="">Id</td>
+                            <td width="">Código</td>
+                            <td width="">QT</td>
+                            <td width="">Preço</td>
+                            <td width="">Impressão</td>
+                            <td width="">Total</td>
+                            <td width="">Data da entrega</td>
+                            <td width="">Entregue</td>                                                    
+                        </tr>
+                    </thead>
+                    <tbody>
+					
+					<?php 
+			    	$total_pecas = $total_valor = $tpecasent = $cor = 0;
+					foreach($this->objProd as $lista):
+			    	 
+						//-- Essa condicao verifica se produto ja foi comprado e se tem fornecedor --------------
+			            if($compras->id_kang_compra == $lista->id_kang_compra):
+			            	$total_pecas 	+= $lista->qt;
+							$tpecasent 		+= $lista->qtent;  
+							$total_valor 	+= $lista->preco*$lista->qt;
+							
+							$cor++;
+				           
+			               	?>
+							<tr >
+				                <td style="text-align: center;">
+				                   <?=$cor?>                  
+				                </td>
+				                <td align="left" >
+				                   <?=$lista->CODIGO?>                  
+				                </td>
+				                <td style="text-align: center;" >
+				                    <?=$lista->qt?>
+				                </td>
+				                <td style="text-align: right;">
+				                   <?=number_format(($lista->preco),2,',','.')?>                  
+				                </td>
+				                <td style="text-align: left;" >
+				                   <?=$lista->gravacao?> 
+				                </td>
+				                <td style="text-align: right;">
+				                	<?=number_format(($lista->preco*$lista->qt),2,',','.')?>
+				                </td>
+				                <td style="text-align: center;" >
+				                	<?=$lista->dtent?>
+				                </td>
+				                <td style="text-align: center;" >
+				                	<?=$lista->qtent?>
+				                </td>                   
+				            </tr>				            
+							<?php 
+						endif; 
+					endforeach;
+					?>
+					<tr >
+		                <td colspan="3" style="text-align: right;">
+		                   <?=$this->translate->_("Total de peças")?>: <b><?=$total_pecas?></b>                  
+		                </td>
+		                <td colspan="3" style="text-align: right;">
+		                   <?=$this->translate->_("Valor total")?>: <b><?=number_format(($total_valor),2,',','.')?></b>                  
+		                </td>
+		                <td style="text-align: right;" colspan="2">
+		                	<?=$this->translate->_("Total entregue")?>: <b><?=$tpecasent?></b>       
+		                </td>
+		            </tr>
+		            </tbody>
+				</table>
+			    </div>					
+				<?php 
+				endforeach;
+			endif;
+			?>
+			
+			<div style="float: left; margin-top: 10px">
+			 <input type="submit" value="<?=$this->translate->_("Gerar Venda")?>" class="greenBtn">
+			</div>
+			
+			</form>
+		</div> 		
+	</div>
+		
+		    

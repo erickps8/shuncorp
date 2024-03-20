@@ -1,0 +1,473 @@
+<?php foreach ($this->objEntrada as $listent); ?>
+<script src="<?=$this->baseUrl()?>/public/sistema/js/nfe/nfecompra.js"></script>
+
+<div class="content">   
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/pedidoscompra">Pedidos de compra</a></li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/entradaest">Entrada de produtos</a></li>
+                	<li class="lastB">E<?=substr("000000".$listent->identrada, -6,6);?></li>          
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>E<?=substr("000000".$listent->identrada, -6,6);?></h5></div>
+
+        <div class="widget">
+ 			<?php
+			if(count($this->objProdutos)>0):			
+			?>       
+        	<div class="head" style="border-bottom: 0px"><h5 class="iFrames">Produtos</h5></div>
+        	<table class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="3%">Id</td>
+                        <td width="">Código</td>
+                        <td width="18%">Qt ent</td>
+                        <td width="15%">NCM</td>
+                        <td width="">Preço</td>
+                        <td width="">Preço Total</td>
+                        <td width="">Base ICMS</td>
+                        <td width="">ICMS</td>
+                        <td width="">IPI</td>
+                    </tr>
+                </thead>
+                <tbody>
+            
+	        	<?php 
+	        	$qtprod = 0;
+	        	$idprod = -1;
+	        	
+	        	$cor=0;
+	        	$idverqt="";
+	        	$auxqt=0;
+	        	$total_pecas = $total_pedido = 0;
+	        	
+	        	//-- Calculo do percentual do frete ------------------
+	        	foreach ($this->objProdutos as $listaprod):
+	        		$qtentreg = $qtpedid = 0;
+		            foreach ($this->objProddet as $list):
+		        		if(($list->ID_PRODUTO == $listaprod->ID_PRODUTO) and (!empty($list->qt))):
+		        			$qtpedid  += $list->QUANTIDADE;
+		        			$qtentreg += $list->qt;
+		        		endif;
+		        	endforeach;
+		            $total_pedido += $listaprod->precoimp*$qtentreg;
+	        	endforeach;
+	        	
+	        	$aduaneiro = $total_pedido+$listent->frete+$listent->capatazia;
+	        	
+	        	//--- Calculo do coeficiente -------------------------------------------------------------------------------
+		        $qtentreg = $qtpedid = $total_pedido = $totalcofins = $totalpis = $totalii = $totalipi = 0;
+		        foreach ($this->objProdutos as $listaprod):
+		        	$qtentreg = $qtpedid = 0;
+		        	foreach ($this->objProddet as $list):
+			        	if(($list->ID_PRODUTO == $listaprod->ID_PRODUTO) and (!empty($list->qt))):
+
+		        			/* $pedidos.= '<a href="'.$this->baseUrl().'/admin/compras/pedidoscompraprod/ped/'.md5($list->ID_PEDIDO_COMPRA).'" target="_blank"><b>'.$list->ID_PEDIDO_COMPRA.'</b></a>/';
+				        	$qtpedid  += $list->QUANTIDADE; */
+		        	
+		        	
+				        	$qtentreg += $list->qt;
+			        	endif;
+		        	endforeach;
+		        	
+		        	$totalncm = 0;
+		        	foreach ($this->objProdutos as $pncm):
+			        	if(($pncm->id_ncm == $listaprod->id_ncm)):
+			        		$totalncm += $pncm->qta*$pncm->precoimp;
+			        	endif;
+		        	endforeach;
+		        	
+		        	//$coeficiente = ($listaprod->aduaneiro/(round($totalncm,2)*$listaprod->txcambio));
+		        	$coeficiente = ($listaprod->aduaneiro/($totalncm*$listaprod->txcambio));
+		        	 
+		        	//-- Valores unitarios -------------------------------------------------------------------------
+		        	$unitario = $listaprod->precoimp*$coeficiente*$listaprod->txcambio;
+		        	$iiunitatio = ($listaprod->pii*$unitario)/100;
+		        	$unitarioii = ($listaprod->precoimp*$coeficiente*$listaprod->txcambio)+$iiunitatio;
+		        	 
+		        	//-- Total unitario --------------------------------------------------------------------
+		        	$totalunitario = $qtentreg*$unitario;
+		        	
+		        	$ii = ($listaprod->pii*$totalunitario)/100;
+		        	
+		        	$ipi = (((($listaprod->pii*$totalunitario)/100)+$totalunitario)*$listaprod->pipi)/100;
+		        	 
+		        	$aicms 		= $listaprod->picms/100;
+		        	$aipi 		= $listaprod->pipi/100;
+		        	$aii 		= $listaprod->pii/100;
+		        	$apis 		= $listaprod->ppis/100;
+		        	$acofins 	= $listaprod->pcofins/100;
+		        	
+		        	/* $pis = $apis*($totalunitario*(1+$aicms*($aii+$aipi*(1+$aii))))/((1-$apis-$acofins)*(1-$aicms));
+		        	$cofins = $acofins*($totalunitario*(1+$aicms*($aii+$aipi*(1+$aii))))/((1-$apis-$acofins)*(1-$aicms)); */
+		        	
+		        	$pis = ($totalunitario*$apis);
+		        	$cofins = ($totalunitario*$acofins);
+		        	
+		        	$totalii 		+= $ii;
+		        	$totalpis 		+= $pis;
+		        	$totalcofins 	+= $cofins;
+		        	//$total2			+= $totalunitario+$ii; 
+		        	
+		        	$totalipi  		+= $ipi;
+		        	$total_pedido 	+= $unitarioii*$qtentreg;
+		        	
+		        endforeach;
+		        	
+		        $coedicms = ($totalpis+$totalcofins+$listent->siscomex+$listent->outros)/($total_pedido+$totalipi);
+		        //$coedicms = ($listent->siscomex+$listent->outros)/($total_pedido+$totalipi);
+		        	
+		        $idprodutos = "";
+		        $qtentreg = $qtpedid = $total_pedido = $totalicms = $totalbase = 0;
+		        foreach ($this->objProdutos as $listaprod):
+		        	$cor++;
+		        	$idprodutos .= $listaprod->ID_PRODUTO.";";
+		        	
+		        	//--- somar produtos iguais de pedidos diferentes ---------------------------
+		        	$pedidos = "";
+		        	$qtentreg = $qtpedid = 0;
+		        	foreach ($this->objProddet as $list):
+			        	if(($list->ID_PRODUTO == $listaprod->ID_PRODUTO) and (!empty($list->qt))):
+				        	$pedidos.= '<a href="'.$this->baseUrl().'/admin/compras/pedidoscompraprod/ped/'.md5($list->ID_PEDIDO_COMPRA).'" target="_blank"><b>'.$list->ID_PEDIDO_COMPRA.'</b></a>/';
+				        	 
+				        	$qtpedid  += $list->QUANTIDADE;
+				        	$qtentreg += $list->qt;
+			        	endif;
+		        	endforeach;
+		        	
+		        	//--- Calculo dos impostos que sao exibidos ----------------------------------------------
+		        	$totalncm = 0;
+		        	foreach ($this->objProdutos as $pncm):
+			        	if(($pncm->id_ncm == $listaprod->id_ncm)):
+			        		$totalncm += $pncm->qta*$pncm->precoimp;
+			        	endif;
+		        	endforeach;
+		        	
+		        	//$coeficiente = ($listaprod->aduaneiro/(round($totalncm,2)*$listaprod->txcambio));
+		        	$coeficiente = ($listaprod->aduaneiro/($totalncm*$listaprod->txcambio));
+		        	 
+		        	//-- Valores unitarios -------------------------------------------------------------------------
+		        	$unitario = $listaprod->precoimp*$coeficiente*$listaprod->txcambio;
+		        	//$unitario = round($unitario,4);
+		        	 
+		        	$iiunitatio = ($listaprod->pii*$unitario)/100;
+		        	$unitarioii = ($listaprod->precoimp*$coeficiente*$listaprod->txcambio)+$iiunitatio;
+		        	//$unitarioii = round($unitarioii,4);
+		        	//($totalunitario+$ii)/$qtentreg;
+		        	 
+		        	//-- Total unitario --------------------------------------------------------------------
+		        	$totalunitario = $qtentreg*$unitario;
+		        	//$totalunitario = round($totalunitario,4);
+		        	
+		        	$ii = ($listaprod->pii*$totalunitario)/100;
+		        	 		        	 
+		        	$ipi = (((($listaprod->pii*$totalunitario)/100)+$totalunitario)*$listaprod->pipi)/100;
+		        	 		        	 
+		        	$aicms 		= $listaprod->picms/100;
+		        	$aii 		= $listaprod->pii/100;
+		        	$aipi 		= $listaprod->pipi/100;
+		        	$apis 		= $listaprod->ppis/100;
+		        	$acofins 	= $listaprod->cofins/100;		        	 
+		        	
+		        	$pis = ($totalunitario*$apis);
+		        	$cofins = ($totalunitario*$acofins);
+		        	
+		            ?>          
+		            
+					<tr >
+						<td  style="text-align: center;"  >
+							<?=$cor?>
+		                </td>
+						<td  style="text-align: center;"  >
+							<a href="<?=$this->baseUrl();?>/admin/cadastro/produtosvis/produto/<?=md5($listaprod->ID_PRODUTO)?>" target="_blank">
+							<?=$listaprod->CODIGO?>
+							</a>                  
+		                </td>
+		                <td  style="text-align: center;" style="font-weight: bold;">
+		                   <a href="javascript:void(0);" class="dcontexto" ><?=$qtentreg;?>
+		                   <span >	 
+		                      	<table >
+									<tr>
+										<td style="text-align: center;"><? if(!empty($pedidos)): echo substr($pedidos, 0,-1); else: echo $listaprod->ID_PEDIDO_COMPRA; endif;?></td>
+									</tr>								
+								</table>
+			               </span>
+			               </a>   
+		                </td>	   
+		                <td  style="text-align: center;" >		                
+		                <?php 
+		                	$fontlink = "";
+		                	if(empty($listaprod->id_tributocsticms)||empty($listaprod->id_tributocstcofins)||empty($listaprod->id_tributocstpis)||empty($listaprod->id_tributocstipi)):
+		                		$fontlink = 'style="color: #f00"';
+		                		$valida .= "- O Produto ".$listaprod->CODIGO." está com o NCM incompleto;<br />";
+		                	endif;		                	
+		                	?>
+		                	<a href="javascript:void(0)"  class="dcontexto" <?=$fontlink?> >
+		                	    <?=$listaprod->ncm." ".$listaprod->ncmex?>
+		                	    <?php 
+		                	    //--- Exibo as alicotas dos impostos de cada produto, contido na tabela tb_produtosncm --------------------
+		                	    
+		                	    $baseicms = 0;
+		                	    $baseicms = (($totalunitario+$ii)+$ipi+(($totalunitario+$ii)+$ipi) * $coedicms) / (1-$aicms);
+		                	    $totalicms += $aicms*$baseicms;
+		                	    $totalbase += $baseicms;
+		                	    
+		                	    ?>
+			                    <span style="width: 250px">
+				                    <table style="width: 100%">
+				                    	<tr>
+				                    		<td width="40%">
+				                    		II<br />
+				                    		ICMS<br />
+						                    IPI<br />
+						                    PIS<br />
+						                    COFINS
+				                    		</td>
+				                    		<td width="15%" style="text-align: center;"><br />
+						                    <?=$listaprod->origem.str_pad($listaprod->csticms, 2, '0',STR_PAD_LEFT)?><br />
+						                    <?=str_pad($listaprod->cstipi, 2, '0',STR_PAD_LEFT)?><br />
+						                    <?=str_pad($listaprod->cstpis, 2, '0',STR_PAD_LEFT)?><br />
+						                    <?=str_pad($listaprod->cstcofins, 2, '0',STR_PAD_LEFT)?>
+				                    		</td>
+				                    		<td width="20%" style="text-align: right;">
+				                    		<?=number_format($listaprod->pii,2,',','.')?>%<br />
+						                    <?=number_format($listaprod->picms,2,',','.')?>%<br />
+						                    <?=number_format($listaprod->pipi,2,',','.')?>%<br />
+						                    <?=number_format($listaprod->ppis,2,',','.')?>%<br />
+						                    <?=number_format($listaprod->pcofins,2,',','.')?>%
+				                    		</td>				                    		
+				                    		<td width="20%" style="text-align: right;">
+				                    		<?=number_format($ii,2,',','.')?><br />
+						                    <?=number_format($aicms*$baseicms,2,',','.')?><br />
+						                    <?=number_format($ipi,2,',','.')?><br />
+						                    <?=number_format($pis,2,',','.')?><br />
+						                    <?=number_format($cofins,2,',','.')?>
+				                    		</td>
+				                    	</tr>
+				                    </table>
+			                    </span>		                    
+		                	</a>
+		                </td>            		               
+		                <td  style="text-align: right;" >
+		                	<?=number_format($unitarioii,4,",",".");?>                    
+		                </td>
+		                <td  style="text-align: right;" >
+		                   <?=number_format(round($unitarioii,4)*$qtentreg,2,",",".");?>
+		                </td>
+		                <td  style="text-align: right;" >
+		                   <?=number_format($baseicms,2,",",".");?>                    
+		                </td>
+		                <td  style="text-align: right;" >
+		                   <?=number_format($aicms*$baseicms,2,",",".");?>
+		                </td>
+		                <td  style="text-align: right;" >
+		                   <?=number_format($ipi,2,",",".");  ?>
+		                </td>	                              
+		            </tr>
+		        	<?php	  
+					$total_pedido += round(round($unitarioii,4)*$qtentreg,2);
+					$total_pecas  += $qtentreg;
+					
+	        	endforeach;
+	       	 	?>
+	         	</tbody>
+            </table>            
+	        <?php 
+			endif;
+		    ?>
+		</div>
+		
+		<div class="widget">
+ 			<div class="head" ><h5 class="iView">Informações adicionais</h5></div>
+        	<div class="body">
+            <table style="width: 100%; border-spacing: 7px ">
+	        <tr>		    
+				<td align="left" colspan="2" class="td_total" valign="top" style="padding: 5px">		
+					<table >
+						<tr>
+							<td align="left">
+							Invoice: 
+							</td>
+							<td style="text-align: right;" >
+							<b><?=$listent->fornecimento?></b>
+							</td>
+						</tr>	
+						<tr>
+							<td align="left">
+							Frete (USD): 
+							</td>
+							<td style="text-align: right;" >
+							<b><?=number_format($listent->frete,2,",",".")?></b>
+							</td>
+						</tr>
+						<tr>
+							<td align="left">
+							Câmbio: 
+							</td>
+							<td style="text-align: right;" >
+							<b><?=number_format($listaprod->txcambio,4,",",".")?></b>
+							</td>
+						</tr>					
+						<tr>
+							<td align="left">
+							Capatazia: 
+							</td>
+							<td style="text-align: right;" >
+							<b><?=number_format($listent->capatazia,2,",",".")?></b>
+							</td>
+						</tr>
+		     		</table>
+				</td>
+				<td align="left" colspan="7" class="td_total2" valign="top">
+					<table >
+						<tr>
+							<td align="left">
+								Data Entrada:  
+							</td>
+							<td align="left">
+								<b><?=$listent->data?></b>
+							</td>
+						</tr>
+						<tr>
+							<td align="left">
+								Siscomex:  
+								</td>
+							<td align="left">
+							<b><?=number_format($listent->siscomex,2,",",".")?></b>
+							</td>
+						</tr>
+						<tr>
+							<td align="left">
+								DI:  
+								</td>
+							<td align="left">
+							<b><?=$listent->docdi?></b>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>		    
+				<td align="left" colspan="9" class="td" valign="top" style="padding: 5px">
+				<table style="width: 100%">
+					<tr>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               Base do calculo ICMS:<br>
+                    	   <span style="font-size:14px; font-weight:bold;">
+	                    	   	<?=number_format($totalbase,2,',','.')?>			                    
+                    	   </span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               	Base do calculo ICMS S.T.:<br>
+                    	   	<span style="font-size:14px; font-weight:bold;">
+                    	   		<?=number_format(0,2,',','.')?>
+                    	   	</span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               Valor total do IPI:<br>
+                    	   <span style="font-size:14px; font-weight:bold;">
+                    	        <?=number_format($totalipi,2,',','.')?>
+                    	   </span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			              Valor Total dos produtos:<br>
+                    	  <span style="font-size:14px; font-weight:bold; "><?=number_format($total_pedido,2,',','.')?></span>
+			            </td>
+			    	</tr>
+				    <tr >
+			    		<td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               Valor ICMS:<br>
+                    	   <span style="font-size:14px; font-weight:bold;">
+                    	   		<?=number_format($totalicms,2,',','.')?>			                    
+                    	   </span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               Valor ICMS S.T.:<br>
+                    	   <span style="font-size:14px; font-weight:bold;">
+                    	   		<?=number_format(0,2,',','.')?>			                    
+                    	   </span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               Outras despesas:<br>
+                    	   <span style="font-size:14px; font-weight:bold;">
+                    	   <?php 
+                    	   $outros = 0;
+                    	   $outros = $totalpis+$totalcofins+$listent->siscomex+$listent->outros;
+                    	   echo number_format($outros,2,',','.')?></span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			              Valor Total da nota:<br>
+                    	  <span style="font-size:14px; font-weight:bold; color:#0010e1;">
+                    	  <input type="hidden" value="<?=number_format($total_pedido+$totalipi+($outros),2,',','.');?>" name="totalnota">
+                    	  <?=number_format($total_pedido+$totalipi+($outros),2,',','.');?>
+                    	  </span>		                    	  
+			            </td>				            	            		            
+			    	</tr>
+				</table>
+				</td>				
+			</tr> 				     
+	    	<tr>		    
+				<td align="left" colspan="6" class="td_total" valign="top">								
+					Observa&ccedil;&otilde;es<br>
+					<b>
+					DI=<?=$listent->docdi?> INVOICE=<?=$listent->fornecimento?> TAXA=<?=number_format($listaprod->txcambio,4,",",".")?><br />
+					PIS=<?=number_format($totalpis,2,",",".")?> Cofins=<?=number_format($totalcofins,2,",",".")?><br />
+					FORNECEDOR: CIXI SHUNKANG IMPORT AND EXPORT CO.,LTD<br />
+					<?=$listent->obs?></b>						
+				</td>
+				<td align="left" colspan="3" class="td_total2" valign="top">
+					Total de pe&ccedil;as<br>
+					<span style="font-size: 14px; font-weight: bold; text-align: right;"><?=$total_pecas?></span><br>
+				</td>
+			</tr> 
+	     </table>
+	     </div>
+	</div>
+	 
+	<div id="divnfe" class="widget" style="border: 1px solid #d5d5d5; padding: 10px; display: none">
+      	<div id="divbarra" >
+		   <div id="barraprogresso"></div>
+		</div>
+		
+		<div class="widgets">
+            <div id="resultadoprogresso" style="font-style: italic; width: 45%" class="left">Salvando dados da entrada de produtos...</div>
+			<div id="etapaprogresso" class="right" style="width: 45%; text-align: right;">1/11</div>			
+		</div>
+		<div class="fix"></div>
+   	</div>	 
+	 
+    <?php if($listent->status==1): 
+    	if($this->objEdi==true):?>
+     	<div style="margin-top: 10px; ">
+	    	<input type="button" class="greenBtn" name="gerarEntrada" id="gerarEntrada" value="Gerar NFe"  >
+	    </div>			
+	    <?php endif;?>
+    <?php endif; ?>
+</div>
+
+<!-- mascara para cobrir o site -->
+<div id="mascara"></div>
+
+<script>
+
+$(document).ready(function(){
+	$("#gerarEntrada").live('click', function(){ confirmaEntrada(); });
+});
+    
+function confirmaEntrada(){
+	
+	jConfirm('Não será possivel edição após a entrada gerada.', 'Confirme', function(r) {
+		if(r==true){
+			document.getElementById('divnfe').style.display = "block";
+			$("#resultadoprogresso").css({color:'#000'}).html("Salvando dados da entrada de produtos...");
+			gerarNfeentrada('<?php echo $listent->id?>');
+		}
+	});
+}
+    
+</script>

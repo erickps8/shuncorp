@@ -1,0 +1,150 @@
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/javascript/buscaajax/buscaajaxsubgrupo.js"></script>
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl(); ?>/admin/venda/pendenciasprod">PENDÊNCIAS</a>&nbsp;		
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl(); ?>/admin/venda/pendenciasestoque/fil/comp"><b>COM ESTOQUE</b></a>&nbsp;
+	</div>
+	<div id="sistitulo">PENDÊNCIAS</div>
+    <div id="sisconteudo">  
+  
+		<script>		
+		function tipoPesquisa(valor){
+			if(valor==1){
+				document.getElementById("buscgrupo").style.display = "block";
+				document.getElementById("busccod").style.display = "none";								
+			}else if(valor==2){
+				document.getElementById("busccod").style.display = "block";
+				document.getElementById("buscgrupo").style.display = "none";;
+			}		    
+		}
+		</script>
+		
+		<div>
+		<form action="<?=$this->baseUrl()?>/admin/venda/pendenciasestoque" method="post" >
+		<table width="100%" border="0" style="margin-bottom: 5px; border: 1px solid #000; " >
+	    <tr>
+	    	<td align="left" width="20%" valign="top">
+	    		Busca por:<br />
+		    	<select name="tipo" onchange="tipoPesquisa(this.value);" style="border: 1px solid #999; width: 120px">
+				<option value="2"><?=$this->translate->_("Código")?></option>
+				<option value="1"><?=$this->translate->_("Grupo")?></option>
+				</select>				 
+	    	</td>
+	    	<td align="left">
+		    	<table width="400" border="0" style="display: none;" id="buscgrupo" cellspacing="0" cellpadding="0">
+		    		<tr>
+		    		<td align="left" >
+		    			Grupo:<br />
+						<select name="buscagrupo" id="buscagrupo" onchange="Mostrasubgrupos(this.value,1);">
+							<option value="0">Todos</option>
+							<?php foreach ($this->objGrupo as $list): ?>
+								<option value="<?php echo $list->id?>"><?php echo substr($list->descricao,0,20)?></option>
+							<?php endforeach; ?>
+						</select> &nbsp; 
+					</td>
+					<td align="left">
+						<div id="subgrupo">&nbsp;</div>
+					</td>
+					<td align="right" style="padding-left: 5px" >
+						<br />
+						<input type="submit" value="<?=$this->translate->_("Pesquisar")?>" style="margin-top: 3px">
+					</td>
+					</tr>
+				</table>
+				<div style="display: block;" id="busccod">
+					Código:<br />
+					<input type="text" style="text-transform: uppercase;" size="15" name="buscacod" id="buscacod">
+					<input type="submit" value="<?=$this->translate->_("Pesquisar")?>">
+				</div>				
+	    	</td>
+		</tr>		
+		</table>  
+		</form>
+		</div>
+		<div>
+		<table width="100%" cellpadding="0" cellspacing="0"> 
+			<tr>
+				<td>
+		        
+		           <?php
+					if ( count($this->objList) > 0) :			
+					?>
+					<table align="left" class="mytable" width="100%" cellspacing="0" cellpadding="0" >
+				        <tr>
+				            <th  class="th_canto_orc" align="center" width="15%" >
+				                CODIGO
+				            </th>
+				            <th  class="th_orc" align="center" width="25%" >
+				                DESCRIÇÃO
+				            </th>		            		            
+				            <th  class="th_orc" align="center" width="15%">
+				            	GRUPO
+				            </th>
+				            <th  class="th_orc" align="center" width="15%">
+				            	SUBGRUPO
+				            </th>
+				            <th  class="th_orc" align="center" width="10%">
+				            	QT
+				            </th>
+				            <th  class="th_orc" align="center" width="10%">
+				                OP&Ccedil;&Otilde;ES
+				            </th>
+				       </tr>	
+					
+					<?php 
+					$cor=0;
+			    	foreach($this->objList as $lista):
+			    	$cor++;
+		            if(($cor%2)==0) $class = 'td_orc_par';
+		            else $class = 'td_orc';
+					?>
+					
+					<tr >
+		                <td  class="<?=$class?>" align="center" >
+		                   	<a href="<?=$this->baseUrl();?>/admin/cadastro/produtosvis/produto/<?=md5($lista->ID)?>" target="_blank">
+						 	<?=$lista->CODIGO?></a>  
+		                </td>
+		                <td class="<?=$class?>" align="left" >
+		                	<?=$lista->DESCRICAO?>
+		                </td>
+		                <td class="<?=$class?>" align="center" >
+		                	<?=$lista->grupo?>
+		                </td>                
+		                <td  class="<?=$class?>" align="left" >
+		                	<?=$lista->subgrupo?>
+		                </td>
+		                <td  class="<?=$class?>" align="center" >
+		                	<b><?=$lista->qtprod; if($this->objInt==true) echo "/".$lista->qt_atual;?></b>               	
+		                </td>
+		                <td  class="<?=$class?>" align="center" >
+		                	<a href="<?=$this->baseUrl()?>/admin/venda/pendenciasdet/produto/<?=md5($lista->ID)?>/cod/<?=$lista->CODIGO?>" ><img src="<?=$this->baseUrl()?>/images/visualizar_orc.gif" width="16" border="0" title="Visualizar"></a>&nbsp;&nbsp;
+		                	</td>                
+		            	</tr>            
+					<?php  endforeach; ?>
+					</table>
+					<div>&nbsp;<br /><br />
+						<?php 
+				            if ( count($this->objList) > 0) :
+				            	echo $this->objList;
+				            endif;
+		            	?>
+		            </div>
+					<?php 
+					else :
+					?>
+					<br>
+					<center>Nenhuma Pendencia encontrada</center>
+					
+					<?php 
+					endif;
+				?>
+				</td>
+			</tr>
+		</table>
+		</div>
+	</div>
+</div>
+	

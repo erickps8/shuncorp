@@ -1,0 +1,72 @@
+<!-- Content -->
+	<div class="content">   
+
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li class=""><a href="<?=$this->baseUrl(); ?>/admin/cadastro/produtos/fil/comp">Produtos</a></li>
+                	<li class="lastB">HS Code</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>HS Code</h5></div>
+
+        <div class="widgets" >
+		    <div style=" padding-top: 7px; width: 40%">
+               <input type="button" class="basicBtn" onclick="window.location='<?=$this->baseUrl()?>/admin/cadastro/produtoshscodecad'" value="Novo"></input>
+	        </div>	        
+        </div>
+
+        <div class="clear"></div>
+		
+		<div>
+			<?php  if (count($this->objList) > 0) { ?>
+			<div class="widget ">
+	 			<table style="width: 100%" class="tableStatic">
+	            	<thead>
+	                	<tr>
+	                        <td width="">Ordem</td>
+	                        <td width="">HS Code</td>
+	                        <td width="">Retorno</td>
+	                        <td width="">Opções</td>
+			            </tr>
+			        </thead>
+			        <tbody>		       
+        			<?php 
+        			$cor=0;
+        	    	foreach($this->objList as $lista){
+            	    	$cor++;
+                        if(($cor%2)==0) $class = 'td_orc_par';
+                        else $class = 'td_orc';
+            			?>
+            			
+            			<tr >
+                            <td style="text-align: center;" ><?php echo substr("000".$cor,-3,3)?></td>
+                            <td style=" text-align: center;" ><?=$lista->ncm?></td>
+                            <td style="text-align: center;" ><?=number_format($lista->retorno,2,",",".")?></td>
+                            <td style="text-align: center;" >
+                            	<a href="<?=$this->baseUrl()?>/admin/cadastro/produtoshscodecad/ncm/<?=md5($lista->id)?>" >
+                            	<img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/pencil.png"  width="16" border="0" title="Editar" ></a>
+                            </td>
+                        </tr>
+                        
+            			<?php  
+        	    	}
+    			    ?>        
+			        </tbody>
+			    </table>
+			</div>
+
+         	 <?php 
+            }else{
+			?>
+			<div style="margin-top: 20px; text-align: center;">Nenhum HS CODE Cadastrado</div>			
+			<?php 
+            }
+		?>
+		</div>
+	</div>
+	

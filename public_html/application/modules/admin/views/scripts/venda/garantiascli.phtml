@@ -1,0 +1,228 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxhisgarantia.js"></script>
+
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl(); ?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<b><a href="<?=$this->baseUrl()?>/admin/venda/garantiascli">GARANTIAS</a></b>&nbsp;
+		<div style="float: right; font-weight: bold;">
+			<a href="<?php echo $this->baseUrl(); ?>/admin/manual/cadastrodegarantias" target="_blank" title="Clique aqui para obter ajuda" >PROCEDIMENTOS</a>
+			<?php if($this->objNivel==0): ?>
+		    | <a href="<?php echo $this->baseUrl(); ?>/admin/venda/garantiasrelcli">RELATÓRIOS</a>
+		    <?php elseif($this->objNivel==1): ?>
+		    | <a href="<?php echo $this->baseUrl(); ?>/admin/venda/garantiasrelger">RELATÓRIOS</a>
+		    <?php endif;?></div>
+	</div>
+	<div id="sistitulo"><?=$this->translate->_("GARANTIAS")?></div>
+    <div id="sisconteudo">	
+		<?php		
+		if($this->objNivel==0):
+		?>
+		<div>
+			<input type="button" class="button" onclick="window.location='<?php echo $this->baseUrl(); ?>/admin/venda/garantiasnovocli'" value="Nova Garantia"></input>
+		</div>
+
+	    <?php 
+	            
+	        $cor = ($page*35)-35;
+			if ( count($this->objList) > 0) :
+			
+		?>
+			<table align="left" class="mytable" width="552" cellspacing="0" id="resultado">
+		        <tr>
+		            <th  class="th_canto_orc" align="center" width="16%">
+		                <?=$this->translate->_("ID")?>
+		            </th>
+		            <th  class="th_orc" align="center" width="">
+		            	<?=$this->translate->_("SITUAÇÃO")?> 
+		            </th>
+		            <th  class="th_orc" align="center" width="16%" >
+		                <?=$this->translate->_("DATA ATUALIZAÇÃO")?> 
+		            </th>
+		            <th  class="th_orc" align="center" width="16%">
+		                <?=$this->translate->_("OPÇÕES")?>
+		            </th>
+		       </tr>	
+			
+			<?php 
+	    	foreach($this->objList as $lista):
+	    
+			$cor++;
+            if(($cor%2)==0) $class = 'td_orc_par';
+            else $class = 'td_orc';
+			?>
+			
+			<tr >
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo "G".substr("000000".$lista->idcli,-6,6);?>
+                </td>
+               
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo ($lista->status); 
+                   if((strripos($lista->status, "RECEBIDO")!==false) || (strripos($lista->status, "EM ")!==false)):?>
+                   <br>(Data chegada: <?php echo $lista->chegada?>) 
+                   <?php endif;?>                
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                                    
+                	<a href="#" class="dcontexto" onmouseover="MostraOpcao(<?php echo $lista->idcli?>);"><?php if(!empty($lista->data)) echo $lista->data;?>
+	                <span id="m_<?php echo $lista->idcli?>">
+	                
+	                </span></a>
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                	<?php if((strripos($lista->status, "EM ")!==false) ||(strripos($lista->status, "RECEBIDO")!==false)) {  ?>
+                	<a href="<?php echo $this->baseUrl(); ?>/admin/venda/garantiasaceitcli/garantia/<?=md5($lista->idcli)?>" ><img src="<?php echo $this->baseUrl(); ?>/images/visualizar_orc.gif" width="19" height="19" border="0" title="Visualize"></a> &nbsp; &nbsp;
+                	<?php }elseif((strripos($lista->status, "LISE")!==false) || (strripos($lista->status, "FINALIZA")!==false)){?>
+                	<a href="<?php echo $this->baseUrl(); ?>/admin/venda/garantiaspagcli/garantia/<?=md5($lista->idcli)?>" ><img src="<?php echo $this->baseUrl(); ?>/images/visualizar_orc.gif" width="19" height="19" border="0" title="Visualize"></a> &nbsp; &nbsp;
+                	<?php }else if(strripos($lista->status, "AGUARDANDO")===false) {  ?>
+                	<a href="<?php echo $this->baseUrl(); ?>/admin/venda/garantiasviewcli/garantia/<?=md5($lista->idcli)?>" ><img src="<?php echo $this->baseUrl(); ?>/images/visualizar_orc.gif" width="19" height="19" border="0" title="Visualize"></a> &nbsp; &nbsp;
+                	<?php }else{  ?>
+                	<a href="<?php echo $this->baseUrl(); ?>/admin/venda/garantiasnovocli/garantia/<?=md5($lista->idcli)?>" ><img src="<?php echo $this->baseUrl(); ?>/images/visualizar_orc.gif" width="19" height="19" border="0" title="Visualize"></a> &nbsp; &nbsp;
+                	<?php }  
+                	 if(strripos($lista->status, "AGUARDANDO")!==false) {  ?>
+	                <a href="#" class="item-excluir" id="<?=md5($lista->idcli)?>" ><img src="<?php echo $this->baseUrl(); ?>/images/window-close.png" width="17" height="17" border="0" title="Remover"></a>
+	                <?php }  ?>
+                </td>                
+            </tr>
+            
+			<?php  endforeach; ?>        
+			</table>
+			<div>&nbsp;<br />
+				<?php 
+		            if ( count($this->objList) > 0) :
+		            	echo $this->objList;
+		            endif;
+            	?>
+            </div>
+			<?php 
+			else :
+			?>
+			<br>
+			<center>Nenhuma Garantia cadastrada</center>
+			
+			<?php 
+			endif;
+		?>
+		<script type="text/javascript">	
+			$(document).ready(function(){
+				$('table#resultado a.item-excluir').each(function(){
+					var codigo = $(this).attr('id');
+					$(this).m2brDialog({
+						tipo: 		'pergunta',
+						titulo:		'Confirme',
+						texto:		'Tem certeza que deseja excluir a Garantia?',
+						draggable: true,
+						botoes: {
+							1: {
+								label		: 'sim',
+								tipo		: 'link',
+								endereco	: '<?php echo $this->baseUrl(); ?>/admin/venda/garantiaremcli/garantia/'+codigo
+							},
+							2: {
+								label		: 'n&atilde;o',
+								tipo		: 'fechar'
+							}
+							
+						}
+					});	
+				});		
+			});
+			
+		</script>
+<?php 
+
+else:
+
+		if ( count($this->objList) > 0) :
+		
+		?>
+		<table align="left" class="mytable" width="100%" cellspacing="0" style="margin-top: 15px">
+	       <tr>
+	            <th  class="th_canto_orc" align="center" width="16%">
+	                <?=$this->translate->_("ID")?>
+	            </th>
+	            <th  class="th_orc" align="center" width="25%">
+	            	<?=$this->translate->_("CLIENTE")?>
+	            </th>
+	            <th  class="th_orc" align="center" width="">
+	            	<?=$this->translate->_("SITUAÇÃO")?> 
+	            </th>
+	            <th  class="th_orc" align="center" width="16%" >
+	                <?=$this->translate->_("DATA ATUALIZAÇÃO")?> 
+	            </th>
+	            <th  class="th_orc" align="center" width="16%">
+	                <?=$this->translate->_("OPÇÕES")?>
+	            </th>
+	       </tr>	
+		<?php 
+		$cor=0;
+	    foreach($this->objList as $lista):
+	    $cor++;
+	            if(($cor%2)==0) $class = 'td_orc_par';
+	            else $class = 'td_orc';
+		?>
+		
+		<tr >
+	                <td  class="<?=$class?>" align="center" >
+	                   <?php echo "G".substr("000000".$lista->id,-6,6);?>
+	                </td>
+	                <td  class="<?=$class?>" align="left" > 
+	                   <?php echo ($lista->EMPRESA)?>                  
+	                </td>
+	                <td  class="<?=$class?>" align="left" >
+	                   <?php echo ($lista->status);
+	                   if((strripos($lista->status, "RECEBIDO")!==false) || (strripos($lista->status, "EM ")!==false)):?>
+	                   <br>(Data chegada: <?php echo $lista->chegada?>) 
+	                   <?php endif;?>
+	                </td>
+	                <td  class="<?=$class?>" align="center" valign="middle">
+	                   
+	                   <a href="#" class="dcontexto" onmouseover="MostraOpcao(<?php echo $lista->id?>);"><?php echo $lista->data;?>
+	                <span id="m_<?php echo $lista->id?>">
+	                
+	                </span></a>
+	               	</td>
+	                <td  class="<?=$class?>" align="center" >
+	                	<?php if((strripos($lista->status, "EM ")!==false) ||(strripos($lista->status, "RECEBIDO")!==false)) {  ?>
+	                	<a href="<?php echo $this->baseUrl(); ?>/admin/venda/garantiasaceitcli/garantia/<?=md5($lista->id)?>" ><img src="<?php echo $this->baseUrl(); ?>/images/visualizar_orc.gif" width="19" height="19" border="0" title="Visualize"></a> &nbsp; &nbsp;
+	                	<?php }elseif((strripos($lista->status, "LISE")!==false) || (strripos($lista->status, "FINALIZA")!==false)){?>
+	                	<a href="<?php echo $this->baseUrl(); ?>/admin/venda/garantiaspagcli/garantia/<?=md5($lista->id)?>" ><img src="<?php echo $this->baseUrl(); ?>/images/visualizar_orc.gif" width="19" height="19" border="0" title="Visualize"></a> &nbsp; &nbsp;
+	                	<?php }else if(strripos($lista->status, "AGUARDANDO")===false) {  ?>
+	                	<a href="<?php echo $this->baseUrl(); ?>/admin/venda/garantiasviewcli/garantia/<?=md5($lista->id)?>" ><img src="<?php echo $this->baseUrl(); ?>/images/visualizar_orc.gif" width="19" height="19" border="0" title="Visualize"></a> &nbsp; &nbsp;
+	                	<?php }else{  ?>
+	                	<a href="<?php echo $this->baseUrl(); ?>/admin/venda/garantiasnovocli/garantia/<?=md5($lista->id)?>" ><img src="<?php echo $this->baseUrl(); ?>/images/visualizar_orc.gif" width="19" height="19" border="0" title="Visualize"></a> &nbsp; &nbsp;
+	                	<?php }  
+	                	if((strripos($lista->status, "EM ")!==false) || (strripos($lista->status, "CONCLUIDA")!==false) || (strripos($lista->status, "FINALIZA")!==false)){ ?>
+	                	<a target="_blank" href="<?php echo $this->baseUrl(); ?>/admin/venda/garantiasanaliseimp/garantia/<?=md5($lista->id)?>"><img src="<?php echo $this->baseUrl(); ?>/images/imprimir_orc.gif" width="16" height="16" border="0" title="Imprimir"></a> &nbsp; 
+	                    <?php }  
+	                   
+	                ?>
+	                    
+	                </td>	                
+	            </tr>
+	            
+		<?php  endforeach; ?>
+		
+		</table>
+		
+		<div >&nbsp;<br />
+		<?php 
+            if ( count($this->objList) > 0) :
+            	echo $this->objList;
+            endif;
+            ?>
+	    </div>
+		 <?php 
+		else :
+		?>
+		<br>
+		<center>Nenhuma Garantia cadastrada</center>
+		
+		<?php 
+		endif;
+		
+	endif;
+	?>
+	</div>
+</div>

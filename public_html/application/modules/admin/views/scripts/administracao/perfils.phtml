@@ -1,0 +1,69 @@
+	<div class="content">
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li class="lastB">Perfil</li>
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5>Perfils</h5></div>
+            
+        <div class="widgets" >
+        	<div class="left" style="margin-top: 5px; margin-bottom: 5px" >   
+	        	<input type="button" class="basicBtn" onclick="window.location='<?php echo $this->baseUrl(); ?>/admin/administracao/perfilcad'" value="Novo Perfil" />
+		    </div>   
+        </div>
+
+        
+        <div class="widget first">
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="7%">Id</td>
+                        <td width="">Descrição</td>
+                        <td width="20%">Data Cadastro</td>
+                        <td width="20%">Situação</td>
+                        <td width="10%">Opções</td>
+                    </tr>
+                </thead>
+                <tbody>
+        
+				<?php 
+				$usuario = Zend_Auth::getInstance()->getIdentity();
+			
+				$cor =0;
+				foreach ($this->objPerfil as $lista):
+					$cor++;
+		        	?>
+					
+					<tr >
+		                <td style="text-align: center;" >
+		                   <?php echo $cor?>
+		                </td>
+		                <td align="left" style="text-transform: uppercase;">
+		                   <?php echo $lista->descricao?>                  
+		                </td>
+		                <td style="text-align: center;" >
+		                   <?php echo substr($lista->dt_cadastro,8,2)."/".substr($lista->dt_cadastro,5,2)."/".substr($lista->dt_cadastro,0,4)?>
+		                </td>
+		                <td style="text-align: center;" >
+		                   <?php if ($lista->sit==1) echo "Ativo"; else echo "<span style='color: #FF0000;' >Inativo</span>"?>
+		                </td>
+		                <td style="text-align: center;" >
+		                	<?php if(($lista->id!=1)||(($usuario->id_perfil == 1))): ?>
+		                	<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/perfilcad/id/<?php echo md5($lista->id)?>"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" title="Editar"></a>
+		                   	<?php endif; ?>
+		                </td>
+		            </tr>            			
+					<?php 
+				endforeach;
+				?>
+				</tbody>		
+			</table>		
+		</div>
+	</div>
+

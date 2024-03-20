@@ -1,0 +1,98 @@
+<!-- Content -->
+    <div class="content">   
+    
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/venda/pendenciasprod/fil/comp">Pendências</a></li>         
+                	<li class="lastB" >Empresas</li>                	
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Empresas</h5></div>
+
+
+			<div style="float: right; padding: 3px">
+			<a href="<?=$this->baseUrl()?>/admin/venda/pendenciasempresaimp/regiao/<?=$this->objReg?>" target="_blank"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/printer.png" width="17" border="0" title="Imprimir"></a>
+			</div>
+
+			<div class="first" style="border: 1px solid #d5d5d5; padding: 10px">            
+                <form action="<?=$this->baseUrl()?>/admin/venda/pendenciasempresa" method="post" class="mainForm" >
+    			Nome da empresa:<br />    		
+			    <input type="text" name="nome" size="30" style="width: 220px"  ><br />
+			    <?php if($this->objNivel==2):?>
+				Regi&atilde;o:	<br >	
+				<div class="styled-select" style="width: 170px">
+				<select name="buscaregioes" style="width: 192px">
+			  	<option value='0'>Selecione</option>
+			  	<?php foreach ($this->objRegioes as $listR): ?>
+					<option value='<?=$listR->idreg?>' <?php if($this->objReg == $listR->idreg) echo 'selected="selected"'?>><?php echo ($listR->NOME." ".$listR->EMPRESA)?></option>
+				<?php endforeach; ?>
+				</select>				
+				</div>
+				<?php endif; ?>
+	    		<br /><input style="margin-top: 5px; " class="blueBtn" type="submit" value="Enviar" />
+	    					
+				</form>
+			</div> 
+			
+			<?php
+			if (count($this->objList) > 0):			
+			?>       
+	        <div class="widget first">
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="30%">Empresa</td>
+                        <td width="">Razão Social</td>
+                        <td width="15%">CNPJ</td>
+                        <td width="10%">Opções</td>                        
+                    </tr>
+                </thead>
+                <tbody>
+			
+				<?php 
+				$cor=0;
+		    	foreach($this->objList as $lista):
+		    	?>
+				
+				<tr >
+	                <td align="left" >
+	                   	<a href="<?=$this->baseUrl();?>/admin/cadastro/parceirosvisualizar/idparceiro/<?=md5($lista->id_cliente)?>" target="_blank">
+					 	<?=$lista->EMPRESA?></a>  
+	                </td>
+	                <td align="left" >
+	                	<?=$lista->RAZAO_SOCIAL?>
+	                </td>
+	                <td style="text-align: center;" >
+	                	<?=$lista->CPF_CNPJ?>
+	                </td>
+	                <td style="text-align: center;" >
+	                	<a href="<?=$this->baseUrl()?>/admin/venda/pendenciasemp/empresa/<?=md5($lista->id_cliente)?>" ><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" border="0" title="Visualizar"></a>&nbsp;&nbsp;
+	                </td>                
+	            </tr>            
+				<?php  endforeach; ?>
+				</tbody>
+			</table>
+		</div>	
+		<div style="margin-top: 20px">
+			<?php 
+			if ( count($this->objList) > 0) :
+				echo $this->objList;
+			endif;
+		    ?>
+		</div>
+		<?php 
+		else :
+		?>
+		<div class="widget first">
+ 			Nenhuma pendência encontrada
+		</div>	
+		<?php 
+		endif;
+		?>
+	</div>
+	

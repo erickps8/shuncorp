@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" version="-//W3C//DTD XHTML 1.1//EN" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<title>Test</title>
+
+	<style>
+
+	* {
+		margin: 0px;
+		padding: 0px;		
+	}
+	body {
+		background:#DDD;
+		font-family: verdana, arial, sans-serif;
+		font-size:14px;
+	}
+	#container {
+	  float:left;
+		margin-top:100px;
+		font-family: Tahoma, Arial, sans-serif;
+  	font-size: 10px;
+	}
+	</style>
+
+	<script type="text/javascript" src="../javascripts/prototype.js"> </script> 
+	<script type="text/javascript" src="../javascripts/effects.js"> </script>
+	<script type="text/javascript" src="../javascripts/window.js"> </script>
+	<script type="text/javascript" src="../javascripts/window_effects.js"> </script>
+	<script type="text/javascript" src="../javascripts/debug.js"> </script>
+	<link href="../themes/default.css" rel="stylesheet" type="text/css" >	 </link>
+	<link href="../themes/theme1.css" rel="stylesheet" type="text/css" >	 </link>
+	<link href="../themes/mac_os_x.css" rel="stylesheet" type="text/css" >	 </link>
+	<link href="../themes/alphacube.css" rel="stylesheet" type="text/css" >	 </link>
+	<link href="../themes/darkX.css" rel="stylesheet" type="text/css" >	 </link>
+	<link href="../themes/spread.css" rel="stylesheet" type="text/css" >	 </link>
+	<link href="../themes/alert.css" rel="stylesheet" type="text/css" >	 </link>
+	<link href="../themes/alert_lite.css" rel="stylesheet" type="text/css" >	 </link>
+	<title>Sample Windows</title>
+</head>
+<body>
+  
+<script>
+	
+	// Window with scrollable text
+	win = new Window('dialog1', {className: "alphacube",  width:300, height:400, zIndex: 100, resizable: true, title: "Not draggable!!", showEffect:Element.show, hideEffect: Effect.SwitchOff, draggable:true})
+	win.getContent().innerHTML= "<div style='padding:10px'> Lorem ipsum dolor sit amet, consectetur adipiscing elit, set eiusmod tempor incidunt et labore et dolore magna aliquam. Ut enim ad minim veniam, quis nostrud exerc. Irure dolor in reprehend incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse molestaie cillum. Tia non ob ea soluad incom dereud facilis est er expedit distinct. Nam liber te conscient to factor tum poen legum odioque civiuda et tam. \
+	At vver eos et accusam dignissum qui blandit est praesent. Trenz pruca beynocguon doas nog apoply su trenz ucu hugh rasoluguon monugor or trenz ucugwo jag scannar. Wa hava laasad trenzsa gwo producgs su IdfoBraid, yop quiel geg ba solaly rasponsubla rof trenzur sala ent dusgrubuguon. Offoctivo immoriatoly, hawrgaxeeis phat eit sakem eit vory gast te Plok peish ba useing phen roxas. Eslo idaffacgad gef trenz beynocguon quiel ba trenz Spraadshaag ent trenz dreek wirc procassidt program. Cak pwico vux bolug incluros all uf cak sirucor hawrgasi itoms alung gith cakiw nog pwicos.\
+	Lor sum amet, commy nulputat. Duipit lum ipisl eros dolortionsed tin hent aliquis illam volor in ea feum in ut adipsustrud elent ulluptat. Duisl ullan ex et am vulputem augiam doloreet amet enibh eui te dipit acillutat acilis amet, suscil er iuscilla con utat, quisis eu feugait ad dolore commy nullam iuscilisl iureril ilisl del ut pratuer iliquis acipissit accum quis nulluptat. Dui bla faccumsan velis auguero con henis duismolor sumsandrem quat vulluptat alit er iniamcore exeriure vero core te dit ut nulla feummolore commod dipis augiamcommod tem ese dolestrud do odo odiamco eetummy nis aliquamcommy nonse eu feugue del eugiamconsed ming estrud magnis exero eumsandio enisim del dio od tat.sumsan et pratum velit ing etue te consequis alis nullan et, quis am iusci bla feummy.</div>"
+	win.showCenter();
+	
+	
+</script>
+</body>
+</html>

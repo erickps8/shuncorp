@@ -1,0 +1,494 @@
+<?php 
+include_once("/var/www/ka/bd.class.php");
+?>
+
+
+<html>
+	<body>
+	
+	<form method="post">
+	
+	<textarea rows="10" cols="100" name="texto"></textarea>
+	<br />
+	<input type="submit" value="Enviar">
+	</form>
+	
+	
+	<?php 
+	if($_POST):
+		//echo $_POST['texto'];
+
+		$playersclear = str_replace('title=\"Desligado\">', "", $_POST['texto']);
+		$playersclear = str_replace('title=\"Ligado\">', "", $playersclear);
+		
+	
+		$players = explode("info_player&amp;id=", $playersclear);
+		
+		for($i=1;$i<=count($players);$i++):
+			
+			$pontos = $play = "";
+			$pontos = explode('">', $players[$i]);
+			$play   = explode("</a>", $pontos[1]);
+			$playpo = explode('</td>', $pontos[3]);
+			
+			
+			echo "ID Player: ".substr($pontos[0], 0,-1);
+			echo " - ";
+			echo "Player: ".$play[0];
+			echo " - ";
+			echo "Pontos: ".$playpo[0];
+			echo "<br />";
+			
+			$bd = new BancoDados();
+			$bd->AbreConexao();
+			$bd->Query("SELECT * FROM tb_jogadores WHERE idka = ".substr($pontos[0], 0,-1));
+			if($bd->NumRows !=0):
+				while($ar=$bd->FetchArray()):
+					
+				endwhile;
+			else:
+				$bd->Query("insert into tb_jogadores SELECT * FROM tb_jogadores WHERE idka = ".substr($pontos[0], 0,-1));
+			endif;
+			
+		endfor;
+	
+	endif;
+	
+	?>
+	
+	
+	</body>
+</html>
+
+<!-- 
+
+<td style="text-align:right;">1</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=342">Erneston</a><br>
+                            </td>
+            <td style="text-align:right;">12</td>
+            <td style="text-align:right;">5.117</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">New Hunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">2</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=395">Stevam</a> (uma hora ele aprende... kkkkkkk)<br>
+                            </td>
+            <td style="text-align:right;">15</td>
+            <td style="text-align:right;">4.979</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">HeadHunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">3</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=211">phantomed</a> (Zig Zag Zig Zag : Fiquei tonto)<br>
+                            </td>
+            <td style="text-align:right;">17</td>
+            <td style="text-align:right;">4.878</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">HeadHunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">4</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=307">Fingolfin</a> <img src="http://s13.kingsage.com.br/img/dots/red.png" title="Desligado"><br>
+                            </td>
+            <td style="text-align:right;">26</td>
+            <td style="text-align:right;">4.390</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">New Hunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">5</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=1327">The Rebellion</a> (┼┼ Head Hunters - Sangue nos Olhos ┼┼) <img src="http://s13.kingsage.com.br/img/dots/green.png" title="Ligado"><br>
+                            </td>
+            <td style="text-align:right;">36</td>
+            <td style="text-align:right;">4.017</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">Best Counselor Hunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">6</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=562">homarik</a> (cruzados no forno hehehehe)<br>
+                            </td>
+            <td style="text-align:right;">51</td>
+            <td style="text-align:right;">3.799</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">HeadHunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">7</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=54">Leandro Gremista13</a><br>
+                            </td>
+            <td style="text-align:right;">65</td>
+            <td style="text-align:right;">3.627</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">HeadHunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">8</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=464">-The Resumption-</a> (Se não tivesse roda...)<br>
+                            </td>
+            <td style="text-align:right;">66</td>
+            <td style="text-align:right;">3.620</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">Hunter Ancient <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">9</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=139">barthh</a> (^.^ ┼┼Head Hunters┼┼)<br>
+                            </td>
+            <td style="text-align:right;">98</td>
+            <td style="text-align:right;">3.398</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">Minister of Development™ <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">10</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=777">murilo colorado</a><br>
+                            </td>
+            <td style="text-align:right;">107</td>
+            <td style="text-align:right;">3.328</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">New Hunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">11</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=805">badxbad</a><br>
+                            </td>
+            <td style="text-align:right;">116</td>
+            <td style="text-align:right;">3.292</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">New Hunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">12</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=410">demonofwar</a><br>
+                            </td>
+            <td style="text-align:right;">132</td>
+            <td style="text-align:right;">3.245</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">HeadHunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">13</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=942">Trevorr</a><br>
+                            </td>
+            <td style="text-align:right;">133</td>
+            <td style="text-align:right;">3.243</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">New Hunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">14</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=459">Dany Gremista</a><br>
+                            </td>
+            <td style="text-align:right;">189</td>
+            <td style="text-align:right;">3.095</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">New Hunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td class="marked" style="text-align:right;">15</td>
+            <td class="marked">
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=219">cleitonsb</a><br>
+                            </td>
+            <td class="marked" style="text-align:right;">205</td>
+            <td class="marked" style="text-align:right;">3.040</td>
+            <td class="marked" style="text-align:right;">1</td>
+                            <td class="marked" style="text-align:center;">New Hunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">16</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=198">num.lock</a><br>
+                            </td>
+            <td style="text-align:right;">207</td>
+            <td style="text-align:right;">3.038</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">New Hunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">17</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=152">Phelipp de Avila</a> (┼┼ Head Hunters - Sangue nos Olhos ┼┼)<br>
+                            </td>
+            <td style="text-align:right;">237</td>
+            <td style="text-align:right;">2.935</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">New Hunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">18</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=1506">WarlordLeo</a> (Tem gente que vai aprender da pior forma ^^)<br>
+                            </td>
+            <td style="text-align:right;">260</td>
+            <td style="text-align:right;">2.884</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">New Hunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">19</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=124">Bruxo LHSV</a> (Cuide, cultive, queira o bem... O resto vem!)<br>
+                            </td>
+            <td style="text-align:right;">266</td>
+            <td style="text-align:right;">2.871</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">Best Counselor Hunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">20</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=2">Dolfinrdg</a><br>
+                            </td>
+            <td style="text-align:right;">280</td>
+            <td style="text-align:right;">2.813</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">HeadHunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">21</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=696">Nelsonmeurer</a><br>
+                            </td>
+            <td style="text-align:right;">289</td>
+            <td style="text-align:right;">2.788</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">HeadHunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">22</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=143">Aic@</a> (Saindo de campo = ^.^=)<br>
+                            </td>
+            <td style="text-align:right;">297</td>
+            <td style="text-align:right;">2.770</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">Minister of Development™ <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">23</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=56">Lord Blood Rain original</a><br>
+                            </td>
+            <td style="text-align:right;">308</td>
+            <td style="text-align:right;">2.744</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">HeadHunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">24</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=912">Imperador Diablo</a><br>
+                            </td>
+            <td style="text-align:right;">348</td>
+            <td style="text-align:right;">2.636</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">HeadHunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">25</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=616">tontoin</a> (MAIOR TORCIDA DO BRASIL: OS ANTI PIRA!!)<br>
+                            </td>
+            <td style="text-align:right;">365</td>
+            <td style="text-align:right;">2.610</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">HeadHunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">26</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=1034">Hi5</a> (♥ passando mais um... u.u)<br>
+                            </td>
+            <td style="text-align:right;">371</td>
+            <td style="text-align:right;">2.597</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">Devil Hunter Moderator <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">27</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=1018">King Vulture</a> (calma sua hora vai chegar)<br>
+                            </td>
+            <td style="text-align:right;">406</td>
+            <td style="text-align:right;">2.513</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">New Hunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">28</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=346">20pegare70correr</a> (Gui vamos dar uma aula para esses rodinhas *-*)<br>
+                            </td>
+            <td style="text-align:right;">436</td>
+            <td style="text-align:right;">2.460</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">HeadHunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">29</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=1146">Marius Francis</a><br>
+                            </td>
+            <td style="text-align:right;">444</td>
+            <td style="text-align:right;">2.433</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">New Hunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">30</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=281">Guile</a><br>
+                            </td>
+            <td style="text-align:right;">453</td>
+            <td style="text-align:right;">2.415</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">New Hunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">31</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=922">PSYCHO</a><br>
+                            </td>
+            <td style="text-align:right;">456</td>
+            <td style="text-align:right;">2.411</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">New Hunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">32</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=1097">guilhermemengao</a> (Nesse momento eles começam a ter medo de mim ;D)<br>
+                            </td>
+            <td style="text-align:right;">472</td>
+            <td style="text-align:right;">2.392</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">New Hunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">33</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=361">Anjo.da.Guerra</a><br>
+                            </td>
+            <td style="text-align:right;">481</td>
+            <td style="text-align:right;">2.384</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">New Hunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">34</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=894">Titania scarlet</a> (confesso que perdi um poko de tropa hoje :'()<br>
+                            </td>
+            <td style="text-align:right;">565</td>
+            <td style="text-align:right;">2.210</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">Lady Devil Hunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">35</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=848">Dickson Remo</a><br>
+                            </td>
+            <td style="text-align:right;">569</td>
+            <td style="text-align:right;">2.203</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">HeadHunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">36</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=204">arqueiro30</a><br>
+                            </td>
+            <td style="text-align:right;">704</td>
+            <td style="text-align:right;">1.912</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">New Hunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">37</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=1863">Barrabaz9</a> (┼┼ Head Hunters - Sangue nos Olhos ┼┼)<br>
+                            </td>
+            <td style="text-align:right;">887</td>
+            <td style="text-align:right;">1.514</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">Best Counselor Hunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">38</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=1829">Dexter-Mestre do Desastre</a> (Longe de você eu piro fico louco)<br>
+                            </td>
+            <td style="text-align:right;">892</td>
+            <td style="text-align:right;">1.505</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">Hunter Ancient <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">39</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=141">IchimarUGiN</a> ('-')<br>
+                            </td>
+            <td style="text-align:right;">911</td>
+            <td style="text-align:right;">1.462</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">HeadHunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">40</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=1381">Ninja Guerreiro</a><br>
+                            </td>
+            <td style="text-align:right;">943</td>
+            <td style="text-align:right;">1.400</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">HeadHunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">41</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=1947">Karneiro Br</a> (De volta... mais uma vez!)<br>
+                            </td>
+            <td style="text-align:right;">1.042</td>
+            <td style="text-align:right;">1.158</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">New Hunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">42</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=1896">KublaiKhan</a><br>
+                            </td>
+            <td style="text-align:right;">1.260</td>
+            <td style="text-align:right;">677</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">New Hunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;"></td>
+                </tr>
+            <tr>
+            <td style="text-align:right;">43</td>
+            <td>
+                <img src="http://s13.kingsage.com.br/img/dots/green.png" title="activo"> <a href="game.php?village=227&amp;s=info_player&amp;id=2068">l0UCK</a> (Eita , mais 1 fora da casinha na Area shahsh)<br>
+                            </td>
+            <td style="text-align:right;">1.269</td>
+            <td style="text-align:right;">650</td>
+            <td style="text-align:right;">1</td>
+                            <td style="text-align:center;">New Hunter <img src="http://s13.kingsage.com.br/img/ally/rank_special.png" title="Nível especial" style="margin-bottom:-2px;">
+                            
+                             -->

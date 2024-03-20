@@ -1,0 +1,236 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxverproduto.js"></script>    
+
+	<div class="content">   
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/pedidoscompra">Pedidos de compra</a></li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/entradaest">Entrada de produtos</a></li>
+                	<li class="lastB">Nova entrada</li>          
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Entrada de produtos</h5></div>
+	
+    	<form action="<?=$this->baseUrl()?>/admin/compras/gerarentradaestoque" method="post" name="formulario" class="mainForm">
+    	<?php 
+    	if(!empty($this->objNcm)):
+    		?>
+    		<div class="widget first">
+	 			<table style="width: 100%" class="tableStatic">
+	            	<thead>
+	                	<tr>
+	                        <td width="">NCM</td>
+	                        <td width="50%">Aduaneiro</td>
+	                        <td width="15%">Adição</td>
+	                    </tr>
+	                </thead>
+	                <tbody>
+		        	<?php 
+		        	$ptotal = 0;
+		        	$cor=0;
+		        	foreach ($this->objNcm as $listaprod):
+		        		
+			            ?>
+						<tr >
+							<td  style="text-align: center;" valign="top" >
+			                   <?=$listaprod->ncm." ".$listaprod->ncmex?>
+			                </td>
+			                <td  style="text-align: center;" >
+			                  <input type="text" name="vl_<?=$listaprod->id_ncm?>" size="12" class="moeda"  style="width: 70px">
+			                </td>
+			               	<td  style="text-align: center;" >
+			                  <input type="text" name="adicao_<?=$listaprod->id_ncm?>" size="2"  style="width: 70px" class="inteiro">
+			                </td>                          
+			            </tr>
+			        	<?php	        	
+			        endforeach;
+        			?>           
+       				</tbody>
+     			</table>
+     		</div>
+     	<?php 
+     	endif;
+     	?>
+     	
+       <div class="widget" style="border-top: 1px solid #d5d5d5; ">
+       		<table style="width: 100%">
+	    		<tr>
+	    			<td align="left" width="18%" style="padding: 10px">
+		    			Documento:		     			
+	    			</td>
+	    			<td align="left"  width="25%">
+	    				<input type="text" name="documento" size="12" style="text-transform: uppercase; width: 120px" >
+	    			</td>
+	    			<td align="right" width="15%">
+		    			Data DI:		     			
+	    			</td>
+	    			<td align="left"  width="55%">
+	    				<input type="text" size="9" name="datadoc" id="datadoc" class="data datepicker" style="width: 70px">
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td align="left" width="18%" style="padding: 10px">
+		    			Frete (USD):		     			 
+	    			</td>
+	    			<td align="left" >
+	    				<input type="text" name="frete" size="8" class="moeda"  style="width: 70px">
+	    			</td>
+	    			<td align="right">
+		    			DI:
+	    			</td>
+	    			<td align="left" >	    			
+		     			<input type="text" name="docdi" size="10" class="inteiro"  style="width: 70px">
+	    			</td>	    			
+	    			
+	    		</tr>
+	    		<tr>
+	    			<td align="left" style="padding: 10px">
+		    			Tx câmbio:
+	    			</td>
+	    			<td align="left" >	    			
+		     			<input type="text" name="cambio" size="8"  style="width: 70px" class="moedacinco">
+	    			</td>
+	    			<td align="right" >
+		    			Capatazia (BRL):
+	    			</td>
+	    			<td align="left" >	    			
+		     			<input type="text" name="capatazia" size="8"  style="width: 70px" class="moeda" >
+	    			</td>	    			
+	    		</tr>	    		
+	    		<tr>
+	    			<td align="left" style="padding: 10px">
+		    			CFOP:
+	    			</td>
+	    			<td align="left" colspan="3">
+	    				<div class="styled-select" style="width: 500px">	    			
+		     			<select name="cfop" style="width: 522px">
+		     			<?php foreach ($this->objCfop as $cfop):?>
+		     			<option value="<?=$cfop->id?>" <?php if($cfop->id == 221) echo 'selected="selected"';?> ><?=$cfop->cfop." - ".$cfop->descricao?></option>
+		     			<?php endforeach; ?>
+		     			</select>
+		     			</div>
+	    			</td>	    			
+	    		</tr>	  
+	    		<tr>
+	    			<td align="left" style="padding: 10px">
+		    			Siscomex (BRL):
+	    			</td>
+	    			<td align="left" colspan="3">	    			
+		     			<input type="text" name="siscomex" size="8"  style="width: 70px" class="moeda" >
+	    			</td>	    			
+	    		</tr>
+	    		<tr>
+	    			<td align="left" style="padding: 10px">
+		    			Qt pacotes:
+	    			</td>
+	    			<td align="left" >	    			
+		     			<input type="text" name="qtpacote" size="2"  style="width: 70px" class="moeda">
+	    			</td>	    			
+	    			<td align="left">
+		    			Tipo:
+	    			</td>
+	    			<td align="left" >	  
+	    				<div class="styled-select" style="width: 140px">  			
+		     			<select name="especie" id="especie" style="width: 162px">
+		     				<option >Container</option>
+		            		<option >Caixas</option>
+		            		<option >Pallets</option>		            		
+		            	</select>
+		            	</div>
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td style="padding: 10px">Peso Bruto:</td>
+					<td><input type="text" name="pesobruto" size="6" class="moedacinco"  style="width: 70px"></td>	    			
+	    			<td>Peso Líquido:</td>
+					<td><input type="text" name="pesoliquido" size="6" class="moedacinco" style="width: 70px"></td>
+	    		</tr>			
+	    		<tr>
+	    			<td style="padding: 10px">Local Desembarque:</td>
+					<td >
+						<input type="text" name="localdesembarque" size="15" value="SANTOS" style="width: 120px">
+						<div class="styled-select" style="width: 50px">
+						<select name="ufdesembarque" style="width: 72px">
+							<?php foreach ($this->objUf as $uf):?>
+							<option <?php if($uf->uf=="SP") echo 'selected="selected"'; ?> ><?=$uf->uf?></option>
+							<?php endforeach;?>
+						</select>
+						</div>						
+					</td>	    			
+	    			<td>Data Desembarque:</td>
+					<td>
+						<input type="text" size="9" name="datadesembarque" id="datadesembarque" class="data datepicker" style="width: 70px">
+					</td>
+	    		</tr>	
+	    	</table>
+	    </div>		    		
+	    
+	    <div style="margin-top: 10px">
+	    	Observa&ccedil;&atilde;o:<br>
+			<textarea rows="3" cols="50" style="width: 350px" name="obs"></textarea><br>
+	    </div>	
+	    
+	    <div style="margin-top: 10px"> 	
+	     	<input type="button" value="Salvar" style="margin-top: 5px" class="greenBtn" onclick="validarCampos();">
+		</div>
+	</form>
+
+</div>    
+     
+<script>
+	function validarCampos(){
+		var formObj 	= document.formulario;		
+		var verad 		= 0;
+		var veradicao 	= 0;
+				
+		for (i=0; i<formObj.elements.length; i++) {
+			if(formObj.elements[i].name.indexOf("vl_")!=-1){  
+		        var fieldValue = formObj.elements[i].value;
+				if(fieldValue==""){
+					verad = 1;
+				}
+			}else if(formObj.elements[i].name.indexOf("adicao_")!=-1){
+				var fieldValue = formObj.elements[i].value;
+				if(fieldValue==""){
+					veradicao = 1;
+				}
+			}
+	    }
+
+	    if(verad == 1){
+	    	jAlert("Preencha todos os valores do campo aduaneiro dos NCM!","Erro!");
+	    }else if(veradicao == 1){
+	    	jAlert("Preencha todos os valores do campo de adição dos NCM!","Erro!");
+	    }else if(formObj.documento.value==""){
+	    	jAlert("Preencha o campo DOCUMENTO!","Erro!");
+	    }else if(formObj.datadoc.value==""){
+	    	jAlert("Preencha o campo DATA DI!","Erro!");
+	    }else if(formObj.frete.value==""){
+	    	jAlert("Preencha o campo FRETE!","Erro!");
+	    }else if(formObj.docdi.value==""){
+	    	jAlert("Preencha o campo DI!","Erro!");
+	    }else if(formObj.cambio.value==""){
+	    	jAlert("Preencha o campo TX CÂMBIO!","Erro!");
+	    }else if(formObj.capatazia.value==""){
+	    	jAlert("Preencha o campo CAPATAZIA!","Erro!");
+	    }else if(formObj.siscomex.value==""){
+	    	jAlert("Preencha o campo SISCOMEX!","Erro!");
+	    }else if(formObj.qtpacote.value==""){
+	    	jAlert("Preencha o campo QT PACOTES!","Erro!");
+	    }else if(formObj.pesobruto.value==""){
+	    	jAlert("Preencha o campo PESO BRUTO!","Erro!");
+	    }else if(formObj.pesoliquido.value==""){
+	    	jAlert("Preencha o campo PESO LÍQUIDO!","Erro!");
+	    }else if(formObj.datadesembarque.value==""){
+	    	jAlert("Preencha o campo DATA DE DESEMBARQUE!","Erro!");
+	    }else if(formObj.obs.value==""){
+	    	jAlert("Preencha o campo OBS!\nPreencha com o nome do fornecedor","Erro!");
+	    }else{
+	    	formObj.submit();  
+	    }
+	}
+</script>

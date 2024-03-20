@@ -1,0 +1,139 @@
+<!-- Calendarios -->
+<link type="text/css" rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.css?random=20051112" media="screen"></LINK>
+<SCRIPT type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.js?random=20060118"></script>
+
+<table width="100%" cellpadding="0" cellspacing="0" >
+	<tr>
+		<td align="left">				
+		<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 5px" >
+			<tr>
+				<td align="left">
+					<a href="<?php echo $this->baseUrl(); ?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+					<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+					<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/logacesso">
+					<?=$this->translate->_("REGISTRO DE NAVEGAÇÃO")?> 
+					</a>&nbsp;
+					<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+					<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/logacessoent">
+					<b><?=$this->translate->_("REGISTRO DE ACESSO")?>&nbsp;</b> 
+					</a>
+				</td>
+				
+			</tr>
+		</table>
+ 		</td>
+	</tr>
+	<tr>
+		<td>
+		<table width="100%" class="borda_titulo">
+            <tr>
+                <td align="left">LOG DE LOGINS AO SISTEMA</td>
+                <td align="right">
+                <a href="#" class="dcontexto"><img src="<?php echo $this->baseUrl(); ?>/images/interrogacao2.png" width="18" height="18" border="0">
+                <span><b>Log de acesso ao Sistema</b><br>
+                O log de acesso exibe as ações de usuários que utilizaram o sitema, exibindo os detalhes das ações:<br>
+                - Usuário: Nome do usuário que praticou a ação;<br>
+                - IP: Endereço na rede de computadores do usuário;<br>
+                - Identificador: Exibe o código;<br>
+                - Data: O dia e hora que ocorreu a ação 
+                </span></a>
+                </td>
+                
+              </tr>
+        </table>
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<form action="" method="post" name="busca" id="busca">
+				<table  width="100%" border="0" style="margin: 5px 0px 5px; border: 1px solid #000; padding: 4px; " >
+				    <tr>
+				    	<td align="left" valign="top" width="30%">
+				    		<?=$this->translate->_("Nome do Usuário")?>:<br>
+							<input type="text" style="text-transform: uppercase;" size="25" name="busca" id="busca" >
+						</td>
+						<td valign="top">										 
+							<table width="150px" border="0" cellpadding="0" cellspacing="0">
+					    		<tr>
+						    		<td>
+										<?=$this->translate->_("Dt inicio")?>:<br>
+										<input type="text" style="margin-right: 3px" size="8" name="dtini" id="dtini" maxlength="10" onKeyDown="Mascara(this,Data);" onKeyPress="Mascara(this,Data);" onKeyUp="Mascara(this,Data);" onclick="displayCalendar(this,'dd/mm/yyyy',this)">
+									</td>
+									<td>
+										<?=$this->translate->_("Dt fim")?>:<br>
+										<input type="text" style="margin-right: 3px" size="8" name="dtfim" id="dtfim" maxlength="10" onKeyDown="Mascara(this,Data);" onKeyPress="Mascara(this,Data);" onKeyUp="Mascara(this,Data);" onclick="displayCalendar(this,'dd/mm/yyyy',this)">
+									</td>
+									<td valign="bottom">
+										<input type="submit" value="<?=$this->translate->_("Pesquisar")?>">
+									</td>
+								</tr>
+							</table>										
+				    	</td>
+					</tr>
+				</table>  
+				</form>
+		</td>
+	</tr>
+	<tr>
+		<td>
+        <table align="left" class="mytable" width="100%" cellspacing="0">
+        <tr>
+            <th  class="th_canto_orc" align="center" width="30%">
+                USU&Aacute;RIO
+            </th>
+            <th  class="th_orc" align="center" width="25%">
+                IP
+            </th>
+            <th  class="th_orc" align="center" width="20%">
+                SITUAÇÃO
+            </th>
+            <th  class="th_orc" align="center" width="18%">
+                Data
+            </th>
+        </tr>
+		<?php 
+			$cor =0;
+			if ( count($this->objList) > 0) :
+	    	foreach($this->objList as $lista):
+	    
+			$cor++;
+            if(($cor%2)==0) $class = 'td_orc_par';
+            else $class = 'td_orc';
+			?>
+			
+			<tr >
+                <td  class="<?=$class?>" align="left" >
+                   <?php if(!empty($lista->EMPRESA)) echo utf8_encode($lista->EMPRESA); else echo "DESCONHECIDO";?>
+                </td>
+                <td  class="<?=$class?>" align="left" style="text-transform: uppercase;">
+                   <?php echo $lista->ip?>
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo $lista->situacao?>
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo substr($lista->data,8,2)."/".substr($lista->data,5,2)."/".substr($lista->data,0,4)." ".substr($lista->data,11,5)?>
+                </td>
+            </tr>
+            
+			<?php  endforeach;
+			endif;   
+		?>
+		
+		</table>
+		<br><br>
+		<table width="100%">
+			<tr><td align="center">
+				&nbsp;
+            </td></tr>
+			<tr><td align="center">
+				<?php 
+		            if ( count($this->objList) > 0) :
+		            	echo $this->objList;
+		            endif;
+            	?>
+            </td></tr>
+         </table>
+	</td>
+	</tr>
+</table>

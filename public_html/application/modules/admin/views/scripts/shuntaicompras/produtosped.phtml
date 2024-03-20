@@ -1,0 +1,105 @@
+<div id="siscorpo">		
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl()?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/shuntaicompras/pedidos"><?=$this->translate->_("PEDIDOS DE COMPRA")?></a>&nbsp;
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<b><a href="<?=$this->baseUrl()?>/admin/shuntaicompras/produtosped"><?=$this->translate->_("PRODUTOS PEDIDOS")?></a></b>
+	</div>
+	<div id="sistitulo">
+		<?=$this->translate->_("PRODUTOS PEDIDOS")?>
+		<div style="float: right;">
+		<a href="http://www.ztlbrasil.com.br/public/legado/acessoRestrito/kangprodpedimp.php" target="_blank">
+	    <img src="<?=$this->baseUrl()?>/images/imprimir_orc.gif" title="Print" height="17" width="17" border="0"></a>
+	    </div>           
+	</div>
+	<div>
+	<form method="post" action="produtosped">
+    	<input type="text" size="15" name="busca" value="Quick Search" onclick="this.value=''"; onblur="if(this.value==''){ this.value='Quick Search';} else {submit();}" style="margin: 5px 0;">
+    </form>
+  	</div>
+	<div id="sisconteudo">
+		
+        <?php 
+        if($this->objBusc!="") $busca = "/busca/".$this->objBusc;
+        if ( count($this->objList) > 0) :
+        ?>
+        <table align="left" class="mytable" width="100%" cellspacing="0" >
+        <tr>
+            <th  class="th_canto_orc" align="center" width="8%">
+                ID
+            </th>
+            <th  class="th_orc" align="center" width="30%" >
+                <a href="<?php echo $this->baseUrl(); ?>/admin/shuntaicompras/produtosped/cat/customer<?php echo $busca?>">Customer</a> 
+            </th>
+            <th  class="th_orc" align="center" width="20%">
+            	<a href="<?php echo $this->baseUrl(); ?>/admin/shuntaicompras/produtosped/cat/code<?php echo $busca?>">Code</a>                 
+            </th>
+            <th  class="th_orc" align="center" width="17%">
+            	<a href="<?php echo $this->baseUrl(); ?>/admin/shuntaicompras/produtosped/cat/order<?php echo $busca?>">Order</a> 
+            </th>
+            <th  class="th_orc" align="center" width="10%">
+                Qt
+            </th>
+            
+        </tr>
+        <?php 
+        	if($this->objPag=="") $page = 1;
+        	else $page = $this->objPag; 
+        
+        	$cor = ($page*35)-35;
+			
+	    	foreach($this->objList as $lista):
+	    
+			$cor++;
+            if(($cor%2)==0) $class = 'td_orc_par';
+            else $class = 'td_orc';
+			?>
+			
+			<tr >
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo $cor;?>
+                </td>
+                <td  class="<?=$class?>" align="left" >
+                   <?php echo $lista->EMPRESA?>                  
+                </td>
+                <td  class="<?=$class?>" align="left" >
+                   <?php echo $lista->CODIGO?>                  
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                <a href="<?=$this->baseUrl()?>/admin/shuntaicompras/gerarpedido/ped/<?=md5($lista->id_tai_compra);?>">
+                   <?php echo "PT".substr("000000".$lista->id_tai_compra,-6,6);?>
+                </a>
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo $lista->qt?>
+                </td>
+                
+            </tr>
+            
+			<?php  endforeach;
+			?></table>
+			<?php
+			else:
+			?><p align="center">No product found</p>
+			<?php 
+			endif;   
+		?>
+		              
+        
+        <br><br>
+		<table width="100%">
+			<tr><td align="center">
+				&nbsp;
+            </td></tr>
+			<tr><td align="center">
+				<?php 
+		            if ( count($this->objList) > 0) :
+		            	echo $this->objList;
+		            endif;
+            	?>
+            </td></tr>
+         </table>
+     </div>
+</div>
+	

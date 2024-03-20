@@ -1,0 +1,109 @@
+	<!-- Content -->
+    <div class="content">   
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoqueresumo">Estoque</a></li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/entradaest">Entrada de produtos</a></li>
+                	<li class="lastB">Simulação</li>          
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Simulação</h5></div>
+        
+        <div class="widgets" >
+        	<!-- Busca -->
+        	<div class="widget noborder" style="margin-top: 5px; margin-bottom: 5px; " >  
+	        	<?php if($this->objIns==true):?>
+		    	<input type="button" class="basicBtn" onclick="window.location='<?php echo $this->baseUrl()?>/admin/compras/entradasimulacaoprod'" value="Nova simulação">
+		    	<?php endif;?>
+        	</div>
+        	
+        	<div class="widget noborder" style="margin-top: 5px; margin-bottom: 5px; " >          
+        	    <form action="<?php echo $this->baseUrl()?>/admin/compras/entradasimulacao" method="post" name="busca" id="busca" class="mainForm" >
+				<table style="border: 1px solid #d5d5d5;" id="tabela">
+				    <tr>
+				    	<td align="left" style="padding: 10px">	    	
+							ID:<br /><input type="text" name="buscadoc" id="buscadoc" style="width: 200px">
+				    	</td>
+				    	<td align="left" width="10%">
+				    		Data ini:<br />	    	
+							<input type="text" size="8" name="dataini" class="data datepicker" style="width: 70px">									
+				    	</td>
+				    	<td align="left" width="50%">
+				    		Data fim:<br />
+				    		<input type="text" size="8" name="datafin"  class="data datepicker" style="width: 70px">
+							<input type="submit" value="Pesquisar" class="blueBtn">						
+				    	</td>
+					</tr>
+				</table>  
+				</form>
+				 
+			</div>
+		</div>
+		
+		<?php 
+		if ( count($this->objSimulacoes) > 0) :
+		?>	
+		
+		<div class="widget first">
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="">Id</td>
+                        <td width="">Data</td>
+                        <td width="15%">Opções</td>
+                    </tr>
+                </thead>
+                <tbody>
+       			<?php 
+		    	foreach($this->objSimulacoes as $lista):
+		    	?>
+				<tr >
+	                <td  style="text-align: center;" >
+	                   S<?php echo str_pad($lista->id,6,'0',STR_PAD_LEFT)?>
+	                </td>
+	                <td  style="text-align: center;" style="text-transform: uppercase;">
+	                   <?php echo substr($lista->data,8,2)."/".substr($lista->data,5,2)."/".substr($lista->data,0,4)?>
+	                </td>
+	                <td  style="text-align: center;" >
+	                <?php if($lista->sit!=0){ ?>
+	                	<a href="<?php echo $this->baseUrl(); ?>/admin/compras/entradasimulacaoprod/simulacao/<?=md5($lista->id)?>/etapa/<?php echo $lista->sit?>" ><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" border="0" title="Visualizar"></a> &nbsp; 
+		                <?php if($this->objEdi==true){  ?>
+		                    <a href="#" onclick="removeSimulacao('S<?php echo str_pad($lista->id,6,'0',STR_PAD_LEFT)?>', '<?=md5($lista->id)?>');" ><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/close.png" width="17" border="0" title="Remover"></a>
+		                <?php 
+	                	}
+					}
+					?>
+	                </td>                
+	            </tr>
+	        	<?php  endforeach; ?>
+                </tbody>
+            </table>            
+        </div>
+        <div style="margin-top: 20px">
+		<?php if(count($this->objSimulacoes) > 0){ echo $this->objSimulacoes; }; ?>
+	</div>
+	<?php 
+	else :
+		?>
+		<div class="widget first" style="padding: 10px; text-align: center; border-top: 1px solid #d5d5d5;">
+ 			Nenhuma Simulação Encontrada
+		</div>	
+		<?php 
+	endif;
+	?>
+	</div>
+	
+	<script>
+	function removeSimulacao(simulacao, id){	
+		jConfirm('Você deseja remover a '+simulacao+'?', 'Confirme', function(r) {
+			if(r==true){
+				window.location='<?=$this->baseUrl()?>/admin/compras/removesimulacao/simulacao/'+id;
+			}
+		});
+	}
+	</script>

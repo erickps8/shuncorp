@@ -1,0 +1,159 @@
+<?php 
+	foreach ($this->objEnd as $listEnd);
+	foreach ($this->objPed as $listPed);
+?>
+
+	<div class="content">
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="#">Home</a> </li>
+                	<li><a href="<?php echo $this->baseUrl()?>/admin/venda/pedidos">Pedidos</a></li>
+                	<li class="lastB">Pedido <?=($listPed->idped)?> <?php if($listPed->sitvenda == 1) echo "(CANCELADO)"; ?></li>         
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5>PEDIDO <?=($listPed->idped)?> <?php if($listPed->sitvenda == 1) echo "(CANCELADO)"; ?></h5></div>
+        
+        <div class="widget first" >
+            <div class="head" style="margin-top: -10px"><h5 class="iUser">Informações do cliente</h5></div>
+            <div class="body">
+                <table class="borda" style="width: 100%; border-spacing: 7px ">
+                	<tr>
+		                <td width="12%">Data da venda:</td>
+		                <td colspan="3"><b><?=substr($listPed->data_vend,8,2)."/".substr($listPed->data_vend,5,2)."/".substr($listPed->data_vend,0,4).substr($listPed->data_vend,10)?></b></td>		                
+		            </tr>
+		            <tr>
+		                <td width="20%">Cliente:</td>
+		                <td colspan="3"><b><?=$listPed->nempresa?></b></td>
+		            </tr>
+		            <tr>
+		                <td>Raz&atilde;o Social:</td>
+		                <td colspan="3"><b><?=$listPed->nrazao_social?></b></td>
+		            </tr>
+		            <tr>
+		                <td>CPF/CNPJ:</td>
+		                <td width="35%"><b><?=$listPed->ncpf_cnpj?></b></td>
+		                <td width="15%">RG/INSC:</td>
+		                <td ><b><?=$listPed->nrg_insc?></b></td>
+		            </tr>
+		            <tr>
+		                <td>Cidade:</td>
+		                <td width="35%"><b><?=$listEnd->ncidade?></b></td>
+		                <td width="15%">Estado:</td>
+		                <td ><b><?=$listEnd->nestado?></b></td>
+		            </tr>
+		            <tr>
+		            	<td>Pais:</td>
+		                <td ><b><?=$listEnd->npais?></b></td>
+		                <td>Transportadora:</td>
+		                <td ><b><?=$listPed->transportadora?></b></td>
+		            </tr>
+		        </table>
+                
+            </div>
+        </div>
+
+        <div class="widget">
+			<div class="head" style="border-bottom: 0px"><h5 class="iFrames">Produtos</h5></div>
+        	<table class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="3%">Id</td>
+                        <td width="">Código</td>
+                        <td width="5%">QT</td>
+                        <td width="">Descrição</td>
+                        <td width="">Preço tabela</td>
+                        <td width="">Preço NF</td>
+                        <td width="">Preço Total</td>
+                    </tr>
+                </thead>
+                <tbody>
+
+                <?php 
+		        $cor=0;
+		        $total_pedido = 0;
+		        $total_pedido_liquido = 0;
+		        $v_estoque = 0;
+		        foreach ($this->objList as $listaProd):
+		        	$arrId .=  $listaProd->ID.";";
+		        	$cor++;
+		            
+			        ?>
+			        <tr >
+			        	<td style="text-align: center;" >
+		                    <?=$cor?>
+		                </td>
+		                <td style="text-align: center;" >
+		                    <?=$listaProd->CODIGO?>
+		                </td>
+		                <td style="text-align: center;" >
+		                	<?=$listaProd->qt?>		                    
+		                </td>
+		                <td align="left">
+		                   <?=($listaProd->DESCRICAO)?> 
+		                </td>
+		                <td style="text-align: center;">
+		                    <?=number_format($listaProd->preco_tabela,3,',','.')?>
+		                </td>
+		                <td align="right">
+			                <?=number_format($listaProd->preco_unit,3,',','.')?>
+		                </td>
+		                <td align="right">
+		                    <?=number_format(($listaProd->qt*$listaProd->preco_unit),3,',','.')?>
+		                </td>
+		            </tr>
+			        <?php
+
+			        $total_prod += $listaProd->qt;
+			        $total_pedido += $listaProd->preco_tabela*$listaProd->qt;
+			        $total_pedido_liquido += $listaProd->qt*$listaProd->preco_unit;
+		        endforeach;
+		        ?>
+		        </tbody>
+            </table>            
+        </div>
+		  
+		<div class="widget">
+ 			<div class="head" ><h5 class="iView">Informações adicionais</h5></div>
+        	<div class="body"> 
+        		<div style="float: left; width: 45%"> 
+		        <table>
+		            <tr>
+			            <td   align="left"  valign="top" style="padding-top: 5px; padding-bottom: 5px" >
+			               Prazo: <? 
+			               	if(($listPed->prazo1 != '') and ($listPed->prazo1 != "0")) echo $listPed->prazo1;
+			               	if(($listPed->prazo2 != '') and ($listPed->prazo2 != "0")) echo "/".$listPed->prazo2; 
+			               	if(($listPed->prazo3 != '') and ($listPed->prazo3 != "0")) echo "/".$listPed->prazo3;
+						   	if(($listPed->prazo4 != '') and ($listPed->prazo4 != "0")) echo "/".$listPed->prazo4;
+						   	if(($listPed->prazo5 != '') and ($listPed->prazo5 != "0")) echo "/".$listPed->prazo5; ?>
+			            </td>
+			    	</tr>
+				    <tr >
+			    		<td  align="left" valign="top"  >
+			                Observa&ccedil;&otilde;es:<br>
+			                <b><?=$listPed->obs?></b>
+			            </td>
+		            </tr>
+	       		</table> 
+	       		</div>
+	       		<div style="width: 40%; float: right;">
+			        <table ><tr><td align="left">
+	                    <span >Total de pe&ccedil;as:</span><br>
+	                    <span style="font-size:14px; font-weight:bold; text-align:right;" ><?=$total_prod?></span><br>
+	                    </td></tr><tr><td>
+	                    Valor Total bruto:<br>
+	                    <span style="font-size:14px; font-weight:bold;">R$ <?=number_format($total_pedido,3,',','.')?></span><br>
+	                    </td></tr><tr><td>
+	                    Valor Total l&iacute;quido:<br>
+	                    <span style="font-size:14px; font-weight:bold; color:#0010e1;">R$ <?=number_format($total_pedido_liquido,3,',','.')?></span><br>
+	                    </td></tr>
+	                </table>
+			   </div>  
+			   <div class="clear"></div>
+			</div>
+		</div>
+	</div>

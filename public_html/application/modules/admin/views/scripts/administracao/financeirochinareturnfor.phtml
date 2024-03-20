@@ -1,0 +1,325 @@
+<!-- Calendarios -->
+<link type="text/css" rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.css?random=20051112" media="screen"></LINK>
+<SCRIPT type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.js?random=20060118"></script>
+
+<table width="100%" cellpadding="0" cellspacing="0" >
+	<tr>
+		<td align="left">				
+		<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 5px" >
+			<tr>
+				<td align="left">
+					<a href="<?php echo $this->baseUrl(); ?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+					<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+					<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeirochinareturn">					
+					<?=$this->translate->_("FINANCEIRO")?>&nbsp; 
+					</a>
+					<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+					<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeirochinareturn"><b><?=$this->translate->_("RETORNO DE IMPOSTOS");?></b></a>
+				</td>
+			</tr>
+		</table>
+ 		</td>
+	</tr>
+	<tr>
+		<td>
+			<table width="100%" class="borda_titulo" >
+				<tr>
+			    	<td width="left"><?=$this->translate->_("RETORNO DE IMPOSTOS")?> - 
+			    	<?php 
+			    	if (count($this->objPk) > 0) :
+						foreach($this->objPk as $listapk);
+						$idinvoice	= $listapk->id_cominvoice;
+					endif;
+					echo "S".substr("000000".$idinvoice,-6,6);
+					?></td>
+			    </tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td> 
+		<table width="100%" cellpadding="0" cellspacing="0" border=0> 			
+	       <?php 
+           	$idfor = 0;					
+			if (count($this->objPk) > 0) :
+				foreach($this->objPk as $listapk):
+					$idinvoice	= $listapk->id_cominvoice;
+					if($listapk->id_for != $idfor):
+						$idfor = $listapk->id_for;
+						?>
+						<tr>
+						<td>
+						<table align="left" class="mytable" width="100%" cellspacing="0" cellpadding="0" style="margin-top: 15px; " >
+					        <tr>
+					            <th align="left" class="th_canto_orc" style="padding: 5px 2px 5px"  >
+					                <?=$listapk->EMPRESA?>
+					                <?php 
+					                if(!empty($listapk->EMPRESA)):
+					                	echo " - ".$listapk->nome;
+					                endif;
+					                ?>
+					            </th>
+					        </tr>
+						</table>
+						</td>
+						</tr>
+						<?php 
+					endif;
+							
+						?>
+						<tr>
+						<td>
+						<table align="left" class="mytable" width="100%" cellspacing="0" cellpadding="0" style="margin-top: 6px" >
+					        <tr>
+					            <th align="left" class="th_canto_orc" colspan="8" style="padding: 3px 2px 3px"  >
+					                <?="PK".substr("00000".$listapk->id_kang_compra,-6,6)?>
+					            </th>
+					        </tr>
+					       <tr>
+				            <th  class="th_canto_orc" align="center" >
+				                <?=$this->translate->_("CÓDIGO")?>
+				            </th>
+				            <th  class="th_orc" align="center" >
+				                <?=$this->translate->_("HS CODE")?>
+				            </th>
+				            <th  class="th_orc" align="center" width="10%">
+				                <?=$this->translate->_("PESO LIQ")?>
+				            </th>
+				            <th  class="th_orc" align="center" width="10%">
+				                <?=$this->translate->_("PESO BRUTO")?>
+				            </th>
+				            <th  class="th_orc" align="center" >
+				                <?=$this->translate->_("QUANTIDADE")?>
+				            </th>
+				            <th  class="th_orc" align="center" width="10%">
+				                <?=$this->translate->_("VALOR")?>
+				            </th>
+				            <th  class="th_orc" align="center" width="10%">
+				                <?=$this->translate->_("TOTAL")?>
+				            </th>
+				            
+				        </tr>
+				        <?php 
+				        $cor=0;
+			         	$total_pesoliquido 	= 0;
+				        $total_pesobruto 	= 0;
+				        $total_valor		= 0;
+				        $total_qt			= 0;
+				        foreach ($this->objProd as $listprod):						        
+				            if($listprod->id_kang_compra == $listapk->id_kang_compra):
+					        	$cor++;
+					            if(($cor%2)==0) $class = 'td_orc_par_min';
+					            else $class = 'td_orc_min';
+								?>
+								<tr >
+					                <td  class="<?=$class?>" align="center" >
+					                   <?=$listprod->CODIGO?>
+					                </td>
+					                <td  class="<?=$class?>" align="center" >
+					                   <?=$listprod->hs_code?>  
+					                </td>
+					                <td  class="<?=$class?>" align="center" width="12%" >
+					                   <?=$listprod->PESO?>
+					                </td>
+					                <td  class="<?=$class?>" align="center" width="14%" >
+					                   
+					                </td>
+					                <td  class="<?=$class?>" align="center" >
+					                   <?=$listprod->qt?>
+					                </td>
+					                <td  class="<?=$class?>" align="right" >
+					                   <?=number_format($listprod->preco,3,",",".")?>
+					                </td>
+					                <td  class="<?=$class?>" align="right" >
+					                   <?=number_format(($listprod->qt*$listprod->preco),3,",",".")?>
+					                </td>
+					            </tr>
+						        <?php 
+						        $total_pesoliquido 	+= str_replace(",",".",$listprod->PESO);
+						        $total_pesobruto 	+= 0;
+						        $total_valor		+= $listprod->qt*$listprod->preco;
+						        $total_qt			+= $listprod->qt;
+					        endif;
+				        endforeach;
+					        ?>
+				        	<tr >
+				                <td  class="<?=$class?>" align="center" colspan="2" style="background-color: #dedede">
+				              	<b><?=$this->translate->_("Total")?>:</b>     
+				                </td>
+				                <td  class="<?=$class?>" align="center" width="12%" style="background-color: #dedede">
+				                  <b> <?=$total_pesoliquido?></b>    
+				                </td>
+				                <td  class="<?=$class?>" align="center" width="14%" style="background-color: #dedede">
+				                   <b><?=$total_pesobruto?></b>    
+				                </td>
+				                <td  class="<?=$class?>" align="center" style="background-color: #dedede">
+				                  <b> <?=$total_qt?></b>    
+				                </td>
+				                <td  class="<?=$class?>" align="right" style="background-color: #dedede" colspan="2">
+				                  <b> <?=number_format(($total_valor),3,",",".")?></b>    
+				                </td>
+				            </tr>
+							</table>
+						</td>
+						</tr>
+						<?php 
+						$ver = 0;
+						foreach ($this->objCont as $listacont):
+							if($listacont->id_kang_compra == $listapk->id_kang_compra):
+								$ver = 1;
+							endif;
+						endforeach;						
+						
+						if($ver==1):
+						
+						?>
+						<tr>
+						<td>
+							<form action="<?=$this->baseUrl()?>/admin/administracao/financchinagerareturn" method="post" name="form_<?=$listapk->id_kang_compra?>" enctype="multipart/form-data">
+						    <input type="hidden" name="pkcominvoice" value="<?=$listapk->id_kang_compra?>">
+						    <input type="hidden" name="cominvoice" value="<?=$idinvoice?>">
+						    <table class="mytable" width="100%" cellspacing="0" cellpadding="0" style="margin-top: 5px; margin-bottom: 5px">
+						        <tr >
+					                <td class="th_canto_min" align="left" colspan="6" style="padding: 3px" >
+					                    <?=$this->translate->_("PAGAMENTOS")?>
+						            </td>		                
+								</tr>
+					            <tr class="tableLinhaimpar">
+					                <td class="th_canto_min"  align="center">
+					                    <?=$this->translate->_("Id")?>
+					                </td>
+					                <td class="th_orc_min" align="center">
+					                    <?=$this->translate->_("Vencimento")?>
+					                </td>
+					                <td class="th_orc_min" align="center">
+					                    <?=$this->translate->_("Valor")?>
+					                </td>
+					                <td class="th_orc_min" align="center">
+					                    <?=$this->translate->_("Dt pagamento")?>
+					                </td>
+					                <td class="th_orc_min" align="center">
+					                    <?=$this->translate->_("Valor pago")?>
+					                </td>
+					                
+					             </tr>
+						            <?	     
+						            $idfor = "";
+						            foreach ($this->objCont as $listacont):
+						            	if($listacont->id_kang_compra == $listapk->id_kang_compra):
+					            	    ?>
+						                <tr  >
+						                    <td class="td_orc_min" align="center">
+							                    <a target="_blank" href="<?=$this->baseUrl();?>/admin/administracao/financeirochina/pay/<?=md5($listacont->id_contasapagar)?>">
+							                    <?='P'.$listacont->id_contasapagar?>
+							                    </a>
+						                    </td>
+						                    <td class="td_orc_min" align="center"><?=$listacont->dtven?></td>
+						                    <td class="td_orc_min" align="center"><?=number_format($listacont->valor_apagar,2,",",".");?></td>
+						                    <td class="td_orc_min" align="center" 
+						                    <?php if(empty($listacont->dtpag)): ?> colspan="2" > <?=$this->translate->_("Não pago")?></td>
+						                    <?php else: echo ">".$listacont->dtpag?></td>
+						                    <td class="td_orc_min" align="center"><?=number_format($listacont->valor_pago,2,",",".");?></td>
+						                    <?php endif; ?>
+						                </tr>
+						                <?
+						                endif;
+						            endforeach;
+						            $cadtax = 0;
+						            foreach ($this->objTax as $listtax):
+						            	if($listtax->id_kang_compra == $listapk->id_kang_compra):
+						            	?>
+						            	<tr >
+						                <td class="td_orc_min"  align="left" colspan="6" >
+						                	<table cellpadding="2" cellspacing="2"  width="100%" >
+						                		<tr>
+						                			<td align="left" width="20%">
+						                			<?=$this->translate->_("ID Tax Return")?>: <b><?=substr("000".$listtax->id,-3,3)?></b>
+						                			</td>
+						                			<td align="left" width="20%">
+						                			<?=$this->translate->_("Fatura")?>: <b><?=$listtax->invoice?></b>
+						                			</td>
+						                			<td align="left" width="20%">
+						                			<?=$this->translate->_("Anexo")?>: <b><a href="<?=$this->baseUrl()?>/imgfinanceiro/imginvoice/<?=$listtax->anexo?>" target="_blank"><?=$listtax->anexo?></a></b>
+						                			</td>
+						                			<td align="left">
+						                   			</td>
+						                		</tr>
+						                	</table>						                   
+						                </td>		                
+						            	</tr>
+						            	<?php 
+						            	$cadtax = 1;
+						            	endif;
+						            endforeach;
+						            if($cadtax==0):
+							            ?>  
+						             	<tr >
+							                <td class="td_orc_min"  align="left" colspan="6" >
+							                	<table cellpadding="2" cellspacing="2"  >
+							                		<tr>
+							                			<td align="left">
+							                			<?=$this->translate->_("Fatura")?>:<br><input name="invoice" id="invoice_<?=$listapk->id_kang_compra?>" type="text" size="10">
+							                			</td>
+							                			<td align="left">
+							                			<?=$this->translate->_("Anexo")?>:<br><input name="anexo_invoice" id="anexo_invoice_<?=$listapk->id_kang_compra?>" type="file" size="7">
+							                			</td>
+							                			<td align="left">
+							                   			<br><input type="button" value="<?=$this->translate->_("Salvar")?>" onclick="validaForm<?=$listapk->id_kang_compra?>();"  >
+							                   			</td>
+							                		</tr>
+							                	</table>						                   
+							                </td>		                
+							            </tr>
+							            <?php 
+						            endif;
+						            ?>
+							        </table >
+							        </form>
+							        <script type="text/javascript">			        
+									function validaForm<?=$listapk->id_kang_compra?>(){
+								    	var verifica = 0;
+									    if(document.getElementById('invoice_<?=$listapk->id_kang_compra?>').value==""){
+											alert('Fill out the "INVOICE"!');	
+										}else if(document.getElementById('anexo_invoice_<?=$listapk->id_kang_compra?>').value==""){
+											alert('Fill out the "ATTACHMENT"!');	
+										}else{
+											document.form_<?=$listapk->id_kang_compra?>.submit();
+						                }
+									}
+						 			</script>
+							        </td>
+								</tr>
+								    
+								<?php
+								
+							else:
+							?>
+						<tr>
+						<td>
+							<table class="mytable" width="100%" cellspacing="0" cellpadding="0" style="margin-top: 5px; margin-bottom: 5px">
+						        <tr >
+					            	<td class="th_canto_min" align="left" style="padding: 3px" >
+					                   <?=$this->translate->_("PAGAMENTOS")?>
+						        	</td>		                
+								</tr>
+					            <tr >
+						        	<td class="td_orc_min"  align="center"  >
+						                <?=$this->translate->_("Não existe pagamentos relacionados com essa compra")?>							                   
+						            </td>		                
+						        </tr>
+						        </table >
+					        </td>
+						</tr>
+							    
+							<?php
+							
+							endif;
+						endforeach;							
+					endif;
+				?>    			
+		         
+		  </table>
+		</td>
+	</tr>
+</table>
+ 

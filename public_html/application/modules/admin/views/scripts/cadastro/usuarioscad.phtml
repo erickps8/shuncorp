@@ -1,0 +1,642 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/cadastroBuscauf.js"></script>
+<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/buscaGenerica.js"></script>
+<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/cadastroUsuario.js"></script>
+
+<?php 
+	if(count($this->objUser)>0):
+		foreach ($this->objUser as $usuario);
+	endif;
+?>
+
+<?php 
+if($this->flashMessages()){ 
+	$mes = explode("|", $this->flashMessages());
+
+	?>
+	<script>jAlert("<?php echo $mes[1]?>","<?php echo $mes[0]?>")</script>
+	<?php 
+	
+}?>
+
+<!-- Content -->
+    <div class="content">   
+    	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="#">Home</a> </li>
+                	<li><a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/usuarios/fil/todos">Usuários</a></li>
+                	<li class="lastB">Cadastro de usuários</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5><?php if(count($this->objUser)>0) echo "U".$usuario->iduser." ".$usuario->nomeusuario; else echo "Cadastro de usuários"; ?></h5></div>
+        
+        <input type="hidden" id="message" value="<?php echo $this->flashMessages();?>">
+        
+        <div class="widget">       
+        	<ul class="tabs">
+            	<li><a href="#tab1">Principal</a></li>
+                <?php if(count($this->objUser)>0){ ?>
+                <li><a href="#tab3">Arquivos</a></li>
+                <li><a href="#tab4">Registros</a></li>
+                <?php if(isset($usuario->id_cliente) and $usuario->id_cliente == 662){ ?>
+                <li><a href="#tab5">Frequência</a></li>
+                <li><a href="#tab6" id="abaDesempenho">Desenpenho</a></li>
+                <?php } 
+				}
+                ?>
+                
+            </ul>
+                    
+            <div class="tab_container">
+            	<!-- Form begins -->
+		        <form class="mainForm" id="form" method="post" enctype="multipart/form-data">
+		        <input type="hidden" value="<?php if(isset($usuario->iduser)) echo ($usuario->iduser)?>" name="idusuario" id="idusuario" />
+		        <input type="hidden" value="<?php if(isset($usuario->iduser)) echo md5($usuario->iduser)?>" name="idusuariomd5" id="idusuariomd5" />
+            	<div id="tab1" class="tab_content">
+            		<!-- Input text fields -->
+	                <div class="rowElem" style=" margin-top: -10px; padding: 10px">
+	                	 <table style="width: 100%" >
+					     	<tr>
+					     		<td > 
+					     			 Nome:<br /><input type="text" name="nome" value="<?php if(isset($usuario->nomeusuario)) echo $usuario->nomeusuario?>" class="botDir" title="Nome completo do usuário" style="width: 300px" />		     			 
+					     		</td>		
+					     		<td >
+					     			<?php if($this->objNivel == 2): ?>
+								    Empresa:<br>
+								    <div class="styled-select" style="width: 260px">
+									<select name="empresa" style="width: 282px">
+										<option value="0">Selecione</option>
+										<?php 
+										foreach ($this->objCliente as $listcliente):
+											?>
+											<option value="<?=$listcliente->ID?>" <?php if($usuario->id_cliente == $listcliente->ID): ?> selected="selected" <?php endif;?>><?=$listcliente->EMPRESA?></option>
+											<?php 
+										endforeach;
+										?>
+									</select>
+									</div>
+									<?php endif; ?>
+								</td>
+								<td>
+					     			Situação:<br />
+					     			<input type="radio" name="situacao" value="1" <?php if($usuario->situsuario == 1) echo 'checked="checked"'?> ><label>Ativo</label>
+					     			<input type="radio" name="situacao" value="0" <?php if($usuario->situsuario == 0) echo 'checked="checked"'?>><label>Inativo</label>
+					     		</td>			     		
+					     	</tr>			     	
+					     	
+					     	<tr>
+					     		<td style="width: 30%">
+					     			 CPF:<br /><input type="text" name="cpf" value="<?php if(isset($usuario->cpf)) echo $usuario->cpf?>" class="botDir cpf" title="CPF do usuário" style="width: 150px" />		     			 
+					     		</td>					     		
+					     		<td >
+					     			 RG:<br /><input type="text" name="rg" value="<?php if(isset($usuario->rg)) echo $usuario->rg?>" class="botDir inteiro" title="RG do usuário" style="width: 150px" />		     			 
+					     		</td>
+					     		<td >
+					     			 Dt Nascimento:<br /><input type="text" name="dtnascimento" value="<?php if(!empty($usuario->dtnasc)) echo $usuario->dtnasc?>"  class="botDir data datepicker" title="Data de nascimento do usuario" style="width: 80px"  />		     			 
+					     		</td>
+					     	</tr>					     	
+					     	<tr>
+					     		<td colspan="2">
+					     			Perfil:<br>
+									<div class="styled-select" style="width: 200px">
+										<select name="perfil" style="width: 222px;" onchange="exibeRegioes(this.value);">
+										<option value="0">Selecione</option>
+										<?php foreach ($this->objPerfil as $listP): ?>
+											<option value='<?=$listP->id."|".$listP->nivel?>' <?php if($usuario->idperfil==$listP->id){ echo 'selected=selected'; $nivel = $listP->nivel;}?>  ><?php echo ($listP->descricao)?></option>
+										<?php endforeach; ?>										
+										</select>
+									</div>
+					     		</td>
+					     		<td >
+					     		<?php if(isset($usuario->id_cliente) and $usuario->id_cliente == 662){  ?>
+					     			Dt admissão:<br /><input type="text" name="dtadmissao" value="<? if(!empty($usuario->dtadmin)) echo $usuario->dtadmin?>"  class="botDir data datepicker" title="Data de admissão na empresa" style="width: 80px"  />
+					     		<?php } ?>
+					     		</td>					     		
+					     	</tr>
+					     	<tr>
+					     		<td colspan="2">&nbsp;</td>
+					     		<td >
+					     		<?php if(isset($usuario->id_cliente) and $usuario->id_cliente == 662){  ?>
+					     			Dt desligamento:<br /><input type="text" name="dtdesligamento" value="<? if(!empty($usuario->dtdesl)) echo $usuario->dtdesl?>" class="botDir data datepicker" title="Data do desligamento da empresa" style="width: 80px"  />
+					     		<?php } ?>
+					     		</td>					     		
+					     	</tr>
+					     	<tr>
+					     		<td colspan="3">
+					     			<div id="regregional" <?php if($nivel==1): ?>style="display: block" <?php else: ?> style="display: none" <?php endif; ?>>
+					     				<div id="representante" <?php if($usuario->idperfil != 31): ?>style="display: block"<?php else: ?> style="display: none" <?php endif;?>>
+											<table style="border: 1px solid #ccc; width: 100%; margin-top: 5px">
+											<?php
+											
+											$contreg = 0; 
+											foreach ($this->objRegioes as $listR):
+												$contreg++;
+												if($contreg==1):
+													?>
+													<tr>
+														<td style="padding: 5px; width: 50%">
+														<?php 
+														if(!empty($this->objReguser)):
+															$verreg = "";
+															foreach ($this->objReguser as $regcli):
+																if($listR->idreg==$regcli->id_regioes):
+																	$verreg = 'checked="checked"';
+																endif;
+															endforeach;
+														endif;
+														?>
+														<input type="checkbox" name="reg_<?=$listR->idreg?>" <?=$verreg?>> <label><?=$listR->NOME." - ".$listR->EMPRESA?> </label>
+														</td>														
+													<?php 
+												endif;
+												if($contreg==2):
+													?>
+														<td align="left">
+														<?php 
+														if(!empty($this->objReguser)):
+															$verreg = "";
+															foreach ($this->objReguser as $regcli):
+																if($listR->idreg==$regcli->id_regioes):
+																	$verreg = 'checked="checked"';
+																endif;
+															endforeach;
+														endif;
+														?>												
+														<input type="checkbox" name="reg_<?=$listR->idreg?>" <?=$verreg?>><label><?=$listR->NOME." - ".$listR->EMPRESA?></label>
+														</td>											
+													</tr>
+													<?php 
+													$contreg=0;
+												endif;
+												
+											endforeach;
+											?>
+											</table>
+										</div>
+										<div id="televendas"  <?php if(($usuario->idperfil != 31) and ($usuario->idperfil != 4) and ($usuario->idperfil != 5)): ?>style="display: none"<?php else: ?> style="display: block" <?php endif;?>>
+											<table style="border: 1px solid #ccc; width: 100%; margin-top: 5px">
+												<?php
+												
+												$contreg = 0; 
+												foreach ($this->objRegtelv as $listR):
+													$contreg++;
+													if($contreg==1):
+														?>
+														<tr>
+															<td style="padding: 5px; width: 50%">
+															<?php 
+															if(!empty($this->objRegtel)):
+																$verreg = "";
+																foreach ($this->objRegtel as $regcli):
+																	if($listR->idreg==$regcli->id_regioes):
+																		$verreg = 'checked="checked"';
+																	endif;
+																endforeach;
+															endif;
+															?>
+															<input type="checkbox" name="regtel_<?=$listR->idreg?>" <?=$verreg?>> <label><?=$listR->regiao." - ".$listR->usuario?> </label>
+															</td>
+														<?php 
+													endif;
+													if($contreg==2):
+														?>
+															<td align="left">
+															<?php 
+															if(!empty($this->objRegtel)):
+																$verreg = "";
+																foreach ($this->objRegtel as $regcli):
+																	if($listR->idreg==$regcli->id_regioes):
+																		$verreg = 'checked="checked"';
+																	endif;
+																endforeach;
+															endif;
+															?>												
+															<input type="checkbox" name="regtel_<?=$listR->idreg?>" <?=$verreg?>><label><?=$listR->regiao." - ".$listR->usuario?></label>
+															</td>											
+														</tr>
+														<?php 
+														$contreg=0;
+													endif;
+													
+												endforeach;
+												?>
+												</table>
+											</div>
+										</div>
+											
+					     			</td>
+					     		</tr>
+					     	</table>
+	                	<div class="fix"></div>
+	                </div>
+	                <div class="rowElem" style="padding: 10px">
+	                	<table style="width: 100%" >
+					     	<tr>
+					     		<td style="width: 40%" colspan="2"> 
+					     			 Logradouro:<br /><input type="text" name="logradouro" value="<?php if(isset($usuario->logradouro)) echo $usuario->logradouro?>" class="botDir" title="Endereço. Ex.: Rua, quadra, avenida..." style="width: 300px" />		     			 
+					     		</td>					     		
+					     		<td style="width: 10%"> 
+					     			 Nº:<br /><input type="text" name="numero" value="<?php if(isset($usuario->numero)) echo $usuario->numero?>" class="botDir" title="Número" style="width: 40px" />		     			 
+					     		</td>
+					     		<td > 
+					     			 Bairro:<br /><input type="text" name="bairro" value="<?php if(isset($usuario->bairro)) echo $usuario->bairro?>" class="botDir" title="Bairro" style="width: 150px" />		     			 
+					     		</td>
+					     	</tr>			     	
+					     	
+					     	<tr>
+					     		<td >
+					     			 Pais:<br>
+					     			 <div class="styled-select" style="width: 160px">
+										<select style="width: 182px" name="pais" onchange="buscaEstados(this.value,'1','estado');">
+											<option value='0'>Selecione</option>
+											<?php 
+											foreach ($this->objPaises as $listpaises):
+												?>
+												<option value="<?=$listpaises->id?>" <?php if($usuario->id_paises == $listpaises->id): ?> selected="selected" <?php endif; ?>><?=$listpaises->nome?></option>
+												<?php 
+											endforeach;
+											?>
+										</select>  		    
+									</div> 			 
+					     		</td>					     		
+					     		<td style="padding-left: 5px">
+					     			 Estado:<br>
+					     			 <div id="estado">
+					     			 	<div class="styled-select" style="width: 180px">
+										<select id="uf" name="uf" onchange="buscaEstados(this.value,'2','cidade');" style="width: 202px">
+											<option value="0">Selecione</option>
+											<?php 
+											foreach ($this->objEstados as $list):		
+												?>
+												<option value='<?php echo $list->id?>' <?php if($usuario->id_estados == $list->id): ?> selected="selected" <?php endif; ?>><?=$list->nome?></option>
+												<?php 
+											endforeach;
+											?>
+										</select>
+										</div>
+									</div>		     			 
+					     		</td>
+					     		<td colspan="2" style="padding-left: 5px">
+					     			 Cidade:<br>
+					     			 <div id="cidade">
+					     			 	<div class="styled-select" style="width: 260px">
+											<select id="cidade" name="cidade" style="width: 282px">
+												<option value="0">Selecione</option>
+												<?php 
+												foreach ($this->objCidades as $list):		
+													?>
+													<option value='<?php echo $list->id?>' <?php if($usuario->id_cidades == $list->id): ?> selected="selected" <?php endif; ?>><?=$list->nome?></option>
+													<?php 
+												endforeach;
+												?>
+											</select>
+										</div>
+									</div>				     			 
+					     		</td>					     		
+					     	</tr>					     	
+					     	<tr>
+					     		<td colspan="2">
+					     			Complemento:<br /><input type="text" name="complemento" value="<?php if(isset($usuario->complemento)) echo $usuario->complemento?>" class="botDir" title="Complemento" style="width: 250px" />
+					     		</td>
+					     		<td colspan="2">
+					     			Cep:<br /><input type="text" name="cep" class="botDir cep" value="<?php if(isset($usuario->cep)) echo $usuario->cep?>" title="Bairro" style="width: 90px" />
+					     		</td>
+					     	</tr>
+					     </table>			     
+	                	
+	                </div>
+	            	<div class="fix"></div>
+	            	
+	            	<!-- Contatos -->
+                	<div class="rowElem" style=" margin-top: 10px; padding: 10px">
+	                	 <div class="left" style="width: 25%; float: left;">
+	                	 	Email:<br /><input type="text" name="email" value="<?php if(isset($usuario->email)) echo $usuario->email?>" class="botDir" title="Email" style="width: 150px" />		     			 
+					     </div>
+					     <div class="left" style="width: 25%; float: left;">
+						     Telefone<br />
+						     <input type="text" name="ddi1" placeholder="DDI" value="<?php if(isset($usuario->telefoneddi)) echo $usuario->telefoneddi?>" class="botDir" title="DDI" style="width: 30px" value="+55"/>
+						     <input type="text" name="ddd1" placeholder="DDD" value="<?php if(isset($usuario->telefoneddd)) echo $usuario->telefoneddd?>" class="botDir inteiro" title="DDD" style="width: 30px" />
+						     <input type="text" name="fone1" placeholder="Número" value="<?php if(isset($usuario->telefone)) echo $usuario->telefone?>" class="botDir inteiro" title="Telefone" style="width: 80px" />
+					     </div>
+					     <div class="left" style="width: 25%; float: left;">
+						     Telefone<br />
+						     <input type="text" name="ddi2" placeholder="DDI" value="<?php if(isset($usuario->telefone2ddi)) echo $usuario->telefone2ddi?>" class="botDir" title="DDI" style="width: 30px" value="+55"/>
+						     <input type="text" name="ddd2" placeholder="DDD" value="<?php if(isset($usuario->telefone2ddd)) echo $usuario->telefone2ddd?>" class="botDir inteiro" title="DDD" style="width: 30px" />
+						     <input type="text" name="fone2" placeholder="Número" value="<?php if(isset($usuario->telefone2)) echo $usuario->telefone2?>" class="botDir inteiro" title="DDD" style="width: 80px" />
+					     </div>
+					     <div class="left" style="width: 25%; float: left;">
+						     Nextel:<br /><input type="text" name="nextel" value="<?php if(isset($usuario->nextel)) echo $usuario->nextel?>" class="botDir" title="Rádio nextel" style="width: 100px" />
+					     </div>
+						<div class="fix"></div>
+	            	</div>
+	            	
+	            	<div class="fix"></div>
+	            	
+	            	<div class="rowElem" style=" margin-top: 10px; padding: 10px">
+		            	Observação:<br />
+			            <textarea style="width: 500px" name="obsusuario" id="obsusuario"><?php if(isset($usuario->obs)) echo $usuario->obs;?></textarea>
+	                </div>
+	                
+	                <div class="fix"></div>
+	                    
+	            	<!-- Contatos -->
+                	<div class="rowElem" style=" margin-top: 10px; padding: 10px 10px 30px 10px">
+                		<input type="button" value="Salvar" class="greenBtn" id="btnSalvar" style="float: right;"/>
+                	</div>	                
+		    	</div>
+                </form>
+                
+                <?php 
+                if(count($this->objUser)>0){ 
+                ?>
+                <form action="<?php echo $this->baseUrl()?>/admin/cadastro/uploadusuarios" class="mainForm" id="form" method="post" enctype="multipart/form-data">
+		        <input type="hidden" value="<?php if(isset($usuario->iduser)) echo ($usuario->iduser)?>" name="idusuario" id="idusuario" />
+		        <input type="hidden" value="<?php if(isset($usuario->iduser)) echo md5($usuario->iduser)?>" name="idusuariomd5" id="idusuariomd5" />
+                <div id="tab3" class="tab_content">
+                <!-- Arquivos -->
+	                <div class="widget first" style="width: 50%">
+		 			<table style="width: 100%" class="tableStatic">
+		                <tbody>
+		                	<?php 
+		                	if(count($this->objArquser)>0):
+		                	foreach ($this->objArquser as $arquivos):
+		                	?>
+		                	<tr>
+		                        <td width="10%" style="text-align: center;">
+		                        	<a target="_blank" href="<?php echo $this->baseUrl()?>/public/sistema/upload/usuarios/<?php echo $usuario->iduser?>/cadastro/<?php echo $arquivos->nome?>" >
+		                        		<img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/icons/middlenav/paperclip.png" border="0" >
+		                        	</a>
+		                        </td>
+		                        <td >
+		                        	<a target="_blank" href="<?php echo $this->baseUrl()?>/public/sistema/upload/usuarios/<?php echo $usuario->iduser?>/cadastro/<?php echo $arquivos->nome?>" >
+		                        		<?php echo $arquivos->nomearquivo?>
+		                        	</a>
+		                        </td>
+		                        <td width="10%" style="text-align: center;">
+		                        	<a href="#" onclick="confirmRemoveanexo('<?php echo md5($arquivos->id)?>');" ><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/close.png" width="15" border="0" title="Remover"></a>
+		                        </td>
+		                    </tr>
+		                    <?php 
+		                    endforeach;
+		                    endif;
+		                    ?>
+		                </tbody>
+		            </table>
+		            </div>                
+                	
+                	<div class="fix"></div>
+                	
+                	<table id="archive" style="width: 100%">
+						<tr>
+							<td>
+								
+								<div class="rowElem">
+			                        <label style="width: 45px">Anexo:</label> 
+			                        <div class="formRight" >
+			                        	<input type="text" name="nomearquivo1" style="width: 130px; margin-right: 5px" />
+			                            <input type="file" class="fileInput" id="fileInput" name="anexo1" onchange="addArchive(this)"/>
+			                        </div>
+			                        <div class="fix"></div>
+			                    </div>
+			                   
+			                    <!-- 
+			                    <div class="rowElem">
+			                    	<label style="width: 45px">Anexo:</label>
+			                    	<div class="formRight">
+		                            	<input style="display: inline; width: 300px;" class="file fileInput" id="anexo1"><div style="display: inline; position: absolute; overflow: hidden;" class="feat"><input style="position: relative; height: 26px; width: 300px; display: inline; cursor: pointer; opacity: 0; margin-left: -168px;" class="fileInput" id="fileInput" name="anexo'+intarc+'" onchange="addArchive()" type="file"></div>
+			                        </div>
+		                        	<div class="fix"></div>
+	                        	</div>
+	                        	-->
+	                        	
+							</td>
+						</tr>
+					</table>
+					<input type="hidden" name="intarchive" id="intarchive" >
+					<script type="text/javascript">
+		        		var intarc = 1;
+			        	function addArchive(anexo) {
+			        		document.getElementById(anexo.name).value = $(anexo).val();
+				        	
+				        	intarc = intarc + 1;
+			        		var tbCod = document.getElementById("archive").insertRow(-1);
+			        		var y = tbCod.insertCell(0);
+
+			        		y.innerHTML='<div class="rowElem"><label style="width: 45px">Anexo:</label><div class="formRight"><input type="text" name="nomearquivo'+intarc+'" style="width: 130px; margin-right: 5px" />'+
+	                            '<input id="anexo'+intarc+'" style="display: inline; width: 300px;" class="file fileInput"><div style="display: inline; position: absolute; overflow: hidden;" class="feat"><input style="position: relative; height: 26px; width: 300px; display: inline; cursor: pointer; opacity: 0; margin-left: -168px;" class="fileInput" id="fileInput" name="anexo'+intarc+'" onchange="addArchive(this)" type="file"></div>'+
+	                        	'</div><div class="fix"></div></div>';
+			        		
+			        		document.getElementById("intarchive").value = intarc;
+			        		
+			        	}
+		        	</script> 
+			       	<div class="fix"></div>
+			       	<div class="rowElem" style=" margin-top: 10px; padding: 10px 10px 30px 10px">
+	                	<input type="submit" value="Anexar arquivos" class="greenBtn" style="float: right;"/>
+	                </div>
+                </div>
+                
+                </form>
+                
+                <div id="tab4" class="tab_content">
+                	<?php if (count($this->objLog) > 0){ ?>       
+			        <div class="widget">
+			 			<table style="width: 100%" class="tableStatic">
+			            	<thead>
+			                	<tr>
+			                        <td width="">Módulo</td>
+			                        <td width="15%">Ação</td>
+			                        <td width="15%">Identificador</td>
+			                        <td width="15%">Data</td>
+			                    </tr>
+			                </thead>
+			                <tbody>
+							<?php 
+							foreach($this->objLog as $lista):
+					    		?>
+								<tr >
+					                <td align="left" style="text-transform: uppercase;">
+					                   <?php echo ($lista->modulo)?>
+					                </td>
+					                <td align="center" >
+					                   <?php 
+					                   if($lista->acao==1) echo "Visualizar";
+					                   if($lista->acao==2) echo "Inclus&atilde;o";
+					                   if($lista->acao==3) echo "Exclus&atilde;o";
+					                   if($lista->acao==4) echo "Edi&ccedil;&atilde;o";
+					                   ?>
+					                </td>
+					                <td align="center" >
+					                   <?php echo $lista->ident_desc?>
+					                </td>
+					                <td align="center" >
+					                   <?php echo substr($lista->data,8,2)."/".substr($lista->data,5,2)."/".substr($lista->data,0,4)." ".substr($lista->data,11,5)?>
+					                </td>
+					            </tr>			            
+						<?php  endforeach; ?>
+			                </tbody>
+			            </table>            
+			        </div>
+			        
+					<?php 
+		            }else{
+					?>
+					<div style="text-align: center;">
+			 			Nenhum registro Encontrado
+					</div>	
+					<?php 
+					}
+					?>
+                </div>
+                
+                <?php } ?>
+                
+                <?php if(isset($usuario->id_cliente) and $usuario->id_cliente == 662){ ?>
+                <form class="mainForm" id="form" method="post" enctype="multipart/form-data">
+		        <input type="hidden" value="<?php if(isset($usuario->iduser)) echo ($usuario->iduser)?>" name="idusuario" id="idusuario" />
+		        <input type="hidden" value="<?php if(isset($usuario->iduser)) echo md5($usuario->iduser)?>" name="idusuariomd5" id="idusuariomd5" />
+                <div id="tab5" class="tab_content">
+               		<div class="widget" >
+               			<div class="head"><h5 class="iDropper">Frequência</h5></div>
+               			<div style="padding: 0px 0px 5px 10px; width: 100%">
+	               			<input type="radio" name="tpfreq" value="0" checked><label>Falta</label>
+	               			<input type="radio" name="tpfreq" value="1"><label>Hora extra</label>
+               			</div>
+               			<div class="fix"></div>
+               			
+               			<div style="padding: 0px 0px 5px 10px; width: 100%">
+	               			<div style="width: 150px; float: left;">
+		               			Data Inicial:<br />
+		                		<input type="text" size="8" name="dataini" id="dataini" class="data datepicker" style="width: 70px">
+		                		<input type="text" class="timepicker" size="10" name="horaini" id="horaini" value="00:00">
+		                	</div>
+		                	<div style="width: 150px; float: left;">
+		               			Data Final:<br />
+		                		<input type="text" size="8" name="datafim" id="datafim" class="data datepicker" style="width: 70px">
+		                		<input type="text" class="timepicker" size="10" name="horafim" id="horafim" value="23:59">
+		                	</div>
+		                	<div style="float: left;">
+		                		Tipo:
+		                		<div class="styled-select" style="width: 160px">
+									<select id="justificado" name="justificado" style="width: 185px">
+										<option value="1">Justificado</option>
+										<option value="2">Não Justificado</option>
+									</select>
+								</div>
+		                	</div>	                	
+		                </div>
+		                <div class="fix"></div>
+		                
+		                <div style="padding: 0px 0px 5px 10px; width: 100%">
+		                	<div style="width: 420px; float: left;">                
+		                        Obs:<br />
+		                        <textarea style="width: 400px" name="obsjust" id="obsjust"></textarea>
+	                        </div>
+	                        <div class="fix"></div>
+	                    </div>
+	                    <div class="fix"></div>
+	                    
+	                    <div style="padding: 5px 0px 5px 10px">
+	                    	<input type="button" value="Incluir" class="greenBtn" id="btnFaltas">
+	                    </div>
+	                    
+	                    <div style="padding: 0px 0px 5px 10px">
+	                		<a href="javascript:void(0)" onclick="$('#divfaltas').css({display:'block'}); buscaGenerica('/admin/cadastro/buscaausencias/tp/0/div/divfaltas/usermd/<?php echo md5($usuario->iduser)?>', 'divfaltas');" class="btnIconLeft mr10"><img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/icons/dark/magnify.png" alt="" class="icon" /><span>Visualizar ausências</span></a>
+	                	</div>
+	                	
+	                	<div class="widget" id="divfaltas" style="display: none; margin: 10px">
+	        	 			<img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/loaders/loader6.gif" alt="Carregando"> <i>Carregando...</i>			            	
+			            </div>
+	                    
+                	</div>
+                	
+                	<div class="fix"></div>
+                	
+                	<div class="widget" >
+               			<div class="head"><h5 class="iDropper">Férias</h5></div>
+               			<div style="padding: 0px 0px 5px 10px; width: 100%">
+	               			<div style="width: 90px; float: left;">
+		               			Data Inicial:<br />
+		                		<input type="text" size="8" name="datainiferias" id="datainiferias" class="data datepicker" style="width: 70px">
+		                	</div>
+		                	<div style="width: 100px; float: left;">
+		               			Data Final:<br />
+		                		<input type="text" size="8" name="datafimferias" id="datafimferias" class="data datepicker" style="width: 70px">
+		                	</div>		                	                	
+		                </div>
+		                <div class="fix"></div>
+		                
+		                <div style="padding: 0px 0px 5px 10px; width: 100%">
+		                	<div style="width: 420px; float: left;">                
+		                        Obs:<br />
+		                        <textarea style="width: 400px" name="obsferias"></textarea>
+	                        </div>
+	                        <div class="fix"></div>
+	                    </div>
+	                    <div class="fix"></div>
+	                    
+	                    <div style="padding: 5px 0px 5px 10px">
+	                    	<input type="button" value="Incluir periodo" class="greenBtn" id="btnferias" onclick="gravaFerias(1);">
+	                    </div>
+	                    
+	                    <div style="padding: 0px 0px 5px 10px">
+	                		<a href="javascript:void(0)" onclick="$('#divferias').css({display:'block'}); buscaGenerica('/admin/cadastro/buscaausencias/tp/1/div/divferias/usermd/<?php echo md5($usuario->iduser)?>', 'divferias');" class="btnIconLeft mr10"><img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/icons/dark/magnify.png" alt="" class="icon" /><span>Visualizar férias</span></a>
+	                	</div>
+	                	
+	                	<div class="widget" id="divferias" style="display: none; margin: 10px">
+	        	 			<img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/loaders/loader6.gif" alt="Carregando"> <i>Carregando...</i>			            	
+			            </div>	                    
+                	</div>                	
+                </div>
+                </form>
+                
+                <div id="tab6" class="tab_content">
+	                <div class="widgets" style="padding-bottom: 10px">
+	            		<div class="left" >
+		                	<!-- Busca ------------------------------------------------------ -->
+							<div class="widget" style="border-top: 1px solid #d5d5d5; padding: 10px">
+								<form method="post" name="buscaDes" id="buscaDes" class="mainForm">
+									<table style="width: 100%">
+									    <tr>
+											<td style="vertical-align: middle;">
+												<div style="float: left; margin-right: 5px"> 
+													<input placeholder="Data inicio" type="text" style="width: 80px" name="dtini" id="dtini" class="data datepicker">
+												</div>
+												<div style="float: left;">
+													<input placeholder="Data final" type="text" style="width: 80px"  name="dtfim" id="dtfim" class="data datepicker">
+												</div>
+											</td>
+											<td style="text-align: right; vertical-align: middle;" >
+												<input type="button" id="btnBuscadesempenho" class="blueBtn" value="Gerar">
+											</td>
+										</tr>								
+									</table>
+								</form>
+							</div>
+									
+							<div id="resultadoDesempenho" class="resultado">
+								
+							</div>
+	                	</div>
+	                	<div class="right">
+	                		<div id="resultadoContatos" class="resultado">
+								
+							</div>	                	
+						</div>				
+						
+						<div class="fix"></div>		
+					</div>
+                </div>
+                <?php } ?>                
+            </div>	
+            <div class="fix"></div>
+            	 
+        </div>
+        
+    	<div class="fix"></div>
+    
+    </div>
+    

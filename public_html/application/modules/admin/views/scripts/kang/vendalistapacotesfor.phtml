@@ -1,0 +1,425 @@
+<script type="text/javascript" src="<?=$this->baseUrl();?>/public/javascript/janelasmodal/javascripts/prototype.js"> </script>
+<script type="text/javascript" src="<?=$this->baseUrl();?>/public/javascript/janelasmodal/javascripts/window.js"> </script>
+<script type="text/javascript" src="<?=$this->baseUrl();?>/public/javascript/janelasmodal/javascripts/effects.js"> </script> 
+
+<link href="<?=$this->baseUrl();?>/public/javascript/janelasmodal/themes/default.css" rel="stylesheet" type="text/css" >	
+<link href="<?=$this->baseUrl();?>/public/javascript/janelasmodal/themes/alphacube.css" rel="stylesheet" type="text/css" >	
+
+<style type="text/css">
+<!--
+.corfor{
+	color: #129112;
+}			
+</style>
+
+<?php 
+foreach ($this->objDet as $listdet);
+$ped = $listdet->idped;
+?>
+
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl()?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/kang/pedidos"><?=$this->translate->_("PEDIDOS DE VENDAS")?></a>&nbsp;
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/kang/vendas"><?=$this->translate->_("VENDAS")?></a>&nbsp;
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/kang/vendasdet/ped/<?=md5($listdet->idped)?>">S<?=substr("000000".$listdet->idped,-6,6)?></a>&nbsp;
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/kang/vendalistapacotes/ped/<?=md5($listdet->idped)?>">LISTA DE PACOTES</a>&nbsp;
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<b><a href="<?=$this->baseUrl()?>/admin/kang/vendalistapacotesfor/ped/<?=md5($listdet->idped)?>">POR FORNECEDOR</a></b>
+	</div>
+	<div id="sistitulo"><?=$this->translate->_("LISTA DE PACOTES")?></div>
+    <div id="sisconteudo">
+		<div >
+			<form action="<?=$this->baseUrl()?>/admin/kang/vendalistapacotesfor" method="post" name="buscaporfor">
+			<input type="hidden" name="ped" value="<?=md5($listdet->idped)?>">
+			
+			<select name="forn" onchange="document.buscaporfor.submit()">
+				<option value="0">SELECIONE</option>
+				<?php 
+				foreach ($this->objFor as $fornecedor):
+					$corfor = "corfor";
+					foreach($this->objFordisp as $listafor):
+						if(($listafor->id_for==$fornecedor->id_for) and ($listafor->qtprod > $listafor->qtpack)):
+							$corfor = "";
+						endif;
+					endforeach;				
+				?>
+				<option value="<?=($fornecedor->id_for)?>" <?php if($this->objForsel==$fornecedor->id_for) echo 'selected="selected"'?> class="<?=$corfor?>" ><?=$fornecedor->EMPRESA." (".$fornecedor->nome.")"?></option>
+				<?php endforeach; ?>
+			</select>
+			</form>
+    	</div>  
+    	<div >    	
+    	<?php 
+    	
+    	if(count($this->objProd)>0): 
+    		$verqt = 0;
+	    	foreach($this->objProd as $lista):
+		    	if($lista->qtprod > $lista->qtpack):
+		    		$verqt = 1;
+		    	endif;
+	    	endforeach;  
+	    	  	
+	    	if($verqt==1):
+	    	?>
+			<form action="<?=$this->baseUrl()?>/admin/kang/gerarpacklistfor" method="post" name="cad">
+			<input type="hidden" value="<?=$listdet->idped?>" name="ped">
+			<input type="hidden" value="<?=$this->objForsel?>" name="idfor">
+			<div style="border-bottom: 1px solid; ">
+				<table class="mytable" style="margin-top: 5px; width: 100%; margin-bottom: 10px" >
+					<tr>
+			            <th  class="th_canto" style="text-align: center;" width="20%">
+			                <?=$this->translate->_("CODIGO")?>
+			            </th>
+			            <th  class="th_pedido" align="center" width="15%">
+			                <?=$this->translate->_("COMPRA")?>
+			            </th>
+			            <th  class="th_pedido" align="center" width="15%">
+			                <?=$this->translate->_("QT DISPONÍVEL")?>
+			            </th>
+			            <th  class="th_pedido" align="center" width="10%">
+			                <?=$this->translate->_("QT")?>*
+			            </th>
+			            <th  class="th_pedido" align="center" width="10%">
+			                <?=$this->translate->_("PKGS")?>*
+			            </th>
+			            <th  class="th_pedido" align="center" width="10%">
+			                <?=$this->translate->_("G.W.KGS")?>
+			            </th>
+			            <th  class="th_pedido" align="center" width="10%">
+			                <?=$this->translate->_("N.W.KGS")?>
+			            </th>
+			        </tr>					
+					<?php 
+					$cor = 0;
+			    	foreach($this->objProd as $lista):
+			    		if($lista->qtprod > $lista->qtpack):
+			    	 		$cor++;
+				            if(($cor%2)==0) $class = 'td_orc_par';
+				            else $class = 'td_orc';		            
+			               	?>
+							<tr >
+				                <td  class="<?=$class?>" align="left" style="padding: 3px">
+				                   <?=$lista->CODIGO?>                  
+				                </td>
+				                <td  class="<?=$class?>" style="text-align: center; padding: 3px" >
+				                    <?php 
+				                	//--- Verifico as compras dos produtos -----------------------
+				                	foreach ($this->objProdpk as $purchase):
+				                		if($purchase->id_prod == $lista->idproduto):
+						                	?>
+						                	<a target="_blank" href="<?=$this->baseUrl()?>/admin/kang/pedidoscompraped/ped/<?=md5($purchase->id_kang_compra)?>">PK<?=substr("000000".$purchase->id_kang_compra, -6,6)?></a><br />
+						                	<?php
+						                endif; 
+				                	endforeach;
+				                	?>
+				                </td>
+				                <td  class="<?=$class?>" style="text-align: center; padding: 3px" >
+				                    <?=$lista->qtprod-$lista->qtpack?>
+				                </td>
+				                <td  class="<?=$class?>" style="text-align: center; padding: 3px" >
+				                   <input name="qt_<?=$lista->id_prod?>" type="text" size="5px" onkeydown="Mascara(this,Integer);" onkeypress="Mascara(this,Integer);" onkeyup="Mascara(this,Integer);">           
+				                </td>
+				                <td  class="<?=$class?>" style="text-align: center;" >
+				                   <input name="pc_<?=$lista->id_prod?>" type="text" size="5px" onkeydown="Mascara(this,Kilo);" onkeypress="Mascara(this,Kilo);" onkeyup="Mascara(this,Kilo);" >
+				                </td>
+				                <td  class="<?=$class?>" style="text-align: center;" >
+				                	<input name="gw_<?=$lista->id_prod?>" type="text" size="5px" onkeydown="Mascara(this,Kilo);" onkeypress="Mascara(this,Kilo);" onkeyup="Mascara(this,Kilo);" >
+				                </td>
+				                <td  class="<?=$class?>" style="text-align: center;" >
+				                	<input name="nw_<?=$lista->id_prod?>" type="text" size="5px" onkeydown="Mascara(this,Kilo);" onkeypress="Mascara(this,Kilo);" onkeyup="Mascara(this,Kilo);" >
+				                </td>                 
+				            </tr>				            
+							<?php	
+						endif;				
+					endforeach;
+					?>					
+				</table>
+			</div>
+			<div style="margin-top: 10px">
+				<table  class="mytable" style="width: 100%">
+					<tr>
+			            <th class="th_canto" style="text-align: center;" width="30%">
+			                &nbsp;
+			            </th>
+			            <th  class="th_pedido" align="center" width="10%">
+			                <?=$this->translate->_("G.W.KGS")?>
+			            </th>
+			            <th  class="th_pedido" align="center" width="10%">
+			                <?=$this->translate->_("N.W.KGS")?>
+			            </th>
+			            <th  class="th_pedido" align="center" width="10%">
+			                <?=$this->translate->_("Dimensões (M)")?>
+			            </th>
+			        </tr>
+					<tr >
+		                <td  class="<?=$class?>" style="padding: 3px; text-align: center; font-weight: bold;">
+		                   Total
+		                </td>
+		                <td  class="<?=$class?>" style="text-align: center;" width="10%">
+		                	<input name="gw" type="text" size="5px" onkeydown="Mascara(this,Kilo);" onkeypress="Mascara(this,Kilo);" onkeyup="Mascara(this,Kilo);" >
+		                </td>
+		                <td  class="<?=$class?>" style="text-align: center;" width="10%">
+		                	<input name="nw" type="text" size="5px" onkeydown="Mascara(this,Kilo);" onkeypress="Mascara(this,Kilo);" onkeyup="Mascara(this,Kilo);" >
+		                </td>                 
+		                <td  class="<?=$class?>" style="text-align: center;" width="30%">
+		                	C <input name="comprimento" type="text" size="5px" onkeydown="Mascara(this,Kilo);" onkeypress="Mascara(this,Kilo);" onkeyup="Mascara(this,Kilo);" >
+		                	L <input name="largura" type="text" size="5px" onkeydown="Mascara(this,Kilo);" onkeypress="Mascara(this,Kilo);" onkeyup="Mascara(this,Kilo);" >
+		                	A <input name="altura" type="text" size="5px" onkeydown="Mascara(this,Kilo);" onkeypress="Mascara(this,Kilo);" onkeyup="Mascara(this,Kilo);" >
+		                </td>
+		            </tr>
+		         </table>
+			</div>	
+			<div style="margin-top: 10px">
+				<input type="button" value="Gerar pacote" onclick="validaCampos()"><br />
+				<i>* Campos obrigatórios</i>
+			</div>
+		</form>
+		<?php else: ?>
+		<div style="text-align: center; font-weight: bold; margin-top: 30px">
+			Sem produtos para geração de pallets
+		</div>
+		<?php endif; 
+	endif;
+	?> 
+	
+		<div >
+			<?php 
+	    	if(!empty($this->objPack)):
+	    		    	
+	    	?>
+	    	<div style="border-bottom: 1px solid; font-weight: bold; margin-top: 20px; font-size: 14px">
+	    	PALLETS
+	    	</div>		
+	    	<?php 
+	    	
+	    	
+	    	$contp 		= 0;
+	    	$totalpacks = count($this->objPack); 
+	    	
+	    	foreach ($this->objPack as $pack):
+	    		$contp ++;
+		    	
+		    	$totalp = $totalc = $countpl = $verdup = $cor = 0;
+		    	//--- conta o qt para o rowspan da tabela -----------------------
+		    	foreach($this->objProdpl as $lista):
+			    	if($pack->id == $lista->id_pack):
+				    	$countpl++;
+				    	//--- verifica se produto pode ser duplicado ------------------------
+				    	foreach($this->objProd as $listaver):
+				    		if($listaver->id_prod == $lista->id_prod):
+						    	if(($listaver->qtprod-$listaver->qtpack) < $lista->qt):
+						    		$verdup = 1;
+						    	endif;
+						    endif;
+				    	endforeach;
+			    	endif;
+		    	endforeach;
+	    	
+	    	
+	    		?>
+	    		<table class="mytable" style="margin-top: 10px;" >
+	    			<tr>
+						<th  class="th_canto" style="text-align: left;" colspan="5">
+			                <?=$this->translate->_("PALLET Nº ")?> <?=$contp."/".$totalpacks?>     
+			            </th>
+						<th  class="th_pedido" align="center" >
+			                <?php if(($pack->sit=="1") and ($listdet->sit==1)): ?>
+		                	<a href="#" onclick="if(confirm('Cancelar Pallet?')){ window.location='<?=$this->baseUrl()?>/admin/kang/removerpacklistfor/ped/<?=md5($listdet->idped)?>/pack/<?=md5($pack->id)?>/idfor/<?=$this->objForsel?>';};"><img src="<?=$this->baseUrl();?>/images/window-close.png" title="Remove" border="0" width="15"></a>
+		                	<?php endif; ?>
+		                	<?php 
+							if($verdup==0):
+							?>
+							&nbsp;
+							<a href="javascript:void(0)" onclick="if(confirm('Duplicatar o pallet?')){ window.location='<?=$this->baseUrl()?>/admin/kang/packcopiafor/ped/<?=md5($listdet->idped)?>/pack/<?=$pack->id?>/idfor/<?=$this->objForsel?>';}"><img src="<?=$this->baseUrl()?>/imagens/sistema/duplicar.png" width="15" border="0" title="Duplicate pallet" /></a>
+							<?php 
+							endif;
+							?>
+			            </th>
+			        </tr>
+					<tr>
+						<th  class="th_canto" style="text-align: center;" width="20%">
+			                <?=$this->translate->_("CODIGO")?>
+			            </th>
+			            <th  class="th_pedido" align="center" width="20%">
+			                <?=$this->translate->_("QT")?>
+			            </th>
+			            <th  class="th_pedido" align="center" width="10%">
+			                <?=$this->translate->_("PKGS")?>
+			            </th>
+			            <th  class="th_pedido" align="center" width="10%">
+			                <?=$this->translate->_("G.W.KGS")?>
+			            </th>
+			            <th  class="th_pedido" align="center" width="10%">
+			                <?=$this->translate->_("N.W.KGS")?>
+			            </th>
+			            <th  class="th_pedido" align="center" width="10%">
+			                <?=$this->translate->_("MEAS.M3")?>
+			            </th>
+			        </tr>					
+					<?php 
+					
+					foreach($this->objProdpl as $lista):
+						if($pack->id == $lista->id_pack):
+			            	$cor++;
+				            if(($cor%2)==0) $class = 'td_orc_par';
+				            else $class = 'td_orc';	
+				            
+			               	?>
+							<tr >
+								<td  class="<?=$class?>" align="left" style="padding: 3px">
+				                   <?=$lista->CODIGO?>                  
+				                </td>
+				                <td  class="<?=$class?>" style="text-align: center; padding: 3px" >
+				                    <?=$lista->qt?>
+				                </td>
+				                <td  class="<?=$class?>" style="text-align: center; padding: 3px" >
+				                    <?=$lista->pkgs?>
+				                </td>
+	                   			<td  class="<?=$class?>" style="text-align: center; padding: 3px" >
+			                    	<? if(($lista->peso_bruto!="") and ($lista->peso_bruto!=0)) echo number_format($lista->peso_bruto,3,",",".");?>
+				                </td>
+				                <td  class="<?=$class?>" style="text-align: center; padding: 3px" >
+				                    <? if(($lista->peso_liquido!="") and ($lista->peso_liquido!=0)) echo number_format($lista->peso_liquido,3,",",".");?>
+				                </td>
+				                <?php if($cor==1):?>
+				                <td  class="<?=$class?>" rowspan="<?=$countpl+1?>" style="text-align: center; padding: 3px; font-weight: bold;" >
+				                	 <?=number_format($pack->altura*$pack->comprimento*$pack->largura,3,",",".")?>
+				                </td>
+				                <?php endif; ?>
+				            </tr>				            
+							<?php 
+							$totalp += $lista->qt;
+							$totalc	+= $lista->pkgs;
+						endif; 					
+					endforeach;
+					
+					$cor++;
+		            if(($cor%2)==0) $class = 'td_orc_par';
+		            else $class = 'td_orc';	
+					
+					?>
+					<tr >
+		                <td class="<?=$class?>" align="left" style="padding: 3px; font-weight: bold;">
+		                   Total                 
+		                </td>
+		                <td  class="<?=$class?>" style="text-align: center; padding: 3px;  font-weight: bold;">
+		                    <?=$totalp?>
+		                </td>
+		                <td  class="<?=$class?>" style="text-align: center; padding: 3px;  font-weight: bold;">
+		                    <?=$totalc?>
+					    </td>
+		                <td  class="<?=$class?>" style="text-align: center; padding: 3px;  font-weight: bold;">
+	                    	<?=number_format($pack->peso_bruto,3,",",".");?>
+		                </td>
+		                <td  class="<?=$class?>" style="text-align: center; padding: 3px;  font-weight: bold;">
+		                    <?=number_format($pack->peso_liquido,3,",",".");?>
+		                </td>		                
+		            </tr>						
+				</table>
+	    		<?php 
+	    		
+	    		$qttotal 	+= $totalp;
+	    		$qtc 		+= $totalc;
+	    		$qtgw 		+= $pack->peso_bruto;
+	    		$qtnw 		+= $pack->peso_liquido;
+	    		
+	    		if(($pack->altura!=0)||($pack->comprimento!=0)||($pack->largura!=0)):
+	    		$meassub += $pack->altura*$pack->comprimento*$pack->largura;
+	    		else:
+	    		$meassub += $pack->medida;
+	    		endif;
+	    	endforeach;
+	    	?>
+	    	
+	    	<div>
+	    	<table 	class="mytable" style="margin-top: 10px;" >
+    			<tr>
+					<th  class="td_orc_par" style="text-align: center;" width="20%">
+		                <?=$this->translate->_("TOTAL GERAL")?>
+		            </th>
+		            <th  class="td_orc_par" style="text-align: center;" width="20%">
+		              	<?=$qttotal?>
+		            </th>
+		            <th  class="td_orc_par" style="text-align: center;" width="10%">
+		                <?=$qtc?>
+		            </th>
+		            <th  class="td_orc_par" style="text-align: center;" width="10%">
+		                <?=number_format($qtgw,3,",",".");?>
+		            </th>
+		            <th class="td_orc_par" style="text-align: center;" width="10%">
+		                <?=number_format($qtnw,3,",",".");?>
+		            </th>
+		            <th  class="td_orc_par" style="text-align: center;" width="10%">
+		                <?=number_format($meassub,3,",",".");?>
+		            </th>
+		        </tr>
+		        </table>	
+			</div>
+	    	<?php 
+	    	endif;
+	    	?>
+		</div>
+	</div>
+	</div>
+</div>
+<script>
+	
+	function validaCampos(){
+		var ver = 0;
+		var ver2 = 0;
+		var ver3 = 0;
+		<?php 
+		foreach($this->objProd as $lista):
+		    if($lista->qtprod > $lista->qtpack):
+    	 	?>
+			if(((document.cad.qt_<?=$lista->id_prod?>.value=="") && (document.cad.pc_<?=$lista->id_prod?>.value!="")) || ((document.cad.qt_<?=$lista->id_prod?>.value!="") && (document.cad.pc_<?=$lista->id_prod?>.value==""))){
+				ver = 1;
+			}
+			if((document.cad.qt_<?=$lista->id_prod?>.value!="") && (document.cad.pc_<?=$lista->id_prod?>.value!="")){
+				ver2 = 1;	
+			}
+
+			if(document.cad.qt_<?=$lista->id_prod?>.value!=""){
+				qt = parseInt(document.cad.qt_<?=$lista->id_prod?>.value);
+				if(qt > <?=$lista->qtprod-$lista->qtpack?>){
+					alert("<?=$this->translate->_("A quantidade do produto ".$lista->CODIGO." não pode ser superior a QT disponível!")?>!");
+					ver3 = 1;
+				}
+			}
+			<?php
+			endif;			
+		endforeach;		
+		?>	
+
+		if(ver == 1){
+			alert("<?=$this->translate->_("Preencha todos os campos corretamente")?>!");
+		}else if(ver2==0){
+			alert("<?=$this->translate->_("Selecione ao menos um produto")?>!");
+		}else if(document.cad.gw.value==""){
+			alert("<?=$this->translate->_("O peso bruto não pode ficar em branco")?>!");
+		}else if(document.cad.nw.value==""){
+			alert("<?=$this->translate->_("O peso líquido não pode ficar em branco")?>!");
+		}else if(document.cad.comprimento.value==""){
+			alert("<?=$this->translate->_("O comprimento não pode ficar em branco")?>!");
+		}else if(document.cad.largura.value==""){
+			alert("<?=$this->translate->_("A largura não pode ficar em branco")?>!");
+		}else if(document.cad.altura.value==""){
+			alert("<?=$this->translate->_("A altura não pode ficar em branco")?>!");
+		}else if((ver2 == 1)&&(ver3 == 0)){
+			document.cad.submit();
+		}		
+	}
+</script>
+<div style="display: none">
+<?=$this->translate->_("Preencha todos os campos corretamente")?>
+<?=$this->translate->_("Selecione ao menos um produto")?>
+<?=$this->translate->_("O peso bruto não pode ficar em branco")?>
+<?=$this->translate->_("O peso líquido não pode ficar em branco")?>
+<?=$this->translate->_("A medida do palete não pode ficar em branco")?>
+<?=$this->translate->_("Lista de produtos entregues")?>
+</div>	

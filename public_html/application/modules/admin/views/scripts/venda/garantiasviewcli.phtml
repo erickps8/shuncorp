@@ -1,0 +1,114 @@
+<?php
+
+if(!empty($this->objGarantia)):
+	foreach ($this->objGarantia as $viewGarantia);
+endif;
+
+
+?>
+ <table border="0"  width="100%" >
+	<tr>
+		<td align="center" width="12%" class="menu">GARANTIAS</td>
+        <td align="center" width="2%" class="menu1">|</td>
+        <td align="center" width="13%" class="menu2"><a href="<?php echo $this->baseUrl(); ?>/admin/venda/garantiasrelcli">RELATÓRIOS</a></td>
+        <td align="center" width="">&nbsp;</td>
+	</tr>
+</table>
+<br /> 
+<table width="100%" class="borda_titulo">
+	<tr>
+		<td width="left">GARANTIA N&ordm; G<?php echo substr("000000".$viewGarantia->idcli,-6,6)?></td>
+	</tr>
+</table>
+
+<table width="100%" style="border: 1px solid #000; margin-top: 10px; " cellspacing="8px" >
+
+<tr>
+	<td align="left" width="40%" colspan="2">
+		Nota Fiscal:<br>
+		<b><?php echo $viewGarantia->nota_fiscal?></b>	
+	</td>
+	
+	<td align="left" colspan="2" >
+		Data emiss&atilde;o:<br>
+		<b><?php echo substr($viewGarantia->data_nf,8,2)."/".substr($viewGarantia->data_nf,5,2)."/".substr($viewGarantia->data_nf,0,4)?></b>	
+	</td>
+	
+</tr>
+<tr>
+	<td align="left" width="25%" >
+		Peso:<br>
+		<b><?php echo $viewGarantia->peso_nf?></b> 
+		Kg
+	</td>
+	<td align="left" colspan="3" width="85%">
+		Volumes:<br>
+		<b><?php echo $viewGarantia->volumes?></b>	
+	</td>
+</tr>
+<tr>
+	<td align="left" width="15%" colspan="4" valign="middle" >
+		<?php if(!empty($viewGarantia->anexo)): ?>
+		<a target="_black" href="<?php echo $this->baseUrl()."/public/nfgarantias/".$viewGarantia->idcli.".".$viewGarantia->anexo?>">
+		<img alt="Anexo" src="<?php echo $this->baseUrl()."/images/anexo.png"?>" border="0" width="20" height="20">
+		<b>Anexo</b></a>
+		<?php endif;?>
+	</td>
+</tr>
+<tr>
+	<td align="left" colspan="4">
+		Observação:<br>
+		<b><?php echo utf8_encode($viewGarantia->obs)?></b>
+	</td>
+</tr>
+
+<?php if(strripos($viewGarantia->status, "ENVIO")!==0): ?>
+<tr>
+	<td align="left" colspan="2" >
+	
+			Tipo de envio: <br>
+			<?php if($viewGarantia->tipoenvio==1): ?>
+				<b>Correios/PAC</b>
+			<?php else: ?>
+				<b>Transportadora</b>
+			<?php endif;?>
+			
+	</td>
+	<td colspan="1">
+			<?php if($viewGarantia->tipoenvio==1): ?>
+				N&ordm; PAC:<br>
+				<b><?php echo $viewGarantia->valorenvio?></b>
+			<?php else: ?>
+				Transportadora:<br>
+				<b><?php echo htmlentities($viewGarantia->valorenvio)?></b>
+			<?php endif;?>
+	</td>
+	<td colspan="1">
+			<?php if($viewGarantia->tipoenvio==1): ?>
+				Validade PAC:<br>
+				<b><?php echo $viewGarantia->data_validadepac?></b>
+			<?php endif?>
+	</td>
+</tr>
+
+<?php else: ?>
+<tr>
+	<td align="left" colspan="4" >
+		Motivo Recusa: <br>
+		<div style="background-color: #e5e5e5; margin: 5px; padding: 5px">
+		<b><?php echo $viewGarantia->motivorec?></b>
+		</div>
+			
+	</td>
+</tr>
+<?php endif; ?>
+</table>
+<table  cellpadding="0" cellspacing="0">
+	<tr>
+	<td>
+	<br>
+		<input type="button" onclick="window.location='<?php echo $this->baseUrl(); ?>/admin/venda/garantiascli'" value="Voltar">
+	</td>
+	</tr>
+</table>
+	

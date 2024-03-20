@@ -1,0 +1,81 @@
+<?php 
+$tpselec = "";
+?>
+<input type="radio" id="tipo1" name="tipoexibecontas" value="1" onclick="buscaPedidoscompra('<?=$this->objPed?>',1,<?=$this->objFor?>,'<?=$this->objPurch?>')" <?php if($this->objTipo==1) echo 'checked="checked"';?> >
+Compras Shukang &nbsp; 
+<input type="radio" id="tipo2" name="tipoexibecontas" value="2" onclick="buscaPedidoscompra('<?=$this->objPed?>',2,<?=$this->objFor?>,'<?=$this->objPurch?>')" <?php if($this->objTipo==2) echo 'checked="checked"';?> >
+Compras Shuntai<br>	
+	
+<?php 
+if(!empty($this->objContas)):
+	?>
+	<form action="/admin/administracao/regconcilia" method="post" name="contas" id="contas" class="mainForm">
+	<div class="widget" style="width: 95%" id="divcontas">	
+	<table class="tableStatic" style="width: 100%">
+	<thead>	
+		<tr>
+			<td style="text-align: center;"><?=$this->translate->_("Id")?></td>
+			<td><?=$this->translate->_("Compra")?></td>
+			<td><?=$this->translate->_("Valor pedido")?></td>
+			<td><?=$this->translate->_("Valor pago")?></td>
+			<td>&nbsp;</td>
+		</tr>
+	</thead>
+	<tbody>
+		<?php
+		$cont=0; 
+		foreach ($this->objContas as $listpagar):
+			$cont++;
+			?>
+			<tr style="font: 11px Arial, Helvetica, sans-serif;">
+				<td class="td_orc_min" style="text-align: center;">
+					<?=$cont?>
+				</td>
+				<td class="td_orc_min" style="text-align: center;">
+					<?php
+					if($this->objTipo==1) echo "PK"; else echo "PT"; 
+					echo substr("000000".$listpagar->idcompra,-6,6)
+					?>
+				</td>
+				<td class="td_orc_min" style="text-align: right; padding-right: 3px">
+					<?=number_format($listpagar->totalped,3,",",".")?>	
+				</td>
+				<td class="td_orc_min" style="text-align: right; padding-right: 3px">
+					<?=number_format($listpagar->valorpago,3,",",".")?>	
+				</td>
+				<td class="td_orc_min" style="text-align: center;">
+					<?php
+					$checkang = $checktai = "";
+					foreach ($this->objPurc as $finpurc):
+						if($finpurc->id_kang_compra == $listpagar->idcompra):
+							$checkang = 'checked="checked"';
+						elseif($finpurc->id_tai_compra == $listpagar->idcompra):
+							$checktai = 'checked="checked"';
+						endif;
+					endforeach;
+					?>
+					<input type="checkbox" <?php if($this->objTipo==1) echo $checkang; else echo $checktai; ?>  name="<?=$listpagar->idcompra?>" id="<?=md5($listpagar->idcompra)?>" 
+					value="<?php if($this->objTipo==1) echo "PK"; else echo "PT"; echo substr("000000".$listpagar->idcompra,-6,6); ?>" >
+				</td>
+			</tr>
+		<?php								
+		endforeach;
+	
+		?>
+		</tbody>
+	</table>
+	</div>
+	<div style="text-align: left; padding-top: 10px">
+		<?=$tpselec?>
+		<input type="button" name="salvar" value="Inserir" onclick="addPurchase(<?=$this->objPurch?>);" class="basicBtn">
+	</div>
+		
+	</form>
+	<?php 	
+else:
+	?>
+	<p>Nenhuma compra encontrada para este fornecedor!</p>
+	<?php 
+endif;
+
+?>

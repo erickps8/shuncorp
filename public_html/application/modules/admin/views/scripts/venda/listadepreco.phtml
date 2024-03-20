@@ -1,0 +1,581 @@
+﻿<?php 
+$usuario = Zend_Auth::getInstance()->getIdentity();
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="<?php echo $this->baseUrl(); ?>/public/images/ztl_favicon1.ico" rel="shortcut icon" />
+<title>ZTL Brasil - Lista de Preço</title>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/javascript/buscaajax/buscaajaxsubgrupopublico.js"></script>
+<style type="text/css">
+<!--
+body { background-image:url(<?=$this->baseUrl()?>/images/hotsites/catalogo/back.jpg);
+	margin-left: 0px;
+	margin-top: 20px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	
+	text-align:left;
+	font-family:"Arial", Arial, Helvetica, sans-serif; font-size:14px;
+}
+
+.produto{ font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;font-size:32px; font-style:italic; color:#FFF; font-weight:600;
+
+}
+
+.nome{ font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;font-size:16px;  color: #3F3F3F; 
+}
+
+.menu1{
+	  font-family: Tahoma, Geneva, sans-serif,; font-size: 15px; color: #53595E; line-height:25px;
+	  
+}
+
+.menu2{
+	  font-family: Tahoma, Geneva, sans-serif,; font-size: 15px; color: #53595E; text-align:center;
+	  
+}
+.text-padrao{ font-family: Tahoma, Geneva, sans-serif; font-size: 15px; 
+}
+
+.text-padrao2{ font-family: Tahoma,; font-size: 14px; font-size: 17px; color:#F00;
+}
+
+input,select {
+	border: 1px solid #6E6E6E;
+	font-family: Tahoma, Geneva, sans-serif; font-size: 12px;
+	background-color: #fff;	
+}
+
+#topbar{
+	padding: 5px 5px 5px 5px;
+	visibility: hidden;
+	width: 90px;
+	font-family: Tahoma;
+	position: absolute;
+	border: 1px solid #999;
+	background-color: #fff;
+	-moz-border-radius: 5px 5px 5px 5px;
+   	border-radius:5px 5px 5px 5px;
+   	-Webkit-border-radius: 5px 5px 5px 5px;
+   	text-align: center;
+}
+	
+-->
+</style>
+
+</head>
+
+<body>
+<form action="" method="post" name="buscaprodutos"> 
+<table  align="center" width="1000" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="23"><img src="<?=$this->baseUrl()?>/images/hotsites/catalogo/banner_topo1.png" width="23" height="92" /></td>
+    <td width="454" style="background-color:#00ACAE;"><img src="<?=$this->baseUrl()?>/images/hotsites/catalogo/lista.jpg" width="454" height="92" /></td>
+    <td style="background-color:#00ACAE;" width="418"></td>
+    <td style="background-color:#00ACAE" width="80"><img src="<?=$this->baseUrl()?>/images/hotsites/catalogo/banner_topo2.jpg" width="80" height="92" /></td>
+    <td width="25"><img src="<?=$this->baseUrl()?>/images/hotsites/catalogo/banner_topo4.png" width="25" height="92" /></td>
+  </tr>
+  <tr>
+    <td height="140" style="background-image:url(<?=$this->baseUrl()?>/images/hotsites/catalogo/corpo_linha2.jpg); background-repeat:repeat-y; background-color:#EDEDED;">
+    </td>
+    <td style="background-color: #EDEDED;"  align="left">    
+	    <table style="margin-left:15px; margin-top: 10px" width="470" border="0" cellspacing="3" cellpadding="3">
+	      <tr>
+	        <td align="left"  width="200">Código ZTL</td>
+	        <td align="left" >
+				<input  type="text" size="20" name="codigo" style="width: 100%" />
+			</td>
+	      </tr>
+	      <tr>
+	        <td align="left"  width="91">Descrição</td>
+	        <td align="left" >
+	        	<input  type="text" size="30" name="descricao" style="width: 100%"/>
+	        </td>
+	      </tr>
+	      
+	      <tr>
+	        <td align="left"  width="91">Montadora</td>
+	        <td align="left" >
+	        	 <select name="montadora" id="montadora"  style="width: 100%" >
+					<option value="0">Selecione</option>
+					<?php foreach ($this->objMontadora as $list): ?>
+						<option value="<?=$list->ID?>"><?=$list->NOME?></option>
+					<?php endforeach; ?>
+				</select>	        
+	        </td>
+	      </tr> 
+	      <tr>
+	        <td align="left"  width="91">Grupos</td>
+	        <td align="left" >
+	        <select name="buscagrupo" id="buscagrupo" style="width: 100%" onchange="Mostrasubgrupos(this.value);">
+				<option value="0">Todos</option>
+				<?php foreach ($this->objGrupo as $list): 
+						if($list->tipo==1):
+							?>
+							<option value="<?=$list->id?>"><?=$list->descricao?></option>
+				<?php
+						endif; 
+					endforeach; ?>
+			</select>
+	        </td>
+	      </tr>
+	      <tr>
+	        <td align="left">Subgrupos</td>
+	        <td align="left"><div id="subgrupo"><select  style="width: 100%" name="buscagruposub"> <option value="0" > Selecione </option></select></div></td>
+	        
+	      </tr>
+	       <tr>
+	        <td align="left">&nbsp;</td>
+	        <td align="right">
+	       		<img style="cursor: pointer; cursor: hand" src="<?=$this->baseUrl()?>/images/hotsites/catalogo/pesquisar3.png" onclick="document.buscaprodutos.action='<?=$this->baseUrl()?>/admin/venda/listadepreco'; document.buscaprodutos.submit();"/>
+	       		
+	        </td>	        
+	      </tr>	      
+	    </table>
+	    </td>
+	    <td style="background-color: #EDEDED; padding-top: 15px; padding-left: 20px" colspan="2" align="left" valign="top">
+	    	<table style="margin-left:15px; height: 100%"  width="100%" border="0" >
+		    	<tr>
+		        	<td style="vertical-align: top;">
+				    	<input type="checkbox" name="pesado" class="checkbox"/> Linha pesada
+			            <input type="checkbox" name="6000" class="checkbox"/> Linha 6000
+	            	</td>
+	           	</tr>
+	           	<tr>
+		        	<td style="text-align: right; vertical-align: bottom;">
+				    	Selecionar todos <input type="checkbox" name="seleciona" class="checkbox" onclick="selecionaTodos();"/>
+	            	</td>
+	           	</tr>
+	        </table>
+	    </td>
+    	<td style=" background-color:#EDEDED; padding-left:24px;" >
+    		<img src="<?=$this->baseUrl()?>/images/hotsites/catalogo/corpo_linha2.jpg" width="1" height="140" />
+    	</td>
+  </tr>
+  <?php 
+  if(!empty($this->objProdutos)):
+  foreach ($this->objProdgrup as $grupos):  
+	  ?>  
+	  <tr>
+	    <td class="produto" colspan="5" style="padding-left:44px; background-color:#6E6E6E; height:58px; text-transform: uppercase;">
+	    	<?=($grupos->descgrupo." - ".$grupos->descsubgrupo)?>
+	    </td>
+	  </tr>
+	  <?php 
+	  foreach ($this->objProdutos as $produtos):
+	  	if($produtos->id_gruposprodsub == $grupos->idsubg):
+	  		if((($usuario->id_perfil == 1) || ($usuario->id_perfil == 28) || ($usuario->id_perfil == 29)) || $produtos->situacao == 0):
+		  	?>	  
+		  <tr>
+		    <td colspan="5" style="background-color:#e0e0e0; height:41px">
+		    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+		      <tr class="nome">
+		        <td style="padding-left:8px" width="204" align="left">
+		        <b><?=$produtos->CODIGO?></b></td>
+		        <td width="5"><img src="<?=$this->baseUrl()?>/images/hotsites/catalogo/marcador.jpg" width="2" height="31" /></td>
+		        <td width="686" align="left"><?=($produtos->DESCRICAO)?>
+		        </td>
+		        <td width="5" align="left"><img src="<?=$this->baseUrl()?>/images/hotsites/catalogo/marcador.jpg" width="2" height="31" /></td>
+		        <td width="100" align="right" style="padding-right: 10px"><b>R$ <? if(empty($produtos->PRECO_UNITARIO)) echo number_format(0,2,",","."); else echo number_format($produtos->PRECO_UNITARIO,2,",",".")?></b></td>
+		        <td width="5" align="left"><img src="<?=$this->baseUrl()?>/images/hotsites/catalogo/marcador.jpg" width="2" height="31" /></td>
+		        <td width="" align="right" style="padding: 3px">
+		        	<input type="checkbox" name="prod_<?=$produtos->ID?>" <?php if(!empty($this->objCli)) echo 'checked="checked"';?> />
+		        </td>
+		      </tr>
+		    </table>
+		    
+		    </td>
+		  </tr>
+		  <tr>
+		    <td  colspan="5" style=" background-color: #FFF; " valign="top"> 
+		    <table width="800" border="0" cellspacing="0" cellpadding="0">
+		      <tr>
+		        <td  width="215" rowspan="2" align="center" valign="top"  style="background-color: #FFF; " >
+		        <?php 
+		        if(file_exists(BaseImg.'imgprodutos/'.$produtos->idprod.'/imagem1.jpg')):
+		        ?>
+		        	<img align="top" src="<?=$this->baseUrl()?>/images/imgprodutos/<?=$produtos->idprod?>/imagem1.jpg" width="150" border="0" />
+		        <?php else: ?>
+		        	<img align="top" src="<?=$this->baseUrl()?>/images/hotsites/catalogo/lancamento.jpg"  width="150" />
+		        <?php endif; ?>
+		        </td>
+		        <td valign="top">
+		        
+		        <div style="margin-top: 5px; margin-bottom: 5px">
+		        <?=($produtos->APLICACAO)?>
+		        </div>
+		        
+		        <div style="padding: 10px 0px">
+		        <?php
+		        
+		        if(!empty($produtos->ncm)){
+		        	echo "Classificação Fiscal: ".$produtos->ncm." ".$produtos->ncmex;
+		        }
+		        
+		        if(!empty($produtos->ncm) and !empty($produtos->codigo_ean)){
+		        	echo " | ";
+				}
+				
+		        if(!empty($produtos->codigo_ean)){
+		        	echo " Código EAN: ".$produtos->codigo_ean;
+		        }
+		        ?>
+		        </div>
+		        <?php 
+		        if(!empty($this->objProdveic)):
+		        ?>
+		        
+		        
+		        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+	        		<tr>
+	        			<td align="left" width="30%">
+	        				<b>Montadora</b>
+	        			</td>
+	        			<td align="left"  width="40%">
+	        				<b>Modelo</b>
+	        			</td>
+	        			<td align="left" width="30%">
+	        				<b>Ano</b>
+	        			</td>
+	        		</tr>
+	        		<?php 
+	        		foreach ($this->objProdveic as $veiculos):
+	        			if($veiculos->id_produto == $produtos->idprod):
+		        		?>
+		        		<tr>
+		        			<td align="left">
+		        				<?=($veiculos->NOME)?>
+		        			</td>
+		        			<td align="left">
+		        				<?=($veiculos->no_modelo)?>
+		        			</td>
+		        			<td align="left">
+		        				<?
+		        				if(!empty($veiculos->ano_ini) and empty($veiculos->ano_fim)):
+		        					echo $veiculos->ano_ini." > ";
+		        				elseif(empty($veiculos->ano_ini) and !empty($veiculos->ano_fim)):
+		        					echo "< ".$veiculos->ano_fim;
+		        				elseif(!empty($veiculos->ano_ini) and !empty($veiculos->ano_fim)):
+		        					echo $veiculos->ano_ini." > ".$veiculos->ano_fim;	        				
+		        				else:
+		        					echo "Todos";
+		        				endif;
+		        				?>
+		        			</td>
+		        		</tr>
+		        		<?php 
+		        		endif;
+	        		endforeach;
+	        		
+	        		?>
+	        	</table>
+	        	<?php endif; ?>
+	        	</td>
+	         </tr>
+		     <tr>
+		        <td height="25" colspan="3" style="font-weight: bold; text-align: justify;">
+		        <?php 
+		        if(($produtos->grupoprod==8)):
+			        $medida = "";
+		        	
+		        	//- homocinetica ------------------------------------------------
+			        if($produtos->estriado_macho_d > 0):
+			        	$medida = "Estriado macho: ".$produtos->estriado_macho_d." | ";
+			        endif;
+		        
+			        if($produtos->estriado_macho_mm > 0):
+			        	$medida .= "D: ".number_format($produtos->estriado_macho_mm,2,",","")." mm | ";
+			        endif;
+			        
+			        if($produtos->estriado_femea_d > 0):
+			        	$medida .= "Estriado Femêo: ".$produtos->estriado_femea_d." | ";
+			        endif;
+			        
+			        if($produtos->estriado_femea_mm > 0):
+			        	$medida .= "D: ".number_format($produtos->estriado_femea_mm,2,",","")." mm | ";
+			        endif;
+			        
+			        if($produtos->diametro_homo > 0):
+			        	$medida .= " Diâmetro: ".number_format($produtos->diametro_homo,2,",","")." | ";
+			        endif;
+			        
+			        if($produtos->raio_porca_homo > 0):
+			        	$medida .= "Raio da porca: ".$produtos->raio_porca_homo." | ";
+			        endif;
+			        
+			        if($produtos->aperto_homo > 0):
+			        	$medida .= "Aperto: ".$produtos->aperto_homo." | ";
+			        endif;
+			        
+			        //--- Justas deslizantes ------------------------------------------
+			        if($produtos->medida_inner_desl > 0):
+			        $medida .= "Interno: ".$produtos->medida_inner_desl." | ";
+			        endif;
+			        
+			        if($produtos->medida_outer_desl > 0):
+			        	$medida .= "Externo: ".$produtos->medida_outer_desl." | ";
+			        endif;
+			        
+			        if($produtos->medida_high_desl > 0):
+			        	$medida .= "Altura: ".$produtos->medida_high_desl." | ";
+			        endif;
+			        
+			        if($produtos->medida_teeth_desl > 0):
+			        	$medida .= "Dentes: ".$produtos->medida_teeth_desl." | ";
+			        endif;
+			        
+			        //-- Cruzetas - trizetas ---------------------------------------------
+			        if($produtos->aperto_homo > 0):
+			        	$medida .= "Interno: ".$produtos->aperto_homo." | ";
+			        endif;
+			        
+			        if($produtos->medida_high_cru > 0):
+			        	$medida .= "Altura: ".$produtos->medida_high_cru." | ";
+			        endif;
+			        
+			        if($produtos->medida_teeth_cru > 0):
+			        	$medida .= "Dentes: ".$produtos->medida_teeth_cru." | ";
+			        endif;
+			        
+			        echo substr($medida,0,-2);
+			        
+		        elseif(($produtos->grupoprod==1)||($produtos->grupoprod==6)):
+		        	//--Restantes -----------------
+		        	?>
+		        	Interno: <?=$produtos->M_INNER?> mm &nbsp; 
+					Externo: <?=$produtos->M_OUTER?> mm &nbsp; 
+					Altura: <?=$produtos->M_HIGH?> mm 
+		        	<?php
+		        elseif(($produtos->grupoprod==2)):
+		        	$medida = "";
+		        	if($produtos->cubo_eixo > 0):
+		        		$medida = "Eixo rolamento: ".number_format($produtos->cubo_eixo,2,",","")." | ";
+		        	endif;
+		        	
+		        	if($produtos->cubo_altura > 0):
+		        		$medida .= " Altura: ".number_format($produtos->cubo_altura,2,",","")." | ";
+		        	endif;
+		        	
+		        	if($produtos->cubo_externo > 0):
+		        		$medida .= " Externo: ".number_format($produtos->cubo_externo,2,",","")." | ";
+		        	endif;
+		        	
+		        	//-Dentes homocinética
+		        	if($produtos->cubo_denteshomo > 0):
+		        		$medida .= " Dentes homocinética: ".$produtos->cubo_denteshomo." | ";
+		        	endif;
+		        	
+		        	//-Geração
+		        	if($produtos->cubo_geracao > 0):
+		        		$medida .= " Geração: ".$produtos->cubo_geracao."ª"." | ";
+		        	endif;
+		        	
+		        	//-Construção
+		        	if($produtos->cubo_construcao > 0):
+		        		$medida .= " Construção: "; if($produtos->cubo_construcao==1) $medida .= "Esfera"; else $medida .= "Roletes";
+		        		$medida .= " | ";
+		        	endif;
+		        	
+		        	//- Alt/Conj/Rolante:
+		        	if($produtos->cubo_altconjrolante > 0):
+		        		$medida .= " Alt/Conj/Rolante: ".number_format($produtos->cubo_altconjrolante,2,",","")." | ";
+		        	endif;
+		        	
+		        	//-  Tipo ABS
+		        	if($produtos->cubo_tipoabs > 0):
+		        		$medida .= " Tipo ABS: "; if($produtos->cubo_tipoabs==1) $medida .= "Magnético"; elseif($produtos->cubo_tipoabs==2) $medida .= "Cabo conector"; elseif($produtos->cubo_tipoabs==3) $medida .= "Coroa"; elseif($produtos->cubo_tipoabs==4) $medida .= "Sem ABS";
+		        		$medida .= " | ";
+		        	endif;
+		        	
+		        	//-  Altura coroa ABS
+		        	if($produtos->cubo_alturacoroaabs > 0):
+		        		$medida .= " Altura coroa ABS: ".number_format($produtos->cubo_alturacoroaabs,2,",","");
+		        		$medida .= " | ";
+		        	endif;
+		        	
+		        	//-  Dentes coroa ABS
+		        	if($produtos->cubo_dentescoroaabs > 0):
+		        		$medida .= " Dentes coroa ABS: ".$produtos->cubo_dentescoroaabs;
+		        		$medida .= " | ";
+		        	endif;
+		        	
+		        	//-- Qt furos
+		        	if($produtos->cubo_qtfuroparafuso > 0):
+		        		if($produtos->cubo_tipoparafuso == 1):
+		        	    	$medida .= " Qt furos: ".$produtos->cubo_qtfuroparafuso;
+		        		else:
+		        			$medida .= " Qt pafarusos: ".$produtos->cubo_qtfuroparafuso;
+		        		endif;
+		        		$medida .= " | ";
+		        	endif;
+		        	
+		        	echo substr($medida,0,-2);
+		        	
+		        	/* $arraymed = explode(" ", $medida);
+		        	
+		        	for($i=0;$i<count($arraymed);$i++):
+		        		
+		        	endfor; */
+		        	
+		        endif;
+		        
+		        ?>
+		        </td>
+		        </tr>
+		    </table>
+		    </td>    
+		  </tr>
+		  <?php 
+		  endif;
+		  endif;
+	  endforeach;
+  endforeach;
+  endif;
+  
+  if(empty($this->objProdutos)):
+  ?>
+  <tr>
+    <td style="background-image:url(<?=$this->baseUrl()?>/images/hotsites/catalogo/rodape.png); height:21px; background-color:#EDEDED;"></td>
+    <td style="background-color:#EDEDED;" colspan="3"></td>
+    <td style="background-image:url(<?=$this->baseUrl()?>/images/hotsites/catalogo/rodape2.png);background-color:#EDEDED;"></td>
+  </tr>
+  <?php else: ?>
+  <tr>
+    <td style="background-image:url(<?=$this->baseUrl()?>/images/hotsites/catalogo/rodape.png); height:21px; background-color:#FFF;"></td>
+    <td style="background-color:#FFF;" colspan="3"></td>
+    <td style="background-image:url(<?=$this->baseUrl()?>/images/hotsites/catalogo/rodape2.png);background-color:#FFF;"></td>
+  </tr>
+  <?php endif; ?>
+  <tr>
+    <td><img src="<?=$this->baseUrl()?>/images/hotsites/catalogo/rodape3.png" width="23" height="79" /></td>
+    <td style="background-image:url(<?=$this->baseUrl()?>/images/hotsites/catalogo/rodape5.jpg)"><img align="left"src="<?=$this->baseUrl()?>/images/hotsites/catalogo/rodape4.jpg" width="112" height="79" /></td>
+    <td style="background-image:url(<?=$this->baseUrl()?>/images/hotsites/catalogo/rodape5.jpg)" colspan="2"><img align="right" src="<?=$this->baseUrl()?>/images/hotsites/catalogo/rodape7.jpg" width="462" height="79" /></td>
+    <td><img src="<?=$this->baseUrl()?>/images/hotsites/catalogo/rodape8.png" width="25" height="79" /></td>
+  </tr>
+</table>
+</form>
+
+<!-- Pop-up -->
+
+<script type="text/javascript">
+var persistclose = 0
+var startX = 5
+var startY = 5
+var verticalpos = "frombottom"
+
+function selecionaTodos(){
+	
+	if(document.buscaprodutos.seleciona.checked == true){
+		for (var i = 0; i < document.buscaprodutos.elements.length; i++) {
+	        if (document.buscaprodutos.elements[i].type=="checkbox") {
+	            if((document.buscaprodutos.elements[i].name != "6000") && (document.buscaprodutos.elements[i].name != "seleciona") && (document.buscaprodutos.elements[i].name != "pesado")){
+	          		document.buscaprodutos.elements[i].checked = true;
+	            }
+	        }
+	  	}
+	}else{
+		for (var i = 0; i < document.buscaprodutos.elements.length; i++) {
+	        if (document.buscaprodutos.elements[i].type=="checkbox") {
+	            if((document.buscaprodutos.elements[i].name != "6000") && (document.buscaprodutos.elements[i].name != "seleciona") && (document.buscaprodutos.elements[i].name != "pesado")){
+	          		document.buscaprodutos.elements[i].checked = false;
+	            }
+	        }
+	  	}
+	}
+	
+}
+
+function iecompattest()
+{
+return (document.compatMode && document.compatMode!="BackCompat")? document.documentElement : document.body
+}
+
+function get_cookie(Name)
+{
+var search = Name + "="
+var returnvalue = "";
+if (document.cookie.length > 0)
+{
+offset = document.cookie.indexOf(search)
+if (offset != -1)
+{
+ offset += search.length
+ end = document.cookie.indexOf(";", offset);
+ if (end == -1) end = document.cookie.length;
+ returnvalue=unescape(document.cookie.substring(offset, end))
+}
+}
+return returnvalue;
+}
+
+function closebar()
+{
+if (persistclose)
+document.cookie="remainclosed=1"
+document.getElementById("topbar").style.visibility="hidden"
+}
+
+function staticbar()
+{
+barheight=document.getElementById("topbar").offsetHeight
+var ns = (navigator.appName.indexOf("Netscape") != -1) || window.opera;
+var d = document;
+function ml(id)
+{
+var el=d.getElementById(id);
+if (!persistclose || persistclose && get_cookie("remainclosed")=="")
+el.style.visibility="visible"
+if(d.layers)el.style=el;
+el.sP=function(x,y){this.style.right=x+"px";this.style.top=y+"px";};
+el.x = startX;
+if (verticalpos=="fromtop")
+ el.y = startY;
+else
+{
+ el.y = ns ? pageYOffset + innerHeight : iecompattest().scrollTop + iecompattest().clientHeight;
+ el.y -= startY;
+}
+return el;
+}
+
+window.stayTopLeft=function()
+{
+if (verticalpos=="fromtop")
+{
+ var pY = ns ? pageYOffset : iecompattest().scrollTop;
+ ftlObj.y += (pY + startY - ftlObj.y)/8;
+}
+else
+{
+ var pY = ns ? pageYOffset + innerHeight - barheight: iecompattest().scrollTop + iecompattest().clientHeight - barheight;
+ ftlObj.y += (pY - startY - ftlObj.y)/8;
+}
+ftlObj.sP(ftlObj.x, ftlObj.y);
+setTimeout("stayTopLeft()", 10);
+}
+ftlObj = ml("topbar");
+stayTopLeft();
+}
+
+if (window.addEventListener)
+	window.addEventListener("load", staticbar, false)
+else if (window.attachEvent)
+	window.attachEvent("onload", staticbar)
+else if (document.getElementById)
+	window.onload=staticbar
+</script>
+<div id="topbar" style="cursor: hand; cursor: pointer;" onclick="document.buscaprodutos.action='<?=$this->baseUrl()?>/admin/venda/listadeprecoexp/exportar/1'; document.buscaprodutos.submit();">
+	<div style="float: left; padding-left: 3px; ">
+	<input type="image" name="gerarexcel" src="<?=$this->baseUrl()?>/images/excel_32.png" style="border: 0px"/>
+ 	</div>
+ 	<div style="font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-size:13px; padding-left: 5px">
+ 	Gerar <br />
+ 	Excel
+ 	</div>
+</div>
+
+</body>
+</html>

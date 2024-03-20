@@ -1,0 +1,107 @@
+<!-- Calendarios -->
+<link type="text/css" rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.css?random=20051112" media="screen"></LINK>
+<SCRIPT type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.js?random=20060118"></script>
+
+<table width="100%" cellpadding="0" cellspacing="0" >
+	<tr>
+		<td align="left">				
+		<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 5px" >
+			<tr>
+				<td align="left">
+					<a href="<?php echo $this->baseUrl(); ?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+					<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+					<a href="<?php echo $this->baseUrl(); ?>/admin/outros/cartoescontato">
+					<?=$this->translate->_("CONTATOS")?>&nbsp; 
+					</a>
+					<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+					<a href="<?php echo $this->baseUrl(); ?>/admin/outros/cartoesgrupos">
+					<b><?=$this->translate->_("GRUPOS");?></b></a>
+				</td>
+				
+			</tr>
+		</table>
+ 		</td>
+	</tr>
+	<tr>
+		<td>
+			<table width="100%" class="borda_titulo" >
+				<tr>
+			    	<td width="left"><?=$this->translate->_("GRUPOS")?></td>
+			    </tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<table width="100%" cellspacing="0" cellpadding="0" style="margin-top: 6px">
+				<tr>
+					<td >
+						<?php if($this->objIns==1):?>
+						<form action="<?php echo $this->baseUrl(); ?>/admin/outros/cadcartoesgrupos" method="post" name="grupo" id="grupo">
+							<input type="hidden" name="idgrupo" >
+							<table width="100%" border="0" style="margin-bottom: 8px; display: block; border: 1px solid #000; padding: 4px; " id="tabela">
+							    <tr>
+							    	<td align="left" >
+							    		<?=$this->translate->_("GRUPO")?>:<br>							 
+							    		<input type="text" style="text-transform: uppercase;" size="25" name="nome" id="nome" >
+							    		<input type="submit" value="<?=$this->translate->_("Salvar")?>" >
+							    	</td>
+								</tr>
+							</table>  
+						</form>
+						<?php endif;?>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+					<?php 
+					
+					if(count($this->objGrupos)>0):
+					?>
+						<table class="mytable" width="100%" cellspacing="0" cellpadding="0">	
+							<tr>
+								<th class="th_canto_min"><?=$this->translate->_("ORD")?></th>
+								<th class="th_orc_min"><?=$this->translate->_("GRUPOS")?></th>
+								<?php if($this->objIns==1):?>
+								<th class="th_orc_min" width="10%">&nbsp;</th>
+								<?php endif;?>
+							</tr>
+						
+							<?php 
+							$cont=0;
+							foreach ($this->objGrupos as $listplan):
+								$cont++;
+								?>
+								<tr>
+									<td class="td_orc_min" align="center">
+										<?=substr("000".$listplan->id,-3)?>
+									</td>
+									<td class="td_orc_min" align="left">
+										<?=$listplan->nome?>
+									</td>
+									<?php if($this->objIns==1):?>
+									<td class="td_orc_min" align="center">
+										<a href="#" onclick="document.grupo.nome.value='<?=$listplan->nome?>'; document.grupo.idgrupo.value='<?=$listplan->id?>';"><img src="<?=$this->baseUrl()?>/images/edit_orc.gif" width="14" height="14" border="0" title="Editar"></a> &nbsp; 
+										<?php if($this->objEdi==1):?>
+										<a href="<?=$this->baseUrl()?>/admin/outros/remcartoesgrupos/idgrupo/<?=md5($listplan->id)?>"><img src="<?php echo $this->baseUrl(); ?>/images/window-close.png" width="14" height="14" border="0" title="Remover"></a>
+										<?php endif;?>
+									</td>
+									<?php endif;?>
+								</tr>
+								<?php								
+							endforeach;
+						
+						?>
+						</table>
+						
+					<?php 
+					else:
+						echo "<p align='center'>Nenhum grupo cadastrado!</p>";
+					endif;
+					?>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>

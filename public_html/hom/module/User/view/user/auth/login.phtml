@@ -1,0 +1,46 @@
+<h1>Login</h1>
+
+<?php 
+if($messageError){
+    echo $messageError;
+}
+?>
+
+<?php
+
+$email = $form->get('email');
+$email->setAttribute('class','form-control');
+$email->setLabelAttributes(['class' => 'control-label']);
+
+$senha = $form->get('senha');
+$senha->setAttribute('class','form-control');
+$senha->setLabelAttributes(['class' => 'control-label']);
+
+$submit = $form->get('submit');
+$submit->setAttribute('class','btn btn-primary');
+
+$form->setAttribute('action', $this->url('login'));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+?>
+
+<?php $message = $this->formElementErrors($email, ['class' => 'help-block']);?>
+
+<div class="form-group <?php echo $message ? 'has-error' : ''?>" >
+    <?=$this->formLabel($email);?>
+    <?=$this->formElement($email);?>
+    <?=$message?>    
+</div>
+
+<?php $message = $this->formElementErrors($senha, ['class' => 'help-block']);?>
+<div class="form-group <?php echo $message ? 'has-error' : ''?>" >
+    <?=$this->formLabel($senha);?>
+    <?=$this->formElement($senha);?>
+    <?=$message?>
+</div>
+
+<?php
+echo $this->formSubmit($submit);
+echo $this->form()->closeTag();
+?>

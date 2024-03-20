@@ -1,0 +1,436 @@
+<script src="<?=$this->baseUrl()?>/public/sistema/js/jquery.md5.min.js"></script>
+<script src="<?=$this->baseUrl()?>/public/sistema/js/nfe/nfeavulsa.js"></script>
+
+<?php 
+	if(!empty($this->objCliente)):
+		foreach ($this->objCliente as $parceiro);
+	endif;
+	
+?>
+
+<!-- Content -->
+    <div class="content">  
+
+    <!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoquegrupo/fil/comp">Estoque</a></li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/nfe/nfe">NF-e</a></li>
+                	<li ><a href="<?=$this->baseUrl()?>/admin/nfe/nfeavulsas">NF-e Avulsas</a></li>
+                	<li >
+                	<?php if($parceiro->movestoque == 1):?>
+					<a href="<?=$this->baseUrl()?>/admin/nfe/nfenovaprodout/nfe/<?=md5($parceiro->id)?>">Produtos da NF-e Avulsa</a>
+					<?php else: ?>
+					<a href="<?=$this->baseUrl()?>/admin/nfe/nfenovaprod/nfe/<?=md5($parceiro->id)?>">Produtos da NF-e Avulsa</a>
+					<?php endif; ?>
+					</li>         
+                	<li class="lastB">Detalhes</li>
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Nova NF-e</h5></div>
+
+      	<form name="prepedido" id="prepedido" action="" method="post" class="mainForm">
+        <input type="hidden" name="nfetmp" value="<?=$parceiro->id?>">
+	        <div class="widget first" >
+	        	<div class="head" style="margin-top: -10px"><h5 class="iUser">Informações do cliente</h5></div>
+	        	<div class="body">
+			        <table class="borda" style="width: 100%; border-spacing: 7px ">
+			            <tr>
+			                <td width="12%">Cliente:</td>
+			                <td colspan="3"><b><?=$parceiro->empresa?></b></td>                
+			            </tr>
+			            <tr>
+			                <td>CPF/CNPJ:</td>
+			                <td width="35%"><b><?=$parceiro->cnpj?></b></td>
+			                <td width="12%">RG/INSC:</td>
+			                <td ><b><?=$parceiro->inscricao?></b></td>
+			            </tr>
+			            <tr>
+			                <td>Cidade:</td>
+			                <td><b><?=$parceiro->cidade?></b></td>
+			                <td>Estado:</td>
+			                <td ><b><?=$parceiro->uf?></b></td>
+			            </tr>
+			            <tr>
+			            	<td>Pais:</td>
+			                <td ><b>Brasil</b></td>
+			                <td>Transportadora:</td>
+			                <td ><b>
+			                <?=$parceiro->transportadora?>
+			                </b></td>
+			            </tr>
+			            <tr>
+			            	<td style="vertical-align: top;">Nat Op:</td>
+			                <td colspan="3">
+			                <div class="styled-select" style="width: 350px">
+			                <select name="cfop" style="width: 375px" onchange="submit();">
+				    			<?php foreach ($this->objCfop as $cfop): ?>
+				    			<option value="<?=$cfop->id?>" <? if($parceiro->cfop == $cfop->cfop) echo 'selected="selected"'; ?>><?=$cfop->cfop." - ".$cfop->descricao?></option>
+				    			<?php endforeach; ?>
+				    		</select>			                 
+				    		</div>               
+			            </tr>
+			            <tr>
+			                <td>Email NFe:</td>
+			                <td><b><?=$parceiro->email?></b></td>
+			                <td>Contato NFe:</td>
+			                <td><b><?=$parceiro->contato?></b></td>
+			            </tr>
+			        </table>
+        		</div>
+        	</div>
+        	
+        	<div class="widget" >
+				<div class="head" style="border-bottom: 0px"><h5 class="iFrames">Produtos</h5></div>
+	        	<table class="tableStatic">
+	            	<thead>
+	                	<tr>
+	                        <td width="15%">Código</td>
+	                        <td width="5%">QT</td>
+	                        <td width="">Preço</td>
+	                        <td width="">Preço Total</td>
+	                        <td width="">II</td>
+	                        <td width="">ICMS</td>
+	                        <td width="">ICMSST</td>
+	                        <td width="">IPI</td>
+	                        <td width="">PIS</td>
+	                        <td width="">COFINS</td>
+	                        <td width="">AL II</td>
+	                        <td width="">AL ICMS</td>
+	                        <td width="">AL IPI</td>
+	                        <td width="">AL PIS</td>
+	                        <td width="">AL COFINS</td>
+	                    </tr>
+	                </thead>
+	                <tbody>
+		            <?php 
+			       		        
+			        $cor=0; $ipi = 0;
+			        $total_pedido = $bipi = $bicms = $bst = $vlipi = $vicms = $vst = 0;
+			        foreach ($this->objList as $listaProd):
+			        	$cor++;
+			            
+				        ?>
+				        <tr >
+				        	<td  style="text-align: center;" >
+			                    <a href="javascript:void(0);" class="dcontexto" >
+			                		<?=$listaProd->codigo?>
+			                    	<span style="width: 300px"><?=($listaProd->descricao)?> - <?=$listaProd->ncm?></span>		                    
+			                	</a>
+			                </td>
+			                <td  style="text-align: center;" >
+			                	<?=$listaProd->qt?>
+			                </td>		               
+			                <td  style="text-align: right;">
+			                    <?=number_format($listaProd->preco,2,',','.')?>
+			                </td>
+			                <td  style="text-align: right;">
+			                    <b><?=number_format(($listaProd->qt*$listaProd->preco),2,',','.')?></b>
+			                </td>
+			                <td style="text-align: center;" >
+				            	<input value="<?=number_format($listaProd->baseii,2,",",".")?>" type="text" size="2" name="baseprodii_<?=$listaProd->idnfeprod?>"  style="width: 30px" class="moeda">
+				            	<input value="<?=number_format($listaProd->vlii,2,",",".")?>" type="text" size="2" name="prodii_<?=$listaProd->idnfeprod?>"  style="width: 30px" class="moeda">
+				            </td>
+				            <td style="text-align: center;" >
+				            	<input value="<?=number_format($listaProd->baseicms,2,",",".")?>" type="text" size="2" name="baseprodicms_<?=$listaProd->idnfeprod?>"  style="width: 30px" class="moeda"> 
+				            	<input value="<?=number_format($listaProd->vlicms,2,",",".")?>" type="text" size="2" name="prodicms_<?=$listaProd->idnfeprod?>"  style="width: 30px" class="moeda">
+				            </td>
+				            <td style="text-align: center;" >
+				            	<input value="<?=number_format($listaProd->basest,2,",",".")?>" type="text" size="2" name="baseprodicmsst_<?=$listaProd->idnfeprod?>"  style="width: 30px" class="moeda"> 
+				            	<input value="<?=number_format($listaProd->vlicmsst,2,",",".")?>" type="text" size="2" name="prodicmsst_<?=$listaProd->idnfeprod?>"  style="width: 30px" class="moeda">
+				            </td>
+				            <td style="text-align: center;" >
+				            	<input value="<?=number_format($listaProd->vlipi,2,",",".")?>" type="text" size="2" name="prodipi_<?=$listaProd->idnfeprod?>"  style="width: 30px" class="moeda"> 
+				            </td>
+				            <td style="text-align: center;" >
+				            	<input value="<?=number_format($listaProd->vlpis,2,",",".")?>" type="text" size="2" name="prodpis_<?=$listaProd->idnfeprod?>"  style="width: 30px" class="moeda"> 
+				            </td>
+				            <td style="text-align: center;" >
+				            	<input value="<?=number_format($listaProd->vlcofins,2,",",".")?>" type="text" size="2" name="prodcofins_<?=$listaProd->idnfeprod?>"  style="width: 30px" class="moeda">  
+				            </td>
+				            <td style="text-align: center;" >
+				            	<input value="<?=number_format($listaProd->alii,2,",",".")?>" type="text" size="2" name="alii_<?=$listaProd->idnfeprod?>"  style="width: 30px" class="moeda"> 
+				            </td>
+				            <td style="text-align: center; width: 13%" >
+				            	<input value="<?=number_format($listaProd->alicms,2,",",".")?>" type="text" size="2" name="alicms_<?=$listaProd->idnfeprod?>"  style="width: 30px" class="moeda"><br />
+				            	<div class="styled-select" style="width: 45px">
+				            	<select name="origem_<?=$listaProd->idnfeprod?>" style="width: 67px">
+				            		<option <?php if($listaProd->origem == 0) echo 'selected="selected"';?> >0</option>
+				            		<option <?php if($listaProd->origem == 1) echo 'selected="selected"';?> >1</option>
+				            		<option <?php if($listaProd->origem == 2) echo 'selected="selected"';?> >2</option>
+				            	</select>
+				            	</div>
+				            	<div class="styled-select" style="width: 45px">
+				            	<select name="csticms_<?=$listaProd->idnfeprod?>" style="width: 67px">
+				            		<?php foreach ($this->objCsticsm as $icms):?>
+				            		<option  <?php if($listaProd->csticms == $icms->csticms) echo 'selected="selected"';?> ><?=$icms->csticms?></option>
+				            		<?php endforeach; ?>
+				            	</select> 
+				            	</div>
+				            </td>
+				            <td style="text-align: center;" >
+				            	<input value="<?=number_format($listaProd->alipi,2,",",".")?>" type="text" size="2" name="alipi_<?=$listaProd->idnfeprod?>"  style="width: 30px" class="moeda">
+				            	<div class="styled-select" style="width: 45px">
+				            	<select name="cstipi_<?=$listaProd->idnfeprod?>" style="width: 67px">
+				            		<?php foreach ($this->objCstiipi as $ipi):?>
+				            		<option <?php if($listaProd->cstipi == $ipi->cstipi) echo 'selected="selected"';?> value="<?=$ipi->id?>"><?=$ipi->cstipi?></option>
+				            		<?php endforeach; ?>
+				            	</select> 
+				            	</div>
+				            </td>
+				            <td style="text-align: center;" >
+				            	<input value="<?=number_format($listaProd->alpis,2,",",".")?>" type="text" size="2" name="alpis_<?=$listaProd->idnfeprod?>"  style="width: 30px" class="moeda">
+				            	<div class="styled-select" style="width: 45px">
+				            	<select name="cstpis_<?=$listaProd->idnfeprod?>" style="width: 67px">
+				            		<?php foreach ($this->objCstpis as $pis):?>
+				            		<option <?php if($listaProd->cstpis == $pis->cstpis) echo 'selected="selected"';?> value="<?=$pis->id?>"><?=$pis->cstpis?></option>
+				            		<?php endforeach; ?>
+				            	</select> 
+				            	</div>
+				            </td>
+				            <td style="text-align: center;" >
+				            	<input value="<?=number_format($listaProd->alcofins,2,",",".")?>" type="text" size="2" name="alcofins_<?=$listaProd->idnfeprod?>"  style="width: 30px" class="moeda">
+				            	<div class="styled-select" style="width: 45px">
+				            	<select name="cstcofins_<?=$listaProd->idnfeprod?>" style="width: 67px">
+				            		<?php foreach ($this->objCstcofins as $cofins):?>
+				            		<option <?php if($listaProd->cstcofins == $cofins->cstcofins) echo 'selected="selected"';?> value="<?=$cofins->id?>"><?=$cofins->cstcofins?></option>
+				            		<?php endforeach; ?>
+				            	</select> 
+				            	</div>
+				            </td>		                
+			            </tr>
+			        <?php
+			        
+			        $total_pedido 	+= $listaProd->preco*$listaProd->qt;
+			        $bipi		 	+= (!empty($listaProd->preco_unit)) ? (($listaProd->qt*$listaProd->preco_unit)*$listaProd->ipi)/100 : 0;
+			        $bicms 			+= $listaProd->baseicms;
+			        $bst			+= $listaProd->basest;
+			        $vlipi			+= $listaProd->vlipi;
+			        $vicms			+= $listaProd->vlicms;
+			        $vst			+= $listaProd->vlicmsst;
+			        			        
+		        endforeach;
+		        		        
+			    $vltotalnota	= $total_pedido;
+			        
+		        ?>
+		        
+		        </tbody>
+		       </table>
+		  </div>
+		 
+		 <div class="widget">
+ 			<div class="head" ><h5 class="iView">Informações adicionais</h5></div>
+        	<div class="body">
+            	<table style="width: 100%; border-spacing: 7px ">
+	            	<tr>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			              Frete:<br>
+                    	  <input type="text" size="12" name="frete" value="<? if(!empty($parceiro->frete)) echo number_format($parceiro->frete,2,',','.')?>"  style="width: 70px" class="moeda"> 
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			              Seguro:<br>
+                    	  <input type="text" size="12" name="seguro" value="<? if(!empty($parceiro->seguro)) echo number_format($parceiro->seguro,2,',','.')?>"  style="width: 70px" class="moeda"> 
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			              Desconto:<br>
+                    	  R$ <input type="text" size="10" name="desconto" value="<? if(!empty($parceiro->desconto)) echo number_format($parceiro->desconto,2,',','.')?>"  style="width: 50px" class="moeda">
+                    	  <input type="text" size="7" name="descontoperc" value="<? if(!empty($parceiro->descontoperc)) echo number_format($parceiro->descontoperc,2,',','.')?>"  style="width: 30px" class="moeda"> %
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			              &nbsp;
+			            </td>
+			    	</tr>
+		            <tr>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               Base do calculo ICMS:<br>
+                    	   <span style="font-size:14px; font-weight:bold;">
+	                    	   	<?=number_format($bicms,2,',','.')?>
+                    	   </span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               	Base do calculo ICMS S.T.:<br>
+                    	   	<span style="font-size:14px; font-weight:bold;">
+                    	   		<?=number_format($bst,2,',','.')?>
+                    	   	</span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               Valor total do IPI:<br>
+                    	   <span style="font-size:14px; font-weight:bold;">
+                    	        <?=number_format($vlipi,2,',','.')?>     
+                    	   </span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			              Valor Total dos produtos:<br>
+                    	  <span style="font-size:14px; font-weight:bold; "><?=number_format($total_pedido,2,',','.')?></span>
+			            </td>
+			    	</tr>
+				    <tr >
+			    		<td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               Valor ICMS:<br>
+                    	   <span style="font-size:14px; font-weight:bold;">
+                    	   		<?=number_format($vicms,2,',','.')?>					                    
+                    	   </span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               Valor ICMS S.T.:<br>
+                    	   <span style="font-size:14px; font-weight:bold;">
+                    	   		<?=number_format($vst,2,',','.')?>
+                    	   </span>
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			               Outras despesas:<br>
+                    	   <input type="text" value="<?=number_format($parceiro->outrasdesp,2,",",".")?>" size="8" name="outdespesas"  style="width: 70px" class="moeda">
+			            </td>
+			            <td   align="left"  valign="middle" style="padding-top: 5px; padding-bottom: 5px" >
+			              Valor Total da nota:<br>
+                    	  <span style="font-size:14px; font-weight:bold; color:#0010e1;">
+                    	  <?
+                    	  $vltotalnota += $vst + $vlipi;
+                    	  $vlt = ($parceiro->frete + $vltotalnota + $parceiro->outrasdesp + $parceiro->seguro) - $parceiro->desconto ;
+                    	  echo number_format($vlt,2,',','.')?>
+                    	  </span>		                    	  
+			            </td>
+		            </tr>
+		         
+	       		</table>  
+		         
+		         
+		         <?php $valida = "";?>
+		         
+	            <table  style="width: 100%" >
+		            <tr>
+			            <td style="width: 450px;">
+			            	<span style="font-weight: bold;">Transporte:</span><br />
+			            	<table>
+			            		<tr>
+			            			<td>Qt pacotes:</td>
+			            			<td >
+				            			<input type="text" value="<?=$parceiro->quantidade?>" name="qtpacote" size="2" style="width: 40px" class="inteiro">
+				            		</td>
+				            		<td>
+				            			<div class="styled-select" style="width: 90px">
+				            			<select name="especie" id="especie" style="width: 112px">
+						            		<option <? if($parceiro->especie=='CAIXAS') echo 'selected="selected"';?> >CAIXAS</option>
+						            		<option <? if($parceiro->especie=='ROLOS') echo 'selected="selected"';?> >PALLETS</option>
+						            	</select>
+						            	</div>
+						            	<?php if(empty($parceiro->quantidade)) $valida .= "- Digite a quantidade de pacotes; <br />"; ?>
+			            			</td>
+			            		</tr>
+			            		<tr>
+			            			<td>Por conta:</td>
+			            			<td colspan="2">
+			            				<div class="styled-select" style="width: 110px">
+			            				<select name="tipofrete" id="tipofrete" style="width: 132px">
+						            		<option value="0" <? if($parceiro->tipofrete=='EMITENTE') echo 'selected="selected"';?> >EMITENTE</option>
+						            		<option value="1" <? if($parceiro->tipofrete=='DESTINATÁRIO') echo 'selected="selected"';?> >DESTINATÁRIO</option>
+						            	</select>
+						            	</div>
+						            </td>
+			            		</tr>
+			            		<tr>
+			            			<td>Peso Bruto:</td>
+			            			<td colspan="2">
+			            				<input type="text" value="<?=number_format($parceiro->pesobruto,3,",",".")?>" name="pesobruto" size="6" style="width: 70px" class="moedacinco">
+			            				<?php if(empty($parceiro->pesobruto)) $valida .= "- Digite o peso bruto; <br />"; ?>
+			            			</td>
+			            		</tr>
+			            		<tr>
+			            			<td>Peso Líquido:</td>
+			            			<td colspan="2">
+			            				<input type="text" value="<?=number_format($parceiro->pesoliquido,3,",",".")?>" size="8" name="pesoliquido"  style="width: 70px" class="moedacinco">
+			            				<?php if(empty($parceiro->pesoliquido)) $valida .= "- Digite o peso líquido; <br />"; ?>
+			            			</td>
+			            		</tr>
+			            		<tr>
+			            			<td>Placa/UF:</td>
+			            			<td>
+			            				<input type="text" name="placa" value="<?=strtoupper($parceiro->transplaca)?>" size="6" maxlength="7" style="width: 70px">
+			            			</td>
+			            			<td>
+			            				<div class="styled-select" style="width: 60px">
+			            				<select name="ufplaca" id="ufplaca" style="width: 82px">
+			            				<?php foreach ($this->objUf as $uf): ?>
+						            		<option <? if($parceiro->transufplaca==$uf->uf) echo 'selected="selected"';?> ><?=$uf->uf?></option>
+						            	<?php endforeach;?>
+						            	</select>
+						            	</div>
+			            			</td>
+			            		</tr>
+			            		<tr>
+			            			<td>ANTT:</td>
+			            			<td colspan="2"><input type="text" value="<?=$parceiro->transantt?>"  name="antt" size="6" ></td>
+			            		</tr>
+			            	</table>					            	
+			            </td>
+			            <td style="vertical-align: top;">
+			            	
+		                    					                
+			            </td>	
+			    	</tr>
+				    <tr>
+				    	<td>
+				    		<br />Observa&ccedil;&otilde;es<br>
+			                <textarea name="obsnfe" id="obsnfe" tabindex="412" cols="50" rows="2" style="width: 400px" ><? if(!empty($parceiro->obs)) echo $parceiro->obs; ?></textarea>
+			            </td>
+			        </tr>
+	       		</table>  
+			</div>
+		</div>       	
+		
+		<div style="margin-top: 10px">
+        	<input type="button" value="Salvar" onclick="gravaDados();" class="basicBtn">
+            <input <?php if($valida!=""): ?> disabled="disabled" class="greenBtn itemDisabled" <?php else: ?>class="greenBtn"<?php  endif; ?> type="button" name="gerarNfe" id="gerarNfe" value="Gerar NFe" >				            
+            <br />
+            <div id="textovalida" style="color: red; font-style: italic; margin-top: 10px"><?=$valida?></div>
+		</div>
+    	</form>
+    	
+    	<div id="divnfe" class="widget" style="border: 1px solid #d5d5d5; padding: 10px; display: none">
+	      	<div id="divbarra" >
+			   <div id="barraprogresso"></div>
+			</div>
+			
+			<div class="widgets">
+	            <div id="resultadoprogresso" style="font-style: italic; width: 45%" class="left">
+					Salvando dados...
+				</div>
+				<div id="etapaprogresso" class="right" style="width: 45%; text-align: right;">
+					1/10
+				</div>			
+			</div>
+			<div class="fix"></div>
+	   	</div>
+    	
+    	
+	</div>	
+
+	
+
+
+ <script type="text/javascript">
+ 	$(document).ready(function(){
+		$("#gerarNfe").live('click', function(){ confirmaFaturamento(); });
+
+	});
+	    
+	function confirmaFaturamento(){ 
+		
+		jConfirm('Não será possivel edição após a NF-e gerada.', 'Confirme', function(r) {
+			if(r==true){
+				document.getElementById('divnfe').style.display = "block";
+				$("#resultadoprogresso").css({color:'#000'}).html("Salvando dados da NF-e...");
+				gerarNfe('<?php echo md5($parceiro->id)?>');
+			}
+		});
+	}
+ 
+	function gravaDados(){
+		document.prepedido.submit();			
+	}		 
+</script>

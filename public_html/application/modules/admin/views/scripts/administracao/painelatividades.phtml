@@ -1,0 +1,66 @@
+<?php
+$usuario 	= Zend_Auth::getInstance()->getIdentity();
+?>
+
+<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/administracaoAtividades.js"></script>
+
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li class="lastB">Atividades</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Atividades</h5></div>
+
+        <div class="widgets">
+	        <div class="left" style="width: 85%; margin-top: -10px">
+		        <div class="stats">
+		        	<ul>
+		            	<li style="width: 20%"><a href="<?php echo $this->baseUrl(); ?>/admin/administracao/redlistaatividades/tppesq/1" class="count grey" title="" id="qtativpend" target="_blank">0</a><span style="font-size: 12px">Atividades pendentes</span></li>
+		                <li style="width: 20%"><a href="<?php echo $this->baseUrl(); ?>/admin/administracao/redlistaatividades/tppesq/0" class="count grey" title="" id="qtsolipend" target="_blank">0</a><span style="font-size: 12px">Solicitações pendentes</span></li>
+		            </ul>
+		            <div class="fix"></div>
+		        </div>
+	        </div>
+	        <div class="right" style="width: 10%; text-align: right; font-weight: bold; padding: 10px 0px 10px 0px">
+		        <a href="javascript:void(0)" id="btnlegenda">Legenda</a>
+	        </div>
+        </div>
+        
+        <div class="fix"></div>
+        
+        <div class="right" id="divlegenda" style="display: none; border: 1px solid #d5d5d5; padding: 10px; margin-top: 10px">
+	        <div class="stats" style="margin-top: 0px">
+	            <ul>
+		        	<li style="width: 30%"><a href="#" class="count" style="height: 20px; background-color: #00D0FF;" title=""></a><span style="font-size: 12px">Solicitação aberta</span></li>
+		        	<li style="width: 30%"><a href="#" class="count" style="height: 20px; background-color: #00A4C9;" title=""></a><span style="font-size: 12px">Solicitação em execução</span></li>
+		        	<li style="width: 30%"><a href="#" class="count" style="height: 20px; background-color: #007A96;" title=""></a><span style="font-size: 12px">Solicitação concluída</span></li>
+	            </ul>
+	            <div class="fix" ></div>
+	            <ul>
+	            	<li style="width: 30%; margin-top: 10px"><a href="#" class="count" style="height: 20px; background-color: #45E800;" title=""></a><span style="font-size: 12px">Atividade aberta</span></li>
+	            	<li style="width: 30%; margin-top: 10px"><a href="#" class="count" style="height: 20px; background-color: #32A800;" title=""></a><span style="font-size: 12px">Atividade em execução</span></li>
+	            	<li style="width: 30%; margin-top: 10px"><a href="#" class="count" style="height: 20px; background-color: #007F1B;" title=""></a><span style="font-size: 12px">Atividade concluída</span></li>
+	            </ul>
+	            <div class="fix"></div>
+	            <ul>
+	            	<li style="width: 30%; margin-top: 10px"><a href="#" class="count" style="height: 20px; background-color: #FF803E;" title=""></a><span style="font-size: 12px">Não lidas</span></li>
+	            </ul>
+	            <div class="fix"></div>
+	        </div>
+	    </div>
+                
+        <div class="widget">
+            <div class="head"><h5 class="iDayCalendar">Calendário de atividades</h5></div>
+            <div id="calendar"></div>
+        </div>
+        
+    </div>
+        

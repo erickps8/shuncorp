@@ -1,0 +1,980 @@
+<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/galeria/js/jquery.lightbox-0.5.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/public/javascript/galeria/css/jquery.lightbox-0.5.css" media="screen" />
+  <script type="text/javascript">
+    $(function() {
+        $('#gallery a').lightBox();
+        $('#gallery2 a').lightBox();
+    });
+    </script>      
+ 
+<!-- Content -->
+	<div class="content">   
+
+	<?php if(!empty($this->objProd)) foreach ($this->objProd as $prod); ?>
+	
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/cadastro/produtos/fil/comp">Produtos</a></li>
+                	<li class="lastB">Cadastro de produtos</li>         
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5>Produto<?php echo " ".$prod->CODIGO?></h5></div> 
+ 
+	
+		
+       <form action="<?php echo $this->baseUrl(); ?>/admin/cadastro/produtoscad" method="post" name="cad_prod" id="cad_prod" enctype="multipart/form-data" onsubmit="return validaformproduto();" >
+       <input type="hidden" name="id_produto" value="<?php echo $prod->ID?>">
+       
+       <div class="widget">       
+        	<ul class="tabs">
+        	<?php if($this->objPri==1): ?>
+            	<li><a href="#tab1">Principal</a></li>
+             <?php endif; if($this->objVen==1): ?>
+                <li><a href="#tab2">Venda</a></li>
+            <?php endif; if($this->objCom==1): ?>
+                <li><a href="#tab3">Compra</a></li>
+            <?php endif; if($this->objTec==1): ?>   
+                <li><a href="#tab4">Técnico</a></li>
+            <?php endif; ?>                
+            </ul>
+                    
+            <div class="tab_container">
+            	<?php if($this->objPri==1): ?> 
+            	<div id="tab1" class="tab_content">
+                    <table width="100%" cellpadding="0" cellspacing="5">
+		              	<tr>
+		              		<td align="left">
+		              			<table cellpadding="0" cellspacing="3">
+		              				<tr>
+					              		<td align="left" width="150">
+					              			<?=$this->translate->_("Código do produto")?>:<br>
+					              			<b><?=$prod->CODIGO?></b>
+					              		</td>
+					              		<td align="left" width="150" >
+					              			<?=$this->translate->_("Máscara")?>:<br>
+					              			<b><?=$prod->codigo_mask?></b>
+					              		</td>
+					              		<td align="left" width="150">
+					              			<?=$this->translate->_("Código EAN")?>:<br>
+					              			<b><?=$prod->codigo_ean?></b>
+					              		</td>
+					              	</tr>
+					              	<tr>
+					              		<td align="left" width="150">
+					              			<?=$this->translate->_("Cl Fiscal")?>:<br>
+					              			<b>
+					              				<?php 
+												foreach ($this->objNcm as $listncm):
+													if($listncm->id == $prod->id_ncm): 
+														echo $listncm->ncm." ".$listncm->ncmex;
+													endif;
+												endforeach; ?>
+											</b>
+					              		</td>
+					              		<td align="left" width="150" >
+					              			<?=$this->translate->_("Peso")?>:<br>
+					              			<b><?=$prod->PESO?></b> Kg
+					              		</td>
+					              		<td align="left" width="150">
+					              			&nbsp;
+					              		</td>
+					              	</tr>
+		              			</table>
+		              		</td>
+		              	</tr>
+		              	<tr>
+		              		<td align="left">
+		              			<table width="100%">
+			              			<tr>
+					              		<td align="left" valign="bottom" width="150">
+					              		<?=$this->translate->_("Grupo")?>: <br><b>
+				              				<?php
+				              				if(!empty($prod->id_gruposprodsub)): 
+												foreach ($this->objSubg as $listsubg);
+												foreach ($this->objGrupo as $list): 
+													if($listsubg->id_gruposprod == $list->id) echo strtoupper($list->descricao);
+												endforeach; 
+											endif;	
+											?>
+										</b>
+										</td>
+					              		<td align="left" valign="bottom">
+												<?php if(!empty($prod->id_gruposprodsub)):?>
+												<?=$this->translate->_("Subgrupo")?>: <br><b>
+													<?php foreach ($this->objSubgp as $list): ?>
+														<?php if($prod->id_gruposprodsub == $list->id)  echo $list->descricao;
+													endforeach; ?>
+												<?php endif;?>
+												&nbsp;
+											</b>
+										</td>
+			              			</tr>
+		              			</table>
+		              		</td>
+		              	</tr>
+		              	<tr>
+		              		<td align="left">
+		              			<table width="100%">
+			              			<tr>
+					              		<td align="left"><?=$this->translate->_("Tipo")?>:<br><b>
+					              			<?php if($prod->COMPONENTE == 0) echo $this->translate->_("Produto")?>  
+					              			<?php if($prod->COMPONENTE == 1) echo $this->translate->_("Componente")?> 
+					              			<?php if($prod->COMPONENTE == 2) echo $this->translate->_("Molde")?> 
+					              			<?php if($prod->COMPONENTE == 3) echo $this->translate->_("Caixa")?>  
+					              			<?php if($prod->COMPONENTE == 4) echo $this->translate->_("Etiqueta")?> 
+					              			</b>
+					              		</td>
+			              			</tr>
+		              			</table>
+		              		</td>
+		              	</tr>
+		              	<tr>
+		              		<td align="left">
+		              			<table width="100%">
+			              			<tr>
+					              		<td align="left">
+					              		<?=$this->translate->_("Descrição")?>: <br>
+				              			<b><?=stripcslashes($prod->DESCRICAO)?></b>
+					              		</td>
+					              		<td align="left" >
+										<?=$this->translate->_("Detalhes do produto")?>: <br>
+				              			<b><?=stripcslashes($prod->APLICACAO)?></b>
+										</td>
+			              			</tr>
+		              			</table>
+		              		</td>
+		              	</tr>
+		              	<tr>
+		              		<td align="left">
+		              			
+		              			<table width="100%">
+			              			<tr>
+					              		<td align="left" valign="top" width="25%">
+						              		<? if(file_exists(BaseImg."imgprodutos/".$prod->ID."/imagem1.jpg")):		?>
+						              		<?=$this->translate->_("Imagem")?> 1 (jpg): <br>
+					              			<div id="gallery" > 
+						              			<a href="<?=$this->baseUrl()?>/images/imgprodutos/<?=$prod->ID?>/imagem1.jpg" title="Imagem 1">
+							       					<img style="padding: 2px; border: 1px solid #000;" width="100"  height="100" src="<?=$this->baseUrl()?>/images/imgprodutos/<?=$prod->ID?>/imagem1.jpg">
+							       				</a>
+						       				</div> 
+						       				<?php endif; ?>
+				              			</td>
+				              			
+				              			<td align="left" valign="top">
+										
+				              			<?	if(file_exists(BaseImg."imgprodutos/".$prod->ID."/imagem1_".$prod->ID.".jpg")){		?>
+				              			<?=$this->translate->_("Imagem")?> 2 (jpg): <br>
+				              			<div id="gallery2" >
+				              				<a href="<?=$this->baseUrl()?>/images/imgprodutos/<?=$prod->ID?>/imagem1_<?=$prod->ID?>.jpg" title="Imagem 2">
+					       						<img style="padding: 2px; border: 1px solid #000;" width="100" border="1" height="100" src="<?=$this->baseUrl()?>/images/imgprodutos/<?=$prod->ID?>/imagem1_<?=$prod->ID?>.jpg">
+					       					</a> 
+					       				</div> 
+				              			<?php }?>
+										</td>
+			              			</tr>
+		              			</table>
+		              			
+		              		</td>
+		              	</tr>
+		              	<?php if(!empty($this->objComp)): ?>
+		              	<tr>
+	              			<td class="borda_tcadastro">
+	              			<br>
+							<b><?=$this->translate->_("COMPOSIÇÃO")?></b>
+	              			</td>
+	              		</tr>
+	              		<tr>
+	              			<td>
+	              				<table align="left" class="mytable" width="70%" cellspacing="0" >
+									<tr>
+										<th class="th_canto_min"><?=$this->translate->_("PRODUTO")?></th>
+										<th class="th_orc_min"><?=$this->translate->_("DESCRIÇÃO")?></th>
+										<th class="th_orc_min"><?=$this->translate->_("Qt")?></th>
+									</tr>
+									<?php 
+									if(!empty($this->objComp)):
+									foreach ($this->objComp as $listkit):
+										?>
+										<tr>
+											<td class="td_orc_min" align="left">
+												<a href="<?=$this->baseUrl()?>/admin/cadastro/produtoscad/produto/<?=md5($listkit->IDPROD)?>" >
+												<?=$listkit->CODIGO?>
+												</a>
+											</td>
+											<td class="td_orc_min" align="left"><?=utf8_encode($listkit->DESCRICAO)?></td>
+											<td class="td_orc_min" align="center"><?=$listkit->qt?></td>
+										</tr>
+										<?php
+										$idscomp .=  $listkit->IDPROD.";";
+										if($listkit->id_gruposprodsub!=14) $totalcomp += ($listkit->qt*$listkit->CUSTO_VALOR);
+									endforeach;
+									endif;
+									?>
+								</table>
+								
+	              			</td>
+	              		</tr>
+		              	
+	              		<?php 
+	              		endif;
+	              		if(!empty($this->objVeic)):
+	              		?>
+	              		<tr>
+	              			<td class="borda_tcadastro">
+	              			<br>
+							<b><?=$this->translate->_("APLICAÇÃO")?></b>
+	              			</td>
+	              		</tr>
+	              		<tr>
+	              			<td><div id="idveiculos">
+								<table align="left" class="mytable" width="70%" cellspacing="0" id="tbveiculos" >
+									<tr>
+										<th class="th_canto_min"><?=$this->translate->_("MONTADORA")?></th>
+										<th class="th_orc_min"><?=$this->translate->_("VEICULO")?></th>
+										<th class="th_orc_min"><?=$this->translate->_("ANO")?></th>
+									</tr>
+									<?php 
+									
+									foreach ($this->objVeic as $listveic):
+										?>
+										<tr>
+											<td class="td_orc_min" align="left"><?=$listveic->NOME?><input type='hidden' name='veiculo_<?=$listveic->idveiculo?>' value='<?=$listveic->idveiculo?>' ></td>
+											<td class="td_orc_min" align="left"><?=$listveic->no_modelo?></td>
+											<td class="td_orc_min" align="center">
+											<?php 
+											
+											if(($listveic->ano_ini == "") && ($listveic->ano_fim != "")){
+												echo $ano = "< ".$listveic->ano_fim;
+											}else if(($listveic->ano_fim == "") && ($listveic->ano_ini != "")){
+												echo $ano = $listveic->ano_ini." > ";
+											}else if(($listveic->ano_ini == "") && ($listveic->ano_fim == "")){
+												echo $ano = "Todos";
+											}else if($listveic->ano_ini < $listveic->ano_fim){
+												echo $ano = $listveic->ano_ini." > ".$listveic->ano_fim;
+											}else if($listveic->ano_ini == $listveic->ano_fim){
+												echo $ano = $listveic->ano_ini;
+											}
+											
+											
+											?>
+											
+											</td>
+											
+										</tr>
+										<?php
+									endforeach;
+									?>
+																
+								</table>
+								</div>
+	              			</td>
+	              		</tr>
+	              		<?php endif;?>
+		              </table>
+	              </div>
+	              <?php 
+	            endif;
+	            if($this->objVen==1):
+	            ?>
+	              <div id="tab2" class="tab_content">
+	              	<table width="100%" cellpadding="0" cellspacing="5">
+	              		<tr>
+	              			<td class="borda_tcadastro">
+							<b><?=$this->translate->_("PREÇOS DE VENDA")?></b>
+	              			</td>
+	              		</tr>
+		              	<tr>
+		              		<td align="left">
+		              			<table cellpadding="0" cellspacing="3" width="100%">
+		              				<tr>
+					              		<td align="left" width="">
+					              			BRL: 
+					              		</td>
+					              		<td align="left" width="">
+					              			<b><?php if(!empty($prod->PRECO_UNITARIO)) echo number_format($prod->PRECO_UNITARIO,2,",",".")?></b>
+					              		</td>
+					              		<td align="left" width="350" rowspan="3">
+					              		<?php 
+					              			if(!empty($prod->valor_desc) || !empty($prod->valor_promo)):
+					              			?>
+					              			<table style="border: 1px solid #000;">
+					              			<tr>
+					              			<td>
+					              			
+					              			<?=$this->translate->_("Promoção")?>:<br>
+					              			<?php if(!empty($prod->valor_promo)): echo  $this->translate->_("Preço").": <b>".$prod->valor_promo."</b>";?> 
+					              			<?php elseif(!empty($prod->valor_desc)): echo  $this->translate->_("Desconto").": <b>".$prod->valor_desc."</b>"; endif;?> 
+					              			
+					              			</td>
+					              			</tr></table>
+					              			<?php endif;?>
+					              		</td>
+					              	</tr>
+					              	<tr>
+					              		<td align="left" >
+					              			USD:
+					              		</td>
+					              		<td align="left" width="">
+					              			<b><?php if(!empty($prod->PRECO_UNITARIO_USD)) echo number_format($prod->PRECO_UNITARIO_USD,2,",",".")?></b>
+					              		</td>
+					              		
+					              	
+					              	</tr>
+					              	<tr>
+					              		<td align="left">
+					              			RMB: 
+					              		</td>
+					              		<td align="left" width="">
+					              			<b><?php if(!empty($prod->PRECO_UNITARIO_RMB)) echo number_format($prod->PRECO_UNITARIO_RMB,2,",",".")?></b>
+					              		</td>
+					              	</tr>
+					              	<tr>
+					              		<td align="left" >
+					              			EUR: 
+					              		</td>
+					              		<td align="left" width="">
+					              			<b><?php if(!empty($prod->PRECO_UNITARIO_EUR)) echo number_format($prod->PRECO_UNITARIO_EUR,2,",",".")?></b>
+					              		</td>
+					              		<td align="left" width="90">
+					              			<table style="border: 1px solid #000;">
+						              			<tr>
+							              			<td>
+							              				<?=$this->translate->_("Ajuste de preço")?>: 
+							              			</td>
+							              			<td align="right">
+								              			Data Ajuste: <b><?php if(!empty($prod->dt_ajuste) and ($prod->dt_ajuste != "0000-00-00")) echo substr($prod->dt_ajuste,8,2)."/".substr($prod->dt_ajuste,5,2)."/".substr($prod->dt_ajuste,0,4)?></b>
+							              			</td>
+							              		</tr>
+							              		<tr>
+							              			<td align="left"">
+							              				<?php if(!empty($prod->precoajuste)): 
+							              					echo $this->translate->_("Valor").":<b> ".number_format($prod->precoajuste,2,",",".")."</b>";
+							              					elseif(!empty($prod->percentajuste)): 
+							              					echo $this->translate->_("Percentual").":<b> ".number_format($prod->percentajuste,2,",",".")."%</b>";
+							              					endif;
+								              			?>
+							              			</td>
+							              			<td align="right">
+							              				
+							              			</td>
+						              			</tr>
+						              		</table>
+					              		</td>	
+					              	
+					              	</tr>
+		              			</table>
+		              		</td>
+		              	</tr>
+		              	<?php if(!empty($this->objHisv)): ?>
+		              	<tr>
+	              			<td class="borda_tcadastro">
+							<br><b><?=$this->translate->_("HISTÓRICO DE PREÇOS")?></b>
+	              			</td>
+	              		</tr>
+	              		<tr>
+	              			<td align="left">
+	              			
+	              				<table align="left" class="mytable" width="40%" cellspacing="0"  >
+									<tr>
+										<th class="th_canto_min" align="center"><?=$this->translate->_("DATA")?></th>
+										<th class="th_orc_min" align="center"><?=$this->translate->_("MOEDA")?></th>
+										<th class="th_orc_min" align="center"><?=$this->translate->_("VALOR")?></th>
+									</tr>
+									<?php 
+									foreach ($this->objHisv as $listhisv):
+										?> 
+										<tr>
+											<td class="td_orc_min" align="center"><?=substr($listhisv->data,8,2)."/".substr($listhisv->data,5,2)."/".substr($listhisv->data,0,4)?></td>
+											<td class="td_orc_min" align="center"><?=$listhisv->moeda?></td>
+											<td class="td_orc_min" align="right"><?=number_format($listhisv->valor,2,",",".")?></td>
+										</tr>
+										<?php
+									endforeach;
+									?>																
+								</table>
+	              			
+	              			</td>
+	              		</tr>
+	              		<?php endif; ?>
+	              		<?php if(!empty($this->objHisped)): ?>
+	              		<tr>
+	              			<td class="borda_tcadastro">
+							<br><b><?=$this->translate->_("HISTÓRICO DE VENDA")?></b>
+	              			</td>
+	              		</tr>
+	              		<tr>
+	              			<td align="left">
+	              			
+	              				<table align="left" class="mytable" width="70%" cellspacing="0"  >
+									<tr>
+										<th class="th_canto_min" align="center"><?=$this->translate->_("VENDA")?></th>
+										<th class="th_orc_min" align="center"><?=$this->translate->_("DATA")?></th>
+										<th class="th_orc_min" align="center"><?=$this->translate->_("CLIENTE")?></th>
+										<th class="th_orc_min" align="center"><?=$this->translate->_("QUANT")?></th>
+									</tr>
+									<?php 
+									foreach ($this->objHisped as $listhisped):
+										?> 
+										<tr>
+											<td class="td_orc_min" align="center"><?=$listhisped->idpedido?></td>
+											<td class="td_orc_min" align="center"><?=substr($listhisped->data_vend,8,2)."/".substr($listhisped->data_vend,5,2)."/".substr($listhisped->data_vend,0,4)?></td>
+											<td class="td_orc_min" align="left"><?=utf8_encode($listhisped->EMPRESA)?></td>
+											<td class="td_orc_min" align="center"><?=$listhisped->qt?></td>
+										</tr>
+										<?php										
+									endforeach;
+									?>																
+								</table>
+	              			
+	              			</td>
+	              		</tr>
+	              		<?php endif; ?>
+		            </table>
+	              </div>
+	              <?php 
+	            endif;
+	            if($this->objCom==1):
+	            ?>
+	              <!-- Compra -->
+	              <div id="tab3" class="tab_content">
+	              	<table width="100%" cellpadding="0" cellspacing="5">
+	              		<tr>
+	              			<td class="borda_tcadastro">
+							<b><?=$this->translate->_("FORNECEDORES")?></b>
+	              			</td>
+	              		</tr>
+		              	<tr>
+		              		<td align="left">
+		              			<table cellpadding="0" border="0" cellspacing="5" >
+		              				<tr>
+					              		<td align="left" width="" colspan="3">
+					              			<?=$this->translate->_("Grupo de Compra")?>:<br> <b>
+					              				<?php foreach ($this->objGrupcom as $list): ?>
+													<?php if($prod->Purchasing_group == $list->id) echo $list->purchasing?>
+												<?php endforeach; ?></b>
+					              		</td>
+					              		<td align="left" rowspan="3" >
+						              		<div style="border: 1px solid #000; margin-left: 15px; padding: 5px;">
+						              			<?=$this->translate->_("Situação")?>:
+						              			<?php 
+						              			if(!empty($this->objCmv)):
+						              				foreach ($this->objCmv as $cmv);
+						              				echo number_format($cmv->valor,2,",",".");
+						              			endif;
+						              			?>
+						              			
+						              			<br><b>
+						              			
+					              				<?php 
+					              					if($prod->situacao == 0): echo "Pronto";
+					              					elseif($prod->situacao == 1): echo "Em Desenvolvimento";
+					              					elseif($prod->situacao == 2): echo "Inativo"; endif; ?></b>
+					              			</div>
+					              		</td>
+					              	</tr>
+		              				<tr>
+					              		<td align="left" width="" colspan="2">
+					              			<?=$this->translate->_("Fornecedor")?>:<br> <b>
+					              				<?php foreach ($this->objFor as $list): ?>
+													<?php if($prod->ID_CLIENTE_FORNECEDOR == $list->ID) echo $list->EMPRESA?>
+												<?php endforeach; ?></b>
+					              		</td>
+					              		<td align="left" >
+					              			<?=$this->translate->_("Previsão")?>:<br>
+					              			<b><?=$prod->PREVISAO?></b>
+					              			
+					              		</td>
+					              		
+					              	</tr>
+					              	<tr>
+					              		<td align="left" width="" >
+					              			<?=$this->translate->_("Moeda")?>:<br><b> 
+					              				<?php if($prod->MOEDA == "BRL"): echo "BRL";
+					              				elseif($prod->MOEDA == "USD"): echo "USD";
+					              				elseif($prod->MOEDA == "RMB"): echo "RMB";
+					              				elseif($prod->MOEDA == "EUR"): echo "EUR"; endif; ?>
+					              				
+					              			</b>
+					              		</td>
+					              		<td align="left" width="">
+					              			<?=$this->translate->_("Preço")?>:<br><b>
+					              			<? if(!empty($prod->CUSTO_VALOR)) echo number_format($prod->CUSTO_VALOR,3,",",".")?></b>
+					              		</td>
+					              		<td align="left"  >
+					              			&nbsp;
+					              		</td>
+					              		
+					              	</tr>
+					              	<tr>
+					              		<td align="left" colspan="4" >
+					              			<?=$this->translate->_("Descrição PL")?>:<br>
+					              			<b><?=$prod->pl_prod_desc?></b>
+					              		</td>
+					              	</tr>
+					              	<tr>
+					              		<td align="left" colspan="4" >
+					              			<?=$this->translate->_("Detalhes da compra")?>:<br>
+					              			<b><?=$prod->purchasing_det?></b>
+					              		</td>
+					              	</tr>
+		              			</table>
+		              		</td>
+		              	</tr>
+		              	<tr>
+	              			<td class="borda_tcadastro">
+	              			<br>
+							<b><?=$this->translate->_("COMPOSIÇÃO")?></b>
+	              			</td>
+	              		</tr>
+	              		<tr>
+	              			<td><div id="idcomposicao">
+								<table align="left" class="mytable" width="70%" cellspacing="0" id="tbcomp" >
+									<tr>
+										<th class="th_canto_min"><?=$this->translate->_("PRODUTO")?></th>
+										<th class="th_orc_min"><?=$this->translate->_("Sit")?></th>
+										<th class="th_orc_min"><?=$this->translate->_("For")?></th>
+										<th class="th_orc_min"><?=$this->translate->_("Qt")?></th>
+										<th class="th_orc_min"><?=$this->translate->_("Moeda")?></th>
+										<th class="th_orc_min"><?=$this->translate->_("Custo")?></th>
+										
+									</tr>
+									<?php 
+									
+									foreach ($this->objComp as $listkit):
+										?>
+										<tr>
+											<td class="td_orc_min" align="left"><?=$listkit->CODIGO?><input type='hidden' name='kit_<?=$listkit->IDPROD?>' value='<?=$listkit->qt?>' ></td>
+											<td class="td_orc_min" align="center">
+											<?php 
+											if($listkit->situacao==0) echo "P";
+											elseif($listkit->situacao==1) echo "D";
+											elseif($listkit->situacao==2) echo "I";
+											?></td>
+											<td class="td_orc_min" align="left"><?=$listkit->EMPRESA?></td>
+											<td class="td_orc_min" align="center"><?=$listkit->qt?></td>
+											<td class="td_orc_min" align="center"><?=$listkit->MOEDA?></td>
+											<td class="td_orc_min" align="right"><? if(!empty($listkit->CUSTO_VALOR)): echo number_format(($listkit->qt*$listkit->CUSTO_VALOR),3,",","."); endif;?></td>
+											
+										</tr>
+										<?php
+										$idscomp .=  $listkit->IDPROD.";";
+									endforeach;
+									
+									?>
+									
+								</table>
+								</div>
+	              			</td>
+	              		</tr><?php 
+	              		if(!empty($this->objRel)):
+	              		?>
+	              		<tr>
+	              			<td class="borda_tcadastro">
+	              			<br>
+							<b><?=$this->translate->_("RELACIONAMENTOS")?></b>
+	              			</td>
+	              		</tr>
+	              		<tr>
+	              			<td>
+								<table align="left" class="mytable" width="70%" cellspacing="0"  >
+									<tr>
+										<th class="th_canto_min"><?=$this->translate->_("PRODUTO")?></th>
+										<th class="th_orc_min"><?=$this->translate->_("Sit")?></th>
+										<th class="th_orc_min"><?=$this->translate->_("For")?></th>
+										<th class="th_orc_min"><?=$this->translate->_("Moeda")?></th>
+										<th class="th_orc_min"><?=$this->translate->_("Custo")?></th>
+										
+									</tr>
+									<?php 
+									
+									foreach ($this->objRel as $listkit):
+										?>
+										<tr>
+											<td class="td_orc_min" align="left">
+												<a href="<?=$this->baseUrl()?>/admin/cadastro/produtoscad/produto/<?=md5($listkit->IDPROD)?>" >
+												<?=$listkit->CODIGO?>
+												</a>
+											</td>
+											<td class="td_orc_min" align="center">
+											<?php 
+											if($listkit->situacao==0) echo "P";
+											elseif($listkit->situacao==1) echo "D";
+											elseif($listkit->situacao==2) echo "I";
+											?></td>
+											<td class="td_orc_min" align="left"><?=$listkit->EMPRESA?></td>
+											<td class="td_orc_min" align="center"><?=$listkit->MOEDA?></td>
+											<td class="td_orc_min" align="right"><?  if(!empty($listkit->CUSTO_VALOR)): echo number_format(($listkit->CUSTO_VALOR),3,",","."); endif;?></td>
+											
+										</tr>
+										<?php
+										
+									endforeach;
+									
+									?>
+									
+								</table>
+								
+	              			</td>
+	              		</tr>
+		              	<?php 
+		              	endif; 
+		              	if(!empty($prod->ID)): ?>
+		              	<tr>
+	              			<td class="borda_tcadastro">
+							<br><b><?=$this->translate->_("HISTÓRICO DE FORNECEDOR")?></b>
+	              			</td>
+	              		</tr>
+	              		<tr>
+	              			<td align="left">
+	              			
+	              				<table align="left" class="mytable" width="70%" cellspacing="0" id="tablehist"  >
+									<tr>
+										<th class="th_canto_min" align="center"><?=$this->translate->_("DATA")?></th>
+										<th class="th_orc_min" align="center"><?=$this->translate->_("FORNECEDOR")?></th>
+										<th class="th_orc_min" align="center"><?=$this->translate->_("MOEDA")?></th>
+										<th class="th_orc_min" align="center"><?=$this->translate->_("VALOR")?></th>
+										<th class="th_orc_min" align="center"><?=$this->translate->_("ESF/ROL")?></th>
+									</tr>
+									<?php 
+									foreach ($this->objHisc as $listhisc):
+										?> 
+										<tr>
+											<td class="td_orc_min" align="center"><?=substr($listhisc->data,8,2)."/".substr($listhisc->data,5,2)."/".substr($listhisc->data,0,4)?></td>
+											<td class="td_orc_min" align="left"><?=$listhisc->EMPRESA?></td>
+											<td class="td_orc_min" align="center"><?=$listhisc->moed?></td>
+											<td class="td_orc_min" align="right"><?=number_format($listhisc->valor,3,",",".")?></td>
+											<td class="td_orc_min" align="center"><?php if($listhisc->ball!=0) echo $listhisc->balls?></td>
+										</tr>										
+										<?php
+									endforeach;
+									?>	
+																							
+								</table>
+	              				
+	              			</td>
+	              		</tr>
+	              		<?php endif; ?>
+	              		<tr>
+	              			<td class="borda_tcadastro">
+							<br><b><?=$this->translate->_("HISTÓRICO DE COMPRA")?></b>
+	              			</td>
+	              		</tr>
+	              		<tr>
+	              			<td align="left">
+	              			<?php if(!empty($this->objHiscom)): ?>
+	              				<table align="left" class="mytable" width="70%" cellspacing="0"  >
+									<tr>
+										<th class="th_canto_min" align="center"><?=$this->translate->_("PED")?></th>
+										<th class="th_orc_min" align="center"><?=$this->translate->_("DATA")?></th>
+										<th class="th_orc_min" align="center"><?=$this->translate->_("FORNECEDOR")?></th>
+										<th class="th_orc_min" align="center"><?=$this->translate->_("QT")?></th>
+										<th class="th_orc_min" align="center"><?=$this->translate->_("SITUACAO")?></th>
+									</tr>
+									<?php 
+									foreach ($this->objHiscom as $listhiscom):
+										$data_atual = date("Y-m-d");
+							            if($listhiscom->STATUS=="FINALIZADO") $status = 'FINALIZADO';
+							            elseif ($listhiscom->data_entrega < $data_atual) $status = 'PENDENTE'; 
+							            else $status = 'EM ANDAMENTO';
+										?> 
+										<tr>
+											<td class="td_orc_min" align="center"><?=$listhiscom->idped?></td>
+											<td class="td_orc_min" align="center"><?=substr($listhiscom->DATA_HORA,8,2)."/".substr($listhiscom->DATA_HORA,5,2)."/".substr($listhiscom->DATA_HORA,0,4)?></td>
+											<td class="td_orc_min" align="left"><?=$listhiscom->EMPRESA?></td>
+											<td class="td_orc_min" align="center"><?=$listhiscom->QUANTIDADE?></td>
+											<td class="td_orc_min" align="center"><?=$this->translate->_($status)?></td>
+										</tr>
+										<?php
+									endforeach;
+									?>																
+								</table>
+	              			<?php endif; ?>
+	              			</td>
+	              		</tr>
+	              		<tr>
+	              			<td>
+	              				<table width="100%" cellpadding="0" cellspacing="0" border="0">
+			              		<tr>
+			              			<td class="borda_tcadastro" colspan="2">
+			              			<br>
+									<b><?=$this->translate->_("HISTÓRICO DE LOTE")?></b>
+			              			</td>
+			              		</tr>
+			              		<tr>
+			              			<td align="left" width="55%">
+			              				<?php if(!empty($this->objHiscom)): ?>
+			              				<table align="left" class="mytable" width="100%" cellspacing="0" style="margin-top: 6px" >
+											<tr>
+												<th class="th_canto_min" align="center"><?=$this->translate->_("LOTE")?></th>
+												<th class="th_orc_min" align="center"><?=$this->translate->_("ESTOQUE")?></th>
+												<th class="th_orc_min" align="center"><?=$this->translate->_("VALOR")?></th>
+											</tr>
+											<?php 
+											$contcm = $totalvlcmv = $vlttotal = 0;
+											
+											foreach ($this->objQtatual as $qtatual);
+											$qtatual = $qtatual->qt_atual;
+											
+											foreach ($this->objEntcmv as $listent):
+												if($qtatual>0):									
+													$valorent = '<span style="color: #FF0000">'."0,00".'</span>';
+													foreach ($this->objEntpcmv as $listvl):
+														if($listvl->id_entradaztl == $listent->id_entradaztl):
+															if(!empty($listvl->data)):
+																$valorent = number_format($listvl->valor,2,",",".");
+																$vlttotal += $listvl->valor;
+															else:
+																$valorent = '<span style="color: #FF0000">'.number_format($listvl->valor,2,",",".").'</span>';
+															endif;
+														endif;
+													endforeach;
+													
+													?> 
+													<tr>
+														<td class="td_orc_min" align="center">
+															<a href="<?=$this->baseUrl();?>/admin/compras/entradaprod/entrada/<?=md5($listent->id_entradaztl)?>" target="_blank">
+															E<?=substr("000000".$listent->id_entradaztl,-6,6)?>
+															</a>	
+														</td>
+														<td class="td_orc_min" align="center">
+														<?
+														if($listent->status!=1):
+															$qtproda = $listent->qta+($listent->qtajuste); 
+															if($qtproda < $qtatual):
+																echo $qtproda;
+																$qtatual -= $qtproda;
+															else:
+																echo $qtatual;
+																$qtatual = 0;
+															endif;
+														else:
+															echo '<span style="color: #FF0000">'.$listent->qta.'</span>';
+														endif;
+														
+														?>
+														</td>
+														<td class="td_orc_min" align="right"><?=$valorent?></td>
+													</tr>
+													<?php
+												endif;	
+											endforeach;
+											if($qtatual>0):
+											?>
+											<tr>
+												<td class="td_orc_min" align="center">
+													S/N	
+												</td>
+												<td class="td_orc_min" align="center">
+												<?=$qtatual?></td>
+												<td class="td_orc_min" align="right"><?=number_format(0,2,",",".")?></td>
+											</tr>
+											<?php 
+											endif;
+											?>	
+										</table>
+			              				<?php endif; ?>		              					
+			              			</td>
+			              			<td align="left" valign="top" style="padding: 10px">
+			              			
+			              			</td>
+			              		</tr>
+			              		
+			              	</table>
+	              			</td>
+	              		</tr>
+		            </table>
+	              </div>
+	              <?php 
+	            endif;
+	            if($this->objTec==1):
+	            ?>
+	              <!-- Tecnico -->
+	              <div id="tab4" class="tab_content">
+		              <table width="100%" cellpadding="0" cellspacing="5">
+		              	<tr>
+	              			<td class="borda_tcadastro">
+								<b><?=$this->translate->_("PADRÃO")?></b>
+	              			</td>
+              			</tr>
+		              	<tr>
+		              		<td align="left">
+		              			<table cellpadding="0" cellspacing="3">
+		              				<tr>
+					              		<td align="left" width="90">
+					              			<?=$this->translate->_("Interno")?>:<br>
+					              			<b><?=$prod->M_INNER?></b>
+					              		</td>
+					              		<td align="left" width="90">
+					              			<?=$this->translate->_("Externo")?>:<br>
+					              			<b><?=$prod->M_OUTER?></b>
+					              		</td>
+					              		<td align="left" width="200">
+					              			<?=$this->translate->_("Altura")?>:<br>
+					              			<b><?=$prod->M_HIGH?></b>
+					              		</td>
+					              		<td align="left" width="90">
+					              			<?=$this->translate->_("BL/ROLLERS")?>:<br>
+					              			<b><?=$prod->ball?></b>
+					              		</td>
+					              	</tr>
+		              			</table>
+		              		</td>
+		              	</tr>
+		              	<tr>
+	              			<td class="borda_tcadastro">
+	              			<br>
+							<b><?=$this->translate->_("HOMOCINÉTICA")?></b>
+	              			</td>
+	              		</tr>
+		              	<tr>
+		              		<td align="left">
+		              			<table cellpadding="0" cellspacing="3" width="100%" >
+		              				<tr>
+					              		<td align="left" width="250">
+					              			<?=$this->translate->_("Estriado macho")?>:<br>
+					              			<b><?=$prod->estriado_macho_d?></b>
+					              		</td>
+					              		<td align="left" width="90">
+					              			<?=$this->translate->_("Diâmetro")?>:<br>
+					              			<b><?=$prod->diametro_homo?></b>
+					              		</td>
+					              		<td align="left" width="90">
+					              			<?=$this->translate->_("Raio da porca")?>:<br>
+					              			<b><?=$prod->raio_porca_homo?></b>
+					              		</td>
+					              		<td align="left" width="90">
+					              			<?=$this->translate->_("Aperto")?>:<br>
+					              			<b><?=$prod->aperto_homo?></b>
+					              		</td>
+					              	</tr>
+					              	<tr>
+					              		<td align="left"  >
+					              			<?=$this->translate->_("Estriado Femêo")?>:<br>
+					              			<b><?=$prod->estriado_femea_d?></b>
+					              		</td>
+					              		<td align="left" colspan="3">
+					              			<?=$this->translate->_("Instruções de aperto")?>:<br>
+					              			<b><?=$prod->ins_aperto_homo?></b>
+					              		</td>
+					              	</tr>
+		              			</table>
+		              		</td>
+		              	</tr>
+		              	<tr>
+	              			<td class="borda_tcadastro">
+	              			<br>
+							<b><?=$this->translate->_("SLIDING JOINTS")?></b>
+	              			</td>
+	              		</tr>
+		              	<tr>
+		              		<td align="left">
+		              			<table cellpadding="0" cellspacing="3" width="100%">
+		              				<tr>
+					              		<td align="left" width="25%">
+					              			<?=$this->translate->_("Interno")?>:<br>
+					              			<b><?=$prod->medida_inner_desl?></b>
+					              		</td>
+					              		<td align="left" width="25%">
+					              			<?=$this->translate->_("Externo")?>:<br>
+					              			<b><?=$prod->medida_outer_desl?></b>
+					              		</td>
+					              		<td align="left" width="25%">
+					              			<?=$this->translate->_("Altura")?>:<br>
+					              			<b><?=$prod->medida_high_desl?></b>
+					              		</td>
+					              		<td align="left" width="25%">
+					              			<?=$this->translate->_("Dentes")?>:<br>
+					              			<b><?=$prod->medida_teeth_desl?></b>
+					              		</td>
+					              	</tr>
+		              			</table>
+		              		</td>
+		              	</tr>
+		              	<tr>
+	              			<td class="borda_tcadastro">
+	              			<br>
+							<b><?=$this->translate->_("CRUZETAS")?>/<?=$this->translate->_("TRIZETAS")?></b>
+	              			</td>
+	              		</tr>
+		              	<tr>
+		              		<td align="left">
+		              			<table cellpadding="0" cellspacing="3" width="">
+		              				<tr>
+					              		<td align="left" width="">
+					              			<?=$this->translate->_("Interno")?>:<br>
+					              			<b><?=$prod->medida_inner_cru?></b>
+					              		</td>
+					              		<td align="left" width="">
+					              			<?=$this->translate->_("Altura")?>:<br>
+					              			<b><?=$prod->medida_high_cru?></b>
+					              		</td>
+					              		<td align="left" width="">
+					              			<?=$this->translate->_("Dentes")?>:<br>
+					              			<b><?=$prod->medida_teeth_cru?></b>
+					              		</td>
+					              	</tr>
+		              			</table>
+		              		</td>
+		              	</tr>
+		              	<tr>
+	              			<td class="borda_tcadastro">
+	              			<br>
+							<b><?=$this->translate->_("ARQUIVOS")?></b>
+	              			</td>
+	              		</tr>
+		              	<tr>
+		              		<td align="left">
+			              		<table id="arquivos" width="45%" class="mytable" width="70%" cellspacing="0"  >
+		              			<?php 
+		              				if(!empty($this->objArq)):
+						       			foreach ($this->objArq as $listaarq):
+											?>
+											<tr><td class="td_orc_min" align="left">
+												<a href="<?=$this->baseUrl()?>/public/projetoprod/<?=$prod->ID?>/<?=$listaarq->arquivo?>" target="_blank" >
+													<?=$listaarq->arquivo?>
+												</a>
+											</td></tr>
+											<?php
+										endforeach;
+									endif;						       								       		
+						       		?>
+						       		</table>
+						       	
+		              		</td>
+		              	</tr>
+		              
+		              	<tr>
+		              		<td align="left">
+		              			<table cellpadding="0" cellspacing="0">
+		              				<tr>
+					              		<td align="left" width="90">
+					              			<?=$this->translate->_("Observações")?>:<br>
+					              			<b><?=$prod->observacao?></b>
+					              		</td>
+					              	</tr>
+		              			</table>
+		              		</td>
+		              	</tr>
+		              </table>
+	              </div>
+	              <?php 
+	            endif;
+	            ?>
+	         	</div>
+	         	<div class="fix"></div>
+         	</div> 
+         	
+         	
+         	<div align="left" style="padding-top: 10px">
+         	<?php if ($this->objEdi==true){  ?>
+         	<input type="button" class="basicBtn" onclick="window.location='<?=$this->baseUrl(); ?>/admin/cadastro/produtoscad/produto/<?=md5($prod->ID)?>/page/<?=$this->page?>'" value="<?=$this->translate->_("Editar")?>" >
+         	<?php } ?> 
+         	</div>
+         	  
+         	

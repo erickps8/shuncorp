@@ -1,0 +1,53 @@
+<?php 
+if(count($this->objList)>0):
+	foreach ($this->objList as $list); 
+endif;
+?>
+
+<!-- Content -->
+    <div class="content">   
+    	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/fabricantes">Fabricantes</a> </li>
+                	<li class="lastB">Cadastro de fabricantes</li>
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Cadastro de fabricantes</h5></div>
+
+        <div class="widgets">
+	        <div class="widget" style="border: 1px solid #d5d5d5; padding: 10px">
+	        	<div class="left" style="width: 50%">
+		         	<form class="mainForm" action="<?=$this->baseUrl(); ?>/admin/fabricantes/fabricantesgrava" method="post" name="grava" id="grava">
+		         	    <div >
+    		         		Nome do fabricante: <br>
+        		    		<b><?php echo $list->no_fabricante?></b>
+        		            <input value="<?=$list->id?>" type="hidden" name="idfabricante"  >
+		         		</div>
+		         		<div >
+    		         		Parceiro:<br />
+    		         		<div class="styled-select" style="width: 200px">										
+								<select name="parceiro" style="width: 222px">
+                					<option value="">Selecione</option>
+                					<?php foreach ($this->objParc as $parceiro): ?>
+                					<option value="<?=$parceiro->ID?>" <?php if($parceiro->ID == $list->id_parceiro) echo 'selected="selected"';?> ><?=$parceiro->EMPRESA?></option>
+                					<?php endforeach;?>
+                				</select>
+    		         		</div>
+    		         	</div> 
+				      	<div  style="padding-top: 10px">
+		         			<input type="submit" class="greenBtn" value="Salvar">
+		         		</div>
+		         	</form>
+		         </div>
+		        		         
+		         <div class="fix"></div>
+	         </div>
+         </div>
+     </div>   
+		
+		

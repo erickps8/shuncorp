@@ -1,0 +1,179 @@
+	<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/financeiro.js"></script>
+	<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/buscaGenerica.js"></script>
+
+	<script>
+		$(function(){   
+		    $("#filtros").click(function(){
+		    	$("#divfiltros").toggle("slow");
+		    	$("#btnpesq").toggle("slow");		    	
+		    });
+
+			$("#resultado").hide();
+			buscaFinanceiro();
+			
+		    
+		    $(".btnpesq").click(function(){
+		    	buscaFinanceiro();
+			});
+
+			function buscaFinanceiro(){
+				$("#resultado").html('<img src="/public/sistema/imagens/loaders/loader6.gif"> <i>Aguarde...</i>');
+				$("#resultado").show();
+			    
+				var url = '/admin/administracao/buscafinanceiro'+
+				'/buscaid/'+$('input[name=buscaid]').val()+
+				'/buscafor/'+$("select[name=buscafor] option:selected").val()+
+				'/buscaoutfor/'+$('input[name=buscaoutfor]').val()+
+				'/buscaplano/'+$("select[name=buscaplano] option:selected").val()+
+				'/buscasit/'+$("select[name=buscasit] option:selected").val()+
+				'/buscavalor1/'+$('input[name=buscavalor1]').val()+
+				'/buscavalor2/'+$('input[name=buscavalor2]').val()+
+				'/buscafatura/'+$('input[name=buscafatura]').val()+
+				'/dtini/'+$('input[name=dtini]').val().replace('/','-').replace('/','-')+
+				'/dtfim/'+$('input[name=dtfim]').val().replace('/','-').replace('/','-')+
+				'/tipovl/'+$('input[name=tipovl]:checked').val()+
+				'/datapesq/'+$('input[name=datapesq]:checked').val();
+
+		    	buscaGenerica(url,'resultado');
+			}
+			
+		});
+		
+	</script>
+	
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztl">Financeiro</a></li>
+                	<li class="lastB">Contas à receber</li>           
+                </ul>
+            </div>
+        </div>       
+
+		<div class="title"><h5>Recebimento de contas</h5></div>
+
+		<div class="widgets" >
+        	<div class="left" style="margin-top: 5px; margin-bottom: 5px" >    
+				<?php if($this->objIns==1):?>
+				<input onclick="window.location='<?=$this->baseUrl()?>/admin/administracao/financeiroztlreccad'" class="basicBtn" type="button" value="Novo recebimento" > 
+				<?php endif;?>
+			</div>
+            <div class="right" style="text-align: right; padding-top: 7px; width: 40%">
+	    		<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlpag">Pagar</a> |
+	    		<?php if($this->objAdm==1): ?> 
+	    		<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlbancos">Administração</a> |
+	    		<?php endif; ?> 					    		  
+	    		<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlconc">Conciliação</a>		
+			</div>
+			
+			<!-- Busca ------------------------------------------------------ -->
+			<div class="widgets" >
+				<div class="first" style="margin-top: 5px; margin-bottom: 5px; border: 1px solid #d5d5d5; padding: 10px" >  
+					<form action="<?php echo $this->baseUrl(); ?>/admin/administracao/financeiroztlrec" method="post" name="busca" id="busca" class="mainForm">
+						<input type="text" size="25" name="buscaid" style="width: 250px" placeholder="Busca Lançamento">&nbsp; 
+						<input type="button"  value="<?=$this->translate->_("Pesquisar")?>" class="blueBtn btnpesq" id="btnpesq">
+						<br /><a href="javascript:void(0)" id="filtros">+Filtros</a>
+						
+						<div style="display: none" id="divfiltros">
+							<table style="width: 100%">
+							    <tr>
+							    	<td align="left" valign="top" style="width: 40%;" class="tdbusca">
+						    			<div class="styled-select" style="width: 250px">
+									    	<select name="buscafor" id="buscafor" onchange='if(this.value=="out"){document.getElementById("buscaoutfor1").style.display = "block";}' style="width: 272px">
+												<option value="0">Fornecedor/Funcionário</option>
+											
+												<optgroup label="Funcionários">
+													<?php foreach ($this->objUsuarios as $list): ?>
+														<option value="<?=$list->iduser?>|1">&nbsp;<?php echo substr($list->nomeusuario,0,50)?></option>
+													<?php endforeach; ?>
+												</optgroup>
+												<optgroup label="Clientes">
+													<?php foreach ($this->objFornec as $list): ?>
+														<option value="<?php echo $list->ID?>">&nbsp;<?php echo (substr($list->EMPRESA,0,50))?></option>
+													<?php endforeach; ?>
+												</optgroup>
+											
+												<option value="out">Outros</option>
+											</select>
+										</div>
+										<div style="display: none; margin-top: 2px" id="buscaoutfor1">
+											<input type="text" size="15" name="buscaoutfor" style="width: 200px">
+										</div>
+									</td>
+								 	<td style="vertical-align: bottom;" class="tdbusca" colspan="2">
+								 		<div style="float: left; width: 40%">
+						    				<input type="radio" name="tipovl" value="0" checked="checked"><label>Vl conta</label>
+											<input type="radio" name="tipovl" value="1"><label>Vl parc</label>
+										</div>
+										<div style="float: left; width: 20%">
+											<input placeholder="Valor inicial" type="text" style="width: 70px" name="buscavalor1" id="buscavalor1" class="moeda">
+										</div>
+										<div style="float: left; width: 20%">							
+											<input placeholder="Valor final" type="text" style="width: 70px" name="buscavalor2" id="buscavalor2" class="moeda">
+										</div>
+									</td>
+								 </tr>
+								 <tr>								
+									<td class="tdbusca">
+										<div class="styled-select" style="width: 200px">
+										<select name="buscaplano" id="buscaplano" style="width: 222px">
+											<option value="0">Plano de conta</option>
+											<?php foreach ($this->objPlanocontas as $listp): 
+												$tipo = substr($listp->cod,0,1);
+												if($tipo == 1):
+												?>
+												<option value="<?=$listp->id?>"><?php echo (substr($listp->cod." - ".$listp->nome,0,30))?></option>
+												<?php
+												endif; 
+											endforeach; ?>
+										</select>
+										</div>
+									</td>
+									<td class="tdbusca">
+										<div class="styled-select" style="width: 120px">
+										<select name="buscasit" id="buscasit" style="width: 140px">
+											<option value="sit">Situação</option>
+											<option value="0">Em aberto</option>
+											<option value="1">Em atraso</option>
+											<option value="2">Pago</option>
+											<option value="3">Conciliado</option>
+										</select>
+										</div>
+									</td>
+									<td class="tdbusca">
+										<input placeholder="Fatura" type="text" style="text-transform: uppercase; width: 150px"  name="buscafatura" id="buscafatura" >
+									</td>
+								</tr>
+								<tr>								
+					    			<td style="vertical-align: bottom;" class="tdbusca"  colspan="2">
+					    				<div style="float: left; width: 40%">
+						    				<input type="radio" name="datapesq" value="0" checked="checked"><label>Vencimento</label>
+											<input type="radio" name="datapesq" value="1"><label >Emissão</label>
+										</div>
+										<div style="float: left; width: 15%"> 
+											<input placeholder="Data inicio" type="text" style="margin-right: 3px; width: 80px" name="dtini" id="dtini" class="data datepicker">
+										</div>
+										<div style="float: left;">
+											<input placeholder="Data fim" type="text" style="margin-right: 3px; width: 80px"  name="dtfim" id="dtfim" class="data datepicker">
+										</div>
+									</td>
+									<td class="tdbusca">
+										<input type="button" class="blueBtn btnpesq" value="Pesquisar">
+									</td>
+								</tr>								
+							</table>
+						</div>
+					</form>
+				</div>
+			</div>
+			
+			<div id="resultado">
+				
+			</div>			
+		</div>
+	</div>

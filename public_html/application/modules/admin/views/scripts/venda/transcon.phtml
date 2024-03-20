@@ -1,0 +1,167 @@
+<?php
+
+$i=1;
+
+
+?>
+        
+        <table width="100%" >
+            <tr>
+                <td align="right"><input type="button" class="button" onclick="window.location='<?php echo $this->baseUrl(); ?>/venda/transportadoras'" value="Voltar"></input></td>
+            </tr>
+        </table>
+        <br>
+        <table width="100%" class="borda_titulo">
+            <tr>
+                <td width="left"> CONSULTA FRETE</td>
+            </tr>
+        </table>
+			<br>
+			<form action="<?php echo $this->baseUrl(); ?>/venda/transcon" method="post" name="cad">
+			
+			<table class="borda" width="100%" cellspacing="5">
+				<tr>
+					<td align="left">
+						Estado:<br>
+						<select class="borda_input" name="uf">
+						<?php foreach ($this->objUf as $lista){ ?>
+							<option value="<?php echo $lista->uf?>" ><?php echo $lista->uf?></option>
+						<?php } ?>
+						</select>
+					</td>
+					<td align="left">
+						<input type="radio" name="cidtipo" value="Capital" checked="checked"> Capital <br>
+						<input type="radio" name="cidtipo" value="Interior"> Interior 
+					</td>
+					<td align="left"> Valor nota:<br>
+						<input type="text" name="valor" class="borda_input" size="7"  onKeyDown="Mascara(this,Valor);" onKeyPress="Mascara(this,Valor);" onKeyUp="Mascara(this,Valor);">
+					</td>
+					<td width="50%" align="left"> Peso:<br>
+						<input type="text" name="peso" class="borda_input" size="7"  onKeyDown="Mascara(this,Valor);" onKeyPress="Mascara(this,Valor);" onKeyUp="Mascara(this,Valor);">
+					</td>
+				</tr>
+			</table>
+			<br>
+			 <table width="100%" >
+	            <tr>
+	                <td align="left"><input type="submit" class="button" value="Pesquisar"></td>
+	            </tr>
+        	</table>
+			</form>
+			<br>
+			<?php if(!empty($this->objTrans)){ ?>
+			
+			<p align="left" >
+			Valor da Nota: <?php echo $this->objDet[valor]?><br>
+			Peso: <?php echo $this->objDet[peso]?><br>
+			UF: <?php echo $this->objDet[uf]?><br>
+			Tipo: <?php echo $this->objDet[tipo]?><br>
+			</p>
+			
+			<?php // if($this->objTrans){ ?>
+			<p align="left" ><b>MELHOR ESCOLHA</b></p>
+			
+			<table align="left" class="mytable" width="100%" cellspacing="0">
+	        <tr>
+	            <th  class="th_canto_orc" align="center" width="30%" style="font-size: 10px">
+	                TRANSPORTADORA
+	            </th>
+	            
+	            <th  class="th_orc" align="center" width="20%" style="font-size: 10px">
+	                Percentual
+	            </th>
+	            <th  class="th_orc" align="center" width="20%" style="font-size: 10px">
+	                Frete M&iacute;nimo
+	            </th>
+	            <th  class="th_orc" align="center" width="15%" style="font-size: 10px">
+	                Gatilho
+	            </th>
+	            <th  class="th_orc" align="center" width="15%" style="font-size: 10px">
+	                valor
+	            </th>
+	        </tr>
+	        
+	        <tr >
+                <td  class="td_orc" align="center" >
+                
+                   <?php echo $this->objTrans[transportadora];?>
+                </td>
+                
+                <td  class="td_orc" align="center" >
+                   <?php echo number_format($this->objTrans[perc],2,",","")?> %
+                </td>
+                <td  class="td_orc" align="right" >
+                   <?php echo number_format($this->objTrans[minimo],2,",",".")?>
+                </td>
+                <td  class="td_orc" align="right" >
+                   <?php echo number_format($this->objTrans[gatilho],2,",",".")?>
+                </td>
+                <td  class="td_orc" align="center" >
+                   <?php echo number_format($this->objTrans[valor],2,",",".")?>
+                </td>
+            </tr>
+            		
+		</table>
+			<table><tr><td></td></tr></table>
+			<p align="left" ><b>OUTRAS OP&Ccedil;&Otilde;ES</b></p>
+			
+			 <table align="left" class="mytable" width="100%" cellspacing="0">
+	        <tr>
+	            <th  class="th_canto_orc" align="center" width="30%" style="font-size: 10px">
+	                TRANSPORTADORA
+	            </th>
+	            
+	            <th  class="th_orc" align="center" width="20%" style="font-size: 10px">
+	                Percentual
+	            </th>
+	            <th  class="th_orc" align="center" width="20%" style="font-size: 10px">
+	                Frete M&iacute;nimo
+	            </th>
+	            <th  class="th_orc" align="center" width="15%" style="font-size: 10px">
+	                Gatilho
+	            </th>
+	            <th  class="th_orc" align="center" width="13%" style="font-size: 10px">
+	                valor
+	            </th>
+	        </tr>
+		<?php 
+			$cor =0;
+						
+			foreach ($this->objRota as $lista){
+			$cor++;
+            if(($cor%2)==0) $class = 'td_orc_par';
+            else $class = 'td_orc';
+            
+            
+			?>
+			
+			<tr >
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo $lista->nome?>
+                </td>
+                
+                <td  class="<?=$class?>" align="center" >
+                   <?php echo number_format($lista->percentual,2,",","")?> %
+                </td>
+                <td  class="<?=$class?>" align="right" >
+                   <?php echo number_format($lista->frete_minimo,2,",",".")?>
+                </td>
+                <td  class="<?=$class?>" align="right" >
+                   <?php echo number_format($lista->gatilho,2,",",".")?>
+                </td>
+                <td  class="<?=$class?>" align="center" >
+                   <a href="#" onclick="if(confirm('Remover transportadora?')){ window.location='<?php echo $this->baseUrl(); ?>/venda/removerota/id/<?php echo md5($lista->id)?>';};" ><img src="<?php echo $this->baseUrl(); ?>/images/window-close.png" width="17" height="17" border="0" title="Remover"></a>
+                </td>
+            </tr>
+            
+			
+			<?php 
+			}
+		?>
+		
+		</table>
+		<?php 
+			}
+ 
+
+?>

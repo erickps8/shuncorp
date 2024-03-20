@@ -1,0 +1,79 @@
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li class=""><a href="<?php echo $this->baseUrl(); ?>/admin/kang/pedidos">Pedidos de venda</a> </li>
+                	<li class="lastB"><?=$this->translate->_("Orçamentos")?></li>
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5><?=$this->translate->_("Orçamentos")?></h5></div>
+
+        <div class="widgets" >
+        	<!-- Busca -->
+        	<div class="left" style="margin-top: 5px; margin-bottom: 5px" >    
+				<?php if($this->objIns==true):?>
+				<input onclick="window.location='<?=$this->baseUrl()?>/admin/kang/orcamentosnovo'" class="basicBtn" type="button" value="<?=$this->translate->_("Novo Orçamento")?>" >
+				<?php endif;?>
+			</div>            
+		</div>
+
+		<?php 
+		if ( count($this->objList) > 0) :			
+		?>
+        <div class="widget">
+ 			<div class="head" style="border-bottom: 0px"><h5 class="iFrames">Produtos</h5></div>
+        	<table class="tableStatic" style="width: 100%">
+            	<thead>
+                	<tr>
+                        <td width=""><?=$this->translate->_("Ord")?></td>
+                        <td width="30%"><?=$this->translate->_("Data")?></td>
+                        <td width="50%"><?=$this->translate->_("Cliente")?></td>
+                        <td width=""><?=$this->translate->_("Opções")?></td>                        
+                    </tr>
+                </thead>
+                <tbody>
+		
+					<?php 
+					$cor=0;
+			    	foreach($this->objList as $lista):
+			    	$cor++;
+					?>
+					<tr >
+		                <td style="text-align: center;">
+		                   <?php echo $cor?>
+		                </td>
+		                <td style="text-align: center;" >
+		                	<?=substr($lista->dtvenda,0,10)?>
+		                </td>
+		                <td align="left" >
+		                	<?php echo utf8_encode($lista->EMPRESA)?>
+		                </td>
+		                <td style="text-align: center;" >
+		                	<?php if($this->objEdi==true):?>
+		                	<a href="<?=$this->baseUrl()?>/admin/kang/orcamentonovodet/orc/<?=md5($lista->idped)?>" ><img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" border="0" title="Visualizar"></a>&nbsp;&nbsp;
+		                	<a href="#" onclick="if(confirm('Cancelar orçamento?')){ window.location='<?=$this->baseUrl()?>/admin/kang/remorcamento/orc/<?=md5($lista->idped)?>';};" ><img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" title="Remove" border="0" width="16"></a>
+		                	<?php endif; ?>
+		                </td>		                
+		            </tr>		            
+					<?php  
+					endforeach;	
+					?>
+				</tbody>
+			</table>
+		</div>
+		<?php 							
+		else :
+			?>
+			<div class="widget first" style="border: 1px solid #d5d5d5; padding: 20px; text-align: center;">
+				<?=$this->translate->_("Nenhum Orçamento Encontrado")?>
+			</div>
+			<?php 
+		endif;
+		?>    			
+	</div>

@@ -1,0 +1,134 @@
+<?php 
+$message = $this->objEmail;
+?>
+
+	<!-- Content -->
+    <div class="content">   
+    	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="#">Home</a> </li>
+                	<li><a href="<?php echo $this->baseUrl()?>/admin/correio">Correio eletrônico</a></li>
+                    <li class="lastB"><?php echo utf8_encode($message->subject)?></li>                     
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5><?php echo utf8_encode($message->subject)?></h5></div>
+        
+        <!-- Static table -->
+        <div class="widgets" >
+        <?php 
+        if($message->isMultipart()):
+            ?>
+        
+        	<div >               
+		        <div class="widget" style="border-top: 1px solid #d5d5d5; padding: 10px">
+		        	<?php 
+		        	
+		        	$remetente = str_replace("<", "", $message->from);
+		        	$remetente = str_replace(">", "", $remetente);
+		        	
+		        	$dest = str_replace("<", "", $message->to);
+		        	$dest = str_replace(">", "", $dest);
+		        	
+		        	echo "Remetente: <b>".$remetente."</b>";
+		        	
+		        	if(isset($message->cc)):
+		        		echo "<br />";
+		        		echo "Com cópia para: ".$message->cc;
+		        	endif;
+		        	echo "<br />";
+		        	echo "Destinatário: <b>".$dest."</b>";
+		        	
+		        	echo "<br />";
+		        	
+		        	
+		        	$foundPart = 0;
+		        	foreach (new RecursiveIteratorIterator($message) as $part) {
+		        			
+		        		if ((strtok($part->contentType, '/') == 'image')) {
+		        			foreach ($part->getHeaders() as $name => $value) {
+		        				if($name == "content-id"){
+		        					$fileName = str_replace("<", "", $value);
+		        					$fileName = str_replace(">", "", $fileName);
+		        					
+		        					$arrayimg[] = $fileName;
+		        				}
+		        			}
+		        		}
+		        		
+		        		
+		        		if (strtok($part->contentType, ';') == 'text/html') {
+							$textoamil =  utf8_encode(quoted_printable_decode($part->getContent()));
+		        		}
+		        		$foundPart++;		        		
+			        }
+		        	
+			        
+			        echo $this->baseUrl();
+			        
+			        if(count($arrayimg)>0):
+				        foreach ($arrayimg as $i => $value) {
+				        	$textoamil =	str_replace("cid:".$arrayimg[$i], $this->baseUrl()."/public/sistema/email/".$arrayimg[$i], $textoamil);				        	
+				        }
+			        endif;
+			        
+			        echo $textoamil;
+			        
+		        	?> 
+		    	</div>
+		    </div>
+		    <div >
+		    	<div class="widget" style="border-top: 1px solid #d5d5d5; padding: 10px">
+		    	<?php 
+		    	$foundPart = 0;
+		    	foreach (new RecursiveIteratorIterator($message) as $part) {
+		    		
+		    		if ((strtok($part->contentType, '/') == 'application') || (strtok($part->contentType, '/') == 'image')) {
+		    			 
+		    			//-- busco nome do arquivo ----------------------
+		    			$fileName = explode(";", $part->contentType);
+		    			$fileName = explode('=', $fileName[1]);
+		    			$fileName = str_replace('"', '', $fileName[1]);
+		    	
+		    	
+		    			?><a href="<?php echo $this->baseUrl()?>/admin/correio/baixaranexo/email/<?php echo $this->numEmail?>/parte/<?php echo $foundPart?>"><?php echo $fileName?></a><?php
+		    	    	echo "<br />";    							
+					}    
+					$foundPart++;
+					
+    			}		    	
+		    	?>
+		    	</div>		    
+            </div>       
+            <?php 
+            else:
+	        	
+	            ?>
+	            <div class="left" style="width: 100%">               
+			        <div class="widget" style="border-top: 1px solid #d5d5d5; padding: 10px; ">
+			        	<?php 
+			        	echo "Remetente: <b>".$message->from."</b>";
+			        	
+			        	if(isset($message->cc)):
+			        		echo "<br />";
+			        		echo "Com cópia para: ".$message->cc;
+			        	endif;
+			        	echo "<br />";
+			        	echo "Destinatário: <b>".$message->to."</b>";
+			        	
+			        	echo "<br />";
+			        	
+			        	echo "Mensagem: <br />";
+			        	echo nl2br(quoted_printable_decode($message->getContent()));
+			        	?>
+			        </div>
+			    </div>
+	            <?php 
+        	endif;
+            ?>       
+	    </div>
+    	<div class="fix"></div>    
+    </div>

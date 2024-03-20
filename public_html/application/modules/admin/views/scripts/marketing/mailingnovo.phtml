@@ -1,0 +1,236 @@
+<script type="text/javascript" src="<?=$this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxtpclientes.js"></script>
+
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/wysiwyg/jquery.wysiwyg.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/wysiwyg/wysiwyg.image.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/wysiwyg/wysiwyg.link.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/wysiwyg/wysiwyg.table.js"></script>
+
+
+<script>
+$(function() {
+//===== WYSIWYG editor =====//
+
+$('.wysiwyg').wysiwyg({
+	iFrameClass: "wysiwyg-input",
+	controls: {
+		bold          : { visible : true },
+		italic        : { visible : true },
+		underline     : { visible : true },
+		strikeThrough : { visible : false },
+		
+		justifyLeft   : { visible : true },
+		justifyCenter : { visible : true },
+		justifyRight  : { visible : true },
+		justifyFull   : { visible : true },
+		
+		indent  : { visible : true },
+		outdent : { visible : true },
+		
+		subscript   : { visible : false },
+		superscript : { visible : false },
+		
+		undo : { visible : true },
+		redo : { visible : true },
+		
+		insertOrderedList    : { visible : true },
+		insertUnorderedList  : { visible : true },
+		insertHorizontalRule : { visible : false },
+
+		h1: {
+		visible: true,
+		className: 'h1',
+		command: ($.browser.msie || $.browser.safari) ? 'formatBlock' : 'heading',
+		arguments: ($.browser.msie || $.browser.safari) ? '<h1>' : 'h1',
+		tags: ['h1'],
+		tooltip: 'Header 1'
+		},
+		h2: {
+		visible: true,
+		className: 'h2',
+		command: ($.browser.msie || $.browser.safari) ? 'formatBlock' : 'heading',
+		arguments: ($.browser.msie || $.browser.safari) ? '<h2>' : 'h2',
+		tags: ['h2'],
+		tooltip: 'Header 2'
+		},
+		h3: {
+		visible: true,
+		className: 'h3',
+		command: ($.browser.msie || $.browser.safari) ? 'formatBlock' : 'heading',
+		arguments: ($.browser.msie || $.browser.safari) ? '<h3>' : 'h3',
+		tags: ['h3'],
+		tooltip: 'Header 3'
+		},
+		h4: {
+		visible: true,
+		className: 'h4',
+		command: ($.browser.msie || $.browser.safari) ? 'formatBlock' : 'heading',
+		arguments: ($.browser.msie || $.browser.safari) ? '<h4>' : 'h4',
+		tags: ['h4'],
+		tooltip: 'Header 4'
+		},
+		h5: {
+		visible: true,
+		className: 'h5',
+		command: ($.browser.msie || $.browser.safari) ? 'formatBlock' : 'heading',
+		arguments: ($.browser.msie || $.browser.safari) ? '<h5>' : 'h5',
+		tags: ['h5'],
+		tooltip: 'Header 5'
+		},
+		h6: {
+		visible: true,
+		className: 'h6',
+		command: ($.browser.msie || $.browser.safari) ? 'formatBlock' : 'heading',
+		arguments: ($.browser.msie || $.browser.safari) ? '<h6>' : 'h6',
+		tags: ['h6'],
+		tooltip: 'Header 6'
+		},
+		
+		cut   : { visible : true },
+		copy  : { visible : true },
+		paste : { visible : true },
+		html  : { visible: true },
+		increaseFontSize : { visible : false },
+		decreaseFontSize : { visible : false },
+		},
+	events: {
+		click: function(event) {
+			if ($("#click-inform:checked").length > 0) {
+				event.preventDefault();
+				alert("You have clicked jWysiwyg content!");
+			}
+		}
+	}
+});
+
+//$('.wysiwyg').wysiwyg("insertHtml", "Sample code");
+
+});
+</script>
+
+<!-- Content -->
+    <div class="content">   
+    	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="#">Home</a> </li>
+                	<li><a href="<?php echo $this->baseUrl()?>/admin/marketing">Mailing</a></li>
+                	<li class="lastB">Novo mailing</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Novo Correio</h5></div>
+        
+        <!-- Form begins -->
+        <form action="<?php echo $this->baseUrl()?>/admin/marketing/enviarmensagem" class="mainForm" name="mensagem" method="post" enctype="multipart/form-data">
+        <!-- Input text fields -->
+            <fieldset >
+                <div class="widget first" >
+	                <div class="rowElem" style="border-top: 1px solid #d5d5d5; margin-top: -10px">
+	                	<label style="width: 10%">Para:</label>
+	                	<div class="formRight" style="width: 85%">
+	                		 
+						     <table style="width: 100%" border="1" >
+						     	<tr>
+						     		<td>
+						     			 <input type="checkbox" value="1" name="teste" ><label class="rightDir" title="Envio de teste enviará a mensagem apenas para o seu e-mail">Envio de teste</label>						     			 
+						     		</td>
+						     		<td >
+						     			<input type="checkbox" value="1" name="newsletter"> <label>Newsletter</label> 
+						     		</td>
+						     		<td >
+						     			<input type="checkbox" value="1" name="mercado"  onchange="contatosExibe();" > <label>Mercado</label> 
+						     		</td>
+						     	</tr>			     	
+						     	<tr>
+						     		<td>
+						     			<input type="checkbox" value="1" name="vendedores" ><label>
+						     		 	<a href="#" class="dcontexto" onmouseover="buscaClientesportipo('forcavenda');">
+						                   Força de vendas
+						                   <span id="divforcavenda" style="width: 400px" >	 
+						                   	<img alt="Carregando..." src="<?=$this->baseUrl(); ?>/images/loading.gif">        
+							               </span>
+							           	</a></label>
+						     		</td>
+						     		<td colspan="2">
+						     			<input type="checkbox" value="1" name="clientes"  onchange="contatosExibe();"> <label>Clientes</label> 
+						     		</td>
+						     	</tr>
+						     	<tr>
+						     		<td>
+						     			<input type="checkbox" value="1" name="funcionarios"> <label >Funcionários</label> 			                
+						     		</td>
+						     		<td colspan="2">
+						     		 	<input type="checkbox" value="1" name="alvos" onchange="contatosExibe();"> <label>Alvos</label>
+						     		</td>
+						     		
+						     	</tr>
+						     	<tr style="display: none;" id="contatostp">
+						     		<td colspan="3">
+							     		<input type="checkbox" value="1" name="gerente" > <label>Gerente/Supervisor</label> 
+							     		<input type="checkbox" value="1" name="vendedorext" > <label>Vendedor externo</label> 
+							     		<input type="checkbox" value="1" name="vendedorint" > <label>Vendedor interno</label>
+						     		</td>						     		
+						     	</tr>
+						     </table>			     
+	                		
+	                	</div><div class="fix"></div>
+	                </div>
+	                <div class="rowElem" >
+	                	<label style="width: 10%">Assunto:</label><div class="formRight" style="width: 85%"><input type="text" name="assunto" class="rightDir" title="Assunto do e-mail" /></div><div class="fix"></div>
+	                </div>
+	                <div class="rowElem" >
+	                	<label style="width: 10%; padding-bottom: 0px">Mensagem:</label>
+	                	<div class="formRight" style="width: 97%; margin-top: -15px">
+			                <div class="widget" style="border-top: 1px solid #d5d5d5;">    
+		                    	<textarea class="wysiwyg" rows="5" cols="" name="mensagem"></textarea>                
+		                	</div>
+	                	</div>
+	                	<div class="fix"></div>
+	                </div>
+	                    
+	                <div class="rowElem" >
+	                    
+	                	<input type="button" value="Enviar" onclick="alertaEnvia();" class="greyishBtn bConfirm" style="float: right; margin-right: 10px; margin-bottom: 10px "/>
+	                </div>
+		                	                
+	                <div class="fix"></div>	                
+
+                </div>
+                
+            
+            <div class="fix"></div>
+            
+            </fieldset>
+            
+    	</form>
+        
+    	<div class="fix"></div>
+    
+    </div>
+    
+    <script>
+	function contatosExibe(){
+		var alvo = document.mensagem.alvos.checked;
+		var cliente = document.mensagem.clientes.checked;
+		var mercado = document.mensagem.mercado.checked;
+
+		if((alvo == true) || (mercado == true) || (cliente == true)){
+			document.getElementById('contatostp').style.display = 'table-row';
+		}else{
+			document.getElementById('contatostp').style.display = 'none';
+		}
+	}
+
+	function alertaEnvia(){
+		jConfirm('Você não poderá cancelar esse processo.\nDeseja continuar?', 'Confirme', function(r) {
+			if(r==true){
+				document.mensagem.submit();
+			}
+		});
+    }
+
+    
+    </script>
+    

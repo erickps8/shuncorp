@@ -1,0 +1,162 @@
+<!-- Content -->
+    <div class="content">   
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoqueresumo">Estoque</a></li>   
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoquegrupo/fil/comp">Extrato</a></li>       
+                	<li class="lastB">Movimentação do <?=strtoupper($this->objCod)?></li>
+                </ul>
+            </div>
+        </div>  
+
+		<div class="title">
+			<h5>Movimentação do <?=strtoupper($this->objCod)?></h5>
+			<div style="float: right; padding: 10px">
+				<a target="_blank" href="<?=$this->baseUrl()?>/admin/compras/extratoprodexp/tipo/2"><img title="Imprimir" src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/excelDocwhite.png" border="0" width="18" /> </a>
+				<a target="_blank" href="<?=$this->baseUrl()?>/admin/compras/extratoprodimp"><img title="Imprimir" src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/printerwhite.png" border="0" width="18" /> </a>
+			</div>
+		</div>
+		
+	
+      	<div class="widgets" >
+        	<!-- Busca -->
+        	<div class="first" style="margin-bottom: 5px; " > 
+		      	<form action="<?=$this->baseUrl()?>/admin/compras/extratoprod" method="post" name="filtro" class="mainForm">
+		      		<input type="hidden" name="codproduto" value="<?php echo $this->objCod?>">
+		      		<table style="border: 1px solid #d5d5d5; width: 30%; "  >
+					    <tr>
+						<td align="left" style="padding: 10px">
+							Data inicial:<br>
+						    <input type="text" size="10" name="dataini" id="dataini" class="data datepicker">
+						</td>
+						<td align="left" >
+						    Data Final:<br>
+						    <input type="text" size="10" name="datafin" id="datafin" class="data datepicker">
+						</td>
+						<td align="left" >
+						    <br>
+						    <input type="submit" value="Filtrar" class="blueBtn">
+						</td>
+					
+						</tr>
+					</table>
+		      	</form>
+      		</div>
+      	</div>	
+	    <?php if (count($this->objList) > 0){ ?>
+	  	
+      	<?php if(($this->objPag==1)||(empty($this->objPag))): ?>
+      	<div class="widgets" >
+      		<div class="widget" style="border-top: 1px solid #d5d5d5; ">
+      		
+	      		<table style="width: 100%">
+					<tr>
+						<td align="left" width="50%" style="padding: 10px">
+							Estoque Final
+						</td>
+						<td align="center" class="tdpar">
+							<?php echo $this->objDtfin?>
+						</td>
+						<td align="center" class="tdpar">
+							<?php echo $this->objQtfinal?>
+						</td>
+					</tr>
+		        </table>
+		    </div>
+		</div>
+      	<?php endif;?>
+      	
+      	<div class="widget first">
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td >Tipo</td>
+                        <td >Parceiro</td>
+                        <td >Data</td>
+                        <td >Quantidade</td>
+                        <td >Estoque</td>
+                        <td >Usuário</td>
+                    </tr>
+                </thead>
+                <tbody>
+      		        <?php 
+			        	$cor=0;
+				        foreach($this->objList as $listProd):
+				        
+		        			$cor++;
+		        			if(($cor%2)==0) $class = 'tdpar';
+			            	else $class = 'td';
+			            	
+			            	$dt_inicial = $listProd->dt_at;
+			            	$qt_inicial = $listProd->qt_atual;
+			            	
+		        			?>
+		        			<tr >
+				                <td class="<?=$class?>" align="left"><?php 
+				                if(strpos($listProd->tipo, "FABRICA")!==false):
+				                	?> FABRICAÇÃO <a target="_blank" href="<?=$this->baseUrl()?>/admin/compras/fabricaprod/fab/<?=md5($listProd->id_atualizacao)?>" >F<?=substr("000000".$listProd->id_atualizacao,-6,6);?></a> <?php 
+				                elseif(strpos($listProd->tipo, "VENDA CANCELA")!==false):
+				                	?> VENDA CANCELADA <a target="_blank" href="<?=$this->baseUrl()?>/admin/venda/pedidoshttp://www.ztlbrasil.com.br/public/legado/acessoRestrito/pedidos_fix.php?ped=<?=($listProd->id_atualizacao)?>" ><?=$listProd->id_atualizacao;?></a><?php 
+				                elseif(strpos($listProd->tipo, "VENDA")!==false):
+				                	?> VENDA <a target="_blank" href="<?=$this->baseUrl()?>/admin/venda/pedidosvenda/ped/<?=md5($listProd->id_atualizacao)?>" ><?=$listProd->id_atualizacao;?></a><?php 
+				                elseif(strpos($listProd->tipo, "SIAC")!==false):
+				                	echo utf8_encode($listProd->tipo);
+				                elseif(strpos($listProd->tipo, "AJUSTE CANCELADO")!==false):
+				                	?> AJUSTE CANC <a target="_blank" href="<?=$this->baseUrl()?>/admin/compras/ajusteprod/ajuste/<?=md5($listProd->id_atualizacao)?>" >A<?=substr("000000".$listProd->id_atualizacao,-6,6);?></a><?php 
+				                elseif(strpos($listProd->tipo, "AJUSTE")!==false):
+				                	?> AJUSTE <a target="_blank" href="<?=$this->baseUrl()?>/admin/compras/ajusteprod/ajuste/<?=md5($listProd->id_atualizacao)?>" >A<?=substr("000000".$listProd->id_atualizacao,-6,6);?></a><?php 
+				                elseif(strpos($listProd->tipo, "COMPRA")!==false):
+				                	?> ENTRADA <a target="_blank" href="<?=$this->baseUrl()?>/admin/compras/entradaprod/entrada/<?=md5($listProd->id_atualizacao)?>" >E<?=substr("000000".$listProd->id_atualizacao,-6,6);?></a><?php 
+				                elseif(strripos($listProd->tipo, "GARANTIA CANCELA")!==false):
+				                	?> GARANTIA CANCELADA <a target="_blank" href="<?=$this->baseUrl()?>/admin/venda/garantiaspag/garantia/<?=md5($listProd->id_atualizacao)?>" >G<?=substr("000000".$listProd->id_atualizacao,-6,6);?></a><?php
+				               elseif(strpos($listProd->tipo, "GARANTIA")!==false): 
+				               		?> GARANTIA <a target="_blank" href="<?=$this->baseUrl()?>/admin/venda/garantiaspag/garantia/<?=md5($listProd->id_atualizacao)?>" >G<?=substr("000000".$listProd->id_atualizacao,-6,6);?> </a> <?php
+				               elseif(strpos($listProd->tipo, "NFe Avulsa")!==false):
+				                	?> NFe Avulsa <a target="_blank" href="<?=$this->baseUrl()?>/admin/nfe/visualizarnfe/nfe/<?=md5($listProd->id_atualizacao)?>/tipo/avulsa" >NFe<?=substr("000000".$listProd->id_atualizacao,-6,6);?></a><?php
+				               endif;
+				                
+				                ?> 
+				                <?php if(!empty($listProd->obsest)){ ?>
+					                <a href="#" class="dcontexto">
+					                	<img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/dark/alert2.png" alt="Correção com representante" > 	
+				                		<span style="width: 250px; margin-left: -150px"><?php echo $listProd->obsest?></span>
+				                	</a>
+				                <?php } ?>
+				                <td class="<?=$class?>">
+				                	<?php 
+				                	echo (strpos($listProd->tipo, "VENDA")!==false) ? $listProd->clienteped : "";
+				                	echo (strpos($listProd->tipo, "GARANTIA")!==false) ? $listProd->clientegar : "";
+				                	?></td>
+				                <td class="<?=$class?>" align="center"><?php echo $listProd->dt_at?></td>
+				                <td class="<?=$class?>" align="center"><?php echo $listProd->qt_atualizacao?></td>
+				                <td class="<?=$class?>" align="center"><?php echo $listProd->qt_atual?></td>
+				                <td class="<?=$class?>" align="center"><?php echo $listProd->nome?></td>
+				            </tr>
+		        				
+				        	<?php  
+	          	 		endforeach;
+          	 		?>
+                </tbody>
+            </table>            
+        </div>
+        <div style="margin-top: 20px">
+			<?php 
+			if ( count($this->objList) > 0) :
+				echo $this->objList;
+			endif;
+		    ?>
+		</div>
+		<?php 
+		}else{
+		?>
+		<div class="widget first" style="padding: 10px; text-align: center; border-top: 1px solid #d5d5d5;">
+ 			Nenhuma movimentação Encontrada
+		</div>	
+		<?php 
+		}
+		?>
+	</div>
+	

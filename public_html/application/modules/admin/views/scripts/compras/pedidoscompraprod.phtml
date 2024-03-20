@@ -1,0 +1,288 @@
+<!-- Calendarios -->
+<link type="text/css" rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.css?random=20051112" media="screen"></LINK>
+<SCRIPT type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.js?random=20060118"></script>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td>
+		<table width="100%" style="margin-bottom: 4px" cellpadding="0" cellspacing="0" >
+			<tr>
+				<td align="left">
+					<a href="<?php echo $this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+					<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+					<b><a href="<?php echo $this->baseUrl(); ?>/admin/compras/pedidoscompra">PEDIDOS DE COMPRA</a></b> 
+				</td>				
+			</tr>
+		</table>
+	</td>
+</tr>
+<tr>
+	<td>
+		<table width="100%" class="borda_titulo">
+			<tr>
+				<td  >
+				<?php 
+				foreach($this->objPed as $listap);
+				$ped	= $listap->idped;
+				$status = $listap->STATUS;
+				?>
+				PEDIDO COMPRA Nº <?=$ped?></td>
+				<td style="text-align: right;">
+				<?php if(($status!='FINALIZADO') and ($status!='CANCELADO')): ?> 
+				<a href="<?=$this->baseUrl()?>/admin/compras/gerarxmlcompra/ped/<?=md5($ped)?>"><img src="<?=$this->baseUrl()?>/images/xml.png" title="Exportar" border="0" width="17"></a>
+				<?php endif; ?>
+				</td>
+			</tr>
+		</table>
+	</td>
+</tr>
+<tr>
+	<td>		
+		<table width="100%" cellspacing="0" cellpadding="0" >
+			<tr>
+				<td>				
+				<input type="hidden" name="ped" value="<?=md5($ped)?>">
+				<table align="left" class="mytable" width="100%" style="margin-top: 10px" cellspacing="0" cellpadding="0" >
+					<tr>
+			            <th  class="th_canto" align="left" colspan="7" height="20px" style="text-transform: uppercase; padding-left: 3px">
+			                <?=$listap->EMPRESA?>
+			            </th>			            
+			        </tr>
+					<tr>
+			            <th  class="th_canto" style="text-align: center;" width="5%">
+			                ORD
+			            </th>
+			            <th  class="th_pedido" style="text-align: center;" width="17%" >
+			                CODIGO 
+			            </th>	            
+			            <th  class="th_pedido" style="text-align: center;" width="10%" >
+			                NCM
+			            </th>
+			            <th  class="th_pedido" style="text-align: center;" width="8%">
+			                MOEDA
+			            </th>
+			            <th  class="th_pedido" style="text-align: center;" width="10%">
+			            	QT PED 
+			            </th>
+			            <th  class="th_pedido" style="text-align: center;" width="8%">
+			                PREÇO
+			            </th>
+			            <th  class="th_pedido" style="text-align: center;" width="15%">
+			                PREÇO TOTAL
+			            </th>			            		            
+			        </tr>
+				        
+					<?php 
+					$cont=0;
+					$cor=0;
+										
+					foreach($this->objList as $lista):
+			    		$cor++;
+			            if(($cor%2)==0) $class = 'tdpar';
+			            else $class = 'td';
+			            
+				        ?>
+						<tr >
+			                <td  class="<?=$class?>" style="text-align: center;" > 
+			              		<?=$cor?>                      
+			                </td>
+			                <td  class="<?=$class?>" align="left" > 
+			                    <a href="<?=$this->baseUrl();?>/admin/cadastro/produtosvis/produto/<?=md5($lista->idprod)?>" target="_blank">
+								<?php echo $lista->CODIGO?>
+								</a>         
+			                </td>
+			                <td  class="<?=$class?>" style="text-align: center;" >
+			                	<?=$lista->ncm." ".$lista->ncmex?>
+			                </td>  
+			                <td  class="<?=$class?>" style="text-align: center;" >
+			                	<?=$lista->moedap?>
+			                </td>  
+			                <td  class="<?=$class?>" style="text-align: center;" > 
+			                    <?=$lista->QUANTIDADE?>              
+			                </td>
+			                <td  class="<?=$class?>" style="text-align: right;">
+			                	<?=number_format($lista->preco,3,",",".")?>
+			                </td>
+			                <td  class="<?=$class?>" style="text-align: right;">
+			                	<?=number_format($lista->preco*$lista->QUANTIDADE,3,",",".")?>
+			                </td>		                            
+			            </tr>
+			            
+						<?php 
+						$moeda	= $lista->moedap;
+						$total_pecas  += $lista->QUANTIDADE;
+						$total_pedido += $lista->preco*$lista->QUANTIDADE;						
+					endforeach;
+					
+						?>
+						<tr>		    
+							<td class="tdpar" align="left" colspan="7">
+				            Data entrega:
+				              <b><?=$listap->dtchegada?></b>
+				              &nbsp;  &nbsp;  &nbsp; 
+			                Aceita entrega parcial? 
+				                <b><?php 
+				                if($listap->partial_shipment=='NO') echo "NÃO";
+				                else echo "SIM";
+				                ?> </b>
+			                </td>							
+						</tr>
+						<tr>		    
+							<td align="left" colspan="5" class="td_total" valign="top">								
+								Observa&ccedil;&otilde;es<br>
+								<b><?=$listap->OBSERVACOES?></b>								
+							</td>
+							<td align="left" colspan="2" class="td_total2" valign="top">
+								<br>
+								Total de pe&ccedil;as<br>
+								 <span style="font-size: 14px; font-weight: bold; text-align: right;"><?=$total_pecas?></span><br>
+			                    Valor Total<br>
+			                    <span style="font-size:14px; font-weight:bold; color:#0010e1;"><?=$moeda." ".number_format($total_pedido,3,',','.')?></span><br>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>						
+		</table>
+	</td>
+</tr>
+
+<?php
+
+if(!empty($this->objEnt)):
+	?>
+<tr>
+	<td align="left" style="font-weight: bold; font-size: 12px">
+	<br><br>
+		Produtos entregues
+	</td>
+</tr>
+<tr>
+	<td align="left">
+		<table width="80%" style="border: 1px solid #999; margin-top: 6px; border-collapse: collapse; " cellpadding="3"  >
+			<tr>
+				<td style="text-align: center;" style="border: 1px solid #999; font-weight: bold;" width="10%">
+				Entrada
+				</td>
+				<td style="text-align: center;" style="border: 1px solid #999; font-weight: bold;" width="15%">
+				Data
+				</td>
+				<td style="text-align: center;" style="border: 1px solid #999; font-weight: bold;" width="20%">
+				Código
+				</td>
+				<td style="text-align: center;" style="border: 1px solid #999; font-weight: bold;" width="10%">
+				Qt
+				</td>
+				<td style="text-align: center;" style="border: 1px solid #999; font-weight: bold;" width="15%">
+				Preço
+				</td>
+				<td style="text-align: center;" style="border: 1px solid #999; font-weight: bold;" width="25%">
+				Preço Total
+				</td>
+			</tr>
+			<?php
+			$coent = $totalv = $totalp = 0;						 
+			foreach($this->objEnt as $listae):
+				$coent++;
+				if($coent==1):
+				?>
+				
+				<?php endif;?>
+				<tr>
+				<td width="20%" style="text-align: center;" >
+				<a href="<?=$this->baseUrl();?>/admin/compras/entradaprod/entrada/<?=md5($listae->docent)?>" target="_blank">
+				E<?=substr("000000".$listae->docent,-6,6);?>
+				</a>
+				</td>
+				<td width="20%" style="text-align: center;"><?=$listae->dtent;?></td>
+				<td width="30%" align="left">
+				<a href="<?=$this->baseUrl();?>/admin/cadastro/produtosvis/produto/<?=md5($listae->idprod)?>" target="_blank">
+				<?=$listae->CODIGO;?>
+				</a>
+				</td>
+				<td width="15%" style="text-align: center;"><?=$listae->qtent; $totalp += $listae->qtent;?></td>
+				<td style="text-align: right;">
+				<?=number_format($listae->precocomp,3,",",".")?>
+				</td>				
+				<td style="text-align: right;">
+				<?=number_format($listae->qtent*$listae->precocomp,3,",","."); $totalv += $listae->qtent*$listae->precocomp;?>
+				</td>
+				</tr>
+				<?php 				
+			endforeach;
+			?>		
+			<tr>
+				<td colspan="3" style="background-color: #e8e5e5; text-align: right;" >Total peças: <b><?=$totalp?></b></td>
+				<td colspan="3" style="background-color: #e8e5e5; text-align: right;">
+				Valor Total: <b>
+				<?=number_format($totalv,3,",",".");?></b>
+				</td>				
+			</tr>								
+		</table>
+	</td>
+</tr>
+
+<?php 				
+endif;
+
+
+
+if(($status!='FINALIZADO') and ($status!='CANCELADO') and ($this->objEdi==true)): ?> 
+<tr>
+	<td align="left">
+		<input type="button" value="Fechar pedido" style="margin-top: 8px" 
+		onclick="alertaConfirm('Confirme!', 'Deseja finalizar este pedido de compra?', 'pergunta', 110, 330);">		
+	</td>
+</tr>		
+<?php endif;?>
+</table>                
+        <script type="text/javascript">
+        var alertaConfirm = function(titulo, msg, tipo, altura, largura) {
+        	$('body').append('<a href="#" id="alerta-confirm"></a>');
+        	$('#alerta-confirm').m2brDialog({
+        			draggable: true,
+        			texto: msg,
+        			tipo: tipo,
+        			titulo: titulo,
+        			altura: altura,
+        			largura: largura,
+        			botoes: {
+        				1: {
+        					label: '<?=$this->translate->_("sim")?>',
+        					tipo: 'link',
+        					endereco: '<?=$this->baseUrl()?>/admin/compras/fecharpedidocompra/ped/<?=md5($ped)?>'
+        				},
+        				2: {
+        					label: '<?=$this->translate->_("n&atilde;o")?>',
+        					tipo: 'fechar'
+        				}
+        			}								   
+        	});
+        	$('#alerta-confirm')
+        		.click()
+        		.remove();
+        };
+
+        
+        var alertaPadrao = function(titulo, msg, tipo, altura, largura) {
+			$('body').append('<a href="#" id="alerta-padrao"></a>');
+			$('#alerta-padrao').m2brDialog({
+					draggable: true,
+					texto: msg,
+					tipo: tipo,
+					titulo: titulo,
+					altura: altura,
+					largura: largura,
+					botoes: {
+						1: {
+							label: 'Fechar',
+							tipo: 'fechar'
+						}
+					}									   
+			});
+			$('#alerta-padrao')
+				.click()
+				.remove();
+		};
+        </script>
+	

@@ -1,0 +1,70 @@
+<?php 
+foreach ($this->objAjus as $fab);
+?>
+
+<!-- Content -->
+    <div class="content">   
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoqueresumo">Estoque</a></li>
+                	<li class="lastB">F<?=substr("000000".$fab->idfabrica,-6,6);?></li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>F<?=substr("000000".$fab->idfabrica,-6,6);?></h5></div>
+        
+        <div class="widgets" >
+       
+       	<?php 
+        if ( count($this->objList) > 0){
+		?>
+			<div class="widget">
+	 			<table style="width: 100%" class="tableStatic">
+	            	<thead>
+	                	<tr>
+	                		<td width="10%">Ord</td>
+	                        <td width="20%">Código</td>
+	                        <td width="50%">Descrição</td>
+	                        <td width="">Qt</td>
+	                    </tr>
+	                </thead>
+	                <tbody>
+			  		<?php 
+			    	$cor=0;
+			        foreach ($this->objList as $listProd){
+						$cor++;
+	        			?>
+	        			<tr >
+			                <td align="center"><?php echo $cor?></td>
+			                <td align="left">
+			            	<a href="<?=$this->baseUrl();?>/admin/cadastro/produtoscad/produto/<?=md5($listProd->id_prod)?>" target="_blank">
+								<?php echo $listProd->CODIGO?></a>    
+			        		</td>    
+	        			    <td align="left"><?php echo $listProd->DESCRICAO?></td>
+			                <td align="center"><?php echo $listProd->qt?></td>			                
+			            </tr>
+	        				
+			        	<?php
+			        	}
+			        	?>
+			        </tbody>
+			    </table>
+			<?php 
+			}
+			?>
+			</div>
+			
+			
+			<div class="widget" style="border-top: 1px solid #d5d5d5; padding: 10px">
+				Usuário: <b><?php echo $fab->nome?></b><br />       	
+	        	Observação:<br>
+	        	<?php
+	        		echo $fab->obs; 			        	
+	        	?>
+			</div>
+		</div>
+	</div>	        	

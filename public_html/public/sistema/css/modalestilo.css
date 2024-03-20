@@ -1,0 +1,39 @@
+@CHARSET "UTF-8";
+.window{
+	border: 1px solid #fff;
+	border-radius: 5px;
+    display:none;
+    width:300px;
+    height:300px;
+    position:fixed;
+    left:0;
+    top:0;
+    background:#F4F4F4;
+    z-index:9900;
+    padding:10px;
+    box-shadow: 0px 0px 20px #333;
+  	-moz-box-shadow: 0px 0px 20px  #333;
+  	-webkit-box-shadow: 0px 0px 20px  #333;
+}
+ 
+#mascara{
+    display:none;
+    position:absolute;
+    left:0;
+    top:0;
+    z-index:9000;
+    background-color:#000;
+}
+ 
+.fechar{display:block; text-align:right;}
+
+.titulojanela{
+	font-size: 26px; 
+	color: #000;
+}
+
+.subtitulojanela{
+	font-size: 14px; 
+	color: #000;
+	position: absolute;
+}

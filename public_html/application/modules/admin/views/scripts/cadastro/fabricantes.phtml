@@ -1,0 +1,86 @@
+
+
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl(); ?>/admin/cadastro/veiculos">VEÍCULOS</a>&nbsp;
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp; 
+		<b><a href="<?=$this->baseUrl(); ?>/admin/cadastro/fabricantes">FABRICANTES</a></b>		    	
+	</div>
+	<div id="sistitulo">FABRICANTES</div>
+	<div id="sisconteudo">
+		<?php  if($this->objIns==true):?>
+		<div style="margin-bottom: 5px">
+    	<input type="button" class="button" onclick="window.location='<?=$this->baseUrl()?>/admin/cadastro/fabricantescad'" value="Novo Fabricante" />
+    	<div style="padding: 10px; border: 1px solid; margin-top: 5px; width: 50%">
+    		<form action="" method="post">
+    		<input type="text" size="30" name="fabricante">
+    		<input type="submit" value="Buscar">
+    		</form>
+    	</div>
+    	</div>
+		<?php endif;?> 
+		<div>
+			<?php
+			if (count($this->objList) > 0) :
+			?>
+			<table class="mytable">
+		         <tr>
+		            <th  class="th_canto_orc" align="center" width="15%">
+		                ID
+		            </th>
+		            <th  class="th_orc" align="center" width="45%">
+		                FABRICANTE
+		            </th>
+		            <?php if ($this->objEdi==true){  ?>
+		            <th  class="th_orc" align="center" width="12%">
+		                Op&ccedil;&otilde;es
+		            </th>
+		            <?php } ?>
+		        </tr>		       
+			<?php 
+			$cor=0;
+	    	foreach($this->objList as $lista):
+		    	$cor++;
+	            if(($cor%2)==0) $class = 'td_orc_par';
+	            else $class = 'td_orc';
+				?>
+				
+				<tr >
+	                <td  class="<?=$class?>" style="text-align: center;" >
+	                   <?=$lista->id?>
+	                </td>
+	                <td  class="<?=$class?>" style="text-transform: uppercase; text-align: left;" >
+	                   <?=$lista->no_fabricante?>
+	                </td>
+	                <?php if ($this->objEdi==true){  ?>
+	                <td  class="<?=$class?>" style="text-align: center;" >
+	                	<a href="<?=$this->baseUrl()?>/admin/cadastro/fabricantescad/idfab/<?=md5($lista->id)?>" ><img src="<?=$this->baseUrl(); ?>/images/edit_orc.gif" width="15" height="15" border="0" title="Editar" ></a>
+	                	<a href="javascript:void(0)" onclick="if(confirm('Remover Fabricante?')){ window.location='<?=$this->baseUrl()?>/admin/cadastro/fabricantesrem/idfab/<?=md5($lista->id)?>';};" ><img src="<?=$this->baseUrl()?>/images/window-close.png" width="15" border="0" title="Remover"></a>
+	                </td>
+	                <?php  }  ?>
+	            </tr>
+            	<?php  
+			endforeach;
+			?>        
+			
+			</table>
+			</div>
+			<div>&nbsp;<br /><br />
+				<?php 
+		            if ( count($this->objList) > 0) :
+		            	echo $this->objList;
+		            endif;
+            	?>
+            </div>
+         	 <?php 
+			else :
+			?>
+			<div style="text-align: center; margin-top: 20px">Nenhum Fabricante Cadastrado</div>			
+			<?php 
+			endif;
+		?>
+		</div>
+	</div>
+	

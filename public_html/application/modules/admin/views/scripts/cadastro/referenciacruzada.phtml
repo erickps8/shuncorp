@@ -1,0 +1,229 @@
+<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/cadastroReferenciacruzada.js"></script>
+
+<!-- Content -->
+    <div class="content">   
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li class="lastB"><a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/referenciacruzada">Referência cruzada</a></li>         
+                </ul>
+            </div>
+        </div>       
+
+        <div class="title"><h5>Referência cruzada</h5></div>
+
+        <div class="widgets">
+        	<div class="right" style="text-align: right; padding-top: 7px; width: 30%">
+	        	<a href="<?=$this->baseUrl(); ?>/admin/cadastro/referenciacruzadacad"><?=$this->translate->_("Códigos")?></a> |
+	    		<a href="<?=$this->baseUrl(); ?>/admin/cadastro/referenciacruzadarel"><?=$this->translate->_("Cruzamento entre empresas")?></a>
+	        </div>
+	        
+	        <div class="clear"></div>
+        	
+        	<div class="widget" style="padding: 10px; border-top: 1px solid #d5d5d5;">	        	
+	        	<div class="left" style="width: 40%">
+		        	<form action="<?php echo $this->baseUrl(); ?>/admin/cadastro/referenciacruzada" method="post" name="form" class="mainForm" >
+						<table style="border: 1px solid #d5d5d5;" >
+						    <tr>
+						    	<td style="padding: 10px; width: 20%">
+						    		Buscar:<br>
+						    		<div class="styled-select" style="width: 170px">
+							    	<select name="fabrica" id="fabrica" style="width: 212px;">
+							    		<?php foreach ($this->objFabricas as $listfab): ?>							    		
+											<option value="<?=$listfab->id?>" <?php if($listfab->id == 1) echo 'selected="selected"'; ?>><?=$listfab->no_fabricante?></option>
+										<?php endforeach; ?>
+									</select>
+									</div>
+						    	</td>
+						    	<td align="left"><br>
+							    	<input type="text" name="buscacod" onKeyDown="Mascara(this,Codigo);" style="width: 70px">
+									<input type="submit" value="<?=$this->translate->_("Buscar")?>" class="blueBtn">
+						    	</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+	        	
+	        	<div class="right" style="width: 55%">
+	        		<?php 
+					
+					if($this->objIns==1):
+					if(!empty($this->objCodigo) and ($this->objZtl!=1)): 
+					foreach ($this->objFabrica as $listfabrica);
+					
+					?>
+					<form  method="post" class="mainForm" >
+					<table style="border: 1px solid #d5d5d5; width: 100%" >
+					    <tr>
+					    	<td style="padding: 10px 0px 10px 10px">
+					    		Inclusão:<br>
+					    		<div class="styled-select" style="width: 180px">
+						    	<select name="fabricainc" id="fabricainc" style="width: 202px;">
+						    		<option value="0">Selecione</option>
+									<?php foreach ($this->objFabricas as $listfab): 
+									if(($listfabrica->id!=$listfab->id) and ($listfab->id != 1)):
+							    	?>
+									<option value="<?=$listfab->id."-".$listfab->no_fabricante?>"><?=$listfab->no_fabricante?></option>
+									<?php 	endif;
+									endforeach; ?>
+								</select>
+								</div>
+					    	</td>
+					    	<td >
+						    	<br /><input type="text" name="codigoinc" id="codigoinc" style="width: 70px" class="alpha">
+						    </td>
+						    <td style="width: 20%; line-height: 30px">
+						    	<input type="checkbox" name="principal" id="principal" value="1"> &nbsp; Compras<br />
+						    	<input type="checkbox" name="visualizar" id="visualizar" value="1"> &nbsp; Visualizar
+						    </td>
+						    <td >
+								<br /><input type="button" onclick="adcionaCodigos();" value="<?=$this->translate->_("Incluir")?>" class="greenBtn">
+					    	</td>
+						</tr>
+					</table>
+					</form>
+					<?php endif; 
+					endif;
+					?>
+	        	</div>	 
+		        
+		        <div class="clear"></div>
+           	
+	        	<form action="<?php echo $this->baseUrl(); ?>/admin/cadastro/cadreferencias" method="post" name="inccodigos" id="inccodigos" onsubmit="return verificaSubmit();" class="mainForm" >
+	        		<div class="left" style="width: 30%; padding: 10px 0px 0px 0px">
+	        			<?php 
+							if(!empty($this->objCodigo) and ($this->objZtl!=1)):
+								foreach ($this->objFabrica as $listfabrica);
+								?>
+								<span style="font-weight: bold; font-size: 14px;"><?=$listfabrica->no_fabricante?></span><br>
+								<span style="font-weight: bold; font-size: 30px"><?=strtoupper($this->objCodigo)?></span>
+								<input type="hidden" name="codigonovo" id="codigonovo" value="<?=$this->objCodigo.":".$listfabrica->id?>" />
+								<?php  
+								$idscodigos = strtoupper($this->objCodigo).":".$listfabrica->id.";";						
+							endif;		
+						?>
+	        		</div>
+	        		
+	        		<div id="idcross" class="right" style="width: 55%;">
+						<b>
+						<?php
+						if($this->objZtl==1):
+							?>Código digitado não é ZTL!<?php
+						else:
+						if($this->objCross == 'erro'): 
+							?>Código não cadastrado!<?php 
+						elseif((count($this->objCross) == 0) and (!empty($this->objCodigo))): 
+							?>Não existe referências para este código!<?php
+						endif; 
+						if(!empty($this->objCodigo)):
+						?></b>
+						<div class="widget">
+							<table style="width: 100%" class="tableStatic" id="tbcodigos">
+				            	<thead>
+				                	<tr>
+				                        <td width="5%">&nbsp;</td>
+				                        <td ><?=$this->translate->_("FABRICANTE")?></td>
+				                        <td ><?=$this->translate->_("CÓDIGO")?></td>
+				                        <td width="5%">&nbsp;</td>
+				                    </tr>
+				                </thead>
+				                <tbody>
+							
+								<?php 
+								if(($this->objCross!='erro') and (count($this->objCross) > 0)):
+									foreach ($this->objCross as $list):
+										?>
+										<tr>
+											<td style="text-align: center;">
+												<?php 
+												if($list->principal == 1) echo " C ";
+												if($list->visualizar == 1) echo " V ";
+												?>
+											</td>
+											<td ><?=($list->no_fabricante)?><!--  <input type='hidden' name='veiculo_<?=$list->idveiculo?>' value='<?=$list->idveiculo?>' > --> </td>
+											<td ><?=($list->codigo)?></td>
+											<td >
+											<?php if($this->objEdi==1): ?>
+											<a href="javascript:void(0);" onclick="deleteRowcodigo(this.parentNode.parentNode.rowIndex,'<?=$list->codigo.":".$list->idfabricante?>')"><img src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/close.png" width="15" ></a>
+											<?php endif;?>
+											</td>
+											
+										</tr>
+										<?php
+										$idscodigos .=  $list->codigo.":".$list->idfabricante.";";
+									endforeach;
+								endif;
+								?>
+								</tbody>								
+							</table>
+							<input type="hidden" name="arrcodigos" id="arrcodigos" value="<?=$idscodigos?>">
+							<input type="hidden" name="arrcodigosrem" id="arrcodigosrem" value="">
+							<input type="hidden" name="arrcodigosnovos" id="arrcodigosnovos" value="">
+							
+							<input type="hidden" name="codigonovo" id="codigonovo" value="<?=$this->objCodigo.":".$listfabrica->id?>" />
+							
+							<?php endif;
+							endif;
+							?>
+						</div>
+					</div>
+					
+					<div class="clear"></div>
+						        	
+					<?php 
+					if($this->objIns==1):
+						if(!empty($this->objCodigo) and ($this->objZtl!=1)): ?>
+						<div style=" margin-top: 25px">
+						<input type="submit" value="<?=$this->translate->_('Salvar')?>" class="greenBtn">
+						</div>
+						<?php 
+						endif;
+					endif; 
+					?>
+					
+	        	</form>
+	        	<div class="clear"></div>	        	
+	        	
+        	 </div>
+        	
+			<div class="widget">
+				<div class="head" style="border-bottom: 0px"><h5 class="iFrames">Histórico de pesquisa</h5></div>
+				<table style="width: 100%" class="tableStatic" id="tbcodigos">
+	            	<thead>
+	                	<tr>
+	                        <td ><?=$this->translate->_("Fabricante")?></td>
+	                        <td ><?=$this->translate->_("Código")?></td>
+	                        <td ><?=$this->translate->_("Data")?></td>
+	                        <td ><?=$this->translate->_("Usuário")?></td>
+	                    </tr>
+	                </thead>
+	                <tbody>
+						<?php 
+						if(count($this->objHistb) > 0):
+							foreach ($this->objHistb as $listb):
+								?>
+								<tr>
+									<td><?=($listb->no_fabricante)?></td>
+									<td><a href="<?php echo $this->baseUrl(); ?>/admin/cadastro/referenciacruzada/buscacod/<?=$listb->codigo?>/fabricamd/<?=md5($listb->idfabricante)?>" ><?=utf8_encode($listb->codigo)?></a></td>
+									<td style="text-align: center;" ><?=$listb->databusca?></td>
+									<td style="text-align: center;" ><?=$listb->nome?></td>
+								</tr>
+								<?php
+								//$idscodigos .=  $list->codigo.":".$list->idfabricante.";";
+							endforeach;
+						endif;
+						?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>	
+<script>
+(function(){
+	document.form.fabrica.focus();
+})();
+
+<?php if($this->objRes == "sucesso"){ ?> jAlert("Salvo com sucesso!","Sucesso!"); <?php } ?>
+</script>

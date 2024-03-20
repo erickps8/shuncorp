@@ -1,0 +1,15 @@
+<?php if(!empty($this->objFila)): ?>
+	<table border="0" style="margin-top: 5px">
+		<tr>
+		<?php 
+		foreach ($this->objFila as $fila):
+		?>
+			<td>
+			<img style="border: 1px solid;" src="<?=$this->baseUrl()?>/images/pingpong/jogador/<?=$fila->id_jogador?>.jpg" alt="<?=$fila->id_jogador?>" height="100" /> &nbsp; 
+			</td>
+		<?php 
+		endforeach;	
+		?>
+		</tr>
+	</table>
+<?php endif;?>

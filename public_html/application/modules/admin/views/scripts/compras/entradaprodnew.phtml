@@ -1,0 +1,243 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxverproduto.js"></script>    
+<style type="text/css">
+	<!--	  
+	  a.dcontexto1{
+	  position:relative; 
+	  font:12px arial, verdana, helvetica, sans-serif; 
+	  padding:0;
+	  color:#039;
+	  text-decoration:none;
+	  z-index:24;
+	  }
+	  a.dcontexto1:hover{
+	  background:transparent;
+	  z-index:25; 
+	  }
+	  a.dcontexto1 span{display: none}
+	  a.dcontexto1:hover span{ 
+	  display:block;
+	  position:absolute;
+	  width:100px; 
+	  top:1em;
+	  text-align:left;
+	  left:0;
+	  font: 12px arial, verdana, helvetica, sans-serif; 
+	  padding:5px 10px;
+	  background-color: #FFF;
+	  border: 1px solid #000;
+	  color:#000;
+	  }
+	  
+	  a.dcontexto2{	
+	  position:relative; 
+	  font:12px arial, verdana, helvetica, sans-serif; 
+	  padding:0;
+	  color:#039;
+	  text-decoration:none;
+	  z-index:24;
+	  }
+	  a.dcontexto2:hover{
+	  background:transparent;
+	  z-index:25; 
+	  }
+	  a.dcontexto2 span{display: none}
+	  a.dcontexto2:hover span{ 
+	  display:block;
+	  position:absolute;
+	  width:100px; 
+	  top:1em;
+	  text-align:left;
+	  left:0;
+	  font: 12px arial, verdana, helvetica, sans-serif; 
+	  padding:5px 10px;
+	  background-color: #FFF;
+	  border: 1px solid #000;
+	  color:#000;
+	  }
+	  -->
+</style>
+<?php 
+foreach ($this->objEntrada as $listent);
+?>
+
+<table width="100%" cellpadding="0" cellspacing="0" >
+<tr>
+	<td align="left">
+		<table width="100%" style="margin-bottom: 4px" cellpadding="0" cellspacing="0" >
+			<tr>
+				<td align="left">
+					<a href="<?=$this->baseUrl(); ?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+					<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+					<a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoquegrupo"><?=$this->translate->_("ESTOQUE")?></a>&nbsp;
+					<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp; 
+					<a href="<?=$this->baseUrl(); ?>/admin/compras/entradaest"><?=$this->translate->_("ENTRADA DE PRODUTOS")?></a>&nbsp;
+					<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp; 
+					<b><a href="<?=$this->baseUrl(); ?>/admin/compras/entradaprod/entrada/<?=md5($listent->id)?>">E<?=substr("000000".$listent->id, -6,6);?></a></b>
+				</td>
+			</tr>
+		</table> 
+	</td>
+</tr>
+<tr>
+	<td align="left">
+		<table border="0"  width="100%" class="borda_titulo">
+			<tr>
+				<td align="left" >ENTRADA DE PRODUTO E<?=substr("000000".$listent->id, -6,6);?></td>
+			</tr>
+		</table>
+    </td>
+</tr>
+<tr>
+	<td align="left">
+	<table align="left" class="mytable" width="100%" cellspacing="0" id="txtHint" style="margin-top: 6px">
+        <tr>
+            <th  class="th_canto" align="center" width="20%" >
+                C&Oacute;DIGO
+            </th>
+            <th  class="th_orc" align="center" width="10%">
+                QT ENT
+            </th>
+            <th  class="th_orc" align="center" width="15%">
+                Pre&ccedil;o
+            </th>
+            <th  class="th_orc" align="center" width="20%">
+                total
+            </th>
+            <th  class="th_orc" align="center" width="10%">
+                B.CALC ICMS
+            </th>
+            <th  class="th_orc" align="center" width="10%">
+                ICMS
+            </th>
+            <th  class="th_orc" align="center" width="10%">
+                IPI
+            </th>
+        </tr>  
+        <?php 
+        if(!empty($this->objProdutos)):
+        	$qtprod = 0;
+        	$idprod = -1;
+        	
+        	$cor=0;
+        	$idverqt="";
+        	$auxqt=0;
+        	$total_pecas = 0;
+        	
+        	//-- percentual frete ------------------
+        	foreach ($this->objProdutos as $listaprod):
+        		$qtentreg = $qtpedid = 0;
+	            foreach ($this->objProddet as $list):
+	        		if(($list->ID_PRODUTO == $listaprod->ID_PRODUTO) and (!empty($list->qt))):
+	        			$qtpedid  += $list->QUANTIDADE;
+	        			$qtentreg += $list->qt;
+	        		endif;
+	        	endforeach;
+	            
+        		$total_pedido += $listaprod->preco*$qtentreg;
+        	endforeach;
+        	
+        	$aduaneiro = $total_pedido+$listent->frete+$listent->capatazia;
+        	
+        	$qtentreg = $qtpedid = $total_pedido = $ncm = 0;
+        	foreach ($this->objProdutos as $listaprod):
+        		$cor++;
+	            if(($cor%2)==0) $class = 'td_orc_par';
+	            else $class = 'td_orc';
+	            $idprodutos .= $listaprod->ID_PRODUTO.";";
+	            
+	            //--- somar produtos iguais de pedidos diferentes ---------------------------
+	            $pedidos = "";
+	            $qtentreg = $qtpedid = 0;
+	            foreach ($this->objProddet as $list):
+	        		if(($list->ID_PRODUTO == $listaprod->ID_PRODUTO) and (!empty($list->qt))):
+	        			$pedidos.= '<a href="'.$this->baseUrl().'/admin/compras/pedidoscompraprod/ped/'.md5($list->ID_PEDIDO_COMPRA).'" target="_blank"><b>'.$list->ID_PEDIDO_COMPRA.'</b></a>/';
+	        			
+	        			$qtpedid  += $list->QUANTIDADE;
+	        			$qtentreg += $list->qt;
+	        		endif;
+	        	endforeach;
+	        	
+	        	if(($ncm!= $listaprod->ncm) and $cor>1):  	
+	            ?>
+	            <tr >
+					<td  align="left"  colspan="2" style="padding: 5px" >
+						NCM <?=$ncm?>
+	                </td>
+	                <td  align="left"  colspan="6" >
+						Peso Líquido: <input type="text" size="8" name="<?=$ncm?>" onKeyPress="Mascara(this,mvalorquatrocasas);" > KG
+	                </td> 
+	            </tr>
+	        	
+	        	<?php  
+	        	endif;
+	            ?>          
+	            
+				<tr >
+					<td  class="<?=$class?>" align="center"  >
+						<a href="<?=$this->baseUrl();?>/admin/cadastro/produtosvis/produto/<?=md5($listaprod->ID_PRODUTO)?>" target="_blank">
+						<?=$listaprod->CODIGO?>
+						</a>                  
+	                </td>
+	                <td  class="<?=$class?>" align="center" style="font-weight: bold;">
+	                   <a href="#" class="dcontexto1" ><?=$qtentreg;?>
+	                   <span >	 
+	                      	<table width="100%" border="0" >
+								<tr>
+									<td align="center"><? if(!empty($pedidos)): echo substr($pedidos, 0,-1); else: echo $listaprod->ID_PEDIDO_COMPRA; endif;?></td>
+								</tr>								
+							</table>
+		               </span>
+		               </a>   
+	                </td>	   
+	                      
+	               
+	                <td  class="<?=$class?>" align="left" colspan="5" >
+	                	<?=$listaprod->DESCRICAO?>
+	                </td>	                              
+	            </tr>
+	        	<?php	        	
+	        	
+				$total_pedido += $listaprod->preco*$qtentreg;
+				$total_pecas  += $qtentreg;
+				
+				$ncm = $listaprod->ncm;	   
+				
+        	endforeach;
+        endif;
+        ?>        
+        <tr>		    
+			<td align="left" colspan="2" class="td_total" valign="top" style="padding: 5px">								
+				DI: 
+	     		<b><?=$listent->fornecimento?></b><br />
+	     		Frete: 
+	     		<b><?=number_format($listent->frete,2,",",".")?></b><br />
+	     		Câmbio: 
+	     		<b><?=number_format($listaprod->txcambio,4,",",".")?></b><br />
+	     		ICMS: 
+	     		<b><?=number_format($listaprod->icms,4,",",".")?></b><br />
+	     		Capatazia: 
+	     		<b><?=number_format($listent->capatazia,2,",",".")?></b>
+			</td>
+			<td align="left" colspan="7" class="td_total2" valign="top">
+				Data Entrada:  <b><?=$listent->data?></b>
+			</td>
+		</tr>     
+    	<tr>		    
+			<td align="left" colspan="6" class="td_total" valign="top">								
+				Observa&ccedil;&otilde;es<br>
+				<b><?=$listent->obs?></b>						
+			</td>
+			<td align="left" colspan="3" class="td_total2" valign="top">
+				Total de pe&ccedil;as<br>
+				 <span style="font-size: 14px; font-weight: bold; text-align: right;"><?=$total_pecas?></span><br>
+                    Valor Total<br>
+                 <span style="font-size:14px; font-weight:bold; color:#0010e1;"><?=number_format($total_pedido,2,',','.')?></span><br>
+			</td>
+		</tr>
+		      
+     </table>
+    
+	</td>
+	</tr>
+</table>    
+        

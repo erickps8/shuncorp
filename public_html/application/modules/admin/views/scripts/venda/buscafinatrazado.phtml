@@ -1,0 +1,42 @@
+
+    <span style="font-size: 14px; text-align: left;">Cliente com pendência financeira</span><br />
+    <span style="text-align: left;">Necessário senha de administrador para liberar venda</span>
+    <div style="margin-top: 30px; ">
+    	<div style="float: left; width: 35%;  border: 1px solid #d5d5d5; padding: 15px ">
+    	<table style="width: 100%">
+    		<tr>
+    			<td colspan="3" style="text-align: center; font-weight: bold; ">Pendências</td>
+    		</tr>
+	    <?php 
+	    if(count($this->objFinanceiro)>0):
+	    	foreach ($this->objFinanceiro as $fin):
+	    		?>
+	    		<tr>
+	    			<td style="text-align: center;" >
+	    				<a target="_blank" href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlreccad/rec/<?=md5($fin->idfin)?>" >
+							R<?=substr("000000".$fin->idfin,-6)?>
+						</a>
+					</td>
+	    			<td style="color: #f00"><?=$fin->dtvencimento?></td>
+	    			<td style="text-align: right; color: #f00"><?=number_format($fin->valor_apagar,2,",",".")?></td>
+	    		</tr>
+	    		<?php
+	    	endforeach;
+	    endif;
+	    ?>
+    	</table>
+	    </div>
+	    
+	    <div style="float: right; width: 45%; padding-right: 25px; text-align: left;">
+    	<form action="" name="buscaadmin" class="mainForm">
+    		CPF:<br /><input type="text" name="cpf" style="width: 100%; font-size: 14px" class="cpf">
+    		Senha:<br /><input type="password" name="senha" style="width: 100%; font-size: 14px">
+    		
+    		<input type="button" class="greenBtn" onclick="buscaAdministrador('<?php echo $this->ped?>')" value="Autorizar" id="btnconfirma" style="margin: 10px 0px 0px 0px; ">
+    		
+    		<div id="resultadoadmin" style="clear: both; margin-top: 10px; color: #f00; font-weight: bold; font-size: 14px" ></div>
+    	</form>
+	    </div>
+	    
+	    <div class="fix"></div>
+    </div>     

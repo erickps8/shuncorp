@@ -1,0 +1,170 @@
+<?php 
+if(!empty($this->objPerfil)):
+	foreach ($this->objPerfil as $listPerfil);
+endif;
+?>
+<script >
+	function marcarCheck(id){  
+		document.getElementById(id).checked=true;			
+	}   
+</script>
+
+<div class="content">
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li><a href="<?php echo $this->baseUrl(); ?>/admin/administracao/perfils">Perfil</a></li>
+                	<li class="lastB">Cadastro de perfil</li>
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5>Cadastro de perfil</h5></div>
+
+        <form action="<?php echo $this->baseUrl(); ?>/admin/administracao/gravapefil" method="post" name="cad" class="mainForm">
+		
+		<fieldset >
+		<div class="widget first" style="border-top: 1px solid #d5d5d5; padding: 10px">
+			<div class="rowElem" >
+				<label>Nome do Perfil:</label>
+				<input type="text" name="perfil" style="width: 350px" value="<?=$listPerfil->descricao?>">
+				<input type="hidden" name="id_perfil" value="<?=$listPerfil->id?>">
+				<div style="float: right;">
+					<input type="radio" <?php if($listPerfil->sit==1) echo 'checked="checked"';?> name="sit" value="1" ><label>Ativo</label>  
+					<input type="radio" <?php if($listPerfil->sit==0) echo 'checked="checked"';?> name="sit" value="0"><label>Inativo</label>
+				</div>
+				<div class="fix"></div>
+			</div>
+			<div class="rowElem">
+            	<div class="formLeft">
+	                <input type="radio" <?php if($listPerfil->nivel==0) echo 'checked="checked"';?> name="nivel" value="0" ><label>Individual</label> 
+					<input type="radio" <?php if($listPerfil->nivel==1) echo 'checked="checked"';?> name="nivel" value="1" ><label>Regional</label> 
+					<input type="radio" <?php if($listPerfil->nivel==2) echo 'checked="checked"';?> name="nivel" value="2" ><label>Geral</label>
+					<input type="checkbox" <?php if($listPerfil->interno==true) echo 'checked="checked"';?> name="interno" value="1" ><label>Interno</label>
+                </div>
+                <div class="fix"></div>
+            </div>
+            <div class="rowElem" style="border: 1px solid #d5d5d5; padding: 10px">
+            	<div class="formLeft">
+            		<label>Painel de informação</label><div class="fix"></div>
+            		<input type="checkbox" <?php if($listPerfil->pedidos==true) echo 'checked="checked"';?> value="1" name="pedidos"><label>Pedidos</label><div class="fix"></div>
+					<input type="checkbox" <?php if($listPerfil->logs==true) echo 'checked="checked"';?> value="1" name="logs"><label>Registro de acesso</label><div class="fix"></div>
+					<input type="checkbox" <?php if($listPerfil->atividades==true) echo 'checked="checked"';?> value="1" name="atividades"><label>Atividades</label><div class="fix"></div>					
+					<input type="checkbox" <?php if($listPerfil->financeiro==true) echo 'checked="checked"';?> value="1" name="financeiro"><label>Financeiro</label><div class="fix"></div>					
+                </div>
+                <div class="fix"></div>
+            </div>
+            
+            <div class="rowElem">
+			<table style="width: 100%">
+				<?php 
+				$usuario = Zend_Auth::getInstance()->getIdentity();
+				foreach($this->objPerfilmenu as $lista){							
+					?>
+					<tr >
+				    	<td style='color:#006699; font-weight:bold; padding-top: 10px' colspan="2"  align="left"><b> <?php echo (strtoupper($lista->item_m))?></b></td>
+				    </tr>
+				   
+					<?php 
+					
+					foreach($this->objPerfilsubmenu as $listasub){
+
+						if($lista->id_m==$listasub->id_menu){
+							$vis 	= '';
+							$edit 	= '';
+							$ins 	= '';
+							$reg 	= '';
+							$prin	= $comp = $vend = $cros = $tec = "";	
+									
+							if(!empty($this->objAcess)){
+								foreach($this->objAcess as $listaac){
+									if($listaac->id_menu_sub == $listasub->id){
+										if ($listaac->visualizar==1) $vis = 'checked="checked"';
+										if ($listaac->editar==1) $edit = 'checked="checked"';
+										if ($listaac->inserir==1) $ins = 'checked="checked"';
+										if ($listaac->saldo_neg==1) $neg = 'checked="checked"';
+										if ($listaac->analise_garantia==1) $ang = 'checked="checked"';
+										
+										if ($listaac->aba1==1) $prin = 'checked="checked"';
+										if ($listaac->aba2==1) $vend = 'checked="checked"';
+										if ($listaac->aba3==1) $comp = 'checked="checked"';
+										if ($listaac->aba4==1) $tec = 'checked="checked"';
+										if ($listaac->aba5==1) $cmv = 'checked="checked"';
+										
+										
+										
+									} 
+								}
+							}
+							?>
+							<tr>
+				                <td align="left" >&nbsp;&nbsp;&nbsp;<?php	echo ($listasub->item); ?></td>
+				                <td align="left">
+				                	<div class="formLeft"> 
+						                <input type="checkbox" value="1" <?php echo $vis;?> id="<?php echo $listasub->id;?>" name="vis_<?php echo $listasub->id;?>"><label>Visualizar</label> 
+						                <?php if($listasub->comp==1){ ?>
+						                <input type="checkbox" value="1" <?php echo $ins;?> onclick = "marcarCheck(<?php echo $listasub->id;?>);" name="ins_<?php echo $listasub->id;?>"><label>inserir</label> 
+						                <input type="checkbox" value="1" <?php echo $edit;?> onclick = "marcarCheck(<?php echo $listasub->id;?>);" name="edit_<?php echo $listasub->id;?>"><label>Editar</label>
+						                <?php }
+						                if($usuario->id_perfil == 1):  
+							                if($listasub->id==62){ ?>
+							                <input type="checkbox" value="1" <?php echo $neg;?> onclick = "marcarCheck(<?php echo $listasub->id;?>);" name="neg_<?php echo $listasub->id;?>"><label>Negativar</label>
+							                <input type="checkbox" value="1" <?=$prin?> name="aba1_<?=$listasub->id?>"><label>Aut. Ajuste</label>
+							                <?php } 
+							                if($listasub->id==9){ ?>
+							                <input type="checkbox" value="1" <?=$prin?> name="aba1_<?=$listasub->id?>"><label>Relatórios</label>
+							                <input type="checkbox" value="1" <?=$vend?> name="aba2_<?=$listasub->id?>"><label>Visualizar todos</label>
+							                <?php }										
+						                    if(($listasub->id==55)||($listasub->id==71)){ ?>
+							                <input type="checkbox" value="1" <?=$prin;?>  name="aba1_<?php echo $listasub->id;?>"><label>Liberar Contas</label>
+							                <input type="checkbox" value="1" <?=$vend;?>  name="aba2_<?php echo $listasub->id;?>"><label>Adm</label>
+							                <?php } 					                
+							                if($listasub->id==18){ ?>
+							                <input type="checkbox" value="1" <?=$prin?> name="aba1_<?=$listasub->id?>"><label>Relatórios</label>
+							                <input type="checkbox" value="1" <?=$vend?> name="aba2_<?=$listasub->id?>"><label>CMV</label>
+							                <?php } 
+							                if($listasub->id==37){ ?>						                 
+							                <input type="checkbox" value="1" <?php echo $ang;?> onclick = "marcarCheck(<?php echo $listasub->id;?>);" name="ang_<?php echo $listasub->id;?>"><label>A. Garantia</label>
+							                <?php } 
+							                if($listasub->id==68){ ?>
+		                						<input type="checkbox" value="1" <?=$prin?> name="aba1_<?=$listasub->id?>"><label>Vendas</label>
+		                						<input type="checkbox" value="1" <?=$vend?> name="aba2_<?=$listasub->id?>"><label>Impostos</label>
+		                						<?php }
+							            endif;    
+							            ?>
+							    	</div>
+				                </td>
+							</tr>
+							<?php
+							if($listasub->id==13){ ?>
+							<tr>
+				                <td align="left" >&nbsp;</td>
+				                <td align="left"> 
+				                <input type="checkbox" value="1" <?php echo $prin;?>  name="aba1_<?php echo $listasub->id;?>"><label>Principal</label> 
+				                <input type="checkbox" value="1" <?php echo $vend;?>  name="aba2_<?php echo $listasub->id;?>"><label>Venda</label>
+				                <input type="checkbox" value="1" <?php echo $comp;?> name="aba3_<?php echo $listasub->id;?>"><label>Compra</label>
+				                <input type="checkbox" value="1" <?php echo $tec;?> name="aba4_<?php echo $listasub->id;?>"><label>Técnico</label>
+				                </td>
+							</tr>
+							<?php 
+							}
+						}
+					}
+					
+				}
+				
+				?>
+						
+		        	</table>
+		        </div>
+		        <div class="rowElem" style=" padding-top: 10px">
+        			<input type="submit" name="salvar" class="greenBtn" value="Salvar perfil" class="button">
+        		</div>
+        	</div>
+        	</fieldset>
+        	
+		</form>
+	</div>

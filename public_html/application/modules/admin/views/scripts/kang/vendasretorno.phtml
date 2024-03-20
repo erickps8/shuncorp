@@ -1,0 +1,126 @@
+<?php 
+foreach ($this->objDet as $listdet);
+?>
+
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl()?>/admin/kang/pedidos"><?php echo $this->translate->_("Pedidos de venda")?></a></li>
+                	<li ><a href="<?php echo $this->baseUrl()?>/admin/kang/vendas"><?php echo $this->translate->_("Vendas")?></a></li>
+                	<li ><a href="<?php echo $this->baseUrl()?>/admin/kang/vendasdet/ped/<?php echo md5($listdet->idped)?>">S<?php echo substr("000000".$listdet->idped,-6,6)?></a></li>
+                	<li class="lastB">Retorno de impostos</li>
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title">
+        	<h5>Retorno de impostos</h5>
+        	<div style="float: right; padding: 10px">
+				<a target="_blank" href="<?php echo $this->baseUrl()?>/admin/kang/vendasretornoimp/ped/<?php echo md5($listdet->idped)?>"><img title="Imprimir" src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/printerwhite.png" border="0" width="18" /> </a>
+			</div>
+        </div>
+		        
+		<?php if (count($this->objProdutos) > 0){ ?>		
+		<form name="proforma" action="/admin/kang/gravarretorno" method="post" class="mainForm">		
+		<div class="widget">
+ 			<div class="head" style="border-bottom: 0px"><h5 class="iFrames">Return</h5></div>
+        	<table class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="3%">ID</td>
+                        <td width="">HS Code</td>
+                        <td width="">PK</td>
+                        <td width="">Supplier</td>
+                        <td width="">Product Description</td>
+                        <td width="">Reb %</td>
+                        <td width="">Value</td>
+                        <td width="">Reb Value</td>
+                        <td width="">RMB Cost</td>
+                    </tr>
+                </thead>
+                <tbody>
+						
+				<?php 
+				$cor=0;
+				$totalreb = $totalvalue = $totalcost = 0;
+				
+            	$moeda = $lasths = $lastcor = "";
+		    	foreach($this->objProdutos as $lista){
+		    	    $rebvalue=0;		    	    
+    				?>					
+    				<tr >
+    	                <td  style="text-align: center;" >
+    	                <?php 
+    	                if($lista->hscode != $lastcor){
+    	                    $lastcor = $lista->hscode;
+    	                
+    	                    $cor++;
+    	                    
+    	                    echo $cor;
+    	                }
+    	                ?></td>
+    	                <td  style="text-align: center;" >
+    	                <?php 
+    	                if($lista->hscode != $lasths){
+    	                    echo $lasths = $lista->hscode;
+    	                }
+    	                ?>
+    	                </td>
+    	                <td  style="text-align: center;" >
+    	                   <a href="/admin/kang/pedidoscompraped/ped/<?=md5($lista->id_kang_compra)?>" target="_blank"><?php echo "PK".substr("000000".$lista->id_kang_compra,-6,6)?></a>
+    	                </td>
+    	                <td  style="text-align: left;" ><?php echo $lista->nome?></td>
+    	                <td  style="text-align: left;" ><?php echo $lista->deschscode?></td>
+    	                <td  style="text-align: right;" ><?php echo number_format($lista->retornohs,2,",",".")?></td>	
+    	                <td  style="text-align: right;" ><?php echo number_format($lista->precocompra,2,",",".")?></td>
+    	                <td  style="text-align: right;" ><?php $rebvalue = ($lista->precocompra/1.13) * ($lista->retornohs/100); echo number_format($rebvalue,2,",",".")?></td>
+    	                <td  style="text-align: right;" ><?php echo number_format($lista->precocompra-$rebvalue,2,",",".")?></td>
+    	            </tr>
+    				<?php  
+    				$totalvalue += $lista->precocompra;
+    				$totalreb   += $rebvalue;
+    				$totalcost  += $lista->precocompra-$rebvalue;
+    			}	
+				
+				?>				
+				<tr >	                
+	                <td  style="text-align: right;" colspan="6">&nbsp;</td>
+	                <td  style="text-align: right;" ><?php echo number_format($totalvalue,2,",",".")?></td>	
+	                <td  style="text-align: right;" ><?php echo number_format($totalreb,2,",",".")?></td>
+	                <td  style="text-align: right;" ><?php echo number_format($totalcost,2,",",".")?></td>
+	            </tr>
+				</tbody>
+            </table>
+		</div>
+		</form>
+		<?php 							
+		}
+		?>    			
+		
+		<div style="border: 1px solid #d4d4d4; margin-top: 10px; padding: 10px; width: 200px;">
+		    <table style="width: 100%">
+                <tr>
+                    <td style="width: 60%"">Recebimento:</td>
+                    <td>
+                    <?php if($listdet->id_fin_contasareceber){ ?>
+                        <a target="_blank" href="/admin/administracao/financeirochinareccad/rec/<?=md5($listdet->id_fin_contasareceber)?>" >R<?=substr("000000".$listdet->id_fin_contasareceber,-6)?></a>
+                    <?php } ?>    
+                    </td>
+                </tr>    
+                <tr>
+                    <td>Cobrança:</td>
+                    <td>
+                    <?php if($listdet->id_fin_contasapagar){ ?>
+                        <a target="_blank" href="/admin/administracao/financeirochinapagcad/pay/<?=md5($listdet->id_fin_contasapagar)?>" >P<?=substr("000000".$listdet->id_fin_contasapagar,-6)?></a>
+                    <?php } ?>
+                    </td>
+                </tr>
+		    </table> 
+		</div>		
+		
+    </div>

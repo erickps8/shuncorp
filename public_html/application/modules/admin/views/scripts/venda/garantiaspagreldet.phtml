@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>ZTL Brasil - www.ztlbrasil.com.br </title>
+<link href="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/ztl.ico" rel="shortcut icon" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style>
+body {
+	font: 12px sans-serif ;
+	
+}
+</style>
+
+</head>
+
+<body>
+<?php 
+$cont=0;
+foreach ($this->objProd as $lista):
+	$cont++;
+	$analises .= $cont." - ".$lista->descricao."<br>";
+endforeach;
+
+?>
+<table align="center" width="100%" cellpadding="0" cellspacing="0">
+<tr>
+	<td >
+	<table align="center" cellpadding="3" width="800px" style="border: 2px solid #000; border-collapse: collapse;"  >
+		<tr>
+			<td width="20%" rowspan="3" style="border: 2px solid #000;" align="center">
+			<img src="<?=$this->baseUrl()?>/images/logo.jpg" alt="logo" />
+			</td>
+			<td align="center" colspan="4" style="border: 2px solid #000; font-size: 18px; font-weight: bold;">
+			RELATÓRIO DE GARANTIA
+			</td>
+		</tr>
+		<tr>
+			<td align="left" width="55%" colspan="2" style="border: 2px solid #000;">
+			CLIENTE:
+			</td>
+			<td align="left"  style="border: 2px solid #000;">
+			GARANTIA Nº 
+			</td>
+		</tr>
+		<tr>
+			<td align="left" valign="top"  colspan="2" style="border: 2px solid #000; ">
+			CONTATO: <br />
+			TELEFONE:
+			</td>
+			<td align="left"  style="border: 2px solid #000;">
+			NF Nº: <br />
+			DATA EMISSÃO: <br />
+			DATA ANÁLISE: <?=$lista->dtconcluido?> <br />
+			</td>
+		</tr>
+		<tr>
+			<td align="center" width="" style="border: 2px solid #000; font-weight: bold;">
+			CÓDIGO ZTL
+			</td>
+			<td align="center" width="7%" style="border: 2px solid #000; font-weight: bold;">
+			QUANT
+			</td>
+			<td align="center" width="" style="border: 2px solid #000; font-weight: bold;">
+			DESCRIÇÃO DA ANÁLISE
+			</td>
+			<td align="center" width="" style="border: 2px solid #000; font-weight: bold;" >
+			SUBSTITUIR
+			</td>
+			
+		</tr>		
+		<tr>
+			<td align="center" width="" style="border: 2px solid #000; font-size: 18px; font-weight: bold;">
+			<?=$lista->CODIGO?>
+			</td>
+			<td align="center" width="" style="border: 2px solid #000;">
+			001
+			</td>
+			<td align="left" width="" style="border: 2px solid #000;">
+			<?=($analises)?>
+			</td>
+			<td align="center" width="" style="border: 2px solid #000;">
+			<? 
+				if($lista->substituir) echo "SIM";
+       			else echo "N&Atilde;O";
+       		?>
+			</td>
+			
+		</tr>		
+	</table>
+	</td>
+</tr>
+<tr>
+	<td >
+	<?php 
+	$cont=0;
+	foreach ($this->objProd as $lista):
+		$cont++;
+		?>
+		<table align="center" cellpadding="6" width="800px" style="border: 2px solid #000; border-collapse: collapse; margin-top: 5px; " >
+		<tr>
+			<td align="left">
+			<b>DETALHES DA ANÁLISE <?=$cont?></b><br />
+			<?=($lista->detalhadesc)?>
+			</td>
+		</tr>
+		<tr>
+			<td align="left">
+			<br />
+			<b>INFORMAÇÕES TÉCNICAS</b><br />
+			<?=($lista->infotecnica)?>
+			</td>
+		</tr>
+		</table>
+		<?php 
+	endforeach;
+	?>
+		
+	
+	</td>
+</tr>	
+</table>
+</body>
+</html>

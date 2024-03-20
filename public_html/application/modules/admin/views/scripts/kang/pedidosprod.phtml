@@ -1,0 +1,444 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/kangPedidosprod.js"></script>
+
+<?php 
+if(count($this->objDet)>0){
+    foreach ($this->objDet as $listdet); 
+}
+?>
+
+<div class="content">
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="#">Home</a> </li>
+                	<li><a href="<?=$this->baseUrl(); ?>/admin/kang/pedidos">Pedidos de venda</a></li>
+                	<li class="lastB"><b><a href="<?=$this->baseUrl(); ?>/admin/kang/pedidosprod/ped/<?=md5($listdet->idped)?>">OR<?=substr("000000".$listdet->idped,-6,6)?></a></b></li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5><?="OR".substr("000000".$listdet->idped,-6,6)?>
+        <?php if($listdet->sitped == 0){ ?>(Cancelado)<?php }?>
+        
+        </h5>
+        	<div style="float: right; padding: 10px">
+				<a href="<?=$this->baseUrl()?>/admin/kang/proformaimp/ped/<?=md5($listdet->idped)?>" target="_blank"><img title="Imprimir" src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/printerwhite.png" border="0" width="18" /> </a>
+			</div>
+        </div>
+
+        <div class="widget first" >
+            <div class="head" style="margin-top: -10px"><h5 class="iUser">Informações do cliente</h5></div>
+            <div class="body">
+                <table style="width: 100%; border-spacing: 7px ">
+                	<tr>
+		                <td width="20%" >Cliente:</td>
+		                <td colspan="3"><b><?=$listdet->EMPRESA?></b></td>
+		            </tr>
+		            <tr>
+		                <td>Razão Social:</td>
+		                <td colspan="3"><b><?=($listdet->RAZAO_SOCIAL)?></b></td>
+		            </tr>
+		            <tr>
+		                <td>CPF/CNPJ:</td>
+		                <td width="35%"><b><?=$listdet->CPF_CNPJ?></b></td>
+		                <td width="15%">RG/INSC:</td>
+		                <td><b><?=$listdet->RG_INSC?></b></td>
+		            </tr>	            
+		        </table>
+            </div>
+        </div>
+        
+        <?php        
+        if($this->editar == "true"){            
+            ?>
+            <form name="prepedido" id="prepedido" action="<?php echo $this->baseUrl(); ?>/admin/kang/atualizapedidodevenda" method="post" class="mainForm">
+        	<input type="hidden" name="ped" id="ped" value="<?php echo $listdet->idped?>">
+            <?php 
+            
+            if(count($this->objProd) > 0) {
+                ?>
+                <div class="widget">
+         			<div class="head" style="border-bottom: 0px"><h5 class="iFrames">Produtos</h5></div>
+                	<table class="tableStatic">
+                    	<thead>
+                        	<tr>
+                                <td width="3%">Id</td>
+                                <td width="">Código</td>
+                                <td width="10%">Cód cliente</td>
+                                <td width="">Ref</td>
+                                <td width="5%">QT</td>
+                                <td >Descrição</td>
+        			            <td width="">Moeda</td>
+                                <td width="">Preço</td>
+                                <td width="">Preço Total</td>
+                                <td width="">*</td>                        
+                            </tr>
+                        </thead>
+                        <tbody>
+                			
+        				<?php 
+        				$cor=0;
+        				$totalqt = 0;
+        				$total_pedido = 0;
+                    	$moeda = "";
+        		    	foreach($this->objProd as $lista){
+            		    	$cor++;
+            	            
+            	            $total_pedido += $lista->QT*$lista->PRECO;
+                       		$moeda = $lista->moedaprod;
+            	             		
+            				?>					
+            				<tr >
+            	                <td style="text-align: center;" >
+            	                   <?=$cor?>
+            	                </td>
+            	                <td style="text-align: center;" >
+            	                	<?=$lista->CODIGO?>
+            	                </td>
+            	                <td align="left" >
+            	                	<input type="text" name="codcli_<?php echo $lista->idprodven?>" value="<?=$lista->COD_PRODCLI?>" style="width: 90%">
+            	                	<input type="hidden" name="<?php echo $lista->idprodven?>" value="1">
+            	                </td>
+            	                <td align="left" >
+            	                	<div class="styled-select" style="width: 90px">
+            		            	<select name="classe_<?php echo $lista->idprodven?>" id="classe_<?php echo $lista->idprodven?>" style="width: 102px">
+            		            		<option>Selecione</option>
+            		            		<?php foreach($this->objProdutosclasses as $listaClasses){ ?>
+            		            		<option <?php if($lista->id_produtosclasse == $listaClasses->id) echo "selected"?> value="<?php echo $listaClasses->id?>"><?php echo $listaClasses->letra?></option>		            		
+            		            		<?php } ?>
+            		            	</select>
+            		            	</div>
+            	                	
+            	                </td>
+            	                <td style="text-align: center;" >
+            	                   <?php 
+            	                   if($lista->comprado == 1){ 
+            	                       echo $lista->QT;
+            	                   }else{
+            	                   ?> 
+            	                   <input type="text" name="qt_<?php echo $lista->idprodven?>" class="inteiro" value="<?php echo $lista->QT?>" style="width: 45px">
+            	                   <?php } ?>             
+            	                </td>
+            	                <td align="left" >
+            	                	<?=($lista->DESCRICAO)?>
+            	                </td>
+            	                <td style="text-align: center;" >
+            	                	<?=$moeda?>
+            	                </td>	
+            	                <td style="text-align: right;" >
+            	                	<input type="text" class="moedatres" name="preco_<?php echo $lista->idprodven?>" value="<?=number_format($lista->PRECO,3,",",".")?>" style="width: 60px">
+            	                </td>	
+            	                <td style="text-align: right;" >
+            	                	<?=number_format($lista->PRECO*$lista->QT,3,",",".")?>
+            	                </td>			                
+            	                <td style="text-align: right;" >
+            	                	<?php if($lista->comprado != 1){ ?> 
+            	                	<a href="javascript:" onclick="$(this).closest('tr').remove();"><img src="/public/sistema/imagens/icons/middlenav/close.png" title="Remove" border="0" width="16"></a>
+            	                	<?php } ?>
+            	                </td>
+            	            </tr>		            
+            				<?php  
+            				
+            				$totalqt += $lista->QT;                       		         		
+        		        }	
+        				?>
+        				<tr>
+        		        	<td  class="td" style="text-align: left;" colspan="3" >
+                                <input style="text-transform: uppercase; width: 80px" type="text" name="codigo" id="codigo" placeholder="Código">
+        		            </td>
+        		            <td  class="td" style="text-align: left;" colspan="10" style="color:#FF0000; font-weight: bold;">
+        		            	<div id="resultado" style="color: #f00;"></div>
+        		            </td>
+        		        </tr>	
+        		       	</tbody>
+        		   	</table>
+        		</div>
+        	    <?php
+    		}
+			?>   
+        
+            <div class="widget">
+                <div class="head" ><h5 class="iView">Informações da proforma</h5></div>
+            	<div class="body">
+                    <table style="width: 100%; border-spacing: 7px ">     
+    		            <tr>
+    			            <td align="left" width="20%">
+    			            <?php echo $this->translate->_("Pedido Cliente")?>: 
+    			            </td>
+    			            <td colspan="3" align="left">
+    			            	<input type="text" name="you_order" style="width: 200px" value="<?php echo strtoupper($listdet->you_order)?>">
+    			            </td>
+    		            </tr>
+    		            <tr>
+    			            <td align="left" width="20%">	
+    			            	<?php echo $this->translate->_("De")?>: 
+    			            </td>
+    			            <td align="left" width="30%">
+    			            	<input type="text" name="defrom" size="30" value="<?=strtoupper($listdet->defrom)?>" style="width: 200px"> 
+    			            </td>
+    		                <td style="text-align: right;" width="20%">
+    			            <?php echo $this->translate->_("Para")?>: 
+    			            </td>
+    			            <td align="left">
+    			            	<input type="text" name="para" size="30" value="<?=strtoupper($listdet->para)?>" style="width: 200px"> 
+    			            </td>	
+    		            </tr>
+    		             <tr>
+    			            <td align="left" >
+    			            <?php echo $this->translate->_("Termos da entrega")?>: 
+    			            </td>
+    			            <td align="left" >
+    			            	<input type="text" name="freight" value="<?=strtoupper($listdet->frete)?>" style="width: 200px"> 
+    			            </td>					                
+    			            <td style="text-align: right;" >
+    			            <?php echo $this->translate->_("Aceita entrega parcial")?>: 
+    			            </td>
+    			            <td  align="left" >
+    			                <div class="styled-select" style="width: 70px">
+    			            	<select name="partial_shipment" style="width: 92px">
+    			            		<option <?php if($listdet->embarqueparcial== "YES") echo 'selected="selected"'?> value="YES"><?php echo $this->translate->_("SIM")?></option>
+    			            		<option <?php if($listdet->embarqueparcial== "NO") echo 'selected="selected"'?> value="NO"><?php echo $this->translate->_("NÃO")?></option>
+    			            	</select>
+    			            	</div>
+    			            </td>
+    		            </tr>					
+    		            <tr>
+    			            <td align="left">
+    			            <?php echo $this->translate->_("Termos do pagamento")?>: 
+    			            </td>
+    			            <td  align="left">
+    			            	<input type="text" name="payment"  value="<?=strtoupper($listdet->termospagamento)?>" style="width: 250px">  
+    			            </td>	
+    			            <td style="text-align: right;" >
+    			            <?php echo $this->translate->_("Data entrega")?>: 
+    			            </td>
+    			            <td  align="left" >
+    			            	<input type="text" name="dataent" maxlength="10" class="datepicker" style="width: 70px" value="<?=substr($listdet->dt_entrega,8,2)."/".substr($listdet->dt_entrega,5,2)."/".substr($listdet->dt_entrega,0,4)?>">
+    			            </td>                
+    		            </tr>
+    		            <tr>
+    			            <td align="left">
+    			            <?php echo $this->translate->_("Agente de embarque")?>: 
+    			            </td>
+    			            <td colspan="3" align="left">
+    			            	<input type="text" name="shipment_agent" value="<?=strtoupper($listdet->shipment_agent)?>" style="width: 350px"> 
+    			            </td>
+    		            </tr>
+    		            
+    	        	</table>
+    			</div>	
+    			
+    		</div>
+    		
+    		<div style="padding-top: 10px">
+    		     <input type="submit" class="greenBtn" value="Salvar">
+    		</div>
+		
+		</form>
+		
+        <?php 
+            
+        }else{
+        
+            $valida = 0;
+    		if(count($this->objProd) > 0) {			
+        		?>
+                <div class="widget">
+         			<div class="head" style="border-bottom: 0px"><h5 class="iFrames">Produtos</h5></div>
+                	<table class="tableStatic">
+                    	<thead>
+                        	<tr>
+                                <td width="3%">Id</td>
+                                <td width="">Código</td>
+                                <td width="10%">Cód cliente</td>
+                                <td width="">Ref</td>
+                                <td width="5%">QT</td>
+                                <td >Descrição</td>
+        			            <td width="">Moeda</td>
+                                <td width="">Preço</td>
+                                <td width="">Preço Total</td>                        
+                            </tr>
+                        </thead>
+                        <tbody>
+                			
+        				<?php 
+        				$cor=0;
+        				$totalqt = 0;
+        				$total_pedido = 0;
+                    	$moeda = "";
+        		    	foreach($this->objProd as $lista){
+            		    	$cor++;
+            	            
+            	            $total_pedido += $lista->QT*$lista->PRECO;
+                       		$moeda = $lista->moedaprod;
+            	             		
+            				?>					
+            				<tr >
+            	                <td style="text-align: center;" >
+            	                   <?=$cor?>
+            	                </td>
+            	                <td style="text-align: center;" >
+            	                	<?=$lista->CODIGO?>
+            	                </td>
+            	                <td align="left" >
+            	                	<?=$lista->COD_PRODCLI?>
+            	                </td>
+            	                <td align="left" >
+            	                	<?php echo $lista->letra?>
+            	                </td>
+            	                <td style="text-align: center;" > 
+            	                   <?php 
+            	                   echo $lista->QT;
+            	                   $totalqt += $lista->QT;
+            	                   ?>              
+            	                </td>
+            	                <td align="left" >
+            	                	<?=($lista->DESCRICAO)?>
+            	                </td>
+            	                <td style="text-align: center;" >
+            	                	<?=$moeda?>
+            	                </td>	
+            	                <td style="text-align: right;" >
+            	                	<?=number_format($lista->PRECO,3,",",".")?>
+            	                </td>	
+            	                <td style="text-align: right;" >
+            	                	<?=number_format($lista->PRECO*$lista->QT,3,",",".")?>
+            	                </td>			                
+            	            </tr>		            
+            				<?php  
+                       		         		
+        		        }	
+        				?>
+        				<tr>
+        					<td class="td_total" colspan="5" align="left" valign="top">
+                    			Observação: 
+                    			<?=$listdet->OBS?>
+                            	
+                            </td>
+                         	<td colspan="3" align="left">
+        	                	<span >Total de peças</span><br>
+        				        <span style="font-size: 14px; font-weight: bold; text-align: right;"><?=$totalqt?></span><br>
+        				        Frete<br>
+        				        <span style="font-size: 14px; font-weight: bold; color: rgb(0, 16, 225);"><?php if($moeda == '') echo 'USD'; else echo $moeda?> <?php if($listdet->fretevalor != '') echo number_format($listdet->fretevalor,2,",","."); else echo "0,00"?></span><br>
+        			            Valor total<br>
+        				        <span style="font-size: 14px; font-weight: bold; color: rgb(0, 16, 225);"><?php if($moeda == '') echo 'USD'; else echo $moeda?> <?php echo number_format($total_pedido+$listdet->fretevalor,2,",",".")?></span><br>		                
+        		             </td>
+        		          </tr>
+        		       	</tbody>
+        		   	</table>
+        		</div>
+        	    <?php 	
+        	    if($lista->comprado) $valida = 1;
+    		}
+			?>    	
+			
+    		<div class="widget">
+     			<div class="head" >
+     				<h5 class="iView">Informações da proforma</h5>
+     			</div>
+            	<div class="body">
+                    <table style="width: 100%; border-spacing: 7px ">
+    		        	<tr>
+    			            <td align="left" colspan="3">
+    			            	Pedido Cliente: <br />
+    				            <span style="font-size:14px; font-weight:bold;">
+    				            <?=strtoupper($listdet->you_order)?>
+    				            </span>
+    			            </td>
+    	            	</tr>
+    	             	<tr>
+    		            	<td align="left" >
+    		            		De: <br />
+    		            		<span style="font-size:14px; font-weight:bold;"> 
+    		            		<?=strtoupper($listdet->defrom)?>
+    		            		</span> 
+    		            	</td>
+    	                	<td >
+    			            	Para: <br />
+    			                <span style="font-size:14px; font-weight:bold;">
+    				            <?=strtoupper($listdet->para)?>
+    				            </span> 
+    		            	</td>
+    	            	    <td >
+    				            Termos de entrega:<br /> 
+    				            <span style="font-size:14px; font-weight:bold;">
+    				            <?=strtoupper($listdet->frete)?>
+    				            </span>
+    			            </td>		                
+    		            </tr>
+    		            <tr>
+    			            <td align="left" colspan="3">
+    				            Termos do pagamento: <br />
+    				            <span style="font-size:14px; font-weight:bold;">
+    				            <?=strtoupper($listdet->termospagamento)?>
+    				            
+    				            </span> 
+    			            </td>		                
+    		            </tr>
+    		            <tr>
+    			            <td align="left" >
+    				            Data do embarque:<br />
+    				            <span style="font-size:14px; font-weight:bold;">
+    				            <?=substr($listdet->dt_entrega,8,2)."/".substr($listdet->dt_entrega,5,2)."/".substr($listdet->dt_entrega,0,4)?>
+    				            </span>
+    			            </td>
+    		                <td align="left">
+    				            Aceita embarque parcial?<br />
+    							<span style="font-size:14px; font-weight:bold;">
+    				            <?=strtoupper($listdet->embarqueparcial)?>
+    				            </span>
+    			            </td>
+    			            <td align="left">
+    				            Agente de embarque: <br />
+    				            <span style="font-size:14px; font-weight:bold;">
+    				            <?=strtoupper($listdet->shipment_agent)?>
+    				            </span> 
+    			            </td>
+    		            </tr>
+                	</table>        	
+        		</div>   
+    		</div>
+    		
+    		<div style="float: right; text-align: right; padding-top: 10px">
+            	<?php 
+            	if($this->objEdi==true){ 
+                	?>
+            		<button class="basicBtn" id="btnEditar">Editar</button>       
+                	<?php 
+                }
+                
+                if($valida == 1 and $listdet->sitped != 0){ 
+                    ?>	
+                	<input type="button" value="Cancelar" id="btnRemover" class="redBtn" >		            	
+                	<?php 
+                } 
+                ?>    
+            </div>
+    	<?php
+        }        
+       ?>	
+</div>
+	
+<input type="hidden" id="pedido" value="<?php echo $listdet->idped?>">
+	
+<script>
+$('#btnRemover').live('click', function(){
+	var ped = $("#pedido").val();
+	
+	jConfirm('Você deseja remover este pedido?', 'Confirme', function(r) {
+		if(r==true){
+			window.location = '/admin/kang/removeor/ped/'+ped;				
+		}
+	});	
+});
+
+$("#btnEditar").click(function(){
+	window.location = '/admin/kang/pedidosprod/ped/<?php echo md5($listdet->idped)?>/editar/true';
+});
+
+$('#Table').on('click', '.remover', function () {
+    $(this).closest('tr').remove();
+});
+
+</script>

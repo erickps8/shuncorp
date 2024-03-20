@@ -1,0 +1,166 @@
+<!-- Calendarios -->
+<link type="text/css" rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.css?random=20051112" media="screen"></LINK>
+<SCRIPT type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/calendario/dhtmlgoodies_calendar.js?random=20060118"></script>
+
+<table width="100%" cellpadding="0" cellspacing="0" >
+	<tr>
+		<td align="left">				
+		<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 5px" >
+			<tr>
+				<td align="left">
+					<a href="<?php echo $this->baseUrl(); ?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+					<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+					<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeirochinareturn">					
+					<?=$this->translate->_("FINANCEIRO")?>&nbsp; 
+					</a>
+					<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+					<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeirochinareturn"><?=$this->translate->_("RETORNO IMPOSTOS");?></a>&nbsp;
+					<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+					<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeirochinareturncad"><b><?=$this->translate->_("RETORNOS CADASTRADOS");?></b></a>
+				</td>				
+			</tr>
+		</table>
+ 		</td>
+	</tr>
+	<tr>
+		<td>
+			<table width="100%" class="borda_titulo" >
+				<tr>
+			    	<td width="left"><?=$this->translate->_("RETORNOS CADASTRADOS")?></td>
+			    </tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<table width="100%" style="margin-top: 5px" cellpadding="0" cellspacing="0" >
+			    <tr>
+			    	<td align="right" >			    		
+			    		<b>
+			    		<?php if($this->objTipo!='conc'):?>
+			    		<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeirochinareturncad/tipo/conc"><?=$this->translate->_("FINALIZADOS")?></a>
+			    		<?php else: ?>
+			    		<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeirochinareturncad"><?=$this->translate->_("CADASTRADOS")?></a>
+			    		<?php endif;?>
+			    		</b>
+			    	</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td> 
+		<?php		
+		foreach ($this->objRet as $listar):							
+			?>
+			<form action="<?=$this->baseUrl()?>/admin/administracao/financchinaatreturn" name="form_<?=$listar->idtax?>" method="post" >
+			<table class="table" cellpadding="2" cellspacing="" border=0 width="100%" style="border: 1px solid; margin-top: 5px" >
+				<tr  >
+					<td align="left" width="10%">
+                    <?=$this->translate->_("ID")?>:<br>
+					<b><?=substr("000".$listar->idtax,-3,3)?></b></td>
+                    <td align="left" width="17%">
+                    <?=$this->translate->_("Fatura")?>:<br>
+					<b><?=$listar->invoice?></b></td>
+                    <td align="left" width="15%"><?=$this->translate->_("Emissão")?>:<br><b><?=$listar->dtcad?></b></td>
+                    <td align="left" valign="bottom">
+                    	<a target="_blank" href="<?=$this->baseUrl()?>/imgfinanceiro/imginvoice/<?=$listar->anexotax?>" title="Atachment">
+	       					<b><?=$this->translate->_("Anexo")?></b> <img src="<?=$this->baseUrl()?>/images/anexo.png" width="16">
+	       				</a>
+       				</td>	                                     
+                </tr>
+				<tr>
+					<td colspan="5" align="right">
+						<table class="table" cellpadding="2" cellspacing="" width="90%"  style="border: 1px solid #999;" >
+						<tr >
+		                    <td align="center" style="background-color: #cfcfcf;" width="20%"><?=$this->translate->_("Conta")?></td>
+		                    <td align="center" style="background-color: #cfcfcf;" width="20%"><?=$this->translate->_("Dt Cad")?></td>
+		                    <td align="center" style="background-color: #cfcfcf;" width="20%"><?=$this->translate->_("Valor")?></td>
+		                    <td align="center" style="background-color: #cfcfcf;" width="20%"><?=$this->translate->_("Dt Pag")?></td>
+		                    <td align="center" style="background-color: #cfcfcf;" ><?=$this->translate->_("Valor pag")?></td>
+		                </tr>
+						<?php
+						$class =''; 
+						foreach ($this->objLista as $lista):
+							if($lista->idtax == $listar->idtax):
+								?>
+								<tr >
+				                    <td align="center" >P<?=$lista->idcont?></td>
+				                    <td align="center" > <?=$lista->dtvenc?></td>
+				                    <td align="right" > <?=$lista->moeda." ".number_format($lista->valor_apagar,2,",",".")?></td>
+				                    <td align="center" > <?=$lista->dtpag?></td>
+				                    <td align="right" > <?=number_format($lista->valor_pago,2,",",".")?></td>
+				                </tr>
+								<?php 
+							endif;
+						endforeach;
+						
+						?>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" colspan="5">
+						<table class="table" cellpadding="2" cellspacing="" width="100%"  >
+							<tr>
+								<td align="left">
+									<?php if($this->objTipo=='conc'):?>
+									<?=$this->translate->_("Valor Retorno")?>: 
+                    				<b><?=number_format($listar->valoreturn,2,",",".")?></b> &nbsp; 
+									<?=$this->translate->_("Dt Pedido")?>: 
+									<b><?=$listar->dtaplic?></b> &nbsp; 
+									<?=$this->translate->_("Dt Prevista")?>: 
+									<b><?=$listar->dtvencimento?></b> &nbsp; 									
+									<?=$this->translate->_("Conta de recebimento:")?>: 
+									<b><a href="<?=$this->baseUrl()?>/admin/administracao/financeirochinareccad/rec/<?=md5($listar->idreceb)?>" target="_blank" >
+									R<?=substr("000000".$listar->idreceb,-6,6)?></a></b> &nbsp;
+									<?php else: ?>
+									<?=$this->translate->_("Valor Retorno")?>: 
+                    				<input name="vl_<?=$listar->idtax?>" id="vl_<?=$listar->idtax?>" value="" type="text" size="8" onkeyup="mascara_num(this);"> &nbsp; 
+									<?=$this->translate->_("Dt Pedido")?>: <input name="dt_<?=$listar->idtax?>" id="dt_<?=$listar->idtax?>" value="<?=$listar->dtaplic?>" type="text" size="8" maxlength="10" onKeyDown="Mascara(this,Data);" onKeyPress="Mascara(this,Data);" onKeyUp="Mascara(this,Data);" onclick="displayCalendar(this,'dd/mm/yyyy',this)"> &nbsp;
+									<?=$this->translate->_("Dt Prevista")?>: <input name="dtrec_<?=$listar->idtax?>" id="dtrec_<?=$listar->idtax?>" value="<?=$listar->dtrec?>" type="text" size="8" maxlength="10" onKeyDown="Mascara(this,Data);" onKeyPress="Mascara(this,Data);" onKeyUp="Mascara(this,Data);" onclick="displayCalendar(this,'dd/mm/yyyy',this)"> &nbsp;
+									<input type="button" value="<?=$this->translate->_("Salvar")?>" onclick="validaForm<?=$listar->idtax?>();"  >
+									<?php endif;?>									
+								</td>
+							</tr>
+						</table>
+					</td>	
+				</tr>
+			 </table>			
+			 <script type="text/javascript">			        
+				function exibeEdcao<?=$listar->idtax?>(){
+					document.getElementById('edita_<?=$listar->idtax?>').style.display = 'block';
+					document.getElementById('viz_<?=$listar->idtax?>').style.display = 'none';
+				}
+						        
+            	function validaForm<?=$listar->idtax?>(){
+            		if(document.getElementById('vl_<?=$listar->idtax?>').value==""){
+						alert('Fill out the "VALUE RETURN"!');	
+					}else if(document.getElementById('dt_<?=$listar->idtax?>').value==""){
+						alert('Fill out the "DT APLICATTION"!');	
+					}else if(document.getElementById('dtrec_<?=$listar->idtax?>').value==""){
+						alert('Fill out the "DT RECEIVED"!');	
+					}else{
+						document.form_<?=$listar->idtax?>.submit();
+					}
+            	}
+            	
+            </script> 
+            </form>
+				<?php 
+				
+			endforeach;
+		?>
+		
+		</td>
+	</tr>
+	<tr>
+		<td align="center" colspan="7" style="padding-top: 10px">
+				<?php 
+			 	if ((count($this->objRet) > 0) and $this->objTipo=='conc') :
+	            	echo $this->objRet;
+	            endif;
+            	?>
+            </td>
+        </tr>
+</table>

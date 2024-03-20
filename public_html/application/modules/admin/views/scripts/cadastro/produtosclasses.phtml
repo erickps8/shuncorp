@@ -1,0 +1,105 @@
+<div class="content">   
+	<!-- Navegacao --> 
+    <div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+    	<div class="breadCrumb module">
+        	<ul>
+	            <li class="firstB"><a href="#">Home</a> </li>
+	            <li ><a href="<?=$this->baseUrl(); ?>/admin/cadastro/produtos/fil/comp">Produtos</a></li>
+	            <li class="lastB">Classes</li>
+            </ul>
+        </div>
+	</div>       
+        
+    <div class="title"><h5>Classes de produtos</h5></div>
+    
+    <div class="widgets" >
+		<div class="first" style="margin-top: 5px; margin-bottom: 5px; border: 1px solid #d5d5d5; padding: 10px" >  
+			<form name="cadastra" method="post" class="mainForm">
+			<input type="hidden" name="id">
+				<div style="float: left; width:120px">
+					Letra da classe:<br />
+					<input type="text" name="letra" style="text-transform: uppercase; width: 40px" maxlength="2">
+				</div>
+				<div style="float: left; width: 120px">
+					Markup:<br />
+					<input type="text" name="markup" style="width: 70px" class="moeda"> %
+				</div>
+				<div style="float: left; width: 120px">
+					Markup mínimo:<br />
+					<input type="text" name="markupmin" style="width: 70px" class="moeda"> %
+				</div>
+				<div style="float: left; width: 60px"><br />
+					<input type="button" class="greenBtn" value="Salvar" id="btnSalvar">
+				</div>
+				
+			</form>
+			
+			<div class="clear"></div> 
+		</div>
+	</div>
+
+    <?php 			
+    if(count($this->objList) > 0) :			
+	?>
+		<div class="widget" style="width: 60%">
+ 		<table style="width: 100%" class="tableStatic">
+        	<thead>
+            	<tr>
+                	<td >Letra da classe</td>
+                    <td >Markup</td>
+                    <td >Markup mínimo</td>
+                    <td width="20%">Opções</td>
+                </tr>
+          	</thead>
+       	<tbody>
+			
+		<?php 
+		$cor=0;
+    	foreach($this->objList as $lista):
+	    	$cor++;
+            ?>
+			<tr >
+                <td style="text-transform: uppercase;"><?=$lista->letra?></td>
+                <td style="text-align: center;"><?=number_format($lista->markup,2,",",".")?></td>
+                <td style="text-align: center;"><?=number_format($lista->markupmin,2,",",".")?></td>
+                <td style="text-align: center;">
+                	<a href="javascript:void(0)" onclick="editarReg('<?=$lista->id?>','<?=$lista->letra?>','<?=number_format($lista->markup,2,",",".")?>','<?=number_format($lista->markupmin,2,",",".")?>');" >
+                	<img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/pencil.png"  width="16"  border="0" title="Editar" ></a>                	
+		        </td>
+		    </tr>
+            <?php  
+		endforeach;
+		?>        
+		</table>
+		</div>
+    <?php 
+	else :
+	?>
+	<div class="widget first" style="text-align: center; border-top: 1px solid #d5d5d5; padding: 20px">Nenhum registro encontrado</div>	
+	<?php 
+		endif;
+	?>				
+</div>
+	
+<script>
+
+function editarReg(id, letra, markup, markupmin){
+	$("input[name=letra]").val(letra);
+	$("input[name=id]").val(id);
+	$("input[name=markup]").val(markup);
+	$("input[name=markupmin]").val(markupmin);
+}
+
+$('#btnSalvar').click(function(){
+	if($("input[name=letra]").val()==""){
+		jAlert('A letra da classe não pode ficar em branco!','Erro!');
+	}else if($("input[name=markup]").val()==""){
+		jAlert('O markup não pode ficar em branco!','Erro!');
+	}else if($("input[name=markupmin]").val()==""){
+		jAlert('O markup mínimo não pode ficar em branco!','Erro!');
+	}else{
+		$("form[name=cadastra]").submit();
+	}
+});
+
+</script>

@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>SisZTL 2.0 Alpha - ztlbrasil.com.br</title>
+	<link href="<?=$this->baseUrl()?>/public/sistema/imagens/ztl.ico" rel="shortcut icon" type="image/x-ico"/>
+	<link href="<?=$this->baseUrl()?>/public/sistema/css/mainprint.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div class="content">
+	  
+	   	<?php
+        	if(count($this->objEmp) > 0) :
+				?>
+				<div class="widget first">
+					<table style="width: 800px; margin: 0 auto; margin-top: 5px" class="tableStatic">
+		            <tbody>        	       
+					
+					<?php 
+					$cont = 0;
+					foreach($this->objEmp as $contato):
+						
+						if($contato->ID_END==1):
+							if($contato->TIPO == 0){
+								$uf				= $contato->muf;
+								$cidade			= $contato->mcidade;
+								$endereco		= $contato->mend;
+								$bairro			= $contato->mbairro;
+								$cep			= $contato->mcep;
+							}else{
+								$uf				= $contato->fuf;
+								$cidade			= $contato->fcidade;
+								$endereco		= $contato->fend;
+								$bairro			= $contato->fbairro;
+								$cep			= $contato->fcep;
+							}
+						else:
+							$uf				= $contato->nuf;
+							$cidade			= $contato->ncidade;
+							$endereco		= $contato->cend;
+							$bairro			= $contato->cbairro;
+							$cep			= $contato->ccep;
+						endif;
+						
+						if($cont == 0): ?><tr ><?php endif;?>
+						
+			                <td align="left" style="padding: 0px">
+			                   	Destinatário: <b><?=($contato->ncontato)?></b><br />      
+			                   	Empresa: <b><?php if($contato->idmatriz != NULL) echo $contato->empmatriz; else echo $contato->empfilial; ?></b><br />           
+			                   	Endereço: <b><?=$endereco?></b><br />
+								Bairro: <b><?=$bairro?></b><br />
+								Cidade: <b><?php echo $cidade?> - <?php echo $uf?></b> &nbsp; CEP: <b><?=$cep?></b>
+							</td>								 
+						<?php  
+						if($cont == 1): ?></tr><?php $cont = 0; else: $cont = 1; endif;
+		        endforeach;
+		        if($cont == 1): ?></tr><?php endif;
+     			?>
+     			</tbody>
+			 	</table>
+		     </div>		     
+	     	<?php 
+	     	endif;		     
+		?>
+	</div>
+	</body>
+</html>

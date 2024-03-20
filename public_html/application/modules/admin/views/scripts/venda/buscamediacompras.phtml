@@ -1,0 +1,21 @@
+<table style="width: 100%" class="tableStatic">
+	<tr>
+		<td >PEDIDO</td>
+		<td >DT PEDIDO</td>
+		<td >QUANTIDADE</td>
+	</tr>
+	<?php	
+		foreach ($this->objCompra as $lista):
+			?>
+			<tr onclick="window.open('<?=$this->baseUrl()?>/admin/compras/pedidoscompraprod/ped/<?=md5($lista->IDPED)?>','_blank')" >
+                <td style="text-align: center;">
+                <?=$lista->IDPED?></td>
+                <td style="text-align: center;" ><?=$lista->dataped?></td>
+                <td style="text-align: center;" ><?=$lista->qtped-$lista->qtent;?></td>
+            </tr>
+            <?php 
+		endforeach;
+			
+	?>
+		
+</table>

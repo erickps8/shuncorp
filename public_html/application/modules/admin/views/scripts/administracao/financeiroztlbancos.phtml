@@ -1,0 +1,137 @@
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztl">Financeiro</a></li>
+                	<li >Administração</li>
+                	<li class="lastB">Bancos</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Bancos</h5></div>
+
+        <div class="widgets" >
+        	<div class="left" style="padding: 5px 0px 5px 0px; ">
+				<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlpcontas">Plano de contas</a>
+			</div>
+        	<div class="right" style="text-align: right; padding: 5px 0px 5px 0px; width: 40%">
+				<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlpag">Pagar</a> |
+				<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlrec">Receber</a> | 
+	    		<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlconc">Conciliação</a>
+			</div>
+		</div>
+
+		<div class="widgets" >
+			<div class="first" style="margin-top: 5px; margin-bottom: 5px; " >
+				<?php if($this->objIns==1){ ?>
+				<form action="<?php echo $this->baseUrl(); ?>/admin/administracao/cadbancosztl" method="post" name="bancos" id="bancos"  class="mainForm">
+					<input type="hidden" name="idbanco" >
+					<table style="margin-bottom: 8px; border: 1px solid #d5d5d5; width: 100%">
+					    <tr>
+					    	<td align="left" style="padding: 10px; width: 25%">
+					    		Nome da conta:<br>							 
+					    		<input type="text" style="text-transform: uppercase; width: 170px" name="nome" id="nome" >
+					    	</td>
+					    	<td align="left"  style="width: 20%">
+					    		Banco:<br>							 
+					    		<input type="text" style="text-transform: uppercase; width: 120px" size="15" name="banco" id="banco" >
+					    	</td>
+					    	<td align="left" >
+					    		Agência:<br>							 
+					    		<input type="text" style="text-transform: uppercase; width: 150px" size="10" name="agencia" id="agencia" >
+					    	</td>							    	
+						</tr>
+						<tr>
+							<td align="left" style="padding: 0px 0px 10px 10px; ">
+					    		Conta:<br>							 
+					    		<input type="text" style="text-transform: uppercase; width: 150px" size="18" name="conta" id="conta" >
+					    	</td>
+					    	<td colspan="2"><br /><input type="submit" value="Salvar" class="greenBtn"></td>
+					    </tr>
+					</table>  
+				</form>
+				<?php } ?>
+			</div>
+		</div>
+		
+		<?php 
+		if(!empty($this->objContasbanc)){
+		?>
+		<div class="widget">
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td >Id</td>
+                        <td >Nome</td>
+                        <td >Banco</td>
+                        <td >Agência</td>
+                        <td >Conta</td>
+                        <?php if($this->objIns==1){?>
+                        <td width="10%">Opções</td>
+                        <?php } ?>
+                    </tr>
+                </thead>
+                <tbody>	
+				<?php 
+				
+				$cont=0;
+				foreach ($this->objContasbanc as $listconta){
+					$cont++;
+					?>
+					<tr>
+						<td align="center">
+							<?=$cont?>
+						</td>
+						<td align="left">
+							<?=$listconta->nome?>
+						</td>
+						<td align="left">
+							<?=$listconta->banco?>
+						</td>
+						<td align="left">
+							<?=$listconta->agencia?>
+						</td>
+						<td align="left">
+							<?=$listconta->conta?>
+						</td>
+						<?php if($this->objIns==1):?>
+						<td align="center">
+							<a href="javascript:void(0);" onclick="editaContabanco('<?=$listconta->nome?>','<?=$listconta->banco?>','<?=$listconta->agencia?>','<?=$listconta->conta?>','<?=$listconta->id?>');"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/pencil.png" width="13" border="0" title="Editar"></a> &nbsp; 
+							<?php if($this->objEdi==1):?>
+							<a href="<?=$this->baseUrl(); ?>/admin/administracao/rembancosztl/idbanco/<?=md5($listconta->id)?>"><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" width="13" border="0" title="Remover"></a>
+							<?php endif; ?>
+						</td>
+						<?php endif;?>
+					</tr>
+				<?php								
+				}			
+				?>
+			 	</tbody>
+            </table>            
+        </div>
+		<?php 
+		}else{
+		?>
+		<div class="widget" style="border-top: 1px solid #d5d5d5; padding: 10px; text-align: center">
+ 			Nenhuma conta encontrada!
+		</div>	
+		<?php 
+		}
+		?>
+	</div>
+		
+			
+	<script type="text/javascript">
+	function editaContabanco(nome,banco,agencia,conta,id){
+		document.bancos.nome.value=nome;
+		document.bancos.banco.value=banco;
+		document.bancos.agencia.value=agencia;
+		document.bancos.conta.value=conta;
+		document.bancos.idbanco.value=id;
+	}
+	</script>

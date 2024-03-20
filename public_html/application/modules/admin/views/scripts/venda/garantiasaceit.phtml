@@ -1,0 +1,377 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/sistema/js/buscaajax/vendaGarantias.js"></script>
+
+	<?php 
+	if(!empty($this->objGarantia)):
+		foreach ($this->objGarantia as $viewGarantia);
+	endif;
+	
+	if(!empty($this->objCliente)):
+		foreach ($this->objCliente as $viewCli);
+	endif;
+	
+	if(!empty($this->objCliend)):
+		foreach ($this->objCliend as $viewEnd);
+	endif;
+	
+	if(!empty($this->objEmail)):
+		foreach ($this->objEmail as $viewEmail);
+	endif;
+	
+	$id_s = "";
+	
+	?>
+	<div class="content">
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/venda/garantias">Garantias</a></li>         
+                	<li class="lastB">GARANTIA N&ordm; G<?=str_pad($viewGarantia->idcli, 6, "0", STR_PAD_LEFT)?></li>         
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5>GARANTIA N&ordm; G<?=str_pad($viewGarantia->idcli, 6, "0", STR_PAD_LEFT)?></h5></div>
+        
+        <div class="widget first" >
+            <div class="head" style="margin-top: -10px"><h5 class="iUser">Informações do cliente</h5></div>
+            <div class="body">
+
+				<table >
+				<tr>
+					<td align="left" width="22%" colspan="3">
+						Empresa:<br>
+						<b><?php echo ($viewCli->EMPRESA)?></b>	
+					</td>
+					
+					<td align="left" >
+							
+					</td>
+				</tr>
+				<tr>
+					<td align="left" width="22%" colspan="2">
+						Logradouro:<br>
+						<b><?php echo ($viewEnd->LOGRADOURO)?></b>	
+					</td>
+					<td align="left" >
+						Bairro:<br>
+						<b><?php echo ($viewEnd->BAIRRO)?></b>
+					</td>
+					<td align="left" >
+						Cidade:<br>
+						<b><?php echo ($viewEnd->CIDADE)?></b>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" width="22%" >
+						UF:<br>
+						<b>
+						<?php 
+						foreach ($this->objUf as $listuf):
+							if($viewEnd->ESTADO==$listuf->id):
+								echo $listuf->nome;
+							endif;
+						endforeach;
+						?></b>	
+					</td>
+					<td align="left" >
+						CEP:<br>
+						<b><?php echo $viewEnd->CEP?></b>
+					</td>
+					<td align="left" colspan="2">
+						E-mail:<br>
+						<b><?php echo $viewEmail->EMAIL?></b>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" width="40%" colspan="2">
+						Nota Fiscal:<br>
+						<b><?php echo $viewGarantia->nota_fiscal?></b>	
+					</td>
+					
+					<td align="left" colspan="2" >
+						Data emiss&atilde;o:<br>
+						<b><?php echo substr($viewGarantia->data_nf,8,2)."/".substr($viewGarantia->data_nf,5,2)."/".substr($viewGarantia->data_nf,0,4)?></b>	
+					</td>
+					
+				</tr>
+				<tr>
+					<td align="left" width="25%" >
+						Peso:<br>
+						<b><?php echo $viewGarantia->peso_nf?></b> 
+						Kg
+					</td>
+					<td align="left" colspan="3" width="85%">
+						Volumes:<br>
+						<b><?php echo $viewGarantia->volumes?></b>	
+					</td>
+				</tr>
+				<tr>
+					<td align="left" width="15%" colspan="4" valign="middle" >
+						<?php if(!empty($viewGarantia->anexo)): ?>
+						<a target="_black" href="<?=$this->baseUrl()."/public/sistema/upload/clientes/".$viewGarantia->id_clientes."/garantias/".$viewGarantia->idcli.".".$viewGarantia->anexo?>">
+						<img alt="Anexo" src="<?php echo $this->baseUrl()."/public/sistema/imagens/icons/middlenav/paperclip.png"?>" border="0" >
+						<b>Anexo</b></a>
+						<?php endif;?>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" colspan="4">
+						Observa&ccedil;&atilde;o:<br>
+						<b><?php echo ($viewGarantia->obs)?></b>
+						
+					</td>
+				</tr>
+				
+				<?php 
+				
+				
+				if(strripos($viewGarantia->status, "ENVIO")!==0){ ?>
+				<tr>
+					<td align="left" colspan="2" >
+						Tipo de envio: <br>
+						<?php if($viewGarantia->tipoenvio==1): ?>
+							<b>Correios/PAC</b>
+						<?php else: ?>
+							<b>Transportadora</b>
+						<?php endif;?>
+							
+					</td>
+					<td colspan="2">
+							<?php if($viewGarantia->tipoenvio==1): ?>
+								N&ordm; PAC:<br>
+								<b><?php echo $viewGarantia->valorenvio?></b>
+							<?php else: ?>
+								Transportadora:<br>
+								<b><?php echo htmlentities($viewGarantia->valorenvio)?></b>
+							<?php endif;?>
+					</td>
+				</tr>
+				
+				<?php }else{ ?>
+				<tr>
+					<td align="left" colspan="4" >
+						Motivo Recusa: <br>
+						<div style="background-color: #e5e5e5; margin: 5px; padding: 5px">
+						<b><?php echo $viewGarantia->motivorec; ?></b>
+						</div>
+							
+					</td>
+				</tr>
+				<?php } ?>
+				</table>
+			</div>
+		</div>
+		
+		<?php if(strripos($viewGarantia->status, "ENVIO")!==0): ?>
+		<form action="<?php echo $this->baseUrl(); ?>/admin/venda/gravaprodgarantia" name="novogar" method="post" class="mainForm" enctype="multipart/form-data">
+		<input type="hidden" name="idgarantia" value="<?php echo $viewGarantia->idcli?>">
+		<input type="hidden" name="idcliente" value="<?php echo $viewGarantia->id_clientes?>">
+		
+		<?php if($this->objNivel == 2): ?>
+		<div style="padding: 10px; border: 1px solid #d5d5d5; margin-top: 10px">
+			Data da chegada: <input type="text" size="9" name="dt_chegada" id="dt_chegada" style="width: 70px; margin-bottom: 10px" class="data datepicker">
+			<div class="fix"></div>
+		</div>
+			
+			
+		<div class="widget" >
+            <div class="head" style="margin-top: -10px"><h5 class="iPaperclip">NFe mão de obra</h5></div>
+            <div class="body">	
+            
+            <table id="archive" style="width: 100%; " >
+            	<?php 
+				$idan=0;
+				if(!empty($this->objAnepag)):
+					foreach ($this->objAnepag as $listanexo): 
+					$idan++;
+					?>
+					<tr>
+						<td style="padding-left: 7px">						
+							<a href="<?=$this->baseUrl()?>/public/financeiro/pagar/<?=$listanexo->nome?>" target="_blank"><b>Anexo <?=$idan?></b></a> &nbsp; 
+							<a href="javascript:void(0);" onclick="confirmRemoveanexo('<?php echo $listanexo->id?>');" > <img id="anp<?=$idan?>" src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" width="13"> </a>
+						</td>
+					</tr>
+				<?php 
+				endforeach; 
+				endif;	
+				?>
+				<tr>
+					<td>
+						<div class="rowElem"><label style="width: 45px">Anexo:</label> 
+	                        <div class="formRight" ><input type="file" class="fileInput" id="fileInput" name="arquivo1" onchange="addArquivos(this)"/></div>
+	                        <div class="fix"></div>
+	                    </div>	                   
+					</td>
+				</tr>
+			</table>
+			<input type="hidden" name="intarchive" id="intarchive" >
+			<script type="text/javascript">
+	        		var intarc = 1;
+		        	function addArquivos(anexo) {
+		        		document.getElementById(anexo.name).value = $(anexo).val();
+			        	
+			        	intarc = intarc + 1;
+		        		var tbCod = document.getElementById("archive").insertRow(-1);
+		        		var y = tbCod.insertCell(0);
+
+		        		y.innerHTML='<div class="rowElem"><label style="width: 45px;">Anexo:</label><div class="formRight">'+
+                            '<input id="arquivo'+intarc+'" style="display: inline; width: 300px;" class="file fileInput"><div style="display: inline; position: absolute; overflow: hidden;" class="feat"><input style="position: relative; height: 26px; width: 300px; display: inline; cursor: pointer; opacity: 0; margin-left: -168px;" class="fileInput" id="fileInput" name="arquivo'+intarc+'" onchange="addArquivos(this)" type="file"></div>'+
+                        	'</div><div class="fix"></div></div>';
+		        		
+		        		document.getElementById("intarchive").value = intarc;
+
+		        		
+		        		
+		        	}
+	        	</script> 
+			    <div class="fix"></div>
+            </div>
+            
+            
+			<?php if(isset($lispagamento) and ($lispagamento->baixa!=1)): ?>
+			
+			<?php endif; ?>
+			
+			<input type="hidden" name="intanex" id="intanex" value="<?=$idan?>">
+        	
+       
+       
+       </div>	
+			
+		<?php endif; ?>
+		
+		<div class="widget">
+ 			<div class="head" style="border-bottom: 0px"><h5 class="iFrames">Produtos</h5></div>
+        	<table class="tableStatic" id="txtHint" style="width: 100%">
+            	<thead>
+                	<tr>
+                        <td width="30%">Código</td>
+                        <td width="">QT</td>
+                        <td width="">Valor</td>
+                        <td width="50%">Descrição</td>
+                        <?php if($this->objNivel == 2): ?>
+                        <td width="10%">&nbsp;</td>
+                        <?php endif; ?>
+                    </tr>
+                </thead>
+                <tbody>
+		       	<?php
+		       	if(!empty($this->objProdutos)):
+		       		foreach ($this->objProdutos as $listProd):
+		       		   ?> 
+				       <tr>
+				       		<td align="center"><?php echo $listProd->CODIGO?></td>
+				       		<td align="center"><?php echo $listProd->qt?><input name="<?php echo $listProd->id_prod?>" value="<?php echo $listProd->qt?>" type="hidden"></td>
+				       		<td class="td_orc" align="right"><?php echo number_format($listProd->preco_nf,2,",",".")?><input name="valor_<?php echo $listProd->id_prod?>" value="<?php echo $listProd->preco_nf?>" type="hidden"></td>
+				       		<td align="left"><?php echo htmlentities($listProd->DESCRICAO)?></td>
+				       		<?php if($this->objNivel == 2): ?>
+				       		<td align="center"><a href="#" onclick="deleteRow(this.parentNode.parentNode.rowIndex,<?php echo $listProd->id_prod?>)"><img src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/close.png" border="0" width="15"></a></td></tr>
+				       		<?php endif; ?>
+				       <?php
+				       $id_s .= $listProd->id_prod.";";
+				    endforeach;
+				endif; 
+	       		?>
+	       		
+	       		<?php if($this->objNivel == 2): ?>
+		        <tr>
+		            <td  class="td" align="center"  >
+		                <input type="text" size="7" name="codigo" id="codigo" onkeydown="if (event.keyCode == '13'){ return false; };" onclick="$('#resultado').html('');" style="width: 70px">
+		            </td>
+		            <td  class="td" align="center" >
+			            <input type="text" size="5" name="qt" id="qt"  onkeydown="if (event.keyCode == '13'){ return false; }; " onclick="$('#resultado').html('');"  style="width: 70px" class="inteiro">
+		            </td>
+		            <td>
+		            	<input type="text" size="5" name="valor" id="valor"  onkeydown="if (event.keyCode == '13'){ return false; };" onclick="$('#resultado').html('');" style="width: 70px" class="moeda" onblur="buscaProdutos();" >
+		            </td>
+		            <td  class="td" align="left" colspan="3" >
+		            	 <div id="resultado" style="color:#FF0000; font-weight: bold;"></div>
+		            </td>
+		            
+		        </tr>
+		        <?php endif; ?>
+		    </table>
+		</div>  
+	     
+	     
+	    <?php if(!empty($this->objProdutos)): ?>
+	    <input type="hidden" name="edicao" value="1">
+	    <?php endif;?>
+	    
+	    <?php if($this->objNivel == 2): ?>
+	    
+	  	<input type="hidden" name="arrId" id="arrId" value="<?php echo $id_s?>">
+	  	<input type="hidden" name="enviaAn"  >
+	  	
+	  	<div style="margin-top: 10px; margin-bottom: 10px">
+		    <input type="button" onclick="cancelamento()" value="Cancelar garantia" class="redBtn">
+			<input type="button" onclick="submitEnvia()" value="Enviar para análise" class="greenBtn">
+		</div>
+		
+		<div id="cancelamento" style="display: none">
+		 	<textarea name="obscancela" rows="2" cols="50" style="width: 350px"></textarea><br />
+		 	
+		 	<div class="rowElem">
+            	<label style="width: 45px">Anexo:</label> 
+                <div class="formRight" >
+                	<input type="file" class="fileInput" id="fileInput" name="anexocancela" onchange="addArchive(this)"/>
+                </div>
+                <div class="fix"></div>
+            </div>
+                    
+            <script type="text/javascript">
+        		function addArchive(anexo) {
+	        		document.getElementById(anexo.name).value = $(anexo).val();
+	        	}
+        	</script> 
+                    
+		 	<input type="button" onclick="confirmacancela()" value="Confirmar cancelamento" class="redBtn">				 
+		 </div>
+				
+		<?php endif; ?>		
+		</form>
+		<?php else: ?>
+		
+		<p align="left">
+			<input type="button" onclick="window.location='<?php echo $this->baseUrl(); ?>/admin/venda/garantias/page/<?=$this->page?>'" value="Voltar" class="basicBtn">
+		</p>
+		
+		<?php endif; ?>
+	</div>
+		<script type="text/javascript">
+			function cancelamento(){
+				if(document.getElementById('cancelamento').style.display == 'block'){
+					document.getElementById('cancelamento').style.display = 'none';
+				}else{
+					document.getElementById('cancelamento').style.display = 'block';
+				}
+			}
+	
+			function confirmacancela(){
+				document.novogar.action = "<?=$this->baseUrl()?>/admin/venda/cancelagarantia";
+				document.novogar.submit();
+			}
+		
+			
+			function submitEnvia(){
+				if(document.novogar.dt_chegada.value==""){
+					jAlert('Preencha a data de chegada!', 'Campo obrigatório');
+					return false;	
+				}else{
+					document.novogar.enviaAn.value="1";
+					document.novogar.submit();
+				}
+			}
+		
+			function deleteRow(i,id){
+			    document.getElementById('txtHint').deleteRow(i);
+			    var arrId = document.getElementById('arrId').value;
+				document.getElementById('arrId').value = arrId.replace(id+";","");
+		
+			}
+		
+		</script>
+	

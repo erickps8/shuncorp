@@ -1,0 +1,54 @@
+<style>
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	color: #666666;
+	font: 11px Arial, Helvetica, sans-serif;
+	background:url(<?php echo $this->baseUrl()?>/public/images/bg_principal.jpg)
+}
+.text{
+	color: #666666;
+	font: bold 11px Arial, Helvetica, sans-serif;
+}
+
+button{
+	color:#666666;
+	font: bold 10px Arial, Helvetica, sans-serif;
+	background-color:#E0E0E0;
+	border:1px solid #333;
+	padding:0px;
+	padding-left:5px;
+	padding-right:5px;
+	text-decoration:none;
+}
+
+input,textarea,select{
+	font: 11px Arial, Helvetica, sans-serif;
+	border: 1px solid #444;
+}
+
+input:focus {
+	border: 1px solid #444;
+	background: #f1f1f1;
+	font: 11px Arial, Helvetica, sans-serif;
+}
+
+</style>
+<body>
+<?php if($this->erro!=2):?>
+<table align="center" style="margin-top: 0px; " cellpadding="" cellspacing="10px">
+<tr><td>
+
+<img src="<?php echo $this->baseUrl()?>/public/images/fanfarrao.jpg" >
+
+</td></tr></table>
+<?php else: ?>
+<table align="center" style="margin-top: 20px; " cellpadding="" cellspacing="10px">
+<tr><td>
+<img src="<?php echo $this->baseUrl()?>/public/images/fanfarrao2.jpg" >
+
+</td></tr></table>
+<?php endif; ?>
+</body>

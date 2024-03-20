@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Rebates report</title>
+	<link href="<?=$this->baseUrl()?>/public/sistema/imagens/ico.ico" rel="shortcut icon" type="image/x-ico"/>
+	<link href="<?=$this->baseUrl()?>/public/sistema/css/mainprint.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <!-- Content -->
+	<div class="content" style="width: 1000px; margin: auto">
+
+        <div class="title" >
+        	<h5>Freight report</h5>
+        </div>
+
+        <div style="clear: both"></div>
+
+        <div style="font-weight: bold">
+        <?php
+
+            if($this->params['dtiniconc'] && $this->params['dtfimconc']) {
+                echo "De " . str_replace('-', '/', $this->params['dtiniconc']) . ' até ' . str_replace('-', '/', $this->params['dtfimconc']);
+            }else if($this->params['dtiniconc']) {
+                echo "A partir de " . str_replace('-', '/', $this->params['dtiniconc']);
+            }else if($this->params['dtfimconc']) {
+                echo "Até " . str_replace('-', '/', $this->params['dtfimconc']);
+            }
+        ?>
+        </div>
+        <?php if($this->objRetono) { ?>
+
+            <div class="widget">
+                <table style="width: 100%" class="tableStatic">
+                    <thead>
+                    <tr>
+                        <td colspan="4" style="font-size: 15px; vertical-align: middle"><?php echo ("INVOICE")?></td>
+                        <td colspan="3" style="font-size: 15px;"><?php echo ("RECEIVE")?></td>
+                        <td colspan="3" style="font-size: 15px; "><?php echo ("PAY")?></td>
+                    </tr>
+                    <tr>
+                        <td ><?php echo ("ID")?></td>
+                        <td ><?php echo ("DATE")?></td>
+                        <td ><?php echo ("SHIP DATE")?></td>
+                        <td ><?php echo ("CLIENT")?></td>
+                        <td ><?php echo ("ID")?></td>
+                        <td ><?php echo ("VALUE")?></td>
+                        <td ><?php echo ("DATE")?></td>
+                        <td ><?php echo ("ID")?></td>
+                        <td ><?php echo ("VALUE")?></td>
+                        <td ><?php echo ("DATE")?></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    foreach($this->objRetono as $lista){
+                        ?>
+                        <tr>
+                            <td style="text-align: center">S<?php echo str_pad($lista->idCominvoice, 6, '0', STR_PAD_LEFT)?></td>
+                            <?php
+                            if($lista->sitInvoice != 0) {
+                                ?>
+                                <td style="text-align: center"><?php echo $lista->dtInvoice?> </td>
+                                <td style="text-align: center"><?php echo $lista->dtEmbarque?> </td>
+                                <td style="text-align: left"><?php echo $lista->EMPRESA?> </td>
+                                <?php if($lista->st_fob == true) { ?>
+                                    <td style="text-align: center" colspan="3"> FOB FREIGHT </td>
+                                <?php } else { ?>
+                                    <td style="text-align: center"><?php if($lista->idRec) { ?>R<?php echo str_pad($lista->idRec, 6, '0', STR_PAD_LEFT)?> <?php } ?> </td>
+                                    <td style="text-align: right"><?php if($lista->idRec) echo number_format($lista->receitas, 2,",",".")?> </td>
+                                    <td style="text-align: center"><?php echo $lista->dtRec?> </td>
+                                <?php } ?>
+                                <td style="text-align: center"><?php if($lista->idPag) { ?>P<?php echo str_pad($lista->idPag, 6, '0', STR_PAD_LEFT)?> <?php } ?> </td>
+                                <td style="text-align: right"><?php if($lista->idPag) echo number_format($lista->despesas, 2,",",".")?> </td>
+                                <td style="text-align: center"><?php echo $lista->dtPag?> </td>
+                                <?php
+                            } else {
+                                ?>
+                                <td style="text-align: center" colspan="9">CANCELLED</td>
+                                <?php
+                            }
+                            ?>
+
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php } ?>
+		
+    </div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<table width="400" >
+<tr>
+	<td width='300' align="left" style="border-bottom: 1px solid #000;">
+		<?php echo $this->translate->_("SOLICITANTE"); ?>
+	</td>
+	<td align="center" style="border-bottom: 1px solid #000;">
+		<?php echo $this->translate->_("PEND"); ?>
+	</td>
+	<td align="center" style="border-bottom: 1px solid #000;">
+		<?php echo $this->translate->_("AGU"); ?>
+	</td>
+	<td align="center" style="border-bottom: 1px solid #000;">
+		<?php echo $this->translate->_("FIN"); ?>
+	</td>
+</tr>
+<?php 
+
+foreach ($this->objFunc as $listf):
+	$ver = 0;
+	$ver2 = 0;
+	$linha  = "<tr><td width='300' align='left'>";
+	$linha .= $listf->EMPRESA;
+	$linha .= "</td><td align='center'>";
+	//A variavel IDS e o solicitado, e o MIDS e o solicitante \o/
+	foreach ($this->objQuantp as $listp):
+		if($listf->ID == $listp->id_solicitante): 
+			$linha .= '<a href="'.$this->baseUrl().'/admin/administracao/painelatividades/tp/1/ids/'.md5($listp->id_solicitado).'/mids/'.md5($listp->id_solicitante).'" ><b>'.$listp->qt.'</b></a>';
+			$ver = 1;
+			$ver2 = 1;
+		endif;
+	endforeach;
+	
+	if($ver2==0) $linha .= "0";
+	$linha .= "</td><td align='center'>";
+	
+	$ver2 = 0;
+	foreach ($this->objQuanta as $listp):
+		if($listf->ID == $listp->id_solicitante): 
+			$linha .= '<a href="'.$this->baseUrl().'/admin/administracao/painelatividades/tp/2/ids/'.md5($listp->id_solicitado).'/mids/'.md5($listp->id_solicitante).'" ><b>'.$listp->qt.'</b></a>';
+			$ver = 1;
+			$ver2 = 1;
+		endif;
+	endforeach;
+	
+	if($ver2==0) $linha .= "0";
+	$linha .= "</td><td align='center'>";
+	
+	$ver2 = 0;
+	foreach ($this->objQuantf as $listp):
+		if($listf->ID == $listp->id_solicitante): 
+			$linha .= '<a href="'.$this->baseUrl().'/admin/administracao/painelatividades/tp/3/ids/'.md5($listp->id_solicitado).'/mids/'.md5($listp->id_solicitante).'" ><b>'.$listp->qt.'</b></a>';
+			$ver = 1;
+			$ver2 = 1;
+		endif;
+	endforeach;
+	
+	if($ver2==0) $linha .= "0";
+	$linha .= "</td></tr>";
+	
+	if($ver==1) echo $linha;
+	
+endforeach;
+
+
+?>
+</table>

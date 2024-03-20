@@ -1,0 +1,118 @@
+<div class="content">   
+	<!-- Navegacao --> 
+    <div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+    	<div class="breadCrumb module">
+        	<ul>
+	            <li class="firstB"><a href="#">Home</a> </li>
+	            <li><a href="<?=$this->baseUrl()?>/admin/cadastro/parceiroslista/filt/all">Parceiros</a></li>         
+	            <li class="lastB">Regiões Televendas</li>
+            </ul>
+        </div>
+	</div>       
+
+        
+    <div class="title"><h5>Regiões Televendas</h5></div>
+        
+    <div class="widgets" >
+    	<form action="<?=$this->baseUrl()?>/admin/cadastro/gravaregioestelevendas" name="cadastra" method="post" class="mainForm">
+		<input type="hidden" name="idregiao">
+		<table>
+			<tr>
+				<td>
+					Nome da região:<br />
+					<input type="text" name="regiao" style="text-transform: uppercase; width: 250px">
+				</td>
+				<td >
+					Televendas:<br />
+					<div class="styled-select" style="width: 230px">
+					<select name="representante" style="width: 252px">
+						<option value="0">Selecione</option>
+						<?php foreach ($this->objRep as $rep): ?>
+						<option value="<?=$rep->iduser?>"><?=$rep->nomeusuario?></option>
+						<?php endforeach; ?>
+					</select>
+					</div>
+					</td>
+					<td style="padding-left: 15px">
+						Comissão:<br />
+						CR: <input type="text" name="comissao" style="width: 50px" value="" class="moeda" title="Comissão sobre cliente com representante" > %
+						SR: <input type="text" name="comissaorep" style="width: 50px" value="" class="moeda" title="Comissão sobre cliente sem representante" > %
+					</td>
+					<td style="vertical-align: bottom;">
+						<input type="submit" class="greenBtn" value="Salvar">
+					</td>
+				</tr>
+			</table>
+			<script type="text/javascript">
+			function editarReg(id, nome, idcli, comissao, comissaorep){
+				document.cadastra.regiao.value = nome;
+				document.cadastra.idregiao.value = id;
+				document.cadastra.representante.value = idcli;
+				document.cadastra.comissao.value = comissao;
+				document.cadastra.comissaorep.value = comissaorep;
+			}
+			</script>
+		</form> 
+	</div>
+
+    <?php 			
+    if(count($this->objList) > 0) :			
+	?>
+		<div class="widget" >
+ 		<table style="width: 100%" class="tableStatic">
+        	<thead>
+            	<tr>
+                	<td width="10%">Id</td>
+                    <td width="45%">Regiões</td>
+                    <td >Comissão (CR/SR)</td>
+                    <td width="12%">Opções</td>
+                </tr>
+          	</thead>
+       	<tbody>
+			
+		<?php 
+		$cor=0;
+    	foreach($this->objList as $lista):
+	    	$cor++;
+            ?>
+			<tr >
+                <td style="text-align: center;">
+                   <?php echo substr("000".$cor,-3,3)?>
+                </td>
+                <td style="text-transform: uppercase;">
+                   <?=$lista->regiao." - ".$lista->usuario?>
+                </td>
+                <td style="text-align: center;">
+                   <?=number_format($lista->comissao,2,",",".")?>/<?=number_format($lista->comissaorep,2,",",".")?>
+                </td>
+                <td style="text-align: center;">
+                	<a href="javascript:void(0)" onclick="editarReg('<?=$lista->idreg?>','<?=$lista->regiao?>','<?=$lista->id_usuarios?>','<?=number_format($lista->comissao,2,",",".")?>','<?=number_format($lista->comissaorep,2,",",".")?>');" >
+                	<img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/pencil.png"  width="16"  border="0" title="Editar" ></a> &nbsp; 
+                	<a href="javascript:void(0)" onclick="confirmRemovereg('<?php echo md5($lista->idreg)?>');" ><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" width="15" border="0" title="Remover"></a>
+		                </td>
+		            </tr>
+            	<?php  
+		endforeach;
+		?>        
+		</table>
+		</div>
+    <?php 
+	else :
+	?>
+	<div style="text-align: center;">Nenhuma Região encontrada</div>	
+	<?php 
+		endif;
+	?>
+				
+</div>
+	
+<script>
+
+function confirmRemovereg(idregiao){
+	jConfirm('Você deseja remover esta regiao?', 'Confirme', function(r) {
+		if(r==true){
+			window.location='<?=$this->baseUrl()?>/admin/cadastro/removeregioestelevendas/regiao/'+idregiao;
+		}
+	});
+}
+</script>

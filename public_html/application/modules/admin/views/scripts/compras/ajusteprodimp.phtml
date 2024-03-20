@@ -1,0 +1,82 @@
+<html>
+  <body  onload="window.print();">
+
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/css/pedidos_imp.css" />
+<?php
+        foreach ($this->objAjus as $lisObs);
+                	
+?><br>
+<table border="0"  width="800" class="borda_titulo" align="center">
+<tr>
+	<td align="left" >
+	<font style="font-weight: bold; font-size: 18px;">
+	AJUSTE N&ordm; A<?php echo substr("000000".$lisObs->idajuste,-6,6);?>
+	</font>
+	</td>
+	<td align="right" >
+	<font style="font-weight: bold; font-size: 18px;">
+	Data: <?php echo substr($lisObs->data,8,2)."/".substr($lisObs->data,5,2)."/".substr($lisObs->data,0,4);?>
+	</font>
+	</td>
+</tr>
+</table>
+
+<table  class="mytable" width="800" cellspacing="0" style="margin-top: 8px"  align="center">
+<tr>                
+	<td class="th_canto" width="10%" align="center"><b>ID</b></td>
+    <td class="th_pedido" width="20%" align='center'><b>C&oacute;digo</b></td>
+	<td class="th_pedido" width="50%"" align='center'><b>Descri&ccedil;&atilde;o</b></td>
+	<td class="th_pedido" width="10%" align='center'><b>QT</b></td>
+    <td class="th_pedido" width="10%" align='center'><b>PRE&Ccedil;O</b></td>
+</tr>
+        <?php 
+        
+        foreach ($this->objList as $listProd){
+        	$cor++;
+        	if(($cor%2)==0) $class = 'tdpar';
+            else $class = 'td';
+        	?>
+        	<tr >
+                <td class="<?=$class?>" align="center"><?php echo $cor?></td>
+                <td class="<?=$class?>" align="left"><?php echo $listProd->CODIGO?></td>
+                <td class="<?=$class?>" align="left"><?php echo htmlentities($listProd->DESCRICAO)?></td>
+                <td class="<?=$class?>" align="center"><?php echo $listProd->qt?></td>
+                <td class="<?=$class?>" align="center"><?php echo number_format($listProd->preco,3,",",".")?></td>
+            </tr>
+        		
+        	<?php
+        	}
+        	?>
+        	<tr>
+        	<td class="td" colspan="5" align="left">
+        	Justificativa:<br>
+        	<?php
+        		echo utf8_decode($lisObs->obs);
+        	?>
+        	<br><br>
+			        	
+        </td>
+     </tr>
+     
+ </table>
+          
+<table align="center" width="800" style="margin-top: 30px">
+	<tr>
+		<td align="center" width="30%">
+            ___________________________________________<br>
+            <?php echo $lisObs->solicitante?><br>
+            Operador
+            
+        </td>
+        <td>
+                &nbsp;
+		</td>
+        <td align="center" width="30%">
+            ___________________________________________<br>
+            SOLICITANTE
+        </td>
+</tr>
+</table>
+ </body>
+ 
+</html>

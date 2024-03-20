@@ -1,0 +1,116 @@
+<div class="content">   
+	<!-- Navegacao --> 
+    <div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+    	<div class="breadCrumb module">
+        	<ul>
+	            <li class="firstB"><a href="#">Home</a> </li>
+	            <li><a href="<?=$this->baseUrl()?>/admin/cadastro/parceiroslista/filt/all">Parceiros</a></li>         
+	            <li class="lastB">Regiões</li>
+            </ul>
+        </div>
+	</div>       
+
+        
+    <div class="title"><h5>Regiões</h5></div>
+        
+    <div class="widgets" >
+    	<form action="<?=$this->baseUrl()?>/admin/cadastro/gravaregioes" name="cadastra" method="post" class="mainForm">
+		<input type="hidden" name="idregiao">
+		<table>
+			<tr>
+				<td>
+					Nome da região:<br />
+					<input type="text" name="regiao" style="text-transform: uppercase; width: 250px">
+				</td>
+				<td>
+					Representante:<br />
+					<div class="styled-select" style="width: 230px">
+					<select name="representante" style="width: 252px">
+						<option value="0">Selecione</option>
+						<?php foreach ($this->objRep as $rep): ?>
+						<option value="<?=$rep->ID?>"><?=$rep->EMPRESA?></option>
+						<?php endforeach; ?>
+					</select>
+					</div>
+					</td>
+					<td width="18%">
+						Comissão:<br />
+						<input type="text" name="comissao" style="width: 50px" value="" onKeyDown="Mascara(this,Valorduascasas);" onKeyPress="Mascara(this,Valorduascasas);" onKeyUp="Mascara(this,Valorduascasas);"> %
+					</td>
+					<td style="vertical-align: bottom;">
+						<input type="submit" class="greenBtn" value="Salvar">
+					</td>
+				</tr>
+			</table>
+			<script type="text/javascript">
+			function editarReg(id, nome, idcli, comissao){
+				document.cadastra.regiao.value = nome;
+				document.cadastra.idregiao.value = id;
+				document.cadastra.representante.value = idcli;
+				document.cadastra.comissao.value = comissao;
+			}
+			</script>
+		</form> 
+	</div>
+
+    <?php 			
+    if(count($this->objList) > 0) :			
+	?>
+		<div class="widget" >
+ 		<table style="width: 100%" class="tableStatic">
+        	<thead>
+            	<tr>
+                	<td width="10%">Id</td>
+                    <td width="45%">Regiões</td>
+                    <td >Comissão</td>
+                    <td width="12%">Opções</td>
+                </tr>
+          	</thead>
+       	<tbody>
+			
+		<?php 
+		$cor=0;
+    	foreach($this->objList as $lista):
+	    	$cor++;
+            ?>
+			<tr >
+                <td style="text-align: center;">
+                   <?php echo substr("000".$cor,-3,3)?>
+                </td>
+                <td style="text-transform: uppercase;">
+                   <?=$lista->NOME." - ".$lista->EMPRESA?>
+                </td>
+                <td style="text-align: center;">
+                   <?=number_format($lista->comissao,2,",",".")?>
+                </td>
+                <td style="text-align: center;">
+                	<a href="javascript:void(0)" onclick="editarReg('<?=$lista->idreg?>','<?=$lista->NOME?>','<?=$lista->id_clientes?>','<?=number_format($lista->comissao,2,",",".")?>');" >
+                	<img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/pencil.png"  width="16"  border="0" title="Editar" ></a> &nbsp; 
+                	<a href="javascript:void(0)" onclick="confirmRemovereg('<?php echo md5($lista->idreg)?>');" ><img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/close.png" width="15" border="0" title="Remover"></a>
+		                </td>
+		            </tr>
+            	<?php  
+		endforeach;
+		?>        
+		</table>
+		</div>
+    <?php 
+	else :
+	?>
+	<div style="text-align: center;">Nenhuma Região encontrada</div>	
+	<?php 
+		endif;
+	?>
+				
+</div>
+	
+<script>
+
+function confirmRemovereg(idregiao){
+	jConfirm('Você deseja remover esta regiao?', 'Confirme', function(r) {
+		if(r==true){
+			window.location='<?=$this->baseUrl()?>/admin/cadastro/removeregioes/regiao/'+idregiao;
+		}
+	});
+}
+</script>

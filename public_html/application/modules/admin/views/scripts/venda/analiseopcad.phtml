@@ -1,0 +1,119 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/javascript/editor/ckeditor/ckeditor.js "></script>
+
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl()?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl(); ?>/admin/venda/garantias"><?=$this->translate->_("GARANTIAS")?></a>&nbsp;
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?php echo $this->baseUrl(); ?>/admin/venda/analiseop"><?=$this->translate->_("ANÁLISES")?></a>&nbsp;
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<b><a href="<?php echo $this->baseUrl(); ?>/admin/venda/analiseopcad"><?=$this->translate->_("NOVA ANÁLISE")?></a></b>
+	</div>
+	<div id="sistitulo">NOVA ANÁLISE</div>
+	<div id="sisconteudo"> 
+		<?php
+
+		if(!empty($this->objAnalises)):
+			foreach ($this->objAnalises as $lista);
+			
+		endif;
+		
+		?>
+		
+        <form action="<?php echo $this->baseUrl(); ?>/admin/venda/gravaranaliseop" method="post" name="cad" onsubmit="return validaCampos();">
+			<table  width="100%" style="border: 1px solid #000; margin: 6px 0px 6px; padding: 5px" cellspacing="5">
+				<tr>
+					<td width="10%" align="left">
+						Situação:<br>
+						<select name="tipo">
+							<option value="1" <?php if($lista->tipo==1) echo 'selected="selected"'; ?> >Procede</option>
+							<option value="2" <?php if($lista->tipo==2) echo 'selected="selected"'; ?>>Não Procede</option>
+						</select>
+					</td>
+					<td  align="left" width="40%">
+					Diagnóstico:<br>
+					<input type="text" size="50" name="diag"  value="<?php echo $lista->descricao?>">
+					</td>
+				</tr>
+				<tr>
+					<td  align="left" colspan="2">
+					Descrição do Diagnóstico:<br>
+					<textarea rows="3" cols="50" name="descdiag" style="width: 90%"><?php echo $lista->detalhadesc?></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td  align="left" colspan="2">
+					Informações técnicas:<br>
+					<div>
+					<textarea class="ckeditor" cols="80" id="editor1" name="editor1" rows="10">
+					<?php echo $lista->infotecnica?>
+					</textarea>
+						<!--<textarea id="elm1" name="elm1" rows="15" cols="50" style="width: 90%">
+							
+						</textarea>
+					--></div>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" colspan="2"><br>
+					<input type="hidden" name="analise" value="<?php if(!empty($this->objAnalises)) echo $lista->id?>" >
+					<input type="button" onclick="window.location='<?php echo $this->baseUrl(); ?>/admin/venda/analiseop'"  value="Cancelar" >
+					<input type="submit" name="salvar" value="Salvar" >
+					</td>
+				</tr>
+        	</table>
+        	
+			</form>
+			
+        
+		<script>
+
+		CKEDITOR.config.toolbar_Full =
+			[
+			    ['Source','-','Save','NewPage','Preview','-','Templates'],
+			    ['Cut','Copy','Paste','PasteText','PasteFromWord'],
+			    '/',
+			    ['Bold','Italic','Underline','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','Image'],
+			    ['Outdent','Indent','Blockquote','CreateDiv','-','NumberedList','BulletedList'],
+			    ['Link','Unlink']
+			];
+		
+		
+			function editaAnalise(id,desc,tipo){
+				document.cad.diag.value=desc;
+				document.cad.tipo.value=tipo;
+				document.cad.id_analise.value=id;
+
+			}
+					
+			function validaCampos(){
+				if(document.cad.diag.value==""){
+					alertaPadrao('Erro!', 'O campo DIAGNÓSTICO não pode ficar em branco!', 'erro', 110, 300);
+					return false;
+				}
+			}
+
+			var alertaPadrao = function(titulo, msg, tipo, altura, largura) {
+					$('body').append('<a href="#" id="alerta-padrao"></a>');
+					$('#alerta-padrao').m2brDialog({
+							draggable: true,
+							texto: msg,
+							tipo: tipo,
+							titulo: titulo,
+							altura: altura,
+							largura: largura,
+							botoes: {
+								1: {
+									label: 'Fechar',
+									tipo: 'fechar'
+								}
+							}									   
+					});
+					$('#alerta-padrao')
+						.click()
+						.remove();
+			}; // fim alertaPadrao
+		</script>
+	</div>
+</div>

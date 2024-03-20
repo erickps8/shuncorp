@@ -1,0 +1,35 @@
+
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl()?>/admin/kang/pedidos"><?=$this->translate->_("Pedidos de venda")?></a></li>
+                	<li ><a href="<?=$this->baseUrl()?>/admin/kang/vendas"><?=$this->translate->_("Venda")?></a></li>
+                	<li class="lastB"><?=$this->translate->_("Nova venda")?></li>
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5><?=$this->translate->_("Nova venda")?></h5></div>
+        
+        <div class="widgets">
+            <div class="widget" style="padding: 20px; border: 1px solid #d5d5d5;">
+             	<form action="<?=$this->baseUrl()?>/admin/kang/gerarvendaemp" method="post" name="busca" id="busca" class="mainForm">
+             
+                <div class="styled-select" style="width: 300px; margin-bottom: 10px">
+					<select name="empresa" id="empresa" style="width: 322px" onchange="submit();">
+						<option value="0"><?=$this->translate->_("Cliente")?></option>
+						<?php foreach($this->objEmp as $empresas){ ?>
+					    <option value="<?php echo $empresas->idcli?>"><?php echo $empresas->empinvoice?></option>
+					    <?php } ?>
+					</select>
+				</div>                
+                </form>
+		   </div> 		
+	   </div>
+    </div>    			
+		    

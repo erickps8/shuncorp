@@ -1,0 +1,119 @@
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/financeiro.js"></script>
+
+
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztl">Financeiro</a></li>
+                	<li class="lastB">Relatório de contas a pagar</li>           
+                </ul>
+            </div>
+        </div>       
+
+		<div class="title"><h5>Relatório de contas a pagar</h5></div>
+
+		<div class="widgets" >
+			<div class="widget" style="padding: 10px; border-top: 1px solid #d5d5d5;" >  
+				<form action="<?php echo $this->baseUrl(); ?>/admin/administracao/financeiroztlrelcontaspg" method="post" name="busca" id="busca" class="mainForm">
+		 			<table style="width: 100%" id="tabela">
+					    <tr>
+					    	<td  >
+				    			Dt inicio:<br>
+								<input type="text" style="margin-right: 3px; width: 80px" name="dtini" id="dtini" class="data datepicker">
+							</td>
+							<td >
+								Dt fim:<br>
+								<input type="text" style="margin-right: 3px; width: 80px"  name="dtfim" id="dtfim" class="data datepicker">
+							</td>
+							<td style="width: 80%">
+								<br />
+								<input type="submit" class="blueBtn" value="Pesquisar">
+							</td>
+						</tr>
+					</table>  
+				</form>
+			</div>
+		</div>
+		
+		<?php
+		if(count($this->objContasvencpag)>0):
+		?>       
+        <div class="widget" >
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="10%">Id</td>
+                        <td width="35%">Fornecedor</td>
+                        <td width="14%">Fatura</td>
+                        <td width="14%">Emissão</td>
+                        <td width="14%">Vencimento</td>
+                        <td >Valor</td>
+                    </tr>
+               	</thead>
+            </table>
+    		<?php	
+			$cor=0;						
+			foreach ($this->objContasvencpag as $listpagar):
+				
+			?>
+				<table class="tableStatic" style="margin-top: 5px; cursor: hand; cursor: pointer; width: 100%" onclick="window.open('<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlpagcad/pay/<?=md5($listpagar->idfin)?>')">
+					<tbody>
+					<tr >
+						<td  style="text-align: left; font-weight: bold;" width="10%" >
+							P<?=substr("000000".$listpagar->idfin,-6)."/".$listpagar->parc?>
+						</td>
+						<td  style="text-align: left; font-weight: bold;" width="35%">
+							<?php 
+							if(($listpagar->id_fornecedor!=0)||($listpagar->id_fornecedor!=NULL)): 
+								echo $listpagar->EMPRESA;
+							elseif(($listpagar->id_usuarios!=NULL) || ($listpagar->id_usuarios!="")): 
+								echo $listpagar->nome;
+							else: 
+								echo $listpagar->out_fornecedor;
+							endif;
+							?>
+						</td>
+						<td  style="text-align: center; font-weight: bold;" width="14%">
+							<?=$listpagar->fatu?>
+						</td>
+						<td  style="text-align: center; font-weight: bold;" width="14%">
+							<?=$listpagar->dtcad?>
+						</td>
+						<td  style="text-align: center; font-weight: bold;" width="14%">
+							<?=$listpagar->dtvencimento?>
+						</td>
+						<td  style="text-align: right; font-weight: bold;">
+							<?=number_format($listpagar->valor_apagar,2,",",".")?>
+						</td>					
+					</tr>
+					<tr >
+						<td  colspan="6" >
+							Linha digitável: <?=$listpagar->codbarras?>&nbsp;
+						</td>
+					</tr>
+					<tr >
+						<td  colspan="6" >
+							Obs: <?=$listpagar->obsfin?>&nbsp;
+						</td>
+					</tr>
+					</tbody>
+				</table>
+				<?php								
+				endforeach;						
+			?>			
+		</div>
+		<?php 
+		else :
+		?>
+		<div class="widget first">
+ 			Nenhuma conta encontrada!
+		</div>	
+		<?php 
+		endif;
+		?>
+	</div>

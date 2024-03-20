@@ -1,0 +1,53 @@
+
+<?php 
+if($this->objParams['tipo'] == 1):
+
+	if($this->objParams['nomesel'] !='undefined'):
+		$nome = $this->objParams['nomesel'];
+	else:
+		$nome = 'uf';
+	endif;
+	
+	if($this->objParams['divcid'] !='undefined'):
+		$divcid = $this->objParams['divcid'];
+	else:
+		$divcid = 'cidade';
+	endif;
+	
+	
+	?>
+	<div class="styled-select" style="width: 180px">
+		<select name="<?php echo $nome?>" onchange="buscaEstados(this.value,'2','<?php echo $divcid?>');" style="width: 202px">
+			<option value="0">Selecione</option>
+			<?php 
+			foreach ($this->objList as $list):		
+				?>
+				<option value='<?php echo $list->id?>'><?=$list->nome?></option>
+				<?php 
+			endforeach;
+			?>
+		</select>
+	</div>
+<?php 
+else:
+	if($this->objParams['nomesel'] !='undefined'):
+		$nome = $this->objParams['nomesel'];
+	else:
+		$nome = 'cidade';
+	endif;
+	?>
+	<div class="styled-select" style="width: 260px">
+		<select name="<?php echo $nome?>" style="width: 282px">
+			<option value="0">Selecione</option>
+			<?php 
+			foreach ($this->objList as $list):		
+				?>
+				<option value='<?php echo $list->id?>'><?=$list->nome?></option>
+				<?php 
+			endforeach;
+			?>
+		</select>
+	</div>
+<?php 
+endif;
+?>

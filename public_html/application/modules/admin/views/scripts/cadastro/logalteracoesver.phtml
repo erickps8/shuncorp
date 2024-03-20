@@ -1,0 +1,29 @@
+<?php 
+if (count($this->objList) > 0):
+	foreach($this->objList as $lista);
+endif;
+?>
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl(); ?>/admin/painel">HOME</a>&nbsp; 
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl(); ?>/admin/cadastro/produtos/fil/comp"><?=$this->translate->_("PRODUTOS")?></a>&nbsp;
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl(); ?>/admin/cadastro/logalteracoes"><?=$this->translate->_("REGISTRO DE ALTERAÇÕES")?></a>&nbsp;
+		<img src="<?=$this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<b><a href="<?=$this->baseUrl(); ?>/admin/cadastro/logalteracoesver/altera/<?=md5($lista->idalt)?>"><?=$this->translate->_("PRODUTO")." ".$lista->CODIGO?></a></b>
+	</div>
+	<div id="sistitulo"><?=$this->translate->_("PRODUTO")." ".$lista->CODIGO?></div>
+    <div id="sisconteudo" style="line-height: 20px">  
+		Data cadastro: &nbsp; <b><?=$lista->datacad?></b><br />
+		<div style="float: left;">Alterações:</div> 
+		<div style="margin-left: 80px;">
+		<?=$lista->descricao?>
+		</div>	
+		<?php if($lista->sit == 1): ?>
+		<div style="margin-top: 20px">
+			<input type="button" value="Confirmar verificação" onclick="if(confirm('Confirmar verificação?')){window.location='<?=$this->baseUrl()?>/admin/cadastro/verificalogalteracoes/altera/<?=md5($lista->idalt)?>'};">
+		</div>
+		<?php endif; ?>
+	</div>
+</div>

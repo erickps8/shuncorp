@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>ZTL Brasil - www.ztlbrasil.com.br </title>
+	<link href="<?=$this->baseUrl()?>/public/imagens/ztl_favicon1.ico" rel="shortcut icon" />
+	<link href="<?=$this->baseUrl()?>/public/images/ztl_favicon1.ico" rel="shortcut icon" type="image/x-ico"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="rolamentos, cubo de roda, rolamento, embreagem, embreagens, ponta de eixo, pontas de eixo, bomba dagua, bombas dagua, roda, scania, homocinetica, homocineticas, transmissoes" />
+</head>
+
+<body>
+<?php 
+if($this->objTipo==1):
+	header("Content-type: application/vnd.oasis.opendocument.spreadsheet");
+	header("Content-Disposition: attachment; filename=Estoque.ods");
+else:
+	header("Content-type: application/msexcel");
+	header("Content-Disposition: attachment; filename=Estoque.xls");
+endif;
+?>
+<table width="100%" >
+	<tr>
+		<td width="left">VENDAS</td>
+	</tr>
+</table>
+
+<?php
+if ( count($this->objList) > 0) :			
+	?>
+	<table align="left" class="mytable" width="100%" cellspacing="0" cellpadding="0" >
+        <tr>
+            <th  class="th_canto_orc" align="center" >
+                ID
+            </th>
+            <th  class="th_orc" align="center" width="18%" >
+                DATA CADASTRO 
+            </th>
+            <th  class="th_orc" align="center" width="18%" >
+                DATA VENDA 
+            </th>
+            <th  class="th_orc" align="center" width="22%">
+            	CLIENTE 
+            </th>
+            <th  class="th_orc" align="center" width="20%">
+            	REP
+            </th>
+            <th  class="th_orc" align="center" width="22%">
+            	VENDEDOR 
+            </th>
+            <th  class="th_orc" align="center" >
+            	SIT
+            </th>
+            <th  class="th_orc" align="center" >
+            	VALOR
+            </th>
+       </tr>	
+	
+		<?php 
+		foreach($this->objList as $lista):	    	
+		?>			
+			<tr >
+                <td align="center" >
+                   <?php echo $lista->id_ped?>
+                </td>
+                <td   align="center" >
+                	<?php echo $lista->dtcad?>
+                </td>
+                <td   align="center" >
+                	<?php echo $lista->dtvenda?>
+                </td>
+                <td   align="left" >
+                	<?=$lista->EMPRESA?>
+                </td>
+                <td   align="left" >
+                	<?php 
+                	$repres = "Sem Representante Comercial";
+                	foreach ($this->objReg as $func): 
+                		if($lista->ID_REGIOES==$func->ID):
+                			$repres = $func->NOME;
+                		endif;
+	    			endforeach; ?> 
+                	<?=($repres)?>                	
+                </td>
+                <td   align="left" > 
+                   <?=$lista->vendedor?>                
+                </td>
+                <td  align="center" > 
+                   <?php 
+                   if($lista->sitped=='1'):
+                   ?>
+                   <span style="color: #F00">CANCELADO</span>
+                   
+                   <?php 
+                   elseif($lista->statusped=='ped'):
+                   ?>
+                   FATURADO
+                   <?php
+                   elseif($lista->statusped=='orc'):
+                   ?>
+                   <span style="color: #007b00">PEDIDO</span>
+                   <?php
+                   endif;
+                   ?>               
+                </td>  
+				<td align="right" > 
+                   <?=number_format($lista->precototalped,2,",",".")?>                
+                </td>                     
+            </tr>            
+		<?php  
+		$total += $lista->precototalped;
+		endforeach;		
+		?>
+	</table>
+	<?php
+	echo "Total: ".$total; 
+else :
+?>
+	<br>
+	<center>Nenhum Pedido Encontrado</center>
+<?php 
+endif;
+
+?>
+
+</body>
+</html>

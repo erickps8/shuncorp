@@ -1,0 +1,186 @@
+<?php if(count($this->objCadastro)>0) foreach ($this->objCadastro as $cadastro); ?>
+
+	<!-- Content -->
+    <div class="content">   
+    	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="#">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl()?>/admin/cadastro/parceiroslista">Parceiros</a></li>
+                	<li ><a href="<?=$this->baseUrl()?>/admin/cadastro/precadastro">Pré-cadastro</a></li>
+                	<li class="lastB">Cadastro</li>          
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5><?php if(count($this->objCadastro)>0)  echo $cadastro->idcadastro." ".$cadastro->fantasia; ?></h5></div>
+        
+        <div class="widget" style="border-top: 1px solid #d5d5d5;">        
+        	<div class="rowElem" style=" padding: 10px">
+            	<table style="width: 100%">
+					<tr>
+						<td style="width: 20%">CNPJ/CPF: <br><b><?php echo $cadastro->cnpj?></b></td>
+						<td  >RG / INSC:<br><b><?php echo $cadastro->inscricao?></b></td>
+						<td  >Data de abertura:<br><b><?php if(!empty($cadastro->dataabertura)) echo substr($cadastro->dataabertura,8,2)."/".substr($cadastro->dataabertura,5,2)."/".substr($cadastro->dataabertura,0,4)?></b></td>
+					</tr>
+                    <tr>
+						<td colspan="3">Nome Fantasia: <br><b><?php echo $cadastro->fantasia?></b></td>
+					</tr>	
+					<tr>
+						<td colspan="3">Razão Social: <br><b><?php echo $cadastro->razaosocial?></b></td>
+					</tr>
+				</table>
+				
+				<div class="head"><h5 class="iAlert">Contato</h5></div>
+				
+				<table style="width: 100%" >
+			     	<tr>
+			     		<td style="width: 20%">
+							Telefone :<br /><b><?php echo $cadastro->tel1?></b>
+						</td>
+						<td style="width: 20%">
+						    Telefone 2:<br /><b><?php echo $cadastro->tel2?></b>
+						</td>			     		
+						<td  >
+						    Nextel:<br /><b><?php echo $cadastro->nextel?></b>
+						</td>
+			     	</tr>
+			     							     	
+			     	<tr>
+			     		<td colspan="2"> 
+			     			Email institucional:<br /><b><?php echo $cadastro->email?></b>		     			 
+			     		</td>
+			     		<td colspan="2">
+							Contato:<br><b><?php echo $cadastro->nomecontato?></b>
+						</td>				     		
+			     	</tr>
+			     	<tr>
+			     		<td colspan="2"> 
+			     			Email compras:<br /><b><?php echo $cadastro->emailcompras?></b>		     			 
+			     		</td>
+			     		<td colspan="2">
+							Contato:<br><b><?php echo $cadastro->nomecontatocompras?></b>
+						</td>				     		
+			     	</tr>
+			     	<tr>
+			     		<td colspan="2"> 
+			     			Email NF-e:<br /><b><?php echo $cadastro->emailnfe?></b>		     			 
+			     		</td>
+			     		<td colspan="2">
+							Contato:<br><b><?php echo $cadastro->nomecontatonfe?></b>
+						</td>				     		
+			     	</tr>
+			     </table>
+			     
+			     <div class="head"><h5 class="iAlert">Endereço</h5></div>
+			     
+			     <table style="width: 100%" >
+			     	<tr>
+			     		<td style="width: 40%" > 
+			     			 Logradouro:<br /><b><?php echo $cadastro->logradouro?></b>		     			 
+			     		</td>					     		
+			     		<td style="width: 10%"> 
+			     			 Nº:<br /><b><?php echo $cadastro->numero?></b>		     			 
+			     		</td>
+			     		<td > 
+			     			 Bairro:<br /><b><?php echo $cadastro->bairro?></b>		     			 
+			     		</td>
+			     	</tr>
+			     	<tr>
+			     		<td >
+			     			 Estado:<br><b><?php echo $cadastro->estado?></b>	     			 
+			     		</td>
+			     		<td colspan="2" style="padding-left: 5px">
+			     			 Cidade:<br><b><?php echo $cadastro->cidade?></b>			     			 
+			     		</td>					     		
+			     	</tr>					     	
+			     	<tr>
+			     		<td >
+			     			Complemento:<br /><b><?php echo $cadastro->complemento?></b>
+			     		</td>
+			     		<td colspan="2">
+			     			Cep:<br /><b><?php echo $cadastro->cep?></b>
+			     		</td>
+			     	</tr>
+			     	
+			     </table>	
+			     
+			     <div class="head"><h5 class="iAlert">Referências comerciais</h5></div>
+			     
+			     <table style="width: 100%" >
+			     	<tr>
+			     		<td style="width: 40%">Empresa 1:<br /><b><?php echo $cadastro->ref1?></b></td>			     		
+						<td >Telefone:<br /><b><?php echo $cadastro->telref1?></b></td>								
+			     	</tr>
+			     	<tr>
+			     		<td style="width: 40%">Empresa 1:<br /><b><?php echo $cadastro->ref2?></b></td>			     		
+						<td >Telefone:<br /><b><?php echo $cadastro->telref2?></b></td>								
+			     	</tr>
+			     	<tr>
+			     		<td style="width: 40%">Empresa 1:<br /><b><?php echo $cadastro->ref3?></b></td>			     		
+						<td >Telefone:<br /><b><?php echo $cadastro->telref3?></b></td>								
+			     	</tr>
+			     	<tr>
+			     		<td style="width: 40%">Empresa 1:<br /><b><?php echo $cadastro->ref4?></b></td>			     		
+						<td >Telefone:<br /><b><?php echo $cadastro->telref4?></b></td>								
+			     	</tr>
+			     	<tr>
+			     		<td style="width: 40%">Empresa 1:<br /><b><?php echo $cadastro->ref5?></b></td>			     		
+						<td >Telefone:<br /><b><?php echo $cadastro->telref5?></b></td>								
+			     	</tr>
+			     </table>	
+			     
+			     <div class="head"><h5 class="iAlert">Anexos</h5></div>
+			     
+			     <table style="width: 100%" class="tableStatic">
+	                <tbody>
+	                	<?php 
+	                	if(count($this->objArquser)>0):
+	                	$cont=0;
+	                	foreach ($this->objArquser as $arquivos):
+	                	$cont++;
+	                	?>
+	                	<tr>
+	                        <td width="10%" style="text-align: center;">
+	                        	<a target="_blank" href="<?php echo $this->baseUrl()?>/public/sistema/upload/precadastro/<?php echo $cadastro->idcadastro."_".$cont.".".$arquivos->anexo?>" >
+	                        		<img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/icons/middlenav/paperclip.png" border="0" >
+	                        	</a>
+	                        </td>
+	                        <td >
+	                        	<a target="_blank" href="<?php echo $this->baseUrl()?>/public/sistema/upload/precadastro/<?php echo $cadastro->idcadastro."_".$cont.".".$arquivos->anexo?>" >
+		                        	<?php echo $arquivos->nome?>
+		                        </a>
+	                        </td>
+	                       
+	                    </tr>
+	                    <?php 
+	                    endforeach;
+	                    endif;
+	                    ?>
+	                </tbody>
+	            </table>	
+			     
+			     <div class="head"><h5 class="iAlert">Observação</h5></div>
+			     <b><?php echo $cadastro->obs?></b>
+			     
+			</div>
+			
+		</div>
+		
+		<div style="padding-top: 10px">
+	     	<input type="button" value="Cadastrar parceiro" class="greenBtn" onclick="cadastroParceiro();">
+	    </div>	
+	</div>
+	
+	<script>
+
+	function cadastroParceiro(){
+		jConfirm('Tem certeza que deseja inserir este cadastro nos parceiros?', 'Confirme', function(r) {
+			if(r==true){
+				window.location='<?=$this->baseUrl()?>/admin/cadastro/utilizarprecadastro/cadastro/<?php echo md5($cadastro->idcadastro)?>';
+			}
+		});
+	}
+	
+	</script>

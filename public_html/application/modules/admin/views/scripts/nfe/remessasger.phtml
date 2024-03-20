@@ -1,0 +1,96 @@
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl()?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/compras/estoquegrupo"><?=$this->translate->_("ESTOQUE")?></a>&nbsp;
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/nfe/nfe"><?=$this->translate->_("NFE")?></a>&nbsp;	
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<b><a href="<?=$this->baseUrl()?>/admin/nfe/nfe"><?=$this->translate->_("REMESSAS")?></a></b>
+	</div>
+	<div id="sistitulo">REMESSAS DE NFE</div>
+	<div id="sisconteudo">  
+ 		<div >
+ 			<input type="button" class="button" onclick="window.location='<?=$this->baseUrl(); ?>/admin/nfe/remessasger'" value="Nova Remessa" />	    		    	
+ 		</div>
+	</div>
+	<div>  
+		<?php 
+		if ( count($this->objList) > 0) :
+		?>
+			<table class="mytable" style="margin-top: 5px">
+		        <tr>
+		            <th  class="th_canto_orc" style="text-align: center;" width="10%">
+		                ID
+		            </th>
+		            <th  class="th_orc" style="text-align: center;" width="25%">
+		            	PERÍODO 
+		            </th>
+		            <th  class="th_orc" style="text-align: center;" width="15%" >
+		                DATA
+		            </th>
+		            <th  class="th_orc" style="text-align: center;" width="15%" >
+		                SOLICITANTE
+		            </th>
+		            <th  class="th_orc" style="text-align: center;" width="" >
+		                SITUAÇÃO
+		            </th>
+		            <th  class="th_orc" style="text-align: center;" width="10%">
+		                OP&Ccedil;&Otilde;ES
+		            </th>
+		       </tr>	
+			
+			<?php 
+			$cor=0;
+	    	foreach($this->objList as $lista):
+	    	$cor++;
+            if(($cor%2)==0) $class = 'td_orc_par';
+            else $class = 'td_orc';
+			?>
+			
+			<tr >
+                <td  class="<?=$class?>" style="text-align: center;" >
+                   <?="NFe".substr("000000".$lista->id,-6,6);?>
+                </td>
+                <td  class="<?=$class?>" align="left" > 
+                   <?=($lista->empresa)?>                  
+                </td>
+                <td  class="<?=$class?>" style="text-align: center;" >
+                   <?=substr($lista->data,8,2)."/".substr($lista->data,5,2)."/".substr($lista->data,0,4)?>                  
+                </td>
+                <td  class="<?=$class?>" style="text-align: center;" >
+                   <?=($lista->cfop)?>                  
+                </td>
+                <td  class="<?=$class?>" style="text-align: center;" >
+                   <? if($lista->status == 1):?>
+                   AUTORIZADO
+                   <?php elseif($lista->status == 3): ?>
+                   CANCELADO
+                   <?php else: ?>
+                   REJEITADO
+                   <?php endif; ?>                  
+                </td>
+                <td  class="<?=$class?>" style="text-align: center;" >
+                	<a href="<?=$this->baseUrl(); ?>/admin/nfe/visualizarnfe/nfe/<?=md5($lista->id)?>"><img src="<?=$this->baseUrl(); ?>/images/visualizar_orc.gif" width="17" border="0" title="Visualizar"></a>                	
+                </td>                
+            </tr>
+            <?php  endforeach; ?>        
+			</table>
+		</div>	
+		<div style="margin-top: 20px">
+			<?php 
+            if ( count($this->objList) > 0) :
+            	echo $this->objList;
+            endif;
+            ?>
+        </div>
+			 <?php 
+			else :
+			?>
+		<div style="text-align: center; margin-top: 30px">Nenhuma remessa cadastrada</div>
+			<?php 
+			endif;
+		?>
+		
+	</div>
+</div>

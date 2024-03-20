@@ -1,0 +1,107 @@
+<script src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/relatoriosVendacusto.js" type="text/javascript"></script>
+
+	<!-- Content -->
+    <div class="content">   
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li class=""><a href="<?php echo $this->baseUrl(); ?>/admin/relatorios">Relatórios</a></li>
+                	<li class="lastB">Curva de clientes</li>         
+                </ul>
+            </div>
+        </div>       
+
+        <div class="title"><h5>Curva de clientes</h5>
+        	<div style="float: right; padding: 10px; display: none">
+        		<a target="_blank" href="<?php echo $this->baseUrl()?>/admin/relatorios/vendascurvaimp/tpdata/<?php echo $this->objParams['tpdata']?>/pend/<?php echo $this->objParams['pend']?>/representante/<?php echo $this->objParams['representante']?>/televenda/<?php echo $this->objParams['televenda']?>/dataini/<?php echo str_replace("/", "-", $this->objParams['dataini'])?>/datafim/<?php echo str_replace("/", "-", $this->objParams['datafim'])?>/grupovenda/<?php echo $this->objParams['grupovenda']?>/buscagruposub/<?php echo $this->objParams['buscagruposub']?>" >
+					<img src="<?=$this->baseUrl()?>/public/sistema/imagens/icons/middlenav/printerwhite.png" title="Imprimir" border="0" width="18">
+				</a>
+			</div>
+			<div style="float: right; padding: 10px">
+				<a href="javascript:void(0)" id="exportar" ><img title="Exportar para MS Excel" src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/excelDocwhite.png" border="0" width="18" /> </a>
+			</div>
+			
+        </div>
+        
+        <!-- Busca ------------------------------------------------------ -->
+		<div class="widgets" >
+			<div class="widget" style="margin-top: 10px; margin-bottom: 5px; border: 1px solid #d5d5d5; padding: 10px" >  
+				<form method="post" name="busca" id="busca" class="mainForm">
+					<div >
+						<table style="width: 100%">
+							 <?php 
+							 if($this->objNivel==2){
+							 ?>
+							 <tr>
+							 	<td style="vertical-align: bottom;" class="tdbusca">
+							 		<div class="styled-select" style="width: 320px">
+						    			<select name="representante" style="width: 342px">
+						    			<option value="0">Regiões</option>
+						    			<?php 
+						    			foreach ($this->objReg as $func){ 
+						    				if($func->id_clientes != ""){
+						    				?>
+						    				<option value="<?=$func->id_clientes?>|<?php echo $func->idreg?>"><?=$func->NOME." - ".$func->EMPRESA?></option>
+						    				<?php 
+						    				}
+						    			}
+						    			?>    				
+						    			</select>
+						    		</div>
+								</td>
+								<td style="vertical-align: bottom;" class="tdbusca" colspan="3">
+							 		<div class="styled-select" style="width: 320px">
+						    			<select name="televenda" style="width: 342px">
+							    			<option value="0">Teleregiões</option>
+							    			<?php foreach ($this->objTel as $tel){ 
+							    			    if($tel->iduser != ""){
+							    			    ?>
+							    				<option value="<?php echo $tel->iduser?>|<?php echo $tel->idreg?>"><?php echo $tel->regiao." - ".$tel->usuario?></option>
+							    				<?php 
+												}
+											} ?>    				
+						    			</select>
+					    			</div>
+								</td>
+							</tr>
+							<?php } ?>
+							<tr>
+						    	<td align="left" valign="top" class="tdbusca" >
+					    			<div class="styled-select" style="width: 250px">
+						    			<select name="cliente" style="width: 272px">
+							    			<option value="0">Clientes</option>
+							    			<?php foreach ($this->objCli as $cli){ ?>
+							    				<option value="<?php echo $cli->ID?>"><?php echo (substr($cli->EMPRESA,0,50))?></option>
+							    			<?php } ?>    				
+						    			</select>
+					    			</div>
+								</td>
+								<td style="vertical-align: bottom;" align="left" valign="top" class="tdbusca" >
+									<input type="checkbox" name="faturados" value="1" checked="checked"> <label>Com faturamento</label>
+								</td>
+								<td style="vertical-align: bottom; width: 30%" class="tdbusca" >
+				    				<div style="float: left;" > 
+										<input placeholder="Data inicio" type="text" style="margin-right: 3px; width: 80px" name="dataini" id="dataini" class="data datepicker">
+									</div>
+									<div style="float: left;">
+										<input placeholder="Data fim" type="text" style="margin-right: 3px; width: 80px" name="datafim" id="datafim" class="data datepicker">
+									</div>
+								</td>
+								<td class="tdbusca">
+									<input type="button" class="blueBtn btnpesq" value="Pesquisar" id="btnbusca">
+								</td>
+							</tr>								
+						</table>
+					</div>
+				</form>
+			</div>
+		</div>
+    		
+		<div style="display: none; " id="resultado" class="widget">
+			
+		</div>
+			
+   </div>
+   

@@ -1,0 +1,7 @@
+<div class="styled-select" style="width: 150px">
+	<select name="veiculos" style="width: 172px">
+	<?php foreach ($this->objVeiculos as $list): ?>
+		<option value="<?php echo $list->id?>"><?php echo $list->no_modelo?></option>
+	<?php endforeach; ?>        												
+	</select>
+</div> 

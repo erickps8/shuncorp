@@ -1,0 +1,240 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Purchase - Print</title>
+        <style type="text/css">
+		*{	
+			text-align: left;	
+		}
+		
+		body {
+			font: 11px Arial, Helvetica, sans-serif;	
+		}
+		</style>        
+    </head>
+    <body onload="window.print();">
+    <table width="800" style="text-align: center;" align="center">
+    	<tr>
+    		<td align="left">
+    			请确认后回传 
+    			<hr style="border: 1px solid;">	
+    		</td>
+    	</tr>
+    	<tr>
+    		<td style="text-align: center;">
+    			<?php if($this->objParams['tp'] == 1){ ?>
+    			<span style="text-decoration: underline; " >慈溪市顺康进出口有限公司</span><br><br>
+				<span style="text-decoration: underline;">Cixi Shunkang Import & Export Co., Ltd.</span><br><br>
+				No 388 East KaiFa Road Zhouxiang Cixi Ningbo China Tel: 0574-63315331 Fax:0574-63315677<br>
+				<hr style="border: 1px solid;">	
+				<span style="text-decoration: underline;">产品采购合同</span>
+				<?php 
+				}else{
+				?>    
+				<span style="text-decoration: underline; " >慈溪顺泰汽车零部件有限公司</span><br><br>
+				<span style="text-decoration: underline;">Cixi Shuntai Auto Parts Mfg Co. Ltd.</span><br><br>
+				No 388 East KaiFa Road Zhouxiang Cixi Ningbo China    Tel: 0574-63315331   Fax:0574-63315677<br>
+				<hr style="border: 1px solid;">	
+				<span style="text-decoration: underline;">产品采购合同	</span>
+				<?php } ?>			
+    		</td>
+    	</tr>
+    	<tr>
+    		<td align="left">
+    			<table width="100%">
+    				<tr>
+	    				<td width="70%" align="left" valign="top">
+	    				<?php 
+	    				foreach ($this->objPed	as $ped);
+	    				foreach ($this->objCliente as $nomechina);   
+	    				?>
+	    				供方（甲方）：<?php echo ($nomechina->nome);?><br><br>
+	    				<?php if($this->objParams['tp'] == 1){ ?>
+	    				需方（乙方）：慈溪市顺康进出口有限公司<br><br>
+	    				<?php }else{ ?>
+	    				需方（乙方）：慈溪顺泰汽车零部件有限公司<br><br>
+	    				<?php } ?>
+	    				甲乙双方本着平等，互惠，协商一致的原则基础上达成如下协议
+	    				</td>
+	    				<td align="left" valign="top">
+	    				合同编号: PT<?php echo substr("000000".$ped->id_tai_compra,-6,6)?><br>
+	    				履行地点: 宁波慈溪<br>
+	    				签订日期: <?=$ped->datacompra?>
+	    				</td>
+    				</tr>
+    			</table>
+    		</td>
+    	</tr>
+    	<tr>
+    		<td align="left">
+    			<table width="100%" cellpadding="3" border="1px" style="margin: 0;	border-collapse: collapse; font-size: 10px">
+    				<tr>
+	    				<td  style="text-align: center;" valign="top">
+	    				型号
+	    				</td>
+	    				<td  style="text-align: center;" valign="top">
+	    				商品编码
+	    				</td>
+	    				<td style="text-align: center;" valign="top">
+	    				数量(套)
+	    				</td>
+	    				<td  style="text-align: center;" valign="top">
+	    				材质
+	    				</td>
+	    				<td style="text-align: center;" valign="top">
+	    				购买价格 (元/套)
+	    				</td>
+	    				<td  style="text-align: center;" valign="top">
+	    				三等份打字
+	    				</td>
+	    				<td style="text-align: center;" valign="top">
+	    				总金额
+	    				</td>
+	    				<td  style="text-align: center;" valign="top">
+	    				交货期
+	    				</td>	    				
+    				</tr>
+    				<?php
+    				$total_pecas = 0;
+    				$total = 0; 
+    				foreach($this->objProdutos as $listaProd):    						
+	    				?>
+	    				<tr>
+		    				<td  align="left" valign="top">
+		    				<?php if(!empty($listaProd->codfor)) echo $listaProd->codfor; else echo " -- ";  echo " (".$listaProd->CODIGO.")";?>
+		    				</td>
+		    				<td  valign="top" style="text-align: center;">
+		    				<?php echo $listaProd->hs_code?>
+		    				</td>
+		    				<td style="text-align: center;" valign="top">
+		    				<?php echo $listaProd->qt?>
+		    				</td>
+		    				<td  style="text-align: center;" valign="top">
+		    				<?=$listaProd->material?>
+		    				</td>
+		    				<td style="text-align: center;" valign="top">
+		    				<?php echo number_format($listaProd->preco,3,",",".")?>
+		    				</td>
+		    				<td  style="text-align: center;" valign="top">
+		    				<?php echo ($listaProd->gravacao)?>
+		    				</td>
+		    				<td style="text-align: right;" valign="top">
+		    				<?php echo number_format($listaProd->qt*$listaProd->preco,2,",",".")?>
+		    				</td>
+		    				<td  style="text-align: center;" valign="top">
+		    				<?php echo $listaProd->data?>
+		    				</td>			    				
+	    				</tr>
+    					<?php
+    				 	$total += $listaProd->qt*$listaProd->preco;
+    				 	$total_pecas+=$listaProd->qt;
+    				endforeach;		    				
+    				?>    			
+    			</table>
+    		</td>
+    	</tr>
+    	<tr>
+    		<td align="left">
+    			<table width="100%" cellpadding="3" border="0px" style="margin: 0;	border-collapse: collapse;">
+    			<tr>
+    				<td width="50" style="text-align: center;" valign="top">
+    				<b>合计:</b>
+    				</td>
+    				<td width="110" style="text-align: left;" valign="top" colspan="3">
+    				<?=$total_pecas?> <b>套</b>
+    				</td>
+    				<td valign="top" style="text-align: right;">
+    				<b>人民币:</b>  <?=number_format($total,2,",",".")?> <b>元</b>
+    				</td>
+    				<td width="100" style="text-align: center;" valign="top">
+    				&nbsp;
+    				</td>
+    				</tr>
+    			</table>
+    		</td>
+    	</tr>
+    	<tr>
+    		<td align="left" style="font-size: 14px; line-height:180%; padding-left: 10px">
+    			
+    			
+    		<?php 
+    		$cont=0;
+    		foreach($this->objObsgravados as $listaGrav):
+				$cont++;
+    			if($cont==1) echo "一";
+    			if($cont==2) echo "二";
+    			if($cont==3) echo "三";
+    			if($cont==4) echo "四";
+    			if($cont==5) echo "五";
+    			if($cont==6) echo "六";
+    			if($cont==7) echo "七";
+    			if($cont==8) echo "八";
+    			if($cont==9) echo "九";
+    			if($cont==10) echo "十";
+    			if($cont==11) echo "十一";
+    			if($cont==12) echo "十二";
+    			if($cont==13) echo "十三";
+    			if($cont==14) echo "十四";
+    			if($cont==15) echo "十五";
+    			
+    			echo "： ".$listaGrav->desc_chines."<br />";
+    		endforeach;
+    		?>	
+    		</td>
+    	</tr>
+    	<tr>
+    		<td align="left">
+    			<table width="100%" cellpadding="3" border="1px" style="  margin: 0;	border-collapse: collapse;">
+    				<tr>
+	    				<td width="50%" style="text-align: center;" valign="top">
+	    				供   方（甲 方）
+	    				</td>
+	    				<td style="text-align: center;" valign="top">
+	    				需   方（乙  方）
+	    				</td>
+    				</tr>
+    				<tr>
+	    				<td width="50%" align="left" valign="top">
+	    				<?php echo ($nomechina->nome);
+	    				
+	    				foreach ($this->objTelCliente as $listaTel):
+	    					if($listaTel->TIPO=="telefone1") $telefone = $listaTel->DDD."-".$listaTel->NUMERO;
+	    					if($listaTel->TIPO=="fax") $fax = $listaTel->DDD."-".$listaTel->NUMERO;
+	    				endforeach;
+	    				
+	    				foreach ($this->objEndCliente as $listaEnd);
+	    					$estado 	= $listaEnd->ESTADO;
+	    					$logradouro = $listaEnd->LOGRADOURO;
+	    					
+	    				foreach ($this->objUfchhina as $ufchina):
+	    					if($estado == $ufchina->id) $estado = $ufchina->uf; 
+	    				endforeach;
+	    				
+	    				?><br>
+						代表:<br>
+						电话: 0<?php echo $telefone?><br>
+						传真: 0<?php echo $fax?><br>
+						地址: <?php echo "中国".$estado.$logradouro?>
+	    				
+	    				</td>
+	    				<td align="left" valign="top">
+	    				<?php if($this->objParams['tp'] == 1){ ?>
+	    				慈溪市顺康进出口有限公司 <br>
+	    				<?php }else{ ?>
+	    				慈溪顺泰汽车零部件有限公司 <br>
+	    				<?php } ?>
+						代表:<br>
+						电话: 0574-63315331<br>
+						传真: 0574-63315677<br>
+						地址: 中国浙江宁波慈溪周巷镇开发东路388号
+	    				
+	    				</td>
+    				</tr>
+    			</table>
+    		</td>
+    	</tr>
+    </table>
+    		
+    </body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>SisCorp 2.0 Alpha - Shuncorp.com</title>
+    <link href="<?=$this->baseUrl()?>/public/sistema/imagens/ico.ico" rel="shortcut icon" type="image/x-ico"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="description" content="Shuncorp Import and Export" />
+	<meta name="keywords" content="rolamentos, cubo de roda, rolamento, embreagem, embreagens, ponta de eixo, pontas de eixo, bomba dagua, bombas dagua, roda, scania, homocinetica, homocineticas, transmissoes" />
+	<link href="<?=$this->baseUrl()?>/public/sistema/css/estiloinvoiceimp.css" rel="stylesheet" type="text/css" />
+	
+	<style>
+        .td{
+            background-color: #f4f4f4;          
+        }        
+        td{
+            padding: 7px !important;
+        }
+        
+    </style>		
+</head>
+
+
+
+<body > <!-- onload="window.print();" -->
+
+<?php 
+foreach ($this->objDet as $listdet);
+foreach ($this->objEnd as $listend);
+foreach ($this->objTel as $listtel);
+foreach ($this->objFax as $listfax);
+?>
+<div id="siscorpo">	
+	<div id="sistopo">
+		<div id="subtitulo" style="text-align: center; border: 1px solid #fff;">
+			CLASS RESUME
+		</div>	
+	</div>
+	
+		<div id="produtos">
+			<table cellpadding="0" cellspacing="0">
+				 <tr>
+				    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000;" width="20">ITEM</td>
+				    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000;" width="40">COD</td>
+				    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000;" width="40">QTT</td>
+				    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000;" width="40">INVOICE</td>
+				    <td style="border-top: 1px solid #000; border-bottom: 1px solid #000;" width="40">PROFT</td>
+				 </tr>
+				 <?php 
+				 $cor = $vitotal = $vetotal = $totalqt = 0;
+				 foreach ($this->objProd as $produtos){ 
+    				 $cor++;
+				     $class = ($class == 'td') ? 'td2' : 'td';
+    				 ?>
+    			  	 <tr>
+    				    <td align="center"  class="<?php echo $class?>"><?=$cor?></td>
+    				    <td align="center" style="border-left: 1px solid #000;" class="<?php echo $class?>">
+    				    <?php 
+    				    	if(!empty($produtos->cod_prodcli)): 
+    				    		echo $produtos->cod_prodcli;
+    				    	else:
+    				    		echo "P".substr("000000".$produtos->idproduto, -6,6);
+    				    	endif;
+    				    ?>
+    				    </td>
+    				    <td class="<?php echo $class?> text-center" >
+    				    	<?php echo $produtos->qtinvoice; $totalqt += $produtos->qtinvoice?>
+    				    </td>    				    
+    				    <td class="<?php echo $class?> text-center" >
+    				    	<?php 
+    				    	$vlprod = $produtos->precoinvoice*$produtos->qtinvoice;
+    				    	echo number_format($vlprod,2,",",".")?>
+    				    </td>
+    				    <td class="<?php echo $class?> text-center" >
+    				    	<?php     				    	
+    				    	$vitotal += $vlprod;
+    				    	
+    				    	if($produtos->margem){
+    				    	    $vllucro = ((100/$produtos->margem)*$vlprod);
+    				    	    echo number_format($vllucro-$vlprod,2,",",".");
+    				    	    
+    				    	    $vetotal += ($vllucro-$vlprod);
+    				    	}else{
+    				    	    echo "0,00";
+    				    	}
+    				    	    
+    				    	?>
+    				    </td>
+    				 </tr>
+    				 <?php
+                 }
+				 ?>				 
+				 <tr >
+				    <td align="center" class="<?php echo $class?>" style="border-top: 1px solid;"></td>
+				    <td align="center" style="border-top: 1px solid;" class="<?php echo $class?>">
+				   
+				    </td>
+				    <td class="<?php echo $class?> text-center" style="border-top: 1px solid;">
+				    	<?php echo $totalqt?>
+				    </td>    				    
+				    <td class="<?php echo $class?> text-center" style="border-top: 1px solid;">
+				    	<?php echo number_format($vitotal,2,",",".")?>
+				    </td>
+				    <td class="<?php echo $class?> text-center" style="border-top: 1px solid;">
+				    	<?php echo number_format($vetotal,2,",",".")?>
+				    </td>
+				 </tr>
+				 
+			</table>
+		</div>
+		
+</div>    			
+</body>
+</html>
+		    

@@ -1,0 +1,55 @@
+
+.mytable {
+	border-collapse: collapse;
+	font-size: 16px;
+	margin-top: 5px;
+}
+
+body{
+	font: 16px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #000;
+}
+
+#siscorpo{
+	width: 900px;
+	margin: auto;	
+}
+
+#sistopo{
+	border-bottom: 1px solid  #d4d4d4;
+	font-size: 16px;
+}
+
+#sistitulo{
+	
+}
+
+.th_orc {
+	border: 1px solid  #d4d4d4;
+	text-transform: uppercase;
+	text-align: center;
+	padding: 3px;
+	background: #ebebeb;
+}
+
+.th_canto_orc {
+	border: 1px solid  #d4d4d4;
+	text-transform: uppercase;
+	text-align: center;
+	padding: 3px;
+	background: #ebebeb;
+}
+
+.td_orc {
+	border: 1px solid #d4d4d4;
+	background: #fff;
+	padding: 2px;
+	color: #000;
+}
+
+.td_orc_par {
+	border: 1px solid #d4d4d4;
+	padding: 2px;
+	background: #f8f8f8;
+	color: #000;
+}

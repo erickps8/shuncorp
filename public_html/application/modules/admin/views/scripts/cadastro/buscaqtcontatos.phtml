@@ -1,0 +1,97 @@
+<table style="width: 100%">
+	<?
+	if(count($this->objEmp)>0):
+		foreach ($this->objEmp as $empresa):
+			?>
+			<tr>
+				<td><?=$empresa->tipo_par?></td>
+				<td style="text-align: right;"><?=$empresa->qt?></td>
+			</tr>
+			<?php 
+		endforeach;
+	endif;
+	?>		
+	<tr>
+		<td>Contatos</td>
+		<td style="text-align: right;">
+		<?php 
+		if(count($this->objCont)>0):
+			foreach ($this->objCont as $contatos);
+			echo $contatos->qt;
+		endif;
+		?></td>
+	</tr>
+	<?
+	if(count($this->objCamp)>0):
+		foreach ($this->objCamp as $contatoscamp):
+			if($contatoscamp->campanha != 0):
+			?>
+			<tr>
+				<td> &nbsp; &nbsp; <? if($contatoscamp->campanha == 1) echo "Básica"; else echo "Completa";?></td>
+				<td style="text-align: right;"><?=$contatoscamp->qt?></td>
+			</tr>
+			<?php 
+			endif;
+		endforeach;
+	endif;
+	?>
+</table>
+
+
+
+<?php 
+
+/*
+$qtpar = $qtmerc = $qtalvo = 0;
+?>
+<table style="width: 100%">
+	<?
+	if(count($this->objEmp)>0):
+		foreach ($this->objEmp as $empresa):
+			if($empresa->tipo_par == "Parceiro"):
+				$qtpar = $empresa->qt;
+			endif;
+			
+			if($empresa->tipo_par == "Mercado"):
+				$qtmerc = $empresa->qt;
+			endif;
+			
+			if($empresa->tipo_par == "Alvo"):
+				$qtalvo = $empresa->qt;
+			endif;
+			 
+		endforeach;
+	endif;
+	
+	if(count($this->objFilial)>0):
+		foreach ($this->objFilial as $empresafil):
+			if($empresafil->tipo_par == "Parceiro"):
+				$qtpar += $empresafil->qt;
+			endif;
+				
+			if($empresafil->tipo_par == "Mercado"):
+				$qtmerc += $empresafil->qt;
+			endif;
+				
+			if($empresafil->tipo_par == "Alvo"):
+				$qtalvo += $empresafil->qt;
+			endif;
+		
+		endforeach;
+	endif;
+	?>
+		
+	<tr>
+		<td>Parceiro</td>
+		<td style="text-align: right;"><?=$qtpar?></td>
+	</tr>
+	<tr>
+		<td>Mercado</td>
+		<td style="text-align: right;"><?=$qtmerc?></td>
+	</tr>
+	<tr>
+		<td>Alvo</td>
+		<td style="text-align: right;"><?=$qtalvo?></td>
+	</tr> <? */ ?>
+
+	

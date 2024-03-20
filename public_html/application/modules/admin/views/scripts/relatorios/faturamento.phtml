@@ -1,0 +1,289 @@
+
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/flot/jquery.flot.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/flot/jquery.flot.pie.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/flot/jquery.flot.resize.js"></script>
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/flot/excanvas.min.js"></script>
+
+<script type="text/javascript" src="<?=$this->baseUrl()?>/public/sistema/js/buscaajax/relatoriosfaturamento.js"></script>
+
+<script>				
+function tipoPesquisa(valor){		
+	if(valor==1){
+		document.getElementById("porcli").style.display = "none";
+		document.getElementById("porvend").style.display = "none";
+		document.getElementById("porreg").style.display = "none";			
+	}else if(valor==2){
+		document.getElementById("porcli").style.display = "block";
+		document.getElementById("porvend").style.display = "none";
+		document.getElementById("porreg").style.display = "none";
+	}else if(valor==3){
+		document.getElementById("porcli").style.display = "none";
+		document.getElementById("porvend").style.display = "block";
+		document.getElementById("porreg").style.display = "none";
+	}else if(valor==4){
+		document.getElementById("porcli").style.display = "none";
+		document.getElementById("porvend").style.display = "none";
+		document.getElementById("porreg").style.display = "block";
+	}		    
+	
+}
+</script>
+
+	<div class="content">
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="#">Home</a> </li>
+                	<li><a href="<?php echo $this->baseUrl()?>/admin/venda/pedidos">Pedidos</a></li>
+                	<li class="lastB">Faturamento</li>         
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5>FATURAMENTO</h5></div>
+
+      	<div class="widgets" >
+        
+			<form action="<?=$this->baseUrl()?>/admin/relatorios/faturamento" method="post" class="mainForm" >
+			<table style="margin: 5px 0px; border: 1px solid #ccc; width: 100%; " >
+			    <tr>
+			    	<td align="left" width="100px;" style="padding: 5px">
+			    	Gerar por:<br />  
+			    	<div class="styled-select" style="width: 150px">
+			    	<select name="tipo" style="width: 172px" onchange="tipoPesquisa(this.value)">
+			    		<option value="1">Todos</option>
+			    		<option value="2">Por Cliente</option>
+			    		<?php if($this->objNivel==2): ?>
+			    		<option value="3">Por Representante</option>
+			    		<?php 
+			    		endif;
+			    		if($this->objNivel==2 || $this->objNivel==1): ?>
+			    		<option value="4">Por Região</option>
+			    		<?php endif; ?>		    		
+			    	</select>
+			    	</div>
+			    	</td>
+			    	<td align="left" width="0%" >
+			    		<div id="porvend" style="display: none">
+			    			Representante:<br />
+			    			<div class="styled-select" style="width: 240px">
+			    			<select name="representante" style="width: 262px">
+			    			<?php foreach ($this->objRep as $func): ?>
+			    				<option value="<?=$func->ID?>"><?=$func->EMPRESA?></option>
+			    			<?php endforeach; ?>    				
+			    			</select>
+			    			</div>
+			    		</div>
+			    		<div id="porreg" style="display: none">
+			    			Região:<br />
+			    			<div class="styled-select" style="width: 250px">
+			    			<select name="regiao" style="width: 272px">
+			    			<?php foreach ($this->objReg as $func): ?>
+			    				<option value="<?=$func->idreg?>"><?=$func->NOME." - ".$func->EMPRESA?></option>
+			    			<?php endforeach; ?>    				
+			    			</select>
+			    			</div>
+			    		</div>
+			    		<div id="porcli" style="display: none">
+			    			Cliente:<br />
+			    			<div class="styled-select" style="width: 190px">
+			    			<select name="cliente" style="width: 212px">
+			    			<?php foreach ($this->objCli as $cli): ?>
+			    				<option value="<?=$cli->ID?>"><?=$cli->EMPRESA?></option>
+			    			<?php endforeach; ?>    				
+			    			</select>
+			    			</div>
+			    		</div>		    		
+			    	</td>
+			    	<td align="left" width="10%">
+				    	Dt ini:<br>
+				    	<input type="text" name="dataini" id="dataini" class="data datepicker" style="width: 70px">
+					</td>
+					<td align="left" >
+						Dt fim:<br>
+						<input type="text" name="datafim" id="datafim" class="data datepicker" style="width: 70px">
+						<input type="submit" value="Gerar" class="basicBtn">
+					</td>    	
+			    </tr>
+			    
+			</table> 
+			</form>
+		
+		</div>
+		
+		<!-- Bars -->
+        <div class="widget">
+            <div class="head"><h5 class="iStats">Faturado</h5></div>
+            <div class="body">
+                <div class="bars"></div>
+            </div>
+        </div>
+		
+		<!-- Static table -->
+        <div class="widget first">
+		<?php 
+		if(count($this->objMes)>0):
+			?>
+			
+			<table style="width: 100%; margin-top: -5px" class="tableStatic" >
+				<thead>
+                	<tr>
+                        <td width="33%">Período</td>
+                        <td width="33%">Valor Pedido</td>
+                        <td width="34%">Valor Faturado</td>
+                    </tr>
+                </thead>
+		    	
+		     </table>
+		        <?php 
+				$cor=0;			
+				$maiorvalor = 0;
+				foreach ($this->objMes as $fatmensal):
+					$cor++;
+				
+					?>
+					<table style="width: 100%" class="tableStatic">
+					<tbody>
+					<tr style="cursor: hand; cursor: pointer" onclick="mostrarDiv('rep_<?=$fatmensal->mes."_".$fatmensal->ano?>'); buscaRepresentantes('<?=$fatmensal->mes?>','<?=$fatmensal->ano?>')">
+			            <td style="text-align: center;"  width="33%">
+			                <?=str_pad($fatmensal->mes,2,'0',STR_PAD_LEFT)."/".$fatmensal->ano?>
+			            </td>
+			            <td style="text-align: right; padding: 5px"  width="33%">
+			                <?php 
+			                if(count($this->objPend)>0):
+			                	$vlpend = 0;
+				                foreach ($this->objPend as $pendencias):
+				                	if(($pendencias->mes == $fatmensal->mes) and ($pendencias->ano == $fatmensal->ano)):
+				                		$vlpend = $pendencias->precopend;
+				                	endif;				                	
+				                endforeach;
+			                endif;
+			                
+			                echo number_format($fatmensal->precototal+$vlpend,2,",",".");			                
+			                ?>
+			            </td>		            
+			            <td style="text-align: right; padding: 5px" width="34%">
+				            <?php 
+				            if(count($this->objDesc)>0):
+				            	$vldesc = 0;
+				            	foreach ($this->objDesc as $descontos):
+				            		if(($descontos->mes == $fatmensal->mes) and ($descontos->ano == $fatmensal->ano)):
+				            			$vldesc = $descontos->descvendas;
+				            		endif;
+				            	endforeach;
+				           	endif;
+				            ?>
+			            
+			                Total: <?=number_format($fatmensal->precototal,2,",",".")?>
+			                <br />
+			                Desconto: <?=number_format($vldesc,2,",",".")?>
+			                <br />
+			                <span style="font-weight: bold; font-size: 13px">Faturado: <?=number_format($fatmensal->precototal-$vldesc,2,",",".")?></span>			                
+			            </td>
+			        </tr>
+			        <tr style="display: none;" id="rep_<?=$fatmensal->mes."_".$fatmensal->ano?>" >
+			        	<td colspan="3">
+			        		<img src="<?php echo $this->baseUrl()?>/public/sistema/imagens/loaders/loader6.gif" alt="Carregando"> <i>Carregando...</i>
+			        	</td>
+			        </tr>
+			    </table>
+				<?php		
+
+				//-- busco maior valor para montar o grafico ------------------
+
+				if(($fatmensal->precototal-$vldesc) >  $maiorvalor):
+					$maiorvalor = $fatmensal->precototal-$vldesc;
+				endif;
+				
+			endforeach;
+		endif;
+		?>
+		</div>
+	</div>
+
+	
+	
+<script type="text/javascript">
+	
+	function mostrarDiv(idlinha){
+		var linha = document.getElementById(idlinha);
+		if(linha.style.display == "table-row"){
+			linha.style.display = "none";
+		}else{
+			linha.style.display = "table-row";	
+		}
+	}
+
+	function mostrarDivcli(idlinha){
+		var linha = document.getElementById(idlinha);
+		if(linha.style.display == "table-row"){
+			linha.style.display = "none";
+		}else{
+			linha.style.display = "table-row";	
+		}
+	}
+
+	function mostrarDivvenda(idlinha){
+		var linha = document.getElementById(idlinha);
+		if(linha.style.display == "table-row"){
+			linha.style.display = "none";
+		}else{
+			linha.style.display = "table-row";	
+		}
+	}
+
+	/* Bars */
+
+	$(function () {
+	<?php 
+	//-- Rotina para gerar os valores da pesquisa ------
+	$valormes = "";
+	$qtmes = count($this->objMes);
+	foreach ($this->objMes as $fatmensal):
+		
+		//-- Busca os descontos de cada periodo -----
+		if(count($this->objDesc)>0):
+			$vldesc = 0;
+			foreach ($this->objDesc as $descontos):
+				if(($descontos->mes == $fatmensal->mes) and ($descontos->ano == $fatmensal->ano)):
+					$vldesc = $descontos->descvendas;
+				endif;
+			endforeach;
+		endif;
+		//echo $fatmensal->mes;
+		//echo "<br />";
+		$valormes .= "[".($fatmensal->mes - 0.5).",".round($fatmensal->precototal-$vldesc)."],";
+		$ticks .= "[".$fatmensal->mes.",'".str_pad($fatmensal->mes,2,'0',STR_PAD_LEFT)."/".$fatmensal->ano."'],"; 
+	endforeach;
+    $valormes = "[".substr($valormes, 0,-1)."]";
+    $ticks = "[".substr($ticks, 0,-1)."]";
+    ?>
+    //var d2 = [[0.6, 250000], [1.6, 300000]];
+    
+    
+    var plot = $.plot($(".bars"),
+           [ { data: <?php echo $valormes?>} ], {
+               series: {
+                   bars: { 
+					show: true,
+					lineWidth: 0.5,
+					barWidth: 0.85, 
+					fill: true,
+					fillColor: { colors: [ { opacity: 0.8 }, { opacity: 1 } ] },
+					align: "left", 
+					horizontal: false,
+				   },
+               },
+               grid: { hoverable: true, clickable: true },
+               yaxis: { min: 0, max: <?php echo round($maiorvalor)?> },
+			   xaxis: { 
+				   	min: 0, 
+				   	max: <?php echo $qtmes+1?>,
+					ticks: <?php echo $ticks?>},
+             });
+
+	});
+	
+</script>

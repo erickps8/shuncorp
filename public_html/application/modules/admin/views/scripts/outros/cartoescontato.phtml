@@ -1,0 +1,180 @@
+<div class="content">
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="#">Home</a> </li>
+                	<li class="lastB">Cartões de contatos</li>
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Cartões de contatos</h5></div>
+
+        <div class="widgets" >
+        	<div class="left" style="margin-top: 5px; margin-bottom: 5px" >   
+	        	<input type="button" value="Novo Contato" class="basicBtn" onclick="window.location='<?=$this->baseUrl()?>/admin/outros/cartoescontatonovo'">
+		    </div>
+        	<div class="right" style="font-weight: bold; text-align: right; width: 40%;">
+        		<a href="<?=$this->baseUrl()?>/admin/outros/cartoesgrupos" ><b>GRUPOS</b></a>
+	        </div>	        
+        </div>
+        
+		<div>
+			<script>				
+			function tipoPesquisa(valor){			
+				if(valor==1){
+					document.getElementById("buscgrupo").style.display = "block";
+					document.getElementById("busccont").style.display = "none";
+					document.getElementById("buscempresa").style.display = "none";
+					document.getElementById("busccidade").style.display = "none";
+					document.getElementById("buscacont").value = "";
+					document.getElementById("buscaempresa").value = "";
+					document.getElementById("buscacidade").value = "";
+				}else if(valor==2){
+					document.getElementById("busccont").style.display = "block";
+					document.getElementById("buscgrupo").style.display = "none";
+					document.getElementById("buscempresa").style.display = "none";
+					document.getElementById("busccidade").style.display = "none";
+					document.getElementById("buscacont").value = "";
+					document.getElementById("buscaempresa").value = "";
+					document.getElementById("buscacidade").value = "";
+				}else if(valor==3){
+					document.getElementById("busccont").style.display = "none";
+					document.getElementById("buscgrupo").style.display = "none";
+					document.getElementById("buscempresa").style.display = "block";
+					document.getElementById("busccidade").style.display = "none";
+					document.getElementById("buscacont").value = "";
+					document.getElementById("buscaempresa").value = "";
+					document.getElementById("buscacidade").value = "";
+				}else if(valor==4){
+					document.getElementById("busccont").style.display = "none";
+					document.getElementById("buscgrupo").style.display = "none";
+					document.getElementById("buscempresa").style.display = "none";
+					document.getElementById("busccidade").style.display = "block";
+					document.getElementById("buscacont").value = "";
+					document.getElementById("buscaempresa").value = "";
+					document.getElementById("buscacidade").value = "";
+				}
+			}			
+			</script>
+		</div>
+		<div>
+			<form action="<?php echo $this->baseUrl(); ?>/admin/outros/cartoescontato" method="post" name="busca" id="busca">
+			<table width="70%" border="0" style="margin-bottom: 8px; margin-top: 8px; display: block; border: 1px solid #000; padding: 8px; " id="tabela">
+			    <tr>
+			    	<td align="left" width="20%">
+				    	<select name="tipo" onchange="tipoPesquisa(this.value);" style="border: 1px solid #999">
+						<option value="1"><?=$this->translate->_("Por Grupo")?></option>
+						<option value="2"><?=$this->translate->_("Por Contato")?></option>
+						<option value="3"><?=$this->translate->_("Por Empresa")?></option>
+						<option value="4"><?=$this->translate->_("Por Cidade")?></option>
+						</select>
+			    	</td>
+			    	
+			    	<td align="left">
+				    	<table width="400" border="0" style="display: block;" id="buscgrupo">
+				    		<tr>
+				    		<td align="left">
+								<select name="buscagrupo" id="buscagrupo" onchange="Mostrasubgrupos(this.value,2);">
+									<option value="0">Todos</option>
+									<?php foreach ($this->objGrupos as $list): ?>
+										<option value="<?php echo $list->id?>"><?php echo substr($list->nome,0,20)?></option>
+									<?php endforeach; ?>
+								</select>
+							</td>
+							<td align="right" >
+								<input type="submit" value="<?=$this->translate->_("Pesquisar")?>" >
+							</td>
+							</tr>
+						</table>
+						<div style="display: none;" id="busccont">
+							<input type="text" size="15" name="buscacont" id="buscacont" style="text-transform: uppercase;">
+							<input type="submit" value="<?=$this->translate->_("Pesquisar")?>">
+						</div>
+						<div style="display: none;" id="buscempresa">
+							<input type="text" size="25" name="buscaempresa" id="buscaempresa">
+							<input type="submit" value="<?=$this->translate->_("Pesquisar")?>">
+						</div>
+						<div style="display: none;" id="busccidade">
+							<input type="text" size="25" name="buscacidade" id="buscacidade">
+							<input type="submit" value="<?=$this->translate->_("Pesquisar")?>">
+						</div>
+			    	</td>
+				</tr>
+			</table>  
+			</form>
+		</div>
+		<div>        
+            <?php			
+        	if (count($this->objContatos) > 0) :			
+			?>
+			<table align="left" class="mytable"  width="554" cellspacing="0">
+		         <tr>
+		            <th  class="th_canto_orc" style="text-align: center;" width="10%">
+		                <?=$this->translate->_("ID")?>
+		            </th>
+		            <th  class="th_orc" style="text-align: center;" width="45%">
+		                <?=$this->translate->_("EMPRESA")?>
+		            </th>
+		            <th  class="th_orc" style="text-align: center;" width="25%">
+		                <?=$this->translate->_("CONTATO")?>
+		            </th>
+		            <th  class="th_orc" style="text-align: center;" width="12%">
+		                <?=$this->translate->_("Op&ccedil;&otilde;es")?>
+		            </th>
+		        </tr>
+		       
+			<?php 
+			$cor=0;
+	    	foreach($this->objContatos as $lista):
+	    	$cor++;
+            if(($cor%2)==0) $class = 'td_orc_par';
+            else $class = 'td_orc';
+			?>			
+			<tr >
+                <td  class="<?=$class?>" style="text-align: center;" >
+                   <?php echo substr("000".$lista->id,-3,3)?>
+                </td>
+                <td  class="<?=$class?>" align="left" style="text-transform: uppercase;">
+                   <?php echo (($lista->empresa))?>
+                </td>
+                <td  class="<?=$class?>" align="left" >
+                   <?php echo ($lista->contato)?>
+                </td>
+                <td  class="<?=$class?>" style="text-align: center;" >
+                	<?php 
+                    if ($this->objEdi==true){  ?>
+	                <a href="<?=$this->baseUrl()?>/admin/outros/cartoescontatovis/contato/<?=md5($lista->id)?>">
+	                <img src="<?=$this->baseUrl()?>/images/visualizar_orc.gif" width="16" border="0" title="Editar"></a>
+	                <?php  }  
+	                if($lista->status!=1):
+	                ?> &nbsp;
+	                <a href="<?=$this->baseUrl()?>/admin/outros/cartoesvalida/contato/<?=md5($lista->id)?>">
+	                <img src="<?=$this->baseUrl()?>/images/checado.jpg"></a>
+	                <?php endif; ?>
+                </td>                
+            </tr>
+            
+			<?php  endforeach;
+			?>        
+			</table>
+			<div style="margin-top: 5px">&nbsp;
+				<?php 
+		            if(count($this->objContatos) > 0) :
+		            	echo $this->objContatos;
+		            endif;
+            	?>
+            </div>
+         	<?php 
+			else :
+			?>
+			<br>
+			<center><?=$this->translate->_("Nenhum contato encontrado!")?></center>			
+			<?php 
+			endif;
+		?>
+		</div>
+	</div>
+</div>
+		

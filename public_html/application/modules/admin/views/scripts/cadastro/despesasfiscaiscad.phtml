@@ -1,0 +1,332 @@
+<?php 
+foreach ($this->objUf as $uf); 
+if(!empty($this->objList)):
+	foreach ($this->objList as $despesas);	
+endif;
+?>
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl()?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/cadastro/despesasfiscais"><?=$this->translate->_("TRIBUTOS")?></a>&nbsp;
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp; 
+		<a href="<?=$this->baseUrl()?>/admin/cadastro/despesasfiscaisuf/iduf/<?=md5($uf->id)?>"><?=strtoupper($uf->nome)?></a>&nbsp;
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp; 
+		<b><?php if(!empty($despesas)): ?>
+		<a href="<?=$this->baseUrl()?>/admin/cadastro/despesasfiscaiscad/desp/<?=md5($despesas->id)?>"><?=strtoupper($despesas->descricao)?></a>
+		<?php else: ?>
+		<a href="<?=$this->baseUrl()?>/admin/cadastro/despesasfiscaiscad"><?=$this->translate->_("NOVO PERFIL FISCAL")?></a>
+		<?php endif; ?></b>
+		<div style="float: right;">
+			<a href="<?=$this->baseUrl(); ?>/admin/cadastro/despesasfiscaisncm/desp/<?=md5($despesas->id)?>"><b>NCM</b></a>
+		</div>
+	</div>
+	<div id="sistitulo"><?php if(!empty($despesas)) echo strtoupper($despesas->descricao);  else echo $this->translate->_("NOVO PERFIL FISCAL");?></div>
+    <div id="sisconteudo">  
+    	<?php if(empty($despesas) || $this->tp == 'editar'): ?>
+		<form action="<?=$this->baseUrl(); ?>/admin/cadastro/gravadespesasfiscais" method="post" name="grava" id="grava">
+		<input value="<?=$uf->id?>" type="hidden" name="iduf" id="iduf" >
+		<input value="<?=$despesas->id?>" type="hidden" name="edituf" id="edituf"  >
+		<div>		
+		<table cellpadding="2" cellspacing="0" border="0" style="margin-top: 5px;" >
+		    <tr>
+		    	<td align="left" colspan="2">
+		    		Descrição:<br>
+		    		<input type="text" name="descricao" id="descricao" size="30" value="<?=$despesas->descricao?>">
+		    	</td>
+		    	<td align="left" colspan="2">
+		    		<input type="checkbox" name="semipi" id="semipi" value="1" <? if($despesas->semipi==true) echo 'checked="checked"'; ?> > Sem IPI
+		    	</td>
+		    </tr>
+		 </table>
+		 </div>
+		 <div style="width: 100%; border-bottom: 1px solid; font-weight: bold; margin-top: 10px">
+		 ENTRADA
+		 </div>
+		 <div style="margin: 5px 0px 10px 0px; background-color: #f8f8f8; width: 100%; border: 1px solid #ccc;">
+		 	 <table width="100%" cellpadding="3" cellspacing="3">
+			    <tr>
+			    	<td align="left" style="border-bottom: 1px solid #999;" colspan="4">
+			    		Compra
+			    	</td>
+			    </tr>
+			    <tr>
+			    	<td align="left" width="25%" >
+			    		ICMS INTERESTADUAL(%): <br>
+			    		<input  type="text" size="9" name="compraicms" id="compraicms" value="<?=number_format($despesas->compraicms,3,",",".")?>" onKeyDown="Mascara(this,Valor);" onKeyPress="Mascara(this,Valor);" onKeyUp="Mascara(this,Valor);">
+			    		<input type="checkbox" name="usecompraicms" id="usecompraicms" value="1" <? if($despesas->usecompraicms==true) echo 'checked="checked"'; ?> >				    	
+			    	</td>
+			    	<td align="left" width="25%" >
+			    		ICMS INTERNO DESTINO(%): <br>
+			    		<input  type="text" size="9" name="compraicmsdest" id="compraicmsdest" value="<?=number_format($despesas->compraicmsdest,3,",",".")?>" onKeyDown="Mascara(this,Valor);" onKeyPress="Mascara(this,Valor);" onKeyUp="Mascara(this,Valor);">
+			    		<input type="checkbox" name="usecompraicmsdest" id="usecompraicmsdest" value="1" <? if($despesas->usecompraicmsdest==true) echo 'checked="checked"'; ?> >
+			    	</td>
+			    	<td align="left" width="20%" >
+			    		MVA(%): <br>
+			    		<input  type="text" size="9" name="comprast" id="comprast" value="<?=number_format($despesas->comprast,3,",",".")?>" onKeyDown="Mascara(this,Valor);" onKeyPress="Mascara(this,Valor);" onKeyUp="Mascara(this,Valor);">
+			    	</td>		  
+			    	<td align="left" >
+			    		CFOP: <br>
+			    		<select name="cfopcompra" style="width: 200px">
+			    			<?php foreach ($this->objCfop as $cfop): ?>
+			    			<option value="<?=$cfop->id?>" <? if($despesas->id_cfopcompra == $cfop->id) echo 'selected="selected"'; ?>><?=$cfop->cfop." - ".$cfop->descricao?></option>
+			    			<?php endforeach; ?>
+			    		</select>
+			    	</td>  	
+				</tr>
+				<tr>
+			    	<td align="left" style="border-bottom: 1px solid #999;" colspan="4">
+			    		<br />
+			    		Devolução
+			    	</td>
+			    </tr>
+			    <tr>
+			    	<td align="left" >
+			    		ICMS INTERESTADUAL(%): <br>
+			    		<input  type="text" size="9" name="devolucaoicms" id="devolucaoicms" value="<?=number_format($despesas->devolucaoicms,3,",",".")?>" onKeyDown="Mascara(this,Valor);" onKeyPress="Mascara(this,Valor);" onKeyUp="Mascara(this,Valor);">
+			    		<input type="checkbox" name="usedevolucaoicms" id="usedevolucaoicms" value="1" <? if($despesas->usedevolucaoicms==true) echo 'checked="checked"'; ?> >
+			    	</td>
+			    	<td align="left" >
+			    		ICMS INTERNO DESTINO(%): <br>
+			    		<input  type="text" size="9" name="devolucaoicmsdest" id="devolucaoicmsdest" value="<?=number_format($despesas->devolucaoicmsdest,3,",",".")?>" onKeyDown="Mascara(this,Valor);" onKeyPress="Mascara(this,Valor);" onKeyUp="Mascara(this,Valor);">
+			    		<input type="checkbox" name="usedevolucaoicmsdest" id="usedevolucaoicmsdest" value="1" <? if($despesas->usedevolucaoicmsdest==true) echo 'checked="checked"'; ?> >
+			    	</td>
+			    	<td align="left" >
+			    		MVA(%): <br>
+			    		<input  type="text" size="9" name="devolucaost" id="devolucaost" value="<?=number_format($despesas->devolucaost,3,",",".")?>" onKeyDown="Mascara(this,Valor);" onKeyPress="Mascara(this,Valor);" onKeyUp="Mascara(this,Valor);">
+			    	</td>
+			    	<td align="left" >
+			    		CFOP: <br>
+			    		<select name="cfopdevolucao" style="width: 200px">
+			    			<?php foreach ($this->objCfop as $cfop): ?>
+			    			<option value="<?=$cfop->id?>" <? if($despesas->id_cfopdevolucao == $cfop->id) echo 'selected="selected"'; ?>><?=$cfop->cfop." - ".$cfop->descricao?></option>
+			    			<?php endforeach; ?>
+			    		</select>
+			    	</td>  	
+				</tr>				
+			</table>
+		</div>
+		<div style="width: 100%; border-bottom: 1px solid; font-weight: bold; margin-top: 10px">
+		 SAÍDA
+		</div>
+		<div style="margin: 5px 0px 10px 0px; background-color: #f8f8f8; width: 100%;  border: 1px solid #ccc;">
+		 	 <table width="100%" cellpadding="3" cellspacing="3">
+				<tr>
+			    	<td align="left" style="border-bottom: 1px solid #999;" colspan="4">
+			    		Venda
+			    	</td>
+			    </tr>
+			    <tr>
+			    	<td align="left" width="25%" >
+			    		ICMS INTERESTADUAL(%): <br>
+			    		<input  type="text" size="9" name="vendaicms" id="vendaicms" value="<?=number_format($despesas->vendaicms,3,",",".")?>" onKeyDown="Mascara(this,Valor);" onKeyPress="Mascara(this,Valor);" onKeyUp="Mascara(this,Valor);">
+			    		<input type="checkbox" name="usevendaicms" id="usevendaicms" value="1" <? if($despesas->usevendaicms==true) echo 'checked="checked"'; ?> >
+			    	</td>
+			    	<td align="left" width="25%" >
+			    		ICMS INTERNO DESTINO(%): <br>
+			    		<input  type="text" size="9" name="vendaicmsdest" id="vendaicmsdest" value="<?=number_format($despesas->vendaicmsdest,3,",",".")?>" onKeyDown="Mascara(this,Valor);" onKeyPress="Mascara(this,Valor);" onKeyUp="Mascara(this,Valor);">
+			    		<input type="checkbox" name="usevendaicmsdest" id="usevendaicmsdest" value="1" <? if($despesas->usevendaicmsdest==true) echo 'checked="checked"'; ?> >
+			    	</td>
+			    	<td align="left" width="20%" >
+			    		MVA(%): <br>
+			    		<input  type="text" size="9" name="vendast" id="vendast" value="<?=number_format($despesas->vendast,3,",",".")?>" onKeyDown="Mascara(this,Valor);" onKeyPress="Mascara(this,Valor);" onKeyUp="Mascara(this,Valor);">
+			    	</td>
+			    	<td align="left" >
+			    		CFOP: <br>
+			    		<select name="cfopvenda" style="width: 200px">
+			    			<?php foreach ($this->objCfop as $cfop): ?>
+			    			<option value="<?=$cfop->id?>" <? if($despesas->id_cfopvenda == $cfop->id) echo 'selected="selected"'; ?>><?=$cfop->cfop." - ".$cfop->descricao?></option>
+			    			<?php endforeach; ?>
+			    		</select>
+			    	</td>  	
+				</tr>
+				<tr>
+					<td align="left" colspan="4">
+			    		CTM(%): <br>
+			    		<input  type="text" size="9" name="ctm" id="ctm" value="<?=number_format($despesas->ctm,3,",",".")?>" onKeyDown="Mascara(this,Valor);" onKeyPress="Mascara(this,Valor);" onKeyUp="Mascara(this,Valor);">
+			    		<input type="checkbox" name="usectm" id="usectm" value="1" <? if($despesas->usectm==true) echo 'checked="checked"'; ?> >
+			    	</td>
+				</tr>
+				<tr>
+			    	<td align="left" style="border-bottom: 1px solid #999;" colspan="4">
+			    		<br />
+			    		Garantia
+			    	</td>
+			    </tr>
+			    <tr>
+			    	<td align="left" >
+			    		ICMS INTERESTADUAL(%): <br>
+			    		<input  type="text" size="9" name="garantiaicms" id="garantiaicms" value="<?=number_format($despesas->garantiaicms,3,",",".")?>" onKeyDown="Mascara(this,Valor);" onKeyPress="Mascara(this,Valor);" onKeyUp="Mascara(this,Valor);">
+			    		<input type="checkbox" name="usegarantiaicms" id="usegarantiaicms" value="1" <? if($despesas->usegarantiaicms==true) echo 'checked="checked"'; ?> >
+			    	</td>
+			    	<td align="left" >
+			    		ICMS INTERNO DESTINO(%): <br>
+			    		<input  type="text" size="9" name="garantiaicmsdest" id="garantiaicmsdest" value="<?=number_format($despesas->garantiaicmsdest,3,",",".")?>" onKeyDown="Mascara(this,Valor);" onKeyPress="Mascara(this,Valor);" onKeyUp="Mascara(this,Valor);">
+			    		<input type="checkbox" name="usegarantiaicmsdest" id="usegarantiaicmsdest" value="1" <? if($despesas->usegarantiaicmsdest==true) echo 'checked="checked"'; ?> >
+			    	</td>
+			    	<td align="left" >
+			    		MVA(%): <br>
+			    		<input  type="text" size="9" name="garantiast" id="garantiast" value="<?=number_format($despesas->garantiast,3,",",".")?>" onKeyDown="Mascara(this,Valor);" onKeyPress="Mascara(this,Valor);" onKeyUp="Mascara(this,Valor);">
+			    	</td>
+			    	<td align="left" >
+			    		CFOP: <br>
+			    		<select name="cfopgarantia" style="width: 200px">
+			    			<?php foreach ($this->objCfop as $cfop): ?>
+			    			<option value="<?=$cfop->id?>" <? if($despesas->id_cfopgarantia == $cfop->id) echo 'selected="selected"'; ?>><?=$cfop->cfop." - ".$cfop->descricao?></option>
+			    			<?php endforeach; ?>
+			    		</select>
+			    	</td>  	
+				</tr>				
+			</table>
+		</div>
+		<div>
+			<input type="submit" value="Salvar">			
+		</div>
+		</form>
+		<?php else: ?>
+		<div>
+	    	Descrição: <b><?=$despesas->descricao?></b>
+			<?php if($despesas->semipi==1): ?>Sem IPI<?php endif; ?>
+			<?php if($this->objEdi==true): ?>
+			<div style="float: right;">
+	    	<a style="cursor: hand; cursor: pointer;" href="<?=$this->baseUrl(); ?>/admin/cadastro/despesasfiscaiscad/desp/<?=md5($despesas->id)?>/tp/editar">
+	        	<img src="<?=$this->baseUrl()?>/images/edit_orc.gif" width="15" height="15" border="0" title="Editar" ></a>
+	        </div>
+	        <?php endif; ?>
+		 </div>
+		 <div style="width: 100%; border-bottom: 1px solid; font-weight: bold; margin-top: 10px">
+		 ENTRADA
+		 </div>
+		 <div style="margin: 5px 0px 10px 0px; background-color: #f8f8f8; width: 100%; border: 1px solid #ccc;">
+		 	<table width="100%" cellpadding="3" cellspacing="3">		    
+		    <tr>
+		    	<td align="left"  colspan="4" >
+		    		<b>Compra</b>
+		    	</td>
+		    </tr>
+		    <tr>
+		    	<td align="left" width="25%" >
+		    		ICMS INTERESTADUAL(%):<br /><b>
+		    		<span <? if($despesas->usecompraicms==false) echo 'style="color: #f00"';?> >
+	                <?=number_format($despesas->compraicms,3,",",".")?></span></b>			    	
+		    	</td>
+		    	<td align="left" width="25%" >
+		    		ICMS INTERNO DESTINO(%):<br /><b>
+		    		<span <? if($despesas->usecompraicmsdest==false) echo 'style="color: #f00"';?> >
+	                <?=number_format($despesas->compraicmsdest,3,",",".")?></span></b>			    	
+		    	</td>
+		    	<td align="left" width="10%" >
+		    		IVA(%):<br /> <b><?=number_format($despesas->comprast,3,",",".")?></b>
+		    	</td>
+		    	<td align="left" >
+		    		CFOP:<br /> <b>
+	    			<?php 
+	    			foreach ($this->objCfop as $cfop): 
+	    				if($cfop->id==$despesas->id_cfopcompra) echo substr($cfop->cfop." - ".$cfop->descricao,0,50);
+	    			endforeach; 
+	    			?></b>
+		    	</td>
+			</tr>
+			<tr>
+		    	<td align="left" colspan="4">
+		    		<b>Devolução</b>
+		    	</td>
+		    </tr>
+		    <tr>
+		    	<td align="left" >
+		    		ICMS INTERESTADUAL(%):<br /> <b>
+		    		<span <? if($despesas->usedevolucaoicms==false) echo 'style="color: #f00"';?> >
+	    			<?=number_format($despesas->devolucaoicms,3,",",".")?></span></b>			    	
+		    	</td>
+		    	<td align="left" >
+		    		ICMS INTERNO DESTINO(%):<br /> <b>
+		    		<span <? if($despesas->usedevolucaoicmsdest==false) echo 'style="color: #f00"';?> >
+	    			<?=number_format($despesas->devolucaoicmsdest,3,",",".")?></span></b>			    	
+		    	</td>
+		    	<td align="left" >
+		    		IVA(%):<br /> <b><?=number_format($despesas->devolucaost,3,",",".")?></b>
+		    	</td>
+		    	<td align="left" >
+		    		CFOP:<br /> <b>
+	    			<?php 
+	    			foreach ($this->objCfop as $cfop): 
+	    				if($cfop->id==$despesas->id_cfopdevolucao) echo substr($cfop->cfop." - ".$cfop->descricao,0,50);
+	    			endforeach; 
+	    			?></b>
+		    	</td>
+			</tr>
+			</table>
+		</div>
+		<div style="width: 100%; border-bottom: 1px solid; font-weight: bold; margin-top: 10px">
+		 SAÍDA
+		</div>
+		<div style="margin: 5px 0px 10px 0px; background-color: #f8f8f8; width: 100%;  border: 1px solid #ccc;">
+		 	<table width="100%" cellpadding="3" cellspacing="3">
+			<tr>
+		    	<td align="left" colspan="4">
+		    		<b>Venda</b>
+		    	</td>
+		    </tr>
+		    <tr>
+		    	<td align="left" width="25%" >
+		    		ICMS INTERESTADUAL(%):<br /> <b>
+		    		<span <? if($despesas->usevendaicms==false) echo 'style="color: #f00"';?> >
+	    			<?=number_format($despesas->vendaicms,3,",",".")?></span></b>			    	
+		    	</td>
+		    	<td align="left" width="25%" >
+		    		ICMS INTERNO DESTINO(%):<br /> <b>
+		    		<span <? if($despesas->usevendaicmsdest==false) echo 'style="color: #f00"';?> >
+	    			<?=number_format($despesas->vendaicmsdest,3,",",".")?></span></b>			    	
+		    	</td>
+		    	<td align="left" width="10%" >
+		    		IVA(%):<br /> <b><?=number_format($despesas->vendast,3,",",".")?></b>
+		    	</td>
+		    	<td align="left" >
+		    		CFOP:<br /> <b>
+	    			<?php 
+	    			foreach ($this->objCfop as $cfop): 
+	    				if($cfop->id==$despesas->id_cfopvenda) echo substr($cfop->cfop." - ".$cfop->descricao,0,50);
+	    			endforeach; 
+	    			?></b>
+		    	</td>
+			</tr>
+			<tr>
+				<td align="left" colspan="4">
+		    		CTM(%): <br /><b>
+		    		<span <? if($despesas->usectm==false) echo 'style="color: #f00"';?> >
+	    			<?=number_format($despesas->ctm,3,",",".")?></span></b>
+		    	</td>
+			</tr>
+			<tr>
+		    	<td align="left" colspan="4">
+		    		<b>Garantia</b>
+		    	</td>
+		    </tr>
+		    <tr>
+		    	<td align="left" >
+		    		ICMS INTERESTADUAL(%):<br /> <b>
+		    		<span <? if($despesas->usegarantiaicms==false) echo 'style="color: #f00"';?> >
+	    			<?=number_format($despesas->garantiaicms,3,",",".")?></span></b>			    	
+		    	</td>
+		    	<td align="left" >
+		    		ICMS INTERNO DESTINO(%):<br /> <b>
+		    		<span <? if($despesas->usegarantiaicmsdest==false) echo 'style="color: #f00"';?> >
+	    			<?=number_format($despesas->garantiaicmsdest,3,",",".")?></span></b>			    	
+		    	</td>
+		    	<td align="left" >
+		    		IVA(%):<br /> <b><?=number_format($despesas->garantiast,3,",",".")?></b>
+		    	</td>
+		    	<td align="left" >
+		    		CFOP:<br /> <b>
+	    			<?php 
+	    			foreach ($this->objCfop as $cfop): 
+	    				if($cfop->id==$despesas->id_cfopgarantia) echo substr($cfop->cfop." - ".$cfop->descricao,0,50);
+	    			endforeach; 
+	    			?></b>
+		    	</td>
+			</tr>			
+			</table>
+		</div>
+		<?php endif; ?>
+	</div>
+</div>

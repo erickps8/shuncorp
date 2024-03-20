@@ -1,0 +1,76 @@
+<?php
+
+if(count($this->objCompras)>0):
+?>
+	<style>
+	
+	.tableLinhapar{	
+		background-color: #fdfdfd;
+		
+	}
+	 
+	.tableLinhaimpar{
+		background-color: #ccc;
+		
+	}
+	</style>
+		
+	             	
+	<p align="left">
+	<input type="button" value="Add" style="border: 1px solid #999" onclick="somaQt();" >
+	<input type="hidden" value="<?php echo $this->objTipo?>" name="tipo" id="tipo" >
+	
+	</p> 
+	<table   style="width: 100%; background-color: #EEE; position: relative; border: 1px solid #000; margin: 2px; padding: 2px; color: #666666;	font: 11px Arial, Helvetica, sans-serif;">
+	<tr  class="tableLinhaimpar">
+		<td width="20%" align="center" >
+			ID
+		</td>
+		<td  align="center">
+			PURCHASE
+		</td>
+		<td width="20%"  align="center">
+			&nbsp;
+		</td>
+	</tr>
+	
+	<?php 
+	$cont = 0;
+	foreach ($this->objCompras as $list):
+	$cont++;
+	if ($cont%2==0) $class ='';
+    else $class = 'class="tableLinhapar"';
+	?>
+	 <tr <?=$class?> >
+		<td  align="center">
+			<?php echo $cont;?>
+		</td>
+		<td>
+			<?php 
+			if($this->objTipo==1) echo "PK".substr("00000".$list->id_kang_compra,-6,6);
+			elseif($this->objTipo==2) echo "PT".substr("00000".$list->id_tai_compra,-6,6);
+			?>
+		</td>
+		<td  align="center">
+			<input type="checkbox" 
+			name="<?php if($this->objTipo==1) echo $list->id_kang_compra; elseif($this->objTipo==2) echo md5($list->id_tai_compra); ?>" 
+			id="<?php if($this->objTipo==1) echo $list->id_kang_compra;	elseif($this->objTipo==2) echo $list->id_tai_compra; ?>" 
+			value="<?php if($this->objTipo==1) echo "PK".substr("00000".$list->id_kang_compra,-6,6);
+			elseif($this->objTipo==2) echo "PT".substr("00000".$list->id_tai_compra,-6,6); ?>"
+			>
+		</td>
+	</tr>
+	<?php 
+	
+	endforeach;
+	?>
+	</table>
+		
+	
+	
+	<?php 
+else:	
+	?>
+	<center>No purchase found</center>
+	<?php 
+endif;

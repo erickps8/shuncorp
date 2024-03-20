@@ -1,0 +1,104 @@
+<style>
+	#sisconteudo a{
+		text-decoration: underline;
+	}
+</style>
+
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl()?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/administracao/financeiroztlpag"><?=$this->translate->_("FINANCEIRO")?></a>
+		<div style="float: right;">
+			<b>
+			<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlpag"><?=$this->translate->_("PAGAR")?></a> |
+    		<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlrec"><?=$this->translate->_("RECEBER")?></a> | 
+    		<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlbancos"><?=$this->translate->_("ADM")?></a> | 					    		  
+    		<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlconc"><?=$this->translate->_("CONCILIAÇÃO")?></a>					    		
+    		</b>
+		</div>		
+	</div>
+	<div id="sistitulo"><?=$this->translate->_("FINANCEIRO ZTL")?></div>
+    <div id="sisconteudo">  
+    	<div style="float: left; margin: 10px 30px 10px 30px; width: 100%">
+			<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;<b>CONTAS À PAGAR</b><br>
+			&nbsp; &nbsp; 
+			<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeiroztlpag" >
+			Todas as contas
+			</a><br>
+			&nbsp; &nbsp; 
+			<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeiroztlpag/fil/avencer" >
+			Contas a vencer: <b><?=count($this->objContasvencpag)?></b>
+			</a><br>
+			&nbsp; &nbsp; 
+			<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeiroztlpag/fil/avencersem" >
+			Contas a vencer nessa semana: <b><?=count($this->objContasvencsempag)?></b>
+			</a><br>
+			&nbsp; &nbsp; 
+			<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeiroztlpag/fil/avencerhoje" >
+			Contas a vencer hoje: <b><?=count($this->objContasvenchojepag)?></b>
+			</a><br>
+			&nbsp; &nbsp; 
+			<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeiroztlpag/fil/vencidas" >
+			Contas vencidas: <b><?=count($this->objContasvencidaspag)?></b>
+			</a>
+		</div>				
+		<div style="float: left; margin: 10px 30px 10px 30px; width: 100%">
+			<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;<b>CONTAS À RECEBER</b><br>
+			&nbsp; &nbsp; 
+			<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeiroztlrec" >
+			Todas as contas
+			</a><br>
+			&nbsp; &nbsp; 
+			<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeiroztlrec/fil/avencer" >
+			Contas a vencer: <b><?=count($this->objContasvencrec)?></b>
+			</a><br>
+			&nbsp; &nbsp; 
+			<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeiroztlrec/fil/avencersem" >
+			Contas a vencer nessa semana: <b><?=count($this->objContasvencsemrec)?></b>
+			</a><br>
+			&nbsp; &nbsp; 
+			<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeiroztlrec/fil/avencerhoje" >
+			Contas a vencer hoje: <b><?=count($this->objContasvenchojerec)?></b>
+			</a><br>
+			&nbsp; &nbsp; 
+			<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeiroztlrec/fil/vencidas" >
+			Contas vencidas: <b><?=count($this->objContasvencidasrec)?></b>
+			</a>
+		</div>
+		<div style="float: left; margin: 10px 30px 30px 30px; width: 100%">
+			<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;<b>RELATÓRIOS</b><br>
+			&nbsp; &nbsp; 
+			<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeiroztlrelcontaspg" >
+			Contas a pagar
+			</a><br>
+			<!-- &nbsp; &nbsp; 
+			<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/painelatividades/tp/1/ids/<?php echo md5($usuario->ID);?>" >
+			Contas a receber
+			</a><br>
+			&nbsp; &nbsp; 
+			<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/painelatividades/tp/1/ids/<?php echo md5($usuario->ID);?>" >
+			Demostração do Resultado de Exercício
+			</a><br />
+			&nbsp; &nbsp; 
+			<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/painelatividades/tp/1/ids/<?php echo md5($usuario->ID);?>" >
+			Emissão de boletos
+			</a><br />
+			&nbsp; &nbsp; 
+			<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/painelatividades/tp/1/ids/<?php echo md5($usuario->ID);?>" >
+			Extrato de contas
+			</a>
+			<br />
+			&nbsp; &nbsp; 
+			<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/painelatividades/tp/1/ids/<?php echo md5($usuario->ID);?>" >
+			Plano de contas
+			</a>
+			<br />
+			&nbsp; &nbsp; 
+			<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/painelatividades/tp/1/ids/<?php echo md5($usuario->ID);?>" >
+			Plano de contas
+			</a>
+			 -->
+		</div>
+	</div>
+</div>

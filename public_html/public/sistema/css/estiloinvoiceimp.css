@@ -1,0 +1,99 @@
+@CHARSET "UTF-8";
+
+*{
+	font: 12px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #000;
+	text-align: left;
+}
+
+#siscorpo{
+	width: 900px;
+	border: 1px solid #000;
+	margin: 0 auto;	
+}
+
+#titulo{
+	width: 100%;
+	text-align: center;
+	font-weight: bold;
+	padding: 5px;
+}
+
+#info{
+	height: 150px;
+	padding: 5px;
+}
+
+#info div{
+	font-size: 15px !important;
+}
+
+#cliente{
+	width: 60%;
+	font-weight: bold;
+	float: left;
+	padding: 15px 0px 25px 15px
+}
+
+#cliente2{
+	width: 60%;
+	font-weight: bold;
+	float: left;
+	padding: 15px 0px 10px 15px
+}
+
+#detalhes{
+	float: right;
+	font-weight: bold;
+	width: 30%;
+	padding: 15px 0px 25px 15px
+}
+
+#subtitulo{
+	width: 100%;
+	text-align: center;
+	font-weight: bold;
+	font-size: 24px;
+	border-bottom: 1px solid #000;
+	margin-bottom: 10px;
+}
+
+
+#frete{
+	padding: 5px;
+	width: 100%;
+	line-height:150%;
+}
+
+#fretepara{
+	float: right; 
+	width: 300px; 
+	margin-top: -18px;
+	line-height:120%;
+}
+
+#produtos table{
+	width: 100%;
+}
+
+#produtos table td{
+	text-align: center;
+	padding: 3px;
+}
+
+#totais{
+	border-top: 1px solid #000;
+	width: 100%;
+	text-align: right;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+#infobancarias{
+	padding: 0px 30px 30px 30px;
+	font-weight: bold;		
+}
+
+.fix{
+	clear: both;
+}

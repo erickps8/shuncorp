@@ -1,0 +1,2361 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: ZTL EN\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-12-05 13:12-0300\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Cleiton Silva Barbosa <cleiton@ztlbrasil.com.br>\n"
+"Language-Team: Cleiton Silva Barbosa  - Tiago Mesquita <cleiton@ztlbrasil.com.br>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: en\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: /media/Dados/Server/homologacao/application/\n"
+"X-Poedit-SearchPath-0: modules/admin/views/scripts\n"
+"X-Poedit-SearchPath-1: modules/default/views/scripts\n"
+"X-Poedit-SearchPath-2: layouts\n"
+
+#: layouts/traducaomenu.php:3
+msgid "Administração"
+msgstr "Administration"
+
+#: layouts/traducaomenu.php:4
+msgid "Cadastro"
+msgstr "Register"
+
+#: layouts/traducaomenu.php:5
+msgid "Venda"
+msgstr "Sales"
+
+#: layouts/traducaomenu.php:6
+msgid "ZTL Compra"
+msgstr "ZTL Purchase"
+
+#: layouts/traducaomenu.php:7
+msgid "Outros"
+msgstr "Other"
+
+#: layouts/traducaomenu.php:8
+msgid "Área do Cliente"
+msgstr "Customer Area"
+
+#: layouts/traducaomenu.php:9
+msgid "Shunkang"
+msgstr "Shunkang"
+
+#: layouts/traducaomenu.php:10
+msgid "Shuntai"
+msgstr "Shuntai"
+
+#: layouts/traducaomenu.php:13
+msgid "Registro de Acesso"
+msgstr "Acess Log"
+
+#: layouts/traducaomenu.php:14
+msgid "Registro de Mensagens"
+msgstr "Messages Log"
+
+#: layouts/traducaomenu.php:15
+msgid "Funcionários"
+msgstr "Employees"
+
+#: layouts/traducaomenu.php:16
+msgid "Extrato de Estoque"
+msgstr "Stock Extract"
+
+#: layouts/traducaomenu.php:17
+msgid "Novo Pedido"
+msgstr "New Order"
+
+#: layouts/traducaomenu.php:18
+msgid "Listar Pedidos"
+msgstr "Order List"
+
+#: layouts/traducaomenu.php:19
+msgid "Referência Cruzada"
+msgstr "Cross Reference"
+
+#: layouts/traducaomenu.php:20
+msgid "IRV"
+msgstr "IRV"
+
+#: layouts/traducaomenu.php:21
+msgid "Contatos"
+msgstr "Contacts"
+
+#: layouts/traducaomenu.php:22
+msgid "Parceiros"
+msgstr "Partners"
+
+#: layouts/traducaomenu.php:23
+msgid "Produtos"
+msgstr "Products"
+
+#: layouts/traducaomenu.php:24
+msgid "Relatório de Produtos"
+msgstr "Products Report"
+
+#: layouts/traducaomenu.php:25
+msgid "Lista de Produtos"
+msgstr "Products List"
+
+#: layouts/traducaomenu.php:26
+msgid "Fabricantes"
+msgstr "Suppliers"
+
+#: layouts/traducaomenu.php:27
+msgid "Pedidos"
+msgstr "Orders"
+
+#: layouts/traducaomenu.php:28
+msgid "Relatório de Vendas"
+msgstr "Sales Report"
+
+#: layouts/traducaomenu.php:29
+msgid "Metas de Compra"
+msgstr "Purchase Goals"
+
+#: layouts/traducaomenu.php:30
+msgid "Controle de Visitas"
+msgstr "Visit Control"
+
+#: layouts/traducaomenu.php:31
+msgid "Correio Eletrônico"
+msgstr "WebMail"
+
+#: layouts/traducaomenu.php:32
+msgid "Hoteis"
+msgstr "Hotels"
+
+#: layouts/traducaomenu.php:33
+msgid "Mailing"
+msgstr "Mailing"
+
+#: layouts/traducaomenu.php:34
+msgid "Etiquetas"
+msgstr "Tags"
+
+#: layouts/traducaomenu.php:35
+msgid "Lista de Preços"
+msgstr "Price List"
+
+#: layouts/traducaomenu.php:36
+msgid "Lançamentos"
+msgstr "New Releases"
+
+#: layouts/traducaomenu.php:37
+msgid "Pendências"
+msgstr "Pending"
+
+#: layouts/traducaomenu.php:38
+msgid "Alterar Senha"
+msgstr "Change Password"
+
+#: layouts/traducaomenu.php:39
+msgid "Garantias"
+msgstr "Warranty"
+
+#: layouts/traducaomenu.php:40
+msgid "Comparativo"
+msgstr "Comparative"
+
+#: layouts/traducaomenu.php:41
+msgid "Veiculos"
+msgstr "Vehicles"
+
+#: layouts/traducaomenu.php:42
+msgid "Análise"
+msgstr "Analysis"
+
+#: layouts/traducaomenu.php:43
+msgid "Catálogo"
+msgstr "Catalogue"
+
+#: layouts/traducaomenu.php:44
+msgid "Catálogo Completo"
+msgstr "Full Catalogue"
+
+#: layouts/traducaomenu.php:45
+msgid "Lista de Faixa de Códigos"
+msgstr "Track Code List"
+
+#: layouts/traducaomenu.php:46
+msgid "Vendas"
+msgstr "Sales"
+
+#: layouts/traducaomenu.php:47
+msgid "Lista de preço resumida"
+msgstr "Price List Summary"
+
+#: layouts/traducaomenu.php:48
+msgid "Novos Contatos"
+msgstr "New Contacts"
+
+#: layouts/traducaomenu.php:49
+msgid "ZTL Inventário"
+msgstr "ZTL Inventory"
+
+#: layouts/traducaomenu.php:50
+msgid "Kang Inventário"
+msgstr "Kang Inventory"
+
+#: layouts/traducaomenu.php:51
+msgid "Migração de Contatos"
+msgstr "Contacts Migration"
+
+#: layouts/traducaomenu.php:52
+msgid "Pré Pedidos"
+msgstr "Pre-Orders"
+
+#: layouts/traducaomenu.php:53
+msgid "Localizar Produtos"
+msgstr "Search Products"
+
+#: layouts/traducaomenu.php:54
+msgid "Compras"
+msgstr "Purchase"
+
+#: layouts/traducaomenu.php:55
+msgid "Transportadoras"
+msgstr "Transporter"
+
+#: layouts/traducaomenu.php:56
+msgid "Relatório de Pendências"
+msgstr "Pending Report"
+
+#: layouts/traducaomenu.php:57
+msgid "Rascunhos"
+msgstr "Drafts"
+
+#: layouts/traducaomenu.php:58
+msgid "Contêiners"
+msgstr "Container"
+
+#: layouts/traducaomenu.php:59
+msgid "Atividades"
+msgstr "Task"
+
+#: layouts/traducaomenu.php:60
+#: layouts/traducaomenu.php:62
+msgid "Financeiro"
+msgstr "Finance"
+
+#: layouts/traducaomenu.php:61
+msgid "Perfis"
+msgstr "Perfil"
+
+#: modules/admin/views/scripts/administracao/financeiroztlconcimp.phtml:69
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:14
+msgid "FINANCEIRO"
+msgstr "FINANCE"
+
+#: modules/admin/views/scripts/administracao/financeiroztlconcimp.phtml:69
+msgid "CONCILIAÇÃO BANCÁRIA"
+msgstr "BANK CHECK"
+
+#: modules/admin/views/scripts/administracao/financeiroztlconcimp.phtml:108
+msgid "ORD"
+msgstr "ORDER"
+
+#: modules/admin/views/scripts/administracao/financeiroztlconcimp.phtml:109
+msgid "DATA"
+msgstr "DATE"
+
+#: modules/admin/views/scripts/administracao/financeiroztlconcimp.phtml:110
+msgid "VALOR"
+msgstr "VALUE"
+
+#: modules/admin/views/scripts/administracao/financeiroztlconcimp.phtml:111
+msgid "CONCILIAÇAO"
+msgstr "CHECK"
+
+#: modules/admin/views/scripts/administracao/financeiroztlconcimp.phtml:112
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:158
+msgid "OPÇÕES"
+msgstr "OPTION"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:11
+#: modules/admin/views/scripts/administracao/logacesso.phtml:11
+msgid "HOME"
+msgstr "HOME"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:17
+msgid "RETORNO IMPOSTOS"
+msgstr "Tax Return"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:24
+msgid "PAGAR"
+msgstr "To Pay"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:25
+msgid "RECEBER"
+msgstr "To Receive"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:27
+msgid "ADM"
+msgstr ""
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:29
+msgid "CONCILIAÇÃO"
+msgstr "Double check"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:43
+msgid "RETORNO DE IMPOSTOS"
+msgstr "Tax Return"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:53
+msgid "RETORNOS CADASTRADOS"
+msgstr "REBATE REGISTRED"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:146
+msgid "ID"
+msgstr "ID"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:149
+msgid "DATA VENDA "
+msgstr "Sales Date"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:152
+msgid "CLIENTE "
+msgstr "Client"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:155
+msgid "SITUAÇÃO"
+msgstr "Situation"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:182
+msgid "ABERTO"
+msgstr "Open"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:183
+msgid "PENDENTE"
+msgstr "Pending"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:184
+msgid "CONCLUIDO"
+msgstr "Finished"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturn.phtml:211
+msgid "Nenhum Invoice Encontrada"
+msgstr "No Invoice Found"
+
+#: modules/admin/views/scripts/administracao/logacesso.phtml:14
+msgid "REGISTRO DE NAVEGAÇÃO"
+msgstr ""
+
+#: modules/admin/views/scripts/administracao/logacesso.phtml:22
+msgid "REGISTRO DE ACESSO"
+msgstr ""
+
+#: modules/admin/views/scripts/administracao/logacesso.phtml:59
+msgid "Insira sua busca"
+msgstr ""
+
+#: modules/admin/views/scripts/administracao/logacesso.phtml:66
+msgid "Dt inicio"
+msgstr "Beginning"
+
+#: modules/admin/views/scripts/administracao/logacesso.phtml:70
+msgid "Dt fim"
+msgstr "End"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpag.phtml:20
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:28
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:37
+msgid "CONTAS À PAGAR"
+msgstr "Accounts to pay"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpag.phtml:43
+msgid "PAGAMENTOS DE CONTAS"
+msgstr "ACCOUNT PAYMENT"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpag.phtml:72
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:76
+msgid "Busca por"
+msgstr "Seek for"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpag.phtml:74
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:78
+msgid "Por ID"
+msgstr "BY ID"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpag.phtml:75
+#, fuzzy
+msgid "Por Parceiro"
+msgstr "Partners"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpag.phtml:76
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:80
+msgid "Por Valor"
+msgstr "For Value"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpag.phtml:77
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:81
+#, fuzzy
+msgid "Por Plano de conta"
+msgstr "Account Plan"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpag.phtml:99
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:78
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:128
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:228
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:104
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:136
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:128
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:226
+msgid "Valor"
+msgstr "Value"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpag.phtml:103
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:141
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:244
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:108
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:82
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:141
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:242
+msgid "Plano de conta"
+msgstr "Account Plan"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpag.phtml:143
+#: modules/admin/views/scripts/administracao/financeirochinaexp.phtml:14
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:146
+msgid "FORNECEDOR"
+msgstr "SUPPLIER"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpag.phtml:144
+#: modules/admin/views/scripts/administracao/financeirochinaexp.phtml:16
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:147
+msgid "EMISSÃO"
+msgstr "ISSUED"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpag.phtml:146
+#: modules/admin/views/scripts/administracao/financeirochinaexp.phtml:20
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:149
+msgid "SIT"
+msgstr "SIT"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:43
+msgid "PAINEL DE ATIVIDADES"
+msgstr "TASK MANAGER"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:54
+msgid "ATIVIDADES"
+msgstr "TASK"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:61
+msgid "Nova Atividade"
+msgstr "New Task"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:62
+msgid "Atualizar"
+msgstr "Update"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:63
+msgid "Finalizar"
+msgstr "End task"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:64
+msgid "Responder"
+msgstr "Reply"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:65
+msgid "Enviar"
+msgstr "Send"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:76
+msgid "MINHAS ATIVIDADES"
+msgstr "MY TASKS"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:90
+msgid "Para"
+msgstr "For"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:120
+msgid "Descrição da atividade"
+msgstr "Task description"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:126
+msgid "Data conclusão"
+msgstr "Due date"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:128
+msgid "Privado"
+msgstr "Private"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:142
+msgid "EXECUTOR"
+msgstr "EXECUTOR"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:145
+msgid "PENDENTES"
+msgstr "PENDING"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:148
+msgid "AGUARDANDO"
+msgstr "WAITING"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:151
+msgid "FINALIZADAS"
+msgstr "FINISHED"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:328
+msgid "LISTA DE ATIVIDADES"
+msgstr "TASK LIST"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:442
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:636
+msgid "ID Atividade"
+msgstr "ID task"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:449
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:642
+msgid "Executor"
+msgstr "Executor"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:470
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:662
+msgid "Data Solicitação"
+msgstr "Application date"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:473
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:665
+msgid "Data Limite"
+msgstr "Deadline"
+
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:524
+#: modules/admin/views/scripts/administracao/painelatividades.phtml:715
+msgid "Descrição"
+msgstr "Description"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:41
+msgid "FINALIZADOS"
+msgstr "FINISHED"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:43
+msgid "CADASTRADOS"
+msgstr "REGISTERED"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:63
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:96
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:152
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:96
+msgid "Fatura"
+msgstr "Invoice"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:65
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:92
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:74
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:92
+msgid "Emissão"
+msgstr "Issued"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:68
+msgid "Anexo"
+msgstr "Attached file"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:76
+msgid "Conta"
+msgstr "Account"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:77
+msgid "Dt Cad"
+msgstr "Reg Dt"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:79
+msgid "Dt Pag"
+msgstr "Pay Dt"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:80
+msgid "Valor pag"
+msgstr "Pay Value"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:108
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:118
+msgid "Valor Retorno"
+msgstr "Rebate Value"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:110
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:120
+msgid "Dt Pedido"
+msgstr "Orders"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:112
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:121
+msgid "Dt Prevista"
+msgstr "Forecast Dt"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturncad.phtml:114
+msgid "Conta de recebimento:"
+msgstr "Received account"
+
+#: modules/admin/views/scripts/administracao/financeirochinaexp.phtml:15
+msgid "PLANO CONTA"
+msgstr "ACCOUNT PLAN"
+
+#: modules/admin/views/scripts/administracao/financeirochinaexp.phtml:17
+msgid "VENCIMENTO"
+msgstr "DUE DATE"
+
+#: modules/admin/views/scripts/administracao/financeirochinaexp.phtml:18
+msgid "MOEDA"
+msgstr "CURRENCY"
+
+#: modules/admin/views/scripts/administracao/buscaatividades.phtml:4
+msgid "SOLICITANTE"
+msgstr "APPLICANT"
+
+#: modules/admin/views/scripts/administracao/buscaatividades.phtml:7
+msgid "PEND"
+msgstr "PENDING"
+
+#: modules/admin/views/scripts/administracao/buscaatividades.phtml:10
+msgid "AGU"
+msgstr "WAITING"
+
+#: modules/admin/views/scripts/administracao/buscaatividades.phtml:13
+msgid "FIN"
+msgstr "FINISHED"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:44
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:53
+msgid "NOVO PAGAMENTO"
+msgstr "NEW PAYMENT"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:65
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:96
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:65
+msgid "Fornecedor"
+msgstr "Supplier"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:67
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:290
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:98
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:300
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:67
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:288
+msgid "Selecione"
+msgstr "Select"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:76
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:107
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:76
+msgid "Outro Fornecedor"
+msgstr "Another Supplier"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:100
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:118
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:219
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:126
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:100
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:118
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:217
+msgid "Moeda"
+msgstr "Currency"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:109
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:109
+msgid "Valor Total"
+msgstr "Value Total"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:132
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:232
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:78
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:132
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:230
+msgid "Vencimento"
+msgstr "Due date"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:253
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:251
+msgid "Sub Pl conta"
+msgstr "Sub Account Plan"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:276
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:304
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:274
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:274
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:302
+msgid "Dt pagamento"
+msgstr "Payment date"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:280
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:308
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:278
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:278
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:306
+msgid "Valor pago"
+msgstr "Value Paid"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:284
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:313
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:282
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:311
+msgid "Tx câmbio"
+msgstr ""
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:288
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:318
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:282
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:286
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:316
+msgid "Conta origem"
+msgstr "Payment Type"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:451
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:167
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:449
+msgid "Anexar arquivos"
+msgstr "Add File"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpagcad.phtml:498
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:318
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:496
+msgid "Observação"
+msgstr "Observation"
+
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:20
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:28
+msgid "CONTAS À RECEBER"
+msgstr "To receive"
+
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:43
+msgid "RECEBIMENTO DE CONTAS"
+msgstr "RECEIVING BILLS"
+
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:79
+msgid "Por Cliente"
+msgstr ""
+
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:86
+msgid "Cliente"
+msgstr ""
+
+#: modules/admin/views/scripts/administracao/financeiroztlrec.phtml:88
+msgid "Todos"
+msgstr "All"
+
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:156
+msgid "Parc"
+msgstr "Parc"
+
+#: modules/admin/views/scripts/administracao/financeirochinapagcad.phtml:215
+msgid "Adicionar Pedidos"
+msgstr "Order List"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpsubcontas.phtml:19
+msgid "CAT PL DE CONTAS"
+msgstr "CAT ACCOUNT PLAN"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpsubcontas.phtml:52
+#, fuzzy
+msgid "Plano de Conta"
+msgstr "Account Plan"
+
+#: modules/admin/views/scripts/administracao/financeiroztlpsubcontas.phtml:68
+msgid "PLANO DE CONTA"
+msgstr "ACCOUNT PLAN"
+
+#: modules/admin/views/scripts/administracao/financeirochinaconcexp.phtml:57
+msgid "CONCILIACAO"
+msgstr "CHECK"
+
+#: modules/admin/views/scripts/administracao/financeirochinaconcexp.phtml:58
+msgid "OPCOES"
+msgstr "OPTIONS"
+
+#: modules/admin/views/scripts/administracao/financeiroztlreccad.phtml:44
+msgid "NOVO RECEBIMENTO"
+msgstr "New Income"
+
+#: modules/admin/views/scripts/administracao/financeirochinapcontas.phtml:28
+#: modules/admin/views/scripts/administracao/financeirochinarec.phtml:33
+#: modules/admin/views/scripts/administracao/financeirochinapag.phtml:32
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:28
+msgid "RET IMPOSTOS"
+msgstr "Tax Rebate"
+
+#: modules/admin/views/scripts/administracao/financeirochinapcontas.phtml:42
+#: modules/admin/views/scripts/administracao/financeiroztlpcontas.phtml:41
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:53
+msgid "PLANO DE CONTAS"
+msgstr "ACCOUNT PLAN"
+
+#: modules/admin/views/scripts/administracao/financeirochinapcontas.phtml:52
+#: modules/admin/views/scripts/administracao/financeiroztlpcontas.phtml:51
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:43
+msgid "CONTAS BANCÁRIAS"
+msgstr "BANK ACCOUNT"
+
+#: modules/admin/views/scripts/administracao/financeirochinarec.phtml:81
+#: modules/admin/views/scripts/administracao/financeirochinapag.phtml:79
+msgid "Por Fornecedor"
+msgstr "For Supplier"
+
+#: modules/admin/views/scripts/administracao/financeirochinarec.phtml:83
+#: modules/admin/views/scripts/administracao/financeirochinapag.phtml:82
+msgid "Por Pl Contas"
+msgstr "For Account"
+
+#: modules/admin/views/scripts/administracao/financeirochinaimp.phtml:69
+#: modules/admin/views/scripts/administracao/financeiroztlimp.phtml:69
+msgid "CONTAS A RECEBER"
+msgstr "RECEIVABLE"
+
+#: modules/admin/views/scripts/administracao/financeirochinaimp.phtml:71
+#: modules/admin/views/scripts/administracao/financeiroztlimp.phtml:71
+msgid "CONTAS A PAGAR"
+msgstr "PAYABLE"
+
+#: modules/admin/views/scripts/administracao/logacessoent.phtml:52
+msgid "Nome do Usuário"
+msgstr ""
+
+#: modules/admin/views/scripts/administracao/financeirochinapag.phtml:81
+msgid "Por Compra"
+msgstr "Purchase"
+
+#: modules/admin/views/scripts/administracao/financeirochinapag.phtml:117
+msgid "Compra"
+msgstr "Purchase"
+
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:64
+msgid "Nome da conta"
+msgstr "Account name"
+
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:68
+msgid "Banco"
+msgstr "Bank"
+
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:72
+msgid "Agência"
+msgstr "Bank Branch"
+
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:84
+msgid "RMB"
+msgstr "RMB"
+
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:85
+msgid "USD"
+msgstr "USD"
+
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:86
+msgid "BRL"
+msgstr "BRL"
+
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:87
+msgid "EUR"
+msgstr "EUR"
+
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:102
+msgid "NOME"
+msgstr "NAME"
+
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:103
+msgid "BANCO"
+msgstr "BANK"
+
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:104
+msgid "AGÊNCIA"
+msgstr "BRANCH"
+
+#: modules/admin/views/scripts/administracao/financeirochinabancos.phtml:105
+msgid "CONTA"
+msgstr "ACCOUNT"
+
+#: modules/admin/views/scripts/administracao/financeirochinareccad.phtml:221
+msgid "Valor recebido"
+msgstr "Income value"
+
+#: modules/admin/views/scripts/administracao/financeirochinareccad.phtml:269
+msgid "Baixar"
+msgstr "Down"
+
+#: modules/admin/views/scripts/administracao/financeirochinaconc.phtml:81
+msgid "Selecione uma conta"
+msgstr "Select an account"
+
+#: modules/admin/views/scripts/administracao/financeirochinaconc.phtml:114
+msgid "Nova transação"
+msgstr "New transaction"
+
+#: modules/admin/views/scripts/administracao/financeirochinaconc.phtml:123
+msgid "Data"
+msgstr "Date"
+
+#: modules/admin/views/scripts/administracao/financeirochinaconc.phtml:148
+msgid "TX Câmbio"
+msgstr "Exchange Rate"
+
+#: modules/admin/views/scripts/administracao/financeirochinaconc.phtml:186
+msgid "Valor Ini"
+msgstr "Init Value"
+
+#: modules/admin/views/scripts/administracao/financeirochinaconc.phtml:190
+msgid "Valor Fim"
+msgstr "End Value"
+
+#: modules/admin/views/scripts/administracao/financeirochinaconc.phtml:222
+msgid "Saldo"
+msgstr "Balance"
+
+#: modules/admin/views/scripts/administracao/buscacontasfin.phtml:110
+msgid "TAX CÂMBIO"
+msgstr "EXCHANGE RATE"
+
+#: modules/admin/views/scripts/administracao/financeirochinataximp.phtml:97
+#: modules/admin/views/scripts/administracao/financeirochinataximp.phtml:158
+msgid "Recebimento"
+msgstr "Due date"
+
+#: modules/admin/views/scripts/administracao/financeirochinataximp.phtml:145
+msgid "RETORNOS FINALIZADOS"
+msgstr "FINISHED"
+
+#: modules/admin/views/scripts/administracao/financeirochinataximp.phtml:156
+msgid "Dt Emissão"
+msgstr "Issued"
+
+#: modules/admin/views/scripts/administracao/financeirochinataximp.phtml:196
+msgid "Valor retorno"
+msgstr "Rebate"
+
+#: modules/admin/views/scripts/administracao/financeirochinataximp.phtml:198
+msgid "Dt Recebimento"
+msgstr "Due date"
+
+#: modules/admin/views/scripts/administracao/financeirochinataximp.phtml:214
+msgid "PAGAMENTOS PENDENTES"
+msgstr "PENDING"
+
+#: modules/admin/views/scripts/administracao/buscacontasfinped.phtml:21
+msgid "COMPRA"
+msgstr "PURCHASE"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:80
+msgid "CÓDIGO"
+msgstr "CODE"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:83
+msgid "HS CODE"
+msgstr "HS CODE"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:86
+msgid "PESO LIQ"
+msgstr "NET WEIGHT"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:89
+msgid "PESO BRUTO"
+msgstr "GROSS WEIGHT"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:92
+msgid "QUANTIDADE"
+msgstr "QUANTITY"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:98
+msgid "TOTAL"
+msgstr "TOTAL"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:147
+msgid "Total"
+msgstr "Total"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:184
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:302
+msgid "PAGAMENTOS"
+msgstr "PAYMENTS"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:189
+msgid "Id"
+msgstr "Id"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:219
+msgid "Não pago"
+msgstr "Not paid"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:236
+msgid "ID Tax Return"
+msgstr "ID Tax Return"
+
+#: modules/admin/views/scripts/administracao/financeirochinareturnfor.phtml:307
+msgid "Não existe pagamentos relacionados com essa compra"
+msgstr "No payments connected with this purchase"
+
+#: modules/admin/views/scripts/compras/ajusteprod.phtml:9
+#: modules/admin/views/scripts/compras/fabricaprod.phtml:9
+#: modules/admin/views/scripts/compras/extratoprod.phtml:13
+#: modules/admin/views/scripts/compras/entradaestoqncmnac.phtml:70
+#: modules/admin/views/scripts/compras/estoquegrupo.phtml:12
+msgid "ESTOQUE"
+msgstr ""
+
+#: modules/admin/views/scripts/compras/ajusteprod.phtml:11
+msgid "AJUSTES"
+msgstr "ADJUST"
+
+#: modules/admin/views/scripts/compras/fabricaprod.phtml:11
+#: modules/admin/views/scripts/compras/estoquegrupo.phtml:21
+#, fuzzy
+msgid "FABRICA"
+msgstr "MANUFACTURER"
+
+#: modules/admin/views/scripts/compras/extratoprod.phtml:15
+msgid "MOVIMENTAÇÃO"
+msgstr ""
+
+#: modules/admin/views/scripts/compras/entradaestoqncmnac.phtml:72
+#, fuzzy
+msgid "ENTRADA DE PRODUTOS"
+msgstr "PRODUCT REGISTRATION"
+
+#: modules/admin/views/scripts/compras/entradaestoqncmnac.phtml:74
+msgid "NOVA ENTRADA"
+msgstr ""
+
+#: modules/admin/views/scripts/compras/estoquegrupo.phtml:19
+msgid "AJUSTE"
+msgstr "ADJUST"
+
+#: modules/admin/views/scripts/compras/estoquegrupo.phtml:20
+msgid "GARANTIA"
+msgstr ""
+
+#: modules/admin/views/scripts/compras/estoquegrupo.phtml:22
+msgid "ENTRADA"
+msgstr ""
+
+#: modules/admin/views/scripts/compras/estoquegrupo.phtml:83
+msgid "SELECIONE"
+msgstr "SELECT"
+
+#: modules/admin/views/scripts/compras/fabricanovo.phtml:27
+msgid "NOVA FABRICAÇÃO"
+msgstr ""
+
+#: modules/admin/views/scripts/compras/relatoriovendasfor.phtml:13
+msgid "PEDIDOS DE COMPRA"
+msgstr "PURCHASE ORDERS"
+
+#: modules/admin/views/scripts/compras/relatoriovendasfor.phtml:15
+#: modules/admin/views/scripts/compras/relatoriovendasfor.phtml:25
+msgid "NOVO PEDIDO"
+msgstr "NEW ORDER"
+
+#: modules/admin/views/scripts/compras/relatoriovendas.phtml:175
+msgid "VENDAS"
+msgstr "SALE"
+
+#: modules/admin/views/scripts/compras/relatoriovendas.phtml:178
+msgid "FÍSICO"
+msgstr "PHYSICAL"
+
+#: modules/admin/views/scripts/compras/relatoriovendas.phtml:181
+msgid "VIRTUAL"
+msgstr "VIRTUAL"
+
+#: modules/admin/views/scripts/compras/relatoriovendas.phtml:184
+msgid "SUGESTÃO"
+msgstr "SUGESTION"
+
+#: modules/admin/views/scripts/compras/relatoriovendas.phtml:187
+msgid "QT"
+msgstr "QT"
+
+#: modules/admin/views/scripts/compras/ajustenovo.phtml:26
+msgid "NOVO AJUSTE"
+msgstr "NEW ADJUST"
+
+#: modules/admin/views/scripts/cadastro/contatosemp.phtml:12
+msgid "EMPRESAS"
+msgstr "COMPANY"
+
+#: modules/admin/views/scripts/cadastro/referenciacruzadarel.phtml:9
+#: modules/admin/views/scripts/cadastro/referenciacruzadarel.phtml:24
+#: modules/admin/views/scripts/cadastro/referenciacruzada.phtml:11
+#: modules/admin/views/scripts/cadastro/referenciacruzada.phtml:28
+msgid "REFERÊNCIA CRUZADA"
+msgstr "CROSS REFERENCE"
+
+#: modules/admin/views/scripts/cadastro/referenciacruzadarel.phtml:10
+#: modules/admin/views/scripts/cadastro/referenciacruzadarel.phtml:14
+#: modules/admin/views/scripts/cadastro/referenciacruzada.phtml:14
+msgid "CÓDIGOS"
+msgstr "CODES"
+
+#: modules/admin/views/scripts/cadastro/referenciacruzadarel.phtml:13
+msgid "REFERÊNCIAS"
+msgstr "REFERENCES"
+
+#: modules/admin/views/scripts/cadastro/referenciacruzadarelxls.phtml:18
+#, fuzzy
+msgid "REFER&Ecirc;NCIA CRUZADA"
+msgstr "CROSS REFERENCE"
+
+#: modules/admin/views/scripts/cadastro/referenciacruzada.phtml:17
+msgid "RELATÓRIOS"
+msgstr "REPORTS"
+
+#: modules/admin/views/scripts/cadastro/referenciacruzada.phtml:130
+#: modules/admin/views/scripts/cadastro/referenciacruzada.phtml:186
+msgid "FABRICANTE"
+msgstr "MANUFACTURER"
+
+#: modules/admin/views/scripts/cadastro/referenciacruzada.phtml:179
+msgid "HISTÓRICO DE BUSCA"
+msgstr "SEARCH HISTORY"
+
+#: modules/admin/views/scripts/cadastro/contatoscad.phtml:34
+#, fuzzy
+msgid "CONTATOS"
+msgstr "CONTACTS"
+
+#: modules/admin/views/scripts/cadastro/contatoscad.phtml:36
+msgid "CADASTRO CONTATOS"
+msgstr "REGISTERED CONTACTS"
+
+#: modules/admin/views/scripts/cadastro/buscacomposicao.phtml:6
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:167
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:264
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:657
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:743
+msgid "PRODUTO"
+msgstr "PRODUCT"
+
+#: modules/admin/views/scripts/cadastro/buscacomposicao.phtml:8
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:168
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:658
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:744
+msgid "Sit"
+msgstr "Sit"
+
+#: modules/admin/views/scripts/cadastro/buscacomposicao.phtml:9
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:169
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:659
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:745
+msgid "For"
+msgstr "Sup"
+
+#: modules/admin/views/scripts/cadastro/buscacomposicao.phtml:10
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:170
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:266
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:660
+msgid "Qt"
+msgstr "Qt"
+
+#: modules/admin/views/scripts/cadastro/buscacomposicao.phtml:11
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:172
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:662
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:747
+msgid "Custo"
+msgstr "Cost"
+
+#: modules/admin/views/scripts/cadastro/buscacomposicao.phtml:38
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:697
+msgid "Adicionar Componente"
+msgstr "Add Component"
+
+#: modules/admin/views/scripts/cadastro/buscacomposicao.phtml:39
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:698
+msgid "Copiar Composição"
+msgstr "Copy Composition"
+
+#: modules/admin/views/scripts/cadastro/produtoschina.phtml:7
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:7
+msgid "PRODUTOS CHINA"
+msgstr "CHINA PRODUCTS"
+
+#: modules/admin/views/scripts/cadastro/produtoschina.phtml:110
+#: modules/admin/views/scripts/cadastro/produtos.phtml:142
+msgid "Por Código"
+msgstr "By Code"
+
+#: modules/admin/views/scripts/cadastro/produtoschina.phtml:111
+#: modules/admin/views/scripts/cadastro/produtos.phtml:143
+msgid "Por Grupo"
+msgstr "By Group"
+
+#: modules/admin/views/scripts/cadastro/produtoschina.phtml:112
+#: modules/admin/views/scripts/cadastro/produtos.phtml:144
+msgid "Por Descrição"
+msgstr "By Description"
+
+#: modules/admin/views/scripts/cadastro/produtoschina.phtml:162
+#: modules/admin/views/scripts/cadastro/produtos.phtml:337
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:265
+msgid "DESCRIÇÃO"
+msgstr "DESCRIPTION"
+
+#: modules/admin/views/scripts/cadastro/produtoschina.phtml:165
+#: modules/admin/views/scripts/cadastro/produtos.phtml:340
+msgid "GRUPO"
+msgstr "GROUP"
+
+#: modules/admin/views/scripts/cadastro/produtoschina.phtml:168
+#: modules/admin/views/scripts/cadastro/produtos.phtml:343
+msgid "Situa&ccedil;&atilde;o"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtoschina.phtml:171
+#: modules/admin/views/scripts/cadastro/produtos.phtml:347
+msgid "Op&ccedil;&otilde;es"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtoschina.phtml:241
+#: modules/admin/views/scripts/cadastro/produtos.phtml:464
+msgid "Nenhum Produto encontrado"
+msgstr "Product not found"
+
+#: modules/admin/views/scripts/cadastro/produtos.phtml:7
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:18
+msgid "PRODUTOS"
+msgstr "PRODUCT"
+
+#: modules/admin/views/scripts/cadastro/produtos.phtml:24
+msgid "GRUPOS DE PRODUTOS"
+msgstr "PRODUCT GROUPS"
+
+#: modules/admin/views/scripts/cadastro/produtos.phtml:28
+msgid "TRIBUTOS"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtos.phtml:145
+msgid "Por Medidas"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtos.phtml:293
+#: modules/admin/views/scripts/cadastro/produtos.phtml:310
+#: modules/admin/views/scripts/cadastro/produtos.phtml:323
+msgid "INTERNO"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtos.phtml:296
+#: modules/admin/views/scripts/cadastro/produtos.phtml:313
+msgid "EXTERNO"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtos.phtml:299
+#: modules/admin/views/scripts/cadastro/produtos.phtml:316
+#: modules/admin/views/scripts/cadastro/produtos.phtml:326
+msgid "ALTURA"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtos.phtml:303
+msgid "ESTRIADO MACHO"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtos.phtml:306
+msgid "ESTRIADO FÊMEO"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtos.phtml:319
+#: modules/admin/views/scripts/cadastro/produtos.phtml:329
+msgid "DENTES"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:8
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:19
+msgid "CADASTRO"
+msgstr "REGISTER"
+
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:49
+msgid "CADASTRO DE PRODUTOS "
+msgstr "PRODUCTS REGISTRATION"
+
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:61
+msgid "SHUNKANG"
+msgstr "SHUNKANG"
+
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:78
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:130
+msgid "Código"
+msgstr "Code"
+
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:82
+msgid "HS Code"
+msgstr "HS Code"
+
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:100
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:147
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:418
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:624
+msgid "Preço"
+msgstr "Price"
+
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:115
+msgid "SHUNTAI"
+msgstr "SHUNTAI"
+
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:160
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:257
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:650
+msgid "COMPOSIÇÃO"
+msgstr "COMPOSITION"
+
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:232
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:786
+msgid "HISTÓRICO DE FORNECEDOR"
+msgstr "SUPPLIER HISTORY"
+
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:244
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:798
+msgid "ESF/ROL"
+msgstr "BALL/ROLL"
+
+#: modules/admin/views/scripts/cadastro/produtoschinacad.phtml:291
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:845
+msgid "Esf/Rol"
+msgstr "Ball/Roll"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:64
+msgid "CADASTRO DE PRODUTOS"
+msgstr "PRODUCT REGISTRATION"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:75
+msgid "PRINCIPAL"
+msgstr "MAIN"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:80
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:530
+msgid "VENDA"
+msgstr "SALE"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:90
+msgid "TÉCNICO"
+msgstr "TECHNICAL"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:105
+msgid "Código do produto"
+msgstr "Product Code"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:110
+msgid "Máscara"
+msgstr "Mask"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:115
+msgid "Código EAN"
+msgstr "EAN Code"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:121
+msgid "Cl Fiscal"
+msgstr "NCM Code"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:132
+msgid "Peso"
+msgstr "Weight"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:148
+msgid "Grupo"
+msgstr "Group"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:161
+msgid "Subgrupo"
+msgstr "Undergroup"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:183
+msgid "Produto"
+msgstr "Product"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:184
+msgid "Componente"
+msgstr "Component"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:185
+msgid "Molde"
+msgstr "Mould"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:186
+msgid "Caixa"
+msgstr "Box"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:187
+msgid "Etiqueta"
+msgstr "Tag"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:202
+msgid "Detalhes do produto"
+msgstr "Product details"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:215
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:246
+msgid "Imagem"
+msgstr "Photo"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:226
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:238
+msgid "Remover imagem"
+msgstr "Remove photo"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:294
+msgid "APLICAÇÃO"
+msgstr "APLICATION"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:301
+msgid "MONTADORA"
+msgstr "ASSEMBLER"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:302
+msgid "VEICULO"
+msgstr "VEHICLE"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:303
+msgid "ANO"
+msgstr "YEAR"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:342
+msgid "Adicionar Veículo"
+msgstr "Add Vehicle"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:343
+msgid "Copiar Aplicação"
+msgstr "Copy Aplication"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:347
+msgid "Montadora"
+msgstr "Dealer"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:358
+msgid "Ano Ini"
+msgstr "Year Ini"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:361
+msgid "Ano Fim"
+msgstr "Year End"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:394
+msgid "PREÇOS DE VENDA"
+msgstr "SALES PRICE"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:416
+msgid "Promoção"
+msgstr "Promotion"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:420
+msgid "Desconto"
+msgstr "Discount"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:466
+msgid "Ajuste de preço"
+msgstr "Adjustment Price"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:482
+msgid "Percentual"
+msgstr "Percentage"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:493
+msgid "HISTÓRICO DE PREÇOS"
+msgstr "PRICE HISTORY"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:522
+msgid "HISTÓRICO DE VENDA"
+msgstr "SALES HISTORY"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:532
+msgid "CLIENTE"
+msgstr "CUSTOMER"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:533
+msgid "QUANT"
+msgstr "QUANT"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:562
+msgid "FORNECEDORES"
+msgstr "SUPPLIERS"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:570
+msgid "Grupo de Compra"
+msgstr "Purchase Group"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:580
+msgid "Situação"
+msgstr "Situation"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:589
+msgid "Pronto"
+msgstr "Ready"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:590
+msgid "Em Desenvolvimento"
+msgstr "Under Development"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:591
+msgid "Inativo"
+msgstr "Inactive"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:607
+msgid "Previsão"
+msgstr "Forecast"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:634
+msgid "Descrição PL"
+msgstr "PL Description"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:640
+msgid "Detalhes da compra"
+msgstr "Details Purchase"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:736
+msgid "RELACIONAMENTOS"
+msgstr "RELATIONSHIPS"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:866
+msgid "HISTÓRICO DE COMPRA"
+msgstr "PURCHASE HISTORY"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:874
+msgid "PED"
+msgstr "PUR"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:878
+msgid "SITUACAO"
+msgstr "SITUATION"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:907
+msgid "HISTÓRICO DE LOTE"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:915
+msgid "LOTE"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1012
+msgid "PADRÃO"
+msgstr "STANDARD"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1020
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1090
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1120
+msgid "Interno"
+msgstr "Inner"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1024
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1094
+msgid "Externo"
+msgstr "Outer"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1028
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1098
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1124
+msgid "Altura"
+msgstr "Height"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1032
+msgid "BL/ROLLERS"
+msgstr "BL/ROLLERS"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1042
+msgid "HOMOCINÉTICA"
+msgstr "CV JOINT"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1050
+msgid "Estriado macho"
+msgstr "Striatum male"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1054
+msgid "Diâmetro"
+msgstr "Diameter"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1058
+msgid "Raio da porca"
+msgstr "Nut Radius"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1062
+msgid "Aperto"
+msgstr "Tightness"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1068
+msgid "Estriado Femêo"
+msgstr "Stiatum female"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1072
+msgid "Instruções de aperto"
+msgstr "Tightness Instruction"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1082
+msgid "SLIDING JOINTS"
+msgstr "SLIDING JOINTS"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1102
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1128
+msgid "Dentes"
+msgstr "Teeth"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1112
+msgid "CRUZETAS"
+msgstr "U-Joint"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1112
+msgid "TRIZETAS"
+msgstr "U-Joint"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1138
+msgid "ARQUIVOS"
+msgstr "FILES"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1166
+msgid "Adicionar arquivo"
+msgstr "Add File"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1194
+msgid "Observações"
+msgstr "Observation"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1218
+msgid "Tem certeza que deseja remover a imagem 1?"
+msgstr "Sure to remove photo 1?"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1219
+msgid "Tem certeza que deseja remover a imagem 2?"
+msgstr "Sure to remove photo 2?"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1220
+msgid "sim"
+msgstr "yes"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1221
+msgid "Salvar"
+msgstr "Save"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1222
+msgid "n&atilde;o"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1223
+msgid "Cancelar"
+msgstr "Cancel"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1224
+msgid "Novo produto"
+msgstr "New product"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1225
+msgid "Pesquisar"
+msgstr "Search"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1226
+msgid "Voltar"
+msgstr "Back"
+
+#: modules/admin/views/scripts/cadastro/produtoscad.phtml:1227
+msgid "Editar"
+msgstr "Edit"
+
+#: modules/admin/views/scripts/cadastro/referenciacruzadacad.phtml:102
+msgid "FÁBRICA"
+msgstr "FACTORY"
+
+#: modules/admin/views/scripts/cadastro/contatosfilialcad.phtml:27
+msgid "CONTATOS/EMPRESAS"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/contatosfilialcad.phtml:31
+msgid "CADASTRO FILIAIS"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/buscatipoparceiro.phtml:3
+msgid "EMPRESA"
+msgstr "Company"
+
+#: modules/admin/views/scripts/cadastro/buscatipoparceiro.phtml:4
+msgid "CONTATO"
+msgstr "CONTACTS"
+
+#: modules/admin/views/scripts/cadastro/buscatipoparceiro.phtml:5
+msgid "EMAIL"
+msgstr "EMAIL"
+
+#: modules/admin/views/scripts/cadastro/contatosempcad.phtml:37
+msgid "CADASTRO EMPRESAS"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/despesasfiscais.phtml:21
+msgid "NCM"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/despesasfiscais.phtml:22
+msgid "CFOP"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/despesasfiscais.phtml:23
+msgid "CST"
+msgstr ""
+
+#: modules/admin/views/scripts/cadastro/produtosvis.phtml:19
+msgid "VISUALIZAR"
+msgstr "VIEW"
+
+#: modules/admin/views/scripts/cadastro/produtosvis.phtml:65
+msgid "VISUALIZAR PRODUTOS"
+msgstr "PRODUCT VIEW"
+
+#: modules/admin/views/scripts/cadastro/produtosvis.phtml:176
+msgid "Tipo"
+msgstr "Type"
+
+#: modules/admin/views/scripts/venda/garantias.phtml:17
+#: modules/admin/views/scripts/venda/garantiasanalise.phtml:33
+msgid "GARANTIAS"
+msgstr ""
+
+#: modules/admin/views/scripts/venda/garantiasanalise.phtml:227
+msgid "Mudar análise"
+msgstr "Analysis Change"
+
+#: modules/admin/views/scripts/venda/garantiasanalise.phtml:229
+msgid "Adicionar análise"
+msgstr "Add analysis"
+
+#: modules/admin/views/scripts/venda/dicasopdet.phtml:20
+msgid "DICAS"
+msgstr ""
+
+#: modules/admin/views/scripts/venda/dicasopdet.phtml:22
+msgid "DETALHA DICA"
+msgstr ""
+
+#: modules/admin/views/scripts/venda/ajusteprecos.phtml:7
+msgid "AJUSTE DE PREÇOS"
+msgstr "PRICE ADJUSTMENT"
+
+#: modules/admin/views/scripts/venda/ajusteprecos.phtml:35
+msgid "TODOS"
+msgstr "ALL"
+
+#: modules/admin/views/scripts/venda/ajusteprecos.phtml:120
+msgid "PREÇO ATUAL"
+msgstr "CURRENT PRICE"
+
+#: modules/admin/views/scripts/venda/ajusteprecos.phtml:123
+msgid "NOVO PREÇO"
+msgstr "NEW PRICE"
+
+#: modules/admin/views/scripts/venda/ajusteprecos.phtml:126
+msgid "PERCENTUAL"
+msgstr "PERCENTAGE"
+
+#: modules/admin/views/scripts/venda/ajusteprecos.phtml:129
+msgid "DT AJUSTE"
+msgstr "ADJUST DATE"
+
+#: modules/admin/views/scripts/venda/ajusteprecos.phtml:132
+msgid "DT CADASTRO"
+msgstr "REGISTER DATE"
+
+#: modules/admin/views/scripts/venda/ajusteprecos.phtml:135
+msgid "USUÁRIO"
+msgstr "USER"
+
+#: modules/admin/views/scripts/venda/analiseopcad.phtml:14
+msgid "ANÁLISES"
+msgstr ""
+
+#: modules/admin/views/scripts/venda/analiseopcad.phtml:16
+msgid "NOVA ANÁLISE"
+msgstr ""
+
+#: modules/admin/views/scripts/venda/dicasopcad.phtml:109
+msgid "NOVA DICA"
+msgstr ""
+
+#: modules/admin/views/scripts/venda/ajusteprecosprod.phtml:9
+msgid "ENVIADOS"
+msgstr "SENT"
+
+#: modules/admin/views/scripts/venda/garantiasnovo.phtml:17
+msgid "NOVA GARANTIA"
+msgstr ""
+
+#: modules/admin/views/scripts/venda/ajusteprecosenviados.phtml:31
+msgid "FUNC"
+msgstr "WORKER"
+
+#: modules/admin/views/scripts/venda/ajusteprecosenviados.phtml:34
+msgid "GER"
+msgstr "MANAGER"
+
+#: modules/admin/views/scripts/venda/ajusteprecosenviados.phtml:37
+msgid "REP"
+msgstr "SELLER"
+
+#: modules/admin/views/scripts/venda/ajusteprecosenviados.phtml:40
+msgid "CLI"
+msgstr "CLIENT"
+
+#: modules/admin/views/scripts/outros/cartoesgrupos.phtml:18
+#: modules/admin/views/scripts/outros/cartoesgrupos.phtml:29
+#: modules/admin/views/scripts/outros/cartoesgrupos.phtml:64
+#, fuzzy
+msgid "GRUPOS"
+msgstr "GROUP"
+
+#: modules/admin/views/scripts/outros/cartoescontatovis.phtml:12
+msgid "VISUALIZAR CONTATOS"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatovis.phtml:43
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:45
+msgid "Empresa"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatovis.phtml:47
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:49
+msgid "Nome Contato"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatovis.phtml:54
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:56
+msgid "Pais"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatovis.phtml:71
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:82
+msgid "Cidade"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatovis.phtml:90
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:103
+msgid "E-mail"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatovis.phtml:94
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:107
+msgid "Sítio"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatovis.phtml:107
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:120
+msgid "TELEFONES"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatovis.phtml:131
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:166
+msgid "Número"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:14
+msgid "CONTATOS NOVO"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:24
+msgid "NOVO CONTATO"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:132
+msgid "Adcionar telefones"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:159
+msgid "Comercial"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:160
+msgid "Pessoal"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:161
+msgid "Celular"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontatonovo.phtml:162
+msgid "Fax"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontato.phtml:91
+msgid "Por Contato"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontato.phtml:92
+msgid "Por Empresa"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontato.phtml:93
+msgid "Por Cidade"
+msgstr ""
+
+#: modules/admin/views/scripts/outros/cartoescontato.phtml:208
+msgid "Nenhum contato encontrado!"
+msgstr ""
+
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:17
+msgid "PRODUTOS PEDIDOS"
+msgstr ""
+
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:18
+msgid "REGRAS DE PEDIDOS"
+msgstr "ROLES"
+
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:66
+msgid "Por Situação"
+msgstr "For Situation"
+
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:82
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:157
+#, fuzzy
+msgid "PEDIDO"
+msgstr "NEW ORDER"
+
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:83
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:163
+#, fuzzy
+msgid "FINALIZADO"
+msgstr "FINISHED"
+
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:84
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:159
+msgid "CANCELADO"
+msgstr ""
+
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:90
+msgid "&agrave;"
+msgstr ""
+
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:119
+#, fuzzy
+msgid "DATA VENDA"
+msgstr "Sales Date"
+
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:128
+msgid "OP&Ccedil;&Otilde;ES"
+msgstr ""
+
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:161
+msgid "REGISTERED"
+msgstr ""
+
+#: modules/admin/views/scripts/kang/pedidoscompra.phtml:201
+msgid "Nenhum Pedido Encontrado"
+msgstr ""
+
+#: modules/default/views/scripts/multimidia/noticias.phtml:4
+msgid "NOTÍCIAS"
+msgstr ""
+
+#: modules/default/views/scripts/multimidia/noticias.phtml:54
+msgid "Mais notícias"
+msgstr ""
+
+#: modules/default/views/scripts/multimidia/videos.phtml:4
+msgid "VIDEOS"
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:13
+msgid "Rolamento"
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:18
+msgid "Dicas de montagem"
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:25
+msgid "Cubo de roda"
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:43
+msgid "Ponta de eixo"
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:54
+msgid "Trasmissão"
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:55
+msgid "A linha de transmissão ZTL é composta por junta homocinética fixas e kits de reparos de juntas"
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:56
+msgid "Produto de fácil instalação e de fabricação robusta e que respeita o meio ambiente sendo armazenado "
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:44
+msgid "Fabricada em aço forjado as pontas de eixo ZTL garante qualidade e as especificações exigidas para uma perfeita "
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:31
+msgid "O Cubo de roda é a peça responsável por ser o alojamento do rolamento de roda e transição de torque é considerada "
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:29
+msgid "Com departamento de engenharia no Brasil e na China a ZTL dispõem de uma grande facilidade no desenvolvimento de produtos, "
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:26
+msgid "A ZTL Brasil disponibiliza para o mercado brasileiro uma vasta linha de cubos de roda de primeira, "
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:16
+msgid "Fabricado em linhas de produção extremamente modernas e totalmente automatizadas garantem produtos de altíssima "
+msgstr ""
+
+#: modules/default/views/scripts/produtos/index.phtml:14
+msgid "ZTL Brasil depõem de uma grande linha de rolamentos automotivos. Esta variedade de itens aplicados em veículos leves "
+msgstr ""
+
+#: modules/default/views/scripts/catalogo/index.phtml:6
+msgid "ZTL Brasil - Catálogo Completo"
+msgstr "ZTL Brasil - Full Catalogue"
+
+#: modules/default/views/scripts/catalogo/index.phtml:69
+msgid "Código ZTL"
+msgstr "Code ZTL"
+
+#: modules/default/views/scripts/catalogo/index.phtml:93
+#, fuzzy
+msgid "Grupos"
+msgstr "Group"
+
+#: modules/default/views/scripts/catalogo/index.phtml:172
+msgid "Modelo"
+msgstr ""
+
+#: modules/default/views/scripts/catalogo/index.phtml:175
+msgid "Ano"
+msgstr "YerYear"
+
+#: modules/default/views/scripts/catalogo/index.phtml:217
+#: modules/default/views/scripts/catalogo/index.phtml:218
+#: modules/default/views/scripts/catalogo/index.phtml:219
+#: modules/default/views/scripts/catalogo/index.phtml:224
+#: modules/default/views/scripts/catalogo/index.phtml:225
+#: modules/default/views/scripts/catalogo/index.phtml:226
+#: modules/default/views/scripts/catalogo/index.phtml:231
+#: modules/default/views/scripts/catalogo/index.phtml:232
+#: modules/default/views/scripts/catalogo/index.phtml:233
+msgid "mm"
+msgstr ""
+
+#: modules/default/views/scripts/catalogo/index.phtml:234
+msgid "Furos"
+msgstr ""
+
+#: modules/default/views/scripts/index/index.phtml:96
+msgid "Receba novidades e lançamentos"
+msgstr ""
+
+#: modules/default/views/scripts/index/index.phtml:112
+msgid "E-mail já cadastrado em nossa base de dados!"
+msgstr ""
+
+#: modules/default/views/scripts/index/index.phtml:113
+msgid "E-mail atualizado com sucesso!"
+msgstr ""
+
+#: modules/default/views/scripts/index/index.phtml:114
+msgid "E-mail cadastrado com sucesso!"
+msgstr ""
+
+#: modules/default/views/scripts/montagem/index.phtml:4
+msgid "DICAS DE MONTAGEM"
+msgstr ""
+
+#: modules/default/views/scripts/montagem/index.phtml:11
+msgid "ORIENTAÇÃO DE MONTAGEM DE ROLAMENTO DO SEMI EIXO LINHA FIAT - 110165"
+msgstr ""
+
+#: modules/default/views/scripts/contato/representantes.phtml:12
+msgid "REPRESENTANTES"
+msgstr ""
+
+#: modules/default/views/scripts/contato/representantes.phtml:61
+msgid "Para visualizar os representantes, clique no estado desejado"
+msgstr ""
+
+#: modules/default/views/scripts/contato/localizacao.phtml:4
+msgid "LOCALIZAÇÃO"
+msgstr ""
+
+#: modules/default/views/scripts/contato/buscarepresentantes.phtml:25
+msgid "Telefone"
+msgstr ""
+
+#: modules/default/views/scripts/contato/buscarepresentantes.phtml:31
+msgid "Nextel"
+msgstr ""
+
+#: modules/default/views/scripts/contato/buscarepresentantes.phtml:42
+msgid "Sem representantes neste estado"
+msgstr ""
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:7
+msgid "ATENDIMENTOS ON-LINE"
+msgstr ""
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:16
+msgid "Atendimento"
+msgstr ""
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:24
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:48
+#, fuzzy
+msgid "Faturamento"
+msgstr "Invoice"
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:32
+msgid "Engenharia"
+msgstr ""
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:36
+msgid "Informática"
+msgstr ""
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:70
+#: modules/default/views/scripts/contato/faleconosco.phtml:79
+#: modules/default/views/scripts/contato/faleconosco.phtml:111
+msgid "Fone"
+msgstr ""
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:74
+msgid "mapa"
+msgstr ""
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:86
+msgid "Assistência Técnica"
+msgstr ""
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:92
+msgid "Envie-nos uma mensagem"
+msgstr ""
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:101
+msgid "Nome"
+msgstr ""
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:117
+msgid "Mensagem"
+msgstr ""
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:119
+msgid "Campos obrigatórios"
+msgstr ""
+
+#: modules/default/views/scripts/contato/faleconosco.phtml:129
+msgid "Caracters digitados não confere!"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:4
+msgid "EQUIPE ZTL"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:32
+msgid "Diretor Geral"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:38
+msgid "Gerente Operacional"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:42
+msgid "Supervisor Nacional de Vendas"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:52
+#, fuzzy
+msgid "Vendedor"
+msgstr "Sales"
+
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:58
+#, fuzzy
+msgid "Vendedora"
+msgstr "Sales"
+
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:62
+msgid "Engenheiro"
+msgstr "Enginer"
+
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:68
+#, fuzzy
+msgid "Promotora"
+msgstr "Promotion"
+
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:72
+msgid "Secretária"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:78
+msgid "Marketing"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:82
+msgid "Gerente Regional SP"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/equipeztl.phtml:16
+msgid "Por trás de toda grande empresa sempre existirá uma grande equipe que faz a diferença. "
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/oquefazemos.phtml:4
+msgid "NOSSA HISTÓRIA"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/oquefazemos.phtml:12
+msgid "A ZTL Brasil, como o nome sugere, é uma empresa de capital BRASILEIRO, com atuação em diversos países. Apesar de iniciarmos nossas atividades em 1995, no ano de 2005 que a divisão rolamentos começou a operar. Em 2005 nosso portfólio, possuía apenas 08 itens; hoje são mais de 500 itens, com diversas características técnicas"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/oquefazemos.phtml:17
+msgid "O QUE FAZEMOS"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/oquefazemos.phtml:23
+msgid "A ZTL Brasil se especializou inicialmente em rolamentos, devido à demanda e para satisfazer ainda mais as necessidades do mercado de reposição, começamos então a trabalhar com a linha de Cubo de Roda, hoje além dessas linhas trabalhamos com Atuadores Hidráulicos de Embreagem, Tensionadores e Polias e Juntas Homocinéticas. Para saber detalhes de cada ítem, consulte toda linha de produtos ZTL clicando"
+msgstr ""
+
+#: modules/default/views/scripts/quemsomos/oquefazemos.phtml:23
+msgid "aqui"
+msgstr ""
+
+#: layouts/sitetopo.phtml:20
+msgid "acesso restrito"
+msgstr ""
+
+#: layouts/sitetopo.phtml:24
+msgid "Acesso Restrito"
+msgstr ""
+
+#: layouts/sitetopo.phtml:30
+msgid "Esqueci minha senha"
+msgstr ""
+
+#: layouts/sitetopo.phtml:31
+msgid "Entrar"
+msgstr ""
+
+#: layouts/sitetopo.phtml:35
+#, fuzzy
+msgid "Recuperar senha"
+msgstr "Change Password"
+
+#: layouts/sitetopo.phtml:40
+msgid "Enviar senha"
+msgstr "Send password"
+
+#: layouts/sitetopo.phtml:98
+msgid "MULTIMÍDIA"
+msgstr ""
+
+#: layouts/sitetopo.phtml:116
+msgid "DOWNLOAD"
+msgstr ""
+
+#: layouts/sitetopo.phtml:156
+msgid "QUEM SOMOS"
+msgstr ""
+
+#: layouts/siterodape.phtml:9
+msgid "Sobre a Ztl"
+msgstr ""
+
+#: layouts/siterodape.phtml:12
+msgid "O que Fazemos"
+msgstr ""
+
+#: layouts/siterodape.phtml:15
+msgid "Como nos encontrar"
+msgstr ""
+
+#: layouts/siterodape.phtml:18
+msgid "Representantes"
+msgstr ""
+
+#: layouts/siterodape.phtml:21
+msgid "Fale Conosco"
+msgstr ""
+
+#: layouts/siterodape.phtml:24
+msgid "Equipe ZTL"
+msgstr ""
+
+#: layouts/siterodape.phtml:35
+msgid "Catálogo online"
+msgstr "Online Catalogue"
+
+#: layouts/siterodape.phtml:38
+msgid "Linha de produtos"
+msgstr "Products Line"
+
+#: layouts/siterodape.phtml:55
+msgid "Multimídia"
+msgstr ""
+
+#: layouts/siterodape.phtml:58
+msgid "Vídeos"
+msgstr ""
+
+#: layouts/siterodape.phtml:61
+msgid "Notícias"
+msgstr ""
+
+#: layouts/siterodape.phtml:79
+msgid "Downloads"
+msgstr ""
+
+#: layouts/siterodape.phtml:82
+msgid "Catálogo (pdf)"
+msgstr "Catalogue (pdf)"
+
+#: layouts/siterodape.phtml:85
+msgid "Manual da Logo"
+msgstr ""
+
+#: layouts/siterodape.phtml:102
+msgid "Todos os direitos reservados - ZTL do Brasil Importação Exportação &amp; Comércio Ltda"
+msgstr ""
+
+#~ msgid "BANCOS"
+#~ msgstr "Banks"
+
+#~ msgid "PLANO CONTAS"
+#~ msgstr "ACCOUNT PLAN"
+
+#~ msgid "Pagar"
+#~ msgstr "Pay"
+
+#~ msgid "Receber"
+#~ msgstr "Receive"
+
+#~ msgid "Contas bancárias"
+#~ msgstr "Bank Account"
+
+#~ msgid "Retorno"
+#~ msgstr "Rebate"
+
+#~ msgid "Validação"
+#~ msgstr "Validate"
+
+#~ msgid "Pagamentos pendentes"
+#~ msgstr "Waiting payments"
+
+#~ msgid "Retornos Cadastrados"
+#~ msgstr "Rebates - Registered"
+
+#~ msgid "Retornos finalizados"
+#~ msgstr "Rebates - Finished"
+
+#~ msgid "Invoice"
+#~ msgstr "invoice"
+
+#~ msgid "Sel"
+#~ msgstr "Sel"
+
+#~ msgid "Opções"
+#~ msgstr "Options"
+
+#~ msgid "REF CRUZADA"
+#~ msgstr "CROSS REFERENCE"
+
+#~ msgid "Projeto fonte"
+#~ msgstr "Source project"
+
+#~ msgid "Projeto"
+#~ msgstr "Project"
+
+#~ msgid "Remover Projeto"
+#~ msgstr "Remove Project"
+
+#~ msgid "Projeto leitura"
+#~ msgstr "Reading project"
+
+#~ msgid "Projeto em PDF"
+#~ msgstr "PDF Project"
+
+#~ msgid "não"
+#~ msgstr "no"

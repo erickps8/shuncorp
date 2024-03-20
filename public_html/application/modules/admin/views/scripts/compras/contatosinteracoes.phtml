@@ -1,0 +1,157 @@
+<!-- Content -->
+    <div class="content">   
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoquegrupo/fil/comp">Estoque</a></li>
+                	<li class="lastB">Ajustes</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Ajustes do estoque</h5></div>
+        
+        <div class="widgets" >
+        	<!-- Busca -->
+        	<div style="margin-top: 5px; margin-bottom: 5px">
+        	<?php if($this->objIns==true):?>
+	    	<input type="button" class="basicBtn" onclick="window.location='<?=$this->baseUrl();?>/admin/compras/ajustenovo';" value="Novo Ajuste">
+	    	<?php endif;?>
+	    	</div>
+        	
+        	<div >    
+        	<form action="<?=$this->baseUrl()?>/admin/compras/ajustestoque" method="post" name="busca" id="busca"  class="mainForm" >
+				<table style="border: 1px solid #d5d5d5; " id="tabela">
+				    <tr>
+				    	<td align="left" width="30%" style="padding: 10px">
+				    		<div class="styled-select" style="width: 130px">
+					    	<select name="tipo" onchange="tipoPesquisa(this.value);" style="width: 152px">
+							<option value="2">Por per&iacute;odo</option>
+							<option value="1">Por ID</option>
+							</select>
+							</div>    
+				    	</td>
+				    	
+				    	<td align="left">	    	
+							<div style="display: none;" id="buscid">
+								<input type="text" size="10" name="buscaid" id="buscaid" style="width: 150px">
+								<input type="submit" value="Pesquisar" class="blueBtn">
+							</div>
+							<div style="display: block" id="data">
+								<input type="text" size="10" name="dataini" id="dataini" style="width: 70px" class="data datepicker">
+								&agrave; <input type="text" size="10" name="datafin" id="datafin" style="width: 70px" class="data datepicker">
+								<input type="submit" value="Pesquisar" class="blueBtn">
+							</div>
+							
+				    	</td>
+					</tr>
+				</table>          
+	        </form>
+			</div>
+		</div>
+	    	   
+		
+		<?php 
+        if ( count($this->objList) > 0) :
+		?>
+		<div class="widget">
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="">Id</td>
+                        <td width="15%">Data</td>
+                        <td width="30%%">Usuário</td>
+                        <td width="15%">Situação</td>
+                        <td width="15%">Opções</td>
+                    </tr>
+                </thead>
+                <tbody>
+				<?php 
+		    	foreach($this->objList as $lista):
+		    	?>
+				<tr >
+	                <td style="text-align: center;" >
+	                   <?php echo "A".substr("000000".$lista->id,-6,6);?>
+	                </td>
+	                <td style="text-align: center;" >
+	                   <?php echo $lista->data;?>                  
+	                </td>
+	                <td align="left" >
+	                   <?php echo ($lista->nome)?>                  
+	                </td>
+	                <td style="text-align: center;" >
+	                   <? 
+	                   if($lista->sit==1) echo "CONCLUIDO"; 
+	                   elseif($lista->sit==2) echo "AG. AUTORIZAÇÃO";
+	                   else echo "CANCELADO";?>                  
+	                </td>
+	                <td style="text-align: center;" >
+	                	<a href="<?php echo $this->baseUrl(); ?>/admin/compras/ajusteprod/ajuste/<?=md5($lista->id)?>" ><img src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" border="0" title="Visualizar"></a> &nbsp; 
+	                	<a target="_blank" href="<?php echo $this->baseUrl(); ?>/admin/compras/ajusteprodimp/ajuste/<?php echo md5($lista->id)?>"><img src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/printer.png" width="16" border="0" title="Imprimir"></a> &nbsp; 
+	                    <?php if (($lista->sit == true) and ($this->objEdi==true)){ ?>
+		                <a href="#" onclick="if(confirm('Remover ajuste?')){ window.location='<?php echo $this->baseUrl(); ?>/admin/compras/ajusterem/ajuste/<?=md5($lista->id)?>/sit/<?=$lista->sit?>';};" ><img src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/close.png" width="16"  border="0" title="Remover"></a>
+		                <?php } ?>
+	                </td>
+	                
+	            </tr>
+	            
+				<?php  endforeach; ?>
+                </tbody>
+            </table>            
+        </div>
+        <div style="margin-top: 20px">
+			<?php 
+			if ( count($this->objList) > 0) :
+				echo $this->objList;
+			endif;
+		    ?>
+		</div>
+		<?php 
+		else :
+		?>
+		<div class="widget first">
+ 			Nenhum ajuste encontrado
+		</div>	
+		<?php 
+		endif;
+		?>
+	</div>
+	
+
+
+<script type="text/javascript">
+function mostrarPesquisa(){
+    nTr = document.getElementById("tabela");
+    if(nTr.style.display == "none"){
+        nTr.style.display = "block"
+    }else{
+        nTr.style.display = "none";
+    }
+}
+
+function mostrarTajuste(){
+    nTr = document.getElementById("tabelajust");
+    if(nTr.style.display == "none"){
+        nTr.style.display = "block"
+    }else{
+        nTr.style.display = "none";
+    }
+}
+
+function tipoPesquisa(valor){
+
+	if(valor==1){
+		document.getElementById("buscid").style.display = "block";
+		document.getElementById("data").style.display = "none";
+		document.getElementById("dataini").value = "";
+		document.getElementById("datafin").value = "";
+	}else{
+		document.getElementById("baucaid").value = "";
+		document.getElementById("data").style.display = "block";
+		document.getElementById("buscid").style.display = "none";		
+	}
+    
+}
+</script>

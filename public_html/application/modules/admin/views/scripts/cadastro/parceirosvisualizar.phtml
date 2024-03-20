@@ -1,0 +1,718 @@
+<script src="<?php echo $this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxprodutoscomp2.js"></script>
+<?php
+
+
+//Pegando o navegar e sua versão.
+
+if ( strpos($_SERVER['HTTP_USER_AGENT'], 'Gecko') )
+{
+   if ( strpos($_SERVER['HTTP_USER_AGENT'], 'Netscape') )
+   {
+     $browser = 'Netscape (Gecko/Netscape)';
+   }
+   else if ( strpos($_SERVER['HTTP_USER_AGENT'], 'Firefox') )
+   {
+     $browser = 1;//'Mozilla Firefox (Gecko/Firefox)';
+   }
+   else
+   {
+     $browser = 'Mozilla (Gecko/Mozilla)';
+   }
+}
+else if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') )
+{
+   if ( strpos($_SERVER['HTTP_USER_AGENT'], 'Opera') )
+   {
+     $browser = 'Opera (MSIE/Opera/Compatible)';
+   }
+   else
+   {
+     $browser = 2;//'Internet Explorer (MSIE/Compatible)';
+   }
+}
+else
+{
+   $browser = 'Others browsers';
+}
+
+// Gravando
+
+if ($browser!=2){
+	?>
+	<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/cantosredondos.js"></script>
+      <script type="text/javascript">
+		    DD_roundies.addRule('.TabbedPanelsTab', '5px 5px 0 0', true);
+	  </script>
+	<?php 
+}
+
+
+?>
+	  	<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/javascript/abas.js"></script>
+      	<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/css/abas.css" />
+		
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl()?>/admin/painel">HOME</a>&nbsp; 
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/cadastro/parceiroslista">PARCEIROS</a>&nbsp;
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" /> &nbsp;<b>VISUALIZAR</b> 
+	</div>
+	<div id="sistitulo">VIZUALIZAR PARCEIROS</div>
+    <div id="sisconteudo">  
+		
+		<?php if(!empty($this->objParceiro)) foreach ($this->objParceiro as $parc); ?>
+		<div id="TabbedPanels1" class="TabbedPanels">
+	            <ul class="TabbedPanelsTabGroup">
+	              <li class="TabbedPanelsTab" >PRINCIPAL</li>
+	              <li class="TabbedPanelsTab" >INFO ADMINISTRATIVAS</li>
+	              <li class="TabbedPanelsTab" >ENTREGA/COBRAN&Ccedil;AS</li>
+	              <li class="TabbedPanelsTab" >OBSERVA&Ccedil;&Otilde;ES</li>
+	              <li class="TabbedPanelsTab" onclick="MostraOpcaobprodcomp(<?php echo $parc->ID;?>);">GER VENDAS</li>
+	            </ul>
+	            <div class="TabbedPanelsContentGroup">
+	              <div class="TabbedPanelsContent">
+	              <table cellpadding="10" cellspacing="" width="100%">
+						<tr>
+							<td colspan="2" align="left">
+							<table>
+							<tr>
+								<td align="left" width="200px">
+									CPF / CNPJ: <br>
+								  	<b><?php echo $parc->CPF_CNPJ;?></b>
+								</td>
+								<td align="left">
+									RG / INSC:<br>
+									<b><?php echo $parc->RG_INSC?> </b>
+								</td>
+							</tr>
+							</table>
+							</td>
+					  		
+					 	</tr>
+                        
+                        
+						<tr>
+							<td align="left" width="60%">
+								Nome Fantasia: <br>
+								<b><?php echo $parc->EMPRESA?></b> <br><br>
+								Razao Social: <br>
+								<b><?php echo $parc->RAZAO_SOCIAL?></b>
+                                <br/><br/>Track Code:<br/>
+                                <b><?php echo $parc->track_code?></b>
+							</td>
+                            <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="5" style="border: 1px solid #999">
+                              <tr>
+                                <td align="right" width="60%">Agentes Supervisor: </td>
+                                <td><b><?php echo $parc->nu_agente_1?></b></td>
+                              </tr>
+                              <tr>
+                                <td align="right">Agente Externo: </td>
+                                <td><b><?php echo $parc->nu_agente_2?></b></td>
+                              </tr>
+                              <tr>
+                                <td align="right">Agente Televendas: </td>
+                                <td><b><?php echo $parc->nu_agente_3?></b></td>
+                              </tr>
+                              <tr>
+                                <td align="right">Total de Agentes: </td>
+                                <td><b><span id="agenteTotal"></span></b></td>
+                              </tr>
+                            </table></td>
+						</tr>
+                        <tr>
+                            <td align="left" colspan="2">
+                                Site:<br/>
+                                <b><?php echo $parc->site?></b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" colspan="2">
+                                Nome chin&ecirc;s:<br/>
+                                <?php if(!empty($this->objChina)) foreach ($this->objChina as $China)?>
+                                <b><?php echo $China->nome?></b>
+                            </td>
+                        </tr>
+					</table>
+
+	              </div>
+	              <div class="TabbedPanelsContent" >
+	                  	<table width="100%" cellpadding="10" border=0>
+	                  	<tr>
+							<td valign="top" align="left">
+							Despesas fiscais: <br ><b>
+						  	<?php 
+						  	if(!empty($this->objTributos)):
+							  	foreach ($this->objTributos as $listTributos): 
+							  		 if($parc->id_despesasfiscais==$listTributos->id){ echo $listTributos->descricao; }
+								endforeach;
+						    endif; ?></b>
+							</td>
+                        </tr>
+						<tr>
+							<td width="44%" valign="top" align="left">
+								Regi&atilde;o: 
+								<?php foreach ($this->objRegioes as $listR){ ?>
+									<b><?php if($parc->ID_REGIOES==$listR->ID){ echo ($listR->NOME); } ?></b>
+								<?php } ?>
+                        	</td>
+                        </tr>
+                        <tr>
+							<td align="left">
+								<?php $tipo = explode(",",$parc->TIPO)?>
+								<table>
+								<tr><td width="55%" align="left">
+									Tipo Parceiro: <br><b>
+									<? 
+									if(in_array('alvo',$tipo)): ?>Alvo<?  
+									elseif(in_array('inativo',$tipo)): ?>Inativo<? 
+									else: ?>Parceiro<? 
+									endif;
+									if(in_array('fornecedor',$tipo)) echo " - Fornecedor";
+									if(in_array('clienteTrade',$tipo)) echo " - Cliente Shunkang";
+									?>
+									
+						 			</b>
+								</td>
+								</tr>
+				            	</table>
+				            </td>
+						</tr>
+						
+				
+						<tr id="tr_func" style="display: block">
+							<td  align="left">
+								Perfil:<br><b>
+								<?php 
+								foreach ($this->objPerfil as $listP){ 
+									if($parc->id_perfil==$listP->id){ echo strtoupper($listP->descricao); }
+								} ?></b>								
+							</td>
+						</tr>	
+                        
+                        <tr>
+							<td>
+								Linha de produtos:<br><b>
+								<?
+															
+								if(!empty($this->objGcli)):
+									foreach ($this->objGcli as $listgcli):
+										echo ($listgcli->grupo." >> ".$listgcli->subgrupo);
+										echo "<br>";
+									endforeach;
+								endif;		
+								?>
+								</b>
+							</td>	
+						</tr>
+                        <tr>
+							<td align="left">
+								Observa&ccedil;&atilde;o:<br>
+								<b><?php echo $parc->OBSERVACAO?></b>							
+							</td>
+						</tr>
+						
+                        
+                        </table>
+	              </div>
+	              
+	              
+	              <div class="TabbedPanelsContent" >
+	               
+					<table border="0" width="100%" cellpadding="0" cellspacing="14">
+						<tr >
+							<?php 
+							 if(!empty($this->objTelefones)){
+								$cont=0;
+								foreach ($this->objTelefones as $telCon):
+									$tel[$cont][tel] 	= $telCon->NUMERO;
+									$tel[$cont][ddi] 	= $telCon->DDI;
+									$tel[$cont][ddd] 	= $telCon->DDD;
+									$tel[$cont][next] 	= $telCon->NEXTEL;
+									$cont++;
+								endforeach;
+								
+							 }
+							?>
+							
+							
+							
+							<td colspan="3" align="left" class="borda_tcadastro">
+							<b>CONTATO</b>
+							</td>
+						</tr>
+						<tr>
+							<td align="left">
+								Telefone 1: <br><b>
+								<?php if($tel[0][ddi]=='') echo "+55"; else echo $tel[0][ddi];?>
+								<?php echo "(".$tel[0][ddd].") ".$tel[0][tel];?></b>
+								
+							</td>
+							<td align="left">	
+								Telefone 2: <br><b>
+								<?php if($tel[1][ddi]=='') echo "+55"; else echo $tel[1][ddi];?>
+								<?php echo "(".$tel[1][ddd].") ".$tel[1][tel];?></b>
+																
+							</td>
+							<td align="left">
+								Fax: <br><b>
+								<?php if($tel[2][ddi]=='') echo "+55"; else echo $tel[2][ddi];?>
+								<?php echo "(".$tel[2][ddd].") ".$tel[2][tel];?></b>
+																
+							</td>
+						</tr>
+						<tr>
+						  <td align="left">
+                            Nextel 1: <br>
+                            <b><?php echo $tel[0][next];?></b>
+                          </td>
+						  <td align="left">
+                            Nextel 2: <br>
+                            <b><?php echo $tel[1][next];?></b>
+                          </td>
+                          <td align="left" >
+                             
+                          </td>
+						</tr>
+						
+						<tr >
+							<td colspan="3" align="left" class="borda_tcadastro">
+							<br><br><b>ENDERE&Ccedil;O DE ENTREGA</b>
+							<?php 
+							 if(!empty($this->objEnd)){
+								$cont=0;
+								foreach ($this->objEnd as $endereco):
+									$end[$cont][log] 		= $endereco->LOGRADOURO;
+									$end[$cont][bairro] 	= $endereco->BAIRRO;
+									$end[$cont][cid] 		= $endereco->CIDADE;
+									$end[$cont][est] 		= $endereco->ESTADO;
+									$end[$cont][pais] 		= $endereco->PAIS;
+									$end[$cont][cep] 		= $endereco->CEP;
+									$end[$cont][idcidade] 	= $endereco->id_cidades;
+									$end[$cont][numero] 	= $endereco->numero;
+									$end[$cont][complemento]= $endereco->complemento;
+									$cont++;
+								endforeach;
+								
+							 }
+							?>
+							</td>
+						</tr>
+						
+						<tr>
+						<td colspan="4">
+							<table cellpadding="0" cellspacing="0" border="0" width="100%">
+								<tr>
+									<td  align="left"  width="20%">								
+										Pais:<br><b>
+										<?php 
+										foreach ($this->objPaises as $listpaises):
+											if($end[0][pais]==$listpaises->id) echo $listpaises->nome;
+										endforeach;
+										?>  </b>
+									</td>									
+									<td  align="left"  width="35%" >
+										Estado:<br><b>
+										<?php 
+										if(!empty($this->objUf)):
+											foreach ($this->objUf as $listuf):
+												if($end[0][est]==$listuf->id) echo $listuf->nome; 
+											endforeach;
+										endif;
+										?></b>
+									</td>
+									<td  align="left" colspan="2" >
+										Cidade:<br><b>
+										<?php 
+										if(!empty($this->objCidades)):
+											foreach ($this->objCidades as $listcidades):
+												if($end[0][idcidade]==$listcidades->id) echo $listcidades->nome;
+											endforeach;
+										endif;
+										?></b>
+									</td>										 
+								</tr>
+							
+								<tr>
+									<td  align="left"  width="40%">
+									Logradouro:<br>
+									<b><?php echo $end[0][log]?></b> 
+									</td>
+									<td  align="left" width="5%">
+									Nº:<br><b><?=$end[0][numero]?></b> 
+									</td>
+									<td  align="left">
+									Bairro:<br>
+									<b><?php echo $end[0][bairro]?></b>
+									</td>  
+									<td  align="left">
+									CEP:<br>
+										<b><?php echo $end[0][cep]?></b>  
+									</td>
+								</tr>
+								<tr>
+									<td  align="left" colspan="4">
+									Complemento: <br> <b><?php echo $end[0][complemento]?></b>
+									</td>								
+								</tr>
+								<tr >
+									<td colspan="4" align="left" class="borda_tcadastro">
+									<br><br><b>ENDERE&Ccedil;O DE COBRAN&Ccedil;A</b>
+									</td>
+								</tr>
+								<tr>
+									<td  align="left"  width="20%">								
+										Pais:<br><b>
+										<?php 
+										foreach ($this->objPaises as $listpaises):
+											if($end[1][pais]==$listpaises->id) echo $listpaises->nome;
+										endforeach;
+										?>  </b>
+									</td>									
+									<td  align="left"  width="35%" >
+										Estado:<br><b>
+										<?php 
+										if(!empty($this->objUf)):
+											foreach ($this->objUf as $listuf):
+												if($end[1][est]==$listuf->id) echo $listuf->nome; 
+											endforeach;
+										endif;
+										?></b>
+									</td>
+									<td  align="left" colspan="2" >
+										Cidade:<br><b>
+										<?php 
+										if(!empty($this->objCidades)):
+											foreach ($this->objCidades as $listcidades):
+												if($end[1][idcidade]==$listcidades->id) echo $listcidades->nome;
+											endforeach;
+										endif;
+										?></b>
+									</td>										 
+								</tr>
+							
+								<tr>
+									<td  align="left"  width="40%">
+									Logradouro:<br>
+									<b><?php echo $end[1][log]?></b> 
+									</td>
+									<td  align="left" width="5%">
+									Nº:<br><b><?=$end[1][numero]?></b> 
+									</td>
+									<td  align="left">
+									Bairro:<br>
+									<b><?php echo $end[1][bairro]?></b>
+									</td>  
+									<td  align="left">
+									CEP:<br>
+										<b><?php echo $end[1][cep]?></b>  
+									</td>
+								</tr>
+								<tr>
+									<td  align="left" colspan="4">
+									Complemento: <br> <b><?php echo $end[1][complemento]?></b>
+									</td>								
+								</tr>
+
+							<tr >
+								<td colspan="4" align="left" class="borda_tcadastro">
+								<br><br><b>ENDERE&Ccedil;O CHIN&Ecirc;S</b>
+								</td>
+							</tr>
+							<?php if(!empty($this->objEndchi)) foreach ($this->objEndchi as $endchi);?>
+							<tr>
+								<td  align="left" colspan="2">
+								Logradouro:<br>
+								<b><?php echo ($endchi->LOGRADOURO);?></b> 
+								</td>
+								
+								<td  align="left" >
+								Estado:<br><b>
+								<?php 
+								foreach ($this->objUfChina as $listU){ 
+									if($endchi->ESTADO==$listU->id)  echo ($listU->nome);
+								} 
+								?>
+								</b>
+								</td>
+								
+								<td  align="left">
+								CEP:<br>
+								<b><?php echo $endchi->CEP?></b>								
+							</tr>
+						</table>
+						</td>
+						</tr>
+						
+						<tr >
+							<td colspan="3" align="left" class="borda_tcadastro">
+							<br><br><b>CORREIO ELETR&Oacute;NICO</b>
+							</td>
+						</tr>
+						<?php 
+							 if(!empty($this->objEmail)){
+								
+								foreach ($this->objEmail as $email):
+									if($email->tipo==1):
+										$emailv[0][email] 		= $email->EMAIL;
+										$emailv[0][contato] 	= $email->NOME_CONTATO;
+									endif;
+									if($email->tipo==2):
+										$emailv[1][email] 		= $email->EMAIL;
+										$emailv[1][contato] 	= $email->NOME_CONTATO;
+									endif;
+									if($email->tipo==3):
+										$emailv[2][email] 		= $email->EMAIL;
+										$emailv[2][contato] 	= $email->NOME_CONTATO;
+									endif;
+									if($email->tipo==4):
+										$emailv[3][email] 		= $email->EMAIL;
+										$emailv[3][contato] 	= $email->NOME_CONTATO;
+									endif;
+									
+								endforeach;
+								
+							 }
+						?>
+						<tr>
+						<td colspan="3" align="left">
+						<table width="90%" cellspacing="7">
+							<tr>
+							<td width="55%">
+								Email Institucional:<br>
+								<b><?php echo $emailv[0][email]?></b>
+							</td>
+							<td align="left">
+								Contato:<br>
+								<b><?php echo $emailv[0][contato]?></b>
+							</td>
+							</tr>
+							<tr>
+							<td width="55%">
+								Email Compras:<br>
+								<b><?php echo $emailv[1][email]?></b>
+							</td>
+							<td align="left">
+								Contato:<br>
+								<b><?php echo $emailv[1][contato]?></b>
+							</td>
+							</tr>
+							<tr>
+							<td width="55%">
+								Email NFe:<br>
+								<b><?php echo $emailv[2][email]?></b>
+							</td>
+							<td align="left">
+								Contato:<br>
+								<b><?php echo $emailv[2][contato]?></b>
+							</td>
+							</tr>
+							<tr>
+							<td width="55%">
+								Email responsável garantia:<br>
+								<b><?php echo $emailv[3][email]?></b>
+							</td>
+							<td align="left">
+								Contato:<br>
+								<b><?php echo $emailv[3][contato]?></b>
+							</td>
+							</tr>
+							<tr>
+							<td width="55%">
+								Email Atividades:<br>
+								<b><?php echo $parc->atividades?></b>
+							</td>
+							<td align="left">
+								
+							</td>
+							</tr>	
+						
+						</table>
+						</td>
+						</tr>
+					</table>
+									
+
+	              </div>
+	              <div class="TabbedPanelsContent" >
+	              
+	              <?php if(!empty($this->objDesc)) foreach ($this->objDesc as $desc); ?>
+	                <table cellpadding="0" cellspacing="10" width="100%" border="0">
+						<tr>
+                            <td align="left" colspan="6">
+                                Transportadora:<br/>
+                                <b><?php 
+                                	foreach ($this->objTransport as $transport): 
+                                		if($transport->ID==$parc->id_transportadoras) echo $transport->EMPRESA;
+                                	endforeach;
+                                	?></b>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+							<td align="left" colspan="6">
+								Moeda de compra: <br><b>
+								<?php $moeda = $parc->moeda; 
+								if($moeda=="BRL") echo "BRL";
+								elseif($moeda=="USD") echo 'USD';
+								elseif($moeda=="RMB") echo 'RMB';
+								elseif($moeda=="EUR") echo 'EUR';
+								?></b>								
+								</td>
+						</tr>
+                        
+						<tr >
+							<td colspan="6" align="left" class="borda_tcadastro">
+							<br><br><b>DESCONTOS(%)</b>
+							</td>
+						</tr>
+						
+						<tr>
+							<td align="left">
+							1: <b><?php echo $desc->desc1?>%</b>
+							</td>
+							<td align="left">
+							2: <b><?php echo $desc->desc2?>%</b> 
+							</td>
+							<td  align="left">
+							3: <b><?php echo $desc->desc3?>%</b> 
+							</td>
+							<td align="left">
+							4: <b><?php echo $desc->desc4?>%</b>
+							</td>
+							<td align="left">
+							5: <b><?php echo $desc->desc5?>%</b>
+							</td>
+							<td width="30%">&nbsp;</td>
+					        </tr>
+						<tr >
+							<td colspan="6" align="left" class="borda_tcadastro">
+							<br><br><b>PRAZOS</b>
+							</td>
+						</tr>	
+						<tr>
+							<td align="left">
+							1: <b><?php echo $desc->prazo1?></b>
+							</td>
+							<td align="left">
+							2: <b><?php echo $desc->prazo2?></b>
+							</td>
+							<td align="left">
+							3: <b><?php echo $desc->prazo3?></b> 
+							</td>
+							<td align="left">
+							4: <b><?php echo $desc->prazo4?></b>
+							</td>
+							<td align="left">
+							5: <b><?php echo $desc->prazo5?></b>
+							</td>
+							<td width="30%">&nbsp;</td>
+					     </tr>
+						
+					    <tr >
+							<td colspan="6" align="left" class="borda_tcadastro">
+							<br><br><b>PROFORMA INSTRUCTION</b>
+							</td>
+						</tr>					
+					
+						<tr>
+							<td colspan="6"><br>
+							  <?php if(!empty($this->objinfkang)) foreach ($this->objinfkang as $info); ?>
+						       <table width="100%" style="border: 1px solid #000;" cellpadding="4"> 
+						            	
+						             <tr>
+							            <td align="left" width="20%">
+							            From: 
+							            </td>
+							            <td align="left" width="30%">
+							            <b><?php echo $info->from_c?></b> 
+							            </td>
+						                <td align="right" width="20%">
+							            To: 
+							            </td>
+							            <td align="left">
+							            <b><?php echo $info->to_c?></b> 
+							            </td>
+						            </tr>
+						             <tr>
+							            <td align="left" width="20%">
+							            Freight Terms: 
+							            </td>
+							            <td align="left" width="30%" colspan="3" >
+							            <b><?php echo $info->freight?></b> 
+							            </td>
+						                
+						            </tr>
+						            <tr>
+							            <td align="left" >
+							            Payment Terms: 
+							            </td>
+							            <td align="left"  colspan="3">
+							            <b><?php echo $info->payment?></b> 
+							            </td>
+						                
+						            </tr>
+						            <tr>
+							            <td align="left" >
+							            Shipment Agent: 
+							            </td>
+							            <td align="left"  colspan="3">
+							            <b><?php echo $info->agente_shipment?></b> 
+							            </td>
+						                
+						            </tr>
+						            <tr>
+							            
+						                <td align="left" colspan="4">
+						                Partial shipment accepted? &nbsp;<b>
+							            <?php echo $info->partial_shipment; ?>
+							            </b>
+							            </td>
+						            </tr>
+						           
+						        </table>
+							</td>
+				        </tr>
+				        </table>
+	              </div>
+	              <div class="TabbedPanelsContent" >
+	                <div id="divreccomp">
+	                	Aguarde...
+	                </div>
+	                <div style="padding: 10px 0px 10px 0px">
+	                	<a href="<?=$this->baseUrl()?>/admin/venda/listadepreco/sugestcomp/<?=md5($parc->ID)?>" target="_blank">Sugestão de venda</a>
+	                </div>
+	              </div>
+	         	</div>
+         	</div> 
+         	
+         	<div align="left"  >
+         	<?php 
+         	if ($this->objEdi==true){  ?>
+	            <input style="margin-top: 10px" type="button" value="Editar" onclick="window.location='<?php echo $this->baseUrl(); ?>/admin/cadastro/parceiros/idparceiro/<?php echo md5($parc->ID)?>'"> 
+            <?php  }  ?> 
+         	</div>
+         	
+         	</div>
+         	
+         	 
+	        <script type="text/javascript">
+	        <!--
+	        var TabbedPanels1 = new Spry.Widget.TabbedPanels("TabbedPanels1",0);
+
+	        
+			function mostarPainelpr(nTr){
+                nTr = document.getElementById(nTr);
+		        if(nTr.style.display=="none"){
+					nTr.style.display = "block";
+				}else{
+					   nTr.style.display = "none";
+				}
+		    }
+	        
+	        //-->
+	        </script>
+			
+</div>
+		
+	

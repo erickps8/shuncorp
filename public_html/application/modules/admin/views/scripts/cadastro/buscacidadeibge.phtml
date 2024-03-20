@@ -1,0 +1,29 @@
+<?php 
+if($this->tipo==1):
+?>
+Cidade:<br />
+<select name="cidade1" >
+<?php 
+foreach ($this->objCidades as $list):		
+	?>
+	<option value='<?=$list->id?>'><?=$list->nome?></option>
+	<?php 
+endforeach;
+?>
+</select>
+<?php 
+else:
+?>
+Cidade:<br />
+<select name="cidade2" >
+<?php 
+foreach ($this->objCidades as $list):		
+	?>
+	<option value='<?=$list->id?>'><?=$list->nome?></option>
+	<?php 
+endforeach;
+?>
+</select>
+<?php 
+endif;
+?>

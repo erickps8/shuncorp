@@ -1,0 +1,146 @@
+<?php 
+foreach ($this->objEntrada as $listent);
+?>
+
+
+<script type="text/javascript">
+
+jQuery(document).ready(function(){
+
+	document.getElementById('gravado').src = "<?=$this->baseUrl()?>/public/images/bow_verde.jpg";
+	
+	jQuery(function() {
+		jQuery("#contentLeft td").sortable({ opacity: 0.6, cursor: 'move', update: function() {
+			jQuery("#contentRight").html('<img alt="Gravado" src="<?=$this->baseUrl()?>/public/images/bow_vermelha.jpg" id="gravado" width="15px"> Salvando...');
+				
+			var order = jQuery(this).sortable("serialize") + '&action=updateRecordsListings'; 
+			jQuery.post("<?=$this->baseUrl()?>/admin/compras/gravaordemprodutos/entrada/<?=md5($listent->id)?>", order, function(theResponse){
+				window.location.reload();											
+			}); 															 
+		}								  
+		});
+	});
+
+});	
+</script>
+
+	<div class="content">   
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoqueresumo">Estoque</a></li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/entradaest">Entrada de produtos</a></li>
+                	<li class="lastB">E<?=substr("000000".$listent->id, -6,6);?></li>          
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>E<?=substr("000000".$listent->id, -6,6);?></h5></div>
+        
+		<div class="widget first">
+			<?php 
+			if(count($this->objProdncm)>0):
+			?>
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="">Adição</td>
+                        <td width="50%">NCM</td>                        
+                    </tr>
+                </thead>
+                <tbody>
+		   		<?php 
+	       		$cor = 0;
+	        	$verger = 0;
+	        	foreach ($this->objProdncm as $listancm):
+	        		$verif = 0;
+		        	if(!empty($this->objProddet)):
+			        	foreach ($this->objProddet as $listaprod):
+				        	if(!empty($listaprod->numsequencia) and ($listaprod->numadicao == $listancm->numadicao)):
+				        		$verif = 1;
+				        	endif;
+			        	endforeach;
+		        	endif;	        	
+	        		?>         		            
+					<tr >
+						<td  style="text-align: center;"  >
+							<?=$listancm->numadicao;?>
+		                </td>
+		                <td  style="text-align: center;" style="font-weight: bold;">
+		                	<span <?php if($this->objAdicao == $listancm->numadicao): ?>style="font-weight: bold;" <?php endif; ?>>
+		                    <a href="<?=$this->baseUrl()?>/admin/compras/entradaprodordem/entrada/<?=md5($listent->id)?>/adicao/<?=$listancm->numadicao?>" ><?=$listancm->ncm?></a>
+		                    </span>
+		                </td>		               	               	                              
+		            </tr>
+		        	<?php	 
+	        	endforeach;
+	        	?>
+	        	</tbody>     
+	     	</table>
+	     	<?php 
+	     	endif;
+	     	?>
+	    </div>
+	
+		<div id="contentRight" style="float: left; padding-top: 5px; padding-bottom: 5px">
+			<img alt="Gravado" src="<?=$this->baseUrl()?>/public/images/bow_vermelha.jpg" id="gravado" width="15px">
+		</div>
+	
+		<?php 
+		 if(!empty($this->objProdutos)):
+		 ?>
+		<div class="widget">
+		 	<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="">Ordem</td>
+                        <td width="20%">Código</td>
+                        <td width="60%">Descrição</td>                        
+                    </tr>
+                </thead>
+                <tbody>  
+	    	</table>
+	    </div>
+	    
+	    <div class="widget" id="contentLeft" style="margin-top: 0px">
+			<table style="width: 100%; border-spacing: 0px; " >
+				<tr>
+					<td>
+				    <?php 	        	
+			        	$cor = 0;
+			        	foreach ($this->objProdutos as $listaprod):
+			        		$cor++;
+				            if(($cor%2)==0) $class = 'td_orc_par';
+				            else $class = 'td_orc';
+				            ?>
+				            <table class="tableStatic" style="margin-top: 6px; width: 100%" id="recordsArray_<?=$listaprod->ID?>" >        		            
+							<tr >
+								<td  style="text-align: center;" >
+				                	<?=$listaprod->numsequencia?>
+				                </td>
+								<td  style="text-align: center;" width="20%" >
+									<?=$listaprod->CODIGO?>
+				                </td>
+				                <td  style="text-align: left;" width="60%">
+				                   <?=$listaprod->DESCRICAO?>   
+				                </td>                             
+				            </tr>
+				            </table>
+				        	<?php	
+			        	endforeach;	        
+			     	?>     
+		     		</td>
+		    	 </tr>
+		     </table>	     
+	     </div>
+	     <?php 
+	endif;
+	?>
+	<?php if($this->objEdi==true and $verger==0):?>
+	    <div style="margin-top: 10px; ">
+	    	<input value="Salvar" class="greenBtn" type="button" onclick="window.location='<?=$this->baseUrl()?>/admin/compras/entradaprod/entrada/<?=md5($listent->id)?>'">
+	    </div>
+    <?php endif; ?>
+</div>    

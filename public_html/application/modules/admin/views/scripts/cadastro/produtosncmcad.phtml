@@ -1,0 +1,128 @@
+<?php 
+if(count($this->objList)>0) foreach ($this->objList as $list); ?>
+
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/cadastro/despesasfiscais">Despesas fiscais</a></li>
+                	<li ><a href="<?=$this->baseUrl(); ?>/admin/cadastro/produtosncm">NCM de Compra</a></li>
+                	<li class="lastB">Cadastro NCM</li>
+                </ul>
+            </div>
+        </div>       
+
+        <div class="title">
+        	<h5>
+        	<?php if(count($this->objList)>0) echo $list->ncm." ".$list->ncmex; else echo "Cadastro NCM"; ?>
+        	</h5>
+        </div>  
+        
+        <div class="widgets">
+			<div class="widget" style="border-top: 1px solid #d5d5d5; margin-top: 10px">       
+				<form action="<?=$this->baseUrl(); ?>/admin/cadastro/gravaprodutosncm" method="post" name="grava" id="grava" class="mainForm">
+					<table style="margin-top: 5px; width: 100%">
+					    <tr>
+					    	<td align="left" colspan="4" style="padding: 10px">
+					    		Classificação Fiscal: <br>
+					    		<input value="<?php if(isset($list->ncm)) echo $list->ncm?>" type="text" name="ncm" class="ncm" style="width: 100px">
+					            <input value="<?php if(isset($list->ncmex)) echo $list->ncmex?>" type="text" maxlength="5" name="ncmex" style="text-transform: uppercase; width: 30px">
+					              	
+						    	<input value="<?php if(isset($list->idncm)) echo $list->idncm?>" type="hidden" name="idncm" id="idncm" >
+					    	</td>
+						</tr>
+						<tr>
+							<td align="left" style="padding: 10px">
+								<div class="left" style="width: 70px">
+									ICMS(%): <br>
+						    		<input value="<?php if(isset($list->ii)) echo number_format($list->icms,3,",",".")?>" type="text" name="icms" class="moedatres" style="width: 60px">
+								</div>
+							 	<div class="left" style="width: 70px">
+						    		II(%): <br>
+						    		<input value="<?php if(isset($list->ii)) echo number_format($list->ii,3,",",".")?>" type="text" name="ii" class="moedatres" style="width: 60px">
+						    	</div>
+						    	<div class="left" style="width: 70px">
+						    		IPI(%): <br>
+						    		<input value="<?php if(isset($list->ipi)) echo number_format($list->ipi,3,",",".")?>" type="text" name="ipi" class="moedatres" style="width: 60px">
+						    	</div>
+						    	<div class="left" style="width: 70px">
+						    		PIS(%): <br>
+						    		<input value="<?php if(isset($list->pis)) echo number_format($list->pis,3,",",".")?>" type="text" name="pis" class="moedatres" style="width: 60px">
+						    	</div>
+						    	<div class="left" style="width: 70px">
+						    		COFINS(%): <br>
+						    		<input value="<?php if(isset($list->cofins)) echo number_format($list->cofins,3,",",".")?>" type="text" name="cofins" class="moedatres" style="width: 60px">
+						    	</div>
+					    	</td>
+						</tr>
+						<tr>
+					    	<td align="left" colspan="4" style="padding: 10px">
+		    					CST ICMS<br />
+		    					<div class="styled-select" style="width: 500px">
+		    					<select style="width: 522px" name="csticms">
+		    						<?php foreach ($this->objCsticms as $csticms): ?>
+		    						<option value="<?=$csticms->id?>" <?php if(isset($list) and $csticms->id == $list->id_tributocsticms) echo 'selected="selected"';?> ><?=substr("00".$csticms->csticms,-2,2)." - ".$csticms->descicms?></option>
+		    						<?php endforeach;?>
+		    					</select>
+		    					</div>
+		    				</td>
+		    			</tr>
+		    			<tr>
+					    	<td align="left" colspan="4" style="padding: 10px">
+		    					CST IPI<br />
+		    					<div class="styled-select" style="width: 500px">
+		    					<select style="width: 522px" name="cstipi">
+		    						<?php foreach ($this->objCstipi as $cstipi): ?>
+		    						<option value="<?=$cstipi->id?>" <?php if(isset($list) and $cstipi->id == $list->id_tributocstipi) echo 'selected="selected"';?> ><?=substr("00".$cstipi->cstipi,-2,2)." - ".$cstipi->descipi?></option>
+		    						<?php endforeach;?>
+		    					</select>
+		    					</div>
+		    				</td>
+					    </tr>
+		    			<tr>
+					    	<td align="left" colspan="4" style="padding: 10px">
+		    					CST PIS/PASEP<br />
+		    					<div class="styled-select" style="width: 500px">
+		    					<select style="width: 522px" name="cstpis">
+		    						<?php foreach ($this->objCstpis as $cstpis): ?>
+		    						<option value="<?=$cstpis->id?>" <?php if(isset($list) and $cstpis->id == $list->id_tributocstpis) echo 'selected="selected"';?> ><?=substr("00".$cstpis->cstpis,-2,2)." - ".$cstpis->descpis?></option>
+		    						<?php endforeach;?>
+		    					</select>
+		    					</div>
+		    				</td>
+					  	</tr>
+		    			<tr>
+					    	<td align="left" colspan="4" style="padding: 10px">
+		    					CST Cofins<br />
+		    					<div class="styled-select" style="width: 500px">
+		    					<select style="width: 522px" name="cstcofins">
+		    						<?php foreach ($this->objCstcofins as $cstcofins): ?>
+		    						<option value="<?=$cstcofins->id?>" <?php if(isset($list) and $cstcofins->id == $list->id_tributocstcofins) echo 'selected="selected"';?> ><?=substr("00".$cstcofins->cstcofins,-2,2)." - ".$cstcofins->desccofins?></option>
+		    						<?php endforeach;?>
+		    					</select>
+		    					</div>
+		    				</td>
+					   </tr>
+						<tr>
+					    	<td align="left" colspan="4" style="padding: 10px">
+					    		<input type="submit" value="Salvar" class="greenBtn">
+					    	</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+
+<script>
+<?php  if($this->objRes == 1){ ?>
+jAlert('Cadastro salvo com sucesso!','Sucesso!', function(){
+	window.location='<?=$this->baseUrl()?>/admin/cadastro/produtosncm';
+});
+<?php } ?>
+</script>

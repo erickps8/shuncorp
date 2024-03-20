@@ -1,0 +1,200 @@
+	<!-- Content -->
+    <div class="content">   
+
+    <!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li class="lastB">Pedidos de compra</li>         
+                </ul>
+            </div>
+        </div>       
+
+        
+        <div class="title"><h5>Pedidos de compra</h5></div>
+        
+        <div class="widgets" >
+			<div class="left" style="margin-top: 5px; margin-bottom: 5px" >   
+	        	<?php 
+				if($this->objIns==true):
+					?>
+				    <input type="button" class="basicBtn" style="width: 110px" onclick="window.location='<?=$this->baseUrl(); ?>/admin/compras/relatoriovendas'" value="Novo Pedido">
+		    		<?php		    	
+			    endif; ?>         
+                                
+            </div>
+            <div class="right" style="text-align: right; padding-top: 7px; width: 40%">
+	        	<a href="<?php echo $this->baseUrl(); ?>/admin/compras/produtospedidos">Produtos pedidos</a> | 
+	        	<a href="<?=$this->baseUrl(); ?>/admin/compras/entradaest">Entrada de produtos</a><br />
+	        </div>
+	    </div>    
+	        
+    	<div class="widgets" >
+        	<!-- Busca -->
+        	<div class="first" style="margin-top: 5px; margin-bottom: 5px; " >  
+    		<script>
+			function tipoPesquisa(valor){
+				if(valor==1){
+					document.getElementById("buscid").style.display = "block";
+					document.getElementById("buscprod").style.display = "none";
+					document.getElementById("busccliente").style.display = "none";
+					document.getElementById("buscstatus").style.display = "none";
+				}else if(valor==2){
+					document.getElementById("busccliente").style.display = "block";
+					document.getElementById("buscid").style.display = "none";
+					document.getElementById("buscprod").style.display = "none";
+					document.getElementById("buscstatus").style.display = "none";
+				}else if(valor==3){
+					document.getElementById("busccliente").style.display = "none";
+					document.getElementById("buscid").style.display = "none";
+					document.getElementById("buscprod").style.display = "none";
+					document.getElementById("buscstatus").style.display = "block";
+				}
+			}
+			</script>
+			
+			<form action="" method="post" name="busca" id="busca" class="mainForm">
+			<table style="border: 1px solid #ccc; width: 100%; " >
+			    <tr>
+			    	<td align="left" style="padding: 5px">
+			    		Busca por:<br>
+			    		<div class="styled-select" style="width: 180px">
+				    	<select name="tipo" onchange="tipoPesquisa(this.value);" style="width: 202px">
+							<option value="1">Por ID</option>
+							<option value="2">Por Fornecedor</option>
+							<option value="3">Por Situação</option>
+						</select>    
+						</div>
+			    	</td>
+			    	<td align="left" width="30%">
+				    	<div style="display: none;" id="busccliente">
+				    		Cliente:<br>
+				    		<div class="styled-select" style="width: 180px">
+				    		<select name="buscacli" id="buscacli" style="width: 202px">
+								<?php foreach ($this->objCli as $listcli): ?>
+									<option value="<?php echo $listcli->ID?>"><?php echo $listcli->EMPRESA ?></option>
+								<?php endforeach; ?>
+							</select>
+							</div>
+						</div>
+						<div style="display: block;" id="buscid">
+							ID<br>
+							<input type="text" name="buscaid" id="buscaid" style="width: 80px">
+						</div>
+						<div style="display: none;" id="buscprod">
+							Código<br>
+							<input type="text" size="12" name="buscaprod" id="buscaprod" style="width: 120px">
+						</div>
+						<div style="display: none;" id="buscstatus">
+							Situação:<br>
+							<div class="styled-select" style="width: 180px">
+					    	<select name="tipostatus" style="width: 202px">
+						    	<option value="ANDAMENTO">EM ANDAMENTO</option>
+								<option value="ATRASO">EM ATRASO</option>
+								<option value="ENTREGUE">ENTREGUE</option>
+								<option value="FINALIZADO">FINALIZADO</option>
+							</select>   
+							</div>
+						</div>
+									
+			    	</td>
+			    	<td align="left">
+			    	Dt ini<br>
+			    	<input type="text" size="8" name="dtini" id="dtini" class="data datepicker" style="width: 70px">
+					</td>
+					<td align="left">
+					Dt fim<br>
+					<input type="text" size="8" name="dtfin" id="dtfin" class="data datepicker" style="width: 70px">
+					<input type="submit" value="Pesquisar" class="basicBtn">
+					</td>
+				</tr>
+			</table>  
+			</form>
+		</div>
+	</div>
+	
+	<?php 
+	if ( count($this->objList) > 0) :
+		?>
+		<div class="widget first">
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="10%">Id</td>
+                        <td width="25%">Fornecedor</td>
+                        <td width="">Data</td>
+                        <td width="">Data entrega</td>
+                        <td width="30%">Situação</td>
+                        <td width="10%">Opções</td>
+                    </tr>
+                </thead>
+                <tbody>
+                
+				<?php 
+				foreach($this->objList as $lista):
+		    		?>			
+					<tr >
+		                <td style="text-align: center;" >
+		                   <?php echo $lista->idped?>
+		                </td>
+		                <td align="left" > 
+		                	<?=$lista->EMPRESA?>
+		                </td>
+		                <td style="text-align: center;" >
+		                	<?php echo substr($lista->DATA_HORA,8,2).'/'.substr($lista->DATA_HORA,5,2).'/'.substr($lista->DATA_HORA,0,4)?>
+		                </td>
+		                <td style="text-align: center;" >
+		                	<?php echo substr($lista->data_entrega,8,2).'/'.substr($lista->data_entrega,5,2).'/'.substr($lista->data_entrega,0,4)?>
+		                </td>
+		                <td style="text-align: center;" > 
+		                   <?php 
+		                   	if($lista->STATUS=='CANCELADO'):
+		                   		echo "CANCELADO";
+		                   	elseif($lista->STATUS=='ENTREGUE'):
+		                   		echo "ENTREGUE";
+		                   	elseif($lista->STATUS=='FINALIZADO'):
+		                   		echo "FINALIZADO";                   		
+		                   	else:
+		                   		if($lista->data_entrega>date("Y-m-d")):
+		                   			echo "<span style='color: rgb(0, 136, 0);'>EM ANDAMENTO</span>";
+		                   		else:
+		                   			echo "<span style='color: rgb(255, 0, 0);'>EM ATRASO</span>";
+		                   		endif;
+		                   	endif;
+		                   ?>                  
+		                </td>
+		                <td style="text-align: center;">
+		                	<a href="<?=$this->baseUrl(); ?>/admin/compras/pedidoscompraprod/ped/<?=md5($lista->idped)?>" ><img src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" border="0" title="Visualizar"></a>&nbsp;&nbsp;
+		                	<?php if(($this->objEdi==true) and ($lista->STATUS!='CANCELADO') and (empty($lista->id_entradaztl))):  ?>
+		                    <a href="#" onclick="if(confirm('Cancelar o pedido de compra <?=$lista->idped?>?')){ window.location='<?=$this->baseUrl()?>/admin/compras/removepedcompra/ped/<?=md5($lista->idped)?>';};" ><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/close.png" width="17" border="0" title="Remover"></a>
+		                	<?php endif; ?>
+		                </td>                
+		            </tr>
+          	 		<?php
+          	 	endforeach; 
+          	 	?>
+                </tbody>
+            </table>            
+        </div>
+        <div style="margin-top: 20px">
+			<?php 
+			if ( count($this->objList) > 0) :
+				echo $this->objList;
+			endif;
+		    ?>
+		</div>
+		<?php 
+		else :
+		?>
+		<div class="widget first">
+ 			Nenhum Pedido Encontrado
+		</div>	
+		<?php 
+		endif;
+		?>
+	</div>
+	
+
+	
+	

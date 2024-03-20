@@ -1,0 +1,60 @@
+<form method="post" name="contas" class="mainForm">
+	<div class="widgets">
+<?php 
+	if($this->objNfe == false){
+		?>
+		<div class="widget first" style="padding: 10px; text-align: center; border-top: 1px solid #d5d5d5;">
+			Erro ao buscar NFe! Por favor, entre em contato com o administrador do sistema.
+		</div>
+		<?php 
+	}elseif(count($this->objNfe)>0){
+	?>
+		<div class="widget" style="height: 400px; overflow-y: auto; border-top: 1px solid #d5d5d5; margin-top: -5px">
+ 			<table style="width: 100%; border-top: 0px solid #fff;" class="tableStatic" >
+            	<thead>
+                	<tr>
+                        <td >NFe</td>
+                        <td >Data</td>
+                        <td width="15%">Opções</td>
+                    </tr>
+                </thead>
+                <tbody>	
+				<?php 
+				
+				foreach ($this->objNfe as $listpagar):
+					?>
+					<tr style="font: 11px Arial, Helvetica, sans-serif;">
+						<td style="text-align: center;">
+							NFe<?=substr("000000".$listpagar->id,-6,6)?>
+						</td>
+						<td style="text-align: center;">
+							<?=substr($listpagar->data,8,2)."/".substr($listpagar->data,5,2)."/".substr($listpagar->data,0,4)?>
+						</td>
+						<td style="text-align: center;">
+							<input type="checkbox" value="NFe<?=substr("000000".$listpagar->id,-6,6)?>" name="<?=$listpagar->id?>" id="<?=md5($listpagar->id)?>" <?php if(!empty($listpagar->id_pagfrete)) echo 'checked="checked"';?> >
+						</td>
+					</tr>
+					<?php								
+					endforeach;
+				
+				?>
+				</tbody>
+            </table>            
+        </div>
+    </div>
+    
+    <div style="text-align: left; padding-top: 10px">
+       <input type="button" name="salvar" value="Salvar" onclick="addPurchase(); " class="basicBtn">
+    </div>
+	
+	</form>
+	<?php 
+	}else{
+		?>
+		<div class="widget first" style="padding: 10px; text-align: center; border-top: 1px solid #d5d5d5;">
+			Nenhuma NFe encontrada deste fornecedor!
+		</div>
+		<?php 
+	}
+	?>
+</body>

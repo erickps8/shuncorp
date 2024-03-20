@@ -1,0 +1,270 @@
+<script src="<?=$this->baseUrl();?>/public/javascript/editor/ckeditor/ckeditor.js "></script>
+
+
+	<script type="text/javascript">
+	
+	$(document).ready(function() {	
+	
+		$('a[name=modal]').click(function(e) {
+			e.preventDefault();
+			
+			var id = $(this).attr('href');
+		
+			var maskHeight = $(document).height();
+			var maskWidth = $(window).width();
+		
+			$('#mask').css({'width':maskWidth,'height':maskHeight});
+	
+			$('#mask').fadeIn(1);	
+			$('#mask').fadeTo("fast",0.4);	
+		
+			//Get the window height and width
+			var winH = $(window).height();
+			var winW = $(window).width();
+	              
+			$(id).css('top',  winH/2-$(id).height()/2);
+			$(id).css('left', winW/2-$(id).width()/2);
+		
+			$(id).fadeIn(0); 
+		
+		});
+		
+		$('.window .close').click(function (e) {
+			e.preventDefault();
+			
+			$('#mask').hide();
+			$('.window').hide();
+		});		
+		
+		$('#mask').click(function () {
+			$(this).hide();
+			$('.window').hide();
+		});			
+		
+	});
+	
+	</script>
+	
+	<style type="text/css">
+	
+	#mask {
+	  position:absolute;
+	  left:0;
+	  top:0;
+	  z-index:9000;
+	  background-color:#000;
+	  display:none;
+	}
+	  
+	#boxes .window {
+	  position:absolute;
+	  left:0;
+	  top:0;
+	  width:440px;
+	  height:200px;
+	  display:none;
+	  z-index:9999;
+	  padding:20px;
+	  overflow: auto; 
+	}
+	
+	#boxes #dialog {
+	  width:550px; 
+	  height:250px;
+	  padding:10px;
+	  background-color:#ffffff;
+	}
+	
+	#boxes #dialog1 {
+	  width:575px; 
+	  height:203px;
+	}
+		
+	.close{display:block; text-align:right;}
+	
+	
+	.tableLinhapar{	
+		background-color: #fdfdfd;
+	}
+	 
+	.tableLinhaimpar{
+		background-color: #ccc;
+	}
+	</style>
+ 
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl()?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl(); ?>/admin/venda/garantias"><?=$this->translate->_("GARANTIAS")?></a>&nbsp;
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?php echo $this->baseUrl(); ?>/admin/venda/dicasop"><?=$this->translate->_("DICAS")?></a>&nbsp;
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<b><a href="<?php echo $this->baseUrl(); ?>/admin/venda/dicasopcad"><?=$this->translate->_("NOVA DICA")?></a></b>
+	</div>
+	<div id="sistitulo">DICAS</div>
+	<div id="sisconteudo">  
+   		<?php
+		if(!empty($this->objDicas)):
+			foreach ($this->objDicas as $lista);
+		endif;		
+		?>		
+        <form action="<?php echo $this->baseUrl(); ?>/admin/venda/gravardicasop" method="post" name="cad" onsubmit="return validaCampos();">
+        <input type="hidden" size="50" name="iddica" value="<?php echo $lista->iddicas?>">
+        <div id="boxes">
+			<div id="dialog" class="window">
+				<table style="width: 100%; background-color: #EEE; position: relative; border: 1px solid #000; margin: 2px; padding: 2px; color: #666666;	font: 11px Arial, Helvetica, sans-serif;">
+					<tr  class="tableLinhaimpar">
+						<td width="20%" align="center" >
+							SELECIONE
+						</td>
+						<td  align="center">
+							ANÁLISE
+						</td>
+					</tr>
+					<?php 
+					$cont = 0;
+					foreach ($this->objAnaliseneg as $listan):
+					$cont++;
+					if ($cont%2==0) $class ='';
+				    else $class = 'class="tableLinhapar"';
+					?>
+					<tr <?=$class?> >
+						<td align="center" >
+						<input type="checkbox"  name="ch_<?php echo $listan->id?>" id="<?php echo $listan->id?>" 
+						<?php 
+						if(!empty($this->objDicas)):
+							foreach ($this->objDicas as $listi):
+								if($listi->idanalise==$listan->id):
+									echo 'checked="checked"';
+								endif;
+							endforeach;
+						
+						endif;
+						?>
+						
+						value="<?php echo $listan->descricao?>" >
+						</td>
+						<td align="left">
+							<?php echo $listan->descricao?>
+						</td>	
+					</tr>
+					<?php endforeach;?>
+				</table>
+				<p align="left">
+					<input type="button" value="Salvar" style="border: 1px solid #999" onclick="addQt();" >
+				</p>
+				
+			</div>
+		
+			<!-- Máscara para cobrir a tela -->
+			<div id="mask"></div>
+		</div>
+			<table  width="100%" style="border: 1px solid #000; margin: 6px 0px 6px; padding: 5px" cellspacing="5">
+				<tr>
+					
+					<td  align="left" width="40%" colspan="2">
+					Título:<br>
+					<input type="text" size="50" name="diag"  value="<?php echo ($lista->desc)?>">
+					</td>
+				</tr>
+				
+				<tr>
+					<td  align="left" colspan="2">
+					Informações técnicas:<br>
+					<div>
+					<textarea class="ckeditor" cols="80" id="editor1" name="editor1" rows="10" >
+					<?php echo $lista->info?>
+					</textarea>
+					</div>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" colspan="2"><br>
+					<a  href="#dialog" name="modal" id="add" onclick="document.novogar.id_or.value=<?php echo $cont?>">
+					Adicionar relação com Análises</a><br>
+					<?php 
+					if(!empty($this->objDicas)):
+						foreach ($this->objDicas as $list):
+						?>
+							<a target="_black" href="<?php echo $this->baseUrl(); ?>/admin/venda/analiseopdet/analise/<?php echo md5($list->idanalise)?>" >
+							- <?php echo ($list->descricao)?></a>
+							<input type='hidden' name='<?php echo $list->idanalise?>' value='<?php echo $list->idanalise?>' >
+							<br>
+							<?php 
+						endforeach;
+						
+					endif;
+					?>
+					<div id='analises'></div>
+					
+				</tr>
+				<tr>
+					<td align="left" colspan="2"><br>
+					<input type="hidden" name="dica" value="<?php if(!empty($this->objDicas)) echo $lista->id?>" >
+					<input type="submit" name="salvar" value="Salvar" >
+					</td>
+				</tr>
+        	</table>
+        	
+			</form>        
+		<script>
+
+		
+		
+			function editaAnalise(id,desc,tipo){
+				document.cad.diag.value=desc;
+				document.cad.tipo.value=tipo;
+				document.cad.id_analise.value=id;
+			}			
+					
+			function validaCampos(){
+				if(document.cad.editor1.value==""){
+					alertaPadrao('Erro!', 'O campo Informações técnica não pode ficar em branco!', 'erro', 110, 300);
+					return false;
+				}
+			}
+
+			var alertaPadrao = function(titulo, msg, tipo, altura, largura) {
+					$('body').append('<a href="#" id="alerta-padrao"></a>');
+					$('#alerta-padrao').m2brDialog({
+							draggable: true,
+							texto: msg,
+							tipo: tipo,
+							titulo: titulo,
+							altura: altura,
+							largura: largura,
+							botoes: {
+								1: {
+									label: 'Fechar',
+									tipo: 'fechar'
+								}
+							}									   
+					});
+					$('#alerta-padrao')
+						.click()
+						.remove();
+			}; // fim alertaPadrao
+
+			function addQt(){
+				var form 		= document.cad;
+				var anali		= "";
+				var ganali		= "";
+				
+		        for (i=0;i<form.length;i++){
+		        	if((form[i].checked==true) && (form[i].name.indexOf('ch_')!=-1)){
+						anali 	= anali+"- "+form[i].value+"<input type='hidden' name='"+form[i].id+"' value='"+form[i].id+"' ><br>";
+		            }                       				      						
+		        }
+					
+		        document.getElementById('analises').innerHTML=anali;
+		        
+		       
+		        $('#mask').hide();
+				$('.window').hide();
+
+				
+			}
+		</script>
+	</div>
+</div>

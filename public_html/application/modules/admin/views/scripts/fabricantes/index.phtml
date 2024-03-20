@@ -1,0 +1,89 @@
+    <div class="content">
+       <!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="/admin">Home</a> </li>
+                	<li class="lastB">Fabricantes</li>         
+                </ul>
+            </div>
+        </div>       
+        
+        <div class="title"><h5>Fabricantes</h5></div>
+	        	        
+	    <!-- Busca ------------------------------------------------------ -->
+		<div class="widgets" >
+			<div class="first" style="margin-top: 5px; margin-bottom: 5px; border: 1px solid #d5d5d5; padding: 10px" >  
+				<form method="post" name="busca" id="busca" class="mainForm">
+					<input type="text" name="fabricante" style="width: 250px" placeholder="Fabricante">
+    				<input type="submit" class="blueBtn" value="Pesquisar" id="btnbusca" >
+    			</form>
+    		</div>
+    	</div>			
+	        
+	    <div class="clear"></div>
+		
+		<div class="widgets">
+        
+	        <?php 
+			if (count($this->objList) > 0) {
+			?>
+        	<div class="widget first">
+	 			<table style="width: 100%" class="tableStatic">
+	            	<thead>
+	                	<tr>
+	                        <td>Id</td>
+        					<td>Fabricante</td>
+        					<?php if ($this->objEdi==true){  ?>
+        					<td >Opções</td>
+        					<?php } ?>
+        				</tr>
+        			</thead>
+        			<tbody>
+        			<?php 
+					$cor=0;
+			    	foreach($this->objList as $lista){
+				    	$cor++;
+			            ?>
+						<tr >
+			                <td style="text-align: center;">
+			                   <?=$lista->id?>
+			                </td>
+			                <td align="left" style="text-transform: uppercase;">
+			                   <?=$lista->no_fabricante?>
+			                </td>
+			                <?php if ($this->objEdi==true){  ?>
+			                <td style="text-align: center;">
+			                	<a href="<?=$this->baseUrl()?>/admin/fabricantes/fabricantescad/idfab/<?=md5($lista->id)?>" ><img src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/pencil.png"  width="15" border="0" title="Editar"></a>
+
+			                </td>
+			                <?php  }  ?>
+			            </tr>
+            			<?php  
+					} ?>
+					</tbody>
+				</table>
+			</div>
+			<div style="margin-top: 20px">
+    			<?php 
+    			if ( count($this->objList) > 0) {
+    				echo $this->objList;
+    			}
+    		    ?>
+    		</div>
+			<?php 
+			}else{
+			?>
+			<div class="widget first" style="border-top: 1px solid #d5d5d5; padding: 10px; text-align: center;">
+				Nenhum registro encontrado!
+			</div>
+			
+			<?php 
+			}
+			?>
+		</div>
+	    
+	</div>
+
+		
+	

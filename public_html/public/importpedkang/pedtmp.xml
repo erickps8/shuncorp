@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<pedido>
+  <pedidocli>409</pedidocli>
+  <dataentrega>2014-11-05 00:00:00</dataentrega>
+  <parcial>NO</parcial>
+  <produtos>
+    <produto>
+      <idprod>1114</idprod>
+      <cod>CE20</cod>
+      <qt>216</qt>
+      <preco>6.765</preco>
+      <moeda>USD</moeda>
+    </produto>
+  </produtos>
+</pedido>
+                               

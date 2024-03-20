@@ -1,0 +1,51 @@
+
+<?php 
+//Zend_Debug::dump($this->objNaopagos);//
+//Zend_Debug::dump($this->objPagos);
+if($this->objParams['tipo'] == 3):
+	
+	if($this->objDevolvidos != 'erro'):
+	
+		if(count($this->objDevolvidos)>0):
+			foreach ($this->objDevolvidos as $produtos):
+				$array .= $produtos->qttotal.":".$produtos->mes."/".$produtos->ano."|";
+			endforeach;
+		endif;
+		
+		echo substr($array,0,-1);
+		
+		echo "-";
+		        
+		if(count($this->objPagos)>0):
+			foreach ($this->objPagos as $produtos):
+				$array2 .= $produtos->qttotal.":".$produtos->mes."/".$produtos->ano."|";
+			endforeach;
+		endif;
+		echo substr($array2,0,-1);
+		
+		echo "-";
+		
+		if(count($this->objVendas)>0):
+			foreach ($this->objVendas as $produtos):
+				$array3 .= $produtos->qttotal.":".$produtos->mes."/".$produtos->ano."|";
+			endforeach;
+		endif;
+		echo substr($array3,0,-1);
+		
+	else:
+		echo "erro";
+	endif;
+else:
+	foreach ($this->objNaopagos as $npagos);
+	foreach ($this->objPagos as $pagos);
+	foreach ($this->objCortesia as $cortesia);
+	
+	foreach ($this->objVendas as $vendas);
+	foreach ($this->objVendasztl as $vendasztl);
+	foreach ($this->objPagosztl as $pagosztl);
+	
+	//naopagoscli|pagoscli|vendascli|vendasztl|pagosztl|cortesia
+	echo ($npagos->qttotal)."|".($pagos->qttotal-$cortesia->qttotal)."|".
+	$vendas->qttotal."|".$vendasztl->qttotal."|".$pagosztl->qttotal."|".$cortesia->qttotal;
+endif;
+?>

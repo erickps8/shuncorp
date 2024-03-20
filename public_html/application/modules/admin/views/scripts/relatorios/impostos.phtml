@@ -1,0 +1,408 @@
+
+<script src="<?=$this->baseUrl()?>/public/javascript/buscaajax/buscaajaxfaturamento.js"></script>
+
+<!-- Content -->
+	<div class="content">   
+
+<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?=$this->baseUrl()?>/admin/relatorios">Relatórios</a></li>         
+                	<li class="lastB">Impostos</li>
+                </ul>
+            </div>
+        </div>       
+
+        <div class="title"><h5>Apuração de impostos</h5></div>
+
+ 		<div class="widgets" >
+			<div class="widget" style="border-top: 1px solid #d5d5d5; padding: 10px">
+				<form name="pesquisa" action="<?=$this->baseUrl()?>/admin/relatorios/impostos" method="post" class="mainForm">
+					<table>
+						<tr>
+							<td align="left" width="10%">
+						    	Dt ini:<br>
+						    	<input type="text" size="8" name="dataini" id="dataini" class="data datepicker">
+							</td>
+							<td align="left" >
+								Dt fim:<br>
+								<input type="text" size="8" name="datafim" id="datafim" class="data datepicker">
+								<input type="submit" value="Gerar" class="greenBtn">
+							</td>
+						</tr>
+					</table> 
+				</form>
+			</div>
+			
+			
+			<div class="widget" style="border-top: 1px solid #d5d5d5; padding: 10px">
+				
+			<div style="margin: 10px 0px 10px 0px; font-weight: bold; font-size: 14px">
+			<?=$this->objPeriodo?>
+			</div>
+		
+			<div style="margin: 10px 0px 10px 0px; font-weight: bold; font-size: 14px">
+			Entrada
+			</div>
+		
+			<div>
+				<div style="width: 48%;  float: left;">
+					<div >
+						ICMS
+						<table style="border: 1px solid #d5d5d5; width: 100%;">
+							<tr>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">CFOP</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Alq</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Fat</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Valor</td>
+							</tr>
+							<?php 
+							if(count($this->objIcmsent)>0):
+								$totalicms = 0;
+								foreach ($this->objIcmsent as $icms):
+									if($icms->alicms != 0):
+									?>
+									<tr>
+										<td style="text-align: center;"><?=$icms->cfopnfe?></td>
+										<td style="text-align: center;"><?=number_format($icms->alicms,2,",",".")?></td>
+										<td style="text-align: right;"><?=number_format($icms->tbaseicms,2,",",".")?></td>
+										<td style="text-align: right;"><?=number_format($icms->tvlicms,2,",",".")?></td>
+									</tr>
+									<?php 
+									$totalicms += $icms->tvlicms;
+									endif;
+								endforeach;
+							endif;
+							?>
+							<tr>
+								<td colspan="4" style="text-align: right; background-color: #ccc; font-weight: bold;">
+								Total: <?=number_format($totalicms,2,",",".")?></td>
+							</tr>
+						</table>
+					</div>
+					<div style="padding-top: 10px">
+						PIS
+						<table style="border: 1px solid #d5d5d5; width: 100%;">
+							<tr>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">CFOP</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Alq</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Fat</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Valor</td>
+							</tr>
+							<?php 
+							if(count($this->objPisent)>0):
+								$totalpis = 0;
+								foreach ($this->objPisent as $pis):
+									if($pis->alpis != 0):
+									?>
+									<tr>
+										<td style="text-align: center;"><?=$pis->cfopnfe?></td>
+										<td style="text-align: center;"><?=number_format($pis->alpis,2,",",".")?></td>
+										<td style="text-align: right;"><?=number_format($pis->tbaseicms,2,",",".")?></td>
+										<td style="text-align: right;"><?=number_format($pis->tvlpis,2,",",".")?></td>
+									</tr>
+									<?php 
+									$totalpis += $pis->tvlpis;
+									endif;
+								endforeach;
+							endif;
+							?>
+							<tr>
+								<td colspan="4" style="text-align: right; background-color: #ccc; font-weight: bold;">
+								Total: <?=number_format($totalpis,2,",",".")?></td>
+							</tr>
+						</table>
+					</div>
+					
+					<div style="padding-top: 10px">
+						COFINS
+						<table style="border: 1px solid #d5d5d5; width: 100%;">
+							<tr>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">CFOP</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Alq</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Fat</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Valor</td>
+							</tr>
+							<?php 
+							if(count($this->objCofinsent)>0):
+								$totalcofins = 0;
+								foreach ($this->objCofinsent as $cofins):
+									if($cofins->alcofins != 0):
+									?>
+									<tr>
+										<td style="text-align: center;"><?=$cofins->cfopnfe?></td>
+										<td style="text-align: center;"><?=number_format($cofins->alcofins,2,",",".")?></td>
+										<td style="text-align: right;"><?=number_format($cofins->tbaseicms,2,",",".")?></td>
+										<td style="text-align: right;"><?=number_format($cofins->tvlcofins,2,",",".")?></td>
+									</tr>
+									<?php
+									$totalcofins += $cofins->tvlcofins;
+									endif;
+								endforeach;
+							endif;
+							?>
+							<tr>
+								<td colspan="4" style="text-align: right; background-color: #ccc; font-weight: bold;">
+								Total: <?=number_format($totalcofins,2,",",".")?></td>
+							</tr>
+						</table>
+					</div>
+					
+				</div>
+				<div style="width: 48%; float: right;" >
+					<div >
+						ICMS ST
+						<table style="border: 1px solid #d5d5d5; width: 100%;">
+							<tr>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">CFOP</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Alq</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Fat</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Valor</td>
+							</tr>
+							<?php 
+							if(count($this->objStent)>0):
+								$totalst = 0;
+								foreach ($this->objStent as $st):
+									if($st->icmsst != 0):
+									?>
+									<tr>
+										<td style="text-align: center;"><?=$st->cfopnfe?></td>
+										<td style="text-align: center;"><?=number_format($st->icmsst,2,",",".")?></td>
+										<td style="text-align: right;"><?=number_format($st->tbasest,2,",",".")?></td>
+										<td style="text-align: right;"><?=number_format($st->tvlicmsst,2,",",".")?></td>
+									</tr>
+									<?php 
+									$totalst += $st->tvlicmsst;
+									endif;
+								endforeach;
+							endif;
+							?>
+							<tr>
+								<td colspan="4" style="text-align: right; background-color: #ccc; font-weight: bold;">
+								Total: <?=number_format($totalst,2,",",".")?></td>
+							</tr>
+						</table>
+					</div>
+					<div style="padding-top: 10px">
+						IPI
+						<table style="border: 1px solid #d5d5d5; width: 100%;">
+							<tr>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">CFOP</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Alq</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Fat</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Valor</td>
+							</tr>
+							<?php 
+							if(count($this->objIpient)>0):
+								$totalipi = 0;
+								foreach ($this->objIpient as $ipi):
+									if($ipi->alipi != 0):
+									?>
+									<tr>
+										<td style="text-align: center;"><?=$ipi->cfopnfe?></td>
+										<td style="text-align: center;"><?=number_format($ipi->alipi,2,",",".")?></td>
+										<td style="text-align: right;"><?=number_format($ipi->tbaseipi,2,",",".")?></td>
+										<td style="text-align: right;"><?=number_format($ipi->tvlipi,2,",",".")?></td>
+									</tr>
+									<?php 
+									$totalipi += $ipi->tvlipi;
+									endif;
+								endforeach;
+							endif;
+							?>
+							<tr>
+								<td colspan="4" style="text-align: right; background-color: #ccc; font-weight: bold;">
+								Total: <?=number_format($totalipi,2,",",".")?></td>
+							</tr>
+						</table>
+					</div>
+					
+				</div>
+			</div>
+			
+			<div style="clear: both; margin: 10px 0px 10px 0px; font-weight: bold; font-size: 14px; padding-top: 30px">
+			Saída
+			</div>
+			
+			<div style="">
+				<div style="width: 48%;  float: left;">
+					<div >
+						ICMS
+						<table style="border: 1px solid #d5d5d5; width: 100%;">
+							<tr>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">CFOP</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Alq</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Fat</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Valor</td>
+							</tr>
+							<?php 
+							if(count($this->objIcms)>0):
+								$totalicms = 0;
+								foreach ($this->objIcms as $icms):
+									if($icms->alicms != 0):
+									?>
+									<tr>
+										<td style="text-align: center;"><?=$icms->cfopnfe?></td>
+										<td style="text-align: center;"><?=number_format($icms->alicms,2,",",".")?></td>
+										<td style="text-align: right;"><?=number_format($icms->tbaseicms,2,",",".")?></td>
+										<td style="text-align: right;"><?=number_format($icms->tvlicms,2,",",".")?></td>
+									</tr>
+									<?php 
+									$totalicms += $icms->tvlicms;
+									endif;
+								endforeach;
+							endif;
+							?>
+							<tr>
+								<td colspan="4" style="text-align: right; background-color: #ccc; font-weight: bold;">
+								Total: <?=number_format($totalicms,2,",",".")?></td>
+							</tr>
+						</table>
+					</div>
+					
+					<div style="padding-top: 10px">
+						PIS
+						<table style="border: 1px solid #d5d5d5; width: 100%;">
+							<tr>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">CFOP</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Alq</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Fat</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Valor</td>
+							</tr>
+							<?php 
+							if(count($this->objPis)>0):
+								$totalpis = 0;
+								foreach ($this->objPis as $pis):
+									if($pis->alpis != 0):
+									?>
+									<tr>
+										<td style="text-align: center;"><?=$pis->cfopnfe?></td>
+										<td style="text-align: center;"><?=number_format($pis->alpis,2,",",".")?></td>
+										<td style="text-align: right;"><?=number_format($pis->tbaseicms,2,",",".")?></td>
+										<td style="text-align: right;"><?=number_format($pis->tvlpis,2,",",".")?></td>
+									</tr>
+									<?php 
+									$totalpis += $pis->tvlpis;
+									endif;
+								endforeach;
+							endif;
+							?>
+							<tr>
+								<td colspan="4" style="text-align: right; background-color: #ccc; font-weight: bold;">
+								Total: <?=number_format($totalpis,2,",",".")?></td>
+							</tr>
+						</table>
+					</div>
+					
+					<div style="padding-top: 10px">
+						COFINS
+						<table style="border: 1px solid #d5d5d5; width: 100%;">
+							<tr>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">CFOP</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Alq</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Fat</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Valor</td>
+							</tr>
+							<?php 
+							if(count($this->objCofins)>0):
+								$totalcofins = 0;
+								foreach ($this->objCofins as $cofins):
+									if($cofins->alcofins != 0):
+									?>
+									<tr>
+										<td style="text-align: center;"><?=$cofins->cfopnfe?></td>
+										<td style="text-align: center;"><?=number_format($cofins->alcofins,2,",",".")?></td>
+										<td style="text-align: right;"><?=number_format($cofins->tbaseicms,2,",",".")?></td>
+										<td style="text-align: right;"><?=number_format($cofins->tvlcofins,2,",",".")?></td>
+									</tr>
+									<?php
+									$totalcofins += $cofins->tvlcofins;
+									endif;
+								endforeach;
+							endif;
+							?>
+							<tr>
+								<td colspan="4" style="text-align: right; background-color: #ccc; font-weight: bold;">
+								Total: <?=number_format($totalcofins,2,",",".")?></td>
+							</tr>
+						</table>
+					</div>				
+				</div>
+				<div style="width: 48%; float: right;" >
+					<div >
+						ICMS ST
+						<table style="border: 1px solid #d5d5d5; width: 100%;">
+							<tr>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">CFOP</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Alq</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Fat</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Valor</td>
+							</tr>
+							<?php 
+							if(count($this->objSt)>0):
+								$totalst = 0;
+								foreach ($this->objSt as $st):
+									if($st->icmsst != 0):
+									?>
+									<tr>
+										<td style="text-align: center;"><?=$st->cfopnfe?></td>
+										<td style="text-align: center;"><?=number_format($st->icmsst,2,",",".")?></td>
+										<td style="text-align: right;"><?=number_format($st->tbasest,2,",",".")?></td>
+										<td style="text-align: right;"><?=number_format($st->tvlicmsst,2,",",".")?></td>
+									</tr>
+									<?php 
+									$totalst += $st->tvlicmsst;
+									endif;
+								endforeach;
+							endif;
+							?>
+							<tr>
+								<td colspan="4" style="text-align: right; background-color: #ccc; font-weight: bold;">
+								Total: <?=number_format($totalst,2,",",".")?></td>
+							</tr>
+						</table>
+					</div>
+				
+					<div style="padding-top: 10px">
+						IPI
+						<table style="border: 1px solid #d5d5d5; width: 100%;">
+							<tr>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">CFOP</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Alq</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Fat</td>
+								<td style="text-align: center; background-color: #ccc; font-weight: bold;">Valor</td>
+							</tr>
+							<?php 
+							if(count($this->objIpi)>0):
+								$totalipi = 0;
+								foreach ($this->objIpi as $ipi):
+									if($ipi->alipi != 0):
+									?>
+									<tr>
+										<td style="text-align: center;"><?=$ipi->cfopnfe?></td>
+										<td style="text-align: center;"><?=number_format($ipi->alipi,2,",",".")?></td>
+										<td style="text-align: right;"><?=number_format($ipi->tbaseipi,2,",",".")?></td>
+										<td style="text-align: right;"><?=number_format($ipi->tvlipi,2,",",".")?></td>
+									</tr>
+									<?php 
+									$totalipi += $ipi->tvlipi;
+									endif;
+								endforeach;
+							endif;
+							?>
+							<tr>
+								<td colspan="4" style="text-align: right; background-color: #ccc; font-weight: bold;">
+								Total: <?=number_format($totalipi,2,",",".")?></td>
+							</tr>
+						</table>
+					</div>		
+				</div>		
+			</div>	
+			
+			<div class="clear"></div>
+			
+		</div>			
+	</div>
+</div>

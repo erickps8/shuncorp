@@ -1,0 +1,214 @@
+<?php 
+header("Content-type: application/msexcel");
+header("Content-Disposition: attachment; filename=Conciliacao.xls");
+?>
+<table width="800" class="borda_titulo" style="margin-bottom: 6px" align="center">
+	<tr>
+    	<td width="left">
+    	<?php
+    	echo $this->translate->_("FINANCEIRO")." - ".$this->translate->_("CONCILIAÇÃO BANCÁRIA");
+    	?>
+    	
+    	</td>
+    </tr>
+</table>
+
+<table width="800" cellpadding="0" cellspacing="0" align="center">
+    <tr>
+    	<td>	    	
+			<table width="100%" style="border: 1px solid #000;">
+	    		<tr>
+	    			<td align="left" width="70%">
+	    				<?php 
+	    				foreach ($this->objContasbanc as $contasvalid): 
+	    					if($this->objContaconc==$contasvalid->id) echo strtoupper($contasvalid->nome);
+	    				endforeach;
+	    				?>
+	    				
+	    			</td>
+	    			<td class="tdpar" align="left" width="">
+					Saldo em <?php echo $this->dtFim?>:
+					</td>
+					<td class="tdpar" align="right">
+						<?php
+                        $saldo = current($this->objSaldoc);
+                        $resSaldo = $saldo->saldo;
+						echo number_format($resSaldo,2,",",".");
+					?>
+					</td>
+			    </tr>
+                <tr>
+                    <td class="tdpar" colspan="3">
+                        PERÍODO: <?php echo $this->dtIni?> À <?php echo $this->dtFim?>
+                    </td>
+                </tr>
+			 </table>
+	    </td>
+	 </tr>
+ 			 	
+	 <tr>
+	 	<td>
+ 		<?php if(!empty($this->objConciliac)):?>
+ 		<table class="mytable" width="100%" cellspacing="0" cellpadding="0" style="margin-top: 5px">	
+			<tr>
+				<th class="th_canto_min"><?=$this->translate->_("ORD")?></th>
+				<th class="th_orc_min"><?=$this->translate->_("DATA")?></th>
+				<th class="th_orc_min"><?=$this->translate->_("VALOR")?></th>
+				<th class="th_orc_min"><?=$this->translate->_("CONCILIACAO")?></th>
+				<th class="th_orc_min" ><?=$this->translate->_("OPCOES")?></th>
+				<th class="th_orc_min" ><?=$this->translate->_("SALDO")?></th>
+			</tr>
+            <tr  >
+                <td  class="td_orc_min" align="center" colspan="5">
+                    <?php echo $this->dtFim?>
+                </td>
+                <td class="td_orc_min" align="left"> &nbsp;  &nbsp;
+                    <?php
+                    echo number_format($resSaldo,2,",",".");
+                    ?>
+                </td>
+            </tr>
+		
+			<?php 
+			$idconc = 0;
+			
+			$idconc		= "";
+			$dt			= "";
+			$vlconc		= "";
+			$bancoconc	= "";
+			$txconc		= "";
+			$transac 	= "";
+			$pconci		= "";
+			$rconci		= "";
+			$conctransf = "";
+			$validado	= "";
+			foreach ($this->objConciliac as $listconc):
+			
+				if($idconc != 0):
+					if($idconc != $listconc->idconc):
+						 
+						?>
+						<tr  >
+							<td  class="td_orc_min" align="center">
+								<font ><?=substr("000000".$idconc,-6)?></font>
+							</td>
+							<td class="td_orc_min" align="center">
+								<font ><?=$dt?></font>
+							</td>											
+							<td class="td_orc_min" align="right">
+								<font ><?=number_format($vlconc,2,",",".")?></font>
+							</td>
+							<td class="td_orc_min" align="center" >
+								<?php
+								if($vlconc<0): 
+								 	echo substr($pconci,0,-1);
+								elseif($vlconc>0): 
+									echo substr($rconci,0,-1);
+								endif;
+								if(!empty($conctransf)):
+									echo "TRANSF ID ".substr("000000".$conctransf,-6);								
+								elseif($bancoconc!=""):
+									foreach ($this->objContasbanc as $contasvalid): 
+									    if($bancoconc == $contasvalid->id) echo strtoupper($contasvalid->nome)." (".($txconc).")";
+									endforeach;
+								endif;
+								?>
+							</td>
+							<td class="td_orc_min" align="left"> &nbsp;  &nbsp; 
+								<?php if($validado!=0):
+									echo " &nbsp; Validado";
+								endif;
+								?>
+							</td>
+                            <td class="td_orc_min" align="left"> &nbsp;  &nbsp;
+                                <?php
+                                echo number_format($resSaldo,2,",",".");
+                                $resSaldo -= $vlconc;
+                                ?>
+                            </td>
+						</tr>
+						<?php
+						$pconci	= "";
+						$rconci	= "";
+					endif;
+				endif;
+				$idconc		= $listconc->idconc;
+				$dt			= $listconc->dtcad;
+				$vlconc		= $listconc->valor;
+				$bancoconc	= $listconc->id_fin_contas;
+				if($listconc->tax_cambio!=0) $txconc		= number_format($listconc->tax_cambio,2,",",".");
+				$transac 	= $listconc->transacao;
+				$conctransf	= $listconc->conctransf;
+				$validado	= $listconc->valida;
+				if(!empty($listconc->pconc)) $pconci .= "P".substr("000".$listconc->pconc,-6)."<br>";
+				if(!empty($listconc->rconc)) $rconci	.= "R".substr("000".$listconc->rconc,-6)."<br>";
+				
+			endforeach;
+			
+			 
+			if($vlconc<0): 
+				$tpc = 1;
+			else: 
+				
+				$tpc = 2;
+			endif; 
+			?>
+			<tr  >
+				<td  class="td_orc_min" align="center">
+					<?=substr("000000".$idconc,-6)?>
+				</td>
+				<td class="td_orc_min" align="center">
+					<?=$dt?>
+				</td>											
+				<td class="td_orc_min" align="right">
+					<?=number_format($vlconc,2,",",".")?>
+				</td>
+				<td class="td_orc_min" align="center" >
+					<?php
+					if($vlconc<0): 
+					 	echo substr($pconci,0,-1);
+					elseif($vlconc>0): 
+						echo substr($rconci,0,-1);
+					endif;
+					if(!empty($conctransf)):
+						echo "TRANSF ID ".substr("000000".$conctransf,-6);								
+					elseif($bancoconc!=""):
+						foreach ($this->objContasbanc as $contasvalid): 
+						    if($bancoconc == $contasvalid->id) echo strtoupper($contasvalid->nome)." (".($txconc).")";
+						endforeach;
+					endif;
+					?>
+				</td>
+				<td class="td_orc_min" align="left"> &nbsp;  &nbsp; 
+					<?php if($validado!=0):
+						echo " &nbsp; Validado";
+					endif;
+					?>
+				</td>
+                <td class="td_orc_min" align="left"> &nbsp;  &nbsp;
+                    <?php
+                    echo number_format($resSaldo,2,",",".");
+                    ?>
+                </td>
+			</tr>
+            <tr  >
+                <td  class="td_orc_min" align="center" colspan="5">
+                    <?php echo $this->dtIni?>
+                </td>
+                <td class="td_orc_min" align="left"> &nbsp;  &nbsp;
+                    <?php
+                    $resSaldo -= $vlconc;
+                    echo number_format($resSaldo,2,",",".");
+                    ?>
+                </td>
+            </tr>
+			<?php
+			$pconci	= "";
+			?>
+		</table>
+		<?php endif;?>
+	 	</td>
+	 </tr>
+</table>
+</body>
+</html>

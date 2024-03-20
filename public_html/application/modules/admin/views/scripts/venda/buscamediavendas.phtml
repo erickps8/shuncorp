@@ -1,0 +1,84 @@
+<table style="width: 100%" class="tableStatic">
+	<tr>
+		<td >&nbsp;</td>
+		<?php 
+		
+		if(date("m") > $this->objQtmes):
+			$ano	= date("Y");
+			$mesini = date("m")-$this->objQtmes;
+		else:
+			$ano	= date("Y")-1;
+			$mesini = (date("m")+12)-$this->objQtmes;
+		endif;
+		
+		$ano4 = $ano3 = $ano2 = $ano;
+		$mesini4 = $mesini3 = $mesini2	= $mesini;
+		
+		for($i=0;$i<$this->objQtmes;$i++):
+			?>
+			<td ><?=$mesini?>/<?=$ano?></td>
+			<?php 
+			$mesini+=1;
+			if($mesini>12): 
+				$mesini -= 12;
+				$ano+=1;
+			endif;
+		endfor;
+		
+		?>
+	</tr>
+	<tr>
+		<td  style="text-align: center;">Ped</td>
+		<?php 
+		
+		for($i=0;$i<$this->objQtmes;$i++):
+			?>
+			<td  style="text-align: center;">
+			<?php
+			$tvalor = 0;
+			foreach ($this->objMedia as $lista):
+				if(substr($lista->data,5,2)==$mesini3):
+					$tvalor = $lista->qtped;
+				endif;
+			endforeach;
+			echo $tvalor;
+			?>
+			</td>
+			<?php		
+			$mesini3+=1;
+			if($mesini3>12): 
+				$mesini3 -= 12;				
+			endif;	
+		endfor;
+		
+		?>
+	</tr>
+	<tr>
+		<td  style="text-align: center;">Venda</td>
+		<?php 
+		
+		for($i=0;$i<$this->objQtmes;$i++):
+			?>
+			<td  style="text-align: center;">
+			<?php
+			$tvalor = 0;
+			foreach ($this->objMedia as $lista):
+				if(substr($lista->data,5,2)==$mesini2):
+					$tvalor = $lista->qtvend;					
+				endif;
+			endforeach;
+			if(empty($tvalor)) echo 0;
+			else echo 	$tvalor;	
+			?>
+			</td>
+			<?php		
+			$mesini2+=1;
+			if($mesini2>12): 
+				$mesini2 -= 12;				
+			endif;	
+		endfor;
+		
+		?>
+	</tr>
+	
+</table>

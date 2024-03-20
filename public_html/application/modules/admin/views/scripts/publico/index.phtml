@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="<?=$this->baseUrl(); ?>/public/javascript/buscaajax/buscaajaxtennis.js"></script>
+
+<title>Copa ZTL de Tenis de mesa</title>
+<style type="">
+a{
+	text-decoration:none;
+	color:#FFF;
+}
+
+a:hover{
+	color:#333;
+}
+
+.a{
+	text-decoration:none;
+	color:#999;
+}
+
+.a:hover{
+	color:#333;
+}
+
+</style>
+
+</head>
+
+<body style="font: 18px 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;">
+<table width="1000"  border="0" cellspacing="0" cellpadding="0" align="center">
+  <tr>
+    <td valign="top">
+    <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
+      <tr>
+        <td colspan="8"><img src="<?=$this->baseUrl()?>/images/pingpong/topo.jpg" width="1000" height="123" /></td>
+      </tr>
+      <tr>
+        <td style="background-image:url(<?=$this->baseUrl()?>/images/pingpong/lateral.jpg); background-repeat: repeat-y; background-color:#E6E6E6" colspan="7">&nbsp;</td>
+      <td style="background-image:url(<?=$this->baseUrl()?>/images/pingpong/lateral2.jpg); background-repeat:repeat-y;">&nbsp;</td></tr>
+      <tr>
+        <td width="12" style="background-image:url(<?=$this->baseUrl()?>/images/pingpong/lateral.jpg); height:241px;background-color:#E6E6E6; background-repeat:repeat-y">&nbsp;</td>
+        <td style="background-image: url(<?=$this->baseUrl()?>/images/pingpong/jogadores.jpg); background-color:#E6E6E6; background-repeat:no-repeat;" width="21">&nbsp;</td>
+        <td valign="top" style="background-image:url(<?=$this->baseUrl()?>/images/pingpong/jogadores3.jpg);background-color:#E6E6E6; background-repeat:repeat-x;" width="700">&nbsp;
+	        <div id="part">
+				<?php 
+				if(!empty($this->objPart)):
+					foreach ($this->objPart as $listpart);
+				endif;
+				?>
+				<table width="100%" align="center">
+				<tr>
+					<td width="33%" align="center">
+						<?php if($listpart->id_jogador1!=""): ?>
+						<a href="javascript:void(0);" <?php if($listpart->id_jogador2!=""): ?> onclick="if(confirm('Venceu a partida?')){atualizaPartida(<?=$listpart->id_jogador1?>);}" <?php endif;?>>	
+							<img style="border: 1px solid;" src="<?=$this->baseUrl()?>/images/pingpong/jogador/<?=$listpart->id_jogador1?>.jpg" alt="<?=$listpart->id_jogador1?>" height="165" /> &nbsp;
+						</a>
+						<?php endif;?>
+					</td>
+					<td width="34%" align="center">
+					<img src="<?=$this->baseUrl()?>/images/pingpong/vesus.jpg" alt="vs" />
+					</td>
+					<td width="33%" align="center">
+						<?php if($listpart->id_jogador2!=""): ?>
+						<a href="javascript:void(0);" onclick="if(confirm('Venceu a partida?')){atualizaPartida(<?=$listpart->id_jogador2?>);}">
+							<img style="border: 1px solid;" src="<?=$this->baseUrl()?>/images/pingpong/jogador/<?=$listpart->id_jogador2?>.jpg" alt="<?=$listpart->id_jogador2?>" height="165" /> &nbsp;
+						</a>
+						<?php endif;?>
+					</td>
+				</tr>
+				</table>
+			</div>
+        
+        </td>
+        <td style="background-image:url(<?=$this->baseUrl()?>/images/pingpong/jogadores2.jpg);background-color:#E6E6E6; background-repeat:no-repeat;"width="26">&nbsp;</td>
+        <td style="background-color:#E6E6E6;" width="69" colspan="3">
+			<div id="jog">
+			<table width="80%" align="center">
+			<?php
+			
+			$contpart = count($this->objHist);
+			
+			foreach ($this->objTennis as $listajog):			
+					
+			?>
+				<tr>
+					<?php if($listajog->sit==1): ?>
+					<td align="left"  style="color: red">
+						<a class="a" href="javascript:void(0);" onclick="Mostralistajogadores(<?=$listajog->idj?>); ">
+						<?=$listajog->nome?>
+						</a>
+					</td>
+					<td align="center" style="color: red">
+					Fora
+					</td>
+					<?php elseif($listajog->sit==2): ?>
+					<td align="left">
+						<a class="a" href="javascript:void(0);" onclick="if(confirm('Remover jogador da lista?')){removeJogadorlista(<?=$listajog->idj?>);}">
+						<?=$listajog->nome?>
+						</a>
+					</td>
+					<td align="center">
+					<?php 
+					$venc = 0;
+					if($listajog->venca!=0):
+						$venc = $listajog->venca;
+					else:
+						$venc = 0;
+					endif;
+					if($contpart!=0):
+						$perc = ($venc*100)/$contpart;
+					endif;
+					
+					?>
+					<?=$venc?> (<?=number_format($perc,2)?>%)
+					</td>
+					<?php endif; ?>
+					
+				</tr>
+			<?php 
+			endforeach;
+			?>
+			</table>
+			<table width="80%" align="center">
+				<tr>				
+					<td align="left">				
+					Total partidas: <?=$contpart?>
+					</td>
+				</tr>
+			</table>
+			</div>
+		</td>
+        <td style="background-image:url(<?=$this->baseUrl()?>/images/pingpong/lateral2.jpg); background-repeat:repeat-y" width="16">&nbsp;</td>
+      </tr>
+      <tr>
+        <td style="background-image:url(<?=$this->baseUrl()?>/images/pingpong/lateral.jpg); background-repeat:repeat-y; background-color:#E6E6E6">&nbsp;</td>
+        <td style="background-color:#E6E6E6;" colspan="6">&nbsp;</td>
+        <td style="background-image:url(<?=$this->baseUrl()?>/images/pingpong/lateral2.jpg); background-repeat:repeat-y">&nbsp;</td>
+      </tr>
+      <tr>
+        <td  style="background-image:url(<?=$this->baseUrl()?>/images/pingpong/lateral.jpg); background-repeat:repeat-y; background-color:#E6E6E6" height="149">&nbsp;</td>
+        <td style="background-image:url(<?=$this->baseUrl()?>/images/pingpong/espera.jpg); background-repeat:no-repeat; background-color:#E6E6E6">&nbsp;</td>
+        <td valign="top" colspan="4" style="background-image: url(<?=$this->baseUrl()?>/images/pingpong/espera2.jpg); background-repeat:repeat-x; background-color:#E6E6E6">
+			<div id="fila">
+			<?php if(!empty($this->objFila)): ?>
+				<table border="0" style="margin-top: 5px">
+					<tr>
+					<?php 
+					foreach ($this->objFila as $fila):
+					?>
+						<td>
+						<img style="border: 1px solid;" src="<?=$this->baseUrl()?>/images/pingpong/jogador/<?=$fila->id_jogador?>.jpg" alt="<?=$fila->id_jogador?>" height="100" /> &nbsp; 
+						</td>
+					<?php 
+					endforeach;	
+					?>
+					</tr>
+				</table>
+			<?php endif;?>
+			</div>
+		</td>
+        <td width="15px" style="background-color:#E6E6E6; background-image:url(<?=$this->baseUrl()?>/images/pingpong/espera3.jpg); background-repeat:no-repeat">&nbsp;</td>
+        <td style="background-color:#E6E6E6; background-image:url(<?=$this->baseUrl()?>/images/pingpong/lateral2.jpg); background-repeat:repeat-y">&nbsp;</td>
+      </tr>
+      <tr>
+        <td><img src="<?=$this->baseUrl()?>/images/pingpong/1.jpg" width="15" height="24" /></td>
+        <td style="background-color:#E6E6E6;">&nbsp;</td>
+        <td style="background-color:#E6E6E6;">&nbsp;</td>
+        <td style="background-color:#E6E6E6;">&nbsp;</td>
+        <td style="background-color:#E6E6E6;">&nbsp;</td>
+        <td style="background-color:#E6E6E6;">&nbsp;</td>
+        <td style="background-color:#E6E6E6;">&nbsp;</td>
+        <td><img src="<?=$this->baseUrl()?>/images/pingpong/2.jpg" width="15" height="24" /></td>
+      </tr>
+      <tr>
+        <td align="right" colspan="8" height="90px" style="background-image:url(<?=$this->baseUrl()?>/images/pingpong/rodape.jpg); background-repeat:repeat-y; font-size: 30px ; color: #FFF" >
+      		<a href="<?=$this->baseUrl()?>/admin/publico/rank" >RANK</a> | <a href="<?=$this->baseUrl()?>/admin/publico/consulta" >CONFRONTOS</a> &nbsp; &nbsp; 
+        </td>
+      </tr>    
+    </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl()?>/admin/painel">HOME</a>&nbsp; 
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/cadastro/despesasfiscais">TRIBUTOS</a>&nbsp;
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp; 
+		<a href="<?=$this->baseUrl()?>/admin/cadastro/tributocfop">CFOP</a>&nbsp; 
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp; 
+		<b><a href="<?=$this->baseUrl()?>/admin/cadastro/tributoscfopcad">CADASTRO CFOP</a></b>
+	</div>
+	<div id="sistitulo">CADASTRO CFOP</div>
+    <div id="sisconteudo"> 
+    	<form action="<?=$this->baseUrl()?>/admin/cadastro/gravatributocfop" method="post" name="grava" id="grava">
+		<?php foreach ($this->objList as $list)?>
+		<table cellpadding="2" cellspacing="0" width="100%" style="margin-top: 5px">
+		    <tr>
+		    	<td align="left" width="15%" >
+		    		CFOP: <br>
+		    		<input value="<?=$list->cfop?>" type="text" size="9" name="cfop" >
+		            <input value="<?=$list->id?>" type="hidden" name="idcfop" id="idcfop" >
+		    	</td>
+				<td align="left">
+		    		Descrição: <br>
+		    		<input value="<?=$list->descricao?>" type="text" size="50" name="descricao" >
+		    	</td>
+			</tr>
+			<tr>
+		    	<td align="left" colspan="2" >
+		    		<input type="checkbox" value="1" name="venda" <?php if($list->venda==1) echo 'checked="checked"';?> > Venda
+		    		<input type="checkbox" value="1" name="compra" <?php if($list->compra==1) echo 'checked="checked"';?> > Compra
+		    		<input type="checkbox" value="1" name="garantia" <?php if($list->garantia==1) echo 'checked="checked"';?> > Garantia
+		    		<input type="checkbox" value="1" name="devolucao" <?php if($list->devolucao==1) echo 'checked="checked"';?> > Devolução
+		    	</td>
+			</tr>
+			 <tr>
+		    	<td align="left" colspan="2">
+		    		<br />
+		    		<input type="submit" value="Salvar">
+		    	</td>
+			</tr>
+		</table>
+		</form>
+	</div>
+</div>	
+	

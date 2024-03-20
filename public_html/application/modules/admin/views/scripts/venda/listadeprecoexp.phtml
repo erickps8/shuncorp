@@ -1,0 +1,382 @@
+<?php 
+require_once 'PHPExcel.php';
+require_once 'PHPExcel/IOFactory.php';
+
+// Create new PHPExcel object
+$objPHPExcel = new PHPExcel();
+
+// Set document properties
+$objPHPExcel->getProperties()->setCreator("ZTLBrasil.com.br")
+	->setLastModifiedBy("ZTLBrasil.com.br")
+	->setTitle("Lista de Preços");
+
+$aba = 0;
+
+if(!empty($this->objProdutos)):
+foreach ($this->objProdgrup as $grupos):
+	$linha = $linha1 = 0 ;
+	
+	if($aba > 0):
+		$objPHPExcel->createSheet();
+	endif;
+
+	/* $objPHPExcel->getActiveSheet()->getStyle('A5:m100')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
+	$objPHPExcel->getActiveSheet()->getStyle('Af:m100')->getFill()->getStartColor()->setARGB('FFFFFFFFF');
+	
+	$objPHPExcel->getActiveSheet()->getStyle('G1:m3')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
+	$objPHPExcel->getActiveSheet()->getStyle('G1:m3')->getFill()->getStartColor()->setARGB('FFFFFFFFF'); */
+	
+	$objPHPExcel->setActiveSheetIndex($aba);
+	$aba++;
+	
+	$titulo = str_replace("/", " ", substr($grupos->descgrupo." - ".$grupos->descsubgrupo,0,30));
+	$objPHPExcel->getActiveSheet()->setTitle($titulo);	
+	
+	$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(5);
+	$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(18);
+	$objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(18);
+	$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(20);
+	$objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(16);
+	$objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(12);
+	
+	//-- Titulo do grupo -------------------------------------------------------------------------
+	$objPHPExcel->getActiveSheet()->setCellValue('B2', $grupos->descgrupo." - ".$grupos->descsubgrupo);
+		
+	$objPHPExcel->getActiveSheet()->mergeCells('B2:F4');
+	
+	$objPHPExcel->getActiveSheet()->getStyle('B2:F4')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
+	$objPHPExcel->getActiveSheet()->getStyle('B2:F4')->getFill()->getStartColor()->setARGB('FF808080');
+	$objPHPExcel->getActiveSheet()->getStyle('B2:F4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+	$objPHPExcel->getActiveSheet()->getStyle('B2:F4')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+	
+	$styleThinBlackBorderOutline = array(
+		'borders' => array(
+			'outline' => array(
+				'style' => PHPExcel_Style_Border::BORDER_THIN,
+				'color' => array('argb' => 'FF000000'),
+			),
+		),
+	);
+	
+	$objPHPExcel->getActiveSheet()->getStyle('B2:F4')->applyFromArray($styleThinBlackBorderOutline);	
+	
+	$linha = 3;
+	
+	$cont = 0;
+	foreach ($this->objProdutos as $produtos):
+	  	if($produtos->id_gruposprodsub == $grupos->idsubg):
+	  		$linha += 2;
+			$objPHPExcel->getActiveSheet()->getStyle('B'.$linha.':F'.$linha)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
+			$objPHPExcel->getActiveSheet()->getStyle('B'.$linha.':F'.$linha)->getFill()->getStartColor()->setARGB('ffffffff');
+	
+			$linha ++;
+			
+			$cont++;
+	  	
+			//-- Linha com codigo e descricao -------------------------------------------------------------
+		  	$objPHPExcel->getActiveSheet()->setCellValue('B'.$linha, $produtos->CODIGO);
+		  	$objPHPExcel->getActiveSheet()->setCellValue('C'.$linha, ($produtos->DESCRICAO));
+		  	if(empty($produtos->PRECO_UNITARIO)):
+		  		$objPHPExcel->getActiveSheet()->setCellValue('F'.$linha, "R$ ".number_format(0,2,",","."));
+		  	else:
+		  		$objPHPExcel->getActiveSheet()->setCellValue('F'.$linha, "R$ ".number_format($produtos->PRECO_UNITARIO,2,",","."));
+		  	endif;
+		  	
+		  	$objPHPExcel->getActiveSheet()->getStyle('B'.$linha.':F'.$linha)->getFont()->setBold(true);
+		  	
+		  	$objPHPExcel->getActiveSheet()->getStyle('B'.$linha)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+		  	$objPHPExcel->getActiveSheet()->getStyle('F'.$linha)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+		  	
+		  	$objPHPExcel->getActiveSheet()->mergeCells('C'.$linha.':E'.$linha);
+		  	
+		  	$objPHPExcel->getActiveSheet()->getStyle('B'.$linha)->applyFromArray($styleThinBlackBorderOutline);
+		  	$objPHPExcel->getActiveSheet()->getStyle('C'.$linha)->applyFromArray($styleThinBlackBorderOutline);
+		  	$objPHPExcel->getActiveSheet()->getStyle('F'.$linha)->applyFromArray($styleThinBlackBorderOutline);
+		  	
+		  	$linha++;
+		   	$linha1 = $linhaean = $linha;
+		   	
+		   	//--- Aplicacao ------------------------------------------------------------------------------
+		   	
+			$objPHPExcel->getActiveSheet()->setCellValue('C'.$linha, 'Montadora');
+			$objPHPExcel->getActiveSheet()->setCellValue('D'.$linha, 'Modelo');
+			$objPHPExcel->getActiveSheet()->setCellValue('E'.$linha, 'Ano');
+			
+			$objPHPExcel->getActiveSheet()->getStyle('C'.$linha)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+			$objPHPExcel->getActiveSheet()->getStyle('D'.$linha)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+			$objPHPExcel->getActiveSheet()->getStyle('E'.$linha)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+							
+			$objPHPExcel->getActiveSheet()->getStyle('C'.$linha)->applyFromArray($styleThinBlackBorderOutline);
+			$objPHPExcel->getActiveSheet()->getStyle('D'.$linha)->applyFromArray($styleThinBlackBorderOutline);
+			$objPHPExcel->getActiveSheet()->getStyle('E'.$linha)->applyFromArray($styleThinBlackBorderOutline);
+			
+		  	/* if(file_exists(BaseImg.'imgprodutos/'.$produtos->idprod.'/imagem1.jpg')):
+			  	$objDrawing = new PHPExcel_Worksheet_Drawing();
+			  	$objDrawing->setName('Produto');
+			  	$objDrawing->setDescription('Produto');
+			  	$objDrawing->setPath(BaseImg.'imgprodutos/'.$produtos->idprod.'/imagem1.jpg');
+			  	$objDrawing->setWidth(80);
+			  	$objDrawing->setCoordinates('A'.$linhaimg);
+			  	$objDrawing->setOffsetX(10);
+			  	$objDrawing->setOffsetY(4);
+			  	$objDrawing->setWorksheet($objPHPExcel->getActiveSheet());			  	
+		    else: 
+			    $objDrawing = new PHPExcel_Worksheet_Drawing();
+			    $objDrawing->setName('Produto');
+			    $objDrawing->setDescription('Produto');
+			    $objDrawing->setPath(BaseImg.'hotsites/catalogo/lancamento.jpg');
+			    $objDrawing->setHeight(100);
+			    $objDrawing->setCoordinates('A'.$linha);
+			    $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
+		  endif;  */
+
+		  //--- Aplicacao veicular -------------------------------------------
+		  if(!empty($this->objProdveic)):
+		  		foreach ($this->objProdveic as $veiculos):
+	        		if($veiculos->id_produto == $produtos->idprod):
+
+		  				$linha++;
+		  				$ano = "";
+					    if(!empty($veiculos->ano_ini) and empty($veiculos->ano_fim)):
+					  		$ano = $veiculos->ano_ini." > ";
+					  	elseif(empty($veiculos->ano_ini) and !empty($veiculos->ano_fim)):
+					  		$ano = "< ".$veiculos->ano_fim;
+					  	elseif(!empty($veiculos->ano_ini) and !empty($veiculos->ano_fim)):
+					  		$ano = $veiculos->ano_ini." > ".$veiculos->ano_fim;
+					  	else:
+					  		$ano = "Todos";
+					  	endif;
+		  
+		  
+		        		$objPHPExcel->getActiveSheet()->setCellValue('C'.$linha, ($veiculos->NOME));
+		        		$objPHPExcel->getActiveSheet()->setCellValue('D'.$linha, ($veiculos->no_modelo));
+		        		$objPHPExcel->getActiveSheet()->setCellValue('E'.$linha, $ano);
+		        		
+		        		$objPHPExcel->getActiveSheet()->getStyle('C'.$linha)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+		        		$objPHPExcel->getActiveSheet()->getStyle('D'.$linha)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+		        		$objPHPExcel->getActiveSheet()->getStyle('E'.$linha)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		        				        		
+		        		$objPHPExcel->getActiveSheet()->getStyle('C'.$linha)->applyFromArray($styleThinBlackBorderOutline);
+		        		$objPHPExcel->getActiveSheet()->getStyle('D'.$linha)->applyFromArray($styleThinBlackBorderOutline);
+		        		$objPHPExcel->getActiveSheet()->getStyle('E'.$linha)->applyFromArray($styleThinBlackBorderOutline);
+		        	endif;
+	        	endforeach;	        		
+	        endif; 
+	        
+	        //----------- EAN, PESO, CL FISCAL ------------------------------------------------------------
+	        $objPHPExcel->getActiveSheet()->setCellValue('B'.$linhaean, "EAN: ".$produtos->codigo_ean);
+	        $objPHPExcel->getActiveSheet()->getStyle('B'.$linhaean)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+	        $objPHPExcel->getActiveSheet()->getStyle('B'.$linhaean)->applyFromArray($styleThinBlackBorderOutline);
+	        $linhaean += 1;
+	        
+	        $objPHPExcel->getActiveSheet()->setCellValue('B'.$linhaean, "NCM: ".$produtos->ncm.$produtos->ncmex);
+	        $objPHPExcel->getActiveSheet()->getStyle('B'.$linhaean)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+	        $objPHPExcel->getActiveSheet()->getStyle('B'.$linhaean)->applyFromArray($styleThinBlackBorderOutline);
+	        $linhaean += 1;
+	        
+	        $objPHPExcel->getActiveSheet()->setCellValue('B'.$linhaean, "PESO: ".$produtos->PESO);
+	        $objPHPExcel->getActiveSheet()->getStyle('B'.$linhaean)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+	        $objPHPExcel->getActiveSheet()->getStyle('B'.$linhaean)->applyFromArray($styleThinBlackBorderOutline);
+	        
+	        if(($linha-$linha1) < 2):
+	        	$linha += 2 - ($linha-$linha1);
+	        endif;	        
+	        
+	        //-- Mescla celula da imagem e do preco -------------------------------------------------------
+	        //$objPHPExcel->getActiveSheet()->mergeCells('B'.$linha1.':B'.$linha);
+	        $objPHPExcel->getActiveSheet()->mergeCells('F'.$linha1.':F'.$linha);
+	         
+	        $objPHPExcel->getActiveSheet()->getStyle('B'.$linha1.':B'.$linha)->applyFromArray($styleThinBlackBorderOutline);
+	        $objPHPExcel->getActiveSheet()->getStyle('F'.$linha1.':F'.$linha)->applyFromArray($styleThinBlackBorderOutline);
+	        
+	        $linha++;
+	        
+	        //--- Add linhas por conta da IMG ---------------------------------------------------------------------
+	        //if(($linha - $linha1) < 7) $linha = $linha + 7 - ($linha - $linha1);
+	        
+	        //--- Medidas ------------------------------------------
+	        $medida = "";
+	        if(($produtos->grupoprod==8)):
+	        		
+	        	//- homocinetica ------------------------------------------------
+		        if($produtos->estriado_macho_d > 0):
+		        	$medida = "Estriado macho: ".$produtos->estriado_macho_d." | ";
+		        endif;
+	        
+		        if($produtos->estriado_macho_mm > 0):
+		        	$medida .= "D: ".number_format($produtos->estriado_macho_mm,2,",","")." mm | ";
+		        endif;
+		        
+		        if($produtos->estriado_femea_d > 0):
+		        	$medida .= "Estriado Femêo: ".$produtos->estriado_femea_d." | ";
+		        endif;
+		        
+		        if($produtos->estriado_femea_mm > 0):
+		        	$medida .= "D: ".number_format($produtos->estriado_femea_mm,2,",","")." mm | ";
+		        endif;
+		        
+		        if($produtos->diametro_homo > 0):
+		        	$medida .= " Diâmetro: ".number_format($produtos->diametro_homo,2,",","")." | ";
+		        endif;
+		        
+		        if($produtos->raio_porca_homo > 0):
+		        	$medida .= "Raio da porca: ".$produtos->raio_porca_homo." | ";
+		        endif;
+		        
+		        if($produtos->aperto_homo > 0):
+		        	$medida .= "Aperto: ".$produtos->aperto_homo." | ";
+		        endif;
+		        
+		        //--- Justas deslizantes ------------------------------------------
+		        if($produtos->medida_inner_desl > 0):
+		        	$medida .= "Interno: ".$produtos->medida_inner_desl." | ";
+		        endif;
+		        
+		        if($produtos->medida_outer_desl > 0):
+		        	$medida .= "Externo: ".$produtos->medida_outer_desl." | ";
+		        endif;
+		        
+		        if($produtos->medida_high_desl > 0):
+		        	$medida .= "Altura: ".$produtos->medida_high_desl." | ";
+		        endif;
+		        
+		        if($produtos->medida_teeth_desl > 0):
+		        	$medida .= "Dentes: ".$produtos->medida_teeth_desl." | ";
+		        endif;
+		        
+		        //-- Cruzetas - trizetas ---------------------------------------------
+		        if($produtos->aperto_homo > 0):
+		        	$medida .= "Interno: ".$produtos->aperto_homo." | ";
+		        endif;
+		        
+		        if($produtos->medida_high_cru > 0):
+		        	$medida .= "Altura: ".$produtos->medida_high_cru." | ";
+		        endif;
+		        
+		        if($produtos->medida_teeth_cru > 0):
+		        	$medida .= "Dentes: ".$produtos->medida_teeth_cru." | ";
+		        endif;
+		         	
+		        $medida2 = $arraymed = "";
+		        $arraymed = explode("|", $medida);
+		        $medida = "";
+		        
+		        for($i=0;$i<count($arraymed);$i++):
+			        if($i < 5):
+			        	$medida .= $arraymed[$i]." | ";
+			        else:
+			        	$medida2 .= $arraymed[$i]." | ";
+			        endif;
+		        endfor;
+		        
+		        $medida = substr($medida,0,-2)."\n".substr($medida2,0,-2);
+		        
+	        elseif(($produtos->grupoprod==1)||($produtos->grupoprod==6)):
+	        	$medida = "Interno: ".$produtos->M_INNER." mm; Externo: ".$produtos->M_OUTER." mm ; Altura: ".$produtos->M_HIGH." mm";
+	              
+	        elseif(($produtos->grupoprod==2)):
+	        	
+		        if($produtos->cubo_eixo > 0):
+		        	$medida = "Eixo rolamento: ".number_format($produtos->cubo_eixo,2,",","");
+		        endif;
+		         
+		        if($produtos->cubo_altura > 0):
+		        	$medida .= "|Altura: ".number_format($produtos->cubo_altura,2,",","");
+		        endif;
+		         
+		        if($produtos->cubo_externo > 0):
+		        	$medida .= "|Externo: ".number_format($produtos->cubo_externo,2,",","");
+		        endif;
+		         
+		        //-Dentes homocinética
+		        if($produtos->cubo_denteshomo > 0):
+		        	$medida .= "|Dentes homocinética: ".$produtos->cubo_denteshomo;
+		        endif;
+		         
+		        //-Geração
+		        if($produtos->cubo_geracao > 0):
+		        	$medida .= "|Geração: ".$produtos->cubo_geracao."ª";
+		        endif;
+		         
+		        //-Construção
+		        if($produtos->cubo_construcao > 0):
+		       		$medida .= "|Construção: "; if($produtos->cubo_construcao==1) $medida .= "Esfera"; else $medida .= "Roletes";
+		        endif;
+		         
+		        //- Alt/Conj/Rolante:
+		        if($produtos->cubo_altconjrolante > 0):
+		        	$medida .= "|Alt/Conj/Rolante: ".number_format($produtos->cubo_altconjrolante,2,",","");
+		        endif;
+		         
+		        //-  Tipo ABS
+		        if($produtos->cubo_tipoabs > 0):
+		        	$medida .= "|Tipo ABS: "; if($produtos->cubo_tipoabs==1) $medida .= "Magnético"; elseif($produtos->cubo_tipoabs==2) $medida .= "Cabo conector"; elseif($produtos->cubo_tipoabs==1) $medida .= "Coroa";
+		        endif;
+		         
+		        //-  Altura coroa ABS
+		        if($produtos->cubo_alturacoroaabs > 0):
+		        	$medida .= "|Altura coroa ABS: ".number_format($produtos->cubo_alturacoroaabs,2,",","");
+		        endif;
+		         
+		        //-  Dentes coroa ABS
+		        if($produtos->cubo_dentescoroaabs > 0):
+		        	$medida .= "|Dentes coroa ABS: ".$produtos->cubo_dentescoroaabs;
+		        endif;
+		         
+		        //-- Qt furos
+		        if($produtos->cubo_qtfuroparafuso > 0):
+			        if($produtos->cubo_tipoparafuso == 1):
+			        	$medida .= "|Qt furos: ".$produtos->cubo_qtfuroparafuso;
+			        else:
+			       		$medida .= "|Qt pafarusos: ".$produtos->cubo_qtfuroparafuso;
+			        endif;
+		        endif;
+	        	
+		        $medida2 = $arraymed = "";
+		        $arraymed = explode("|", $medida);
+		        $medida = "";
+		        
+		        for($i=0;$i<count($arraymed);$i++):
+		        	if($i < 5):
+		        		$medida .= $arraymed[$i]." | ";
+		        	else:
+		        		$medida2 .= $arraymed[$i]." | ";
+		        	endif;
+		        endfor;
+		        
+		        $medida = substr($medida,0,-2)."
+\n".substr($medida2,0,-2);
+		        
+	        endif;
+
+	        $linham = $linha + 1;
+	        $objPHPExcel->getActiveSheet()->setCellValue('B'.$linha, $medida);
+	        $objPHPExcel->getActiveSheet()->mergeCells('B'.$linha.':F'.$linham);
+	        $objPHPExcel->getActiveSheet()->getStyle('B'.$linha.':F'.$linham)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
+	        $objPHPExcel->getActiveSheet()->getStyle('B'.$linha.':F'.$linham)->applyFromArray($styleThinBlackBorderOutline);	        
+	       
+	    
+		  endif;
+	  endforeach;
+  endforeach;
+endif;
+
+/* // Redirect output to a client’s web browser (Excel5)
+header('Content-Type: application/vnd.ms-excel');
+header('Content-Disposition: attachment;filename="Produtos_ZTL.xls"');
+header('Cache-Control: max-age=0');
+
+$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+$objWriter->save('php://output');
+exit;
+ */
+
+
+// Redirect output to a client’s web browser (Excel2007)
+header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+header('Content-Disposition: attachment;filename="Produtos_ZTL.xlsx"');
+header('Cache-Control: max-age=0');
+
+$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+$objWriter->save('php://output');
+exit;

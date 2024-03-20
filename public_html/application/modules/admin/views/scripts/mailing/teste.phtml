@@ -1,0 +1,12 @@
+<?php 
+
+$email = "cleitonsbarbosa@gmail.com";
+
+if(filter_var($email, FILTER_VALIDATE_EMAIL)){
+	echo 'E-mail válido';
+}else{
+	echo 'E-mail invalido';
+}
+
+
+?>

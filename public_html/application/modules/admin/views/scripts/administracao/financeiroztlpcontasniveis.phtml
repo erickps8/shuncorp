@@ -1,0 +1,74 @@
+<div id="siscorpo">
+	<div id="sisnavegacao">
+		<a href="<?=$this->baseUrl()?>/admin/painel"><?=$this->translate->_("HOME")?></a>&nbsp; 
+		<img src="<?=$this->baseUrl()?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?=$this->baseUrl()?>/admin/administracao/financeiroztlpag"><?=$this->translate->_("FINANCEIRO")?></a>&nbsp;
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeiroztlpcontas"><?=$this->translate->_("ADM");?></a>&nbsp;
+		<img src="<?php echo $this->baseUrl(); ?>/images/seta.png" width="5" height="7" />&nbsp;
+		<a href="<?php echo $this->baseUrl(); ?>/admin/administracao/financeiroztlpcontas"><b><?=$this->translate->_("PLANO DE CONTAS");?></b></a>&nbsp;
+		<div style="float: right; font-weight: bold;">
+			<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlpag"><?=$this->translate->_("PAGAR")?></a> |
+    		<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlrec"><?=$this->translate->_("RECEBER")?></a> |  
+    		<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlconc"><?=$this->translate->_("CONCILIAÇÃO")?></a>
+		</div>			    		
+	</div>
+	<div id="sistitulo"><?=$this->translate->_("PLANO DE CONTAS")?></div>
+	<div style="text-align: right; font-weight: bold; padding: 5px"><a href="<?=$this->baseUrl()?>/admin/administracao/financeiroztlbancos"><?=$this->translate->_("CONTAS BANCÁRIAS")?></a></div>
+    <div id="sisconteudo">  
+  		<div>    
+			<?php if($this->objIns==1):?>
+			<form action="<?php echo $this->baseUrl(); ?>/admin/administracao/cadplanocontasztl" method="post" name="plano" id="plano">
+				<input type="hidden" name="idplanoconta" >
+				<table width="100%" border="0" style="margin-bottom: 8px; margin-top: 5px; display: block; border: 1px solid #000; padding: 4px; " id="tabela">
+				    <tr>
+				    	<td align="left" >
+				    		<?=$this->translate->_("Plano de conta")?>:<br>							 
+				    		<input type="text" style="text-transform: uppercase;" size="25" name="planoconta" id="planoconta" >
+				    		<input type="submit" value="<?=$this->translate->_("Salvar")?>" >
+				    	</td>
+					</tr>
+				</table>  
+			</form>
+			<?php endif;?>
+		</div>
+		<div>
+			<table class="mytable" width="100%" cellspacing="0" cellpadding="0">	
+				<tr>
+					<th class="th_canto_min"><?=$this->translate->_("ORD")?></th>
+					<th class="th_orc_min"><?=$this->translate->_("PLANO DE CONTA")?></th>
+					<?php if($this->objIns==1):?>
+					<th class="th_orc_min" width="20%">&nbsp;</th>
+					<?php endif;?>
+				</tr>			
+				<?php 				
+				if(!empty($this->objPlanocontas)):
+				$cont=0;
+				foreach ($this->objPlanocontas as $listplan):
+					$cont++;
+					?>
+					<tr>
+						<td class="td_orc_min" align="center">
+							<?=substr("000".$cont,-3)?>
+						</td>
+						<td class="td_orc_min" align="left">
+							<?=$listplan->nome?>
+						</td>
+						<?php if($this->objIns==1):?>
+						<td class="td_orc_min" align="center">
+							<a href="#" onclick="document.plano.planoconta.value='<?=$listplan->nome?>'; document.plano.idplanoconta.value='<?=$listplan->id?>';"><img src="<?php echo $this->baseUrl(); ?>/images/edit_orc.gif" width="14" height="14" border="0" title="Editar"></a> &nbsp; 
+							<?php if($this->objEdi==1):?>
+							<a href="<?=$this->baseUrl(); ?>/admin/administracao/financeiroztlpsubcontas/cat/<?=md5($listplan->id)?>"><img src="<?=$this->baseUrl()?>/images/visualizar_orc.gif" width="15"  border="0" title="Remover"></a> &nbsp;
+							<a href="javascript:void(0);" onclick="if(confirm('Remover Plano de conta?')){window.location='<?=$this->baseUrl()?>/admin/administracao/remplanocontasztl/idplano/<?=md5($listplan->id)?>'};"><img src="<?php echo $this->baseUrl(); ?>/images/window-close.png" width="14" height="14" border="0" title="Remover"></a>
+							<?php endif;?>
+						</td>
+						<?php endif;?>
+					</tr>
+					<?php								
+				endforeach;
+			endif;
+			?>
+			</table>
+		</div>
+	</div>
+</div>

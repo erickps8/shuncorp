@@ -1,0 +1,169 @@
+<script src="<?=$this->baseUrl()?>/public/javascript/buscaajax/buscaajaxgrupofor.js" type="text/javascript"></script>
+<script src="<?=$this->baseUrl()?>/public/javascript/buscaajax/buscaajaxsubgrupo.js" type="text/javascript"></script> 
+
+	<!-- Content -->
+    <div class="content">   
+	<!-- Navegacao --> 
+    	<div class="breadCrumbHolder module" style="margin-top: 0px; margin-bottom: 10px">
+        	<div class="breadCrumb module">
+            	<ul>
+                	<li class="firstB"><a href="<?php echo $this->baseUrl(); ?>/admin">Home</a> </li>
+                	<li ><a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoqueresumo">Estoque</a></li>
+                	<li class="lastB"><a href="<?php echo $this->baseUrl(); ?>/admin/compras/estoquegrupo/fil/comp">Extrato</a></li>         
+                </ul>
+            </div>
+        </div>       
+
+        <div class="title"><h5>Estoque de produtos</h5>
+        	<?php if($this->objNivel == 2){ ?>
+        	<div style="float: right; padding: 10px">
+				<a href="<?=$this->baseUrl()?>/admin/compras/estoquegrupoexp/tipo/2"><img title="Exportar para MS Excel" src="<?=$this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/excelDocwhite.png" border="0" width="18" /> </a>
+			</div>
+			<?php } ?>        
+        </div>
+        
+        <div class="widgets" >
+        <?php if($this->objNivel != 2){ ?>
+        	<div class="left" style="margin-top: 5px; margin-bottom: 10px; width: 70%">
+        		<form action="<?php echo $this->baseUrl(); ?>/admin/compras/estoquegrupo" method="post" name="busca" id="busca" class="mainForm" >
+				Código: <br />
+				<input type="text" size="25" name="codproduto" style="width: 150px">&nbsp; <input type="submit"  value="<?=$this->translate->_("Pesquisar")?>" class="blueBtn" >
+				</form>
+			</div>
+        <?php }else{ ?>
+        	<div class="left" style="margin-top: 5px; margin-bottom: 10px; width: 70%">
+        		<form action="<?php echo $this->baseUrl(); ?>/admin/compras/estoquegrupo" method="post" name="busca" id="busca" class="mainForm" >
+	            <?php if($this->objNivel == 2){ ?>
+					<table style="border: 1px solid #d5d5d5; width: 600px">
+				    <tr>
+				    	<td align="left"  style="padding: 5px">
+					    	Código<br />
+							<input type="text" size="25" name="codproduto" style="width: 150px" value="<?php echo $this->objPesq['codproduto']?>">											
+				    	</td>   
+				    	<td>
+				    		Mês:
+				    		<div class="styled-select" style="width: 100px"> 
+					    	<select name="periodo" style="width: 122px">
+					    	<option value="">Selecione</option>
+					    	<?php 
+					    	$data = date("01/m/Y");			    	
+		 			    	while($data != "01/07/2010"): 
+		 			    		?>
+		    	 			    <option value="<?=substr($data, 6,4)."-".substr($data, 3,2)?>" <? if($this->objPesq['periodo'] == (substr($data, 6,4)."-".substr($data, 3,2))) echo 'selected="selected"'; ?>><?=substr($data, 3)?></option>
+		    				    <?php
+		    				    $thisyear = substr ( $data, 6, 4 );
+		    				    $thismonth = substr ( $data, 3, 2 );
+		    				    $thisday = substr ( $data, 0, 2 );
+		    				    $nextdate = mktime ( 0, 0, 0, $thismonth-1, $thisday, $thisyear );
+		    				    $data = strftime("%d/%m/%Y", $nextdate);
+		 			    	endwhile;					    	
+					    	?>	
+					    	</select>
+					    	</div>
+				    	</td>
+				    	<td style="padding: 5px">
+				    		<br /><input type="checkbox" name="comestoque" <?php if($this->objPesq['comestoque'] == "on") echo 'checked="checked"';?>><label>Produtos com estoque</label>
+				    	</td>				    		
+					</tr>
+					<tr>
+				    	<td align="left" width="200" style="padding: 5px">
+							Grupos de Venda:<br>
+							<div class="styled-select" style="width: 180px">
+							<select name="grupovenda" id="grupovenda" onchange="Mostrasubgrupos(this.value,3);" style="width: 202px; text-transform: uppercase;">
+								<option value="0">SELECIONE</option>
+								<?php foreach ($this->objGrupov as $listG): ?>
+								<option value="<?php echo $listG->id?>" ><?php echo $listG->descricao?></option>
+								<?php endforeach;?>					
+							</select>								
+							</div>	
+						</td>
+						<td align="left" colspan="2">
+						<div id="subgrupo" align="left">
+						</div>
+						</td>	
+					</tr>		
+					<tr>
+				    	<td align="left"  style="padding: 5px">
+				    		Grupos de Compra<br>
+				    		<div class="styled-select" style="width: 180px">
+							<select name="buscagrupo" id="buscagrupo" style="width: 202px; text-transform: uppercase;">
+								<option value="0"><?=$this->translate->_("SELECIONE")?></option>
+								<?php foreach ($this->objGrupo as $list): ?>
+									<option value="<?php echo $list->id?>" 
+									<?php if($this->objGselec==$list->id) echo 'selected="selected"';?>  ><?php echo substr($list->purchasing,0,20)?></option>
+								<?php endforeach; ?>
+							</select>
+							</div>
+						</td>
+						<td align="left" >&nbsp;
+						</td>
+				    	<td style="text-align: right; padding: 5px"><br />
+				    		<input type="submit"  value="<?=$this->translate->_("Pesquisar")?>" class="blueBtn" >				
+				    	</td>	    	   	
+					</tr>	    		
+					</table>	
+					<?php } ?> 
+				</form>
+        	</div>
+        	
+		<?php } ?>	                
+        </div>  
+      
+		<div style="margin: 5px 0px 8px">
+		<?php 
+		if(!empty($this->objFil)):
+			echo ($this->objFil);
+		endif;
+		?>	
+		</div>
+		
+		<div class="widget first">
+ 			<table style="width: 100%" class="tableStatic">
+            	<thead>
+                	<tr>
+                        <td width="">Código</td>
+                        <td width="50%">Descrição</td>
+                        <td width="15%">Dt Ajuste</td>
+                        <td width="10%">Estoque</td>
+                        <?php if($this->objNivel == 2){ ?>
+                        <td width="10%">Custo</td>
+                        <td width="10%">Extrato</td>
+                        <?php } ?>
+                    </tr>
+                </thead>
+                <tbody>
+           		<?php 			        
+			        $cor=0;
+	    			foreach($this->objProdutos as $listProd):			        
+	        			if($listProd->tipo=="COMPRA") $tipo = "COMPRA N&ordm; ".$listProd->id_atualizacao;		            	
+	        			?>
+	        			<tr >
+			                <td align="left">
+			            	<a href="<?=$this->baseUrl();?>/admin/cadastro/produtoscad/produto/<?php echo md5($listProd->idprod)?>" target="_blank">
+							<?php echo $listProd->CODIGO?></a>    
+		        			</td>
+			                <td align="left"><?php echo $listProd->DESCRICAO?></td>
+			                <td style="text-align: center;"><?php echo $listProd->dataver?></td>
+			                <td style="text-align: center;"><?php if(!empty($listProd->qt_atual)){ echo $listProd->qt_atual;}else echo 0;?></td>
+			                <?php if($this->objNivel == 2){ ?>
+			                <td style="text-align: center;"><?php echo number_format($listProd->custoproduto,2,",",".");?></td>
+			                <td style="text-align: center;">
+			                	<a href="<?php echo $this->baseUrl(); ?>/admin/compras/extratoprod/codproduto/<?php echo $listProd->CODIGO?>" ><img src="<?php echo $this->baseUrl(); ?>/public/sistema/imagens/icons/middlenav/magnify.png" width="16" border="0" title="Extrato do produto"></a>
+			                </td>				              
+			                <?php } ?>  
+			            </tr>
+	        				
+			        	<?php  
+			        endforeach;
+				/*endif;   */
+				?>
+	        </table>
+	   </div>
+	   <div style="margin-top: 10px"> &nbsp;  
+        	<?php 
+		    if ( count($this->objProdutos) > 0) :
+		    	echo $this->objProdutos;
+		    endif;
+            ?>
+       </div>
+   </div>
